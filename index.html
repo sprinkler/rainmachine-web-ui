@@ -1,0 +1,39 @@
+<html>
+<head>
+<title> RainMachine Web UI </title>
+	<link href="css/c3.css" rel="stylesheet" type="text/css">
+	<link href="css/ui.css" rel="stylesheet" type="text/css">
+
+	<script src="js/d3.min.js" charset="utf-8"></script>
+	<script src="js/c3.min.js"></script>
+	<script src="js/dom.js"></script>
+	<script src="js/rainmachine-api-v4.js"></script>
+	<script src="js/ui.js"></script>
+</head>
+<body>
+	<div class="navtop">
+		<div class="menu" id="settingsBtn">Settings</div>
+		<div class="menu" id="zonesBtn">Zones</div>
+		<div class="menu" id="dashboardBtn">Dashboard</div>
+		<div class="menu" id="currentDevice"></div>
+	</div>
+	<div class="main">
+		<div class="navleft">Left Menu</div>
+		<div class="content">
+			<div id="dashboard">
+				<div id="chartQpf"></div>
+				<div id="chartTemperature"></div>
+			</div>
+
+			<div id="zones">
+				Zones
+			</div>
+
+			<div id="settings">
+				Settings
+			</div>
+		</div>
+	</div>
+   
+</body>
+</html>
