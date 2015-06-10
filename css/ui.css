@@ -25,6 +25,13 @@ body {
     margin-right: 5px;
 }
 
+.submenu {
+    min-width: 120px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 .navleft {
 	width: 20%;
 	float:left;
@@ -38,10 +45,10 @@ body {
     padding-top: 40px;
 }
 
-#settings {
+#settings, #settingsMenu {
     display: none;
 }
 
-#zones {
+#zones, #zonesMenu {
     display: none;
 }

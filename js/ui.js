@@ -1,18 +1,51 @@
+function _genericSubMenu() { console.log("SubMenu: %s : %s", this.id, this.name) }
+
+var settingsSubmenus = [
+		{ name: "Programs", func: _genericSubMenu },
+    	{ name: "Watering History", func: _genericSubMenu },
+    	{ name: "Snooze",  func: _genericSubMenu },
+    	{ name: "Restrictions",  func: _genericSubMenu },
+    	{ name: "Weather", func: _genericSubMenu },
+    	{ name: "System Settings",  func:_genericSubMenu },
+    	{ name: "About",  func: _genericSubMenu },
+    	{ name: "Software Updates", func: _genericSubMenu }
+	];
+
+var dashboardSubmenus = [
+    	{ name: "Daily", func: _genericSubMenu },
+        { name: "Weekly", func: _genericSubMenu },
+        { name: "Yearly",  func: _genericSubMenu }
+      ];
+
+
+function buildSubMenu(submenus, category, parentTag)
+{
+
+	for (var i = 0; i < submenus.length; i++)
+	{
+		var div = addTag(parentTag, 'div')
+		div.className = "submenu";
+		div.id = category + i;
+		div.name = div.innerHTML = submenus[i].name;
+		div.func = submenus[i].func
+		div.onclick = function() { this.func(); }
+	}
+}
+
 function generateZones()
 {
 	var zoneData = API.getZones();
-	var zonesDiv = $('#zones');
+	var zonesMenu = $('#zonesMenu');
 
 	for (var i = 0; i < zoneData.zones.length; i++)
 	{
 		var z = zoneData.zones[i];
-		var div = addTag(zonesDiv, 'div');
+		var div = addTag(zonesMenu, 'div');
 
-		div.className = "zone";
+		div.className = "submenu";
 		div.id = "zone" + z.uid;
         div.innerHTML = z.name;
 	}
-
 }
 
 function generateCharts()
@@ -107,26 +140,49 @@ function uiStart()
 	var settingsBtn = $('#settingsBtn');
 	var dashboardBtn = $('#dashboardBtn');
 
+	var zonesMenu = $('#zonesMenu');
+    var settingsMenu = $('#settingsMenu');
+    var dashboardMenu = $('#dashboardMenu');
+
 	zonesBtn.onclick = function() {
 		makeVisible(zonesDiv);
+		makeVisible(zonesMenu);
+
 		makeHidden(settingsDiv);
 		makeHidden(dashboardDiv);
+
+		makeHidden(settingsMenu);
+        makeHidden(dashboardMenu);
 		console.log("Zones");
 	}
 
 	settingsBtn.onclick = function() {
 		makeVisible(settingsDiv);
+		makeVisible(settingsMenu);
+
 		makeHidden(zonesDiv);
 		makeHidden(dashboardDiv);
+
+		makeHidden(zonesMenu);
+        makeHidden(dashboardMenu);
 		console.log("Settings");
 	}
 
 	dashboardBtn.onclick = function() {
 		makeVisible(dashboardDiv);
+		makeVisible(dashboardMenu);
+
 		makeHidden(zonesDiv);
 		makeHidden(settingsDiv);
+
+		makeHidden(zonesMenu);
+		makeHidden(settingsMenu);
+
 		console.log("Dashboard");
 	}
+
+	buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
+	buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
 
 	API.auth("admin", true);
 	generateCharts();
