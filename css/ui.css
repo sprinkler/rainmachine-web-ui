@@ -4,7 +4,7 @@
 }
 
 body {
-	font-family: Arial, serif;
+	font-family: Helvetica, Arial, sans-serif;
 } 
 
 .navtop {
@@ -32,17 +32,42 @@ body {
     margin-bottom: 10px;
 }
 
+.title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #777777;
+    border-bottom: 1px solid #3399cc;
+    margin-bottom: 10px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .navleft {
 	width: 20%;
-	float:left;
     height: 100%;
     background-color: #eeeeee;
 }
 
 .content {
 	width: 75%;
-	float:right;
     padding-top: 40px;
+}
+
+.list {
+    height: 100%;
+}
+.listItem {
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    min-width: 160px;
+    margin: 5px;
+    text-align: center;
 }
 
 #settings, #settingsMenu {

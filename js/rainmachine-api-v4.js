@@ -1,7 +1,7 @@
 var API  = (function(API) {
 
-var host = "192.168.12.157"
-var port = "8080"
+var host = "192.168.12.157";
+var port = "8080";
 var apiUrl = "https://" + host + ":" + port + "/api/4";
 
 var async = false;
@@ -17,7 +17,7 @@ function rest(type, apiCall, data, callback)
 	else
 		url = apiUrl + apiCall;
 
-	console.log("Doing API call %s", url);
+	console.log("Doing API call: %s", url);
 	r = new XMLHttpRequest();
 	r.open(type, url, async);
 	
@@ -62,8 +62,13 @@ API.getMixer = function()
 API.getZones = function()
 {
 	var url = "/zone"
-
 	return get(url, null);
 }
+
+API.getPrograms = function()
+{
+	return get("/program", null);
+}
+
 
 return API; } (API || {} ));

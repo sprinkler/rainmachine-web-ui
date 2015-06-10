@@ -1,7 +1,50 @@
-function _genericSubMenu() { console.log("SubMenu: %s : %s", this.id, this.name) }
+function _genericSubMenu()
+{
+	$('#settingsTitle').innerHTML = this.name;
+	console.log("SubMenu: %s : %s", this.id, this.name)
+	makeHidden('#programs');
+}
+
+function showProgramSettings(data)
+{
+	var programSettingsDiv = $('#programsSettings');
+	clearTag(programSettingsDiv);
+
+	for (var s in data)
+	{
+		var div = addTag(programSettingsDiv, 'div');
+		div.innerHTML = s + ": " + data[s];
+	}
+}
+
+function showPrograms()
+{
+	var programData = API.getPrograms();
+	var programListDiv = $('#programsList');
+	clearTag(programListDiv);
+	makeVisible('#programs');
+	
+	$('#settingsTitle').innerHTML = "Programs";
+
+	for (var i = 0; i < programData.programs.length; i++)
+	{
+		var p = programData.programs[i];
+		var div = addTag(programListDiv, 'div');
+		div.className = "listItem";
+		div.id = "program-" + p.uid;
+		div.name = div.innerHTML = p.uid + " - " + p.name;
+		div.data = p;
+		div.onclick = function() { showProgramSettings(this.data); };
+	}
+
+	var div = addTag(programListDiv, 'div');
+	div.className = "listItem";
+	div.innerHTML = "Add new program";
+	div.onclick = function() { console.log("Add new program"); };
+}
 
 var settingsSubmenus = [
-		{ name: "Programs", func: _genericSubMenu },
+		{ name: "Programs", func: showPrograms },
     	{ name: "Watering History", func: _genericSubMenu },
     	{ name: "Snooze",  func: _genericSubMenu },
     	{ name: "Restrictions",  func: _genericSubMenu },
@@ -27,7 +70,7 @@ function buildSubMenu(submenus, category, parentTag)
 		div.className = "submenu";
 		div.id = category + i;
 		div.name = div.innerHTML = submenus[i].name;
-		div.func = submenus[i].func
+		div.func = submenus[i].func;
 		div.onclick = function() { this.func(); }
 	}
 }
@@ -43,7 +86,7 @@ function generateZones()
 		var div = addTag(zonesMenu, 'div');
 
 		div.className = "submenu";
-		div.id = "zone" + z.uid;
+		div.id = "zone-" + z.uid;
         div.innerHTML = z.name;
 	}
 }
