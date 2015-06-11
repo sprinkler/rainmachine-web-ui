@@ -11,16 +11,24 @@
 	<script src="js/ui.js"></script>
 </head>
 <body>
-	<div class="navtop">
-		<div class="menu" id="settingsBtn">Settings</div>
-		<div class="menu" id="zonesBtn">Zones</div>
-		<div class="menu" id="dashboardBtn">Dashboard</div>
-		<div class="menu" id="currentDevice"></div>
+	<div class="pageHeader">
+		<div id="topMenu">
+			<ul>
+				<li><a id="dashboardBtn" class="selected">Dashboard</a></li>
+				<li><a id="zonesBtn">Zones</a></li>
+				<li><a id="settingsBtn">Settings</a></li>
+			</ul>
+		</div>
+		<div id="name">
+			<div class="spks"><img src="images/spks.png" class="spk2"></div>
+				<h1>My RainMachine Sprinkler</h1>
+				<span class="subtitle">192.168.12.109</subtitle>
+			</div>
 	</div>
-	<div class="main">
+	<div class="mainContainer">
 
         <!-- Left Navigation -->
-		<div class="navleft left">
+        <div class="pageLeftMenu">
             <div id="dashboardMenu">
 
             </div>
@@ -32,36 +40,69 @@
             <div id="settingsMenu">
 
             </div>
-        </div>
+    	</div>
 
-        <!--- Main Content -->
-		<div class="content right">
+    <!--- Main Content -->
+	<div class="pageContent">
+		<div class="content">
 			<div id="dashboard">
 				<div id="chartQpf"></div>
 				<div id="chartTemperature"></div>
 			</div>
 
 			<div id="zones">
-				Zones
+				<h1>Zones</h1>
+				Buttons:<br><br>
+				<span class="save">Save</span>
+				<span class="edit">Edit</span>
+				<span class="stop">Stop</span>
+				<br><br>
+				Announcers<br><br>
+				<span class="start">Start &#9656;</span><br>
+				<span class="pending">Pending &#10072;&#10072;</span><br>
+				<span class="restriction">Restriction &#10005;</span><br>
+				<br><br>
+				Zone square<br><br>
+				<div class="zoneSquare">
+					<h1>Zone Title</h1>
+					<hr>
+					<div class="plus"><button class="circle">+</button></div>
+					<div class="points">&nbsp;</div>
+					<div class="minus" style=""><button class="circle">+</button></div>
+					<br>
+					<div class="plus"><span class="size64">05</span></div>
+					<div class="points"><span class="size64">:</span></div>
+					<div class="minus"><span class="size64">00</span></div>
+					<br>
+					<div class="plus"><span class="size14">minutes</span></div>
+					<div class="points">&nbsp;</div>
+					<div class="minus"<span class="size14">seconds</span></div>
+					<br><br>
+					<div class="plus"><button class="circle">-</button></div>
+					<div class="points">&nbsp;</div>
+					<div class="minus"><button class="circle">-</button></div>
+					<br><hr><br>
+					<span class="save">Start</span>
+				</div>
+
 			</div>
 
 			<div id="settings">
-				<div id="settingsTitle" class="title">Settings Title</div>
-                <div id="settingsContent" class="content">
+				<h1>Settings Title</h1>
+	            <div id="settingsContent" class="content">
 
-                    <div id="programs">
-                        <div id="programsList" class="list left">
-                        </div>
+	            </div>
+	        </div>
 
-                        <!-- Program Settings -->
-                        <div id="programsSettings" class="settings">
-                        </div>
-                    </div>
-
-                </div>
+	        <div id="programs">
+	            <div id="programsList" class="list left"></div>
+				<!-- Program Settings -->
+	        	<div id="programsSettings" class="settings"></div>
 			</div>
 		</div>
 	</div>
-
+	<div class="pageFooter">
+			<span style="display:block;padding:.8em;font-size:10px;">RainMachine Firmare version: 4.0.567</span>
+	</div>
 </body>
 </html>
