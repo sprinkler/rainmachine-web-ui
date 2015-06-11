@@ -59,6 +59,7 @@ function showPrograms()
 		var nameElem = template.querySelector('div[rm-id="program-name"]');
 		var startElem = template.querySelector('button[rm-id="program-start"]');
 		var editElem = template.querySelector('button[rm-id="program-edit"]');
+		var zonesElem = template.querySelector('div[rm-id="program-zones-bullets"]');
 
 		template.className = "listItem";
 		template.id = "program-" + p.uid;
@@ -70,6 +71,19 @@ function showPrograms()
 		startElem.onclick = function() { alert("TODO"); };
 		editElem.onclick = function() { showProgramSettings(this.data); };
 
+		console.log("%o", p.wateringTimes);
+
+		/* Show small zones circles */
+		for (var zi = 0; zi < p.wateringTimes.length; zi++)
+		{
+			if (p.wateringTimes[zi].active)
+			{
+				var div = addTag(zonesElem, 'div');
+                div.className = "zoneCircle";
+				div.innerHTML = p.wateringTimes[zi].id;
+				console.log("Added zone circle %d", p.wateringTimes[zi].id)
+			}
+		}
 		programListDiv.appendChild(template);
 	}
 
@@ -115,6 +129,8 @@ function generateZones()
 {
 	var zoneData = API.getZones();
 	var zonesMenu = $('#zonesMenu');
+
+	clearTag(zonesMenu);
 
 	for (var i = 0; i < zoneData.zones.length; i++)
 	{
