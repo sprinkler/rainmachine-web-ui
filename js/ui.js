@@ -146,81 +146,103 @@ function generateZones()
 function generateCharts()
 {
 	var mixerData = API.getMixer();
+	var recent = mixerData.mixerData[0].dailyValues;
 
 	console.log("%o", mixerData.mixerData[0].dailyValues);
 
-	var chartQpf = c3.generate(
+	var chartData = {
+		qpf : [],
+		maxt: [],
+		mint: [],
+		condition: [],
+		series: []
+	};
+
+	for (var i = 0; i < recent.length; i++)
 	{
-		bindto: '#chartQpf',
-		data: {
-			json: mixerData.mixerData[0].dailyValues,
+		chartData.qpf.push(recent[i].qpf);
+		chartData.maxt.push(recent[i].maxTemp);
+		chartData.mint.push(recent[i].minTemp);
+		chartData.condition.push(recent[i].condition);
+		chartData.series.push(recent[i].day.split(' ')[0]);
+	}
 
-			keys: {
-				x: 'day',
-				//value: ['minTemp', 'maxTemp', 'rh', 'et0final', ],
-				value: ['qpf'],
-			},
-
-			type: 'bar',
-			xFormat: '%Y-%m-%d %H:%M:%S',
-
+	var qpfChart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'chartQpf',
+			marginRight: 0
 		},
-
-		bar: {
-			width: {
-				ratio: 0.5
-			}
+		title: {
+			text: '',
+			x: -20 //center
 		},
-
-		axis: {
-			x: {
-				type: 'timeseries',
-				tick: {
-					format: '%d %a'
+		xAxis: [{
+			offset: -290,
+			tickWidth: 0,
+			lineWidth: 0,
+			categories: chartData.series,
+			labels: {
+				x: -10,
+				useHTML: true,
+				formatter: function () {
+					return '<img src="http://highcharts.com/demo/gfx/sun.png">&nbsp;';
 				}
 			}
+		}, {
+			linkedTo: 0,
+			categories: chartData.series
+		}],
+
+		yAxis: {
+			title: {
+				text: 'QPF (mm)'
+			},
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
 		},
 
-		color: {
-			pattern: ['#ffffff']
-		}
+		series: [{
+			type: 'column',
+			name: 'Rain Amount',
+			data: chartData.qpf
+		}]
 	});
 
-	var chartTemperature = c3.generate(
-	{
-		bindto: '#chartTemperature',
-		data: {
-			json: mixerData.mixerData[0].dailyValues,
+	var tempChart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'chartTemperature',
+			marginRight: 0
+		},
+		title: {
+			text: '',
+			x: -20 //center
+		},
+		xAxis: [{
+			categories: chartData.series,
+		}],
 
-			keys: {
-				x: 'day',
-				//value: ['minTemp', 'maxTemp', 'rh', 'et0final', ],
-				value: ['temperature'],
+		yAxis: {
+			title: {
+				text: 'Temperature  (°C)'
 			},
-
-			//type: 'bar',
-			xFormat: '%Y-%m-%d %H:%M:%S',
-
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
 		},
 
-		bar: {
-			width: {
-				ratio: 0.5
-			}
+		series: [{
+			name: 'Maximum Temperature',
+			data: chartData.maxt
 		},
-
-		axis: {
-			x: {
-				type: 'timeseries',
-				tick: {
-					format: '%Y-%m-%d %H:%M:%S'
-				}
-			}
-		},
-
-		color: {
-			pattern: ['#ffffff']
-		}
+		{
+			name: 'Minimum Temperature',
+			data: chartData.mint
+		}]
 	});
 }
 
