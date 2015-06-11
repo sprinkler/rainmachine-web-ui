@@ -14,7 +14,9 @@ body {
 .right {
     float: right;
 }
-
+.center {
+    text-align: center; 
+}
 #settings, #settingsMenu {
     display: none;
 }
@@ -271,13 +273,28 @@ button {
 
 /*zone, programs squares*/
 .zoneSquare, .listItem {
+    display: inline-table;
     background-color: #fff;
     padding: 25px;
     border-bottom: 1px solid #ddd;
     width: 260px;
     text-align: left;
     margin-bottom: 10px;
+    margin-right: 10px;
+    min-height: 90px;
 }
+.zoneRow {
+    background-color: #ddd;
+}
+.programEdit {
+    display: inline-block;
+    background-color: #fff;
+    padding: 25px;
+    border-bottom: 1px solid #ddd;
+    width: 74%;
+    text-align: left;
+}
+
 .zoneSquare h1, .cardTitle {
     color:#666;
     font-size:16px;

@@ -106,7 +106,7 @@
 
 	<div id="templates" style="display: none;">
 
-		<!-- Teplate for Prgram Card (Begin) -->
+		<!-- Teplate for Program Card (Begin) -->
 		<div id="program-entry">
 			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
@@ -117,10 +117,10 @@
 		<!-- Teplate for Program Card (End) -->
 
 		<!-- Teplate for Program Settings (Begin) -->
-		<div id="program-settings-template">
-			<div><button>Cancel</button><button>Delete</button><button>Save</button></div>
+		<div id="program-settings-template" class="programEdit">
+			<div class="center"><button class="pending left">Cancel</button><button class="restriction">Delete</button><button class="start right">Save</button></div>
 
-			<table border="1" style="width: 300px">
+			<table width="100%">
 				<tbody>
 				<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name"/></td></tr>
 				<tr><td>Active:</td><td><input type="checkbox" rm-id="program-active"/></td></tr>
@@ -154,20 +154,21 @@
 					</td>
 					<td><input type="checkbox" rm-id="program-delay-zones"/></td>
 				</tr>
-				<tr><td colspan="2">Watering Time (mm:ss)</td></tr>
+				<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
 				</tbody>
 			</table>
 			<hr/>
 		</div>
 
 		<div id="program-settings-zone-template-container" comment="just a conainter for program-settings-zone-template">
-			<table border="1" style="width: 300px">
-				<tr id="program-settings-zone-template" rm-id="program-zone-row">
+			<table>
+				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
 					<td>
-						<span rm-id="program-zone-name">Zone 1</span><br/>
-						<span rm-id="program-zone-duration">00:00</span>
+						<span class="right"><input type="checkbox" rm-id="program-zone-active"/></span>
+						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span><br/>
+						<span rm-id="program-zone-duration" class="cardSubtitle">00:00</span>
 					</td>
-					<td><input type="checkbox" rm-id="program-zone-active"/></td>
+					<td </td>
 				</tr>
 			</table>
 		</div>
