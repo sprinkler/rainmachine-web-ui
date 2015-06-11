@@ -104,6 +104,17 @@ API.auth = function(password, remember)
 
 /* ----------------------------------------- RESTRICTIONS API CALLS ---------------------------------------*/
 
+API.getProvision = function()
+{
+	return get(API.URL.provision, null);
+}
+
+API.getProvisionWifi = function()
+{
+	var url = API.URL.provision + "/wifi";
+	return get(url, null);
+}
+
 /* ----------------------------------------- PROGRAMS API CALLS -------------------------------------------*/
 API.getPrograms = function(id)
 {
@@ -164,16 +175,26 @@ API.getZonesProperties = function(id)
 	return get(url, null);
 }
 
-API.setZonesProperties = function(id)
+API.setZonesProperties = function(id, properties, advancedProperties)
 {
 	var url = API.URL.zone;
 
 	if (id === undefined)
-		return false;
+		return API.ERROR.InvalidRequest;
 
-	url += "/properties";
+	if (properties === undefined || properties === null)
+		return API.ERROR.InvalidRequest;
 
-	return get(url, null);
+
+	url += "/" + id + "/properties";
+
+	var data = properties;
+
+	if (advancedProperties !== undefined && advancedProperties !== null)
+
+	data.advanced = advancedProperties;
+
+	return post(url, data, null);
 }
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
@@ -195,7 +216,10 @@ API.getMixer = function(startDate, days)
 }
 
 /* ------------------------------------------ DIAG API CALLS ------------------------------------------------*/
-
+API.getDiag = function()
+{
+	return get(API.URL.diag, null)
+}
 /* ------------------------------------------ MACHINE API CALLS ---------------------------------------------*/
 
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/

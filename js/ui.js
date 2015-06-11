@@ -209,6 +209,32 @@ function generateCharts()
 }
 
 
+/* Globals to hold returned API json */
+var provision = {};
+var diag = {};
+
+function showDeviceInfo()
+{
+
+	diag = API.getDiag();
+    provision = API.getProvision();
+    provision.wifi = API.getProvisionWifi();
+    provision.api = API.getApiVer();
+
+    var deviceImgDiv = $('#deviceImage');
+    var deviceNameDiv = $('#deviceName');
+    var deviceNetDiv = $('#deviceNetwork');
+    var footerInfoDiv = $('#footerInfo');
+
+    deviceNameDiv.innerHTML = provision.system.netName;
+    deviceNetDiv.innerHTML = provision.location.name + "  (" + provision.wifi.ipAddress + ")";
+
+    if (provision.api.hwVer == 3)
+    	deviceImgDiv.className = "spk3";
+
+	footerInfoDiv.innerHTML = "Rainmachine " + provision.api.swVer + "  Uptime: " + diag.uptime + " CPU Usage " + diag.cpuUsage.toFixed(2) + " %";
+}
+
 function uiStart()
 {
 	var zonesDiv = $('#zones');
@@ -233,6 +259,8 @@ function uiStart()
 		makeHidden(settingsMenu);
 
         makeHidden(dashboardMenu);
+
+		generateZones();
 		console.log("Zones");
 	}
 
@@ -265,8 +293,9 @@ function uiStart()
 	buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
 
 	API.auth("admin", true);
+
 	generateCharts();
-	generateZones();
+	showDeviceInfo();
 }
 
 window.addEventListener("load", uiStart);
