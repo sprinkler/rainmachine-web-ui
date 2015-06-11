@@ -22,7 +22,7 @@
 		<div id="name">
 			<div class="spks"><img src="images/spks.png" class="spk2"></div>
 				<h1>My RainMachine Sprinkler</h1>
-				<span class="subtitle">192.168.12.109</subtitle>
+				<span class="subtitle">192.168.12.109</span>
 			</div>
 	</div>
 	<div class="mainContainer">
@@ -88,21 +88,93 @@
 			</div>
 
 			<div id="settings">
-				<h1>Settings Title</h1>
+				<h1 id="settingsTitle">Settings Title</h1>
 	            <div id="settingsContent" class="content">
-
+					<div id="programs">
+						<div id="programsList" class="list left"></div>
+						<!-- Program Settings -->
+						<div id="programsSettings" class="settings"></div>
+					</div>
 	            </div>
 	        </div>
 
-	        <div id="programs">
-	            <div id="programsList" class="list left"></div>
-				<!-- Program Settings -->
-	        	<div id="programsSettings" class="settings"></div>
-			</div>
 		</div>
 	</div>
 	<div class="pageFooter">
 			<span style="display:block;padding:.8em;font-size:10px;">RainMachine Firmare version: 4.0.567</span>
 	</div>
+
+	<div id="templates" style="display: none;">
+
+		<!-- Teplate for Prgram Card (Begin) -->
+		<div id="program-entry" style="border: solid 1px #ddd;">
+			<div rm-id="program-name"></div>
+			<div rm-id="program-info">Daily at 06:00 AM</div>
+			<div>
+				<button rm-id="program-start">Start</button>
+				<button rm-id="program-edit">Edit</button>
+			</div>
+		</div>
+		<!-- Teplate for Program Card (End) -->
+
+		<!-- Teplate for Program Settings (Begin) -->
+		<div id="program-settings-template">
+			<div><button>Cancel</button><button>Delete</button><button>Save</button></div>
+
+			<table border="1" style="width: 300px">
+				<tbody>
+				<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name"/></td></tr>
+				<tr><td>Active:</td><td><input type="checkbox" rm-id="program-active"/></td></tr>
+				<tr><td>Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data"/></td></tr>
+				<tr><td colspan="2">
+					<span>Frequency:</span>
+					<div><input type="radio" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
+					<div><input type="radio" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
+					<div><input type="radio" rm-id="program-frequency-even"/> <span>Even Days</span></div>
+					<div><input type="radio" rm-id="program-frequency-every"/> <span>Every</span>
+						<select>
+							<option>1 day</option>
+							<option selected>2 days</option>
+						</select>
+					</div>
+					<div><input type="radio" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
+				</td></tr>
+				<tr><td>Start time:</td><td><span rm-id="program-start-time">06:00 AM</span></td></tr>
+				<tr><td>Next run:</td><td><span rm-id="program-next-run">06:00 AM</span></td></tr>
+				<tr>
+					<td>
+						<span>Cycles &amp Soak:</span><br/>
+						<span>0</span> cycles / <span>0 min soak</span>
+					</td>
+					<td><input type="checkbox" rm-id="program-cycke-soak"/></td>
+				</tr>
+				<tr>
+					<td>
+						<span>Delay between zones</span><br/>
+						<span>00:00</span> min
+					</td>
+					<td><input type="checkbox" rm-id="program-delay-zones"/></td>
+				</tr>
+				<tr><td colspan="2">Watering Time (mm:ss)</td></tr>
+				</tbody>
+			</table>
+			<hr/>
+		</div>
+
+		<div id="program-settings-zone-template-container" comment="just a conainter for program-settings-zone-template">
+			<table border="1" style="width: 300px">
+				<tr id="program-settings-zone-template" rm-id="program-zone-row">
+					<td>
+						<span rm-id="program-zone-name">Zone 1</span><br/>
+						<span rm-id="program-zone-duration">00:00</span>
+					</td>
+					<td><input type="checkbox" rm-id="program-zone-active"/></td>
+				</tr>
+			</table>
+		</div>
+		<!-- Teplate for Program Settings (End) -->
+
+	</div>
+
 </body>
 </html>

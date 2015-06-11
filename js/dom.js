@@ -147,3 +147,10 @@ function addStyleSheet(name)
 	document.getElementsByTagName("head")[0].appendChild(ss);
 	return true;
 }
+
+function loadTemplate(name) {
+	var template = $("#" + name);
+	template = template.cloneNode(true);
+	template.removeAttribute("id");
+	return template;
+}

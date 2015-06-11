@@ -1,8 +1,11 @@
 var API  = (function(API) {
 
-var host = "192.168.12.157";
-var port = "8080";
-var apiUrl = "https://" + host + ":" + port + "/api/4";
+//var host = "192.168.12.157";
+//var port = "8080";
+//var apiUrl = "http://" + host + ":" + port + "/api/4";
+var host = "127.0.0.1";
+var port = "18080";
+var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 var async = false;
 
@@ -20,8 +23,7 @@ function rest(type, apiCall, data, callback)
 	console.log("Doing API call: %s", url);
 	r = new XMLHttpRequest();
 	r.open(type, url, async);
-	
-	
+
 	if (type === "POST")
 	{
 		r.setRequestHeader("Content-type","text/plain");

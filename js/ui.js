@@ -10,11 +10,35 @@ function showProgramSettings(data)
 	var programSettingsDiv = $('#programsSettings');
 	clearTag(programSettingsDiv);
 
+	var programTemplate = loadTemplate("program-settings-template");
+	var zoneTable = programTemplate.querySelector("table tbody");
+
 	for (var s in data)
 	{
-		var div = addTag(programSettingsDiv, 'div');
-		div.innerHTML = s + ": " + data[s];
+		var div = addTag(programTemplate, 'div');
+		div.innerHTML = s + ": " + JSON.stringify(data[s]);
+
+		if(s === "wateringTimes") {
+			var wateringTimeList = data[s];
+			for(var index = 0; index < wateringTimeList.length; index++) {
+				var wateringTime = wateringTimeList[index];
+
+				var zoneTemplate = loadTemplate("program-settings-zone-template");
+
+				var zoneNameElem = zoneTemplate.querySelector('[rm-id="program-zone-name"]');
+				var zoneDurationElem = zoneTemplate.querySelector('[rm-id="program-zone-duration"]');
+				var zoneActiveElem = zoneTemplate.querySelector('[rm-id="program-zone-active"]');
+
+				zoneNameElem.textContent = wateringTime.name;
+				zoneDurationElem.textContent = wateringTime.duration;
+				zoneActiveElem.checked = wateringTime.active;
+
+				zoneTable.appendChild(zoneTemplate);
+			}
+		}
 	}
+
+	programSettingsDiv.appendChild(programTemplate);
 }
 
 function showPrograms()
@@ -29,12 +53,24 @@ function showPrograms()
 	for (var i = 0; i < programData.programs.length; i++)
 	{
 		var p = programData.programs[i];
-		var div = addTag(programListDiv, 'div');
-		div.className = "listItem";
-		div.id = "program-" + p.uid;
-		div.name = div.innerHTML = p.uid + " - " + p.name;
-		div.data = p;
-		div.onclick = function() { showProgramSettings(this.data); };
+
+		var template = loadTemplate("program-entry");
+
+		var nameElem = template.querySelector('div[rm-id="program-name"]');
+		var startElem = template.querySelector('button[rm-id="program-start"]');
+		var editElem = template.querySelector('button[rm-id="program-edit"]');
+
+		template.className = "listItem";
+		template.id = "program-" + p.uid;
+
+		template.data = p;
+		editElem.data = p;
+
+		nameElem.innerHTML = p.uid + " - " + p.name;
+		startElem.onclick = function() { alert("TODO"); };
+		editElem.onclick = function() { showProgramSettings(this.data); };
+
+		programListDiv.appendChild(template);
 	}
 
 	var div = addTag(programListDiv, 'div');
@@ -195,6 +231,7 @@ function uiStart()
 		makeHidden(dashboardDiv);
 
 		makeHidden(settingsMenu);
+
         makeHidden(dashboardMenu);
 		console.log("Zones");
 	}
