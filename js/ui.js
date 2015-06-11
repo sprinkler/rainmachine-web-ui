@@ -66,7 +66,7 @@ function showPrograms()
 		template.data = p;
 		editElem.data = p;
 
-		nameElem.innerHTML = p.uid + " - " + p.name;
+		nameElem.innerHTML = p.name;
 		startElem.onclick = function() { alert("TODO"); };
 		editElem.onclick = function() { showProgramSettings(this.data); };
 
