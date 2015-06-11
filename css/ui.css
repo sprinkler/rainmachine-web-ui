@@ -25,226 +25,300 @@ body {
 
 /*Iulian CSS starts*/
 
-*{
-padding : 0;
-margin : 0;
-border : 0;
-font: 14px normal Arial, sans-serif;
+* {
+    padding : 0;
+    margin : 0;
+    border : 0;
+    font: 14px normal Arial, sans-serif;
 }
-#name{
-padding: 20px;
-
+#name {
+    padding: 20px;
 }
 h1 {
-font: 24px normal Arial, sans-serif;
+    font: 24px normal Arial, sans-serif;
+}
+ h1#settingsTitle {
+    padding-left: .8em;
 }
 .subtitle {
-font: 12px normal Arial, sans-serif;
-color: #888;
+    font: 12px normal Arial, sans-serif;
+    color: #888;
 }
-.mainContainer{
-display : block;
-margin: 0 auto; /*center the div*/
-width : 100%;
-overflow : auto;
-margin : 0px auto 0 auto;
-background-color: #fff;
+.mainContainer {
+    display : block;
+    margin: 0 auto; /*center the div*/
+    width : 100%;
+    overflow : auto;
+    margin : 0px auto 0 auto;
+    background-color: #fff;
 }
-.pageHeader{
-float : left;
-clear : none;
-height : 80px;
-width:100% !important;
-background-color: #fff;
-color: #000;
-border-bottom: 1px solid #ddd;
+.pageHeader {
+    float : left;
+    clear : none;
+    height : 80px;
+    width:100% !important;
+    background-color: #fff;
+    color: #000;
+    border-bottom: 1px solid #ddd;
 }
-.pageLeftMenu{
-float : left;
-clear : none;
-width: 24.25%;
-
+.pageLeftMenu {
+    float : left;
+    clear : none;
+    width: 24.25%;
 }
-.pageContent{
-float : left;
-clear : none;
-width: 75.75%;
-min-height:800px !important;
-background-color: #f9f9f9;
+.pageContent    {
+    float : left;
+    clear : none;
+    width: 75.75%;
+    min-height:800px !important;
+    background-color: #f9f9f9;
 }
 
 .content{
-padding: .8em;
+    padding: .8em;
 }
 
-.pageFooter{
-float : left;
-clear : none;
-color:#555;
-text-align: left;
-font-size: 10px;
-border-top: 1px solid #e7ebee;
-height : 50px;
-min-width: 100% !important;
-background-color: #fff;
+.pageFooter {
+    float : left;
+    clear : none;
+    color:#555;
+    text-align: left;
+    font-size: 10px;
+    border-top: 1px solid #e7ebee;
+    height : 50px;
+    min-width: 100% !important;
+    background-color: #fff;
 
 }
 .listarrow {
-float:right;
-height: 12px;
-margin-right: 0px;
+    float:right;
+    height: 12px;
+    margin-right: 0px;
 }
 
 /*topMenu starts*/
-#topMenu ul
-{
-float:right;
-display: block;
-margin: 0;
-padding: 0;
-list-style-type: none;
-text-align: center;
+#topMenu ul {
+    float:right;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
 }
-#topMenu ul li { display: inline; }
-#topMenu ul li a
-{
-text-decoration: none;
-display:inline-block;
-padding: .8em;
-padding-top:36px;
-padding-bottom:27px;
-margin-right: .5em;
-color: #555;
-cursor: pointer;
-text-transform: uppercase;
+#topMenu ul li {
+    display: inline;
 }
-#topMenu ul li a:hover
-{
-color: #999;
+#topMenu ul li a {
+    text-decoration: none;
+    display:inline-block;
+    padding: .8em;
+    padding-top:36px;
+    padding-bottom:27px;
+    margin-right: .5em;
+    color: #555;
+    cursor: pointer;
+    text-transform: uppercase;
 }
-#topMenu ul li a.selected
-{
-color: blue;
-border-bottom: 2px solid blue;
-
+#topMenu ul li a:hover {
+    color: #999;
+}
+#topMenu ul li a.selected {
+    color: blue;
+    border-bottom: 2px solid blue;
 }
 
 /*leftMenu starts*/
-.submenu
-{
-float:left;
-display: block;
-width:100%;
-margin: 0;
-padding: 0;
-list-style-type: none;
-text-align: left;
-cursor: pointer;
-text-decoration: none;
-display:block;
-padding: 1.1em;
-color: #000;
-background: url(../images/arrow.png) right 45px center no-repeat;
+.submenu {
+    float:left;
+    display: block;
+    width:100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+    display:block;
+    padding: 1.1em;
+    color: #000;
+    background: url(../images/arrow.png) right 45px center no-repeat;
 }
-.submenu:hover
-{
-color: #3399cc; /*blue color*/
-background-color: #f9f9f9;
+.submenu:hover {
+    color: #3399cc; /*blue color*/
+    background-color: #f9f9f9;
 }
 
 
 /*buttons*/
 .save, .edit, .stop {
-display:inline-block;
-text-align: center;
-color: #fff;
-padding: 10px 25px;
-border: 1px solid transparent;
+    display:inline;
+    text-align: center;
+    color: #fff;
+    padding: 10px 25px;
+    border: 1px solid transparent;
+    border-radius: 5px;
 }
-.save {background-color: #00B25C;}
-.edit {background-color: #FF9700;}
-.stop {background-color: #FF0000;}
-.save:hover {color: #00B25C; background-color: transparent; border: 1px solid #00B25C;cursor: pointer;}
-.edit:hover {color: #FF9700; background-color: transparent; border: 1px solid #FF9700;cursor: pointer;}
-.stop:hover {color: #FF0000; background-color: transparent; border: 1px solid #FF0000;cursor: pointer;}
-
-.start {color: #00B25C;}
-.pending {color: #FF9700;}
-.restriction {color: #FF0000;}
-
+.save {
+    background-color: #00B25C;
+}
+.edit {
+    background-color: #FF9700;
+}
+.stop {
+    background-color: #FF0000;
+}
+.save:hover {
+    color: #00B25C; 
+    background-color: transparent; 
+    border: 1px solid #00B25C;
+    cursor: pointer;
+}
+.edit:hover {
+    color: #FF9700; 
+    background-color: transparent; 
+    border: 1px solid #FF9700;
+    cursor: pointer;
+}
+.stop:hover {
+    color: #FF0000; 
+    background-color: transparent; 
+    border: 1px solid #FF0000;
+    cursor: pointer;
+}
+.start {
+    color: #00B25C;
+}
+.pending, .edittxt {
+    color: #FF9700;
+}
+.restriction {
+    color: #FF0000;
+}
+button {
+    display: inline;
+    background-color: transparent;
+    cursor: pointer;
+}
 .circle {
-display: table-cell;
-text-align: center;
-vertical-align: middle !important;
-width: 70px;
-height:70px;
-font-size: 25px;
-border-radius: 50%;
-border: 2px solid #3399cc;
-background-color: transparent;
-outline: none;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle !important;
+    width: 70px;
+    height:70px;
+    font-size: 25px;
+    border-radius: 50%;
+    border: 2px solid #3399cc;
+    background-color: transparent;
+    outline: none;
 }
 
 .circle:hover {
-display: table-cell;
-text-align: center;
-vertical-align: middle !important;
-width: 70px;
-height:70px;
-font-size: 25px;
-border-radius: 50%;
-border: 2px solid #3399cc;
-background-color: #fff;
-outline: none;
-cursor: pointer;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle !important;
+    width: 70px;
+    height:70px;
+    font-size: 25px;
+    border-radius: 50%;
+    border: 2px solid #3399cc;
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
 }
-.plus, .minus {text-align: center; width: 90px;display:inline-block;}
-.points {text-align: center; width: 15px;display:inline-block;}
-.size64 {font-size: 64px;}
-.size14 {font-size: 14px;}
+
+.zonecircle {
+    display: inline;
+    padding:8px 11px;
+    border: 1px solid #3399cc;
+    color: #fff;
+    font-size: 10px;
+    margin-right:5px;
+    background-color: #85d3ff;
+    border-radius: 50%;
+}
+
+.plus, .minus {
+    text-align: center;
+    width: 90px;
+    display:inline-block;
+}
+.points {
+    text-align: center; 
+    width: 15px;
+    display:inline-block;
+}
+.size64 {
+    font-size: 64px;
+}
+.size14 {
+    font-size: 14px;
+}
 
 /*small devices images*/
-.spks {width:68px;height:46px;overflow:hidden;float:left;margin-right:10px;}
-.spk2 {margin-top:0px;} /*show SPK2 thumb*/
-.spk3 {margin-top:-56px;} /*show SPK3 thumb*/
-
-/*zone squares*/
-.zoneSquare {
-background-color: #fff;
-padding: 25px;
-border-bottom: 1px solid #ddd;
-width: 260px;
-text-align: center;
+.spks {
+    width:68px;
+    height:46px;
+    overflow:hidden;
+    float:left;
+    margin-right:10px;
 }
-.zoneSquare h1 {font-size:16px; text-align: left;}
-.zoneSquare hr {height:1px; border-bottom: 1px solid #ddd;padding-bottom: 5px;margin-bottom: 10px;}
+.spk2 {
+    margin-top:0px;  /*show SPK2 thumb*/
+}
+.spk3 {
+    margin-top:-56px; /*show SPK3 thumb*/
+}
+
+/*zone, programs squares*/
+.zoneSquare, .listItem {
+    background-color: #fff;
+    padding: 25px;
+    border-bottom: 1px solid #ddd;
+    width: 260px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.zoneSquare h1, .cardTitle {
+    color:#666;
+    font-size:16px;
+    text-align: left;
+}
+.cardSubtitle {
+    color:#999;
+    font-size:12px;
+    text-align: left;
+}
+.zoneSquare hr, .listItem hr {
+    height:1px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
 
 /* MEDIA QUERIES */
 
 /* Responsify Defaults */
 
 @media screen and (max-width: 768px){
- .pageLeftMenu{
-float : left;
-clear : none;
-width: 100%;
-
+ .pageLeftMenu {
+    float : left;
+    clear : none;
+    width: 100%;
 }
-.pageContent{
-float : left;
-clear : none;
-width: 100%;
-background-color: #f9f9f9;
+.pageContent {
+    float : left;
+    clear : none;
+    width: 100%;
+    background-color: #f9f9f9;
 }
 
-#topMenu ul
-{
-float:none;
-display: block;
-margin: 0 auto;
-padding: 0;
-list-style-type: none;
-text-align: center;
+#topMenu ul {
+    float:none;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
 }
 #name {
 display: none;
@@ -252,15 +326,14 @@ display: none;
 
 @media screen and (max-width: 480px){
  .pageLeftMenu{
-float : left;
-clear : none;
-width: 100%;
-
+    float : left;
+    clear : none;
+    width: 100%;
 }
 .pageContent{
-float : left;
-clear : none;
-width: 100%;
-background-color: #f9f9f9;
+    float : left;
+    clear : none;
+    width: 100%;
+    background-color: #f9f9f9;
 }
 
