@@ -52,39 +52,6 @@
 
 			<div id="zones">
 				<h1>Zones</h1>
-				Buttons:<br><br>
-				<span class="save">Save</span>
-				<span class="edit">Edit</span>
-				<span class="stop">Stop</span>
-				<br><br>
-				Announcers<br><br>
-				<span class="start">Start &#9656;</span><br>
-				<span class="pending">Pending &#10072;&#10072;</span><br>
-				<span class="restriction">Restriction &#10005;</span><br>
-				<br><br>
-				Zone square<br><br>
-				<div class="zoneSquare">
-					<h1>Zone Title</h1>
-					<hr>
-					<div class="plus"><button class="circle">+</button></div>
-					<div class="points">&nbsp;</div>
-					<div class="minus" style=""><button class="circle">+</button></div>
-					<br>
-					<div class="plus"><span class="size64">05</span></div>
-					<div class="points"><span class="size64">:</span></div>
-					<div class="minus"><span class="size64">00</span></div>
-					<br>
-					<div class="plus"><span class="size14">minutes</span></div>
-					<div class="points">&nbsp;</div>
-					<div class="minus"<span class="size14">seconds</span></div>
-					<br><br>
-					<div class="plus"><button class="circle">-</button></div>
-					<div class="points">&nbsp;</div>
-					<div class="minus"><button class="circle">-</button></div>
-					<br><hr><br>
-					<span class="save">Start</span>
-				</div>
-
 			</div>
 
 			<div id="settings">
@@ -105,8 +72,71 @@
 	</div>
 
 	<div id="templates" style="display: none;">
+        <!-- Template for Zone Card (Begin) -->
+        <div id="zone-entry">
+            <div rm-id="zone-name" class="cardTitle"></div>
+            <div rm-id="zone-id" class="cardSubtitle">1</div>
+            <br><hr><br>
+        </div>
+        <!-- Teplate for Zone Card (End) -->
 
-		<!-- Teplate for Program Card (Begin) -->
+        <!-- Template for Zone Run (Begin) -->
+        <div class="zoneSquare" id="zone-run-template">
+            <h1 rm-id="zone-name-run">Zone Name</h1>
+            <hr>
+            <div class="plus"><button class="circle">+</button></div>
+            <div class="points">&nbsp;</div>
+            <div class="minus" style=""><button class="circle">+</button></div>
+            <br>
+            <div class="plus"><span class="size64">05</span></div>
+            <div class="points"><span class="size64">:</span></div>
+            <div class="minus"><span class="size64">00</span></div>
+            <br>
+            <div class="plus"><span class="size14">minutes</span></div>
+            <div class="points">&nbsp;</div>
+            <div class="minus"<span class="size14">seconds</span></div>
+            <br><br>
+            <div class="plus"><button class="circle">-</button></div>
+            <div class="points">&nbsp;</div>
+            <div class="minus"><button class="circle">-</button></div>
+            <br><hr><br>
+            <span class="save">Start</span>
+            <div rm-id="zone-status">
+                <span class="start">Start &#9656;</span><br>
+                <span class="pending">Pending &#10072;&#10072;</span><br>
+                <span class="restriction">Restriction &#10005;</span><br>
+            </div>
+        </div>
+        <!-- Teplate for Zone Card (End) -->
+
+        <!-- Template for Zone Properties Card (Begin) -->
+        <div id="zone-settings-template">
+            <div><button>Cancel</button><button>Save</button></div>
+            <table border="1">
+                <tbody>
+                <tr rm-id="zone-master-valve-option"><td>Master Valve:</td><td><input type="checkbox" rm-id="zone-master-valve"/></td></tr>
+                <tr><td>Name:</td><td><input type="text" rm-id="zone-name" placeholder="Zone Name"/></td></tr>
+                <tr><td>Active:</td><td><input type="checkbox" rm-id="zone-active"/></td></tr>
+                <tr><td colspan="2">
+                    <span>Vegetation Type:</span>
+                        <select>
+                            <option value="1">Other</option>
+                            <option value="2" selected>Lawn</option>
+                            <option value="3">Fruit Trees</option>
+                            <option value="4">Flowers</option>
+                            <option value="5">Vegetables</option>
+                            <option value="6">Citrus</option>
+                            <option value="7">Trees and Bushes</option>
+                        </select>
+                </td></tr>
+                <tr><td>Forecast Data:</td><td><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
+                <tr><td>Historical Averages:</td><td><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Template for Zone Properties Card (End) -->
+
+		<!-- Template for Program Card (Begin) -->
 		<div id="program-entry">
 			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
@@ -173,8 +203,6 @@
 			</table>
 		</div>
 		<!-- Teplate for Program Settings (End) -->
-
 	</div>
-
 </body>
 </html>
