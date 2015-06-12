@@ -41,8 +41,13 @@ body {
 h1 {
     font: 24px normal Arial, sans-serif;
 }
- h1#settingsTitle {
-    padding-left: .8em;
+.content h1 {
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+#programsList {
+    padding-left: 10px;
+    width: 100%;
 }
 .subtitle {
     font: 12px normal Arial, sans-serif;
@@ -66,20 +71,20 @@ h1 {
     border-bottom: 1px solid #ddd;
 }
 .pageLeftMenu {
-    float : left;
-    clear : none;
-    width: 24.25%;
-}
-.pageContent    {
-    float : left;
-    clear : none;
-    width: 75.75%;
-    min-height:800px !important;
-    background-color: #f9f9f9;
+    float: left;
+    clear: none;
+    width: 100%;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;      
 }
 
-.content{
-    padding: .8em;
+.pageContent {
+    float : left;
+    clear : none;
+    width: 100%;
+    min-height:800px !important;
+    background-color: #f9f9f9;
 }
 
 .pageFooter {
@@ -125,24 +130,20 @@ h1 {
 
 /*leftMenu starts*/
 .submenu {
+    display:block;
     float:left;
-    display: block;
-    width:100%;
     margin: 0;
-    padding: 0;
-    list-style-type: none;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
     text-decoration: none;
-    display:block;
-    padding: 1.1em;
+    padding: 10px 15px;
     color: #000;
-    background: url(../images/arrow.png) right 45px center no-repeat;
 }
 .submenu:hover {
-    color: #3399cc; /*blue color*/
+    color: blue; /*blue color*/
     background-color: #f9f9f9;
 }
+
 
 
 /*buttons*/
@@ -223,14 +224,22 @@ button {
 }
 
 .zonecircle {
-    display: inline;
-    padding:8px 11px;
+    width:20px;
+    height:20px;
+    background-color:#85d3ff;
     border: 1px solid #3399cc;
+    border-radius:100%;
+    line-height:20px;
     color: #fff;
-    font-size: 10px;
+    font-size: 12px;
     margin-right:5px;
-    background-color: #85d3ff;
-    border-radius: 50%;
+    margin-bottom: 5px;
+    text-align:center;
+    vertical-align:middle;
+    display:inline-block;
+}
+.zones-bullets {
+    width: 150px;
 }
 
 .plus, .minus {
