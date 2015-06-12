@@ -122,10 +122,10 @@ API.setProvision = function(systemObj, locationObj)
 	var url = API.URL.provision;
 	var data = {};
 
-	if (systemObj !== undefined || systemObj !== null)
+	if (systemObj !== undefined && systemObj !== null)
 		data.system = systemObj;
 
-	if (systemObj !== undefined || systemObj !== null)
+	if (systemObj !== undefined && systemObj !== null)
     	data.location = locationObj;
 
     if (Object.keys(data).length == 0)
@@ -180,7 +180,7 @@ API.getDailyStats = function(dayDate, withDetails)
 {
 	var url = API.URL.dailystats;
 
-	if (dayDate !== undefined || dayDate !== null) // current API doesn't support daily stats details with specified day
+	if (dayDate !== undefined && dayDate !== null) // current API doesn't support daily stats details with specified day
 	{
 		url += "/" + dayDate;
 		return get(url, null);

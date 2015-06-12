@@ -146,9 +146,13 @@ function generateZones()
 function generateCharts()
 {
 	var mixerData = API.getMixer();
-	var recent = mixerData.mixerData[0].dailyValues;
+	var dailyDetails = API.getDailyStats(null, true);
 
-	console.log("%o", mixerData.mixerData[0].dailyValues);
+	var recent = mixerData.mixerData[0].dailyValues;
+	var daily = dailyDetails.DailyStatsDetails;
+	console.log("%o", daily);
+	console.log("%o", mixerData);
+	//console.log("%o", mixerData.mixerData[0].dailyValues);
 
 	var chartData = {
 		qpf : [],
@@ -156,6 +160,11 @@ function generateCharts()
 		mint: [],
 		condition: [],
 		series: []
+	};
+
+	var waterNeed = {
+		series: [],
+		total : []
 	};
 
 	for (var i = 0; i < recent.length; i++)
@@ -167,6 +176,83 @@ function generateCharts()
 		chartData.series.push(recent[i].day.split(' ')[0]);
 	}
 
+	//Total Water Need
+	for (var i = 0; i < daily.length; i++)
+	{
+		var totalDayUserWater = 0;
+		var totalDayScheduledWater = 0;
+		//programs for the day
+		for (var p = 0; p < daily[i].programs.length; p++)
+		{
+			var cp = daily[i].programs[p];
+			//zones for the programs
+			for (var z = 0; z < cp.zones.length; z++)
+			{
+				totalDayUserWater += cp.zones[z].computedWateringTime;
+				totalDayScheduledWater += cp.zones[z].scheduledWateringTime;
+				//console.log("User: %d, Scheduled: %d", totalDayUserWater, totalDayScheduledWater);
+			}
+		}
+
+		var wn = 0;
+		if (totalDayScheduledWater <= 0 && totalDayUserWater > 0)
+			wn = 100;
+		else if (totalDayScheduledWater == 0 && totalDayUserWater == 0)
+			wn = 0;
+		else
+			wn = Math.round((totalDayUserWater / totalDayScheduledWater) * 100);
+
+		waterNeed.series.push(daily[i].day);
+		waterNeed.total.push(wn);
+	}
+
+	console.log("%o", waterNeed);
+
+	var waterNeedChart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'chartWaterNeed',
+			marginRight: 0
+		},
+		title: {
+			text: '',
+			x: -20 //center
+		},
+		xAxis: [{
+			offset: -310,
+			tickWidth: 0,
+			lineWidth: 0,
+			categories: waterNeed.series,
+			labels: {
+				x: -10,
+				useHTML: true,
+				formatter: function () {
+					return '<img src="http://highcharts.com/demo/gfx/sun.png">&nbsp;';
+				}
+			}
+		}, {
+			linkedTo: 0,
+			categories: waterNeed.series
+		}],
+
+		yAxis: {
+			title: {
+				text: 'Water Need (%)'
+			},
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		},
+
+		series: [{
+			type: 'column',
+			name: 'Water Need',
+			data: waterNeed.total
+		}]
+	});
+
+
 	var qpfChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartQpf',
@@ -177,7 +263,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			offset: -290,
+			offset: -310,
 			tickWidth: 0,
 			lineWidth: 0,
 			categories: chartData.series,
