@@ -243,7 +243,7 @@ input.typeCheckbox {
     display:inline-block;
 }
 .zones-bullets {
-    width: 150px;
+    width: 240px;
 }
 
 .plus, .minus {
@@ -286,7 +286,7 @@ input.typeCheckbox {
     border-bottom: 1px solid #ddd;
     border-radius: 5px;
     width: 260px;
-    height: 170px;
+    height: 126px;
     text-align: left;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -338,7 +338,6 @@ td {
     height:1px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
-    margin-bottom: 10px;
 }
 
 /* MEDIA QUERIES */
