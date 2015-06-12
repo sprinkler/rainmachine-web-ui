@@ -199,6 +199,7 @@ input.typeCheckbox {
     padding: 15px;
     font-size: 16px;
 }
+
 .circle {
     display: table-cell;
     text-align: center;
@@ -294,14 +295,25 @@ input.typeCheckbox {
     
 }
 .programEdit {
+    position: absolute;
+    top: 130px;
+    left: 10px;
     display: inline-block;
     background-color: #fff;
     padding: 25px;
-    border-bottom: 1px solid #ddd;
-    width: 30%;
+    border: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    width: 90%;
     text-align: left;
 }
-
+.wateringTimes {
+    width: 47.5%;
+    float:right;
+}
+.programProperties {
+    width: 47.5%;
+    float:left;
+}
 .zoneSquare h1, .cardTitle {
     color:#666;
     font-size:16px;
