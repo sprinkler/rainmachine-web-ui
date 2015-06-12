@@ -295,8 +295,11 @@ function uiStart()
 		makeHidden(dashboardDiv);
 
 		makeHidden(settingsMenu);
-
         makeHidden(dashboardMenu);
+
+        zonesBtn.setAttribute("selected", true);
+        dashboardBtn.removeAttribute("selected");
+        settingsBtn.removeAttribute("selected");
 
 		generateZones();
 		console.log("Zones");
@@ -311,6 +314,11 @@ function uiStart()
 
 		makeHidden(zonesMenu);
         makeHidden(dashboardMenu);
+
+        settingsBtn.setAttribute("selected", true);
+        zonesBtn.removeAttribute("selected");
+        dashboardBtn.removeAttribute("selected");
+
 		console.log("Settings");
 	}
 
@@ -324,11 +332,17 @@ function uiStart()
 		makeHidden(zonesMenu);
 		makeHidden(settingsMenu);
 
+		dashboardBtn.setAttribute("selected", true);
+		zonesBtn.removeAttribute("selected");
+		settingsBtn.removeAttribute("selected");
+
 		console.log("Dashboard");
 	}
 
 	buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 	buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
+
+	dashboardBtn.setAttribute("selected", true);
 
 	API.auth("admin", true);
 
