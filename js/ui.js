@@ -11,12 +11,12 @@ function showProgramSettings(data)
 	clearTag(programSettingsDiv);
 
 	var programTemplate = loadTemplate("program-settings-template");
-	var zoneTable = programTemplate.querySelector("table tbody");
+	var zoneTable = programTemplate.querySelector('[rm-id="program-settings-zone-template-container"]');
 
 	for (var s in data)
 	{
-		var div = addTag(programTemplate, 'div');
-		div.innerHTML = s + ": " + JSON.stringify(data[s]);
+		//var div = addTag(programTemplate, 'div');
+		//div.innerHTML = s + ": " + JSON.stringify(data[s]);
 
 		if(s === "wateringTimes") {
 			var wateringTimeList = data[s];
@@ -37,7 +37,7 @@ function showProgramSettings(data)
 			}
 		}
 	}
-
+	console.log(zoneTable);
 	programSettingsDiv.appendChild(programTemplate);
 }
 

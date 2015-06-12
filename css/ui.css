@@ -78,7 +78,6 @@ h1 {
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;      
 }
-
 .pageContent {
     float : left;
     clear : none;
@@ -86,7 +85,6 @@ h1 {
     min-height:800px !important;
     background-color: #f9f9f9;
 }
-
 .pageFooter {
     float : left;
     clear : none;
@@ -97,12 +95,6 @@ h1 {
     height : 50px;
     min-width: 100% !important;
     background-color: #fff;
-
-}
-.listarrow {
-    float:right;
-    height: 12px;
-    margin-right: 0px;
 }
 
 /*topMenu starts*/
@@ -196,6 +188,17 @@ button {
     background-color: transparent;
     cursor: pointer;
 }
+input.typeText {
+    border: 1px solid #eee;
+    padding: 15px;
+    font-size: 16px;
+    width: 100%;
+}
+input.typeCheckbox {
+    border: 1px solid #eee;
+    padding: 15px;
+    font-size: 16px;
+}
 .circle {
     display: table-cell;
     text-align: center;
@@ -287,14 +290,15 @@ button {
     min-height: 90px;
 }
 .zoneRow {
-    background-color: #ddd;
+    
+    
 }
 .programEdit {
     display: inline-block;
     background-color: #fff;
     padding: 25px;
     border-bottom: 1px solid #ddd;
-    width: 74%;
+    width: 30%;
     text-align: left;
 }
 
@@ -308,6 +312,14 @@ button {
     font-size:12px;
     text-align: left;
 }
+
+td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    border-bottom: 1px solid #ddd;
+}
+
 .zoneSquare hr, .listItem hr {
     height:1px;
     border-bottom: 1px solid #ddd;

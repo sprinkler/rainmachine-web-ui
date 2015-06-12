@@ -138,65 +138,73 @@
 			<button rm-id="program-edit" class="edittxt right">Edit</button>
             <div rm-id="program-zones-bullets" class="zones-bullets"></div>
 		</div>
-		<!-- Teplate for Program Card (End) -->
+		<!-- Template for Program Card (End) -->
 
-		<!-- Teplate for Program Settings (Begin) -->
+		<!-- Template for Program Settings (Begin) -->
 		<div id="program-settings-template" class="programEdit">
-			<div class="center"><button class="pending left">Cancel</button><button class="restriction">Delete</button><button class="start right">Save</button></div>
-
-			<table width="100%">
-				<tbody>
-				<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name"/></td></tr>
-				<tr><td>Active:</td><td><input type="checkbox" rm-id="program-active"/></td></tr>
-				<tr><td>Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data"/></td></tr>
-				<tr><td colspan="2">
-					<span>Frequency:</span>
-					<div><input type="radio" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
-					<div><input type="radio" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
-					<div><input type="radio" rm-id="program-frequency-even"/> <span>Even Days</span></div>
-					<div><input type="radio" rm-id="program-frequency-every"/> <span>Every</span>
-						<select>
-							<option>1 day</option>
-							<option selected>2 days</option>
-						</select>
-					</div>
-					<div><input type="radio" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
-				</td></tr>
-				<tr><td>Start time:</td><td><span rm-id="program-start-time">06:00 AM</span></td></tr>
-				<tr><td>Next run:</td><td><span rm-id="program-next-run">06:00 AM</span></td></tr>
-				<tr>
-					<td>
-						<span>Cycles &amp Soak:</span><br/>
-						<span>0</span> cycles / <span>0 min soak</span>
-					</td>
-					<td><input type="checkbox" rm-id="program-cycke-soak"/></td>
-				</tr>
-				<tr>
-					<td>
-						<span>Delay between zones</span><br/>
-						<span>00:00</span> min
-					</td>
-					<td><input type="checkbox" rm-id="program-delay-zones"/></td>
-				</tr>
-				<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-				</tbody>
-			</table>
-			<hr/>
+			<div style="float:left;">
+				<div class="center"><button class="edit left">Cancel</button><button class="stop">Delete</button><button class="save right">Save</button></div>
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tbody>
+					<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
+					<tr><td class="cardTitle">Active:</td><td><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+					<tr><td class="cardTitle">Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+					<tr>
+						<td colspan="2">
+						<span class="cardTitle">Frequency:</span>
+						<div><input type="radio" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
+						<div><input type="radio" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
+						<div><input type="radio" rm-id="program-frequency-even"/> <span>Even Days</span></div>
+						<div><input type="radio" rm-id="program-frequency-every"/> <span>Every</span>
+							<select>
+								<option>1 day</option>
+								<option selected>2 days</option>
+							</select>
+						</div>
+						<div><input type="radio" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
+						</td>
+					</tr>
+					<tr><td class="cardTitle">Start time:</td><td><span rm-id="program-start-time" class="right">06:00 AM</span></td></tr>
+					<tr><td class="cardTitle">Next run:</td><td><span rm-id="program-next-run" class="right">06:00 AM</span></td></tr>
+					<tr>
+						<td>
+							<span class="cardTitle">Cycles &amp Soak:</span><br/>
+							<span class="cardSubtitle"><span>0</span> cycles / <span class="cardSubtitle">0 min soak</span></span>
+						</td>
+						<td class="right"><input type="checkbox" rm-id="program-cycke-soak" class="right"></td>
+					</tr>
+					<tr>
+						<td>
+							<span class="cardTitle">Delay between zones</span><br/>
+							<span  class="cardSubtitle"><span>00:00</span> min</span>
+						</td>
+						<td><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div style="float:left;">
+				<table cellpadding="0" cellspacing="0"  width="100%" rm-id="program-settings-zone-template-container">
+					<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+				</table>
+			</div>
 		</div>
+		
+		<!-- Template for Program Settings (End) -->
 
-		<div id="program-settings-zone-template-container" comment="just a conainter for program-settings-zone-template">
-			<table>
+		<!-- Template for Program Settings Zone Watering Times (Start) -->
+		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
+			<table cellpadding="0" cellspacing="0">
 				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
-					<td>
-						<span class="right"><input type="checkbox" rm-id="program-zone-active"/></span>
+					<td width="80%">
 						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span><br/>
 						<span rm-id="program-zone-duration" class="cardSubtitle">00:00</span>
 					</td>
-					<td </td>
+					<td><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
 				</tr>
 			</table>
 		</div>
-		<!-- Teplate for Program Settings (End) -->
+		<!-- Template for Program Settings Zone Watering Times (End) -->
 	</div>
 </body>
 </html>
