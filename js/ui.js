@@ -249,6 +249,10 @@ function generateCharts()
 			type: 'column',
 			name: 'Water Need',
 			data: waterNeed.total
+		},
+		{
+				name: 'Precipitation',
+				data: chartData.qpf
 		}]
 	});
 
