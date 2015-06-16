@@ -167,7 +167,7 @@ function generateZones()
 		template.id = "zone-" + z.uid;
 		template.data = z;
 
-		if (! z.active)
+		if (! zAP.active)
 			template.className += " inactive";
 
 		nameElem.innerHTML = z.name;
