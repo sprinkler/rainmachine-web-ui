@@ -309,9 +309,29 @@ input.typeNumber {
     margin-right: 10px;
     min-height: 90px;
 }
+
 .inactive {
     opacity: 0.3;
 }
+
+#active {
+    font-family: RainMachine;
+    font-size: 32px;
+    white-space: nowrap;
+    cursor: default;
+    display: block;
+    float:left;
+    width:32px;
+    margin-right: 3px;
+    color: #0099ff;
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to   {-webkit-transform: rotate(359deg);}
+}
+
 .programEdit {
     position: absolute;
     top: 130px;
@@ -342,6 +362,15 @@ input.typeNumber {
     font-size:12px;
     text-align: left;
 }
+
+.masterValve {
+    background-color: #D24D57;
+    color:#fff;
+}
+.masterValve h1 {
+    color: #fff;
+}
+
 
 td {
     padding-top: 10px;

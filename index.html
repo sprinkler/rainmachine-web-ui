@@ -47,10 +47,7 @@
 			</div>
 
 			<div id="zones">
-				<div style="display:block; width:99%;margin:0 auto;">
-				<h1>Zones</h1>
 
-				</div>
 			</div>
 
 			<div id="settings">
@@ -74,7 +71,8 @@
 
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="listItem">
-            <button rm-id="zone-edit" class="edittxt right">Edit</button>
+        	<span id="active">!</span>
+        	<button rm-id="zone-edit" class="edittxt right">Edit</button>
             <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
             <br><hr><br>
@@ -83,7 +81,7 @@
                 <span class="left">Minutes: <input type="number" name="minutes" min="1" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
-            <button rm-id="zone-start" class="save full">Start Now</button>
+            <button rm-id="zone-start" class="stop full">Stop</button>
         </div>
         <!-- Template for Zone Card (End) -->
 
