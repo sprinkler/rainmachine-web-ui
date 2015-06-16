@@ -1,3 +1,16 @@
+function normalizeWaterNeed(user, scheduled)
+{
+	var wn = 0;
+	if (scheduled <= 0 && user > 0)
+		wn = 100;
+	else if (scheduled == 0 && user == 0)
+		wn = 0;
+	else
+		wn = Math.round((user / scheduled) * 100);
+
+	return wn;
+}
+
 function generateCharts()
 {
 	var mixerData = API.getMixer();
@@ -42,6 +55,13 @@ function generateCharts()
 		for (var p = 0; p < daily[i].programs.length; p++)
 		{
 			var cp = daily[i].programs[p];
+
+			// Program index not in our struct ?
+            if (p > waterNeed.programs.length - 1)
+            	pIndex = waterNeed.programs.push([]) - 1;
+            else
+            	pIndex = p;
+
 			//zones for the programs
 			for (var z = 0; z < cp.zones.length; z++)
 			{
@@ -49,21 +69,17 @@ function generateCharts()
 				totalDayScheduledWater += cp.zones[z].scheduledWateringTime;
 				//console.log("User: %d, Scheduled: %d", totalDayUserWater, totalDayScheduledWater);
 			}
+
+			programDayWN = normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
+			waterNeed.programs[pIndex].push(programDayWN);
 		}
 
-		var wn = 0;
-		if (totalDayScheduledWater <= 0 && totalDayUserWater > 0)
-			wn = 100;
-		else if (totalDayScheduledWater == 0 && totalDayUserWater == 0)
-			wn = 0;
-		else
-			wn = Math.round((totalDayUserWater / totalDayScheduledWater) * 100);
-
-		if (wn > maxWN)
-			maxWN = wn;
+		var dailyWN = normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
+		if (dailyWN > maxWN)
+			maxWN = dailyWN;
 
 		waterNeed.series.push(daily[i].day);
-		waterNeed.total.push(wn);
+		waterNeed.total.push(dailyWN);
 	}
 
 	console.log("%o", waterNeed);
@@ -196,4 +212,49 @@ function generateCharts()
 			data: chartData.mint
 		}]
 	});
+
+	//Per Program chart
+	var programsCharts = [];
+	for (var c = 0; c < waterNeed.programs.length; c++)
+	{
+		var div = addTag($('#dashboard'), 'div');
+		div.id = "programChart-" + c;
+		div.className = "charts";
+
+		var tmpChart = new Highcharts.Chart(
+			{
+				chart: {
+					renderTo: div.id,
+					marginRight: 0
+				},
+				title: {
+					text: 'Program ' + c + " Water Need",
+					x: -20 //center
+				},
+				xAxis: [{
+					categories: waterNeed.series,
+				}],
+
+				yAxis: {
+					title: {
+						text: 'Water Need (%)'
+					},
+					min: 0,
+					max: maxWN,
+					plotLines: [{
+						value: 0,
+						width: 1,
+						color: '#808080'
+					}]
+				},
+				series: [{
+					type: 'column',
+					name: 'Program ' + c,
+					data: waterNeed.programs[c]
+				}]
+			});
+
+		programsCharts.push(tmpChart);
+	}
+
 }
