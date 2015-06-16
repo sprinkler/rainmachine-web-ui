@@ -1,6 +1,6 @@
 var API  = (function(API) {
 
-var host = "192.168.12.157";
+var host = "192.168.12.175";
 //var host = "127.0.0.1";
 
 var port = "8080";

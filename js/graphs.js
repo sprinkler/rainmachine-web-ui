@@ -137,7 +137,7 @@ function generateCharts()
 				formatter: function () {
 					return this.total + " %";
 				},
-                enabled: true
+                enabled: false
             },
 			min: 0,
 			max: maxWN,
@@ -151,7 +151,11 @@ function generateCharts()
 			column: {
 				stacking: 'normal',
 				dataLabels: {
-					enabled: false
+					formatter: function () {
+						console.log(this.total);
+						return this.total + " %";
+					},
+					enabled: true
 				}
 			}
 		},
