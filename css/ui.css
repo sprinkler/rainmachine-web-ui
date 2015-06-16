@@ -21,6 +21,9 @@ body {
 .center {
     text-align: center; 
 }
+.full {
+    width: 100%;
+}
 #settings, #settingsMenu {
     display: none;
 }
@@ -54,7 +57,7 @@ h1 {
     padding-left: 10px;
     margin-bottom: 10px;
 }
-#programsList {
+#programsList, #zonesList {
     padding-left: 10px;
     width: 100%;
 }
@@ -208,6 +211,11 @@ input.typeCheckbox {
     padding: 15px;
     font-size: 16px;
 }
+input.typeNumber {
+    border: 1px solid #eee;
+    padding: 10px;
+    font-size: 16px;
+}
 
 .circle {
     display: table-cell;
@@ -301,9 +309,8 @@ input.typeCheckbox {
     margin-right: 10px;
     min-height: 90px;
 }
-.zoneRow {
-    
-    
+.inactive {
+    opacity: 0.3;
 }
 .programEdit {
     position: absolute;
