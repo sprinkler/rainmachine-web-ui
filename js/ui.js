@@ -125,21 +125,58 @@ function buildSubMenu(submenus, category, parentTag)
 	}
 }
 
+function zoneTypeToString(type)
+{
+	switch (type)
+	{
+
+		case 2:
+			return "Lawn";
+		case 3:
+			return "Fruit Trees";
+		case 4:
+			return "Flowers";
+		case 5:
+			return "Vegetables";
+		case 6:
+			return "Citrus";
+		case 7:
+			return "Trees and Bushes";
+		default:
+			return "Other"
+	}
+}
+
 function generateZones()
 {
-	var zoneData = API.getZones();
-	var zonesMenu = $('#zonesMenu');
+	var zoneData = API.getZonesProperties();
+	var zonesDiv = $('#zones');
 
-	clearTag(zonesMenu);
+	clearTag(zonesDiv);
 
 	for (var i = 0; i < zoneData.zones.length; i++)
 	{
 		var z = zoneData.zones[i];
-		var div = addTag(zonesMenu, 'div');
 
-		div.className = "submenu";
-		div.id = "zone-" + z.uid;
-        div.innerHTML = z.name;
+		var template = loadTemplate("zone-entry");
+		var nameElem = template.querySelector('div[rm-id="zone-name"]');
+		var startElem = template.querySelector('button[rm-id="zone-start"]');
+		var editElem = template.querySelector('button[rm-id="zone-edit"]');
+		var typeElem = template.querySelector('div[rm-id="zone-info"]');
+
+		template.id = "zone-" + z.uid;
+		template.data = z;
+
+		if (! z.active)
+			template.className += " inactive";
+
+		nameElem.innerHTML = z.name;
+		typeElem.innerHTML = zoneTypeToString(z.type);
+		startElem.onclick = function() { console.log("Starting Zone %d", this.parentNode.data.uid); };
+		editElem.onclick = function() { console.log("Editing Zone %d", this.parentNode.data.uid); };
+
+		zonesDiv.appendChild(template);
+
 	}
 }
 

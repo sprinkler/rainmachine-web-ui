@@ -152,7 +152,6 @@ function generateCharts()
 				stacking: 'normal',
 				dataLabels: {
 					formatter: function () {
-						console.log(this.total);
 						return this.total + " %";
 					},
 					enabled: true
