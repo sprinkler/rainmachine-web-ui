@@ -33,7 +33,7 @@ body {
 
 @font-face {
     font-family: RainMachine;
-    src: url(../font/rainmachine.woff);
+    src: url('../font/rainmachine.woff');
 }
 
 * {

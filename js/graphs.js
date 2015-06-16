@@ -96,7 +96,7 @@ function generateCharts()
 	var waterNeedChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartWaterNeed',
-			marginRight: 0
+			margin: [90, 70, 90, 70]
 		},
 		title: {
 			text: '',
@@ -110,16 +110,16 @@ function generateCharts()
 			labels: {
 				x: -10,
 				useHTML: true,
-				style: {"font-face": "Helvetica", "font-size": "20px"},
+				style: {"font-family": "RainMachine", "font-size": "42px"},
 				formatter: function () {
 					//Our condition mapping in TTF front
 					var condition = chartData.conditionMap[this.value];
 					if (condition === undefined)
-						return String.fromCharCode(97 + 25);
+						return String.fromCharCode(123);
 
 					return String.fromCharCode(97 + condition);
 				}
-			}
+			},
 		}, {
 			linkedTo: 0,
 			categories: waterNeed.series
@@ -129,6 +129,16 @@ function generateCharts()
 			title: {
 				text: 'Water Need (%)'
 			},
+			stackLabels: {
+				style: {
+                	"color": "black",
+                	"font-size": "14px",
+                },
+				formatter: function () {
+					return this.total + " %";
+				},
+                enabled: true
+            },
 			min: 0,
 			max: maxWN,
 			plotLines: [{
@@ -137,15 +147,19 @@ function generateCharts()
 				color: '#808080'
 			}]
 		},
+		plotOptions: {
+			column: {
+				stacking: 'normal',
+				dataLabels: {
+					enabled: false
+				}
+			}
+		},
 
 		series: [{
 			type: 'column',
 			name: 'Water Need',
 			data: waterNeed.total
-		},
-		{
-				name: 'Precipitation',
-				data: chartData.qpf
 		}]
 	});
 
@@ -160,25 +174,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			offset: -310,
-			tickWidth: 0,
-			lineWidth: 0,
 			categories: chartData.series,
-			labels: {
-				x: -10,
-				useHTML: true,
-				formatter: function () {
-					//Our condition mapping in TTF front
-					var condition = chartData.conditionMap[this.value];
-					if (condition === undefined)
-						return String.fromCharCode(97 + 25);
-
-					return String.fromCharCode(97 + condition);
-				}
-			}
-		}, {
-			linkedTo: 0,
-			categories: chartData.series
 		}],
 
 		yAxis: {
