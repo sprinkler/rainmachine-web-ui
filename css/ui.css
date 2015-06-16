@@ -1,6 +1,10 @@
 .charts {
 	background-color: #f9f9f9;
-	margin-bottom: 20px;
+	margin: 0 auto;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    width: 90%;
+    overflow: hidden;
 }
 
 body {

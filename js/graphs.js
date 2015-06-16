@@ -11,6 +11,12 @@ function normalizeWaterNeed(user, scheduled)
 	return wn;
 }
 
+// return the character from the TTF font containing weather icons
+function conditionToGlyph(condition)
+{
+    return ;
+}
+
 function generateCharts()
 {
 	var mixerData = API.getMixer();
@@ -27,6 +33,7 @@ function generateCharts()
 		maxt: [],
 		mint: [],
 		condition: [],
+		conditionMap: {},
 		series: []
 	};
 
@@ -38,11 +45,13 @@ function generateCharts()
 
 	for (var i = 0; i < recent.length; i++)
 	{
+		var day =  recent[i].day.split(' ')[0];
 		chartData.qpf.push(recent[i].qpf);
 		chartData.maxt.push(recent[i].maxTemp);
 		chartData.mint.push(recent[i].minTemp);
 		chartData.condition.push(recent[i].condition);
-		chartData.series.push(recent[i].day.split(' ')[0]);
+		chartData.conditionMap[day] = recent[i].condition;
+		chartData.series.push(day);
 	}
 
 	//Total Water Need
@@ -101,8 +110,14 @@ function generateCharts()
 			labels: {
 				x: -10,
 				useHTML: true,
+				style: {"font-face": "Helvetica", "font-size": "20px"},
 				formatter: function () {
-					return '<img src="http://highcharts.com/demo/gfx/sun.png">&nbsp;';
+					//Our condition mapping in TTF front
+					var condition = chartData.conditionMap[this.value];
+					if (condition === undefined)
+						return String.fromCharCode(97 + 25);
+
+					return String.fromCharCode(97 + condition);
 				}
 			}
 		}, {
@@ -153,7 +168,12 @@ function generateCharts()
 				x: -10,
 				useHTML: true,
 				formatter: function () {
-					return '<img src="http://highcharts.com/demo/gfx/sun.png">&nbsp;';
+					//Our condition mapping in TTF front
+					var condition = chartData.conditionMap[this.value];
+					if (condition === undefined)
+						return String.fromCharCode(97 + 25);
+
+					return String.fromCharCode(97 + condition);
 				}
 			}
 		}, {
