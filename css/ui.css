@@ -31,6 +31,11 @@ body {
 
 /*Iulian CSS starts*/
 
+@font-face {
+    font-family: RainMachine;
+    src: url(../font/rainmachine.woff);
+}
+
 * {
     padding : 0;
     margin : 0;
