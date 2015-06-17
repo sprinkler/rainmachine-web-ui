@@ -15,7 +15,7 @@ window.ui = window.ui || {};
 		clearTag(programListDiv);
 		makeVisible('#programs');
 
-		$('#settingsTitle').innerHTML = "Programs";
+		//$('#settingsTitle').innerHTML = "Programs";
 
 		for (var i = 0; i < programData.programs.length; i++)
 		{
@@ -36,7 +36,7 @@ window.ui = window.ui || {};
 
 			nameElem.innerHTML = p.name;
 			startElem.onclick = function() { alert("TODO"); };
-			editElem.onclick = function() { showProgramSettings(this.data); };
+			editElem.onclick = function() { makeHidden(programListDiv); showProgramSettings(this.data); };
 
 			console.log("%o", p.wateringTimes);
 
@@ -197,6 +197,7 @@ window.ui = window.ui || {};
     function onCancel() {
         var programSettingsDiv = $('#programsSettings');
         clearTag(programSettingsDiv);
+        makeVisible('#programsList');
         currentProgram = null;
     }
 

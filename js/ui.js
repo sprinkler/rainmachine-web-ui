@@ -1,6 +1,6 @@
 function _genericSubMenu()
 {
-	$('#settingsTitle').innerHTML = this.name;
+	//$('#settingsTitle').innerHTML = this.name;
 	console.log("SubMenu: %s : %s", this.id, this.name)
 }
 
