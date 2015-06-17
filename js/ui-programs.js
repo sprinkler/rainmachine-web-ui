@@ -36,7 +36,7 @@ window.ui = window.ui || {};
 
 			nameElem.innerHTML = p.name;
 			startElem.onclick = function() { alert("TODO"); };
-			editElem.onclick = function() { makeHidden(programListDiv); showProgramSettings(this.data); };
+			editElem.onclick = function() { showProgramSettings(this.data); };
 
 			console.log("%o", p.wateringTimes);
 
@@ -90,6 +90,7 @@ window.ui = window.ui || {};
         //
 		var programSettingsDiv = $('#programsSettings');
 		clearTag(programSettingsDiv);
+		makeHidden('#programsList');
 
 		var programTemplate = loadTemplate("program-settings-template");
 

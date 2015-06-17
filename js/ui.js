@@ -4,6 +4,8 @@ function _genericSubMenu()
 	console.log("SubMenu: %s : %s", this.id, this.name)
 }
 
+var currentZoneProperties = null;
+
 var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
     	{ name: "Watering History", func: _genericSubMenu, 					container: '#wateringHistory' },
@@ -82,33 +84,87 @@ function zoneTypeToString(type)
 	}
 }
 
-function generateZones()
+function showZoneSettings(zone)
 {
-	var zoneData = API.getZonesProperties();
-	var zonesDiv = $('#zones');
+	currentZoneProperties = zone;
+
+	var zoneSettingsDiv = $("#zonesSettings");
+	clearTag(zoneSettingsDiv);
+	makeHidden('#zonesList');
+
+	var zoneTemplate = loadTemplate("zone-settings-template");
+
+	var zoneMasterValveElem = $(zoneTemplate, '[rm-id="zone-master-valve"]');
+	var zoneMasterValveContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-option"]');
+	var zoneNameElem = $(zoneTemplate, '[rm-id="zone-name"]');
+	var zoneActiveElem = $(zoneTemplate, '[rm-id="zone-active"]');
+	var zoneVegetationElem = $(zoneTemplate, '[rm-id="zone-vegetation-type"]');
+	var zoneForecastElem = $(zoneTemplate, '[rm-id="zone-forecast-data"]');
+	var zoneHistoricalElem = $(zoneTemplate, '[rm-id="zone-historical-averages"]');
+
+
+	if (zone.uid != 1)
+		makeHidden(zoneMasterValveContainerElem);
+
+	zoneNameElem.value = zone.name;
+	console.log(zone.name)
+	zoneActiveElem.checked = zone.active;
+	zoneForecastElem.checked = zone.internet;
+	zoneHistoricalElem.checked = zone.history;
+
+
+	$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){
+		clearTag(zoneSettingsDiv);
+		makeVisible('#zonesList');
+		currentZoneProperties = null;
+	};
+	$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){
+		console.log("Saving zone properties");
+	};
+	zoneSettingsDiv.appendChild(zoneTemplate);
+}
+
+function showZones()
+{
+	var zoneData = API.getZones();
+	var zoneAdvData = API.getZonesProperties();
+
+	var zonesDiv = $('#zonesList');
 
 	clearTag(zonesDiv);
 
 	for (var i = 0; i < zoneData.zones.length; i++)
 	{
 		var z = zoneData.zones[i];
+		var za = zoneAdvData.zones[i];
 
 		var template = loadTemplate("zone-entry");
 		var nameElem = template.querySelector('div[rm-id="zone-name"]');
 		var startElem = template.querySelector('button[rm-id="zone-start"]');
 		var editElem = template.querySelector('button[rm-id="zone-edit"]');
 		var typeElem = template.querySelector('div[rm-id="zone-info"]');
+		var statusElem = $(template, '[rm-id="zone-status"]');
 
 		template.id = "zone-" + z.uid;
-		template.data = z;
+		template.data = za;
 
-		if (! z.active)
+		if (! za.active)
 			template.className += " inactive";
+
+		if (z.state == 0)
+			statusElem.className = "zoneIdle";
+
+		if (z.state == 1)
+			statusElem.className = "zonePending";
+
+		if (z.state == 2)
+			statusElem.className = "zoneRunning";
+
 
 		nameElem.innerHTML = z.name;
 		typeElem.innerHTML = zoneTypeToString(z.type);
 		startElem.onclick = function() { console.log("Starting Zone %d", this.parentNode.data.uid); };
-		editElem.onclick = function() { console.log("Editing Zone %d", this.parentNode.data.uid); };
+		editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
 
 		zonesDiv.appendChild(template);
 
@@ -169,7 +225,7 @@ function uiStart()
         dashboardBtn.removeAttribute("selected");
         settingsBtn.removeAttribute("selected");
 
-		generateZones();
+		showZones();
 		console.log("Zones");
 	}
 

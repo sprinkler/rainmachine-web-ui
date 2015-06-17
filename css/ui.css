@@ -321,6 +321,10 @@ input.typeNumber {
     opacity: 0.3;
 }
 
+.zoneIdle, .zonePending {
+    display: none;
+}
+
 .zoneRunning {
     font-family: RainMachine;
     font-size: 32px;

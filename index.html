@@ -48,6 +48,9 @@
 				</div>
 
 				<div id="zones">
+                    <div id="zonesList" class="list left"></div>
+                    <!-- Zones Settings -->
+                    <div id="zonesSettings" class="settings"></div>
 
 				</div>
 
@@ -152,7 +155,7 @@
 
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="listItem">
-        	<span class="zoneRunning">!</span>
+        	<span class="zoneIdle" rm-id="zone-status">!</span>
         	<button rm-id="zone-edit" class="edittxt right">Edit</button>
             <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
@@ -162,7 +165,7 @@
                 <span class="left">Minutes: <input type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
-            <button rm-id="zone-start" class="stop full">Stop</button>
+            <button rm-id="zone-start" class="save full">Start</button>
         </div>
         <!-- Template for Zone Card (End) -->
 
@@ -196,16 +199,19 @@
         <!-- Teplate for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
-        <div id="zone-settings-template">
-            <div><button>Cancel</button><button>Save</button></div>
-            <table border="1">
+        <div id="zone-settings-template" class="programEdit">
+            <div class="center">
+                <button class="edit left" rm-id="zone-cancel">Cancel</button>
+                 <button class="save right" rm-id="zone-save">Save</button>
+            </div>
+            <table width="100%" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr rm-id="zone-master-valve-option"><td>Master Valve:</td><td><input type="checkbox" rm-id="zone-master-valve"/></td></tr>
-                <tr><td>Name:</td><td><input type="text" rm-id="zone-name" placeholder="Zone Name"/></td></tr>
+                <tr><td colspan="2"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td></tr>
                 <tr><td>Active:</td><td><input type="checkbox" rm-id="zone-active"/></td></tr>
-                <tr><td colspan="2">
-                    <span>Vegetation Type:</span>
-                        <select>
+                <tr><td>Vegetation Type:</td>
+                    <td>
+                        <select rm-id="zone-vegetation-type">
                             <option value="1">Other</option>
                             <option value="2" selected>Lawn</option>
                             <option value="3">Fruit Trees</option>
