@@ -58,6 +58,85 @@
 						<!-- Program Settings -->
 						<div id="programsSettings" class="settings"></div>
 					</div>
+
+					<div id="wateringHistory">
+
+					</div>
+
+					<div id="snooze">
+
+					</div>
+
+					<div id="restrictions" style="display: none;">
+						<div id="restrictionsHotDays">
+							<div>Hot Days(Allow extra watering)</div>
+							<div><input type="checkbox" id="restrictionsHotDaysEnable"/></div>
+						</div>
+						<div id="restrictionsFreezeProtect">
+							<div>Freeze Protect</div>
+							<div><input type="checkbox" id="restrictionsFreezeProtectEnable"/></div>
+							<div>
+								<select id="restrictionsFreezeProtectValue">
+									<option value="0">0 &deg; C</option>
+									<option value="2" selected>2 &deg; C</option>
+									<option value="5">5 &deg; C</option>
+									<option value="10">10 &deg; C</option>
+								</select>
+							</div>
+							<div>
+								January <input type="checkbox" id="restrictionsJanuary"/>
+								February <input type="checkbox" id="restrictionsFebruary"/>
+								March <input type="checkbox" id="restrictionsMarch"/>
+								April <input type="checkbox" id="restrictionsApril"/>
+								May <input type="checkbox" id="restrictionsMay"/>
+								June <input type="checkbox" id="restrictionsJune"/>
+								July <input type="checkbox" id="restrictionsJuly"/>
+								August <input type="checkbox" id="restrictionsAugust"/>
+								September <input type="checkbox" id="restrictionsSeptember"/>
+								October <input type="checkbox" id="restrictionsOctober"/>
+								November <input type="checkbox" id="restrictionsNovember"/>
+								December <input type="checkbox" id="restrictionsDecember"/>
+							</div>
+							<div>
+								Monday <input type="checkbox" id="restrictionsMonday"/>
+								Tuesday <input type="checkbox" id="restrictionsTuesday"/>
+								Wednesday <input type="checkbox" id="restrictionsWednesday"/>
+								Thursday <input type="checkbox" id="restrictionsThursday"/>
+								Friday <input type="checkbox" id="restrictionsFriday"/>
+								Saturday <input type="checkbox" id="restrictionsSaturday"/>
+								Sunday <input type="checkbox" id="restrictionsSunday"/>
+							</div>
+							<div id="restrictionsHourly">
+
+							</div>
+						</div>
+					</div>
+
+					<div id="weather" style="display: none;">
+						<div id="weatherDataSources">
+
+						</div>
+						<div id="weatherRainSensitivity">
+
+						</div>
+						<div id="weatherWaterSaveDays">
+
+						</div>
+						<div id="weatherWindSensitivity">
+
+						</div>
+					</div>
+
+					<div id="systemSettings" style="display: none;">
+
+					</div>
+					<div id="about" style="display: none;">
+
+					</div>
+
+					<div id="softwareUpdate" style="display: none;">
+
+					</div>
 	            </div>
 	        </div>
 
@@ -77,8 +156,8 @@
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
             <br><hr><br>
             <div style="margin-bottom: 20px;">
-                <span class="right">Seconds: <input type="number" name="seconds" min="1" max="59" class="typeNumber" placeholder="00"></span>
-                <span class="left">Minutes: <input type="number" name="minutes" min="1" max="99" class="typeNumber" placeholder="00"></span>
+                <span class="right">Seconds: <input type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
+                <span class="left">Minutes: <input type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
             <button rm-id="zone-start" class="stop full">Stop</button>
@@ -218,6 +297,48 @@
 			</table>
 		</div>
 		<!-- Template for Program Settings Zone Watering Times (End) -->
+
+		<!-- Template for Hourly Restriction (Begin) -->
+		<div id="restriction-entry" class="listItem">
+			<button rm-id="restriction-edit" class="edittxt right">Edit</button>
+			<div rm-id="restriction-name" class="cardTitle">From 14:00 To 18:00</div>
+			<div rm-id="restriction-info" class="cardSubtitle">Every Day</div>
+			<br><hr><br>
+			<br>&nbsp;<br>
+			<button rm-id="restriction-delete" class="delete">Delete</button>
+		</div>
+		<!-- Template for Hourly Restriction (End) -->
+
+
+		<!-- Template for New Hourly Restrictions (Start) -->
+		<div id="restrictions-hourly-new-teplate">
+			<div>
+				From
+				<input type="number" name="hour" min="0" max="23" class="typeNumber" placeholder="18"/>
+				<input type="number" name="minute" min="0" max="59" class="typeNumber" placeholder="00"/>
+			</div>
+			<div>
+				To
+				<input type="number" name="hour" min="0" max="23" class="typeNumber" placeholder="18"/>
+				<input type="number" name="minute" min="0" max="59" class="typeNumber" placeholder="00"/>
+			</div>
+			<div>
+				Frequency
+				<div><input type="radio" rm-id="hourly-restriction-daily"/> <span>Every Day</span></div>
+				<div><input type="radio" rm-id="hourly-restriction-days"/> <span>Selected Days</span></div>
+				<div style="display: none">
+					Monday <input type="checkbox" rm-id="restrictionsHourlyMonday"/>
+					Tuesday <input type="checkbox" rm-id="restrictionsHourlyTuesday"/>
+					Wednesday <input type="checkbox" rm-id="restrictionsHourlyWednesday"/>
+					Thursday <input type="checkbox" rm-id="restrictionsHourlyThursday"/>
+					Friday <input type="checkbox" rm-id="restrictionsHourlyFriday"/>
+					Saturday <input type="checkbox" rm-id="restrictionsHourlySaturday"/>
+					Sunday <input type="checkbox" rm-id="restrictionsHourlySunday"/>
+				</div>
+			</div>
+		</div>
+		<!-- Template for Hourly Restrictions (End) -->
+
 	</div>
 </body>
 </html>
