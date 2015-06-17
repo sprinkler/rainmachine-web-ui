@@ -241,7 +241,11 @@
 				</table>
 			</div>
 			<div class="programProperties">
-				<div class="center"><button class="edit left">Cancel</button><button class="stop">Delete</button><button class="save right">Save</button></div>
+				<div class="center">
+					<button class="edit left" rm-id="program-cancel">Cancel</button>
+					<button class="stop" rm-id="program-delete">Delete</button>
+					<button class="save right" rm-id="program-save">Save</button>
+				</div>
 				<table width="100%" cellpadding="0" cellspacing="0">
 					<tbody>
 					<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
@@ -254,7 +258,7 @@
 						<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
 						<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div>
 						<div><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-							<select>
+							<select rm-id="program-frequency-every-param">
 								<option value="2" selected>2 days</option>
 								<option value="3">3 day</option>
 								<option value="4">4 day</option>

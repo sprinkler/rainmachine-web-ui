@@ -111,6 +111,8 @@ window.ui = window.ui || {};
         var programFrequencyEveryElem = $(programTemplate, '[rm-id="program-frequency-every"]');
         var programFrequencySelectedElem = $(programTemplate, '[rm-id="program-frequency-selected"]');
 
+        var programFrequencyEveryParamElem = $(programTemplate, '[rm-id="program-frequency-every-param"]');
+
         //---------------------------------------------------------------------------------------
         // Show program data.
         //
@@ -131,6 +133,7 @@ window.ui = window.ui || {};
             programFrequencyDailyElem.checked = true;
         } else if(program.frequency.type === 1) { // Every N days
             programFrequencyEveryElem.checked = true;
+            programFrequencyEveryParamElem.value = program.frequency.param;
         } else if(program.frequency.type === 2) { // Weekday
             programFrequencySelectedElem.checked = true;
         } else if(program.frequency.type === 4) { // Odd or Even
@@ -178,8 +181,32 @@ window.ui = window.ui || {};
                 zoneTable.appendChild(zoneTemplate);
             }
         }
+
+        //---------------------------------------------------------------------------------------
+        // Add listeners and elements.
+        $(programTemplate, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
+        $(programTemplate, '[rm-id="program-delete"]').addEventListener("click", onDelete);
+        $(programTemplate, '[rm-id="program-save"]').addEventListener("click", onSave);
+
 		programSettingsDiv.appendChild(programTemplate);
 	}
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+    function onCancel() {
+        var programSettingsDiv = $('#programsSettings');
+        clearTag(programSettingsDiv);
+        currentProgram = null;
+    }
+
+    function onDelete() {
+        alert("TODO: delete");
+    }
+
+    function onSave() {
+        alert("TODO: save");
+    }
 
 	//--------------------------------------------------------------------------------------------
 	//
