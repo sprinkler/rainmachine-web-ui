@@ -105,6 +105,12 @@ window.ui = window.ui || {};
         var programDelayZonesSecElem = $(programTemplate, '[rm-id="program-delay-zones-sec"]');
         var programDelayZonesElem = $(programTemplate, '[rm-id="program-delay-zones"]');
 
+        var programFrequencyDailyElem = $(programTemplate, '[rm-id="program-frequency-daily"]');
+        var programFrequencyOddElem = $(programTemplate, '[rm-id="program-frequency-odd"]');
+        var programFrequencyEvenElem = $(programTemplate, '[rm-id="program-frequency-even"]');
+        var programFrequencyEveryElem = $(programTemplate, '[rm-id="program-frequency-every"]');
+        var programFrequencySelectedElem = $(programTemplate, '[rm-id="program-frequency-selected"]');
+
         //---------------------------------------------------------------------------------------
         // Show program data.
         //
@@ -118,8 +124,23 @@ window.ui = window.ui || {};
         programCyclesElem.value = program.cycles;
         programSoakElem.value = program.soak;
         programDelayZonesMinElem.value = delay.min;
-        programDelayZonesSecElem.value = delay.sec;T
+        programDelayZonesSecElem.value = delay.sec;
         programDelayZonesElem.value = program.delay_on;
+
+        if(program.frequency.type === 0) { // Daily
+            programFrequencyDailyElem.checked = true;
+        } else if(program.frequency.type === 1) { // Every N days
+            programFrequencyEveryElem.checked = true;
+        } else if(program.frequency.type === 2) { // Weekday
+            programFrequencySelectedElem.checked = true;
+        } else if(program.frequency.type === 4) { // Odd or Even
+            var param = parseInt(program.frequency.param);
+            if(param % 2 == 1) { // Odd
+                programFrequencyOddElem.checked = true;
+            } else {
+                programFrequencyEvenElem.checked = true;
+            }
+        }
 
         //---------------------------------------------------------------------------------------
         // Show zones and watering times.
