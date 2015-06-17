@@ -58,7 +58,7 @@ h1 {
     margin-bottom: 10px;
 }
 #programsList, #zonesList {
-    width: 100%;
+    padding-left: 10px;
 }
 .subtitle {
     font: 12px normal Arial, sans-serif;
@@ -216,9 +216,12 @@ input.typeCheckbox {
     font-size: 16px;
 }
 input.typeNumber {
+    margin: 5px;
+    margin-left: 0px;
     border: 1px solid #eee;
-    padding: 10px 0px 10px 5px;
+    padding: 5px 0px 5px 5px;
     font-size: 16px;
+    width: 60px;
 }
 
 .circle {
@@ -301,13 +304,13 @@ input.typeNumber {
 
 /*zone, programs squares*/
 .zoneSquare, .listItem {
-    display: inline-table;
+    display: inline-block;
+    vertical-align: top;
     background-color: #fff;
     padding: 25px;
     border-bottom: 1px solid #ddd;
     border-radius: 5px;
     width: 260px;
-    height: 126px;
     text-align: left;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -340,8 +343,9 @@ input.typeNumber {
     display: inline-block;
     background-color: #fff;
     padding: 25px;
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     border-bottom: 2px solid #ddd;
+    border-radius: 5px;
     width: 86%;
     text-align: left;
     margin-bottom: 20px;
@@ -390,8 +394,6 @@ td {
 
 /* MEDIA QUERIES */
 
-/* Responsify Defaults */
-
 @media screen and (max-width: 768px){
  .pageLeftMenu {
     float : left;
@@ -413,6 +415,7 @@ td {
     list-style-type: none;
     text-align: center;
 }
+}
 
 #name {
     display: none;
@@ -429,5 +432,6 @@ td {
     clear : none;
     width: 100%;
     background-color: #f9f9f9;
+}
 }
 
