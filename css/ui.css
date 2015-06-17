@@ -333,7 +333,7 @@ input.typeNumber {
 }
 
 .programEdit {
-    position: absolute;
+    /*position: absolute;*/
     top: 130px;
     left: 10px;
     display: inline-block;

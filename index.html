@@ -27,121 +27,122 @@
 	</div>
 	<div class="mainContainer">
 
-    <!--- Main Content -->
-	<div class="pageContent">
-		<!-- Top Navigation -->
-	    <div class="pageLeftMenu">
-	        <div id="dashboardMenu">
-	        </div>
-	        <div id="zonesMenu">
-	        </div>
-	        <div id="settingsMenu">
-	        </div>
-	   	</div>
-
-		<div class="content">
-			<div id="dashboard">
-                <div id="chartWaterNeed" class="charts"></div>
-				<div id="chartTemperature" class="charts"></div>
-				<div id="chartQpf" class="charts"></div>
+		<!--- Main Content -->
+		<div class="pageContent">
+			<!-- Top Navigation -->
+			<div class="pageLeftMenu">
+				<div id="dashboardMenu">
+				</div>
+				<div id="zonesMenu">
+				</div>
+				<div id="settingsMenu">
+				</div>
 			</div>
 
-			<div id="zones">
+			<div class="content">
+				<div id="dashboard">
+					<div id="chartWaterNeed" class="charts"></div>
+					<div id="chartTemperature" class="charts"></div>
+					<div id="chartQpf" class="charts"></div>
+				</div>
 
+				<div id="zones">
+
+				</div>
+
+				<div id="settings">
+					<h1 id="settingsTitle">Settings Title</h1>
+					<div id="settingsContent" class="content">
+						<div id="programs">
+							<div id="programsList" class="list left"></div>
+							<!-- Program Settings -->
+							<div id="programsSettings" class="settings"></div>
+						</div>
+
+						<div id="wateringHistory">
+
+						</div>
+
+						<div id="snooze">
+
+						</div>
+
+						<div id="restrictions" style="display: none;">
+							<div id="restrictionsHotDays">
+								<div>Hot Days(Allow extra watering)</div>
+								<div><input type="checkbox" id="restrictionsHotDaysEnable"/></div>
+							</div>
+							<div id="restrictionsFreezeProtect">
+								<div>Freeze Protect</div>
+								<div><input type="checkbox" id="restrictionsFreezeProtectEnable"/></div>
+								<div>
+									<select id="restrictionsFreezeProtectValue">
+										<option value="0">0 &deg; C</option>
+										<option value="2" selected>2 &deg; C</option>
+										<option value="5">5 &deg; C</option>
+										<option value="10">10 &deg; C</option>
+									</select>
+								</div>
+								<div>
+									January <input type="checkbox" id="restrictionsJanuary"/>
+									February <input type="checkbox" id="restrictionsFebruary"/>
+									March <input type="checkbox" id="restrictionsMarch"/>
+									April <input type="checkbox" id="restrictionsApril"/>
+									May <input type="checkbox" id="restrictionsMay"/>
+									June <input type="checkbox" id="restrictionsJune"/>
+									July <input type="checkbox" id="restrictionsJuly"/>
+									August <input type="checkbox" id="restrictionsAugust"/>
+									September <input type="checkbox" id="restrictionsSeptember"/>
+									October <input type="checkbox" id="restrictionsOctober"/>
+									November <input type="checkbox" id="restrictionsNovember"/>
+									December <input type="checkbox" id="restrictionsDecember"/>
+								</div>
+								<div>
+									Monday <input type="checkbox" id="restrictionsMonday"/>
+									Tuesday <input type="checkbox" id="restrictionsTuesday"/>
+									Wednesday <input type="checkbox" id="restrictionsWednesday"/>
+									Thursday <input type="checkbox" id="restrictionsThursday"/>
+									Friday <input type="checkbox" id="restrictionsFriday"/>
+									Saturday <input type="checkbox" id="restrictionsSaturday"/>
+									Sunday <input type="checkbox" id="restrictionsSunday"/>
+								</div>
+								<div id="restrictionsHourly">
+
+								</div>
+							</div>
+						</div>
+
+						<div id="weather" style="display: none;">
+							<div id="weatherDataSources">
+
+							</div>
+							<div id="weatherRainSensitivity">
+
+							</div>
+							<div id="weatherWaterSaveDays">
+
+							</div>
+							<div id="weatherWindSensitivity">
+
+							</div>
+						</div>
+
+						<div id="systemSettings" style="display: none;">
+
+						</div>
+						<div id="about" style="display: none;">
+
+						</div>
+
+						<div id="softwareUpdate" style="display: none;">
+
+						</div>
+					</div>
+				</div>
 			</div>
-
-			<div id="settings">
-				<h1 id="settingsTitle">Settings Title</h1>
-	            <div id="settingsContent" class="content">
-					<div id="programs">
-						<div id="programsList" class="list left"></div>
-						<!-- Program Settings -->
-						<div id="programsSettings" class="settings"></div>
-					</div>
-
-					<div id="wateringHistory">
-
-					</div>
-
-					<div id="snooze">
-
-					</div>
-
-					<div id="restrictions" style="display: none;">
-						<div id="restrictionsHotDays">
-							<div>Hot Days(Allow extra watering)</div>
-							<div><input type="checkbox" id="restrictionsHotDaysEnable"/></div>
-						</div>
-						<div id="restrictionsFreezeProtect">
-							<div>Freeze Protect</div>
-							<div><input type="checkbox" id="restrictionsFreezeProtectEnable"/></div>
-							<div>
-								<select id="restrictionsFreezeProtectValue">
-									<option value="0">0 &deg; C</option>
-									<option value="2" selected>2 &deg; C</option>
-									<option value="5">5 &deg; C</option>
-									<option value="10">10 &deg; C</option>
-								</select>
-							</div>
-							<div>
-								January <input type="checkbox" id="restrictionsJanuary"/>
-								February <input type="checkbox" id="restrictionsFebruary"/>
-								March <input type="checkbox" id="restrictionsMarch"/>
-								April <input type="checkbox" id="restrictionsApril"/>
-								May <input type="checkbox" id="restrictionsMay"/>
-								June <input type="checkbox" id="restrictionsJune"/>
-								July <input type="checkbox" id="restrictionsJuly"/>
-								August <input type="checkbox" id="restrictionsAugust"/>
-								September <input type="checkbox" id="restrictionsSeptember"/>
-								October <input type="checkbox" id="restrictionsOctober"/>
-								November <input type="checkbox" id="restrictionsNovember"/>
-								December <input type="checkbox" id="restrictionsDecember"/>
-							</div>
-							<div>
-								Monday <input type="checkbox" id="restrictionsMonday"/>
-								Tuesday <input type="checkbox" id="restrictionsTuesday"/>
-								Wednesday <input type="checkbox" id="restrictionsWednesday"/>
-								Thursday <input type="checkbox" id="restrictionsThursday"/>
-								Friday <input type="checkbox" id="restrictionsFriday"/>
-								Saturday <input type="checkbox" id="restrictionsSaturday"/>
-								Sunday <input type="checkbox" id="restrictionsSunday"/>
-							</div>
-							<div id="restrictionsHourly">
-
-							</div>
-						</div>
-					</div>
-
-					<div id="weather" style="display: none;">
-						<div id="weatherDataSources">
-
-						</div>
-						<div id="weatherRainSensitivity">
-
-						</div>
-						<div id="weatherWaterSaveDays">
-
-						</div>
-						<div id="weatherWindSensitivity">
-
-						</div>
-					</div>
-
-					<div id="systemSettings" style="display: none;">
-
-					</div>
-					<div id="about" style="display: none;">
-
-					</div>
-
-					<div id="softwareUpdate" style="display: none;">
-
-					</div>
-	            </div>
-	        </div>
-
 		</div>
 	</div>
+	<div style="clear: both; overflow: hidden"></div>
 	<div class="pageFooter">
 			<span style="display:block;padding:.8em;font-size:10px;" id="footerInfo"></span>
 	</div>
@@ -253,8 +254,19 @@
 						<div><input type="radio" rm-id="program-frequency-even"/> <span>Even Days</span></div>
 						<div><input type="radio" rm-id="program-frequency-every"/> <span>Every</span>
 							<select>
-								<option>1 day</option>
-								<option selected>2 days</option>
+								<option value="2" selected>2 days</option>
+								<option value="3">3 day</option>
+								<option value="4">4 day</option>
+								<option value="5">5 day</option>
+								<option value="6">6 day</option>
+								<option value="7">7 day</option>
+								<option value="8">8 day</option>
+								<option value="9">9 day</option>
+								<option value="10">10 day</option>
+								<option value="11">11 day</option>
+								<option value="12">12 day</option>
+								<option value="13">13 day</option>
+								<option value="14">14 day</option>
 							</select>
 						</div>
 						<div><input type="radio" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
@@ -290,7 +302,8 @@
 				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
 					<td width="80%">
 						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span><br/>
-						<span rm-id="program-zone-duration" class="cardSubtitle">00:00</span>
+						<span>Minutes: <input rm-id="program-zone-duration-min" type="number" name="seconds" min="0" max="1439" class="typeNumber" placeholder="00"></span>
+						<span>Seconds: <input rm-id="program-zone-duration-sec" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
 					</td>
 					<td><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
 				</tr>

@@ -26,11 +26,24 @@ function showProgramSettings(data)
 				var zoneTemplate = loadTemplate("program-settings-zone-template");
 
 				var zoneNameElem = zoneTemplate.querySelector('[rm-id="program-zone-name"]');
-				var zoneDurationElem = zoneTemplate.querySelector('[rm-id="program-zone-duration"]');
+				var zoneDurationMinElem = zoneTemplate.querySelector('[rm-id="program-zone-duration-min"]');
+				var zoneDurationSecElem = zoneTemplate.querySelector('[rm-id="program-zone-duration-sec"]');
 				var zoneActiveElem = zoneTemplate.querySelector('[rm-id="program-zone-active"]');
 
+				var durationMin = 0, durationSec = 0;
+
+				try {
+					durationMin = parseInt(wateringTime.duration / 60);
+					durationSec = durationMin ? (wateringTime.duration % durationMin) : 0;
+				} catch(e) {}
+
+				if(durationMin == 0 && durationSec == 0) {
+					durationMin = durationSec = "";
+				}
+
 				zoneNameElem.textContent = wateringTime.name;
-				zoneDurationElem.textContent = wateringTime.duration;
+				zoneDurationMinElem.value = durationMin;
+				zoneDurationSecElem.value = durationSec;
 				zoneActiveElem.checked = wateringTime.active;
 
 				zoneTable.appendChild(zoneTemplate);

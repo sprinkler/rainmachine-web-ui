@@ -2,7 +2,7 @@ var API  = (function(API) {
 
 //var host = "private-bd9e-rainmachine.apiary-mock.com";
 //var host = "127.0.0.1";
-var host = "192.168.12.175";
+var host = "192.168.12.157";
 
 //var port = "443";
 //var port = "18080";
