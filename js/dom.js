@@ -1,8 +1,15 @@
 /* Generic DOM functions */
 
-function $(selector)
+function $(elem, selector)
 {
-	return document.querySelector(selector);
+	if(arguments.length == 1) {
+		selector = elem;
+		elem = document;
+	}
+	if(!elem) {
+		elem = document;
+	}
+	return elem.querySelector(selector);
 }
 
 //can be called with a selector string or a element object directly
