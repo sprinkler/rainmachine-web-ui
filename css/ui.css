@@ -58,7 +58,6 @@ h1 {
     margin-bottom: 10px;
 }
 #programsList, #zonesList {
-    padding-left: 10px;
     width: 100%;
 }
 .subtitle {
@@ -70,7 +69,6 @@ h1 {
     margin: 0 auto; /*center the div*/
     width : 100%;
     overflow : auto;
-    margin : 0px auto 0 auto;
     background-color: #fff;
 }
 .pageHeader {
@@ -333,9 +331,6 @@ input.typeNumber {
 }
 
 .programEdit {
-    /*position: absolute;*/
-    top: 130px;
-    left: 10px;
     display: inline-block;
     background-color: #fff;
     padding: 25px;
@@ -343,6 +338,8 @@ input.typeNumber {
     border-bottom: 2px solid #ddd;
     width: 86%;
     text-align: left;
+    margin-bottom: 20px;
+    margin-left: 10px;
 }
 .wateringTimes {
     width: 48.5%;
