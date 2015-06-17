@@ -3,6 +3,11 @@ window.ui = window.ui || {};
 
 (function(_programs) {
 
+    var currentProgram = null;
+
+    //--------------------------------------------------------------------------------------------
+    //
+    //
 	function showPrograms()
 	{
 		var programData = API.getPrograms();
@@ -55,57 +60,103 @@ window.ui = window.ui || {};
 		div.onclick = function() { console.log("Add new program"); };
 	}
 
-	function showProgramSettings(data)
+    //--------------------------------------------------------------------------------------------
+    //
+    //
+	function showProgramSettings(program)
 	{
+        currentProgram = program;
+        console.log(program);
+
+        //---------------------------------------------------------------------------------------
+        // Prepare some data.
+        //
+        var startTime = {hour: 0, min: 0};
+        var delay = {min: 0, sec: 0};
+
+        try {
+            var chunks = program.startTime.split(":");
+            startTime.hour = parseInt(chunks[0]);
+            startTime.min = parseInt(chunks[1]);
+        } catch(e) {}
+
+        try {
+            delay.min = parseInt(program.delay / 60);
+            delay.sec = delay.min ? (program.delay % delay.min) : 0;
+        } catch(e) {}
+
+        //---------------------------------------------------------------------------------------
+        // Get HTML elements.
+        //
 		var programSettingsDiv = $('#programsSettings');
 		clearTag(programSettingsDiv);
 
 		var programTemplate = loadTemplate("program-settings-template");
 
-		var programNameElem = programTemplate.querySelector('[rm-id="program-name"]');
-		var programActiveElem = programTemplate.querySelector('[rm-id="program-active"]');
-		var programWeatherDataElem = programTemplate.querySelector('[rm-id="program-weather-data"]');
+		var programNameElem = $(programTemplate, '[rm-id="program-name"]');
+		var programActiveElem = $(programTemplate, '[rm-id="program-active"]');
+		var programWeatherDataElem = $(programTemplate, '[rm-id="program-weather-data"]');
+		var programStartTimeHourElem = $(programTemplate, '[rm-id="program-program-start-time-hour"]');
+		var programStartTimeMinElem = $(programTemplate, '[rm-id="program-program-start-time-min"]');
+		var programCyclesSoakElem = $(programTemplate, '[rm-id="program-cycle-soak"]');
+		var programCyclesElem = $(programTemplate, '[rm-id="program-cycles"]');
+        var programSoakElem = $(programTemplate, '[rm-id="program-soak-duration"]');
+        var programDelayZonesMinElem = $(programTemplate, '[rm-id="program-delay-zones-min"]');
+        var programDelayZonesSecElem = $(programTemplate, '[rm-id="program-delay-zones-sec"]');
+        var programDelayZonesElem = $(programTemplate, '[rm-id="program-delay-zones"]');
 
-		var zoneTable = programTemplate.querySelector('[rm-id="program-settings-zone-template-container"]');
+        //---------------------------------------------------------------------------------------
+        // Show program data.
+        //
+        programNameElem.value = program.name;
+        programActiveElem.checked = program.active;
+        programWeatherDataElem.checked = program.ignoreInternetWeather;
 
-		for (var s in data)
-		{
-			//var div = addTag(programTemplate, 'div');
-			//div.innerHTML = s + ": " + JSON.stringify(data[s]);
+        programStartTimeHourElem.value = startTime.hour;
+        programStartTimeMinElem.value = startTime.min;
+        programCyclesSoakElem.checked = program.cs_on;
+        programCyclesElem.value = program.cycles;
+        programSoakElem.value = program.soak;
+        programDelayZonesMinElem.value = delay.min;
+        programDelayZonesSecElem.value = delay.sec;T
+        programDelayZonesElem.value = program.delay_on;
 
-			if(s === "wateringTimes") {
-				var wateringTimeList = data[s];
-				for(var index = 0; index < wateringTimeList.length; index++) {
-					var wateringTime = wateringTimeList[index];
+        //---------------------------------------------------------------------------------------
+        // Show zones and watering times.
+        //
+		var zoneTable = $(programTemplate, '[rm-id="program-settings-zone-template-container"]');
 
-					var zoneTemplate = loadTemplate("program-settings-zone-template");
+        var wateringTimeList = program.wateringTimes;
+        if(wateringTimeList) {
+            for(var index = 0; index < wateringTimeList.length; index++) {
+                var wateringTime = wateringTimeList[index];
 
-					var zoneNameElem = zoneTemplate.querySelector('[rm-id="program-zone-name"]');
-					var zoneDurationMinElem = zoneTemplate.querySelector('[rm-id="program-zone-duration-min"]');
-					var zoneDurationSecElem = zoneTemplate.querySelector('[rm-id="program-zone-duration-sec"]');
-					var zoneActiveElem = zoneTemplate.querySelector('[rm-id="program-zone-active"]');
+                var zoneTemplate = loadTemplate("program-settings-zone-template");
 
-					var durationMin = 0, durationSec = 0;
+                var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
+                var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
+                var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
+                var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
 
-					try {
-						durationMin = parseInt(wateringTime.duration / 60);
-						durationSec = durationMin ? (wateringTime.duration % durationMin) : 0;
-					} catch(e) {}
+                var durationMin = 0, durationSec = 0;
 
-					if(durationMin == 0 && durationSec == 0) {
-						durationMin = durationSec = "";
-					}
+                try {
+                    durationMin = parseInt(wateringTime.duration / 60);
+                    durationSec = durationMin ? (wateringTime.duration % durationMin) : 0;
+                } catch(e) {}
 
-					zoneNameElem.textContent = wateringTime.name;
-					zoneDurationMinElem.value = durationMin;
-					zoneDurationSecElem.value = durationSec;
-					zoneActiveElem.checked = wateringTime.active;
+                if(durationMin == 0 && durationSec == 0) {
+                    durationMin = durationSec = "";
+                }
 
-					zoneTable.appendChild(zoneTemplate);
-				}
-			}
-		}
-		console.log(zoneTable);
+                zoneNameElem.textContent = wateringTime.name;
+                zoneDurationMinElem.value = durationMin;
+                zoneDurationSecElem.value = durationSec;
+                zoneActiveElem.checked = wateringTime.active;
+
+                zoneTable.appendChild(zoneTemplate);
+            }
+        }
 		programSettingsDiv.appendChild(programTemplate);
 	}
 

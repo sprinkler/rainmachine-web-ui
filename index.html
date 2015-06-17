@@ -250,10 +250,10 @@
 					<tr>
 						<td colspan="2">
 						<span class="cardTitle">Frequency:</span>
-						<div><input type="radio" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
-						<div><input type="radio" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
-						<div><input type="radio" rm-id="program-frequency-even"/> <span>Even Days</span></div>
-						<div><input type="radio" rm-id="program-frequency-every"/> <span>Every</span>
+						<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
+						<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
+						<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div>
+						<div><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
 							<select>
 								<option value="2" selected>2 days</option>
 								<option value="3">3 day</option>
@@ -270,22 +270,39 @@
 								<option value="14">14 day</option>
 							</select>
 						</div>
-						<div><input type="radio" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
+						<div><input type="radio" name="program-frequency" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
 						</td>
 					</tr>
-					<tr><td class="cardTitle">Start time:</td><td><span rm-id="program-start-time" class="right">06:00 AM</span></td></tr>
-					<tr><td class="cardTitle">Next run:</td><td><span rm-id="program-next-run" class="right">06:00 AM</span></td></tr>
+					<tr>
+						<td class="cardTitle">Start time:</td>
+						<td>
+							<span rm-id="program-start-time" class="right">
+								<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+								:
+								<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+							</span>
+						</td>
+					</tr>
+					<tr><td class="cardTitle">Next run:</td><td><span rm-id="program-next-run" class="right">06:00</span></td></tr>
 					<tr>
 						<td>
 							<span class="cardTitle">Cycles &amp Soak:</span><br/>
-							<span class="cardSubtitle"><span>0</span> cycles / <span class="cardSubtitle">0 min soak</span></span>
+							<span class="cardSubtitle">
+								<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
+							</span>
 						</td>
-						<td class="right"><input type="checkbox" rm-id="program-cycke-soak" class="right"></td>
+						<td class="right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
 					</tr>
 					<tr>
 						<td>
 							<span class="cardTitle">Delay between zones</span><br/>
-							<span  class="cardSubtitle"><span>00:00</span> min</span>
+							<span class="cardSubtitle">
+								<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+								:
+								<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+							</span>
 						</td>
 						<td><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
 					</tr>
@@ -303,8 +320,11 @@
 				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
 					<td width="80%">
 						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span><br/>
-						<span>Minutes: <input rm-id="program-zone-duration-min" type="number" name="seconds" min="0" max="1439" class="typeNumber" placeholder="00"></span>
-						<span>Seconds: <input rm-id="program-zone-duration-sec" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
+						<span class="cardSubtitle">
+							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
+							:
+							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+						</span>
 					</td>
 					<td><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
 				</tr>
