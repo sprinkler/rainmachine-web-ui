@@ -2,26 +2,25 @@ function _genericSubMenu()
 {
 	$('#settingsTitle').innerHTML = this.name;
 	console.log("SubMenu: %s : %s", this.id, this.name)
-	makeHidden('#programs');
 }
 
 var settingsSubmenus = [
-		{ name: "Programs", func: window.ui.programs.showPrograms },
-    	{ name: "Watering History", func: _genericSubMenu },
-    	{ name: "Snooze",  func: _genericSubMenu },
-    	{ name: "Restrictions",  func: _genericSubMenu },
-    	{ name: "Weather", func: _genericSubMenu },
-    	{ name: "System Settings",  func:_genericSubMenu },
-    	{ name: "About",  func: _genericSubMenu },
-    	{ name: "Software Updates", func: _genericSubMenu }
+		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
+    	{ name: "Watering History", func: _genericSubMenu, 					container: '#wateringHistory' },
+    	{ name: "Snooze",  			func: _genericSubMenu, 					container: '#snooze' },
+    	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
+    	{ name: "Weather", 			func: _genericSubMenu, 					container: '#weather' },
+    	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
+    	{ name: "About",  			func: _genericSubMenu, 					container: '#about' },
+    	{ name: "Software Updates", func: _genericSubMenu, 					container: '#softwareUpdate' }
 	];
 
-var dashboardSubmenus = [
-    	{ name: "Daily", func: _genericSubMenu },
-        { name: "Weekly", func: _genericSubMenu },
-        { name: "Yearly",  func: _genericSubMenu }
-      ];
 
+var dashboardSubmenus = [
+    	{ name: "Daily", 		func: _genericSubMenu,		container: null },
+        { name: "Weekly", 		func: _genericSubMenu,		container: null },
+        { name: "Yearly",  		func: _genericSubMenu,		container: null }
+      ];
 
 function buildSubMenu(submenus, category, parentTag)
 {
@@ -33,7 +32,31 @@ function buildSubMenu(submenus, category, parentTag)
 		div.id = category + i;
 		div.name = div.innerHTML = submenus[i].name;
 		div.func = submenus[i].func;
-		div.onclick = function() { this.func(); }
+		div.onclick = function()
+			{
+				//Hide other containers and Show the selected container
+				for (var t = 0; t < submenus.length; t++)
+				{
+					if (submenus[t].container === null)
+						continue;
+
+					var c = $(submenus[t].container);
+                    var b = "#" + category + t;
+
+					if (this.name !== submenus[t].name)
+					{
+						$(b).removeAttribute("selected");
+						makeHidden(c);
+					}
+					else
+					{
+						this.setAttribute("selected", true);
+						makeVisible(c);
+					}
+				}
+				//Call the button function
+				this.func();
+			}
 	}
 }
 

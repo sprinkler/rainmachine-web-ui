@@ -141,6 +141,12 @@ h1 {
     padding: 10px 15px;
     color: #000;
 }
+
+.submenu[selected] {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid blue;
+}
+
 .submenu:hover {
     color: blue; /*blue color*/
     background-color: #f9f9f9;
@@ -312,7 +318,7 @@ input.typeNumber {
     opacity: 0.3;
 }
 
-#active {
+.zoneRunning {
     font-family: RainMachine;
     font-size: 32px;
     white-space: nowrap;
