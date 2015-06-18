@@ -24,6 +24,13 @@ body {
 .full {
     width: 100%;
 }
+.bold {
+    font-weight: bold;
+}
+h1.title {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
 #settings, #settingsMenu {
     display: none;
 }
