@@ -362,11 +362,12 @@
 									    		<span class="subtitle right">Imperial</span>
 									            <div rm-id="weather-name" class="bold">Units</div>
 									            <span class="separator"></span>
-										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">US
-										        <span class="separator"></span>
-										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox">Metric
-									            <span class="separator"></span>
-
+									            <form>
+											        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">US
+											        <span class="separator"></span>
+											        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox">Metric
+										            <span class="separator"></span>
+										        </form>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
@@ -402,9 +403,9 @@
 								  	</tr>
 								  	<tr>
 								  		<td class="middle">
-								  			<button rm-id="update-now" class="save right">Update Now</button>
+								  			<button rm-id="update-now" class="set right">Update Now</button>
 								  			<span class="cardTitle">Firmware version</span><br>
-								  			<span class="cardSubtitle">v4.0.539 <span class="green">(new version found: v4.0.569)</span></span>
+								  			<span class="cardSubtitle">v4.0.539 <span class="start">(new version found: v4.0.569)</span></span>
 								  		</td>
 									</tr>
 									<tr>
@@ -469,7 +470,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button rm-id="send-diagnostics" class="save">Send Diagnostics</button>
+								  			<button rm-id="send-diagnostics" class="set">Send Diagnostics</button>
 								  		</td>
 									</tr>
 								</table>
@@ -477,6 +478,23 @@
 						</div>
 
 						<div id="softwareUpdate" style="display: none;">
+							<div class="settingsBlock center">
+								<table cellspacing="0" cellpadding="0" class="full">
+								  	<tr>
+									    <th>
+								            <h1 id="deviceName" class="title">Software updates for Nicu-SPK3 device</h1>
+								            
+								        </th>
+								  	</tr>
+								  	<tr>
+								  		<td class="middle">
+								  			<button rm-id="update-now" class="set right">Update Now</button>
+								  			<span class="cardTitle">Firmware version</span><br>
+								  			<span class="cardSubtitle">v4.0.539 <span class="start">(new version found: v4.0.569)</span></span>
+								  		</td>
+									</tr>
+								</table>
+							</div>
 
 						</div>
 					</div>
