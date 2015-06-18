@@ -208,44 +208,145 @@
 									    <td class="listItemSettings">
 									            <div rm-id="weather-name" class="bold">Data Sources</div>
 									            <span class="separator"></span>
-									            <div style="height:35px;clear:both;font-size:16px;"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">NOAA</div>
+									            <input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">NOAA
 									            <span class="separator"></span>
-									            <div style="height:35px;clear:both;font-size:16px;"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">Met.no</div>
+									            <input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">Met.no
 									            <span class="separator"></span>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
+									    	<div id="weatherRainSensitivity">
 									            <div rm-id="weather-name" class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
 									            <span style="display:block;text-align:center;"><span style="font-size:44px;">90%</span><br>
 									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="80"><button rm-id="save-rain-sensitivity" class="start">Save</button></span>
 									            <span class="separator"></span>
+									        </div>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
+									    	<div id="weatherWindSensitivity">
 									            <div rm-id="weather-name" class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
 									            <span style="display:block;text-align:center;"><span style="font-size:44px;">33%</span><br>
 									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="50"><button rm-id="save-wind-sensitivity" class="start">Save</button></span>
 									            <span class="separator"></span>
+									        </div>
 	        							</td>
 									  </tr>
 									</table>
 								</div>
 							</div>
-							<div id="weatherRainSensitivity">
 
-							</div>
 							<div id="weatherWaterSaveDays">
 
 							</div>
-							<div id="weatherWindSensitivity">
 
-							</div>
 						</div>
 
 						<div id="systemSettings" style="display: none;">
+							<div class="settingsBlock center">
+								<table cellspacing="0" cellpadding="0" class="center full">
+								  	<tr>
+									    <th colspan="5">
+								            <h1 id="deviceName" class="title">Nicu-SPK3<br><span class="subtitle" id="deviceNetwork">Iasi, Romania (192.168.12.157)</span></h1>
+								            
+								        </th>
+								  	</tr>
+								  	<tr>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">LinuxConsulting</span>
+									            <div rm-id="weather-name" class="bold">Network Settings</div>
+									            <span class="separator"></span>
+									            <span class="start">Connected</span> <!-- <span class="restriction">Not Connected</span> -->
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">npavel@mini-box.com</span>
+									            <div rm-id="weather-name" class="bold">Remote Access</div>
+									            <span class="separator"></span>
+									            <input type="text" rm-id="remote-email" placeholder="Email Address" class="typeText"/>
+									            <span class="separator"></span>
+									            <input type="password" rm-id="remote-email-password" placeholder="Password" class="typeText"/>
+									            <span class="separator"></span>
+									            <button rm-id="save-remote-email" class="save">Change</button>
+									    </td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Sensor name</span>
+									            <div rm-id="weather-name" class="bold">Rain Sensor</div>
+									            <span class="separator"></span>
+									            <!-- <span class="start">Connected</span> --> <span class="restriction">Not Connected</span>
+									    </td>
+									</tr>
+									<tr>
+										<td class="gap"></td>
+									</tr>
+									<tr>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Nicu-SPK3</span>
+									            <div rm-id="weather-name" class="bold">Device Name</div>
+									            <span class="separator"></span>
+									            <input type="text" rm-id="remote-device-name" placeholder="Name" class="typeText"/>
+									            <span class="separator"></span>
+									            <button rm-id="save-device-name" class="save">Change</button>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">2691 Calle Alegre, Pleasanton, CA 94566, USA</span>
+									            <div rm-id="weather-name" class="bold">Location</div>
+									            <span class="separator"></span>
+									            <input type="text" rm-id="remote-device-name" placeholder="Street, City, State, Country" class="typeText"/>
+									            <span class="separator"></span>
+									            <button rm-id="save-device-name" class="save">Change</button>
+									    </td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Pacific Daylight Time (PDT)</span>
+									            <div rm-id="weather-name" class="bold">Timezone</div>
+									            <span class="separator"></span>
+									            <input type="text" rm-id="remote-device-name" placeholder="Timezone" class="typeText"/>
+									            <span class="separator"></span>
+									            <button rm-id="save-device-name" class="save">Change</button>
+									    </td>
+									</tr>
+									<tr>
+										<td class="gap"></td>
+									</tr>
+									<tr>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Imperial</span>
+									            <div rm-id="weather-name" class="bold">Units</div>
+									            <span class="separator"></span>
+										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">Imperial
+										        <span class="separator"></span>
+										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox">Metric
+									            <span class="separator"></span>
 
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">not set</span>
+									            <div rm-id="weather-name" class="bold">Admin Password</div>
+									            <span class="separator"></span>
+									            <input type="password" rm-id="remote-admin-password" placeholder="Password" class="typeText"/>
+									            <span class="separator"></span>
+									            <button rm-id="save-admin-password" class="save">Change</button>
+									    </td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									            <div rm-id="weather-name" class="bold">Reset to Defaults</div>
+									            <span class="separator"></span>
+									            Reset Nicu-SPK3 device to factory defaults.
+									            <span class="separator"></span>
+									            <button rm-id="reset-to-default" class="stop">Reset</button>
+									    </td>
+									</tr>
+								</table>
+							</div>
 						</div>
 						<div id="about" style="display: none;">
 

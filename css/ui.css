@@ -352,6 +352,9 @@ input.typeNumber {
 }
 .listItemSettings {
     background-color: #f9f9f9;
+    width:25%;
+    min-width: 263px;
+    line-height: 24px;
 }
 
 .inactive {
@@ -399,7 +402,7 @@ input.typeNumber {
     border-bottom: 0px;
 }
 .gap {
-    width: 5%;
+    width: 1%;
     border-bottom: 0px;
 }
 .cardTitle {
