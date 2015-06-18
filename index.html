@@ -161,42 +161,14 @@
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
             <br><hr><br>
             <div style="margin-bottom: 20px;">
-                <span class="right">Seconds: <input type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
-                <span class="left">Minutes: <input type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
+                <span class="right">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
+                <span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
             <button rm-id="zone-start" class="save full">Start</button>
+			<button rm-id="zone-stop" class="stop full">Stop</button>
         </div>
         <!-- Template for Zone Card (End) -->
-
-        <!-- Template for Zone Run (Begin) -->
-        <div class="zoneSquare" id="zone-run-template">
-            <h1 rm-id="zone-name-run">Zone Name</h1>
-            <hr>
-            <div class="plus"><button class="circle">+</button></div>
-            <div class="points">&nbsp;</div>
-            <div class="minus" style=""><button class="circle">+</button></div>
-            <br>
-            <div class="plus"><span class="size64">05</span></div>
-            <div class="points"><span class="size64">:</span></div>
-            <div class="minus"><span class="size64">00</span></div>
-            <br>
-            <div class="plus"><span class="size14">minutes</span></div>
-            <div class="points">&nbsp;</div>
-            <div class="minus"<span class="size14">seconds</span></div>
-            <br><br>
-            <div class="plus"><button class="circle">-</button></div>
-            <div class="points">&nbsp;</div>
-            <div class="minus"><button class="circle">-</button></div>
-            <br><hr><br>
-            <span class="save">Start</span>
-            <div rm-id="zone-status">
-                <span class="start">Start &#9656;</span><br>
-                <span class="pending">Pending &#10072;&#10072;</span><br>
-                <span class="restriction">Restriction &#10005;</span><br>
-            </div>
-        </div>
-        <!-- Teplate for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template" class="programEdit">

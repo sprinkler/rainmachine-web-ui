@@ -17,12 +17,17 @@ var settingsSubmenus = [
     	{ name: "Software Updates", func: _genericSubMenu, 					container: '#softwareUpdate' }
 	];
 
-
 var dashboardSubmenus = [
     	{ name: "Daily", 		func: _genericSubMenu,		container: null },
         { name: "Weekly", 		func: _genericSubMenu,		container: null },
         { name: "Yearly",  		func: _genericSubMenu,		container: null }
       ];
+
+
+var zonesSubmenus = [
+		{ name: "Stop All",		func: stopAllWatering,		container: null }
+];
+
 
 function buildSubMenu(submenus, category, parentTag)
 {
@@ -124,6 +129,65 @@ function showZoneSettings(zone)
 	zoneSettingsDiv.appendChild(zoneTemplate);
 }
 
+// Set zone running/pending/idle status
+function setZoneState(id, state)
+{
+	var zoneDiv = $(id);
+    var statusElem = $(zoneDiv, '[rm-id="zone-status"]');
+    var startElem = $(zoneDiv, '[rm-id="zone-start"]');
+    var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
+
+    switch (state)
+    {
+    	case 1: //running
+    		statusElem.className = "zoneRunning";
+            makeHidden(startElem)
+    		makeVisible(stopElem);
+			break;
+    	case 2: //pending running
+    		statusElem.className = "zonePending";
+            makeHidden(startElem)
+    		makeVisible(stopElem);
+    		break;
+    	default: //idle
+			statusElem.className = "zoneIdle";
+			makeHidden(stopElem);
+			makeVisible(startElem);
+			break;
+    }
+}
+
+function updateZoneTimer(id, seconds)
+{
+	var zoneDiv = $(id);
+    var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
+    var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
+
+
+    var m = (seconds / 60) >> 0;
+    var s = (seconds % 60) >> 0;
+
+    console.log("Seconds: %d - %d:%d", seconds, m, s);
+
+    minutesElem.value = m;
+    secondsElem.value = s;
+}
+
+function startZone(uid)
+{
+	console.log("Starting Zone %d", uid);
+}
+
+function stopZone(uid)
+{
+	console.log("Stopping Zone %d", uid);
+}
+
+function stopAllWatering()
+{
+	console.log("Stop All Watering");
+}
+
 function showZones()
 {
 	var zoneData = API.getZones();
@@ -141,9 +205,10 @@ function showZones()
 		var template = loadTemplate("zone-entry");
 		var nameElem = template.querySelector('div[rm-id="zone-name"]');
 		var startElem = template.querySelector('button[rm-id="zone-start"]');
+		var stopElem = template.querySelector('button[rm-id="zone-stop"]');
 		var editElem = template.querySelector('button[rm-id="zone-edit"]');
 		var typeElem = template.querySelector('div[rm-id="zone-info"]');
-		var statusElem = $(template, '[rm-id="zone-status"]');
+
 
 		template.id = "zone-" + z.uid;
 		template.data = za;
@@ -151,23 +216,16 @@ function showZones()
 		if (! za.active)
 			template.className += " inactive";
 
-		if (z.state == 0)
-			statusElem.className = "zoneIdle";
-
-		if (z.state == 1)
-			statusElem.className = "zonePending";
-
-		if (z.state == 2)
-			statusElem.className = "zoneRunning";
-
-
 		nameElem.innerHTML = z.name;
 		typeElem.innerHTML = zoneTypeToString(z.type);
-		startElem.onclick = function() { console.log("Starting Zone %d", this.parentNode.data.uid); };
+		startElem.onclick = function() { startZone(this.parentNode.data.uid); };
+		stopElem.onclick = function() { stopZone(this.parentNode.data.uid); };
 		editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
 
 		zonesDiv.appendChild(template);
 
+		setZoneState("#" + template.id, z.state);
+		updateZoneTimer("#" + template.id, z.remaining);
 	}
 }
 
@@ -265,6 +323,7 @@ function uiStart()
 
 	buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 	buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
+	buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
 
 	dashboardBtn.setAttribute("selected", true);
 

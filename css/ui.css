@@ -163,6 +163,8 @@ h1 {
     border: 1px solid transparent;
     border-radius: 5px;
 }
+
+
 .save {
     background-color: #00B25C;
 }
@@ -172,6 +174,11 @@ h1 {
 .stop {
     background-color: #FF0000;
 }
+
+.pending {
+
+}
+
 .save:hover {
     color: #00B25C; 
     background-color: transparent; 
@@ -193,7 +200,7 @@ h1 {
 .start {
     color: #00B25C;
 }
-.pending, .edittxt {
+.edittxt {
     color: #FF9700;
 }
 .restriction {
@@ -270,23 +277,6 @@ input.typeNumber {
     width: 240px;
 }
 
-.plus, .minus {
-    text-align: center;
-    width: 90px;
-    display:inline-block;
-}
-.points {
-    text-align: center; 
-    width: 15px;
-    display:inline-block;
-}
-.size64 {
-    font-size: 64px;
-}
-.size14 {
-    font-size: 14px;
-}
-
 /*small devices images*/
 .spks {
     width:68px;
@@ -303,7 +293,7 @@ input.typeNumber {
 }
 
 /*zone, programs squares*/
-.zoneSquare, .listItem {
+.listItem {
     display: inline-block;
     vertical-align: top;
     background-color: #fff;
@@ -363,7 +353,7 @@ input.typeNumber {
     width: 48.5%;
     float:left;
 }
-.zoneSquare h1, .cardTitle {
+.cardTitle {
     color:#666;
     font-size:16px;
     text-align: left;
@@ -390,7 +380,7 @@ td {
     border-bottom: 1px solid #ddd;
 }
 
-.zoneSquare hr, .listItem hr {
+.listItem hr {
     height:1px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
