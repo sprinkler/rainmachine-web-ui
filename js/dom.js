@@ -99,7 +99,7 @@ function setSelectOption(e, str)
 		if (str.trim() === o[i].text.trim())
 		{
 			o[i].selected = true;
-			e.onchange(); //Call the onchange() function
+			//e.onchange(); //Call the onchange() function
 			return true;
 		}
 	}

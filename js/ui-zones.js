@@ -43,11 +43,13 @@ function showZoneSettings(zone)
 
 	zoneTemplate.id = "zone-settings-" + zone.uid;
 	zoneNameElem.value = zone.name;
-	console.log(zone.name)
 	zoneActiveElem.checked = zone.active;
 	zoneForecastElem.checked = zone.internet;
 	zoneHistoricalElem.checked = zone.history;
 
+	//Select the option in Vegetation select
+	var strType = zoneTypeToString(zone.type);
+	setSelectOption(zoneVegetationElem, strType);
 
 	$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){ closeZoneSettings(); };
 	$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){ saveZone(zone.uid); };
@@ -182,6 +184,7 @@ function saveZone(uid)
     zoneProperties.active = zoneActiveElem.checked;
     zoneProperties.internet = zoneForecastElem.checked;
     zoneProperties.history = zoneHistoricalElem.checked;
+    zoneProperties.type = parseInt(zoneVegetationElem.options[zoneVegetationElem.selectedIndex].value);
 
     if (uid == 1)
     	zoneProperties.master = zoneMasterValveElem.checked;
