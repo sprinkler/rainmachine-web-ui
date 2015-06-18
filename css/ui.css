@@ -197,8 +197,8 @@ h1 {
     border: 1px solid #FF0000;
     cursor: pointer;
 }
-.start {
-    color: #00B25C;
+.start, td.saved {
+    color: #3399cc;
 }
 .edittxt {
     color: #FF9700;
@@ -333,7 +333,7 @@ input.typeNumber {
     to   {-webkit-transform: rotate(359deg);}
 }
 
-.programEdit {
+.programEdit, .settingsBlock {
     display: inline-block;
     background-color: #fff;
     padding: 25px;
@@ -354,9 +354,13 @@ input.typeNumber {
     float:left;
 }
 .cardTitle {
-    color:#666;
     font-size:16px;
     text-align: left;
+    max-width: 230px;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+
 }
 .cardSubtitle {
     color:#999;
@@ -378,6 +382,14 @@ td {
     padding-bottom: 10px;
     padding-left: 0px;
     border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+td.middle {
+    vertical-align: middle;
+}
+
+td.right {
+    text-align: right;
 }
 
 .listItem hr {
