@@ -53,6 +53,10 @@ body {
 h1 {
     font: 24px normal Arial, sans-serif;
 }
+.content {
+    width: 98%;
+    margin: 0 auto;
+}
 .content h1 {
     padding-left: 10px;
     margin-bottom: 10px;
@@ -300,7 +304,7 @@ input.typeNumber {
     padding: 25px;
     border-bottom: 1px solid #ddd;
     border-radius: 5px;
-    width: 260px;
+    width: 263px;
     text-align: left;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -339,9 +343,7 @@ input.typeNumber {
     border: 1px solid #ddd;
     border-bottom: 2px solid #ddd;
     border-radius: 5px;
-    width: 90%;
     text-align: left;
-    margin: 0 auto;
     margin-top: 60px;
     margin-bottom: 20px;
 }
