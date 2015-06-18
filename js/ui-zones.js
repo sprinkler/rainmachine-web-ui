@@ -144,6 +144,7 @@ function startZone(uid)
 
 function stopZone(uid)
 {
+	console.log("Stop zone %d", uid);
 	API.stopZone(uid);
 	showZones();
 }
@@ -151,6 +152,8 @@ function stopZone(uid)
 function stopAllWatering()
 {
 	console.log("Stop All Watering");
+	API.stopAll();
+    showZones();
 }
 
 function closeZoneSettings()
