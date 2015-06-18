@@ -153,47 +153,75 @@
 						</div>
 
 						<div id="restrictions" style="display: none;">
-							<div id="restrictionsHotDays">
-								<div>Hot Days(Allow extra watering)</div>
-								<div><input type="checkbox" id="restrictionsHotDaysEnable"/></div>
-							</div>
-							<div id="restrictionsFreezeProtect">
-								<div>Freeze Protect</div>
-								<div><input type="checkbox" id="restrictionsFreezeProtectEnable"/></div>
-								<div>
-									<select id="restrictionsFreezeProtectValue">
-										<option value="0">0 &deg; C</option>
-										<option value="2" selected>2 &deg; C</option>
-										<option value="5">5 &deg; C</option>
-										<option value="10">10 &deg; C</option>
-									</select>
-								</div>
-								<div>
-									January <input type="checkbox" id="restrictionsJanuary"/>
-									February <input type="checkbox" id="restrictionsFebruary"/>
-									March <input type="checkbox" id="restrictionsMarch"/>
-									April <input type="checkbox" id="restrictionsApril"/>
-									May <input type="checkbox" id="restrictionsMay"/>
-									June <input type="checkbox" id="restrictionsJune"/>
-									July <input type="checkbox" id="restrictionsJuly"/>
-									August <input type="checkbox" id="restrictionsAugust"/>
-									September <input type="checkbox" id="restrictionsSeptember"/>
-									October <input type="checkbox" id="restrictionsOctober"/>
-									November <input type="checkbox" id="restrictionsNovember"/>
-									December <input type="checkbox" id="restrictionsDecember"/>
-								</div>
-								<div>
-									Monday <input type="checkbox" id="restrictionsMonday"/>
-									Tuesday <input type="checkbox" id="restrictionsTuesday"/>
-									Wednesday <input type="checkbox" id="restrictionsWednesday"/>
-									Thursday <input type="checkbox" id="restrictionsThursday"/>
-									Friday <input type="checkbox" id="restrictionsFriday"/>
-									Saturday <input type="checkbox" id="restrictionsSaturday"/>
-									Sunday <input type="checkbox" id="restrictionsSunday"/>
-								</div>
-								<div id="restrictionsHourly">
+							<div class="settingsBlock center">
+									<table cellspacing="0" cellpadding="0" class="full">
+									  	<tr>
+									    	<th><h1 class="title">Restrictions</h1></th>
+									  	</tr>
+									  	<tr>
+									  	<td class="middle">
+											<div id="restrictionsHotDays">
+												<input type="checkbox" id="restrictionsHotDaysEnable" class="right" />
+												<span class="cardTitle bold">Hot Days</span><br>
+												<span class="cardSubtitle">Allow extra watering</span>												
+											</div>
+										</td>
+										</tr>
+										<tr>
+										<td class="middle setSelection">
+											<div id="restrictionsFreezeProtect">
+												<!-- <input type="checkbox" id="restrictionsFreezeProtectEnable" class="right" /> -->
+												<select id="restrictionsFreezeProtectValue" class="right">
+													<option value="0">0 &deg; C</option>
+													<option value="2" selected>2 &deg; C</option>
+													<option value="5">5 &deg; C</option>
+													<option value="10">10 &deg; C</option>
+												</select>
+												<span class="cardTitle bold">Freeze Protect</span><br>
+												<span class="cardSubtitle">Do not water under this outside temperature</span>															
+											</div>
+										</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<span class="cardTitle bold">Months</span>
+												<br>
+												<span class="cardSubtitle">Select the months of the year when all the watering activities won't start</span>
+												<br><br>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsJanuary" class="right"/>January</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsFebruary" class="right"/>February</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsMarch" class="right"/>March</div>							
+												<div class="restrictionList"><input type="checkbox" id="restrictionsApril" class="right"/>April</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsMay" class="right"/>May</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsJune" class="right"/>June</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsJuly" class="right"/>July</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsAugust" class="right"/>August</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsSeptember" class="right"/>September</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsOctober" class="right"/>October</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsNovember" class="right"/>November</div> 
+												<div class="restrictionList noborder"><input type="checkbox" id="restrictionsDecember" class="right"/>December</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="cardTitle bold">Weekdays</span>
+												<br>
+												<span class="cardSubtitle">Select the weekdays when all the watering activities won't start</span>
+												<br><br>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsMonday" class="right"/>Monday</div> 
+												<div class="restrictionList"><input type="checkbox" id="restrictionsTuesday" class="right"/>Tuesday</div> 
+												<div class="restrictionList"><input type="checkbox" id="restrictionsWednesday" class="right"/>Wednesday</div> 
+												<div class="restrictionList"><input type="checkbox" id="restrictionsThursday" class="right"/>Thursday</div>
+												<div class="restrictionList"><input type="checkbox" id="restrictionsFriday" class="right"/>Friday</div> 
+												<div class="restrictionList"><input type="checkbox" id="restrictionsSaturday" class="right"/>Saturday</div> 
+												<div class="restrictionList noborder"><input type="checkbox" id="restrictionsSunday" class="right"/>Sunday</div> 
 
-								</div>
+												<div id="restrictionsHourly">
+
+												</div>
+											</td>
+										</tr>
+								</table>
 							</div>
 						</div>
 
@@ -218,9 +246,16 @@
 									    	<div id="weatherRainSensitivity">
 									            <div rm-id="weather-name" class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
-									            <span style="display:block;text-align:center;"><span style="font-size:44px;">90%</span><br>
-									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="80"><button rm-id="save-rain-sensitivity" class="start">Save</button></span>
+									            <input type="range" min="0" max="100" value="80" id="faderRain" step="1" oninput="outputUpdateRain(value)" width="100%">
 									            <span class="separator"></span>
+													<output for=faderRain id=rainsensitivity style="display:block;font-size:64px;text-align:center;color:#39c;">80</output>
+													<script>
+													function outputUpdateRain(rainsensitivity) {
+													document.querySelector('#rainsensitivity').value = rainsensitivity;
+													}
+													</script>
+									           
+									            <div align="center"><button rm-id="save-rain-sensitivity" class="set full">Save</button></span></div>
 									        </div>
 									    </td>
 									    <td class="gap">&nbsp;</td>
@@ -228,9 +263,16 @@
 									    	<div id="weatherWindSensitivity">
 									            <div rm-id="weather-name" class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
-									            <span style="display:block;text-align:center;"><span style="font-size:44px;">33%</span><br>
-									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="50"><button rm-id="save-wind-sensitivity" class="start">Save</button></span>
+									            <input type="range" min="0" max="100" value="50" id="faderWind" step="1" oninput="outputUpdateWind(value)" width="100%">
 									            <span class="separator"></span>
+													<output for=faderWind id=windsensitivity style="display:block;font-size:64px;text-align:center;color:#39c;">50</output>
+													<script>
+													function outputUpdateWind(windsensitivity) {
+													document.querySelector('#windsensitivity').value = windsensitivity;
+													}
+													</script>
+									           
+									            <div align="center"><button rm-id="save-wind-sensitivity" class="set full">Save</button></span></div>
 									        </div>
 	        							</td>
 									  </tr>
@@ -258,7 +300,7 @@
 									    		<span class="subtitle right">LinuxConsulting</span>
 									            <div rm-id="weather-name" class="bold">Network Settings</div>
 									            <span class="separator"></span>
-									            <span class="start">Connected</span> <!-- <span class="restriction">Not Connected</span> -->
+									            <span class="green">Connected</span> <!-- <span class="restriction">Not Connected</span> -->
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
@@ -320,7 +362,7 @@
 									    		<span class="subtitle right">Imperial</span>
 									            <div rm-id="weather-name" class="bold">Units</div>
 									            <span class="separator"></span>
-										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">Imperial
+										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">US
 										        <span class="separator"></span>
 										        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox">Metric
 									            <span class="separator"></span>
