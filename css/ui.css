@@ -217,6 +217,9 @@ h1 {
 .restriction {
     color: #FF0000;
 }
+.green {
+    color: #00B25C; 
+}
 .separator {
      margin-top:5px;
      margin-bottom:5px;
