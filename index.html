@@ -69,7 +69,7 @@
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  <tr>
-								    <th colspan="6"><h1>7 Days Waterinh History</h1></th>
+								    <th colspan="6"><h1>7 Days Watering History</h1></th>
 								  </tr>
 								  <tr>
 								    <td><span class="cardTitle left">Date</span></td>
@@ -244,17 +244,22 @@
 
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template" class="programEdit">
-            <div class="center">
-                <button class="edit left" rm-id="zone-cancel">Cancel</button>
-                 <button class="save right" rm-id="zone-save">Save</button>
-            </div>
-            <table width="100%" cellpadding="0" cellspacing="0">
+            <table class="full" cellpadding="0" cellspacing="0">
                 <tbody>
-                <tr rm-id="zone-master-valve-option"><td>Master Valve:</td><td><input type="checkbox" rm-id="zone-master-valve"/></td></tr>
-                <tr><td colspan="2"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td></tr>
+                <tr>
+                	<td class="center" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
+                </tr>
+                <tr rm-id="zone-master-valve-option">
+	                <td width="15%">Master Valve:</td>
+	                <td><input type="checkbox" rm-id="zone-master-valve"/></td>
+                </tr>
+                <tr>
+                	<td>Name:</td>
+                	<td colspan="2"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
+                </tr>
                 <tr><td>Active:</td><td><input type="checkbox" rm-id="zone-active"/></td></tr>
                 <tr><td>Vegetation Type:</td>
-                    <td>
+                    <td class="setSelection">
                         <select rm-id="zone-vegetation-type">
                             <option value="1">Other</option>
                             <option value="2" selected>Lawn</option>
@@ -300,11 +305,11 @@
 									<tr><td class="cardTitle">Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
 									<tr>
 										<td colspan="2">
-										<span class="cardTitle">Frequency:</span>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+										<span class="cardTitle">Frequency:</span><br><br>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
+										<div class="setSelection"><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
 											<select rm-id="program-frequency-every-param">
 												<option value="2" selected>2 days</option>
 												<option value="3">3 day</option>
@@ -320,7 +325,7 @@
 												<option value="13">13 day</option>
 												<option value="14">14 day</option>
 											</select>
-										</div>
+										</div><br>
 										<div><input type="radio" name="program-frequency" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
 										</td>
 									</tr>

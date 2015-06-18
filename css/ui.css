@@ -221,7 +221,12 @@ input.typeText {
     font-size: 16px;
     width: 100%;
 }
-input.typeCheckbox {
+input.Checkbox {
+    border: 1px solid #eee;
+    padding: 15px;
+    font-size: 16px;
+}
+input.typeRadio {
     border: 1px solid #eee;
     padding: 15px;
     font-size: 16px;
@@ -233,6 +238,18 @@ input.typeNumber {
     padding: 5px 0px 5px 5px;
     font-size: 16px;
     width: 60px;
+}
+.setSelection select {
+   background: url('../images/arrow.png') no-repeat;
+   background-position:right center;
+   width: 140px;
+   padding: 10px;
+   font-size: 15px;
+   line-height: 1;
+   border: 1px solid #ddd;
+   border-radius: 0px;
+   height:44px;
+   -webkit-appearance: none;
 }
 
 .circle {
