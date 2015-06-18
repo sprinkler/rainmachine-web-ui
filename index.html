@@ -10,6 +10,7 @@
 	<script src="js/graphs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui-programs.js"></script>
+	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
 </head>
 <body>
@@ -65,7 +66,7 @@
 						</div>
 
 						<div id="wateringHistory">
-							<div class="settingsBlock">
+							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  <tr>
 								    <th colspan="6"><h1>7 Days Waterinh History</h1></th>
@@ -284,84 +285,89 @@
 
 		<!-- Template for Program Settings (Begin) -->
 		<div id="program-settings-template" class="programEdit">
-			<div class="wateringTimes">
-				<table cellpadding="0" cellspacing="0"  width="100%" rm-id="program-settings-zone-template-container">
-					<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-				</table>
-			</div>
-			<div class="programProperties">
-				<div class="center">
-					<button class="edit left" rm-id="program-cancel">Cancel</button>
-					<button class="stop" rm-id="program-delete">Delete</button>
-					<button class="save right" rm-id="program-save">Save</button>
-				</div>
-				<table width="100%" cellpadding="0" cellspacing="0">
-					<tbody>
-					<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
-					<tr><td class="cardTitle">Active:</td><td><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
-					<tr><td class="cardTitle">Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+				<table cellspacing="0" cellpadding="0" class="full">
 					<tr>
-						<td colspan="2">
-						<span class="cardTitle">Frequency:</span>
-						<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
-						<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
-						<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div>
-						<div><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-							<select rm-id="program-frequency-every-param">
-								<option value="2" selected>2 days</option>
-								<option value="3">3 day</option>
-								<option value="4">4 day</option>
-								<option value="5">5 day</option>
-								<option value="6">6 day</option>
-								<option value="7">7 day</option>
-								<option value="8">8 day</option>
-								<option value="9">9 day</option>
-								<option value="10">10 day</option>
-								<option value="11">11 day</option>
-								<option value="12">12 day</option>
-								<option value="13">13 day</option>
-								<option value="14">14 day</option>
-							</select>
-						</div>
-						<div><input type="radio" name="program-frequency" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
-						</td>
-					</tr>
-					<tr>
-						<td class="cardTitle">Start time:</td>
-						<td>
-							<span rm-id="program-start-time" class="right">
-								<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-								:
-								<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-							</span>
-						</td>
-					</tr>
-					<tr><td class="cardTitle">Next run:</td><td><span rm-id="program-next-run" class="right">06:00</span></td></tr>
-					<tr>
-						<td>
-							<span class="cardTitle">Cycles &amp Soak:</span><br/>
-							<span class="cardSubtitle">
-								<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
-							</span>
-						</td>
-						<td class="right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
-					</tr>
-					<tr>
-						<td>
-							<span class="cardTitle">Delay between zones</span><br/>
-							<span class="cardSubtitle">
-								<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-								:
-								<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-							</span>
-						</td>
-						<td><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
+							<td class="programProperties">
+								<div class="center">
+									<button class="edit left" rm-id="program-cancel">Cancel</button>
+									<button class="stop" rm-id="program-delete">Delete</button>
+									<button class="save right" rm-id="program-save">Save</button>
+								</div>
+								<table width="100%" cellpadding="0" cellspacing="0">
+									<tbody>
+									<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
+									<tr><td class="cardTitle">Active:</td><td><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+									<tr><td class="cardTitle">Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+									<tr>
+										<td colspan="2">
+										<span class="cardTitle">Frequency:</span>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+											<select rm-id="program-frequency-every-param">
+												<option value="2" selected>2 days</option>
+												<option value="3">3 day</option>
+												<option value="4">4 day</option>
+												<option value="5">5 day</option>
+												<option value="6">6 day</option>
+												<option value="7">7 day</option>
+												<option value="8">8 day</option>
+												<option value="9">9 day</option>
+												<option value="10">10 day</option>
+												<option value="11">11 day</option>
+												<option value="12">12 day</option>
+												<option value="13">13 day</option>
+												<option value="14">14 day</option>
+											</select>
+										</div>
+										<div><input type="radio" name="program-frequency" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle">Start time:</td>
+										<td>
+											<span rm-id="program-start-time" class="right">
+												<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+												:
+												<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+											</span>
+										</td>
+									</tr>
+									<tr><td class="cardTitle">Next run:</td><td><span rm-id="program-next-run" class="right">06:00</span></td></tr>
+									<tr>
+										<td>
+											<span class="cardTitle">Cycles &amp Soak:</span><br/>
+											<span class="cardSubtitle">
+												<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
+											</span>
+										</td>
+										<td class="right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
+									</tr>
+									<tr>
+										<td>
+											<span class="cardTitle">Delay between zones</span><br/>
+											<span class="cardSubtitle">
+												<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+												:
+												<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+											</span>
+										</td>
+										<td><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+									</tr>
+									</tbody>
+								</table>
+							</td>
+							<td class="gap">&nbsp;</td>
+							<td class="wateringTimes">
+								<table cellpadding="0" cellspacing="0"  width="100%" rm-id="program-settings-zone-template-container">
+									<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
 			
 		</div>
 		
