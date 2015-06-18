@@ -111,6 +111,7 @@ function showZoneSettings(zone)
 	if (zone.uid != 1)
 		makeHidden(zoneMasterValveContainerElem);
 
+	zoneTemplate.id = "zone-settings-" + zone.uid;
 	zoneNameElem.value = zone.name;
 	console.log(zone.name)
 	zoneActiveElem.checked = zone.active;
@@ -118,14 +119,8 @@ function showZoneSettings(zone)
 	zoneHistoricalElem.checked = zone.history;
 
 
-	$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){
-		clearTag(zoneSettingsDiv);
-		makeVisible('#zonesList');
-		currentZoneProperties = null;
-	};
-	$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){
-		console.log("Saving zone properties");
-	};
+	$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){ closeZoneSettings(); };
+	$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){ saveZone(zone.uid); };
 	zoneSettingsDiv.appendChild(zoneTemplate);
 }
 
@@ -186,6 +181,47 @@ function stopZone(uid)
 function stopAllWatering()
 {
 	console.log("Stop All Watering");
+}
+
+function closeZoneSettings()
+{
+	var zoneSettingsDiv = $('#zoneSettings');
+	clearTag(zoneSettingsDiv);
+	makeVisible('#zonesList');
+	currentZoneProperties = null;
+}
+
+function saveZone(uid)
+{
+	var zoneSettingsDiv = $('#zone-settings-' + uid);
+	var zoneProperties = {}
+
+	if (zoneSettingsDiv === undefined || zoneSettingsDiv === null)
+	{
+		console.log("Cannot find zone settings div for zone %d", uid);
+		return;
+	}
+
+	var zoneMasterValveElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve"]');
+    var zoneNameElem = $(zoneSettingsDiv, '[rm-id="zone-name"]');
+    var zoneActiveElem = $(zoneSettingsDiv, '[rm-id="zone-active"]');
+    var zoneVegetationElem = $(zoneSettingsDiv, '[rm-id="zone-vegetation-type"]');
+    var zoneForecastElem = $(zoneSettingsDiv, '[rm-id="zone-forecast-data"]');
+    var zoneHistoricalElem = $(zoneSettingsDiv, '[rm-id="zone-historical-averages"]');
+
+    zoneProperties.uid = uid;
+    zoneProperties.name = zoneNameElem.value;
+    zoneProperties.active = zoneActiveElem.checked;
+    zoneProperties.internet = zoneForecastElem.checked;
+    zoneProperties.history = zoneHistoricalElem.checked;
+
+    if (uid == 1)
+    	zoneProperties.master = zoneMasterValveElem.checked;
+
+    console.log("Saving zone %d with properties: %o", uid, zoneProperties);
+    API.setZonesProperties(uid, zoneProperties, null);
+    closeZoneSettings();
+    showZones();
 }
 
 function showZones()
