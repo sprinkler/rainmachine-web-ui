@@ -166,7 +166,7 @@ h1 {
 
 
 /*buttons*/
-.save, .edit, .stop, .set {
+.save, .edit, .stop, .set, .default {
     display:inline;
     text-align: center;
     color: #fff;
@@ -187,6 +187,9 @@ h1 {
 }
 .set {
     background-color: #3399cc;
+}
+.default{
+    background-color: #ccc;
 }
 
 .pending {
@@ -215,6 +218,13 @@ h1 {
     color: #3399cc; 
     background-color: transparent; 
     border: 1px solid #3399cc;
+    cursor: pointer;
+
+}
+.default:hover {
+    color: #ccc; 
+    background-color: transparent; 
+    border: 1px solid #ccc;
     cursor: pointer;
 
 }
