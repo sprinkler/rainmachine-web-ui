@@ -71,7 +71,6 @@ function zoneTypeToString(type)
 {
 	switch (type)
 	{
-
 		case 2:
 			return "Lawn";
 		case 3:
@@ -125,12 +124,24 @@ function showZoneSettings(zone)
 }
 
 // Set zone running/pending/idle status
-function setZoneState(id, state)
+
+function setZoneState(uid, state, remaining)
 {
-	var zoneDiv = $(id);
+	var zoneDiv = $("#zone-" + uid);
+
+	if (zoneDiv === undefined || zoneDiv === null)
+	{
+		console.log("Zone State: Cannot find zone %d", uid);
+		return -2;
+	}
+
     var statusElem = $(zoneDiv, '[rm-id="zone-status"]');
     var startElem = $(zoneDiv, '[rm-id="zone-start"]');
     var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
+
+    // API keeps state 2 pending but can have remaining 0 if it was stopped
+    if (remaining <= 0 && state == 2)
+    	state = 0;
 
     switch (state)
     {
@@ -152,9 +163,16 @@ function setZoneState(id, state)
     }
 }
 
-function updateZoneTimer(id, seconds)
+function updateZoneTimer(uid, seconds)
 {
-	var zoneDiv = $(id);
+	var zoneDiv = $("#zone-" + uid);
+
+	if (zoneDiv === undefined || zoneDiv === null)
+	{
+		console.log("Zone Timer: Cannot find zone %d", uid);
+		return -2;
+	}
+
     var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
     var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
 
@@ -170,12 +188,31 @@ function updateZoneTimer(id, seconds)
 
 function startZone(uid)
 {
-	console.log("Starting Zone %d", uid);
+	var zoneDiv = $("#zone-" + uid);
+
+	if (zoneDiv === undefined || zoneDiv === null)
+	{
+		console.log("Zone Start: Cannot find zone %d", uid);
+		return -2;
+	}
+
+	var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
+	var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
+
+    try {
+    	var duration = parseInt(minutesElem.value) * 60 + parseInt(secondsElem.value);
+    	API.startZone(uid, duration);
+    } catch(e) {
+    	console.log("Cannot start zone %d with duration %d", uid, duration);
+    }
+
+    showZones();
 }
 
 function stopZone(uid)
 {
-	console.log("Stopping Zone %d", uid);
+	API.stopZone(uid);
+	showZones();
 }
 
 function stopAllWatering()
@@ -199,7 +236,7 @@ function saveZone(uid)
 	if (zoneSettingsDiv === undefined || zoneSettingsDiv === null)
 	{
 		console.log("Cannot find zone settings div for zone %d", uid);
-		return;
+		return -2;
 	}
 
 	var zoneMasterValveElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve"]');
@@ -260,8 +297,8 @@ function showZones()
 
 		zonesDiv.appendChild(template);
 
-		setZoneState("#" + template.id, z.state);
-		updateZoneTimer("#" + template.id, z.remaining);
+		setZoneState(z.uid, z.state, z.remaining);
+		updateZoneTimer(z.uid, z.remaining);
 	}
 }
 
