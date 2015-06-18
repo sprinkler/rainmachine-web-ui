@@ -334,24 +334,28 @@ input.typeNumber {
 }
 
 .programEdit, .settingsBlock {
-    display: inline-block;
     background-color: #fff;
     padding: 25px;
     border: 1px solid #ddd;
     border-bottom: 2px solid #ddd;
     border-radius: 5px;
-    width: 86%;
+    width: 90%;
     text-align: left;
+    margin: 0 auto;
+    margin-top: 60px;
     margin-bottom: 20px;
-    margin-left: 10px;
 }
 .wateringTimes {
-    width: 48.5%;
-    float:right;
+    width: 44.5%;
+    border-bottom: 0px;
 }
 .programProperties {
-    width: 48.5%;
-    float:left;
+    width: 44.5%;
+    border-bottom: 0px;
+}
+.gap {
+    width: 5%;
+    border-bottom: 0px;
 }
 .cardTitle {
     font-size:16px;
