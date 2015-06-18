@@ -155,7 +155,8 @@ function stopAllWatering()
 
 function closeZoneSettings()
 {
-	var zoneSettingsDiv = $('#zoneSettings');
+	var zoneSettingsDiv = $('#zonesSettings');
+	console.log("Closing zone settings");
 	clearTag(zoneSettingsDiv);
 	makeVisible('#zonesList');
 	currentZoneProperties = null;
