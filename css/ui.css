@@ -217,6 +217,13 @@ h1 {
 .restriction {
     color: #FF0000;
 }
+.separator {
+     margin-top:5px;
+     margin-bottom:5px;
+     display:block;
+     height:1px;
+     background-color: #f0f0f0;
+}
 button {
     display: inline;
     background-color: transparent;
@@ -235,6 +242,7 @@ input[type="checkbox"] {
     width:25px;
     height:25px;
     border: 1px solid #ddd;
+    background-color: #fff;
 }
 input[type="checkbox"]:checked {
     background: url('../images/selected.png') no-repeat center;
@@ -329,7 +337,7 @@ input.typeNumber {
 }
 
 /*zone, programs squares*/
-.listItem {
+.listItem, .listItemSettings {
     display: inline-block;
     vertical-align: top;
     background-color: #fff;
@@ -341,6 +349,9 @@ input.typeNumber {
     margin-bottom: 10px;
     margin-right: 10px;
     min-height: 90px;
+}
+.listItemSettings {
+    background-color: #f9f9f9;
 }
 
 .inactive {

@@ -199,7 +199,39 @@
 
 						<div id="weather" style="display: none;">
 							<div id="weatherDataSources">
-
+								<div class="settingsBlock center">
+									<table cellspacing="0" cellpadding="0" class="center full">
+									  <tr>
+									    <th colspan="5"><h1 class="title">Weather</h1></th>
+									  </tr>
+									  <tr>
+									    <td class="listItemSettings">
+									            <div rm-id="weather-name" class="bold">Data Sources</div>
+									            <span class="separator"></span>
+									            <div style="height:35px;clear:both;font-size:16px;"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">NOAA</div>
+									            <span class="separator"></span>
+									            <div style="height:35px;clear:both;font-size:16px;"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">Met.no</div>
+									            <span class="separator"></span>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									            <div rm-id="weather-name" class="bold">Rain Sensitivity</div>
+									            <span class="separator"></span>
+									            <span style="display:block;text-align:center;"><span style="font-size:44px;">90%</span><br>
+									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="80"><button rm-id="save-rain-sensitivity" class="start">Save</button></span>
+									            <span class="separator"></span>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									            <div rm-id="weather-name" class="bold">Wind Sensitivity</div>
+									            <span class="separator"></span>
+									            <span style="display:block;text-align:center;"><span style="font-size:44px;">33%</span><br>
+									            Default: <input rm-id="wind-sensitivity" type="number" name="percent" min="0" max="100" class="typeNumber" placeholder="50"><button rm-id="save-wind-sensitivity" class="start">Save</button></span>
+									            <span class="separator"></span>
+	        							</td>
+									  </tr>
+									</table>
+								</div>
 							</div>
 							<div id="weatherRainSensitivity">
 
