@@ -247,19 +247,19 @@
             <table class="full" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr>
-                	<td class="center" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
+                	<td class="middle" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
                 </tr>
                 <tr rm-id="zone-master-valve-option">
-	                <td width="15%">Master Valve:</td>
-	                <td><input type="checkbox" rm-id="zone-master-valve"/></td>
+	                <td class="middle" width="15%">Master Valve:</td>
+	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
                 </tr>
                 <tr>
-                	<td>Name:</td>
-                	<td colspan="2"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
+                	<td class="middle">Name:</td>
+                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
                 </tr>
-                <tr><td>Active:</td><td><input type="checkbox" rm-id="zone-active"/></td></tr>
-                <tr><td>Vegetation Type:</td>
-                    <td class="setSelection">
+                <tr><td class="middle">Active:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
+                <tr><td class="middle">Vegetation Type:</td>
+                    <td class="middle setSelection">
                         <select rm-id="zone-vegetation-type">
                             <option value="1">Other</option>
                             <option value="2" selected>Lawn</option>
@@ -270,8 +270,8 @@
                             <option value="7">Trees and Bushes</option>
                         </select>
                 </td></tr>
-                <tr><td>Forecast Data:</td><td><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
-                <tr><td>Historical Averages:</td><td><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
+                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
                 </tbody>
             </table>
         </div>
@@ -301,8 +301,8 @@
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<tbody>
 									<tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
-									<tr><td class="cardTitle">Active:</td><td><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
-									<tr><td class="cardTitle">Wheather data:</td><td><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+									<tr><td class="cardTitle">Active:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+									<tr><td class="cardTitle">Wheather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
 									<tr>
 										<td colspan="2">
 										<span class="cardTitle">Frequency:</span><br><br>
@@ -330,7 +330,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="cardTitle">Start time:</td>
+										<td class="middle">
+											<span class="cardTitle">Start time:</span><br>
+											<span class="cardSubtitle">(hh:mm)</span>
+										</td>
 										<td>
 											<span rm-id="program-start-time" class="right">
 												<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
@@ -349,7 +352,7 @@
 												<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
 											</span>
 										</td>
-										<td class="right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
+										<td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
 									</tr>
 									<tr>
 										<td>
@@ -360,7 +363,7 @@
 												<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
 											</span>
 										</td>
-										<td><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+										<td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
 									</tr>
 									</tbody>
 								</table>
@@ -390,7 +393,7 @@
 							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
 						</span>
 					</td>
-					<td><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
+					<td class="middle"><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
 				</tr>
 			</table>
 		</div>

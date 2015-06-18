@@ -221,11 +221,19 @@ input.typeText {
     font-size: 16px;
     width: 100%;
 }
-input.Checkbox {
-    border: 1px solid #eee;
-    padding: 15px;
-    font-size: 16px;
+input[type="checkbox"] {
+    padding-left:5px;
+    padding-right:5px;
+     -webkit-appearance:button;
+    width:25px;
+    height:25px;
+    border: 1px solid #ddd;
 }
+input[type="checkbox"]:checked {
+    background: url('../images/selected.png') no-repeat center;
+    border: 1px solid #3399cc;
+}
+
 input.typeRadio {
     border: 1px solid #eee;
     padding: 15px;
