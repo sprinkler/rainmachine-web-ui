@@ -298,7 +298,13 @@ function showZones()
 		zonesDiv.appendChild(template);
 
 		setZoneState(z.uid, z.state, z.remaining);
-		updateZoneTimer(z.uid, z.remaining);
+
+		var seconds = z.remaining
+		//Not running show default minutes
+		if (z.state == 0)
+				seconds = provision.system.zoneDuration[z.uid - 1];
+
+		updateZoneTimer(z.uid, seconds);
 	}
 }
 
