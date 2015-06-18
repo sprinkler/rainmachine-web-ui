@@ -129,7 +129,7 @@ function makeVisible(tag)
     else { e = tag; }
 
 	e.style.display = "inline";
-	e.focus();
+	//e.focus();
 }
 
 function makeHidden(tag)
@@ -140,7 +140,7 @@ function makeHidden(tag)
     else { e = tag; }
 
 	e.style.display = "none";
-	e.focus() //focus back the game canvas
+	//e.focus() //focus back the game canvas
 }
 
 function addStyleSheet(name)
