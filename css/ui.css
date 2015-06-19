@@ -485,7 +485,7 @@ input.typeNumber {
     display: none;
 }
 
-.zoneRunning {
+.zoneRunning, .zonePending {
     font-family: RainMachine;
     font-size: 32px;
     white-space: nowrap;
@@ -495,11 +495,13 @@ input.typeNumber {
     width:32px;
     margin-right: 3px;
     color: #0099ff;
-    -webkit-animation: rotation 2s infinite linear;
-    animation: rotate 2s infinite linear;
+    /*-webkit-animation: rotation 2s infinite linear;
+    animation: rotate 2s infinite linear;*/
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
 }
 
-@-webkit-keyframes rotation {
+/*@-webkit-keyframes rotation {
     from {-webkit-transform: rotate(0deg);}
     to   {-webkit-transform: rotate(359deg);}
 }
@@ -511,18 +513,25 @@ input.typeNumber {
   100% {
     transform: rotate(360deg);
   }
+}*/
+
+@keyframes pulsate {
+    0% {
+      transform: scale(.1);
+      opacity: 0.0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
 }
 
 .zonePending {
-    font-family: RainMachine;
-    font-size: 32px;
-    white-space: nowrap;
-    cursor: default;
-    display: block;
-    float:left;
-    width:32px;
-    margin-right: 3px;
     color: #00B25C;
+    animation: none;
 }
 
 
