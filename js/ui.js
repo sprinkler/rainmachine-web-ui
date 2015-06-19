@@ -97,7 +97,20 @@ function showWeather()
         weatherSourcesDiv.appendChild(template);
 	}
 
+	//Rain, Wind, Days sensitivity
+	var rs = provision.location.rainSensitivity;
+	var ws = provision.location.windSensitivity;
+	var fc = provision.location.wsDays;
 
+	var rsElem = $("#rainSensitivity");
+	var wsElem = $("#windSensitivity");
+
+	var rsSaveElem = $("#rainSensitivitySave");
+	var wsSaveElem = $("#windSensitivitySave");
+
+
+	rsSaveElem.onclick = function() { console.log("Rain Sensitivity: %f",  (+rsElem.value/100.0)); };
+	wsSaveElem.onclick = function() { console.log("Wind Sensitivity: %f",  (+wsElem.value/100.0)); }
 }
 
 function setWeatherSource(id, enabled)

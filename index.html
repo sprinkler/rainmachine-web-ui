@@ -240,41 +240,41 @@
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    	<div id="weatherRainSensitivity">
-									            <div rm-id="weather-name" class="bold">Rain Sensitivity</div>
+									    	<div>
+									            <div class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
-									            <input type="range" min="0" max="100" value="80" id="faderRain" step="1" oninput="outputUpdateRain(value)" width="100%">
+									            <input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
 									            <span class="separator"></span>
-													<output for=faderRain id=rainsensitivity style="display:block;font-size:64px;text-align:center;color:#39c;">80</output>
+													<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">80</output>
 													<script>
 													function outputUpdateRain(rainsensitivity) {
-													document.querySelector('#rainsensitivity').value = rainsensitivity;
+													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
 													}
 													</script>
 									           
 									            <div align="center">
-										            <button rm-id="save-rain-sensitivity" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button rm-id="default-rain-sensitivity" class="default left">Default</button>
+										            <button id="rainSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
+										            <button id="rainSensitivityDefault" class="default left">Default</button>
 									            </div>
 									        </div>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    	<div id="weatherWindSensitivity">
-									            <div rm-id="weather-name" class="bold">Wind Sensitivity</div>
+									    	<div>
+									            <div class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
-									            <input type="range" min="0" max="100" value="50" id="faderWind" step="1" oninput="outputUpdateWind(value)" width="100%">
+									            <input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
 									            <span class="separator"></span>
-													<output for=faderWind id=windsensitivity style="display:block;font-size:64px;text-align:center;color:#39c;">50</output>
+													<output for="windSensitivity" id="outputWindSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">50</output>
 													<script>
 													function outputUpdateWind(windsensitivity) {
-													document.querySelector('#windsensitivity').value = windsensitivity;
+													document.querySelector('#outputWindSensitivity').value = windsensitivity;
 													}
 													</script>
 									           
 									            <div align="center">
-										            <button rm-id="save-wind-sensitivity" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button rm-id="default-wind-sensitivity" class="default left">Default</button>
+										            <button id="windSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
+										            <button id="windSensitivityDefault" class="default left">Default</button>
 									            </div>
 									        </div>
 	        							</td>
