@@ -340,12 +340,18 @@ window.ui = window.ui || {};
 	//--------------------------------------------------------------------------------------------
 	//
 	//
+
+	function closeProgramSettings()
+	{
+		var programSettingsDiv = $('#programsSettings');
+		clearTag(programSettingsDiv);
+		makeVisible('#programsList');
+		selectedProgram = null;
+		uiElems = {};
+	}
+
     function onCancel() {
-        var programSettingsDiv = $('#programsSettings');
-        clearTag(programSettingsDiv);
-        makeVisible('#programsList');
-        selectedProgram = null;
-        uiElems = {};
+    	closeProgramSettings();
     }
 
     function onDelete() {
@@ -353,6 +359,8 @@ window.ui = window.ui || {};
             console.log("TODO: delete program ", selectedProgram.uid);
             API.deleteProgram(selectedProgram.uid);
         }
+        closeProgramSettings();
+        showPrograms();
     }
 
     function onSave() {
@@ -364,6 +372,9 @@ window.ui = window.ui || {};
         } else {
             API.newProgram(data);
         }
+
+        closeProgramSettings();
+        showPrograms();
     }
 
 	//--------------------------------------------------------------------------------------------
