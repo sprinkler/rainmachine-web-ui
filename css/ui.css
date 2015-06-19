@@ -513,8 +513,7 @@ input.typeNumber {
   }
 }
 
-.zoneRunning:after {
-    content: '@';
+.zonePending {
     font-family: RainMachine;
     font-size: 32px;
     white-space: nowrap;
@@ -523,7 +522,7 @@ input.typeNumber {
     float:left;
     width:32px;
     margin-right: 3px;
-    color: #0099ff;
+    color: #00B25C;
 }
 
 
