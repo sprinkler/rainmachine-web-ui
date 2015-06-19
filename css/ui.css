@@ -517,15 +517,20 @@ input.typeNumber {
 
 @keyframes pulsate {
     0% {
-      transform: scale(.1);
+      
+      transform: rotate(360deg);
       opacity: 0.0;
+      transform: scale(.1);
     }
     50% {
       opacity: 1;
+      transform: rotate(180deg);
     }
     100% {
-      transform: scale(1.2);
+      
+      transform: rotate(0deg);
       opacity: 0;
+      transform: scale(1.2);
     }
 }
 
