@@ -233,12 +233,10 @@
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings">
-									            <div id="weather-name" class="bold">Data Sources</div>
-									            <span class="separator"></span>
-									            <input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">NOAA
-									            <span class="separator"></span>
-									            <input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">Met.no
-									            <span class="separator"></span>
+									            <div class="bold">Data Sources</div>
+												<div  id="weatherDataSourcesList"	>
+													<!--- weather-sources-template -->
+												</div>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
@@ -727,6 +725,14 @@
 			</div>
 		</div>
 		<!-- Template for Hourly Restrictions (End) -->
+
+		<!-- Template for Weather Data Sources (Start) -->
+		<div id="weather-sources-template">
+			<span class="separator"></span>
+			<input type="checkbox" rm-id="weather-source-enable" class="right typeCheckbox">
+			<div rm-id="weather-source-name">Source Name</div>
+		</div>
+		<!-- Template for Weather Data Sources (End) -->
 
 	</div>
 </body>

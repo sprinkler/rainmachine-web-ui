@@ -387,8 +387,29 @@ API.stopAll = function()
 }
 
 /* ------------------------------------------ PARSER API CALLS --------------------------------------------*/
+API.getParsers = function(id)
+{
+	var url = API.URL.parser;
 
+	if (id !== undefined)
+		url += "/" + id;
 
+	return get(url, null);
+}
+
+API.setParserEnable = function(id, enable)
+{
+	var url = API.URL.parser;
+
+	if (id === undefined || id === null)
+		return API.ERROR.InvalidRequest;
+
+	url += "/" + id + "/activate";
+
+	var data = { activate: enable };
+
+	return post(url, data, null);
+}
 
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 API.getMixer = function(startDate, days)

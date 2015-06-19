@@ -11,7 +11,7 @@ var settingsSubmenus = [
     	{ name: "Watering History", func: _genericSubMenu, 					container: '#wateringHistory' },
     	{ name: "Snooze",  			func: _genericSubMenu, 					container: '#snooze' },
     	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
-    	{ name: "Weather", 			func: _genericSubMenu, 					container: '#weather' },
+    	{ name: "Weather", 			func: showWeather, 						container: '#weather' },
     	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
     	{ name: "About",  			func: _genericSubMenu, 					container: '#about' },
     	{ name: "Software Updates", func: _genericSubMenu, 					container: '#softwareUpdate' }
@@ -22,7 +22,6 @@ var dashboardSubmenus = [
         { name: "Weekly", 		func: _genericSubMenu,		container: null },
         { name: "Yearly",  		func: _genericSubMenu,		container: null }
       ];
-
 
 var zonesSubmenus = [
 		{ name: "Stop All",		func: stopAllWatering,		container: null }
@@ -71,6 +70,41 @@ function buildSubMenu(submenus, category, parentTag)
 /* Globals to hold returned API json */
 var provision = {};
 var diag = {};
+
+function showWeather()
+{
+
+	//Weather Sources List
+	var parsers = API.getParsers();
+	var weatherSourcesDiv = $('#weatherDataSourcesList');
+	clearTag(weatherDataSourcesList);
+
+	console.log("%o", parsers);
+
+	for (var i = 0; i < parsers.parsers.length; i++)
+	{
+		var p = parsers.parsers[i];
+
+		var template = loadTemplate("weather-sources-template");
+		var enabledElem = $(template, '[rm-id="weather-source-enable"]');
+		var nameElem = $(template, '[rm-id="weather-source-name"]');
+
+		enabledElem.checked = p.enabled;
+		enabledElem.value = p.uid;
+		enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
+		nameElem.textContent = p.name;
+
+        weatherSourcesDiv.appendChild(template);
+	}
+
+
+}
+
+function setWeatherSource(id, enabled)
+{
+	console.log("Setting weather source %d to %o", id, enabled);
+	API.setParserEnable(id, enabled);
+}
 
 function showDeviceInfo()
 {
