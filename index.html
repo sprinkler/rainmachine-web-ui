@@ -8,7 +8,6 @@
     <script src="js/storage.js"></script>
 	<script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/graphs.js"></script>
-	<script src="js/ui-zones.js"></script>
 	<script src="js/ui-programs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
@@ -17,14 +16,14 @@
 	<div class="pageHeader">
         <div id="name">
             <div class="spks"><img src="images/spks.png" class="spk2" id="deviceImage"></div>
-            <h1 id="deviceName">My RainMachine Sprinkler</h1>
-            <span class="subtitle" id="deviceNetwork">192.168.12.109</span>
+            <h1 id="deviceName">RainMachine</h1>
+            <span class="subtitle" id="deviceNetwork"></span>
         </div>
 
 		<div>
-            <div id="settingsBtn" class="topButton">Settings</div></li>
-            <div id="zonesBtn" class="topButton">Zones</div></li>
-            <div id="dashboardBtn" class="topButton">Dashboard</div></li>
+            <div id="settingsBtn" class="topButton">Settings</div>
+            <div id="zonesBtn" class="topButton">Zones</div>
+            <div id="dashboardBtn" class="topButton">Dashboard</div>
 		</div>
 
 	</div>
@@ -65,7 +64,7 @@
 							<div id="programsSettings" class="settings"></div>
 						</div>
 
-						<div id="wateringHistory">
+						<div id="wateringHistory" style="display: none;">
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  <tr>
@@ -139,7 +138,7 @@
 							</div>
 						</div>
 
-						<div id="snooze">
+						<div id="snooze" style="display: none;">
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  <tr>
@@ -234,7 +233,7 @@
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Data Sources</div>
+									            <div id="weather-name" class="bold">Data Sources</div>
 									            <span class="separator"></span>
 									            <input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">NOAA
 									            <span class="separator"></span>
@@ -297,7 +296,7 @@
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  	<tr>
 									    <th colspan="5">
-								            <h1 id="deviceName" class="title">Nicu-SPK3<br><span class="subtitle" id="deviceNetwork">Iasi, Romania (192.168.12.157)</span></h1>
+								            <h1 id="deviceNameSystem" class="title">Nicu-SPK3<br><span class="subtitle" id="deviceNetworkSystem">Iasi, Romania (192.168.12.157)</span></h1>
 								            
 								        </th>
 								  	</tr>
@@ -348,7 +347,6 @@
 									            <input type="text" rm-id="remote-device-name" placeholder="Street, City, State, Country" class="typeText"/>
 									            <span class="separator"></span>
 									            <button rm-id="save-device-name" class="save">Change</button>
-									    </td>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
@@ -403,7 +401,7 @@
 								<table cellspacing="0" cellpadding="0" class="full">
 								  	<tr>
 									    <th>
-								            <h1 id="deviceName" class="title">About Nicu-SPK3 device</h1>
+								            <h1 id="deviceNameAbout" class="title">About Nicu-SPK3 device</h1>
 								            
 								        </th>
 								  	</tr>
@@ -488,7 +486,7 @@
 								<table cellspacing="0" cellpadding="0" class="full">
 								  	<tr>
 									    <th>
-								            <h1 id="deviceName" class="title">Software updates for Nicu-SPK3 device</h1>
+								            <h1 id="deviceNameUpdates" class="title">Software updates for Nicu-SPK3 device</h1>
 								            
 								        </th>
 								  	</tr>
