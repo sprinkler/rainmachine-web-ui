@@ -385,7 +385,7 @@ input.typeNumber {
 .setSelection select {
    background: url('../images/arrow.png') no-repeat;
    background-position:right center;
-   width: 140px;
+   width: 180px;
    padding: 10px;
    font-size: 15px;
    line-height: 1;
