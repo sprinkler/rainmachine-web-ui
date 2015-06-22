@@ -71,7 +71,7 @@
 								  <tr>
 								    <th colspan="6"><h1 class="title">Watering History</h1></th>
 								  </tr>
-								  <tr>
+								  <!-- <tr>
 								    <td><span class="cardTitle left bold">Date</span></td>
 								    <td><span class="cardTitle left bold">Watering Activity</span></td>
 								    <td><span class="cardTitle left bold">Zones</span></td>
@@ -134,7 +134,7 @@
 								    		80%
 								    	</span>
 								    </td>
-								  </tr>
+								  </tr> -->
 								</table>
 							</div>
 						</div>
@@ -734,15 +734,15 @@
 		<!-- Template for Weather Data Sources (End) -->
 
 		<!-- Template for Watering History per Day (Start) -->
-		<div id="watering-history-day-template">
-			<div rm-id="wateringLogDayName"></div>
+		<div id="watering-history-day-template" class="historyDateContainer">
+			<div rm-id="wateringLogDayName" class="historyDate"></div>
 			<div rm-id="wateringLogProgramsContainer"></div>
 		</div>
 		<!-- Template for Watering History per Day (End) -->
 
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
-			<div rm-id="wateringLogProgramName"></div>
+			<div rm-id="wateringLogProgramName" class="historyProgName"></div>
 			<div rm-id="wateringLogZonesContainer"></div>
 		</div>
 		<!-- Template for Watering History Day per Program (End) -->

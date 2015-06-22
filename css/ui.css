@@ -611,6 +611,12 @@ td.right {
 }
 
 /* Watering History Custom Classes */
+.historyDateContainer {
+    width:100%;
+    display: table;
+    padding: 10px 0px;
+    border-bottom: 1px solid #ddd;
+}
 
 .historyZone {
     width:100%;
@@ -618,8 +624,20 @@ td.right {
 }
 .historyZoneItem {
     display: table-cell;
-
+    text-align: left;
+    width: 25%;
+    padding: 10px 0px;
 }
+.historyZoneItem:last-child {
+  text-align: right;
+  color:#3399cc;
+  font-weight: bold;
+}
+.historyDate, .historyProgName {
+    display: table-cell;
+    width:10%;
+}
+
 
 /* MEDIA QUERIES */
 
