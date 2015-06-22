@@ -244,8 +244,8 @@ function wateringLogUI()
 				var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
 
 				zoneNameElem.textContent = "Zone " + zone.uid;
-				zoneSchedElem.textContent = zoneDurations.user;
-				zoneWateredElem.textContent = zoneDurations.real;
+				zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
+				zoneWateredElem.textContent = Util.secondsToText(zoneDurations.user);
 				zoneSavedElem.textContent =  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100);
 
 				programContainerElem.appendChild(zoneListTemplate);
