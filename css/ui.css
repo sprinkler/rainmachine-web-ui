@@ -639,6 +639,7 @@ td.right {
     display: table-cell;
     width:10%;
     padding: 15px 0px;
+    font-weight: bold;
 }
 .historyAllZones {
     border-top: 1px solid #ddd;
