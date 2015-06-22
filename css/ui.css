@@ -607,6 +607,17 @@ td.right {
     padding-bottom: 5px;
 }
 
+/* Watering History Custom Classes */
+
+.historyZone {
+    width:100%;
+    display: table;
+}
+.historyZoneItem {
+    display: table-cell;
+
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 768px)

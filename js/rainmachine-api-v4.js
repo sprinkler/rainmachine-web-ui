@@ -378,6 +378,20 @@ API.setZonesProperties = function(id, properties, advancedProperties)
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
+API.getWateringLog = function(simulated, details, startDate, days)
+{
+	var url = API.URL.watering + "/log" + (simulated ? "/simulated" : "") + (details ? "/details" : "");
+
+	//start date format YYYY-DD-MM
+	if (startDate !== null && startDate.length > 9)
+		url += "/" + startDate;
+
+	if (days !== null && days > 0)
+		url += "/" + days;
+
+	return get(url, null);
+}
+
 API.stopAll = function()
 {
 	var url = API.URL.watering + "/stopall";

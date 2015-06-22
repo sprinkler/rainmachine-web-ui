@@ -12,5 +12,4 @@ Util.secondsToHuman = function(seconds)
 	return r;
 }
 
-
 return Util; } ( Util || {}));

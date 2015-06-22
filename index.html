@@ -66,10 +66,10 @@
 						</div>
 
 						<div id="wateringHistory" style="display: none;">
-							<div class="settingsBlock center">
-								<table cellspacing="0" cellpadding="0" class="center full">
+							<div class="settingsBlock center" id="wateringHistoryContent">
+								<table cellspacing="0" cellpadding="0" class="center full" border="1">
 								  <tr>
-								    <th colspan="6"><h1 class="title">7 Days Watering History</h1></th>
+								    <th colspan="6"><h1 class="title">Watering History</h1></th>
 								  </tr>
 								  <tr>
 								    <td><span class="cardTitle left bold">Date</span></td>
@@ -732,6 +732,30 @@
 			<div rm-id="weather-source-name">Source Name</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
+
+		<!-- Template for Watering History per Day (Start) -->
+		<div id="watering-history-day-template">
+			<div rm-id="wateringLogDayName"></div>
+			<div rm-id="wateringLogProgramsContainer"></div>
+		</div>
+		<!-- Template for Watering History per Day (End) -->
+
+		<!-- Template for Watering History Day per Program (Start) -->
+		<div id="watering-history-day-programs-template">
+			<div rm-id="wateringLogProgramName"></div>
+			<div rm-id="wateringLogZonesContainer"></div>
+		</div>
+		<!-- Template for Watering History Day per Program (End) -->
+
+		<!-- Template for Watering History Day Program per Zone (Start) -->
+		<div id="watering-history-day-programs-zone-template" class="historyZone">
+			<div rm-id="wateringLogZoneName" class="historyZoneItem"></div>
+			<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
+			<div rm-id="wateringLogZoneRealTime" class="historyZoneItem"></div>
+			<div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
+		</div>
+
+		<!-- Template for Watering History Day Program per Zone (End) -->
 
 	</div>
 </body>
