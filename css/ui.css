@@ -645,6 +645,7 @@ td.right {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     margin-bottom: 15px;
+    margin-left: 60px;
 }
 
 /* MEDIA QUERIES */
