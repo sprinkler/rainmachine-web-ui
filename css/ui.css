@@ -274,8 +274,8 @@ input[type="checkbox"] {
     padding-left:5px;
     padding-right:5px;
      -webkit-appearance:button;
-    width:25px;
-    height:25px;
+    width:15px;
+    height:15px;
     border: 1px solid #ddd;
     background-color: #fff;
 }
