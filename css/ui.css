@@ -617,27 +617,34 @@ td.right {
     padding: 10px 0px;
     border-bottom: 1px solid #ddd;
 }
-
 .historyZone {
     width:100%;
     display: table;
 }
-.historyZoneItem {
+.historyZone:hover {
+    background-color: #f0f0f0;
+}
+.historyZoneItem  {
     display: table-cell;
     text-align: left;
     width: 25%;
     padding: 10px 0px;
 }
 .historyZoneItem:last-child {
-  text-align: right;
-  color:#3399cc;
-  font-weight: bold;
+    text-align: right;
+    color:#3399cc;
+    font-weight: bold;
 }
 .historyDate, .historyProgName {
     display: table-cell;
     width:10%;
+    padding: 15px 0px;
 }
-
+.historyAllZones {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
 
 /* MEDIA QUERIES */
 
