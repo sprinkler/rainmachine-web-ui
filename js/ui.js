@@ -13,8 +13,7 @@ var settingsSubmenus = [
     	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
     	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
     	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
-    	{ name: "About",  			func: _genericSubMenu, 					container: '#about' },
-    	{ name: "Software Updates", func: _genericSubMenu, 					container: '#softwareUpdate' }
+    	{ name: "About",  			func: _genericSubMenu, 					container: '#about' }
 	];
 
 var dashboardSubmenus = [
