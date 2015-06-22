@@ -6,6 +6,7 @@
 	<script src="js/highcharts-custom.js"></script>
 	<script src="js/dom.js"></script>
     <script src="js/storage.js"></script>
+	<script src="js/util.js"></script>
 	<script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/graphs.js"></script>
 	<script src="js/ui-programs.js"></script>
@@ -42,7 +43,7 @@
 			</div>
 
 			<div class="content">
-				<div id="dashboard">
+				<div id="dashboard" style="display: none;">
 					<div id="chartWaterNeed" class="charts"></div>
 					<div id="chartTemperature" class="charts"></div>
 					<div id="chartQpf" class="charts"></div>
@@ -139,14 +140,31 @@
 						</div>
 
 						<div id="snooze" style="display: none;">
-							<div class="settingsBlock center">
+							<div class="settingsBlock center" id="snoozeSetContent">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  <tr>
 								    <th><h1 class="title">Snooze all watering activities</h1></th>
 								  </tr>
 								  <tr>
-								    <td class="middle center"><span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;<input rm-id="snooze-days" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00"></span><button rm-id="all-snooze" class="save">Snooze</button></td>
+								    <td class="middle center">
+										<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
+										<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
+										<button id="snoozeSet" class="save">Snooze</button>
+									</td>
 								  </tr>
+								</table>
+							</div>
+							<div class="settingsBlock center" id="snoozeCurrentContent">
+								<table cellspacing="0" cellpadding="0" class="center full">
+									<tr>
+										<th><h1 class="title">Device is in snooze mode for</h1></th>
+									</tr>
+									<tr>
+										<td class="middle center">
+											<span class="cardTitle bold"id="snoozeCurrentValue"></span>
+											<button id="snoozeStop" class="stop">Stop</button>
+										</td>
+									</tr>
 								</table>
 							</div>
 						</div>
@@ -254,7 +272,7 @@
 									           
 									            <div align="center">
 										            <button id="rainSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button id="rainSensitivityDefault" class="default left">Default</button>
+										            <button id="rainSensitivityDefault" class="default left" value="80">Default</button>
 									            </div>
 									        </div>
 									    </td>
@@ -274,7 +292,7 @@
 									           
 									            <div align="center">
 										            <button id="windSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button id="windSensitivityDefault" class="default left">Default</button>
+										            <button id="windSensitivityDefault" class="default left" value="50">Default</button>
 									            </div>
 									        </div>
 	        							</td>

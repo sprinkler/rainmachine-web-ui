@@ -276,4 +276,6 @@ function generateCharts()
 		programsCharts.push(tmpChart);
 	}
 
+	makeVisible($("#dashboard"));
+
 }

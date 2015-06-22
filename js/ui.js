@@ -9,9 +9,9 @@ var currentZoneProperties = null;
 var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
     	{ name: "Watering History", func: _genericSubMenu, 					container: '#wateringHistory' },
-    	{ name: "Snooze",  			func: _genericSubMenu, 					container: '#snooze' },
+    	{ name: "Snooze",  			func: rainDelaySettingsUI, 				container: '#snooze' },
     	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
-    	{ name: "Weather", 			func: showWeather, 						container: '#weather' },
+    	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
     	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
     	{ name: "About",  			func: _genericSubMenu, 					container: '#about' },
     	{ name: "Software Updates", func: _genericSubMenu, 					container: '#softwareUpdate' }
@@ -71,7 +71,7 @@ function buildSubMenu(submenus, category, parentTag)
 var provision = {};
 var diag = {};
 
-function showWeather()
+function weatherSettingUI()
 {
 
 	//Weather Sources List
@@ -108,15 +108,78 @@ function showWeather()
 	var rsSaveElem = $("#rainSensitivitySave");
 	var wsSaveElem = $("#windSensitivitySave");
 
+	var rsDefaultElem = $("#rainSensitivityDefault");
+	var wsDefaultElem = $("#windSensitivityDefault");
 
-	rsSaveElem.onclick = function() { console.log("Rain Sensitivity: %f",  (+rsElem.value/100.0)); };
-	wsSaveElem.onclick = function() { console.log("Wind Sensitivity: %f",  (+wsElem.value/100.0)); }
+	//Set the current values
+	rsElem.value = parseInt(rs * 100);
+	rsElem.oninput();
+
+	wsElem.value = parseInt(ws * 100);
+	wsElem.oninput();
+
+	rsSaveElem.onclick = function() {
+		var rsNew = +rsElem.value/100.0;
+		if (rsNew != rs)
+		{
+			var data = {rainSensitivity: rsNew};
+			API.setProvision(null, data);
+			console.log("Set Rain Sensitivity: %f",  rsNew);
+		}
+	};
+
+	wsSaveElem.onclick = function() {
+		var wsNew = +wsElem.value/100.0;
+		if (wsNew != ws)
+		{
+			var data = {windSensitivity: wsNew};
+			API.setProvision(null, data);
+			console.log("Set Wind Sensitivity: %f",  wsNew);
+		}
+	};
+
+	rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); provision = API.getProvision();};
+	wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); provision = API.getProvision();};
 }
 
 function setWeatherSource(id, enabled)
 {
 	console.log("Setting weather source %d to %o", id, enabled);
 	API.setParserEnable(id, enabled);
+}
+
+function rainDelaySettingsUI()
+{
+	var raindelay = API.getRestrictionsRainDelay();
+	var rd = +raindelay.delayCounter;
+
+	console.log("Device is snoozing for %d seconds", rd);
+
+	var onDiv = $("#snoozeCurrentContent");
+	var offDiv = $("#snoozeSetContent");
+
+	var stopButton = $("#snoozeStop");
+	var setButton = $("#snoozeSet");
+
+	var snoozeDays = $('#snoozeDays').value;
+
+	//Are we already in Snooze
+	if (rd > 0)
+	{
+		makeHidden(offDiv);
+		makeVisible(onDiv);
+		var v = Util.secondsToHuman(rd);
+		var vdiv = $("#snoozeCurrentValue");
+		vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
+	}
+	else
+	{
+		makeHidden(onDiv);
+		makeVisible(offDiv);
+	}
+
+	stopButton.onclick = function() { console.log(API.setRestrictionsRainDelay(0)); rainDelaySettingsUI(); };
+	setButton.onclick = function() { console.log(API.setRestrictionsRainDelay(+snoozeDays)); rainDelaySettingsUI() };
 }
 
 function showDeviceInfo()
@@ -155,6 +218,11 @@ function uiStart()
     var settingsMenu = $('#settingsMenu');
     var dashboardMenu = $('#dashboardMenu');
 
+
+    buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
+    buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
+    buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
+
 	zonesBtn.onclick = function() {
 		makeVisible(zonesDiv);
 		makeVisible(zonesMenu);
@@ -187,6 +255,9 @@ function uiStart()
         zonesBtn.removeAttribute("selected");
         dashboardBtn.removeAttribute("selected");
 
+        var defaultViewDiv = $("#settings0");
+        defaultViewDiv.onclick();
+
 		console.log("Settings");
 	}
 
@@ -206,10 +277,6 @@ function uiStart()
 
 		console.log("Dashboard");
 	}
-
-	buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
-	buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
-	buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
 
 	dashboardBtn.setAttribute("selected", true);
 

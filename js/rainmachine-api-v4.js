@@ -129,7 +129,7 @@ API.setProvision = function(systemObj, locationObj)
 	if (systemObj !== undefined && systemObj !== null)
 		data.system = systemObj;
 
-	if (systemObj !== undefined && systemObj !== null)
+	if (locationObj !== undefined && locationObj !== null)
     	data.location = locationObj;
 
     if (Object.keys(data).length == 0)
