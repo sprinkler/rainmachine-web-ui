@@ -40,6 +40,8 @@ function showZoneSettings(zone)
 
 	if (zone.uid != 1)
 		makeHidden(zoneMasterValveContainerElem);
+	else
+		zoneMasterValveElem.checked = zone.master;
 
 	zoneTemplate.id = "zone-settings-" + zone.uid;
 	zoneNameElem.value = zone.name;
@@ -58,13 +60,13 @@ function showZoneSettings(zone)
 
 // Set zone running/pending/idle status
 
-function setZoneState(uid, state, remaining)
+function setZoneState(zone)
 {
-	var zoneDiv = $("#zone-" + uid);
+	var zoneDiv = $("#zone-" + zone.uid);
 
 	if (zoneDiv === undefined || zoneDiv === null)
 	{
-		console.log("Zone State: Cannot find zone %d", uid);
+		console.log("Zone State: Cannot find zone %d", zone.uid);
 		return -2;
 	}
 
@@ -72,9 +74,11 @@ function setZoneState(uid, state, remaining)
     var startElem = $(zoneDiv, '[rm-id="zone-start"]');
     var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
 
+	var state = zone.state;
+
     // API keeps state 2 pending but can have remaining 0 if it was stopped
-    if (remaining <= 0 && state == 2)
-    	state = 0;
+    if (zone.remaining <= 0 && state == 2)
+    	var state = 0;
 
     switch (state)
     {
@@ -94,6 +98,14 @@ function setZoneState(uid, state, remaining)
 			makeVisible(startElem);
 			break;
     }
+
+	//Don't show buttons for master or inactive zones
+	if (zone.master || ! zone.active)
+	{
+		makeHidden(startElem);
+		makeHidden(stopElem);
+	}
+
 }
 
 function updateZoneTimer(uid, seconds)
@@ -212,35 +224,48 @@ function showZones()
 	{
 		var z = zoneData.zones[i];
 		var za = zoneAdvData.zones[i];
+		z.active = za.active;
 
 		var template = loadTemplate("zone-entry");
-		var nameElem = template.querySelector('div[rm-id="zone-name"]');
-		var startElem = template.querySelector('button[rm-id="zone-start"]');
-		var stopElem = template.querySelector('button[rm-id="zone-stop"]');
-		var editElem = template.querySelector('button[rm-id="zone-edit"]');
-		var typeElem = template.querySelector('div[rm-id="zone-info"]');
-
+		var nameElem = $(template, '[rm-id="zone-name"]');
+		var startElem = $(template, '[rm-id="zone-start"]');
+		var stopElem = $(template, '[rm-id="zone-stop"]');
+		var editElem = $(template, '[rm-id="zone-edit"]');
+		var typeElem = $(template,'[rm-id="zone-info"]');
+		var timersElem = $(template, '[rm-id="zone-timers"]');
 
 		template.id = "zone-" + z.uid;
 		template.data = za;
 
-		if (! za.active)
-			template.className += " inactive";
+		makeVisible(timersElem);
 
-		nameElem.innerHTML = z.name;
-		typeElem.innerHTML = zoneTypeToString(z.type);
+		if (! za.active)
+		{
+			template.className += " inactive";
+			makeHidden(timersElem);
+		}
+
+		if (z.master)
+		{
+			template.className += " master";
+			makeHidden(timersElem);
+		}
+
+		nameElem.textContent = z.name;
+		typeElem.textContent = zoneTypeToString(z.type);
 		startElem.onclick = function() { startZone(this.parentNode.data.uid); };
 		stopElem.onclick = function() { stopZone(this.parentNode.data.uid); };
 		editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
 
 		zonesDiv.appendChild(template);
 
-		setZoneState(z.uid, z.state, z.remaining);
+		setZoneState(z);
 
-		var seconds = z.remaining
+		var seconds = z.remaining;
+
 		//Not running show default minutes
 		if (z.state == 0)
-				seconds = provision.system.zoneDuration[z.uid - 1];
+			seconds = provision.system.zoneDuration[z.uid - 1];
 
 		updateZoneTimer(z.uid, seconds);
 	}

@@ -480,6 +480,9 @@ input.typeNumber {
 .inactive {
     opacity: 0.3;
 }
+.master {
+    background-color: #ffdadf;
+}
 
 .zoneIdle, .zonePending {
     display: none;
