@@ -13,7 +13,7 @@ var settingsSubmenus = [
     	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
     	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
     	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
-    	{ name: "About",  			func: _genericSubMenu, 					container: '#about' }
+    	{ name: "About",  			func: aboutSettingsUI, 					container: '#about' }
 	];
 
 var dashboardSubmenus = [
@@ -256,6 +256,22 @@ function wateringLogUI()
 		}
 		container.appendChild(dayTemplate);
 	}
+}
+
+function aboutSettingsUI()
+{
+	$("#aboutName").textContent = provision.system.netName;
+	$("#aboutVersion").textContent = provision.api.swVer;
+	$("#aboutHardware").textContent = provision.api.hwVer;
+	$("#aboutAPI").textContent = provision.api.apiVer;
+	$("#aboutIP").textContent = provision.wifi.ipAddress;
+	$("#aboutNetmask").textContent = provision.wifi.netmaskAddress;
+	$("#aboutGateway").textContent = diag.gatewayAddress;
+	$("#aboutMAC").textContent = provision.wifi.macAddress;
+	$("#aboutAP").textContent = provision.wifi.ssid;
+	$("#aboutMemory").textContent = diag.memUsage + " Kb";
+	$("#aboutCPU").textContent = diag.cpuUsage.toFixed(2) + " %";
+	$("#aboutUptime").textContent = diag.uptime;
 }
 
 function showDeviceInfo()
