@@ -190,7 +190,6 @@ function wateringLogUI()
 
 	startDate.setDate(today.getDate() - days);
 	startDate = startDate.toISOString().split("T")[0];
-	console.log(startDate);
 
 	waterLog = API.getWateringLog(false, true, startDate, days);
 	console.log(waterLog);
@@ -204,7 +203,7 @@ function wateringLogUI()
 		var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
 		var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
-		console.log("Day: %s", day.date);
+		//console.log("Day: %s", day.date);
         dayNameElem.textContent = day.date;
 
 		for (var j = 0; j < day.programs.length; j++)
@@ -222,7 +221,7 @@ function wateringLogUI()
 			var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
 			programNameElem.textContent = name;
 
-			console.log("\t%s", name);
+			//console.log("\t%s", name);
 
             for (var k = 0; k < program.zones.length; k++)
             {
@@ -245,12 +244,15 @@ function wateringLogUI()
 
 				zoneNameElem.textContent = "Zone " + zone.uid;
 				zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
-				zoneWateredElem.textContent = Util.secondsToText(zoneDurations.user);
-				zoneSavedElem.textContent =  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100);
+				zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
+
+				var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
+				if (saved < 0) saved = 0;
+				zoneSavedElem.textContent =  saved + " %";
 
 				programContainerElem.appendChild(zoneListTemplate);
 
-            	console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
+            	//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
             }
             dayContainerElem.appendChild(programTemplate);
 		}
