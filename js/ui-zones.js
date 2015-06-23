@@ -249,10 +249,16 @@ function showZones()
 		{
 			template.className += " master";
 			makeHidden(timersElem);
+			nameElem.textContent = "Master Valve";
+			typeElem.textContent = "Before: " + provision.system.masterValveBefore +
+			 						" sec After: " + provision.system.masterValveAfter + " sec";
+		}
+		else
+		{
+			nameElem.textContent = z.name;
+			typeElem.textContent = zoneTypeToString(z.type);
 		}
 
-		nameElem.textContent = z.name;
-		typeElem.textContent = zoneTypeToString(z.type);
 		startElem.onclick = function() { startZone(this.parentNode.data.uid); };
 		stopElem.onclick = function() { stopZone(this.parentNode.data.uid); };
 		editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
