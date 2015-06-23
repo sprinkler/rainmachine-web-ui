@@ -391,9 +391,6 @@ function uiStart()
 
 	dashboardBtn.setAttribute("selected", true);
 
-	//API.auth("admin", true);
-
-
 	ui.login.login(function() {
 		generateCharts();
 		showDeviceInfo();

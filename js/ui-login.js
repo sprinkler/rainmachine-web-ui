@@ -1,4 +1,3 @@
-
 window.ui = window.ui || {};
 
 (function(_login) {
@@ -37,6 +36,7 @@ window.ui = window.ui || {};
                 if(accessToken) {
                     document.body.className = "";
                     Storage.saveItem("access_token", accessToken);
+                    setTimeout(callback, 0);
                 }
             }
         };

@@ -27,20 +27,25 @@ function rest(type, apiCall, data, callback)
 		url = apiUrl + apiCall;
 
 	console.log("Doing API call: %s", url);
-	r = new XMLHttpRequest();
-	r.open(type, url, async);
+	try {
+		r = new XMLHttpRequest();
+		r.open(type, url, async);
 
-	if (type === "POST")
-	{
-		r.setRequestHeader("Content-type","text/plain");
-		r.send(JSON.stringify(data));
-	}
-	else
-	{
-		r.send(null);
-	}
 
-	return JSON.parse(r.responseText);
+		if (type === "POST")
+		{
+			r.setRequestHeader("Content-type","text/plain");
+			r.send(JSON.stringify(data));
+		}
+		else
+		{
+			r.send();
+		}
+
+		return JSON.parse(r.responseText);
+	} catch(e) { }
+
+	return null;
 }
 
 function post(apiCall, data, callback) { return rest("POST", apiCall, data, callback); }
