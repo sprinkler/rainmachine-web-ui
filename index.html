@@ -175,7 +175,7 @@
 							<div class="settingsBlock center">
 									<table cellspacing="0" cellpadding="0" class="full">
 									  	<tr>
-									    	<th colspan="7"><h1 class="title">Restrictions</h1></th>
+									    	<th colspan="7"><h1 class="title">Global Restrictions</h1></th>
 									  	</tr>
 									  	<tr>
 									  	<td class="listItemSettings">
@@ -321,70 +321,49 @@
 												<div class="clear30"></div>								       
 									            <button id="rainSensitivitySave" class="save full">Set</button>
 									    </td>
-									  	<!-- <td class="middle">
-											<div id="restrictionsHotDays">
-												<input type="checkbox" id="restrictionsHotDaysEnable" class="right" />
-												<span class="cardTitle bold"></span><br>
-												<span class="cardSubtitle">Allow extra watering</span>												
-											</div>
-										</td>
 										</tr>
-										<tr>
-										<td class="middle setSelection">
-											<div id="restrictionsFreezeProtect">
-												<input type="checkbox" id="restrictionsFreezeProtectEnable" class="right" /> 
-												<select id="restrictionsFreezeProtectValue" class="right">
-													<option value="0">0 &deg; C</option>
-													<option value="2" selected>2 &deg; C</option>
-													<option value="5">5 &deg; C</option>
-													<option value="10">10 &deg; C</option>
-												</select>
-												<span class="cardTitle bold">Freeze Protect</span><br>
-												<span class="cardSubtitle">Do not water under this outside temperature</span>															
-											</div>
-										</td>
-										</tr>
-										<tr>
-											<td class="middle">
-												<span class="cardTitle bold">Months</span>
-												<br>
-												<span class="cardSubtitle">Select the months of the year when all the watering activities won't start</span>
-												<br><br>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsJanuary" class="right"/>January</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsFebruary" class="right"/>February</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsMarch" class="right"/>March</div>							
-												<div class="restrictionList"><input type="checkbox" id="restrictionsApril" class="right"/>April</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsMay" class="right"/>May</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsJune" class="right"/>June</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsJuly" class="right"/>July</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsAugust" class="right"/>August</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsSeptember" class="right"/>September</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsOctober" class="right"/>October</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsNovember" class="right"/>November</div> 
-												<div class="restrictionList noborder"><input type="checkbox" id="restrictionsDecember" class="right"/>December</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="cardTitle bold">Weekdays</span>
-												<br>
-												<span class="cardSubtitle">Select the weekdays when all the watering activities won't start</span>
-												<br><br>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsMonday" class="right"/>Monday</div> 
-												<div class="restrictionList"><input type="checkbox" id="restrictionsTuesday" class="right"/>Tuesday</div> 
-												<div class="restrictionList"><input type="checkbox" id="restrictionsWednesday" class="right"/>Wednesday</div> 
-												<div class="restrictionList"><input type="checkbox" id="restrictionsThursday" class="right"/>Thursday</div>
-												<div class="restrictionList"><input type="checkbox" id="restrictionsFriday" class="right"/>Friday</div> 
-												<div class="restrictionList"><input type="checkbox" id="restrictionsSaturday" class="right"/>Saturday</div> 
-												<div class="restrictionList noborder"><input type="checkbox" id="restrictionsSunday" class="right"/>Sunday</div> 
+										</table>
+										</div>
+										<div class="settingsBlock center">
+											<div id="restrictionsHourly">
+												<h1 class="title center">Hourly Restrictions</h1>
+												<table cellspacing="0" cellpadding="0" class="full">
+												<tr>
+											    	<td class="listItemSettings">
+											    	<button rm-id="restriction-hourly-delete" class="restriction right">Delete</button>
+										            <div rm-id="restriction-hourly-name" class="bold">Hours</div>
+										            <span class="separator"></span>
+										            <span class="bold">Restriction Hours (HH:MM AM/PM)</span><br>
+										            <div>From 12:01 AM to 07:01 AM hours</div>
+										            <div class="clear30"></div>
+										            <span class="bold">Weekdays</span><br>
+										            <div>Wednesday, Friday, Saturday</div>
+												    </td>
+												    <td class="gap">&nbsp;</td>
+												    <td class="listItemSettings">
+												    	<div rm-id="restriction-hourly-name" class="bold">Add new hourly restriction</div>
+												    	<span class="separator"></span>
+												    		<form>
+												    		  <span class="bold">Restriction Hours (HH:MM AM/PM)</span><br>
+															  From <input name="t" type="time" class="typeTime"> to <input name="t" type="time" class="typeTime"> hours
+															  <div class="clear30"></div>
+															  <span class="bold">Weekdays</span><br><br>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewSunday"><br>Sun</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewMonday"><br>Mon</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewTuesday"><br>Tue</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewThursday"><br>Thu</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewWednesday"><br>Wed</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewFriday"><br>Fri</div>
+															  <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewSaturday"><br>Sat</div>
+															  <div class="clear30"></div>
+															  <button id="restrictionHourlyAddNew" class="save">Add New</button>
+															</form>
 
-												<div id="restrictionsHourly">
-
-												</div>
-											</td>
-										</tr> -->
-								</table>
-							</div>
+												    </td>
+											  	</tr>
+											  	</table>
+										  	</div>				
+										</div>
 						</div>
 
 						<div id="weather" style="display: none;">

@@ -248,6 +248,13 @@ h1 {
     width: 50px;
 
 }
+.restrictionAddNewDays {
+    display: inline-block;
+    width: 45px;
+    height: 35px;
+    text-align: center;
+    line-height:25px;
+}
 .half, .halfRight {
   display: inline-block;
   width: 47%;
@@ -388,13 +395,16 @@ input.typeRadio {
     padding: 15px;
     font-size: 16px;
 }
-input.typeNumber {
+input.typeNumber, input.typeTime {
     margin: 5px;
     margin-left: 0px;
     border: 1px solid #eee;
     padding: 5px 0px 5px 5px;
     font-size: 16px;
     width: 60px;
+}
+input.typeTime {
+    width: 100px;
 }
 .setSelection select {
    background: url('../images/arrow.png') no-repeat;
@@ -512,13 +522,13 @@ input.typeNumber {
     width:32px;
     margin-right: 3px;
     color: #0099ff;
-    /*-webkit-animation: rotation 2s infinite linear;
-    animation: rotate 2s infinite linear;*/
+    *-webkit-animation: rotation 2s infinite linear;
+    animation: rotate 2s infinite linear;
     animation: pulsate 1s ease-out;
     animation-iteration-count: infinite;
 }
 
-/*@-webkit-keyframes rotation {
+*@-webkit-keyframes rotation {
     from {-webkit-transform: rotate(0deg);}
     to   {-webkit-transform: rotate(359deg);}
 }
@@ -530,7 +540,7 @@ input.typeNumber {
   100% {
     transform: rotate(360deg);
   }
-}*/
+}
 
 @keyframes pulsate {
     0% {
