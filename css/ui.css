@@ -14,9 +14,11 @@ body.login {
 }
 
 .loginContainer .loginInnerContainer {
-    background-color: red;
-    width: 250px;
-    height: 100px;
+    background-color: #f7f7f7;
+    padding: 25px;
+    border-radius: 5px;
+    width: 350px;
+    height: 200px;
     margin: 100px auto;
 }
 
@@ -29,24 +31,15 @@ body.login {
 .loginInnerContainer input[type='password'] {
     width: 100%;
     height: 32px;
+    border: 1px solid #eee;
+    padding: 10px 10px;
 }
 
-.loginInnerContainer button {
-    float: right;
-    height: 32px;
-    background-color: #EEEEEE;
-}
 
 body.login .loginContainer {
     display: block;
 }
 
-.clear {
-    clear: both;
-    overflow: hidden;
-    width: 0;
-    height: 0;
-}
 
 .charts {
 	background-color: #f9f9f9;
@@ -705,7 +698,7 @@ td {
     border-bottom: 1px solid #ddd;
     vertical-align: top;
 }
-td.middle {
+td.middle, .middle {
     vertical-align: middle;
 }
 
