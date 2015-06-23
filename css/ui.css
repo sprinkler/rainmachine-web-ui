@@ -1,3 +1,53 @@
+body.login {
+    overflow: hidden;
+}
+
+.loginContainer {
+    display: none;
+    z-index: 9999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.loginContainer .loginInnerContainer {
+    background-color: red;
+    width: 250px;
+    height: 100px;
+    margin: 100px auto;
+}
+
+.loginInnerContainer > div {
+    width: 100%;
+    height: 32px;
+    margin-bottom: 10px;
+}
+
+.loginInnerContainer input[type='password'] {
+    width: 100%;
+    height: 32px;
+}
+
+.loginInnerContainer button {
+    float: right;
+    height: 32px;
+    background-color: #EEEEEE;
+}
+
+body.login .loginContainer {
+    display: block;
+}
+
+.clear {
+    clear: both;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+}
+
 .charts {
 	background-color: #f9f9f9;
 	margin: 0 auto;
@@ -566,6 +616,41 @@ input.typeTime {
     animation: none;
 }
 
+.programActive [rm-id="program-status"] {
+    display: none;
+}
+
+.programActive.programRunning [rm-id="program-status"] , .programActive.programPending [rm-id="program-status"] , .programInactive [rm-id="program-status"] {
+    font-family: RainMachine;
+    font-size: 32px;
+    white-space: nowrap;
+    cursor: default;
+    display: block;
+    float:left;
+    width:32px;
+    margin-right: 3px;
+    color: #0099ff;
+    /*-webkit-animation: rotation 2s infinite linear;
+    animation: rotate 2s infinite linear;*/
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+}
+
+.programActive.programRunning [rm-id="program-status"] {
+    color: #00B25C;
+}
+
+.programActive.programPending [rm-id="program-status"] {
+    color: #0099ff;
+}
+
+.programInactive [rm-id="program-status"] {
+    color: #FF0000;
+}
+
+.programInactive button[rm-id="program-start"] {
+    display: none;
+}
 
 .programEdit, .settingsBlock {
     background-color: #fff;

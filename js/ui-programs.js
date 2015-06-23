@@ -21,6 +21,12 @@ window.ui = window.ui || {};
         WeekdayFormat: "SSFTWTM0"   // Format
     };
 
+    var ProgramStatus = {
+        NotRunning: 0,
+        Running: 1,
+        Pending: 2
+    };
+
     //--------------------------------------------------------------------------------------------
     //
     //
@@ -31,7 +37,7 @@ window.ui = window.ui || {};
 		clearTag(programListDiv);
 		makeVisible('#programs');
 
-		//$('#settingsTitle').innerHTML = "Programs";
+        console.log(programData);
 
 		for (var i = 0; i < programData.programs.length; i++)
 		{
@@ -39,10 +45,10 @@ window.ui = window.ui || {};
 
 			var template = loadTemplate("program-entry");
 
-			var nameElem = template.querySelector('div[rm-id="program-name"]');
-			var startElem = template.querySelector('button[rm-id="program-start"]');
-			var editElem = template.querySelector('button[rm-id="program-edit"]');
-			var zonesElem = template.querySelector('div[rm-id="program-zones-bullets"]');
+			var nameElem = $(template, '[rm-id="program-name"]');
+			var startElem = $(template, '[rm-id="program-start"]');
+			var editElem = $(template, '[rm-id="program-edit"]');
+			var zonesElem = $(template, '[rm-id="program-zones-bullets"]');
 
 			template.className = "listItem";
 			template.id = "program-" + p.uid;
@@ -50,8 +56,28 @@ window.ui = window.ui || {};
 			template.data = p;
 			editElem.data = p;
 
+            startElem.data = p;
+            startElem.start = true;
+
+            if(p.active) {
+                template.className += " programActive";
+                if(p.status == ProgramStatus.Running) {
+                    template.className += " programRunning";
+                    startElem.innerText = "Stop";
+                    startElem.start = false;
+                    startElem.className += " stop";
+                } else if(p.status == ProgramStatus.Pending) {
+                    template.className += " programPending";
+                    startElem.innerText = "Stop";
+                    startElem.start = false;
+                    startElem.className += " stop";
+                }
+            } else {
+                template.className += " programInactive";
+            }
+
 			nameElem.innerHTML = p.name;
-			startElem.onclick = function() { alert("TODO"); };
+			startElem.onclick = onStart;
 			editElem.onclick = function() { showProgramSettings(this.data); };
 
 			console.log("%o", p.wateringTimes);
@@ -375,6 +401,20 @@ window.ui = window.ui || {};
 
         closeProgramSettings();
         showPrograms();
+    }
+
+    function onStart() {
+        var program = this.data;
+        console.log("TODO: start stop: ", program);
+
+        if(program.active) {
+            if (this.start) {
+                API.startProgram(program.uid);
+            } else {
+                API.stopProgram(program.uid);
+            }
+            showPrograms();
+        }
     }
 
 	//--------------------------------------------------------------------------------------------

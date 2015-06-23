@@ -391,10 +391,13 @@ function uiStart()
 
 	dashboardBtn.setAttribute("selected", true);
 
-	API.auth("admin", true);
+	//API.auth("admin", true);
 
-	generateCharts();
-	showDeviceInfo();
+
+	ui.login.login(function() {
+		generateCharts();
+		showDeviceInfo();
+	});
 }
 
 window.addEventListener("load", uiStart);

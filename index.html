@@ -9,11 +9,19 @@
 	<script src="js/util.js"></script>
 	<script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/graphs.js"></script>
+	<script src="js/ui-login.js"></script>
 	<script src="js/ui-programs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
 </head>
 <body>
+	<div class="loginContainer">
+		<div class="loginInnerContainer">
+			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
+			<div><input type="checkbox" id="loginRemeberMe"/><span>Remember me</span> <button id="loginButton">Login</button></div>
+			<div class="clear"></div>
+		</div>
+	</div>
 	<div class="pageHeader">
         <div id="name">
             <div class="spks"><img src="images/spks.png" class="spk2" id="deviceImage"></div>
@@ -681,7 +689,8 @@
         <!-- Template for Zone Properties Card (End) -->
 
 		<!-- Template for Program Card (Begin) -->
-		<div id="program-entry">
+		<div id="program-entry" class="programActive">
+			<span rm-id="program-status">!</span>
 			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
 			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>

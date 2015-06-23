@@ -97,9 +97,14 @@ API.auth = function(password, remember)
 		remember: remember
 	};
 	
-	var reply = post(url, data, null); 
+	var reply = post(url, data, null);
+	console.log(JSON.stringify(reply, null, "  "));
 	token = reply.access_token;
-	console.log(token);
+	return token;
+};
+
+API.setAccessToken = function(accessToken) {
+	token = accessToken;
 }
 
 /* ------------------------------------------ PROVISION API CALLS -----------------------------------------*/
