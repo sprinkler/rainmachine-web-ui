@@ -10,7 +10,7 @@ var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
     	{ name: "Watering History", func: wateringLogUI, 					container: '#wateringHistory' },
     	{ name: "Snooze",  			func: rainDelaySettingsUI, 				container: '#snooze' },
-    	{ name: "Restrictions",  	func: _genericSubMenu, 					container: '#restrictions' },
+    	{ name: "Restrictions",  	func: restrictionsSettingsUI,			container: '#restrictions' },
     	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
     	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
     	{ name: "About",  			func: aboutSettingsUI, 					container: '#about' }
@@ -258,6 +258,23 @@ function wateringLogUI()
 		}
 		container.appendChild(dayTemplate);
 	}
+}
+
+function restrictionsSettingsUI()
+{
+	var rh = API.getRestrictionsHourly();
+	rh = rh.hourlyRestrictions;
+
+	var container = $("#restrictionsHourly");
+	clearTag(container);
+
+	for (var i = 0; i < rh.length; i++)
+	{
+        var r = rh[i];
+        var div = addTag(container, 'div');
+        div.textContent = "Restriction " + r.uid + " Interval: " + r.interval + " Week Days: " + r.weekDays;
+	}
+
 }
 
 function aboutSettingsUI()

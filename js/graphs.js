@@ -115,7 +115,7 @@ function generateCharts()
 					//Our condition mapping in TTF front
 					var condition = chartData.conditionMap[this.value];
 					if (condition === undefined)
-						return String.fromCharCode(123);
+						return String.fromCharCode(122);
 
 					return String.fromCharCode(97 + condition);
 				}
