@@ -252,10 +252,10 @@ API.setRestrictionsHourly = function(hourlyRestrictionObj)
 
 API.deleteRestrictionsHourly = function(id)
 {
-    var url = API.URL.restrictions + id + "/delete";
+    var url = API.URL.restrictions + "/hourly/" + id + "/delete";
     var data = {};
 
-    return port(url, data, null);
+    return post(url, data, null);
 }
 
 /* ----------------------------------------- PROGRAMS API CALLS -------------------------------------------*/

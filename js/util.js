@@ -32,4 +32,24 @@ Util.secondsToText = function(seconds)
 	return text;
 };
 
+
+Util.weekDaysNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+Util.bitStringToWeekDays = function(bitstr)
+{
+	if (bitstr.length < 7 || bitstr.length > 7)
+		return "Invalid WeekDays";
+
+	var str = "";
+
+	for (var i = 0; i < bitstr.length; i++)
+		if (bitstr[i])
+        	str += Util.weekDaysNames[i] + " ";
+
+
+	return str;
+}
+
+
+
 return Util; } ( Util || {}));

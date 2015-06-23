@@ -271,10 +271,21 @@ function restrictionsSettingsUI()
 	for (var i = 0; i < rh.length; i++)
 	{
         var r = rh[i];
-        var div = addTag(container, 'div');
-        div.textContent = "Restriction " + r.uid + " Interval: " + r.interval + " Week Days: " + r.weekDays;
-	}
+        var template = loadTemplate('restriction-hourly-template');
+        var nameElem = $(template, '[rm-id="restriction-hourly-name"]');
+        var intervalElem = $(template, '[rm-id="restriction-hourly-interval"]');
+        var weekDaysElem = $(template, '[rm-id="restriction-hourly-weekdays"]');
+        var deleteElem = $(template, '[rm-id="restriction-hourly-delete"]');
 
+        nameElem.textContent = "Restriction " + r.uid;
+        intervalElem.textContent = r.interval;
+        weekDaysElem.textContent = Util.bitStringToWeekDays(r.weekDays);
+
+        deleteElem.uid = r.uid;
+        deleteElem.onclick = function() { API.deleteRestrictionsHourly(+this.uid); restrictionsSettingsUI(); };
+
+        container.appendChild(template);
+	}
 }
 
 function aboutSettingsUI()
