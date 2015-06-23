@@ -175,13 +175,156 @@
 							<div class="settingsBlock center">
 									<table cellspacing="0" cellpadding="0" class="full">
 									  	<tr>
-									    	<th><h1 class="title">Restrictions</h1></th>
+									    	<th colspan="7"><h1 class="title">Restrictions</h1></th>
 									  	</tr>
 									  	<tr>
-									  	<td class="middle">
+									  	<td class="listItemSettings">
+									    		<span class="subtitle right">Active</span>
+									            <div rm-id="weather-name" class="bold">Hot Days</div>
+									            <span class="separator"></span>
+									            <input type="checkbox" id="restrictionsHotDaysEnable" class="right" />
+									            <span>Allow extra watering</span>
+									            <div class="clear30"></div>
+									            <button id="restrictionsHotDaysSet" class="save full">Set</button>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Inactive</span>
+									            <div rm-id="weather-name" class="bold">Freeze Protect</div>
+									            <span class="separator"></span>
+									            	<div>Do not water under:</div>
+										            <div id="restrictionsFreezeProtect" class="setSelection">
+														<select id="restrictionsFreezeProtectValue">
+															<option value="0">0 &deg; C</option>
+															<option value="2" selected>2 &deg; C</option>
+															<option value="5">5 &deg; C</option>
+															<option value="10">10 &deg; C</option>
+														</select>															
+													</div>
+												<div class="clear30"></div>
+									            <button id="restrictionFreezeSet" class="save full">Set</button>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Inactive</span>
+									            <div rm-id="weather-name" class="bold">Months</div>
+									            <div class="half">
+										            <div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsJanuary" class="right" />
+														<div>January</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsFebruary" class="right"/>
+														<div>February</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsMarch" class="right"/>
+														<div>March</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsApril" class="right"/>
+														<div>April</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsMay" class="right"/>
+														<div>May</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsJune" class="right"/>
+														<div>June</div>
+													</div>
+												</div>
+												<div class="halfRight">
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsJuly" class="right"/>
+														<div>July</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsAugust" class="right"/>
+														<div>August</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsSeptember" class="right"/>
+														<div>September</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsOctober" class="right"/>
+														<div>October</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsNovember" class="right"/>
+														<div>November</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsDecember" class="right"/>
+														<div>December</div>
+													</div>
+												</div>
+												<div class="clear30"></div>								       
+									            <button id="restrictionsMonthsSet" class="save full">Set</button>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    		<span class="subtitle right">Inactive</span>
+									            <div rm-id="weather-name" class="bold">Weekdays</div>
+									            <div class="half">
+										            <div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsSunday" class="right" />
+														<div>Sunday</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsMonday" class="right"/>
+														<div>Monday</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsTuesday" class="right"/>
+														<div>Tuesday</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsWednesday" class="right"/>
+														<div>Wednesday</div>
+													</div>
+												</div>
+												<div class="halfRight">
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsThursday" class="right"/>
+														<div>Thursday</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsFriday" class="right"/>
+														<div>Friday</div>
+													</div>
+													<div>
+														<span class="separator"></span>
+														<input type="checkbox" id="restrictionsSaturday" class="right"/>
+														<div>Saturday</div>
+													</div>
+												</div>
+												<div class="clear30"></div>								       
+									            <button id="rainSensitivitySave" class="save full">Set</button>
+									    </td>
+									  	<!-- <td class="middle">
 											<div id="restrictionsHotDays">
 												<input type="checkbox" id="restrictionsHotDaysEnable" class="right" />
-												<span class="cardTitle bold">Hot Days</span><br>
+												<span class="cardTitle bold"></span><br>
 												<span class="cardSubtitle">Allow extra watering</span>												
 											</div>
 										</td>
@@ -189,7 +332,7 @@
 										<tr>
 										<td class="middle setSelection">
 											<div id="restrictionsFreezeProtect">
-												<!-- <input type="checkbox" id="restrictionsFreezeProtectEnable" class="right" /> -->
+												<input type="checkbox" id="restrictionsFreezeProtectEnable" class="right" /> 
 												<select id="restrictionsFreezeProtectValue" class="right">
 													<option value="0">0 &deg; C</option>
 													<option value="2" selected>2 &deg; C</option>
@@ -239,7 +382,7 @@
 
 												</div>
 											</td>
-										</tr>
+										</tr> -->
 								</table>
 							</div>
 						</div>

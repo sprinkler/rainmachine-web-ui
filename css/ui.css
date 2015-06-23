@@ -27,6 +27,10 @@ body {
 .bold {
     font-weight: bold;
 }
+.clear30 {
+   clear:both;
+   height:30px;
+}
 h1.title {
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
@@ -238,9 +242,19 @@ h1 {
     color: #FF0000;
 }
 .restrictionList {
-    height:40px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 5px;
+    display: inline;
+    padding: 5px;
+    border: 1px solid red;
+    width: 50px;
+
+}
+.half, .halfRight {
+  display: inline-block;
+  width: 47%;
+  vertical-align: top;
+}
+.halfRight {
+  margin-left: 4%;
 }
 .noborder {
     border:0px;
