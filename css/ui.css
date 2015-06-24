@@ -440,9 +440,9 @@ input.typeRadio {
 }
 input.typeNumber, input.typeTime {
     margin: 5px;
-    margin-left: 0px;
+    margin-left: 0;
     border: 1px solid #eee;
-    padding: 5px 0px 5px 5px;
+    padding: 5px 0 5px 5px;
     font-size: 16px;
     width: 60px;
 }
@@ -457,7 +457,7 @@ input.typeTime {
    font-size: 15px;
    line-height: 1;
    border: 1px solid #ddd;
-   border-radius: 0px;
+   border-radius: 0;
    height:44px;
    -webkit-appearance: none;
 }
@@ -517,7 +517,7 @@ input.typeTime {
     margin-right:10px;
 }
 .spk2 {
-    margin-top:0px;  /*show SPK2 thumb*/
+    margin-top:0;  /*show SPK2 thumb*/
 }
 .spk3 {
     margin-top:-56px; /*show SPK3 thumb*/
@@ -556,7 +556,7 @@ input.typeTime {
 }
 
 .zoneRunning, .zonePending {
-    font-family: RainMachine;
+    font-family: RainMachine, sans-serif;
     font-size: 32px;
     white-space: nowrap;
     cursor: default;
@@ -614,7 +614,7 @@ input.typeTime {
 }
 
 .programActive.programRunning [rm-id="program-status"] , .programActive.programPending [rm-id="program-status"] , .programInactive [rm-id="program-status"] {
-    font-family: RainMachine;
+    font-family: RainMachine, sans-serif;
     font-size: 32px;
     white-space: nowrap;
     cursor: default;
@@ -657,15 +657,15 @@ input.typeTime {
 }
 .wateringTimes {
     width: 44.5%;
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 .programProperties {
     width: 44.5%;
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 .gap {
     width: 1%;
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 .cardTitle {
     font-size:16px;
@@ -694,7 +694,7 @@ input.typeTime {
 td {
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 0px;
+    padding-left: 0;
     border-bottom: 1px solid #ddd;
     vertical-align: top;
 }
@@ -716,7 +716,7 @@ td.right {
 .historyDateContainer {
     width:100%;
     display: table;
-    padding: 10px 0px;
+    padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
 .historyZone {
@@ -730,7 +730,7 @@ td.right {
     display: table-cell;
     text-align: left;
     width: 25%;
-    padding: 10px 0px;
+    padding: 10px 0;
 }
 .historyZoneItem:last-child {
     text-align: right;
@@ -740,7 +740,7 @@ td.right {
 .historyDate, .historyProgName {
     display: table-cell;
     width:10%;
-    padding: 15px 0px;
+    padding: 15px 0;
     font-weight: bold;
 }
 .historyAllZones {
