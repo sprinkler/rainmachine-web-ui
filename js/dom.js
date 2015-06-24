@@ -89,19 +89,28 @@ function getPosition(tag)
 
     return r;
 }
-//set current option of a select element by matching string
-function setSelectOption(e, str)
+//set current option of a select element by matching string in option text or value
+function setSelectOption(e, str, matchValue)
 {
+	if (matchValue === undefined || matchValue === null)
+		matchValue = false;
+
 	var o = e.options;
 	for (var i = 0; i < o.length; i++)
 	{
 		o[i].selected = false; //deselect option
-		if (str.trim() === o[i].text.trim())
+		if (matchValue)
 		{
-			o[i].selected = true;
-			//e.onchange(); //Call the onchange() function
-			return true;
+			if (o[i].value != str) { continue; } //don't check type
 		}
+		else
+		{
+			if (str.trim() !== o[i].text.trim()) { continue; }
+		}
+
+		o[i].selected = true;
+		//e.onchange(); //Call the onchange() function
+		return true;
 	}
 	return false;
 }

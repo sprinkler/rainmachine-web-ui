@@ -263,29 +263,97 @@ function wateringLogUI()
 function restrictionsSettingsUI()
 {
 	var rh = API.getRestrictionsHourly();
+	var rg = API.getRestrictionsGlobal();
 	rh = rh.hourlyRestrictions;
 
-	var container = $("#restrictionsHourly");
-	clearTag(container);
+	var extraWateringElem = $("#restrictionsExtraWatering");
+	var freezeProtectElem = $("#restrictionsFreezeProtect");
+	var freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
+
+	extraWateringElem.checked = rg.hotDaysExtraWatering;
+	freezeProtectElem.checked = rg.freezeProtectEnabled;
+	setSelectOption(freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
+
+	//Set the months restrictions
+	for (var i = 0; i < Util.monthNames.length; i++)
+	{
+		var id = "#restrictions" + Util.monthNames[i];
+		var e = $(id);
+
+		if (rg.noWaterInMonths[i] == "1")
+			e.checked = true;
+		else
+			e.checked = false;
+	}
+
+	//Set the WeekDays restrictions
+	for (var i = 0; i < Util.weekDaysNames.length; i++)
+	{
+		var id = "#restrictions" + Util.weekDaysNames[i];
+		var e = $(id);
+
+		if (rg.noWaterInWeekDays[i] == "1")
+			e.checked = true;
+		else
+			e.checked = false;
+	}
+
+	//List the Hourly Restrictions
+	var containerHourly = $("#restrictionsHourly");
+	clearTag(containerHourly);
 
 	for (var i = 0; i < rh.length; i++)
 	{
-        var r = rh[i];
-        var template = loadTemplate('restriction-hourly-template');
-        var nameElem = $(template, '[rm-id="restriction-hourly-name"]');
-        var intervalElem = $(template, '[rm-id="restriction-hourly-interval"]');
-        var weekDaysElem = $(template, '[rm-id="restriction-hourly-weekdays"]');
-        var deleteElem = $(template, '[rm-id="restriction-hourly-delete"]');
+		var r = rh[i];
+		var template = loadTemplate('restriction-hourly-template');
+		var nameElem = $(template, '[rm-id="restriction-hourly-name"]');
+		var intervalElem = $(template, '[rm-id="restriction-hourly-interval"]');
+		var weekDaysElem = $(template, '[rm-id="restriction-hourly-weekdays"]');
+		var deleteElem = $(template, '[rm-id="restriction-hourly-delete"]');
 
-        nameElem.textContent = "Restriction " + r.uid;
-        intervalElem.textContent = r.interval;
-        weekDaysElem.textContent = Util.bitStringToWeekDays(r.weekDays);
+		nameElem.textContent = "Restriction " + r.uid;
+		intervalElem.textContent = r.interval;
+		weekDaysElem.textContent = Util.bitStringToWeekDays(r.weekDays);
 
-        deleteElem.uid = r.uid;
-        deleteElem.onclick = function() { API.deleteRestrictionsHourly(+this.uid); restrictionsSettingsUI(); };
+		deleteElem.uid = r.uid;
+		deleteElem.onclick = function() { API.deleteRestrictionsHourly(+this.uid); restrictionsSettingsUI(); };
 
-        container.appendChild(template);
+		containerHourly.appendChild(template);
 	}
+}
+
+
+function restrictionsGlobalAdd()
+{
+
+	//Read the months restrictions
+	var bitstrMonths = "";
+	for (var i = 0; i < Util.monthNames.length; i++)
+	{
+		var id = "#restrictions" + Util.monthNames[i];
+		var e = $(id);
+		if (e.checked)
+			bitstrMonths += "1";
+		else
+			bitstrMonths += "0";
+	}
+
+	//Read the WeekDays restrictions
+	var bitstrWeekDays = "";
+	for (var i = 0; i < Util.weekDaysNames.length; i++)
+	{
+		var id = "#restrictions" + Util.weekDaysNames[i];
+		var e = $(id);
+		if (e.checked)
+			bitstrWeekDays += "1";
+		else
+			bitstrWeekDays += "0";
+	}
+
+	console.log("Months restrictions: " + bitstrMonths);
+	console.log("Months restrictions: " + bitstrWeekDays);
+
+
 }
 
 function restrictionHourlyAdd()

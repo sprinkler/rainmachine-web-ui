@@ -14,7 +14,7 @@ Util.secondsToHuman = function(seconds)
 
 Util.secondsToText = function(seconds)
 {
-	var r = Util.secondsToHuman(seconds)
+	var r = Util.secondsToHuman(seconds);
 	var text = "";
 
 	if (r.days > 0)
@@ -37,6 +37,7 @@ Util.secondsToText = function(seconds)
 
 
 Util.weekDaysNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+Util.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 Util.bitStringToWeekDays = function(bitstr)
 {

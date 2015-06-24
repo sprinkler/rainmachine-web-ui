@@ -141,7 +141,7 @@
 									  	<td class="listItemSettings">
 									            <div rm-id="weather-name" class="bold">Hot Days</div>
 									            <span class="separator"></span>
-									            <input type="checkbox" id="restrictionsHotDaysEnable" class="right" />
+									            <input type="checkbox" id="restrictionsExtraWatering" class="right" />
 									            <span>Allow extra watering</span>
 									            <div class="clear30"></div>
 									            <button id="restrictionsHotDaysSet" class="save full">Set</button>
@@ -151,20 +151,21 @@
 									            <div rm-id="weather-name" class="bold">Freeze Protect</div>
 									            <span class="separator"></span>
 									            	<div>Do not water under:</div>
-										            <div id="restrictionsFreezeProtect" class="setSelection">
-														<select id="restrictionsFreezeProtectValue">
+										            <div class="setSelection">
+														<select  id="restrictionsFreezeProtectTemp">
 															<option value="0">0 &deg; C</option>
 															<option value="2" selected>2 &deg; C</option>
 															<option value="5">5 &deg; C</option>
 															<option value="10">10 &deg; C</option>
-														</select>															
+														</select>
+                                                        <input type="checkbox" id="restrictionsFreezeProtect" class="right" />
 													</div>
 												<div class="clear30"></div>
 									            <button id="restrictionFreezeSet" class="save full">Set</button>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Months</div>
+									            <div class="bold">Months</div>
 									            <div class="half">
 										            <div>
 														<span class="separator"></span>
@@ -234,7 +235,7 @@
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Weekdays</div>
+									            <div class="bold">Weekdays</div>
 									            <div class="half">
 										            <div>
 														<span class="separator"></span>
@@ -299,13 +300,13 @@
 														<input name="t" type="numeric" id="restrictionHourlyMinutes"> minutes
 														<div class="clear30"></div>
 														<span class="bold">Weekdays</span><br><br>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewSunday"><br>Sun</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewMonday"><br>Mon</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewTuesday"><br>Tue</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewThursday"><br>Thu</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewWednesday"><br>Wed</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewFriday"><br>Fri</div>
-														<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionsAddNewSaturday"><br>Sat</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
+                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
 														<div class="clear30"></div>
 														<button id="restrictionHourlyAdd" class="save">Add New</button>
 													</td>
