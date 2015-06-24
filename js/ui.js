@@ -288,6 +288,12 @@ function restrictionsSettingsUI()
 	}
 }
 
+function restrictionHourlyAdd()
+{
+
+
+}
+
 function aboutSettingsUI()
 {
 	$("#aboutName").textContent = provision.system.netName;

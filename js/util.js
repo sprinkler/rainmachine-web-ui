@@ -29,6 +29,9 @@ Util.secondsToText = function(seconds)
 	if (r.seconds > 0)
 		text += r.seconds + " seconds ";
 
+	if (text.length == 0)
+		text = "No time";
+
 	return text;
 };
 
