@@ -108,7 +108,7 @@ window.ui = window.ui || {};
 	function showProgramSettings(program)
 	{
         selectedProgram = program;
-        console.log(program);
+        console.log(JSON.stringify(program, null, "  "));
 
         var programSettingsDiv = $('#programsSettings');
         clearTag(programSettingsDiv);
@@ -116,12 +116,22 @@ window.ui = window.ui || {};
 
         uiElems = loadProgramTemplate();
 
+        uiElems.activeElem.checked = true;
+        uiElems.weatherDataElem.checked = true;
+        uiElems.nextRun.innerText = "";
+
         if(program) {
             //---------------------------------------------------------------------------------------
             // Prepare some data.
             //
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
+            var nextRun = new Date(program.nextRun);
+            if(isNaN(nextRun.getTime())) {
+                nextRun = "";
+            } else {
+                nextRun = nextRun.toDateString();
+            }
 
             try {
                 var chunks = program.startTime.split(":");
@@ -149,10 +159,13 @@ window.ui = window.ui || {};
             //
             uiElems.nameElem.value = program.name;
             uiElems.activeElem.checked = program.active;
-            uiElems.weatherDataElem.checked = program.ignoreInternetWeather;
+            uiElems.weatherDataElem.checked = !program.ignoreInternetWeather;
 
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
+
+            uiElems.nextRun.innerText = nextRun;
+
             uiElems.cyclesSoakElem.checked = program.cs_on;
             uiElems.cyclesElem.value = program.cycles;
             uiElems.soakElem.value = program.soak;
@@ -228,6 +241,7 @@ window.ui = window.ui || {};
         templateInfo.weatherDataElem = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data"]');
         templateInfo.startTimeHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-hour"]');
         templateInfo.startTimeMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-min"]');
+        templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
         templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
@@ -291,7 +305,7 @@ window.ui = window.ui || {};
 
         program.name = uiElems.nameElem.value;
         program.active = uiElems.activeElem.checked;
-        program.ignoreInternetWeather = uiElems.weatherDataElem.checked;
+        program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
         program.startTime = startTime.hour + ":" + startTime.min;
 
