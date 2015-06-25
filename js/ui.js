@@ -338,7 +338,12 @@ function restrictionsSettingsUI()
 function restrictionsSetExtraWatering()
 {
 	var extraWateringElem = $("#restrictionsExtraWatering");
-	console.log("Extra Watering %s", extraWateringElem.checked);
+    var data = { hotDaysExtraWatering: extraWateringElem.checked };
+
+	console.log("Extra Watering %o", data);
+
+	API.setRestrictionsGlobal(data);
+
 }
 
 function restrictionsSetFreezeProtect()
@@ -348,8 +353,12 @@ function restrictionsSetFreezeProtect()
 
 	var temp = parseInt(freezeProtectTempElem.options[freezeProtectTempElem.selectedIndex].value);
 
-	console.log("FreezeProtect %s : %d", freezeProtectElem.checked, temp);
-
+	var data = {
+	 	freezeProtectEnabled: freezeProtectElem.checked,
+        freezeProtectTemp: temp
+	};
+	console.log("FreezeProtect %o", data);
+	API.setRestrictionsGlobal(data);
 }
 
 function restrictionsSetMonths()
@@ -367,7 +376,9 @@ function restrictionsSetMonths()
 			bitstrMonths += "0";
 	}
 
-	console.log("Months restrictions: " + bitstrMonths);
+	var data = { noWaterInMonths: bitstrMonths };
+	console.log("Months restrictions: %o", data);
+	API.setRestrictionsGlobal(data);
 }
 
 function restrictionsSetWeekDays()
@@ -385,14 +396,17 @@ function restrictionsSetWeekDays()
 			bitstrWeekDays += "0";
 	}
 
-	console.log("WeekDays restrictions: " + bitstrWeekDays);
+	var data = { noWaterInWeekDays: bitStringToWeekDays };
+	console.log("WeekDays restrictions: %o", data);
+	API.setRestrictionsGlobal(data);
 }
 
 
 function restrictionsSetHourly()
 {
-	var startTimeElem = $("#restrictionHourlyFrom");
-	var durationElem = $("#restrictionHourlyMinutes");
+	var startHourElem = $("#restrictionHourlyStartHour");
+	var startMinuteElem = $("#restrictionHourlyStartMinute");
+	var durationElem = $("#restrictionHourlyDuration");
 
 	//Read the WeekDays restrictions
 	var bitstrWeekDays = "";
@@ -406,9 +420,17 @@ function restrictionsSetHourly()
 			bitstrWeekDays += "0";
 	}
 
-	console.log("Hourly start %s", startTimeElem.value);
-	console.log("Hourly duration %s", durationElem.value);
-	console.log("Hourly WeekDays restrictions: " + bitstrWeekDays);
+	var dayMinuteStart = parseInt(startHourElem.value) * 60 + parseInt(startMinuteElem.value);
+
+	var data = {
+		start: dayMinuteStart,
+		duration: durationElem.value,
+		weekDays: bitstrWeekDays
+	}
+
+	console.log("Hourly Restriction %o", data);
+	API.setRestrictionsHourly(data);
+	restrictionsSettingsUI(); //refresh
 }
 
 function aboutSettingsUI()

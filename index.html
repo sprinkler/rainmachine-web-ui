@@ -292,12 +292,18 @@
 													<td class="listItemSettings">
 														<div class="bold">Add new hourly restriction</div>
 														<span class="separator"></span>
-														<span class="bold">Restriction Hours (HH:MM AM/PM)</span>
+														<div class="clear30"></div>
+														<span class="bold">Restriction start time</span>
 														<br>
-														Starting at
-														<input name="t" type="time" class="typeTime" id="restrictionHourlyFrom">
-														hour for
-														<input name="t" type="numeric" id="restrictionHourlyMinutes"> minutes
+														Hour:
+														<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartHour"  placeholder="14">
+														Minute:
+														<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartMinute"  placeholder="30">
+														<div class="clear30"></div>
+														<span class="bold">Restriction duration</span>
+														<br>
+														<input type="number" min="0" max="1440" class="typeNumber" id="restrictionHourlyDuration" placeholder="60">
+														minutes
 														<div class="clear30"></div>
 														<span class="bold">Weekdays</span><br><br>
                                                         <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
