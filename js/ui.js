@@ -270,6 +270,12 @@ function restrictionsSettingsUI()
 	var freezeProtectElem = $("#restrictionsFreezeProtect");
 	var freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
 
+	var buttonExtraSet = $("#restrictionsHotDaysSet");
+	var buttonFreezeSet = $("#restrictionFreezeSet");
+	var buttonMonthsSet = $("#restrictionsMonthsSet");
+	var buttonWeekDaysSet = $("#restrictionWeekDaysSet");
+	var buttonHourlySet = $("#restrictionHourlyAdd");
+
 	extraWateringElem.checked = rg.hotDaysExtraWatering;
 	freezeProtectElem.checked = rg.freezeProtectEnabled;
 	setSelectOption(freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
@@ -320,10 +326,33 @@ function restrictionsSettingsUI()
 
 		containerHourly.appendChild(template);
 	}
+
+	//Button actions
+	buttonExtraSet.onclick = function() { restrictionsSetExtraWatering(); };
+	buttonFreezeSet.onclick = function() { restrictionsSetFreezeProtect(); };
+	buttonMonthsSet.onclick = function() { restrictionsSetMonths(); };
+	buttonWeekDaysSet.onclick = function() { restrictionsSetWeekDays(); };
+	buttonHourlySet.onclick = function() { restrictionsSetHourly(); };
 }
 
+function restrictionsSetExtraWatering()
+{
+	var extraWateringElem = $("#restrictionsExtraWatering");
+	console.log("Extra Watering %s", extraWateringElem.checked);
+}
 
-function restrictionsGlobalAdd()
+function restrictionsSetFreezeProtect()
+{
+	var freezeProtectElem = $("#restrictionsFreezeProtect");
+	var freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
+
+	var temp = parseInt(freezeProtectTempElem.options[freezeProtectTempElem.selectedIndex].value);
+
+	console.log("FreezeProtect %s : %d", freezeProtectElem.checked, temp);
+
+}
+
+function restrictionsSetMonths()
 {
 
 	//Read the months restrictions
@@ -338,6 +367,12 @@ function restrictionsGlobalAdd()
 			bitstrMonths += "0";
 	}
 
+	console.log("Months restrictions: " + bitstrMonths);
+}
+
+function restrictionsSetWeekDays()
+{
+
 	//Read the WeekDays restrictions
 	var bitstrWeekDays = "";
 	for (var i = 0; i < Util.weekDaysNames.length; i++)
@@ -350,16 +385,30 @@ function restrictionsGlobalAdd()
 			bitstrWeekDays += "0";
 	}
 
-	console.log("Months restrictions: " + bitstrMonths);
-	console.log("Months restrictions: " + bitstrWeekDays);
-
-
+	console.log("WeekDays restrictions: " + bitstrWeekDays);
 }
 
-function restrictionHourlyAdd()
+
+function restrictionsSetHourly()
 {
+	var startTimeElem = $("#restrictionHourlyFrom");
+	var durationElem = $("#restrictionHourlyMinutes");
 
+	//Read the WeekDays restrictions
+	var bitstrWeekDays = "";
+	for (var i = 0; i < Util.weekDaysNames.length; i++)
+	{
+		var id = "#restrictionHourly" + Util.weekDaysNames[i];
+		var e = $(id);
+		if (e.checked)
+			bitstrWeekDays += "1";
+		else
+			bitstrWeekDays += "0";
+	}
 
+	console.log("Hourly start %s", startTimeElem.value);
+	console.log("Hourly duration %s", durationElem.value);
+	console.log("Hourly WeekDays restrictions: " + bitstrWeekDays);
 }
 
 function aboutSettingsUI()
