@@ -196,7 +196,7 @@ function wateringLogUI()
 
 	var container = $("#wateringHistoryContent");
 
-	for (var i = 0; i < waterLog.waterLog.days.length; i++)
+	for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 	{
 		var day =  waterLog.waterLog.days[i];
 		var dayTemplate = loadTemplate("watering-history-day-template");
