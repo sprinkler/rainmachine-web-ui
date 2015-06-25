@@ -139,7 +139,7 @@
 									  	</tr>
 									  	<tr>
 									  	<td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Hot Days</div>
+									            <div class="bold">Hot Days</div>
 									            <span class="separator"></span>
 									            <input type="checkbox" id="restrictionsExtraWatering" class="right" />
 									            <span>Allow extra watering</span>
@@ -148,7 +148,7 @@
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Freeze Protect</div>
+									            <div class="bold">Freeze Protect</div>
 									            <span class="separator"></span>
 									            	<div>Do not water under:</div>
 										            <div class="setSelection">
@@ -391,35 +391,40 @@
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  	<tr>
 									    <th colspan="5">
-								            <h1 id="deviceNameSystem" class="title">Nicu-SPK3<br><span class="subtitle" id="deviceNetworkSystem">Iasi, Romania (192.168.12.157)</span></h1>
-								            
+								            <h1 id="systemSettingsName" class="title">systemSettingsName<br>
+												<span class="subtitle" id="systemSettingsNetwork">systemSettingsNetwork</span>
+											</h1>
 								        </th>
 								  	</tr>
 								  	<tr>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">LinuxConsulting</span>
-									            <div rm-id="weather-name" class="bold">Network Settings</div>
+									    		<span class="subtitle right" id="systemSettingsAP">systemSettingsAP</span>
+									            <div  class="bold">Network Settings</div>
 									            <span class="separator"></span>
-									            <span class="green">Connected</span> <!-- <span class="restriction">Not Connected</span> -->
+									            <span class="green" id="systemSettingsConnectionStatus">Connected</span>
+												<!-- <span class="restriction">Not Connected</span> -->
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">npavel@mini-box.com</span>
-									            <div rm-id="weather-name" class="bold">Remote Access</div>
+									            <div class="bold">Remote Access</div>
 									            <span class="separator"></span>
-									            <input type="text" rm-id="remote-email" placeholder="Email Address" class="typeText"/>
+									            <input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
 									            <span class="separator"></span>
-									            <input type="password" rm-id="remote-email-password" placeholder="Password" class="typeText"/>
+									            Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 									            <span class="separator"></span>
-									            <button rm-id="save-remote-email" class="save">Change</button>
+									            <button id="systemSettingsCloudSet" class="save">Change</button>
 									    </td>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">Sensor name</span>
-									            <div rm-id="weather-name" class="bold">Rain Sensor</div>
-									            <span class="separator"></span>
-									            <!-- <span class="start">Connected</span> --> <span class="restriction">Not Connected</span>
+									        <div class="bold">Master Valve</div>
+											<span class="separator"></span>
+											Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore"> min before and
+											<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter"> after each program.
+											<br>
+											Enable<input type="checkbox" id="systemSettingsMasterValveEnable"/> <br>
+											<button id="systemSettingsMasterValveSet" class="save">Change</button>
+
 									    </td>
 									</tr>
 									<tr>
@@ -427,30 +432,33 @@
 									</tr>
 									<tr>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">Nicu-SPK3</span>
-									            <div rm-id="weather-name" class="bold">Device Name</div>
-									            <span class="separator"></span>
-									            <input type="text" rm-id="remote-device-name" placeholder="Name" class="typeText"/>
-									            <span class="separator"></span>
-									            <button rm-id="save-device-name" class="save">Change</button>
+											<div class="bold">Device Name</div>
+											<span class="separator"></span>
+											<input type="text" id="systemSettingsDeviceName" placeholder="Name" class="typeText"/>
+											<span class="separator"></span>
+											<button id="systemSettingsDeviceNameSet" class="save">Change</button>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">2691 Calle Alegre, Pleasanton, CA 94566, USA</span>
-									            <div rm-id="weather-name" class="bold">Location</div>
-									            <span class="separator"></span>
-									            <input type="text" rm-id="remote-device-name" placeholder="Street, City, State, Country" class="typeText"/>
-									            <span class="separator"></span>
-									            <button rm-id="save-device-name" class="save">Change</button>
+											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
+											<div class="bold">Location</div>
+											<span class="separator"></span>
+											<input type="number"  placeholder="Latitude" class="typeNumber"/><br>
+											<input type="number"  placeholder="Longitude" class="typeNumber"/><br>
+											<input type="number"  placeholder="Elevation(m)" class="typeNumber"/><br>
+											<span class="separator"></span>
+											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
+											<button id="systemSettingsLocationSet" class="save">Change</button>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">Pacific Daylight Time (PDT)</span>
-									            <div rm-id="weather-name" class="bold">Timezone</div>
+									            <div class="bold">Timezone</div>
 									            <span class="separator"></span>
-									            <input type="text" rm-id="remote-device-name" placeholder="Timezone" class="typeText"/>
+									            <select id="systemSettingsTimeZone">
+													<!-- Generated from Javascript -->
+												</select>
 									            <span class="separator"></span>
-									            <button rm-id="save-device-name" class="save">Change</button>
+									            <button id="systemSettingsTimeZoneSet" class="save">Change</button>
 									    </td>
 									</tr>
 									<tr>
@@ -458,34 +466,33 @@
 									</tr>
 									<tr>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">Imperial</span>
-									            <div rm-id="weather-name" class="bold">Units</div>
+									            <div class="bold">Units</div>
 									            <span class="separator"></span>
 									            <form>
-											        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox" checked="checked">US
+											        <input type="radio" id="systemSettingsUnitsUS" class="right typeCheckbox" checked="checked">US
 											        <span class="separator"></span>
-											        <input type="radio" rm-id="program-weather-data" class="right typeCheckbox">Metric
+											        <input type="radio" id="systemSettingsUnitsMetric" class="right typeCheckbox">Metric
 										            <span class="separator"></span>
+													<button id="systemSettingsUnitsSet" class="save">Change</button>
 										        </form>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right">not set</span>
-									            <div rm-id="weather-name" class="bold">Admin Password</div>
+									            <div class="bold">Admin Password</div>
 									            <span class="separator"></span>
-									            <input type="password" rm-id="remote-admin-password" placeholder="Password" class="typeText"/>
+									            <input type="password" id="systemSettingsPassword" placeholder="Password" class="typeText"/>
 									            <span class="separator"></span>
-									            <button rm-id="save-admin-password" class="save">Change</button>
+									            <button id="systemSettingsPasswordSet" class="save">Change</button>
 									    </td>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									            <div rm-id="weather-name" class="bold">Reset to Defaults</div>
+									            <div class="bold">Reset to Defaults</div>
 									            <span class="separator"></span>
-									            Reset <span class="bold">Nicu-SPK3</span> device to factory defaults.<br>
-									            This action will remove all settings saved on device.
+									            Reset device to factory defaults.<br>
+									            This action will remove all settings and data saved on device.
 									            <span class="separator"></span>
-									            <button rm-id="reset-to-default" class="stop">Reset</button>
+									            <button id="systemSettingsResetDefaultSet" class="stop">Reset</button>
 									    </td>
 									</tr>
 								</table>
