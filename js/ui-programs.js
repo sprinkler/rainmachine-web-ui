@@ -27,6 +27,8 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
+    var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
+
     //--------------------------------------------------------------------------------------------
     //
     //
@@ -120,6 +122,14 @@ window.ui = window.ui || {};
         uiElems.weatherDataElem.checked = true;
         uiElems.nextRun.innerText = "";
 
+        uiElems.frequencyWeekdaysContainerElem.display = "none";
+        for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
+            if(uiElems.frequencyWeekdaysElemCollection.hasOwnProperty(weekday)) {
+                var elem = uiElems.frequencyWeekdaysElemCollection[weekday];
+                elem.checked = false;
+            }
+        }
+
         if(program) {
             //---------------------------------------------------------------------------------------
             // Prepare some data.
@@ -179,7 +189,9 @@ window.ui = window.ui || {};
                 uiElems.frequencyEveryElem.checked = true;
                 uiElems.frequencyEveryParamElem.value = program.frequency.param;
             } else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
-                uiElems.frequencySelectedElem.checked = true;
+                fillWeekdaysFromParam(program.frequency.param);
+                uiElems.frequencyWeekdaysElem.checked = true;
+                uiElems.frequencyWeekdaysContainerElem.style.display = "block";
             } else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
                 var param = parseInt(program.frequency.param);
                 if (param % 2 === FrequencyParam.Odd) { // Odd
@@ -220,6 +232,12 @@ window.ui = window.ui || {};
 
         //---------------------------------------------------------------------------------------
         // Add listeners and elements.
+        uiElems.frequencyDailyElem.onchange = onFrequencyChanged;
+        uiElems.frequencyEveryElem.onchange = onFrequencyChanged;
+        uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
+        uiElems.frequencyOddElem.onchange = onFrequencyChanged;
+        uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
+
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
@@ -253,9 +271,20 @@ window.ui = window.ui || {};
         templateInfo.frequencyOddElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-odd"]');
         templateInfo.frequencyEvenElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-even"]');
         templateInfo.frequencyEveryElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-every"]');
-        templateInfo.frequencySelectedElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-selected"]');
+        templateInfo.frequencyWeekdaysElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-weekdays"]');
 
         templateInfo.frequencyEveryParamElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-every-param"]');
+
+        templateInfo.frequencyWeekdaysContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-weekdays-container"]');
+        templateInfo.frequencyWeekdaysElemCollection = {
+            sunday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-sunday"]'),
+            saturday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-saturday"]'),
+            friday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-friday"]'),
+            thursday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-thursday"]'),
+            wednesday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-wednesday"]'),
+            tuesday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-tuesday"]'),
+            monday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-monday"]')
+        };
 
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
@@ -329,11 +358,13 @@ window.ui = window.ui || {};
                 type: FrequencyType.EveryN,
                 param: parseInt(uiElems.frequencyEveryParamElem.value) || 0
             };
-        } else if(uiElems.frequencySelectedElem.checked) {
+        } else if(uiElems.frequencyWeekdaysElem.checked) {
             program.frequency = {
                 type: FrequencyType.Weekday,
-                param: FrequencyParam.WeekdayFormat
+                param: weekdaysToParam()
             };
+
+            console.log(program.frequency);
         } else if(uiElems.frequencyOddElem.checked) {
             program.frequency = {
                 type: FrequencyType.OddEven,
@@ -377,6 +408,44 @@ window.ui = window.ui || {};
         return program;
     }
 
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+    function fillWeekdaysFromParam(param) {
+        if(!param) {
+            return;
+        }
+
+        param = param.substr(param.length - WeekdaysOrder.length - 1);
+
+        for(var index = 0; index < param.length; index++) {
+            if(WeekdaysOrder.length <= index) {
+                continue;
+            }
+
+            var elem = uiElems.frequencyWeekdaysElemCollection[WeekdaysOrder[index]];
+            elem.checked = (param.charAt(index) != "0");
+        }
+    }
+
+    function weekdaysToParam() {
+        var param = ""; // See FrequencyParam.WeekdayFormat ("SSFTWTM0")
+        for(var index = 0; index < WeekdaysOrder.length; index++) {
+            var elem = uiElems.frequencyWeekdaysElemCollection[WeekdaysOrder[index]];
+            param += (elem.checked ? "1" : "0");
+        }
+        param += "0";
+
+        return param;
+    }
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+    function onFrequencyChanged (e) {
+        var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
+        uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
+    }
 	//--------------------------------------------------------------------------------------------
 	//
 	//

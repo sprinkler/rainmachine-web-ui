@@ -675,28 +675,71 @@
 									<tr><td class="cardTitle">Wheather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
 									<tr>
 										<td colspan="2">
-										<span class="cardTitle">Frequency:</span><br><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
-										<div class="setSelection"><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-											<select rm-id="program-frequency-every-param">
-												<option value="2" selected>2 days</option>
-												<option value="3">3 day</option>
-												<option value="4">4 day</option>
-												<option value="5">5 day</option>
-												<option value="6">6 day</option>
-												<option value="7">7 day</option>
-												<option value="8">8 day</option>
-												<option value="9">9 day</option>
-												<option value="10">10 day</option>
-												<option value="11">11 day</option>
-												<option value="12">12 day</option>
-												<option value="13">13 day</option>
-												<option value="14">14 day</option>
-											</select>
-										</div><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-selected"/> <span>Selected days</span></div>
+											<span class="cardTitle">Frequency:</span><br><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
+											<div class="setSelection"><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+												<select rm-id="program-frequency-every-param">
+													<option value="2" selected>2 days</option>
+													<option value="3">3 day</option>
+													<option value="4">4 day</option>
+													<option value="5">5 day</option>
+													<option value="6">6 day</option>
+													<option value="7">7 day</option>
+													<option value="8">8 day</option>
+													<option value="9">9 day</option>
+													<option value="10">10 day</option>
+													<option value="11">11 day</option>
+													<option value="12">12 day</option>
+													<option value="13">13 day</option>
+													<option value="14">14 day</option>
+												</select>
+											</div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+												<div rm-id="program-frequency-weekdays-container" style="width: 70%; margin: 0px auto; display: none;">
+													<div class="half">
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-sunday" class="right" />
+															<div>Sunday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-monday" class="right"/>
+															<div>Monday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+															<div>Tuesday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+															<div>Wednesday</div>
+														</div>
+													</div>
+													<div class="halfRight">
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-thursday" class="right"/>
+															<div>Thursday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-friday" class="right"/>
+															<div>Friday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-saturday" class="right"/>
+															<div>Saturday</div>
+														</div>
+													</div>
+													<div class="clear30"></div>
+												</div>
+											</div>
 										</td>
 									</tr>
 									<tr>
