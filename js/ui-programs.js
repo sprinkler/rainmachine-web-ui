@@ -34,16 +34,16 @@ window.ui = window.ui || {};
     //
 	function showPrograms()
 	{
-		var programData = API.getPrograms();
+		Data.programs = API.getPrograms();
 		var programListDiv = $('#programsList');
 		clearTag(programListDiv);
 		makeVisible('#programs');
 
-        console.log(programData);
+        console.log(Data.programs);
 
-		for (var i = 0; i < programData.programs.length; i++)
+		for (var i = 0; i < Data.programs.programs.length; i++)
 		{
-			var p = programData.programs[i];
+			var p = Data.programs.programs[i];
 
 			var template = loadTemplate("program-entry");
 
@@ -289,7 +289,7 @@ window.ui = window.ui || {};
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
 
-        for (var index = 0; index < provision.system.localValveCount; index++) {
+        for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
             var zoneTemplate = loadTemplate("program-settings-zone-template");
 

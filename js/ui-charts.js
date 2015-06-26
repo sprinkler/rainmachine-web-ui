@@ -19,14 +19,13 @@ function conditionToGlyph(condition)
 
 function generateCharts()
 {
-	var mixerData = API.getMixer();
-	var dailyDetails = API.getDailyStats(null, true);
+	Data.mixerData = API.getMixer();
+	Data.dailyDetails = API.getDailyStats(null, true);
 
-	var recent = mixerData.mixerData[0].dailyValues;
-	var daily = dailyDetails.DailyStatsDetails;
+	var recent = Data.mixerData.mixerData[0].dailyValues;
+	var daily = Data.dailyDetails.DailyStatsDetails;
 	console.log("%o", daily);
-	console.log("%o", mixerData);
-	//console.log("%o", mixerData.mixerData[0].dailyValues);
+	console.log("%o", Data.mixerData);
 
 	var chartData = {
 		qpf : [],

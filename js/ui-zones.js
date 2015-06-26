@@ -213,17 +213,17 @@ function saveZone(uid)
 
 function showZones()
 {
-	var zoneData = API.getZones();
-	var zoneAdvData = API.getZonesProperties();
+	Data.zoneData = API.getZones();
+	Data.zoneAdvData = API.getZonesProperties();
 
 	var zonesDiv = $('#zonesList');
 
 	clearTag(zonesDiv);
 
-	for (var i = 0; i < zoneData.zones.length; i++)
+	for (var i = 0; i < Data.zoneData.zones.length; i++)
 	{
-		var z = zoneData.zones[i];
-		var za = zoneAdvData.zones[i];
+		var z = Data.zoneData.zones[i];
+		var za = Data.zoneAdvData.zones[i];
 		z.active = za.active;
 
 		var template = loadTemplate("zone-entry");
@@ -250,8 +250,8 @@ function showZones()
 			template.className += " master";
 			makeHidden(timersElem);
 			nameElem.textContent = "Master Valve";
-			typeElem.textContent = "Before: " + provision.system.masterValveBefore +
-			 						" sec After: " + provision.system.masterValveAfter + " sec";
+			typeElem.textContent = "Before: " + Data.provision.system.masterValveBefore +
+			 						" sec After: " + Data.provision.system.masterValveAfter + " sec";
 		}
 		else
 		{
@@ -271,7 +271,7 @@ function showZones()
 
 		//Not running show default minutes
 		if (z.state == 0)
-			seconds = provision.system.zoneDuration[z.uid - 1];
+			seconds = Data.provision.system.zoneDuration[z.uid - 1];
 
 		updateZoneTimer(z.uid, seconds);
 	}
