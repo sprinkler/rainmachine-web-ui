@@ -339,6 +339,49 @@ function aboutSettingsUI()
 	$("#aboutMemory").textContent = Data.diag.memUsage + " Kb";
 	$("#aboutCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
 	$("#aboutUptime").textContent = Data.diag.uptime;
+	$("#aboutUpdate").onclick = function() { API.startUpdate(); aboutSettingsUI(); };
+	$("#aboutDiagSend").onclick = function() { API.sendDiag(); aboutSettingsUI(); };
+
+	API.checkUpdate();
+	var updateStatus = API.getUpdate();
+	aboutUpdate(updateStatus);
+
+	var uploadStatus = API.getDiagUpload();
+	aboutDiagUpload(uploadStatus);
+}
+
+function aboutUpdate(updateStatus)
+{
+	var newVerElem = $("#aboutNewVersion");
+	var startUpdateElem = $("#aboutUpdate");
+
+	if (updateStatus.update)
+	{
+		newVerElem.textContent = "(New version available)";
+		makeVisible(startUpdateElem);
+	}
+	else
+	{
+		newVerElem.textContent = "(No updates)";
+		makeHidden(startUpdateElem);
+	}
+}
+
+function aboutDiagUpload(uploadStatus)
+{
+	var statusElem = $("#aboutDiagStatus");
+	var startUploadElem = $("#aboutDiagSend");
+
+    if (uploadStatus.status)
+    {
+    	statusElem.textContent = "Uploading log files in progress ...";
+    	makeHidden(startUploadElem);
+    }
+    else
+    {
+    	statusElem.textContent = "";
+    	makeVisible(startUploadElem);
+    }
 }
 
 function buildTimeZoneSelect(container)

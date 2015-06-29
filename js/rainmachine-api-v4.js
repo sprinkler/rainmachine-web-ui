@@ -467,7 +467,38 @@ API.getDiag = function()
 {
 	return get(API.URL.diag, null)
 }
+
+API.getDiagUpload = function()
+{
+	var url = API.URL.diag + "/upload";
+	return get(url, null);
+}
+
+API.sendDiag = function()
+{
+    var url = API.URL.diag + "/upload";
+    return post(url, null);
+}
+
 /* ------------------------------------------ MACHINE API CALLS ---------------------------------------------*/
+
+API.checkUpdate = function()
+{
+	var url = API.URL.machine + "/update/check";
+	return post(url, {}, null);
+}
+
+API.getUpdate = function()
+{
+	var url = API.URL.machine + "/update";
+	return get(url, null);
+}
+
+API.startUpdate = function()
+{
+	var url = API.URL.machine + "/update";
+	return post(url, {}, null);
+}
 
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
