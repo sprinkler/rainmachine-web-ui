@@ -108,6 +108,19 @@ API.auth = function(password, remember)
 	return token;
 };
 
+API.authChange = function(oldPass, newPass)
+{
+    var url = API.URL.auth + "/change";
+
+    var data =
+    {
+    	newPass: newPass,
+    	oldPass: oldPass
+    }
+
+    return post(url, data, null);
+}
+
 API.setAccessToken = function(accessToken) {
 	token = accessToken;
 }

@@ -155,7 +155,7 @@
 									            <div class="bold">Freeze Protect</div>
 									            <span class="separator"></span>
 									            	<div>Do not water under:</div>
-										            <div class="setSelection">
+										            <div>
 														<select  id="restrictionsFreezeProtectTemp">
 															<option value="0">0 &deg; C</option>
 															<option value="2" selected>2 &deg; C</option>
@@ -383,72 +383,69 @@
 									</table>
 								</div>
 							</div>
-
 							<div id="weatherWaterSaveDays">
-
 							</div>
-
 						</div>
 
 						<div id="systemSettings" style="display: none;">
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  	<tr>
-									    <td class="listItemSettings">
-									    		<span class="subtitle right" id="systemSettingsAP"></span>
-									            <div  class="bold">Network Settings</div>
-									            <span class="separator"></span>
-									            <span class="green" id="systemSettingsConnectionStatus">Connected</span>
-												<!-- <span class="restriction">Not Connected</span> -->
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-									            <div class="bold">Remote Access</div>
-									            <span class="separator"></span>
-									            <input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
-									            <span class="separator"></span>
-									            Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
-									            <span class="separator"></span>
-									            <button id="systemSettingsCloudSet" class="save">Change</button>
-									    </td>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-									        <div class="bold">Master Valve</div>
+										<td class="listItemSettings">
+											<div class="bold">Device Name</div>
 											<span class="separator"></span>
-											Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore"> min before and
-											<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter"> after each program.
-											<br>
-											<button id="systemSettingsMasterValveSet" class="save">Change</button>
-
+											<input type="text" id="systemSettingsDeviceName" placeholder="Name" class="typeText"/>
+											<span class="separator"></span>
+											<button id="systemSettingsDeviceNameSet" class="save">Change</button>
+										</td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+											<div class="bold">Remote Access</div>
+											<span class="separator"></span>
+											<input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
+											<span class="separator"></span>
+											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
+											<span class="separator"></span>
+											<button id="systemSettingsCloudSet" class="save">Change</button>
 									    </td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+										<td class="listItemSettings">
+											<div class="bold">Admin Password</div>
+											<span class="separator"></span>
+											<input type="password" id="systemSettingsPasswordOld" placeholder="Old Password" class="typeText"/>
+											<span class="separator"></span>
+											<input type="password" id="systemSettingsPassword" placeholder="New Password" class="typeText"/>
+											<span class="separator"></span>
+											<button id="systemSettingsPasswordSet" class="save">Change</button>
+										</td>
 									</tr>
 									<tr>
 										<td class="gap"></td>
 									</tr>
 									<tr>
 									    <td class="listItemSettings">
-											<div class="bold">Device Name</div>
-											<span class="separator"></span>
-											<input type="text" id="systemSettingsDeviceName" placeholder="Name" class="typeText"/>
-											<span class="separator"></span>
-											<button id="systemSettingsDeviceNameSet" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
 											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
 											<div class="bold">Location</div>
 											<span class="separator"></span>
-											<input type="number"  placeholder="Latitude" class="typeNumber" id="systemSettingsLocationLat"/><br>
-											<input type="number"  placeholder="Longitude" class="typeNumber" id="systemSettingsLocationLon"/><br>
-											<input type="number"  placeholder="Elevation(m)" class="typeNumber" id="systemSettingsLocationElev"/><br>
+											<input type="text"  placeholder="Latitude" class="typeText" id="systemSettingsLocationLat"/><br>
+											<input type="text"  placeholder="Longitude" class="typeText" id="systemSettingsLocationLon"/><br>
+											<input type="text"  placeholder="Elevation(m)" class="typeText" id="systemSettingsLocationElev"/><br>
 											<span class="separator"></span>
 											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
+											<span class="separator"></span>
 											<button id="systemSettingsLocationSet" class="save">Change</button>
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
-									            <div class="bold">Timezone</div>
+									            <div class="bold">Date and Time</div>
+												<span class="separator"></span>
+												<div>
+													Date: <input type="date" id="systemSettingsDate">
+													Hour: <input type="number" id="systemSettingsHour">
+													Minute: <input type="number" id="systemSettingsMinute">
+													Seconds: <input type="number" id="systemSettingsSeconds">
+												</div>
 									            <span class="separator"></span>
 									            <select id="systemSettingsTimeZoneSelect">
 													<!-- Generated from Javascript -->
@@ -456,31 +453,31 @@
 									            <span class="separator"></span>
 									            <button id="systemSettingsTimeZoneSet" class="save">Change</button>
 									    </td>
+										<td class="gap">&nbsp;</td>
+										<td class="listItemSettings">
+											<div class="bold">Units</div>
+											<span class="separator"></span>
+											<input type="radio" id="systemSettingsUnitsUS" name="units" class="right typeCheckbox" checked="checked">US
+											<span class="separator"></span>
+											<input type="radio" id="systemSettingsUnitsMetric" name="units" class="right typeCheckbox">Metric
+											<span class="separator"></span>
+											<button id="systemSettingsUnitsSet" class="save">Change</button>
+										</td>
 									</tr>
 									<tr>
 										<td class="gap"></td>
 									</tr>
 									<tr>
-									    <td class="listItemSettings">
-									            <div class="bold">Units</div>
-									            <span class="separator"></span>
-									            <form>
-											        <input type="radio" id="systemSettingsUnitsUS" class="right typeCheckbox" checked="checked">US
-											        <span class="separator"></span>
-											        <input type="radio" id="systemSettingsUnitsMetric" class="right typeCheckbox">Metric
-										            <span class="separator"></span>
-													<button id="systemSettingsUnitsSet" class="save">Change</button>
-										        </form>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-									            <div class="bold">Admin Password</div>
-									            <span class="separator"></span>
-									            <input type="password" id="systemSettingsPassword" placeholder="Password" class="typeText"/>
-									            <span class="separator"></span>
-									            <button id="systemSettingsPasswordSet" class="save">Change</button>
-									    </td>
-									    </td>
+										<td class="listItemSettings">
+											<div class="bold">Master Valve</div>
+											<span class="separator"></span>
+											<div>
+												Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> min before and
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> after each program.
+											</div>
+											<br>
+											<button id="systemSettingsMasterValveSet" class="save">Change</button>
+										</td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
 									            <div class="bold">Reset to Defaults</div>
@@ -624,7 +621,7 @@
                 </tr>
                 <tr><td class="middle">Active:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
                 <tr><td class="middle">Vegetation Type:</td>
-                    <td class="middle setSelection">
+                    <td class="middle">
                         <select rm-id="zone-vegetation-type">
                             <option value="1">Other</option>
                             <option value="2" selected>Lawn</option>
@@ -675,7 +672,8 @@
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
-											<div class="setSelection"><input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+											<div>
+												<input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
 												<select rm-id="program-frequency-every-param">
 													<option value="2" selected>2 days</option>
 													<option value="3">3 day</option>

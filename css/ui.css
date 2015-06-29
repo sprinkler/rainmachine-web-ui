@@ -449,7 +449,7 @@ input.typeNumber, input.typeTime {
 input.typeTime {
     width: 100px;
 }
-.setSelection select {
+select {
    background: url('../images/arrow.png') no-repeat;
    background-position:right center;
    width: 180px;

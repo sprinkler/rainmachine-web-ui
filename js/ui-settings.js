@@ -193,9 +193,6 @@ var systemSettingsView = {};
 function systemSettingsUI()
 {
 	systemSettingsView = {
-		AP: $("#systemSettingsAP"),
-		ConnectionStatus: $("#systemSettingsConnectionStatus"),
-
 		CloudEnable: $("#systemSettingsCloudEnable"),
 		Email: $("#systemSettingsEmail"),
 		CloudSet: $("#systemSettingsCloudSet"),
@@ -218,22 +215,23 @@ function systemSettingsUI()
 
 		UnitsUS: $("#systemSettingsUnitsUS"),
 		UnitsMetric: $("#systemSettingsUnitsMetric"),
-
 		UnitsSet: $("#systemSettingsUnitsSet"),
+
+		PasswordOld: $("#systemSettingsPasswordOld"),
 		Password: $("#systemSettingsPassword"),
 		PasswordSet: $("#systemSettingsPasswordSet"),
+
 		ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 	};
-
-	systemSettingsView.AP.textContent = Data.provision.wifi.ssid;
-	systemSettingsView.ConnectionStatus.textContent = Data.provision.wifi.hasClientLink ? "Connected" : "Not Connected";
-	systemSettingsView.ConnectionStatus.className = Data.provision.wifi.hasClientLink ? "green" : "restriction";
 
 	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 	systemSettingsView.Email = Data.provision.cloud.email;
 
 	systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
 	systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
+
+
+	systemSettingsView.DeviceName.value = Data.provision.system.netName;
 
 	systemSettingsView.LocationFull.textContent = Data.provision.location.name + " (" +
 												Data.provision.location.latitude + ", " +
@@ -243,13 +241,88 @@ function systemSettingsUI()
 	systemSettingsView.LocationLon.value = Data.provision.location.longitude;
 	systemSettingsView.LocationElev.value = Data.provision.location.elevation;
 
-	for (var key in Data.timeZoneDB)
+	buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
+
+	var units = Storage.restoreItem("units") || false;
+	systemSettingsView.UnitsUS.checked = !units;
+	systemSettingsView.UnitsMetric.checked = units;
+
+	systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
+	systemSettingsView.DeviceNameSet.onclick = function() { systemSettingsChangeDeviceName(); };
+	systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
+	systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
+	systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
+	systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
+	systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
+
+}
+
+function systemSettingsChangeMasterValve()
+{
+	var b = parseInt(systemSettingsView.MasterValveBefore.value);
+	var a = parseInt(systemSettingsView.MasterValveAfter.value);
+
+	var data = {
+		masterValveBefore: b,
+		masterValveAfter: a
+	};
+
+	var r = API.setProvision(data, null);
+    console.log(r);
+
+	if (r === undefined || !r ||  r.statusCode != 0)
 	{
-		var o = addTag(systemSettingsView.TimeZoneSelect, 'option');
-		o.value = o.textContent = key;
-		if (key == Data.provision.location.timezone)
-			o.selected = true;
+		console.log("Can't set Master Valve");
+		return;
 	}
+
+    Data.provision.system.masterValveBefore = b;
+    Data.provision.system.masterValveAfter = a;
+}
+
+function systemSettingsChangeDeviceName()
+{
+	var n = systemSettingsView.DeviceName.value;
+
+
+	var data = {
+		netName: n
+	};
+
+	var r = API.setProvision(data, null);
+
+	if (r === undefined || !r || r.statusCode != 0)
+	{
+		console.log("Can't set Device Name");
+		return;
+	}
+
+	Data.provision.system.netName = n;
+}
+
+function systemSettingsChangeUnits()
+{
+	Storage.saveItem("units", systemSettingsView.UnitsMetric.checked);
+}
+
+function systemSettingsChangePassword()
+{
+	var o = systemSettingsView.PasswordOld.value;
+	var n = systemSettingsView.Password.value;
+
+	var r = API.authChange(o, n);
+
+	console.log(r);
+	if (r === undefined || !r || r.statusCode != 0)
+	{
+		console.log("Can't change password");
+		return;
+	}
+}
+
+function systemSettingsReset()
+{
+	API.setProvisionReset(true);
 }
 
 function aboutSettingsUI()
@@ -268,23 +341,20 @@ function aboutSettingsUI()
 	$("#aboutUptime").textContent = Data.diag.uptime;
 }
 
-function buildTimeZSelect(jsonData)
+function buildTimeZoneSelect(container)
 {
-	var s = document.getElementById("timezoneSelect")
-	if (!s || !jsonData || typeof s === "undefined")
-		return;
-
 	var sortedData = [];
-	//Sort the keys
-	for (var z in jsonData)
+
+	for (var z in Data.timeZoneDB)
 		sortedData.push(z);
 
 	sortedData.sort();
 
 	for (var i = 0; i < sortedData.length; i++)
 	{
-		var o = document.createElement('option');
+		var o = addTag(container, 'option');
 		o.value = o.textContent = sortedData[i];
-		s.appendChild(o);
+		if (sortedData[i] == Data.provision.location.timezone)
+        	o.selected = true;
 	}
 }
