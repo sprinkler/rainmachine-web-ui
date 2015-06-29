@@ -1,6 +1,5 @@
 function _genericSubMenu()
 {
-	//$('#settingsTitle').innerHTML = this.name;
 	console.log("SubMenu: %s : %s", this.id, this.name)
 }
 
@@ -12,7 +11,7 @@ var settingsSubmenus = [
     	{ name: "Snooze",  			func: rainDelaySettingsUI, 				container: '#snooze' },
     	{ name: "Restrictions",  	func: restrictionsSettingsUI,			container: '#restrictions' },
     	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
-    	{ name: "System Settings",  func:_genericSubMenu, 					container: '#systemSettings' },
+    	{ name: "System Settings",  func: systemSettingsUI,					container: '#systemSettings' },
     	{ name: "About",  			func: aboutSettingsUI, 					container: '#about' }
 	];
 
@@ -72,6 +71,7 @@ function showDeviceInfo()
     Data.provision = API.getProvision();
     Data.provision.wifi = API.getProvisionWifi();
     Data.provision.api = API.getApiVer();
+	Data.provision.cloud = API.getProvisionCloud();
 
     var deviceImgDiv = $('#deviceImage');
     var deviceNameDiv = $('#deviceName');

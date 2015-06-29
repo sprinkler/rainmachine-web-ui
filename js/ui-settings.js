@@ -1,4 +1,3 @@
-
 function weatherSettingUI()
 {
 
@@ -189,6 +188,69 @@ function wateringLogUI()
 	}
 }
 
+var systemSettingsView = {};
+
+function systemSettingsUI()
+{
+	systemSettingsView = {
+		AP: $("#systemSettingsAP"),
+		ConnectionStatus: $("#systemSettingsConnectionStatus"),
+
+		CloudEnable: $("#systemSettingsCloudEnable"),
+		Email: $("#systemSettingsEmail"),
+		CloudSet: $("#systemSettingsCloudSet"),
+
+		MasterValveBefore: $("#systemSettingsMasterValveBefore"),
+		MasterValveAfter: $("#systemSettingsMasterValveAfter"),
+		MasterValveSet: $("#systemSettingsMasterValveSet"),
+
+		DeviceName: $("#systemSettingsDeviceName"),
+		DeviceNameSet: $("#systemSettingsDeviceNameSet"),
+
+		LocationFull: $("#systemSettingsLocationFull"),
+		LocationLat: $("#systemSettingsLocationLat"),
+		LocationLon: $("#systemSettingsLocationLon"),
+		LocationElev: $("#systemSettingsLocationElev"),
+		LocationSet: $("#systemSettingsLocationSet"),
+
+		TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
+		TimeZoneSet: $("#systemSettingsTimeZoneSet"),
+
+		UnitsUS: $("#systemSettingsUnitsUS"),
+		UnitsMetric: $("#systemSettingsUnitsMetric"),
+
+		UnitsSet: $("#systemSettingsUnitsSet"),
+		Password: $("#systemSettingsPassword"),
+		PasswordSet: $("#systemSettingsPasswordSet"),
+		ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
+	};
+
+	systemSettingsView.AP.textContent = Data.provision.wifi.ssid;
+	systemSettingsView.ConnectionStatus.textContent = Data.provision.wifi.hasClientLink ? "Connected" : "Not Connected";
+	systemSettingsView.ConnectionStatus.className = Data.provision.wifi.hasClientLink ? "green" : "restriction";
+
+	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
+	systemSettingsView.Email = Data.provision.cloud.email;
+
+	systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
+	systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
+
+	systemSettingsView.LocationFull.textContent = Data.provision.location.name + " (" +
+												Data.provision.location.latitude + ", " +
+												Data.provision.location.longitude + ")";
+
+	systemSettingsView.LocationLat.value = Data.provision.location.latitude;
+	systemSettingsView.LocationLon.value = Data.provision.location.longitude;
+	systemSettingsView.LocationElev.value = Data.provision.location.elevation;
+
+	for (var key in Data.timeZoneDB)
+	{
+		var o = addTag(systemSettingsView.TimeZoneSelect, 'option');
+		o.value = o.textContent = key;
+		if (key == Data.provision.location.timezone)
+			o.selected = true;
+	}
+}
 
 function aboutSettingsUI()
 {
@@ -204,4 +266,25 @@ function aboutSettingsUI()
 	$("#aboutMemory").textContent = Data.diag.memUsage + " Kb";
 	$("#aboutCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
 	$("#aboutUptime").textContent = Data.diag.uptime;
+}
+
+function buildTimeZSelect(jsonData)
+{
+	var s = document.getElementById("timezoneSelect")
+	if (!s || !jsonData || typeof s === "undefined")
+		return;
+
+	var sortedData = [];
+	//Sort the keys
+	for (var z in jsonData)
+		sortedData.push(z);
+
+	sortedData.sort();
+
+	for (var i = 0; i < sortedData.length; i++)
+	{
+		var o = document.createElement('option');
+		o.value = o.textContent = sortedData[i];
+		s.appendChild(o);
+	}
 }

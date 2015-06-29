@@ -7,8 +7,9 @@
 	<script src="js/dom.js"></script>
     <script src="js/storage.js"></script>
 	<script src="js/util.js"></script>
+    <script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/data.js"></script>
-	<script src="js/rainmachine-api-v4.js"></script>
+
 	<script src="js/ui-charts.js"></script>
 	<script src="js/ui-login.js"></script>
 	<script src="js/ui-restrictions.js"></script>
@@ -393,15 +394,8 @@
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  	<tr>
-									    <th colspan="5">
-								            <h1 id="systemSettingsName" class="title">systemSettingsName<br>
-												<span class="subtitle" id="systemSettingsNetwork">systemSettingsNetwork</span>
-											</h1>
-								        </th>
-								  	</tr>
-								  	<tr>
 									    <td class="listItemSettings">
-									    		<span class="subtitle right" id="systemSettingsAP">systemSettingsAP</span>
+									    		<span class="subtitle right" id="systemSettingsAP"></span>
 									            <div  class="bold">Network Settings</div>
 									            <span class="separator"></span>
 									            <span class="green" id="systemSettingsConnectionStatus">Connected</span>
@@ -425,7 +419,6 @@
 											Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore"> min before and
 											<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter"> after each program.
 											<br>
-											Enable<input type="checkbox" id="systemSettingsMasterValveEnable"/> <br>
 											<button id="systemSettingsMasterValveSet" class="save">Change</button>
 
 									    </td>
@@ -446,9 +439,9 @@
 											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
 											<div class="bold">Location</div>
 											<span class="separator"></span>
-											<input type="number"  placeholder="Latitude" class="typeNumber"/><br>
-											<input type="number"  placeholder="Longitude" class="typeNumber"/><br>
-											<input type="number"  placeholder="Elevation(m)" class="typeNumber"/><br>
+											<input type="number"  placeholder="Latitude" class="typeNumber" id="systemSettingsLocationLat"/><br>
+											<input type="number"  placeholder="Longitude" class="typeNumber" id="systemSettingsLocationLon"/><br>
+											<input type="number"  placeholder="Elevation(m)" class="typeNumber" id="systemSettingsLocationElev"/><br>
 											<span class="separator"></span>
 											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
 											<button id="systemSettingsLocationSet" class="save">Change</button>
@@ -457,7 +450,7 @@
 									    <td class="listItemSettings">
 									            <div class="bold">Timezone</div>
 									            <span class="separator"></span>
-									            <select id="systemSettingsTimeZone">
+									            <select id="systemSettingsTimeZoneSelect">
 													<!-- Generated from Javascript -->
 												</select>
 									            <span class="separator"></span>

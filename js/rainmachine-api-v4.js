@@ -458,5 +458,23 @@ API.getDiag = function()
 
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
+API.getTimeZoneDB = function()
+{
+	var url = API.URL.dev + "/timezonedb.json";
+
+	return get(url, null);
+}
+/*
+{
+	var r = new XMLHttpRequest();
+	r.onreadystatechange = function() {
+		if ((r.readyState == 4)&& (r.status == 200))
+			Data.timeZoneDB = JSON.parse(r.responseText);
+	};
+	r.open("GET", "/api/4/dev/timezonedb.json", true)
+	r.send();
+}
+*/
+
 
 return API; } (API || {} ));

@@ -4,6 +4,7 @@ function DataProperty()
 	this.refreshInterval = 15;
 	this.lastUpdate = null;
 	this.forcedUpdate = false;
+	this.apiCall = null;
 }
 
 var Data  = (function(Data) {
@@ -20,6 +21,15 @@ Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
 
+_timeZoneDB = new DataProperty();
+_timeZoneDB.refreshInterval = -1;
+_timeZoneDB.apiCall = function() { return API.getTimeZoneDB(); }
+
+Object.defineProperty(Data, "timeZoneDB", {
+	get: function() { return genericPropertyGetter(_timeZoneDB); },
+	set: function(d) { return genericPropertySetter(_timeZoneDB, d); }
+});
+
 
 _dummy = new DataProperty();
 _dummy.refreshInterval = 20;
@@ -31,7 +41,10 @@ Object.defineProperty(Data, "dummy", {
 
 function genericPropertyGetter(p)
 {
-	console.log("Get property refreshInterval: %o", p.refreshInterval);
+	if (p.data === null && p.apiCall !== null)
+		p.data = p.apiCall();
+
+	console.log("Get property: %o", p);
 	return p.data;
 }
 
@@ -47,3 +60,4 @@ return Data; } (Data || {} ));
 console.log(Data.dummy);
 Data.dummy = { test: " Setter " };
 console.log(Data.dummy);
+console.log(Data.dummy.test);
