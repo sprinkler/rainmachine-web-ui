@@ -259,8 +259,8 @@ function systemSettingsUI()
 
 function systemSettingsChangeMasterValve()
 {
-	var b = parseInt(systemSettingsView.MasterValveBefore.value);
-	var a = parseInt(systemSettingsView.MasterValveAfter.value);
+	var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
+	var a = parseInt(systemSettingsView.MasterValveAfter.value) * 60;
 
 	var data = {
 		masterValveBefore: b,

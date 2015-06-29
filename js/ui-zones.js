@@ -181,6 +181,7 @@ function saveZone(uid)
 {
 	var zoneSettingsDiv = $('#zone-settings-' + uid);
 	var zoneProperties = {}
+	var shouldSetMasterValve = false;
 
 	if (zoneSettingsDiv === undefined || zoneSettingsDiv === null)
 	{
@@ -203,10 +204,23 @@ function saveZone(uid)
     zoneProperties.type = parseInt(zoneVegetationElem.options[zoneVegetationElem.selectedIndex].value);
 
     if (uid == 1)
+    {
     	zoneProperties.master = zoneMasterValveElem.checked;
+    	if (zoneProperties.master != Data.provision.system.useMasterValve)
+    		shouldSetMasterValve = true;
+    }
+
 
     console.log("Saving zone %d with properties: %o", uid, zoneProperties);
     API.setZonesProperties(uid, zoneProperties, null);
+
+    if (shouldSetMasterValve)
+    {
+    	var data = { useMasterValve: zoneProperties.master };
+    	API.setProvision(data, null);
+    	Data.provision.system.useMasterValve = zoneProperties.master;
+    }
+
     closeZoneSettings();
     showZones();
 }
