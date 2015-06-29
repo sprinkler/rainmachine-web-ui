@@ -415,6 +415,13 @@ API.getWateringLog = function(simulated, details, startDate, days)
 	return get(url, null);
 }
 
+API.getWateringQueue = function()
+{
+	var url = API.URL.watering + "/queue";
+
+	return get(url, null);
+}
+
 API.stopAll = function()
 {
 	var url = API.URL.watering + "/stopall";

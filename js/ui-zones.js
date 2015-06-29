@@ -21,8 +21,6 @@ function zoneTypeToString(type)
 
 function showZoneSettings(zone)
 {
-	currentZoneProperties = zone;
-
 	var zoneSettingsDiv = $("#zonesSettings");
 	clearTag(zoneSettingsDiv);
 	makeHidden('#zonesList');
@@ -174,7 +172,6 @@ function closeZoneSettings()
 	console.log("Closing zone settings");
 	clearTag(zoneSettingsDiv);
 	makeVisible('#zonesList');
-	currentZoneProperties = null;
 }
 
 function saveZone(uid)

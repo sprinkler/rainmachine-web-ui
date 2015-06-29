@@ -3,8 +3,6 @@ function _genericSubMenu()
 	console.log("SubMenu: %s : %s", this.id, this.name)
 }
 
-var currentZoneProperties = null;
-
 var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
     	{ name: "Watering History", func: wateringLogUI, 					container: '#wateringHistory' },
@@ -66,7 +64,6 @@ function buildSubMenu(submenus, category, parentTag)
 
 function showDeviceInfo()
 {
-
 	Data.diag = API.getDiag();
     Data.provision = API.getProvision();
     Data.provision.wifi = API.getProvisionWifi();
@@ -85,6 +82,29 @@ function showDeviceInfo()
     	deviceImgDiv.className = "spk3";
 
 	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+}
+
+var loop = null;
+
+function uiLoop()
+{
+	if (isVisible("#zones"))
+	{
+		var waterQueue = API.getWateringQueue();
+
+		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
+			return;
+
+		console.log("Watering Loop: %o", waterQueue);
+		showZones();
+		return;
+	}
+	else
+	{
+		console.log("Idle Loop");
+	}
+
+	return;
 }
 
 function uiStart()
@@ -166,6 +186,7 @@ function uiStart()
 	ui.login.login(function() {
 		generateCharts();
 		showDeviceInfo();
+		loop = setInterval(uiLoop, 1000);
 	});
 }
 
