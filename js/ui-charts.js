@@ -1,3 +1,49 @@
+function ChartData(startDate)
+{
+	this.startDate = startDate;
+	this.data = new Array(365);
+}
+
+ChartData.prototype.insertAtDate = function(dateStr, value)
+{
+	var dayDate = new Date(dateStr.split("-"));
+	var diff = dayDate - this.startDate;
+	var index = (diff/(60 * 60 * 24 * 1000) + 1) >> 0;
+
+	if (index < 0 || index > 365)
+	{
+		console.log("Invalid index %d for date %s", index, dateStr);
+		return false;
+	}
+
+	this.data[index] = value;
+	return true;
+}
+
+function ChartsData()
+{
+    this.days = [];
+
+    var end = new Date();
+    end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
+	var start = new Date (end);
+	start.setFullYear(end.getFullYear() - 1);
+
+    var _start = new Date(start);
+	while (_start < end)
+	{
+		var isoDate = _start.toISOString().split("T")[0];
+		this.days.push(isoDate);
+		_start.setDate(_start.getDate() + 1);
+	}
+
+	this.qpf = new ChartData(start);
+    this.maxt= new ChartData(start);
+    this.mint= new ChartData(start);
+	this.condition = new ChartData(start);
+	this.conditionMap = {};
+}
+
 function normalizeWaterNeed(user, scheduled)
 {
 	var wn = 0;
