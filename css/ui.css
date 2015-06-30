@@ -40,13 +40,11 @@ body.login .loginContainer {
     display: block;
 }
 
-
 .charts {
-	background-color: #f9f9f9;
-	margin: 0 auto;
-    margin-bottom: 20px;
-    border: 1px solid #dddddd;
+	background-color: #F9F9F9;
+    margin: 60px auto;
     width: 90%;
+    border: 1px solid #DDD;
     overflow: hidden;
 }
 
@@ -523,8 +521,7 @@ select {
 }
 
 /*zone, programs squares*/
-.listItem, .listItemSettings {
-    display: inline-block;
+.listItem, .listItemSettings, .listItemSettingsZones {
     vertical-align: top;
     background-color: #fff;
     padding: 25px;
@@ -541,6 +538,9 @@ select {
     width:25%;
     min-width: 263px;
     line-height: 24px;
+}
+.listItem, .listItemSettingsZones {
+    display: inline-block;
 }
 
 .inactive {
