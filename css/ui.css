@@ -79,7 +79,25 @@ h1.title {
 #settings, #settingsMenu {
     display: none;
 }
-
+#success, #error {
+    display: none;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+#success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+}
+#error {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+}
+b, strong {
+      font-weight: 700;
+}
 #zones, #zonesMenu {
     display: none;
 }
@@ -320,6 +338,17 @@ h1 {
      height:1px;
      background-color: #f0f0f0;
 }
+.relative {
+    padding: 0;
+    position: relative;
+}
+.bottom {
+     position: absolute; 
+     bottom: 25px;
+}
+.padd25 {
+    padding: 25px;
+}
 button {
     display: inline;
     background-color: transparent;
@@ -521,7 +550,7 @@ select {
 }
 
 /*zone, programs squares*/
-.listItem, .listItemSettings, .listItemSettingsZones {
+.listItem, .listItemSettings, .listItemSettingsZones, .listItemSettingsRestrictions {
     vertical-align: top;
     background-color: #fff;
     padding: 25px;
@@ -533,13 +562,13 @@ select {
     margin-right: 10px;
     min-height: 150px;
 }
-.listItemSettings {
+.listItemSettings, .listItemSettingsRestrictions {
     background-color: #f9f9f9;
     width:25%;
     min-width: 263px;
     line-height: 24px;
 }
-.listItem, .listItemSettingsZones {
+.listItem, .listItemSettingsZones, .listItemSettingsRestrictions {
     display: inline-block;
 }
 
