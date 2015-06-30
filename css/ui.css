@@ -100,7 +100,8 @@ h1.title {
     font: 14px normal Arial, sans-serif;
 }
 #name {
-    padding: 20px;
+    padding-top: 20px;
+    padding-left: 10px;
     float: left;
     min-width: 300px;
 }
@@ -130,8 +131,6 @@ h1 {
     background-color: #fff;
 }
 .pageHeader {
-    float : left;
-    clear : none;
     height : 80px;
     width:100% !important;
     background-color: #fff;
