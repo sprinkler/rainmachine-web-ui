@@ -90,7 +90,7 @@ h1.title {
 
 @font-face {
     font-family: RainMachine;
-    src: url('../font/rainmachine.ttf');
+    src: url('../font/rainmachine.woff');
 }
 
 * {
