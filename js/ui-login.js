@@ -3,7 +3,7 @@ window.ui = window.ui || {};
 (function(_login) {
 
     var loginPasswordElem = null;
-    var loginRemeberMeElem = null;
+    var loginRememberMeElem = null;
     var loginButtonElem = null;
 
     _login.login = function(callback) {
@@ -21,14 +21,14 @@ window.ui = window.ui || {};
 
         if(!loginButtonElem) {
             loginPasswordElem = $("#loginPassword");
-            loginRemeberMeElem = $("#loginRemeberMe");
+            loginRememberMeElem = $("#loginRememberMe");
             loginButtonElem = $("#loginButton");
         }
 
         loginButtonElem.onclick = function() {
             var info = {
                 pwd: loginPasswordElem.value,
-                remember: loginRemeberMeElem.checked
+                remember: loginRememberMeElem.checked
             };
 
             if(info.pwd != "") {
