@@ -45,7 +45,7 @@ body.login .loginContainer {
     margin: 60px auto;
     width: 90%;
     border: 1px solid #DDD;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 body {

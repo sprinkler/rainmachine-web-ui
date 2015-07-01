@@ -1,16 +1,17 @@
-function ChartData(startDate)
+//Holds a 365 length array of a weather measurement
+function ChartSeries(startDate)
 {
 	this.startDate = startDate;
 	this.data = new Array(365);
+
+	for (var i = 0; i < this.data.length; this.data[i] = 0, i++);
 }
 
-ChartData.prototype.insertAtDate = function(dateStr, value)
+ChartSeries.prototype.insertAtDate = function(dateStr, value)
 {
-	var dayDate = new Date(dateStr.split("-"));
-	var diff = dayDate - this.startDate;
-	var index = (diff/(60 * 60 * 24 * 1000) + 1) >> 0;
+	var index = Util.getDateIndex(dateStr, this.startDate);
 
-	if (index < 0 || index > 365)
+	if (index < 0 || index >= 365)
 	{
 		console.log("Invalid index %d for date %s", index, dateStr);
 		return false;
@@ -20,16 +21,18 @@ ChartData.prototype.insertAtDate = function(dateStr, value)
 	return true;
 }
 
-function ChartsData()
+function ChartData()
 {
     this.days = [];
 
     var end = new Date();
     end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
-	var start = new Date (end);
-	start.setFullYear(end.getFullYear() - 1);
 
-    var _start = new Date(start);
+	this.startDate = new Date(end);
+	this.startDate.setFullYear(end.getFullYear() - 1);
+
+	//Fill a 356 array with dates
+    var _start = new Date(this.startDate);
 	while (_start < end)
 	{
 		var isoDate = _start.toISOString().split("T")[0];
@@ -37,11 +40,15 @@ function ChartsData()
 		_start.setDate(_start.getDate() + 1);
 	}
 
-	this.qpf = new ChartData(start);
-    this.maxt= new ChartData(start);
-    this.mint= new ChartData(start);
-	this.condition = new ChartData(start);
+	this.qpf = new ChartSeries(this.startDate);
+    this.maxt= new ChartSeries(this.startDate);
+    this.mint= new ChartSeries(this.startDate);
+    this.waterNeed = new ChartSeries(this.startDate);
+	this.condition = new ChartSeries(this.startDate);
 	this.conditionMap = {};
+	this.programs = [];
+
+	console.log("Initialised ChartData from %s to %s",this.startDate.toDateString(), end.toDateString());
 }
 
 function normalizeWaterNeed(user, scheduled)
@@ -60,8 +67,10 @@ function normalizeWaterNeed(user, scheduled)
 // return the character from the TTF font containing weather icons
 function conditionToGlyph(condition)
 {
-    return ;
+    return;
 }
+
+var chartData = new ChartData();
 
 function generateCharts()
 {
@@ -73,30 +82,14 @@ function generateCharts()
 	console.log("%o", daily);
 	console.log("%o", Data.mixerData);
 
-	var chartData = {
-		qpf : [],
-		maxt: [],
-		mint: [],
-		condition: [],
-		conditionMap: {},
-		series: []
-	};
-
-	var waterNeed = {
-		series: [],
-		total : [],
-		programs: [],
-	};
-
 	for (var i = 0; i < recent.length; i++)
 	{
 		var day =  recent[i].day.split(' ')[0];
-		chartData.qpf.push(recent[i].qpf);
-		chartData.maxt.push(recent[i].maxTemp);
-		chartData.mint.push(recent[i].minTemp);
-		chartData.condition.push(recent[i].condition);
-		chartData.conditionMap[day] = recent[i].condition;
-		chartData.series.push(day);
+		chartData.qpf.insertAtDate(day, recent[i].qpf);
+        chartData.maxt.insertAtDate(day, recent[i].maxTemp);
+        chartData.mint.insertAtDate(day, recent[i].minTemp);
+        chartData.condition.insertAtDate(day, recent[i].condition);
+        chartData.conditionMap[day] = recent[i].condition;
 	}
 
 	//Total Water Need
@@ -111,8 +104,8 @@ function generateCharts()
 			var cp = daily[i].programs[p];
 
 			// Program index not in our struct ?
-            if (p > waterNeed.programs.length - 1)
-            	pIndex = waterNeed.programs.push([]) - 1;
+            if (p > chartData.programs.length - 1)
+            	pIndex = chartData.programs.push(new ChartSeries(chartData.startDate)) - 1;
             else
             	pIndex = p;
 
@@ -125,18 +118,17 @@ function generateCharts()
 			}
 
 			programDayWN = normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
-			waterNeed.programs[pIndex].push(programDayWN);
+			chartData.programs[pIndex].insertAtDate(daily[i].day, programDayWN);
 		}
 
 		var dailyWN = normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
 		if (dailyWN > maxWN)
 			maxWN = dailyWN;
 
-		waterNeed.series.push(daily[i].day);
-		waterNeed.total.push(dailyWN);
+		chartData.waterNeed.insertAtDate(daily[i].day, dailyWN);
 	}
 
-	console.log("%o", waterNeed);
+	console.log("%o", chartData);
 
 	var waterNeedChart = new Highcharts.Chart({
 		chart: {
@@ -151,7 +143,7 @@ function generateCharts()
 			offset: -310,
 			tickWidth: 0,
 			lineWidth: 0,
-			categories: waterNeed.series,
+			categories: chartData.days,
 			labels: {
 				x: -10,
 				useHTML: true,
@@ -167,7 +159,7 @@ function generateCharts()
 			},
 		}, {
 			linkedTo: 0,
-			categories: waterNeed.series
+			categories: chartData.days,
 		}],
 
 		yAxis: {
@@ -207,10 +199,9 @@ function generateCharts()
 		series: [{
 			type: 'column',
 			name: 'Water Need',
-			data: waterNeed.total
+			data: chartData.waterNeed.data
 		}]
 	});
-
 
 	var qpfChart = new Highcharts.Chart({
 		chart: {
@@ -222,7 +213,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			categories: chartData.series,
+			categories: chartData.days,
 		}],
 
 		yAxis: {
@@ -239,7 +230,7 @@ function generateCharts()
 		series: [{
 			type: 'column',
 			name: 'Rain Amount',
-			data: chartData.qpf
+			data: chartData.qpf.data
 		}]
 	});
 
@@ -253,7 +244,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			categories: chartData.series,
+			categories: chartData.days,
 		}],
 
 		yAxis: {
@@ -269,17 +260,17 @@ function generateCharts()
 
 		series: [{
 			name: 'Maximum Temperature',
-			data: chartData.maxt
+			data: chartData.maxt.data
 		},
 		{
 			name: 'Minimum Temperature',
-			data: chartData.mint
+			data: chartData.mint.data
 		}]
 	});
 
 	//Per Program chart
 	var programsCharts = [];
-	for (var c = 0; c < waterNeed.programs.length; c++)
+	for (var c = 0; c < chartData.programs.length; c++)
 	{
 		var div = addTag($('#dashboard'), 'div');
 		div.id = "programChart-" + c;
@@ -296,7 +287,7 @@ function generateCharts()
 					x: -20 //center
 				},
 				xAxis: [{
-					categories: waterNeed.series,
+					categories: chartData.days,
 				}],
 
 				yAxis: {
@@ -314,7 +305,7 @@ function generateCharts()
 				series: [{
 					type: 'column',
 					name: 'Program ' + c,
-					data: waterNeed.programs[c]
+					data: chartData.programs[c].data
 				}]
 			});
 
@@ -322,5 +313,4 @@ function generateCharts()
 	}
 
 	makeVisible($("#dashboard"));
-
 }
