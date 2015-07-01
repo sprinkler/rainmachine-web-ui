@@ -75,20 +75,30 @@
 				</div>
 
 				<div id="zones">
-                    <div id="zonesList" class="list left"></div>
-                    <!-- Zones Settings -->
-                    <div id="zonesSettings" class="settings"></div>
-
+					<div class="settingsBlockZones center">
+						<h1 class="title center">Watering zones list</h1>
+	                    <div id="zonesList" class="list left"></div>
+	                    <!-- Zones Settings -->
+	                    <div id="zonesSettings" class="settings"></div>
+	                </div>
 				</div>
 
 				<div id="settings">
 					<h1 id="settingsTitle"></h1>
 					<div id="settingsContent" class="content">
+						
 						<div id="programs">
-							<div id="programsList" class="list left"></div>
-							<!-- Program Settings -->
-							<div id="programsSettings" class="settings"></div>
+							<div class="settingsBlock center">
+							<h1 class="title center">List of available watering programs</h1>
+								<div id="programsList" class="list left"></div>
+									<div class="listItem">
+										<button class="addNew">></button>
+									</div>
+								<!-- Program Settings -->
+								<div id="programsSettings" class="settings"></div>
+							</div>
 						</div>
+						
 
 						<div id="wateringHistory">
 								<div class="settingsBlock center" id="wateringHistoryContent">
@@ -818,7 +828,7 @@
 							</td>
 							<td class="gap">&nbsp;</td>
 							<td class="wateringTimes">
-								<table cellpadding="0" cellspacing="0"  width="100%" rm-id="program-settings-zone-template-container">
+								<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 									<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
 								</table>
 							</td>
