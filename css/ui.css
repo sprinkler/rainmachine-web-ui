@@ -225,8 +225,6 @@ h1 {
     background-color: #f9f9f9;
 }
 
-
-
 /*buttons*/
 .save, .edit, .stop, .set, .default {
     display:inline;
@@ -254,8 +252,19 @@ h1 {
     background-color: #ccc;
 }
 
-.pending {
-
+.addNew, .addNew:hover {
+    display: block;
+    margin: 0 auto;
+    font-family:'RainMachine';
+    font-size: 80px;
+    text-align: center;
+    margin-top:35px;
+    color: #555;
+}
+.addNew:hover {
+    color: #3399cc;
+    background-color: #fff;
+    border-radius: 100%;
 }
 
 .save:hover {
@@ -552,7 +561,7 @@ select {
 /*zone, programs squares*/
 .listItem, .listItemSettings, .listItemSettingsZones, .listItemSettingsRestrictions {
     vertical-align: top;
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding: 25px;
     border-bottom: 1px solid #ddd;
     border-radius: 5px;
@@ -672,16 +681,29 @@ select {
 .programInactive button[rm-id="program-start"] {
     display: none;
 }
-
-.programEdit, .settingsBlock {
-    background-color: #fff;
+.programEdit, .settingsBlock, .settingsBlockZones {
     padding: 25px;
     border: 1px solid #ddd;
     border-bottom: 2px solid #ddd;
     border-radius: 5px;
     text-align: left;
-    margin-top: 60px;
     margin-bottom: 20px;
+    min-height: 250px;
+}
+.programEdit {
+    background-color: #fff;
+    position: relative;
+    top: -50px;
+    left: 0px;
+    z-index: 9999;
+}
+.settingsBlock, .settingsBlockZones {
+    background-color: #fff;
+    margin-top: 60px;
+}
+.settingsBlockZones {
+    height: 100%;
+    width: 95%;
 }
 .wateringTimes {
     width: 44.5%;

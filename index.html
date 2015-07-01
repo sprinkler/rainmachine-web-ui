@@ -73,18 +73,28 @@
 				</div>
 
 				<div id="zones">
-					<div id="zonesList" class="list left"></div>
-					<!-- Zones Settings -->
-					<div id="zonesSettings" class="settings"></div>
+					<div class="settingsBlockZones center">
+						<h1 class="title center">Watering zones list</h1>
+							<div id="zonesList" class="list left"></div>
+							<!-- Zones Settings -->
+							<div id="zonesSettings" class="settings"></div>
+					</div>
 				</div>
 
 				<div id="settings">
 					<h1 id="settingsTitle"></h1>
 					<div id="settingsContent" class="content">
+
 						<div id="programs">
-							<div id="programsList" class="list left"></div>
-							<!-- Program Settings -->
-							<div id="programsSettings" class="settings"></div>
+							<div class="settingsBlock center">
+							<h1 class="title center">List of available watering programs</h1>
+								<div id="programsList" class="list left"></div>
+								<div class="listItem">
+									<button class="addNew">></button>
+								</div>
+								<!-- Program Settings -->
+								<div id="programsSettings" class="settings"></div>
+							</div>
 						</div>
 
 						<div id="wateringHistory">
@@ -789,63 +799,62 @@
 												</div>
 												<div class="clear30"></div>
 											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<span class="cardTitle">Start time:</span><br>
-										<span class="cardSubtitle">(hh:mm)</span>
-									</td>
-									<td>
-										<span rm-id="program-start-time" class="right">
-											<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-											:
-											<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<span class="cardTitle">Next run:</span>
-									</td>
-									<td>
-										<span rm-id="program-next-run" class="right"></span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<span class="middle cardTitle">Cycles &amp; Soak:</span><br/>
-										<span class="cardSubtitle">
-											<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
-										</span>
-									</td>
-									<td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
-								</tr>
-								<tr>
-									<td>
-										<span class="middle cardTitle">Delay between zones</span><br/>
-										<span class="cardSubtitle">
-											<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-											:
-											<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-										</span>
-									</td>
-									<td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-					<td class="gap">&nbsp;</td>
-					<td class="wateringTimes">
-						<table cellpadding="0" cellspacing="0"  width="100%" rm-id="program-settings-zone-template-container">
-							<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<span class="cardTitle">Start time:</span><br>
+											<span class="cardSubtitle">(hh:mm)</span>
+										</td>
+										<td>
+											<span rm-id="program-start-time" class="right">
+												<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+												:
+												<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<span class="cardTitle">Next run:</span>
+										</td>
+										<td>
+											<span rm-id="program-next-run" class="right"></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class="middle cardTitle">Cycles &amp Soak:</span><br/>
+											<span class="cardSubtitle">
+												<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
+											</span>
+										</td>
+										<td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
+									</tr>
+									<tr>
+										<td>
+											<span class="middle cardTitle">Delay between zones</span><br/>
+											<span class="cardSubtitle">
+												<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+												:
+												<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+											</span>
+										</td>
+										<td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+									</tr>
+									</tbody>
+								</table>
+							</td>
+							<td class="gap">&nbsp;</td>
+							<td class="wateringTimes">
+								<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
+									<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+								</table>
+							</td>
+						</tr>
+					</table>
 		</div>
 		<!-- Template for Program Settings (End) -->
 
