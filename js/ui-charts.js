@@ -4,7 +4,7 @@ function ChartSeries(startDate)
 	this.startDate = startDate;
 	this.data = new Array(365);
 
-	for (var i = 0; i < this.data.length; this.data[i] = 0, i++);
+	for (var i = 0; i < this.data.length; this.data[i] = null, i++);
 }
 
 ChartSeries.prototype.insertAtDate = function(dateStr, value)
@@ -77,23 +77,25 @@ function generateCharts()
 	Data.mixerData = API.getMixer();
 	Data.dailyDetails = API.getDailyStats(null, true);
 
-	var recent = Data.mixerData.mixerData[0].dailyValues;
-	var daily = Data.dailyDetails.DailyStatsDetails;
-	console.log("%o", daily);
-	console.log("%o", Data.mixerData);
-
-	for (var i = 0; i < recent.length; i++)
+	//Get all available days in mixer TODO: Can be quite long (365 days)
+	for (var i = 0; i < Data.mixerData.mixerData.length; i++)
 	{
-		var day =  recent[i].day.split(' ')[0];
-		chartData.qpf.insertAtDate(day, recent[i].qpf);
-        chartData.maxt.insertAtDate(day, recent[i].maxTemp);
-        chartData.mint.insertAtDate(day, recent[i].minTemp);
-        chartData.condition.insertAtDate(day, recent[i].condition);
-        chartData.conditionMap[day] = recent[i].condition;
+		var recent = Data.mixerData.mixerData[i].dailyValues;
+		for (var j = 0; j < recent.length; j++)
+    	{
+    		var day =  recent[j].day.split(' ')[0];
+    		chartData.qpf.insertAtDate(day, recent[j].qpf);
+            chartData.maxt.insertAtDate(day, recent[j].maxTemp);
+            chartData.mint.insertAtDate(day, recent[j].minTemp);
+            chartData.condition.insertAtDate(day, recent[j].condition);
+            chartData.conditionMap[day] = recent[j].condition;
+    	}
 	}
 
 	//Total Water Need
 	var maxWN = 100;
+	var daily = Data.dailyDetails.DailyStatsDetails;
+
 	for (var i = 0; i < daily.length; i++)
 	{
 		var totalDayUserWater = 0;
@@ -128,7 +130,7 @@ function generateCharts()
 		chartData.waterNeed.insertAtDate(daily[i].day, dailyWN);
 	}
 
-	console.log("%o", chartData);
+	var daysSlice = -14; //2 weeks
 
 	var waterNeedChart = new Highcharts.Chart({
 		chart: {
@@ -143,7 +145,7 @@ function generateCharts()
 			offset: -310,
 			tickWidth: 0,
 			lineWidth: 0,
-			categories: chartData.days,
+			categories: chartData.days.slice(daysSlice),
 			labels: {
 				x: -10,
 				useHTML: true,
@@ -159,7 +161,7 @@ function generateCharts()
 			},
 		}, {
 			linkedTo: 0,
-			categories: chartData.days,
+			categories: chartData.days.slice(daysSlice),
 		}],
 
 		yAxis: {
@@ -199,7 +201,7 @@ function generateCharts()
 		series: [{
 			type: 'column',
 			name: 'Water Need',
-			data: chartData.waterNeed.data
+			data: chartData.waterNeed.data.slice(daysSlice)
 		}]
 	});
 
@@ -213,7 +215,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			categories: chartData.days,
+			categories: chartData.days.slice(daysSlice),
 		}],
 
 		yAxis: {
@@ -230,7 +232,7 @@ function generateCharts()
 		series: [{
 			type: 'column',
 			name: 'Rain Amount',
-			data: chartData.qpf.data
+			data: chartData.qpf.data.slice(daysSlice)
 		}]
 	});
 
@@ -244,7 +246,7 @@ function generateCharts()
 			x: -20 //center
 		},
 		xAxis: [{
-			categories: chartData.days,
+			categories: chartData.days.slice(daysSlice),
 		}],
 
 		yAxis: {
@@ -260,11 +262,11 @@ function generateCharts()
 
 		series: [{
 			name: 'Maximum Temperature',
-			data: chartData.maxt.data
+			data: chartData.maxt.data.slice(daysSlice)
 		},
 		{
 			name: 'Minimum Temperature',
-			data: chartData.mint.data
+			data: chartData.mint.data.slice(daysSlice)
 		}]
 	});
 
@@ -287,7 +289,7 @@ function generateCharts()
 					x: -20 //center
 				},
 				xAxis: [{
-					categories: chartData.days,
+					categories: chartData.days.slice(daysSlice),
 				}],
 
 				yAxis: {
@@ -305,7 +307,7 @@ function generateCharts()
 				series: [{
 					type: 'column',
 					name: 'Program ' + c,
-					data: chartData.programs[c].data
+					data: chartData.programs[c].data.slice(daysSlice)
 				}]
 			});
 
