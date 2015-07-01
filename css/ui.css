@@ -482,7 +482,7 @@ input.typeTime {
     width: 100px;
 }
 select {
-   background: url('../images/arrow.png') no-repeat;
+   background: #fff url('../images/arrow.png') no-repeat;
    background-position:right center;
    width: 180px;
    padding: 10px;
