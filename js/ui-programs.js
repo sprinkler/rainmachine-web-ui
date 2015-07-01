@@ -98,10 +98,15 @@ window.ui = window.ui || {};
 			programListDiv.appendChild(template);
 		}
 
+		// The Add program button
 		var div = addTag(programListDiv, 'div');
+		var button = addTag(div, 'button');
+
 		div.className = "listItem";
-		div.innerHTML = "Add new program";
-		div.onclick = function() { showProgramSettings(null); };
+		button.className = "addNew";
+		button.textContent = ">";
+		button.onclick = div.onclick = function() { showProgramSettings(null); };
+
 	}
 
     //--------------------------------------------------------------------------------------------
