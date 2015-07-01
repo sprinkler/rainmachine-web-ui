@@ -355,9 +355,6 @@ h1 {
      position: absolute; 
      bottom: 25px;
 }
-.padd25 {
-    padding: 25px;
-}
 button {
     display: inline;
     background-color: transparent;
