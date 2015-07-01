@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<!--suppress ALL -->
 <html>
 <head>
-	<title> RainMachine Web UI </title>
-		<link href="css/ui.css" rel="stylesheet" type="text/css">
-		<script src="js/highcharts-custom.js"></script>
-		<script src="js/dom.js"></script>
-		<script src="js/storage.js"></script>
-		<script src="js/util.js"></script>
-		<script src="js/rainmachine-api-v4.js"></script>
-		<script src="js/data.js"></script>
+    <title> RainMachine Web UI </title>
+	<link href="css/ui.css" rel="stylesheet" type="text/css">
+	<script src="js/highcharts-custom.js"></script>
+	<script src="js/dom.js"></script>
+    <script src="js/storage.js"></script>
+	<script src="js/util.js"></script>
+    <script src="js/rainmachine-api-v4.js"></script>
+	<script src="js/data.js"></script>
 
-		<script src="js/ui-charts.js"></script>
-		<script src="js/ui-login.js"></script>
-		<script src="js/ui-restrictions.js"></script>
-		<script src="js/ui-settings.js"></script>
-		<script src="js/ui-programs.js"></script>
-		<script src="js/ui-zones.js"></script>
-		<script src="js/ui.js"></script>
-	</head>
+	<script src="js/ui-charts.js"></script>
+	<script src="js/ui-login.js"></script>
+	<script src="js/ui-restrictions.js"></script>
+	<script src="js/ui-settings.js"></script>
+	<script src="js/ui-programs.js"></script>
+	<script src="js/ui-zones.js"></script>
+	<script src="js/ui.js"></script>
+</head>
 <body>
 	<div class="loginContainer">
 		<div class="loginInnerContainer">
@@ -28,33 +26,35 @@
 			</div>
 			<div class="clear30"></div>
 			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
-			<div>
-				<input type="checkbox" id="loginRememberMe" class="middle"/>
-				<span>Remember me</span>
-			</div>
+			<div><input type="checkbox" id="loginRememberMe" class="middle"/> <span>Remember me</span></div>
 			<button id="loginButton" class="save full">Login</button>
 		</div>
 	</div>
 	<div class="pageHeader">
-		<div id="name">
-				<div class="spks"><img src="images/spks.png" class="spk2" id="deviceImage"></div>
-				<h1 id="deviceName">RainMachine</h1>
-				<span class="subtitle" id="deviceNetwork"></span>
-		</div>
+        <div id="name">
+            <div class="spks"><img src="images/spks.png" class="spk2" id="deviceImage"></div>
+            <h1 id="deviceName">RainMachine</h1>
+            <span class="subtitle" id="deviceNetwork"></span>
+        </div>
+
 		<div>
-			<div id="settingsBtn" class="topButton">Settings</div>
-			<div id="zonesBtn" class="topButton">Zones</div>
-			<div id="dashboardBtn" class="topButton">Dashboard</div>
+            <div id="settingsBtn" class="topButton">Settings</div>
+            <div id="zonesBtn" class="topButton">Zones</div>
+            <div id="dashboardBtn" class="topButton">Dashboard</div>
 		</div>
 	</div>
 	<div class="mainContainer">
+
 		<!--- Main Content -->
 		<div class="pageContent">
 			<!-- Top Navigation -->
 			<div class="pageLeftMenu">
-				<div id="dashboardMenu"></div>
-				<div id="zonesMenu"></div>
-				<div id="settingsMenu"></div>
+				<div id="dashboardMenu">
+				</div>
+				<div id="zonesMenu">
+				</div>
+				<div id="settingsMenu">
+				</div>
 			</div>
 
 			<div class="content">
@@ -126,10 +126,10 @@
 									  </tr>
 									  <tr>
 									    <td class="middle center">
-												<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
-												<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
-												<button id="snoozeSet" class="save">Snooze</button>
-											</td>
+											<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
+											<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
+											<button id="snoozeSet" class="save">Snooze</button>
+										</td>
 									  </tr>
 									</table>
 								</div>
@@ -140,7 +140,7 @@
 										</tr>
 										<tr>
 											<td class="middle center">
-												<span class="cardTitle bold" id="snoozeCurrentValue"></span>
+												<span class="cardTitle bold"id="snoozeCurrentValue"></span>
 												<button id="snoozeStop" class="stop">Stop</button>
 											</td>
 										</tr>
@@ -151,55 +151,55 @@
 
 						<div id="restrictions" style="display: none;">
 							<div class="settingsBlock center">
-								<table cellspacing="0" cellpadding="0" class="full">
-									<tr>
-										<th colspan="7">
-											<h1 class="title">Global Restrictions</h1>
-										</th>
-									</tr>
-									<tr>
-										<td class="listItemSettings relative">
-											<div class="padd25">
-												<div>
-													<div class="bold">Hot Days</div>
-													<span class="separator"></span>
-													<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-													<span>Allow extra watering</span>
+									<table cellspacing="0" cellpadding="0" class="full">
+									  	<tr>
+									    	<th colspan="7">
+									    		<h1 class="title">Global Restrictions</h1>
+									    	</th>
+									  	</tr>
+									  	<tr>
+									  	<td class="listItemSettings relative">
+									  		<div class="padd25">
+									  			<div>
+										  	        <div class="bold">Hot Days</div>
+										            <span class="separator"></span>
+										            <input type="checkbox" id="restrictionsExtraWatering" class="right" />
+										            <span>Allow extra watering</span>
+									        	</div>
+									        	<div class="bottom">
+									            	<button id="restrictionsHotDaysSet" class="save full center">Set</button>
+									        	</div>
+									        </div>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings relative">
+									    	<div class="padd25">
+									    		<div>
+										            <div class="bold">Freeze Protect</div>
+										            <span class="separator"></span>
+										            	<div>Do not water under:</div>
+											            <div>
+															<select  id="restrictionsFreezeProtectTemp">
+																<option value="0">0 &deg; C</option>
+																<option value="2" selected>2 &deg; C</option>
+																<option value="5">5 &deg; C</option>
+																<option value="10">10 &deg; C</option>
+															</select>
+	                                                        <input type="checkbox" id="restrictionsFreezeProtect" class="right" />
+														</div>
 												</div>
 												<div class="bottom">
-													<button id="restrictionsHotDaysSet" class="save full center">Set</button>
-												</div>
-											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div class="padd25">
-												<div>
-													<div class="bold">Freeze Protect</div>
-													<span class="separator"></span>
-													<div>Do not water under:</div>
-													<div>
-														<select  id="restrictionsFreezeProtectTemp">
-															<option value="0">0 &deg; C</option>
-															<option value="2" selected>2 &deg; C</option>
-															<option value="5">5 &deg; C</option>
-															<option value="10">10 &deg; C</option>
-														</select>
-														<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
-													</div>
-												</div>
-												<div class="bottom">
-													<button id="restrictionFreezeSet" class="save full">Set</button>
-												</div>
-											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div class="padd25">
-												<div style="height:250px;">
-													<div class="bold">Months</div>
-													<div class="half">
-														<div>
+									            	<button id="restrictionFreezeSet" class="save full">Set</button>
+									        	</div>
+									        </div>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings relative">
+									    	<div class="padd25">
+									    		<div style="height:250px;">
+										            <div class="bold">Months</div>
+										            <div class="half">
+											            <div>
 															<span class="separator"></span>
 															<input type="checkbox" id="restrictionsJanuary" class="right" />
 															<div>January</div>
@@ -263,18 +263,18 @@
 														</div>
 													</div>
 												</div>
-												<div class="bottom">
-													<button id="restrictionsMonthsSet" class="save full">Set</button>
-												</div>
-											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div class="padd25">
-												<div>
-													<div class="bold">Weekdays</div>
-													<div class="half">
-														<div>
+												<div class="bottom">						       
+									            	<button id="restrictionsMonthsSet" class="save full">Set</button>
+									            </div>
+									        </div>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings relative">
+									    	<div class="padd25">
+									    		<div>
+										            <div class="bold">Weekdays</div>
+										            <div class="half">
+											            <div>
 															<span class="separator"></span>
 															<input type="checkbox" id="restrictionsSunday" class="right" />
 															<div>Sunday</div>
@@ -313,124 +313,123 @@
 														</div>
 													</div>
 												</div>
-												<div class="bottom">
-													<button id="restrictionWeekDaysSet" class="save full">Set</button>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="settingsBlock center">
-								<h1 class="title center">Hourly Restrictions</h1>
-								<div id="restrictionsHourly">
-									<!--- Content generated by javascript -->
-								</div>
-								<div class="listItemSettingsRestrictions" style="width:96.5%;">
-									<div class="bold center">New hourly restriction</div>
-									<span class="separator"></span>
-									<table cellspacing="0" cellpadding="0" class="center full">
-										<tr>
-											<td class="middle noborder">
-												<strong>Restriction start time</strong>
-												<br><br>
-												Hour:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartHour"  placeholder="14">
-												Minute:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartMinute"  placeholder="30">
-											</td>
-											<td class="middle noborder">
-												<strong>Restriction duration</strong>
-												<br><br>
-												<input type="number" min="0" max="1440" class="typeNumber" id="restrictionHourlyDuration" placeholder="60">
-												minutes
-											</td>
-											<td class="middle noborder">
-												<strong>Weekdays</strong>
-												<br><br>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
-											</td>
-										 </tr>
-									</table>
-									<div class="clear30"></div>
-									<button id="restrictionHourlyAdd" class="save full">Add New</button>
-								</div>
-							</div>
+												<div class="bottom">								       
+									            	<button id="restrictionWeekDaysSet" class="save full">Set</button>
+									        	</div>
+									        </div>
+									    </td>
+										</tr>
+										</table>
+										</div>
+										<div class="settingsBlock center">
+											<h1 class="title center">Hourly Restrictions</h1>
+											<div id="restrictionsHourly">
+											 <!--- Content generated by javascript -->
+										  	</div>
+											
+													<div class="listItemSettingsRestrictions" style="width:96.5%;">
+														<div class="bold center">New hourly restriction</div>
+														<span class="separator"></span>
+														<table cellspacing="0" cellpadding="0" class="center full">
+														  <tr>
+														    <td class="middle noborder">
+														        <strong>Restriction start time</strong>
+																<br><br>
+																Hour:
+																<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartHour"  placeholder="14">
+																Minute:
+																<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartMinute"  placeholder="30">
+														    </td>
+														    <td class="middle noborder">
+														    	<strong>Restriction duration</strong>
+																<br><br>
+																<input type="number" min="0" max="1440" class="typeNumber" id="restrictionHourlyDuration" placeholder="60">
+																minutes
+														    </td>
+														    <td class="middle noborder">
+														    	<strong>Weekdays</strong><br><br>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
+		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
+														    </td>
+														   </tr>
+														</table>
+														<div class="clear30"></div>
+														<button id="restrictionHourlyAdd" class="save full">Add New</button>
+													</div>
+										</div>
 						</div>
 
 						<div id="weather" style="display: none;">
 							<div id="weatherDataSources">
 								<div class="settingsBlock center">
 									<table cellspacing="0" cellpadding="0" class="center full">
-										<tr>
-											<th colspan="5"><h1 class="title">Weather</h1></th>
+									  <tr>
+									    <th colspan="5"><h1 class="title">Weather</h1></th>
 									  </tr>
-										<tr>
-											<td class="listItemSettings">
-												<div class="bold">Data Sources</div>
+									  <tr>
+									    <td class="listItemSettings">
+									            <div class="bold">Data Sources</div>
 												<div  id="weatherDataSourcesList"	>
 													<!--- weather-sources-template -->
 												</div>
 									    </td>
-											<td class="gap">&nbsp;</td>
-											<td class="listItemSettings">
-												<div>
-													<div class="bold">Rain Sensitivity</div>
-													<span class="separator"></span>
-													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
-													<span class="separator"></span>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    	<div>
+									            <div class="bold">Rain Sensitivity</div>
+									            <span class="separator"></span>
+									            <input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
+									            <span class="separator"></span>
 													<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">80</output>
-
 													<script>
-														function outputUpdateRain(rainsensitivity) {
-															document.querySelector('#outputRainSensitivity').value = rainsensitivity;
-														}
+													function outputUpdateRain(rainsensitivity) {
+													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
+													}
 													</script>
-
-													<div align="center">
-														<button id="rainSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-														<button id="rainSensitivityDefault" class="default left" value="80">Default</button>
-													</div>
-												</div>
-											</td>
-											<td class="gap">&nbsp;</td>
-											<td class="listItemSettings">
-												<div>
-													<div class="bold">Wind Sensitivity</div>
-													<span class="separator"></span>
-													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
-													<span class="separator"></span>
+									           
+									            <div align="center">
+										            <button id="rainSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
+										            <button id="rainSensitivityDefault" class="default left" value="80">Default</button>
+									            </div>
+									        </div>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									    	<div>
+									            <div class="bold">Wind Sensitivity</div>
+									            <span class="separator"></span>
+									            <input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
+									            <span class="separator"></span>
 													<output for="windSensitivity" id="outputWindSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">50</output>
-
 													<script>
-														function outputUpdateWind(windsensitivity) {
-															document.querySelector('#outputWindSensitivity').value = windsensitivity;
-														}
+													function outputUpdateWind(windsensitivity) {
+													document.querySelector('#outputWindSensitivity').value = windsensitivity;
+													}
 													</script>
-
-													<div align="center">
-														<button id="windSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-														<button id="windSensitivityDefault" class="default left" value="50">Default</button>
-													</div>
-												</div>
-											</td>
-										</tr>
+									           
+									            <div align="center">
+										            <button id="windSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
+										            <button id="windSensitivityDefault" class="default left" value="50">Default</button>
+									            </div>
+									        </div>
+	        							</td>
+									  </tr>
 									</table>
 								</div>
 							</div>
-							<div id="weatherWaterSaveDays"></div>
+							<div id="weatherWaterSaveDays">
+							</div>
 						</div>
 
 						<div id="systemSettings" style="display: none;">
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
-									<tr>
+								  	<tr>
 										<td class="listItemSettings">
 											<div class="bold">Device Name</div>
 											<span class="separator"></span>
@@ -438,8 +437,8 @@
 											<span class="separator"></span>
 											<button id="systemSettingsDeviceNameSet" class="save">Change</button>
 										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings">
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
 											<div class="bold">Remote Access</div>
 											<span class="separator"></span>
 											<input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
@@ -447,8 +446,9 @@
 											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 											<span class="separator"></span>
 											<button id="systemSettingsCloudSet" class="save">Change</button>
-										</td>
-										<td class="gap">&nbsp;</td>
+									    </td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
 										<td class="listItemSettings">
 											<div class="bold">Admin Password</div>
 											<span class="separator"></span>
@@ -463,7 +463,7 @@
 										<td class="gap"></td>
 									</tr>
 									<tr>
-										<td class="listItemSettings">
+									    <td class="listItemSettings">
 											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
 											<div class="bold">Location</div>
 											<span class="separator"></span>
@@ -474,24 +474,24 @@
 											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
 											<span class="separator"></span>
 											<button id="systemSettingsLocationSet" class="save">Change</button>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings">
-											<div class="bold">Date and Time</div>
-											<span class="separator"></span>
-											<div>
-												Date: <input type="date" id="systemSettingsDate">
-												Hour: <input type="number" id="systemSettingsHour">
-												Minute: <input type="number" id="systemSettingsMinute">
-												Seconds: <input type="number" id="systemSettingsSeconds">
-											</div>
-											<span class="separator"></span>
-											<select id="systemSettingsTimeZoneSelect">
-												<!-- Generated from Javascript -->
-											</select>
-											<span class="separator"></span>
-											<button id="systemSettingsTimeZoneSet" class="save">Change</button>
-										</td>
+									    </td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									            <div class="bold">Date and Time</div>
+												<span class="separator"></span>
+												<div>
+													Date: <input type="date" id="systemSettingsDate">
+													Hour: <input type="number" id="systemSettingsHour">
+													Minute: <input type="number" id="systemSettingsMinute">
+													Seconds: <input type="number" id="systemSettingsSeconds">
+												</div>
+									            <span class="separator"></span>
+									            <select id="systemSettingsTimeZoneSelect">
+													<!-- Generated from Javascript -->
+												</select>
+									            <span class="separator"></span>
+									            <button id="systemSettingsTimeZoneSet" class="save">Change</button>
+									    </td>
 										<td class="gap">&nbsp;</td>
 										<td class="listItemSettings">
 											<div class="bold">Units</div>
@@ -517,101 +517,101 @@
 											<br>
 											<button id="systemSettingsMasterValveSet" class="save">Change</button>
 										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings">
-											<div class="bold">Reset to Defaults</div>
-											<span class="separator"></span>
-											Reset device to factory defaults.<br>
-											This action will remove all settings and data saved on device.
-											<span class="separator"></span>
-											<button id="systemSettingsResetDefaultSet" class="stop">Reset</button>
-										</td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings">
+									            <div class="bold">Reset to Defaults</div>
+									            <span class="separator"></span>
+									            Reset device to factory defaults.<br>
+									            This action will remove all settings and data saved on device.
+									            <span class="separator"></span>
+									            <button id="systemSettingsResetDefaultSet" class="stop">Reset</button>
+									    </td>
 									</tr>
 								</table>
 							</div>
 						</div>
-
 						<div id="about" style="display: none;">
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="full">
-									<tr>
-										<th>
-											<h1 id="aboutName" class="title">About Nicu-SPK3 device</h1>
-										</th>
+								  	<tr>
+									    <th>
+								            <h1 id="aboutName" class="title">About Nicu-SPK3 device</h1>
+								            
+								        </th>
+								  	</tr>
+								  	<tr>
+								  		<td class="middle">
+								  			<button id="aboutUpdate" class="set right">Update Now</button>
+								  			<span class="cardTitle">Firmware version</span><br>
+								  			<span class="cardSubtitle" id="aboutVersion"></span>
+											<span class="start" id="aboutNewVersion"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<button id="aboutUpdate" class="set right">Update Now</button>
-											<span class="cardTitle">Firmware version</span><br>
-											<span class="cardSubtitle" id="aboutVersion"></span>
-										<span class="start" id="aboutNewVersion"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Hardware revision</span><br>
+								  			<span class="cardSubtitle" id="aboutHardware"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Hardware revision</span><br>
-											<span class="cardSubtitle" id="aboutHardware"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">API</span><br>
+								  			<span class="cardSubtitle" id="aboutAPI"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">API</span><br>
-											<span class="cardSubtitle" id="aboutAPI"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">IP Address</span><br>
+								  			<span class="cardSubtitle" id="aboutIP"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">IP Address</span><br>
-											<span class="cardSubtitle" id="aboutIP"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Netmask</span><br>
+								  			<span class="cardSubtitle" id="aboutNetmask"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Netmask</span><br>
-											<span class="cardSubtitle" id="aboutNetmask"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Gateway</span><br>
+								  			<span class="cardSubtitle" id="aboutGateway"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Gateway</span><br>
-											<span class="cardSubtitle" id="aboutGateway"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">MAC Address</span><br>
+								  			<span class="cardSubtitle" id="aboutMAC"></span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">MAC Address</span><br>
-											<span class="cardSubtitle" id="aboutMAC"></span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Wi-Fi SSID</span><br>
+								  			<span class="cardSubtitle" id="aboutAP">LinuxConsulting</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Wi-Fi SSID</span><br>
-											<span class="cardSubtitle" id="aboutAP">LinuxConsulting</span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Memory Usage</span><br>
+								  			<span class="cardSubtitle" id="aboutMemory">11584 KB</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Memory Usage</span><br>
-											<span class="cardSubtitle" id="aboutMemory">11584 KB</span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">CPU Usage</span><br>
+								  			<span class="cardSubtitle" id="aboutCPU">1%</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">CPU Usage</span><br>
-											<span class="cardSubtitle" id="aboutCPU">1%</span>
-										</td>
+								  		<td class="middle">
+								  			<span class="cardTitle">Uptime</span><br>
+								  			<span class="cardSubtitle" id="aboutUptime">2 days, 13:01:37</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="middle">
-											<span class="cardTitle">Uptime</span><br>
-											<span class="cardSubtitle" id="aboutUptime">2 days, 13:01:37</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-										<span class="start" id="aboutDiagStatus"></span>
-											<button id="aboutDiagSend" class="set">Send Diagnostics</button>
-										</td>
+								  		<td class="middle">
+											<span class="start" id="aboutDiagStatus"></span>
+								  			<button id="aboutDiagSend" class="set">Send Diagnostics</button>
+								  		</td>
 									</tr>
 								</table>
 							</div>
@@ -623,76 +623,62 @@
 	</div>
 	<div style="clear: both; overflow: hidden"></div>
 	<div class="pageFooter">
-		<span style="display: block; padding: .8em; font-size: 10px;" id="footerInfo"></span>
+			<span style="display:block;padding:.8em;font-size:10px;" id="footerInfo"></span>
 	</div>
 
 	<div id="templates" style="display: none;">
-		<!-- Template for Zone Card (Begin) -->
-		<div id="zone-entry" class="listItemSettingsZones">
-			<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
-			<button rm-id="zone-edit" class="edittxt right">Edit</button>
-			<div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
-			<div rm-id="zone-info" class="cardSubtitle">Lawn</div>
-			<br>
-			<hr>
-			<br>
-			<div style="margin-bottom: 20px;" rm-id="zone-timers">
-				<span class="right">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
-				<span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
-			</div>
-			<br>
-			&nbsp;
-			<br>
-			<button rm-id="zone-start" class="save full">Start</button>
-			<button rm-id="zone-stop" class="stop full">Stop</button>
-		</div>
-		<!-- Template for Zone Card (End) -->
 
-		<!-- Template for Zone Properties Card (Begin) -->
-		<div id="zone-settings-template" class="programEdit">
-			<table class="full" cellpadding="0" cellspacing="0">
-				<tbody>
-					<tr>
-						<td class="middle" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
-					</tr>
-					<tr rm-id="zone-master-valve-option">
-						<td class="middle" width="15%">Master Valve:</td>
-						<td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
-					</tr>
-					<tr>
-						<td class="middle">Name:</td>
-						<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
-					</tr>
-					<tr>
-						<td class="middle">Active:</td>
-						<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
-					</tr>
-					<tr>
-						<td class="middle">Vegetation Type:</td>
-						<td class="middle">
-							<select rm-id="zone-vegetation-type">
-								<option value="1">Other</option>
-								<option value="2" selected>Lawn</option>
-								<option value="3">Fruit Trees</option>
-								<option value="4">Flowers</option>
-								<option value="5">Vegetables</option>
-								<option value="6">Citrus</option>
-								<option value="7">Trees and Bushes</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">Forecast Data:</td>
-						<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
-					</tr>
-					<tr>
-						<td class="middle">Historical Averages:</td>
-						<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<!-- Template for Zone Properties Card (End) -->
+        <!-- Template for Zone Card (Begin) -->
+        <div id="zone-entry" class="listItemSettingsZones">
+        	<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
+        	<button rm-id="zone-edit" class="edittxt right">Edit</button>
+            <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
+            <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
+            <br><hr><br>
+            <div style="margin-bottom: 20px;" rm-id="zone-timers">
+                <span class="right">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
+                <span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
+            </div>
+            <br>&nbsp;<br>
+            <button rm-id="zone-start" class="save full">Start</button>
+			<button rm-id="zone-stop" class="stop full">Stop</button>
+        </div>
+        <!-- Template for Zone Card (End) -->
+
+        <!-- Template for Zone Properties Card (Begin) -->
+        <div id="zone-settings-template" class="programEdit">
+            <table class="full" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                	<td class="middle" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
+                </tr>
+                <tr rm-id="zone-master-valve-option">
+	                <td class="middle" width="15%">Master Valve:</td>
+	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
+                </tr>
+                <tr>
+                	<td class="middle">Name:</td>
+                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
+                </tr>
+                <tr><td class="middle">Active:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
+                <tr><td class="middle">Vegetation Type:</td>
+                    <td class="middle">
+                        <select rm-id="zone-vegetation-type">
+                            <option value="1">Other</option>
+                            <option value="2" selected>Lawn</option>
+                            <option value="3">Fruit Trees</option>
+                            <option value="4">Flowers</option>
+                            <option value="5">Vegetables</option>
+                            <option value="6">Citrus</option>
+                            <option value="7">Trees and Bushes</option>
+                        </select>
+                </td></tr>
+                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
+                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Template for Zone Properties Card (End) -->
 
 		<!-- Template for Program Card (Begin) -->
 		<div id="program-entry" class="programActive">
@@ -700,167 +686,157 @@
 			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
 			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>
-			<br>
-			<hr>
-			<br>
+			<br><hr><br>
 			<button rm-id="program-edit" class="edittxt right">Edit</button>
-			<div rm-id="program-zones-bullets" class="zones-bullets"></div>
+		    <div rm-id="program-zones-bullets" class="zones-bullets"></div>
 		</div>
 		<!-- Template for Program Card (End) -->
 
 		<!-- Template for Program Settings (Begin) -->
 		<div id="program-settings-template" class="programEdit">
-			<table cellspacing="0" cellpadding="0" class="full">
-				<tr>
-					<td class="programProperties">
-						<div class="center">
-							<button class="edit left" rm-id="program-cancel">Cancel</button>
-							<button class="stop" rm-id="program-delete">Delete</button>
-							<button class="save right" rm-id="program-save">Save</button>
-						</div>
-						<table width="100%" cellpadding="0" cellspacing="0">
-							<tbody>
-								<tr>
-									<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
-								</tr>
-								<tr>
-									<td class="cardTitle">Active:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td>
-								</tr>
-								<tr>
-									<td class="cardTitle">Weather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<span class="cardTitle">Frequency:</span><br><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
-										<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
-										<div>
-											<input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-											<select rm-id="program-frequency-every-param">
-												<option value="2" selected>2 days</option>
-												<option value="3">3 day</option>
-												<option value="4">4 day</option>
-												<option value="5">5 day</option>
-												<option value="6">6 day</option>
-												<option value="7">7 day</option>
-												<option value="8">8 day</option>
-												<option value="9">9 day</option>
-												<option value="10">10 day</option>
-												<option value="11">11 day</option>
-												<option value="12">12 day</option>
-												<option value="13">13 day</option>
-												<option value="14">14 day</option>
-											</select>
-										</div>
-										<br>
-										<div>
-											<input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/>
-											<span>Selected days</span>
-											<div rm-id="program-frequency-weekdays-container" style="width: 70%; margin: 0 auto; display: none;">
-												<div class="half">
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-sunday" class="right" />
-														<div>Sunday</div>
-													</div>
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-monday" class="right"/>
-														<div>Monday</div>
-													</div>
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
-														<div>Tuesday</div>
-													</div>
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
-														<div>Wednesday</div>
-													</div>
-												</div>
-												<div class="halfRight">
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-thursday" class="right"/>
-														<div>Thursday</div>
-													</div>
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-friday" class="right"/>
-														<div>Friday</div>
-													</div>
-													<div>
-														<span class="separator"></span>
-														<input type="checkbox" rm-id="weekday-saturday" class="right"/>
-														<div>Saturday</div>
-													</div>
-												</div>
-												<div class="clear30"></div>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<span class="cardTitle">Start time:</span><br>
-										<span class="cardSubtitle">(hh:mm)</span>
-									</td>
-									<td>
-										<span rm-id="program-start-time" class="right">
-											<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-											:
-											<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<span class="cardTitle">Next run:</span>
-									</td>
-									<td>
-										<span rm-id="program-next-run" class="right"></span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<span class="middle cardTitle">Cycles &amp Soak:</span><br/>
-										<span class="cardSubtitle">
-											<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
-										</span>
-									</td>
-									<td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
-								</tr>
-								<tr>
-									<td>
-										<span class="middle cardTitle">Delay between zones</span><br/>
-										<span class="cardSubtitle">
-											<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-											:
-											<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-										</span>
-									</td>
-									<td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-					<td class="gap">&nbsp;</td>
-					<td class="wateringTimes">
-						<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-							<tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+            <table cellspacing="0" cellpadding="0" class="full">
+                <tr>
+                    <td class="programProperties">
+                        <div class="center">
+                            <button class="edit left" rm-id="program-cancel">Cancel</button>
+                            <button class="stop" rm-id="program-delete">Delete</button>
+                            <button class="save right" rm-id="program-save">Save</button>
+                        </div>
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
+                            <tr><td class="cardTitle">Active:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+                            <tr><td class="cardTitle">Wheather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span class="cardTitle">Frequency:</span><br><br>
+                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
+                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
+                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
+                                    <div>
+                                        <input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+                                        <select rm-id="program-frequency-every-param">
+                                            <option value="2" selected>2 days</option>
+                                            <option value="3">3 day</option>
+                                            <option value="4">4 day</option>
+                                            <option value="5">5 day</option>
+                                            <option value="6">6 day</option>
+                                            <option value="7">7 day</option>
+                                            <option value="8">8 day</option>
+                                            <option value="9">9 day</option>
+                                            <option value="10">10 day</option>
+                                            <option value="11">11 day</option>
+                                            <option value="12">12 day</option>
+                                            <option value="13">13 day</option>
+                                            <option value="14">14 day</option>
+                                        </select>
+                                    </div><br>
+                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+                                        <div rm-id="program-frequency-weekdays-container" style="width: 70%; margin: 0px auto; display: none;">
+                                            <div class="half">
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-sunday" class="right" />
+                                                    <div>Sunday</div>
+                                                </div>
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-monday" class="right"/>
+                                                    <div>Monday</div>
+                                                </div>
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+                                                    <div>Tuesday</div>
+                                                </div>
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+                                                    <div>Wednesday</div>
+                                                </div>
+                                            </div>
+                                            <div class="halfRight">
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-thursday" class="right"/>
+                                                    <div>Thursday</div>
+                                                </div>
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-friday" class="right"/>
+                                                    <div>Friday</div>
+                                                </div>
+                                                <div>
+                                                    <span class="separator"></span>
+                                                    <input type="checkbox" rm-id="weekday-saturday" class="right"/>
+                                                    <div>Saturday</div>
+                                                </div>
+                                            </div>
+                                            <div class="clear30"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="middle">
+                                    <span class="cardTitle">Start time:</span><br>
+                                    <span class="cardSubtitle">(hh:mm)</span>
+                                </td>
+                                <td>
+                                    <span rm-id="program-start-time" class="right">
+                                        <span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+                                        :
+                                        <span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="middle">
+                                    <span class="cardTitle">Next run:</span>
+                                </td>
+                                <td>
+                                    <span rm-id="program-next-run" class="right"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="middle cardTitle">Cycles &amp Soak:</span><br/>
+                                    <span class="cardSubtitle">
+                                        <input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
+                                    </span>
+                                </td>
+                                <td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="middle cardTitle">Delay between zones</span><br/>
+                                    <span class="cardSubtitle">
+                                        <input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+                                        :
+                                        <input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+                                    </span>
+                                </td>
+                                <td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </td>
+                    <td class="gap">&nbsp;</td>
+                    <td class="wateringTimes">
+                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
+                            <tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
 		</div>
+		
 		<!-- Template for Program Settings (End) -->
 
 		<!-- Template for Program Settings Zone Watering Times (Start) -->
-		<div id="program-settings-zone-template-container-2" comment="just a container for program-settings-zone-template">
+		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
 			<table cellpadding="0" cellspacing="0">
 				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
 					<td width="80%">
@@ -882,16 +858,15 @@
 			<button rm-id="restriction-edit" class="edittxt right">Edit</button>
 			<div rm-id="restriction-name" class="cardTitle">From 14:00 To 18:00</div>
 			<div rm-id="restriction-info" class="cardSubtitle">Every Day</div>
-			<br>
-			<hr>
-			<br>
+			<br><hr><br>
 			<br>&nbsp;<br>
 			<button rm-id="restriction-delete" class="delete">Delete</button>
 		</div>
 		<!-- Template for Hourly Restriction (End) -->
 
+
 		<!-- Template for New Hourly Restrictions (Start) -->
-		<div id="restrictions-hourly-new-template">
+		<div id="restrictions-hourly-new-teplate">
 			<div>
 				From
 				<input type="number" name="hour" min="0" max="23" class="typeNumber" placeholder="18"/>
