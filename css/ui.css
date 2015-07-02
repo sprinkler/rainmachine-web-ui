@@ -68,6 +68,10 @@ h1.title {
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
 }
+.w250 {
+    display: inherit;
+    width: 250px;
+}
 #settings, #settingsMenu {
     display: none;
 }
@@ -696,7 +700,7 @@ select {
 .settingsBlock, .settingsBlockZones {
     background-color: #fff;
 }
-.settingsBlockZones {
+.settingsBlockZones, .settingsBlock {
     height: 100%;
     width: 95%;
 }
