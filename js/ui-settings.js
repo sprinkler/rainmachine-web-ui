@@ -112,12 +112,8 @@ function rainDelaySettingsUI()
 
 function wateringLogUI()
 {
-	var today = new Date();
-	var startDate = new Date();
 	var days = 7;
-
-	startDate.setDate(today.getDate() - days);
-	startDate = startDate.toISOString().split("T")[0];
+	var startDate = Util.getDateWithDaysDiff(days);
 
 	waterLog = API.getWateringLog(false, true, startDate, days);
 	console.log(waterLog);
