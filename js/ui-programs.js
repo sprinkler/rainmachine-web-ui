@@ -11,7 +11,6 @@ window.ui = window.ui || {};
         EveryN: 1,
         Weekday: 2,
         OddEven: 4 // Odd is param is 1, Even is param is 0
-
     };
 
     var FrequencyParam = {
@@ -51,6 +50,7 @@ window.ui = window.ui || {};
 			var startElem = $(template, '[rm-id="program-start"]');
 			var editElem = $(template, '[rm-id="program-edit"]');
 			var zonesElem = $(template, '[rm-id="program-zones-bullets"]');
+			var infoElem = $(template, '[rm-id="program-info"]');
 
 			template.className = "listItem";
 			template.id = "program-" + p.uid;
@@ -83,6 +83,8 @@ window.ui = window.ui || {};
 			editElem.onclick = function() { showProgramSettings(this.data); };
 
 			console.log("%o", p.wateringTimes);
+
+			infoElem.textContent = programTypeToText(p);
 
 			/* Show small zones circles */
 			for (var zi = 0; zi < p.wateringTimes.length; zi++)
@@ -442,6 +444,31 @@ window.ui = window.ui || {};
         param += "0";
 
         return param;
+    }
+
+
+    function programTypeToText(program) {
+        var infoText = "";
+        var type = program.frequency.type;
+
+		if (program.frequency.type === FrequencyType.Daily) { // Daily
+			infoText = "Daily";
+		} else if (program.frequency.type === FrequencyType.EveryN) { // Every N days
+			infoText = "Every N days";
+		} else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
+			infoText = "Weekdays: ";
+			for(var index = 0; index < WeekdaysOrder.length; index++)
+            	infoText += WeekdaysOrder[index] + " ";
+		} else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
+			var param = parseInt(program.frequency.param);
+			if (param % 2 === FrequencyParam.Odd) { // Odd
+				infoText = "Odd days";
+			} else {
+				infoText = "Even days";
+			}
+		}
+
+		return infoText;
     }
 
 	//--------------------------------------------------------------------------------------------
