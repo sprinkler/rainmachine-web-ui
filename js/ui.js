@@ -165,8 +165,8 @@ function uiStart()
 	}
 
 	dashboardBtn.onclick = function() {
-		makeVisible(dashboardDiv);
-		makeVisible(dashboardMenu);
+		makeVisibleBlock(dashboardDiv);
+		makeVisibleBlock(dashboardMenu);
 
 		makeHidden(zonesDiv);
 		makeHidden(settingsDiv);

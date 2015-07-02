@@ -18,13 +18,13 @@ function addTag(parent, tag)
 {
 	var e;
 	var t = document.createElement(tag);
-	
+
 	if (typeof(parent) === 'string') { e = $(parent); }
 	else {e = parent;}
-	
+
 	if (e !== null)
 		e.appendChild(t);
-		
+
 	return t;
 }
 
@@ -33,17 +33,17 @@ function insertTag(parent, tag, child)
 {
 	var e, c;
 	var t = document.createElement(tag);
-	
+
 	if (typeof(parent) === 'string') { e = $(parent); }
 	else { e = parent; }
-	
+
 	if (typeof(child) === 'string') { c = $(child); }
 	else { c = child; }
-	
-	
+
+
 	if (e !== null)
 		e.insertBefore(t, c);
-		
+
 	return t;
 }
 
@@ -66,7 +66,7 @@ function clearTag(tag)
 
 	if (typeof(tag) === 'string') {	e = $(tag); }
 	else {e = tag;}
-	
+
 	while (e && e.hasChildNodes())
     	e.removeChild(e.lastChild);
 }
@@ -123,10 +123,10 @@ function isVisible(tag)
     else { e = tag; }
 
 	var v = e.style.display;
-	
+
 	if (v != "" && v != "none")
 		return true;
-	
+
 	return false;
 }
 
@@ -138,6 +138,17 @@ function makeVisible(tag)
     else { e = tag; }
 
 	e.style.display = "inline";
+	//e.focus();
+}
+
+function makeVisibleBlock(tag)
+{
+	var e;
+
+	if (typeof(tag) === 'string') { e = $(tag); }
+	else { e = tag; }
+
+	e.style.display = "block";
 	//e.focus();
 }
 

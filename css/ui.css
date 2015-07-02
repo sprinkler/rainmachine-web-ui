@@ -40,17 +40,9 @@ body.login .loginContainer {
     display: block;
 }
 
-.charts {
-	background-color: #F9F9F9;
-    margin: 60px auto;
-    width: 90%;
-    border: 1px solid #DDD;
-    /*overflow: hidden;*/
-}
-
 body {
 	font-family: Helvetica, Arial, sans-serif;
-} 
+}
 
 .left {
     float: left;
@@ -60,7 +52,7 @@ body {
     float: right;
 }
 .center {
-    text-align: center; 
+    text-align: center;
 }
 .full {
     width: 100%;
@@ -125,13 +117,19 @@ h1 {
     font: 24px normal Arial, sans-serif;
 }
 .content {
-    width: 98%;
-    margin: 0 auto;
+  position: relative;
+  float: left;
+  width: 98%;
+  height: auto;
+  overflow: auto;
+  margin: 0 1%;
 }
+
 .content h1 {
     padding-left: 10px;
     margin-bottom: 10px;
 }
+
 #programsList, #zonesList {
     padding-left: 10px;
 }
@@ -159,7 +157,7 @@ h1 {
     width: 100%;
     background-color: #f2f2f2;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;      
+    margin-bottom: 10px;
 }
 .pageContent {
     float : left;
@@ -268,33 +266,33 @@ h1 {
 }
 
 .save:hover {
-    color: #00B25C; 
-    background-color: transparent; 
+    color: #00B25C;
+    background-color: transparent;
     border: 1px solid #00B25C;
     cursor: pointer;
 }
 .edit:hover {
-    color: #FF9700; 
-    background-color: transparent; 
+    color: #FF9700;
+    background-color: transparent;
     border: 1px solid #FF9700;
     cursor: pointer;
 }
 .stop:hover {
-    color: #FF0000; 
-    background-color: transparent; 
+    color: #FF0000;
+    background-color: transparent;
     border: 1px solid #FF0000;
     cursor: pointer;
 }
 .set:hover {
-    color: #3399cc; 
-    background-color: transparent; 
+    color: #3399cc;
+    background-color: transparent;
     border: 1px solid #3399cc;
     cursor: pointer;
 
 }
 .default:hover {
-    color: #ccc; 
-    background-color: transparent; 
+    color: #ccc;
+    background-color: transparent;
     border: 1px solid #ccc;
     cursor: pointer;
 
@@ -338,7 +336,7 @@ h1 {
     padding-top: 5px;
 }
 .green {
-    color: #00B25C; 
+    color: #00B25C;
 }
 .separator {
      margin-top:5px;
@@ -352,7 +350,7 @@ h1 {
     position: relative;
 }
 .bottom {
-     position: absolute; 
+     position: absolute;
      bottom: 25px;
 }
 .padd25 {
@@ -624,7 +622,7 @@ select {
 
 @keyframes pulsate {
     0% {
-      
+
       transform: rotate(360deg);
       opacity: 0.0;
       transform: scale(.1);
@@ -634,7 +632,7 @@ select {
       transform: rotate(180deg);
     }
     100% {
-      
+
       transform: rotate(0deg);
       opacity: 0;
       transform: scale(1.2);
@@ -799,6 +797,34 @@ td.right {
     margin-bottom: 15px;
     margin-left: 60px;
 }
+
+/* DASHBOARD */
+
+.dashboardMenu {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+}
+
+.dashboard {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: auto;
+}
+
+.charts {
+  position: relative;
+  float: left;
+  width: 98%;
+  height: 450px;
+  margin: 20px 1%;
+  background: #f9f9f9;
+  border: 1px solid #dddddd;
+}
+
+/* DASHBOARD */
 
 /* MEDIA QUERIES */
 

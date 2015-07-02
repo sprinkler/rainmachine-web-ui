@@ -132,6 +132,8 @@ function generateCharts()
 
 	var daysSlice = -14; //2 weeks
 
+	makeVisibleBlock($("#dashboard"));
+
 	var waterNeedChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartWaterNeed',
@@ -313,6 +315,4 @@ function generateCharts()
 
 		programsCharts.push(tmpChart);
 	}
-
-	makeVisible($("#dashboard"));
 }
