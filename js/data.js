@@ -22,6 +22,7 @@ Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
 Data.waterLog = null;
+Data.dateTime = null;
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;

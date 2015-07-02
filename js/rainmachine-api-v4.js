@@ -507,6 +507,19 @@ API.startUpdate = function()
 	return post(url, {}, null);
 }
 
+API.getDateTime = function()
+{
+	var url = API.URL.machine + "/time";
+	return get(url, null);
+}
+
+API.setDateTime = function(dateStr) //dateStr: '%Y-%m-%d %H:%M'
+{
+	var url = API.URL.machine + "/time";
+	var data = { appDate: dateStr };
+	return post(url, dateStr);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 API.getTimeZoneDB = function()

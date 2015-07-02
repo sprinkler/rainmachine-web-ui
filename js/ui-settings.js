@@ -206,6 +206,10 @@ function systemSettingsUI()
 		LocationElev: $("#systemSettingsLocationElev"),
 		LocationSet: $("#systemSettingsLocationSet"),
 
+		Date: $("#systemSettingsDate"),
+		Hour: $("#systemSettingsHour"),
+		Minute: $("#systemSettingsMinute"),
+		Seconds: $("#systemSettingsSeconds"),
 		TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
 		TimeZoneSet: $("#systemSettingsTimeZoneSet"),
 
@@ -221,7 +225,7 @@ function systemSettingsUI()
 	};
 
 	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
-	systemSettingsView.Email = Data.provision.cloud.email;
+	systemSettingsView.Email.value = Data.provision.cloud.email;
 
 	systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
 	systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
@@ -236,6 +240,15 @@ function systemSettingsUI()
 	systemSettingsView.LocationLat.value = Data.provision.location.latitude;
 	systemSettingsView.LocationLon.value = Data.provision.location.longitude;
 	systemSettingsView.LocationElev.value = Data.provision.location.elevation;
+
+
+    Data.timeDate = API.getDateTime();
+    var fields = Util.appDateToFields(Data.timeDate.appDate);
+
+    systemSettingsView.Date.value = fields.date;
+    systemSettingsView.Hour.value = fields.hour;
+    systemSettingsView.Minute.value = fields.minute;
+    systemSettingsView.Seconds.value = fields.seconds;
 
 	buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
