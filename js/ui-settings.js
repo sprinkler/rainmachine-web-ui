@@ -15,11 +15,13 @@ function weatherSettingUI()
 		var template = loadTemplate("weather-sources-template");
 		var enabledElem = $(template, '[rm-id="weather-source-enable"]');
 		var nameElem = $(template, '[rm-id="weather-source-name"]');
+		var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
 		enabledElem.checked = p.enabled;
 		enabledElem.value = p.uid;
 		enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
 		nameElem.textContent = p.name;
+		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 
         weatherSourcesDiv.appendChild(template);
 	}
