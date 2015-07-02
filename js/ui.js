@@ -184,7 +184,7 @@ function uiStart()
 	dashboardBtn.setAttribute("selected", true);
 
 	ui.login.login(function() {
-		generateCharts();
+		generateCharts(true, 60, -14); //generate charts forcing data refresh for 60 days in the past with a -14 days slice shown by default
 		showDeviceInfo();
 		loop = setInterval(uiLoop, 1000);
 	});

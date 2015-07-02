@@ -68,6 +68,10 @@ h1.title {
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
 }
+.w250 {
+    display: inherit;
+    width: 250px;
+}
 #settings, #settingsMenu {
     display: none;
 }
@@ -258,6 +262,7 @@ h1 {
     text-align: center;
     margin-top:35px;
     color: #555;
+    padding: 1px;
 }
 .addNew:hover {
     color: #3399cc;
@@ -477,12 +482,12 @@ input.typeNumber, input.typeTime {
     width: 60px;
 }
 input.typeTime {
-    width: 100px;
+    width: 180px;
 }
 select {
    background: #fff url('../images/arrow.png') no-repeat;
    background-position:right center;
-   width: 180px;
+   min-width: 180px;
    padding: 10px;
    font-size: 15px;
    line-height: 1;
@@ -694,9 +699,8 @@ select {
 }
 .settingsBlock, .settingsBlockZones {
     background-color: #fff;
-    margin-top: 60px;
 }
-.settingsBlockZones {
+.settingsBlockZones, .settingsBlock {
     height: 100%;
     width: 95%;
 }

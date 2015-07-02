@@ -367,10 +367,15 @@
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings">
-									            <div class="bold">Data Sources</div>
+									    		<div>
+									    		<div class="bold right">Enabled</div>
+									    		<div class="bold left w250">Weather Source</div>
+												<div class="bold">Last Run</div>
+												</div>
 												<div  id="weatherDataSourcesList"	>
 													<!--- weather-sources-template -->
 												</div>
+									    		
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings">
@@ -474,10 +479,11 @@
 									            <div class="bold">Date and Time</div>
 												<span class="separator"></span>
 												<div>
-													Date: <input type="date" id="systemSettingsDate">
-													Hour: <input type="number" id="systemSettingsHour">
-													Minute: <input type="number" id="systemSettingsMinute">
-													Seconds: <input type="number" id="systemSettingsSeconds">
+													Date: <input type="date" id="systemSettingsDate" class="typeTime">
+													<span class="separator"></span>
+													Hour: <input type="number" id="systemSettingsHour" class="typeNumber">
+													Minute: <input type="number" id="systemSettingsMinute" class="typeNumber">
+													Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber">
 												</div>
 									            <span class="separator"></span>
 									            <select id="systemSettingsTimeZoneSelect">
@@ -891,8 +897,12 @@
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
 			<span class="separator"></span>
-			<input type="checkbox" rm-id="weather-source-enable" class="right typeCheckbox">
-			<div rm-id="weather-source-name">Source Name</div>
+			<div>
+				<div class="right"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
+				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
+			</div>
+			
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
 

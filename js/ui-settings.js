@@ -15,11 +15,13 @@ function weatherSettingUI()
 		var template = loadTemplate("weather-sources-template");
 		var enabledElem = $(template, '[rm-id="weather-source-enable"]');
 		var nameElem = $(template, '[rm-id="weather-source-name"]');
+		var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
 		enabledElem.checked = p.enabled;
 		enabledElem.value = p.uid;
 		enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
 		nameElem.textContent = p.name;
+		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 
         weatherSourcesDiv.appendChild(template);
 	}
@@ -112,12 +114,8 @@ function rainDelaySettingsUI()
 
 function wateringLogUI()
 {
-	var today = new Date();
-	var startDate = new Date();
 	var days = 7;
-
-	startDate.setDate(today.getDate() - days);
-	startDate = startDate.toISOString().split("T")[0];
+	var startDate = Util.getDateWithDaysDiff(days);
 
 	waterLog = API.getWateringLog(false, true, startDate, days);
 	console.log(waterLog);
@@ -210,6 +208,10 @@ function systemSettingsUI()
 		LocationElev: $("#systemSettingsLocationElev"),
 		LocationSet: $("#systemSettingsLocationSet"),
 
+		Date: $("#systemSettingsDate"),
+		Hour: $("#systemSettingsHour"),
+		Minute: $("#systemSettingsMinute"),
+		Seconds: $("#systemSettingsSeconds"),
 		TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
 		TimeZoneSet: $("#systemSettingsTimeZoneSet"),
 
@@ -225,7 +227,7 @@ function systemSettingsUI()
 	};
 
 	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
-	systemSettingsView.Email = Data.provision.cloud.email;
+	systemSettingsView.Email.value = Data.provision.cloud.email;
 
 	systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
 	systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
@@ -240,6 +242,15 @@ function systemSettingsUI()
 	systemSettingsView.LocationLat.value = Data.provision.location.latitude;
 	systemSettingsView.LocationLon.value = Data.provision.location.longitude;
 	systemSettingsView.LocationElev.value = Data.provision.location.elevation;
+
+
+    Data.timeDate = API.getDateTime();
+    var fields = Util.appDateToFields(Data.timeDate.appDate);
+
+    systemSettingsView.Date.value = fields.date;
+    systemSettingsView.Hour.value = fields.hour;
+    systemSettingsView.Minute.value = fields.minute;
+    systemSettingsView.Seconds.value = fields.seconds;
 
 	buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 

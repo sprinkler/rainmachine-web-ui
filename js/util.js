@@ -54,12 +54,60 @@ Util.bitStringToWeekDays = function(bitstr)
 	return str;
 }
 
-//Returns Date (YYYY-MM-DD) index in a 365 length array that starts with startDate
+//Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
 	var dayDate = new Date(dateStr.split("-"));
     var diff = dayDate - startDate;
     return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+}
+
+
+//Returns a date string ("YYYY-MM-DD") n days from fromDate if specified or from today if not
+Util.getDateWithDaysDiff = function(days, fromDate)
+{
+	if (fromDate === undefined || fromDate == null)
+		fromDate = new Date();
+
+	fromDate.setDate(fromDate.getDate() - days);
+
+	return fromDate.toISOString().split("T")[0];
+}
+
+Util.normalizeWaterNeed = function(user, scheduled)
+{
+	var wn = 0;
+	if (scheduled <= 0 && user > 0)
+		wn = 100;
+	else if (scheduled == 0 && user == 0)
+		wn = 0;
+	else
+		wn = Math.round((user / scheduled) * 100);
+
+	return wn;
+}
+
+Util.appDateToFields = function(appDateStr)
+{
+	var fields = {
+		date: "",
+		hour: "",
+		minute: "",
+		seconds: "",
+	};
+
+	if (appDateStr === undefined || !appDateStr || appDateStr.length < 19)
+		return fields;
+
+	var dt = appDateStr.split(" ");
+	var t = dt[1].split(":");
+
+	fields.date = dt[0];
+	fields.hour = t[0];
+	fields.minute = t[1];
+	fields.seconds = t[2];
+
+	return fields;
 }
 
 return Util; } ( Util || {}));
