@@ -22,28 +22,27 @@ ChartSeries.prototype.insertAtDate = function(dateStr, value) {
 //Object that holds entire weather/programs watering data
 function ChartData()
 {
-    this.days = []; //array with dates ("YYYY-MM-DD")
-    this.maxWN = 100; //maximum percentage of water need/used
+	this.days = []; //array with dates ("YYYY-MM-DD")
+	this.maxWN = 100; //maximum percentage of water need/used
 
-    var end = new Date();
-    end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
+	var end = new Date();
+	end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
 
 	this.startDate = new Date(end);  //The start date in the past for this chart data
 	this.startDate.setFullYear(end.getFullYear() - 1);
 
 	//Fill a 356 array with dates
-    var _start = new Date(this.startDate);
-	while (_start < end)
-	{
+	var _start = new Date(this.startDate);
+	while (_start < end) {
 		var isoDate = _start.toISOString().split("T")[0];
 		this.days.push(isoDate);
 		_start.setDate(_start.getDate() + 1);
 	}
 
 	this.qpf = new ChartSeries(this.startDate);
-    this.maxt= new ChartSeries(this.startDate);
-    this.mint= new ChartSeries(this.startDate);
-    this.waterNeed = new ChartSeries(this.startDate);
+	this.maxt = new ChartSeries(this.startDate);
+	this.mint = new ChartSeries(this.startDate);
+	this.waterNeed = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.chartDataMap = {};
 	this.programs = [];
@@ -51,29 +50,9 @@ function ChartData()
 	console.log("Initialised ChartData from %s to %s",this.startDate.toDateString(), end.toDateString());
 }
 
-function normalizeWaterNeed(user, scheduled)
-{
-	var wn = 0;
-	if (scheduled <= 0 && user > 0)
-		wn = 100;
-	else if (scheduled == 0 && user == 0)
-		wn = 0;
-	else
-		wn = Math.round((user / scheduled) * 100);
-
-	return wn;
-}
-
-// return the character from the TTF font containing weather icons
-function conditionToGlyph(condition)
-{
-    return;
-}
-
 var chartData = new ChartData();
 
-function fillChartData(pastDays)
-{
+function fillChartData(pastDays) {
 	Data.mixerData = API.getMixer(); //for weather measurements
 	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
 	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
@@ -142,50 +121,48 @@ function fillChartData(pastDays)
 	}
 
 	//Used "water need"
-	for (var i = Data.waterLog.waterLog.days.length - 1; i >= 0 ; i--)
-    {
-    	var day =  Data.waterLog.waterLog.days[i];
-    	var totalDayUserWater = 0;
-        var totalDayScheduledWater = 0;
+	for (var i = Data.waterLog.waterLog.days.length - 1; i >= 0 ; i--) {
+		var day =  Data.waterLog.waterLog.days[i];
+		var totalDayUserWater = 0;
+		var totalDayScheduledWater = 0;
 
-    	for (var p = 0; p < day.programs.length; p++)
-    	{
-    		var program = day.programs[p];
+		for (var p = 0; p < day.programs.length; p++) {
+			var program = day.programs[p];
 
-    		// Program index not in our struct ?
-			if (p > chartData.programs.length - 1)
+			// Program index not in our struct ?
+			if (p > chartData.programs.length - 1) {
 				pIndex = chartData.programs.push(new ChartSeries(chartData.startDate)) - 1;
-			else
+			} else {
 				pIndex = p;
+			}
 
-    		for (var z = 0; z < program.zones.length; z++)
-    		{
-    			var zone = program.zones[z];
-    			var zoneDurations = { machine: 0, user: 0, real: 0 };
-    			for (var c = 0; c < zone.cycles.length; c++)
-    			{
-    				var cycle = zone.cycles[c];
-    				totalDayScheduledWater += cycle.realDuration;
-    				totalDayUserWater += cycle.userDuration;
-    			}
+			for (var z = 0; z < program.zones.length; z++) {
+				var zone = program.zones[z];
+				var zoneDurations = { machine: 0, user: 0, real: 0 };
+				for (var c = 0; c < zone.cycles.length; c++) {
+					var cycle = zone.cycles[c];
+					totalDayScheduledWater += cycle.realDuration;
+					totalDayUserWater += cycle.userDuration;
+				}
 
-    			var programDayWN = Util.normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
-                chartData.programs[pIndex].insertAtDate(day.date, programDayWN);
-    		}
-    	}
+				var programDayWN = Util.normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
+				chartData.programs[pIndex].insertAtDate(day.date, programDayWN);
+			}
+		}
 
-    	var dailyWN = Util.normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
-        if (dailyWN > chartData.maxWN)
-        	chartData.maxWN = dailyWN;
+		var dailyWN = Util.normalizeWaterNeed(totalDayUserWater, totalDayScheduledWater);
+		if (dailyWN > chartData.maxWN) {
+			chartData.maxWN = dailyWN;
+		}
 
 		chartData.waterNeed.insertAtDate(day.date, dailyWN);
-    }
+	}
 }
 
-function generateCharts(shouldRefreshData, pastDays, daysSlice)
-{
-	if (shouldRefreshData)
+function generateCharts(shouldRefreshData, pastDays, daysSlice) {
+	if (shouldRefreshData) {
 		fillChartData(pastDays);
+	}
 
 	makeVisibleBlock($("#dashboard"));
 
@@ -271,22 +248,15 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice)
 			tickWidth: 0
 		}],
 		yAxis: {
-			max: maxWN,
-			min: 0,
 			labels: {
 				enabled: true,
 				formatter: function () {
 					return this.value + "%";
 				},
-                enabled: false
-            },
+			},
+			max: chartData.maxWN,
 			min: 0,
-			max: max: chartData.maxWN,
-			plotLines: [{
-				value: 0,
-				width: 1,
-				color: '#808080'
-			}]
+			title: false
 		},
 		plotOptions: {
 			column: {
