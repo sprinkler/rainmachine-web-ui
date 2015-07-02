@@ -353,9 +353,6 @@ h1 {
      position: absolute;
      bottom: 25px;
 }
-.padd25 {
-    padding: 25px;
-}
 button {
     display: inline;
     background-color: transparent;
@@ -483,7 +480,7 @@ input.typeTime {
     width: 100px;
 }
 select {
-   background: url('../images/arrow.png') no-repeat;
+   background: #fff url('../images/arrow.png') no-repeat;
    background-position:right center;
    width: 180px;
    padding: 10px;
