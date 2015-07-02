@@ -478,12 +478,12 @@ input.typeNumber, input.typeTime {
     width: 60px;
 }
 input.typeTime {
-    width: 100px;
+    width: 180px;
 }
 select {
    background: #fff url('../images/arrow.png') no-repeat;
    background-position:right center;
-   width: 180px;
+   min-width: 180px;
    padding: 10px;
    font-size: 15px;
    line-height: 1;
