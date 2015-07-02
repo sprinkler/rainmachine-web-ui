@@ -695,7 +695,6 @@ select {
 }
 .settingsBlock, .settingsBlockZones {
     background-color: #fff;
-    margin-top: 60px;
 }
 .settingsBlockZones {
     height: 100%;
