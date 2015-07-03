@@ -9,14 +9,23 @@ function ChartSeries(startDate) {
 ChartSeries.prototype.insertAtDate = function(dateStr, value) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 
-	if (index < 0 || index >= 365)
-	{
+	if (index < 0 || index >= 365)	{
 		console.log("Index %d for date %s outside needed range", index, dateStr);
 		return false;
 	}
 
 	this.data[index] = value;
 	return true;
+}
+
+ChartSeries.prototype.getAtDate = function(dateStr) {
+	var index = Util.getDateIndex(dateStr, this.startDate);
+	if (index < 0 || index >= 365) {
+    		console.log("Index %d for date %s outside needed range", index, dateStr);
+    		return null;
+    }
+
+	return this.data[index];
 }
 
 //Object that holds entire weather/programs watering data
@@ -44,7 +53,6 @@ function ChartData()
 	this.mint = new ChartSeries(this.startDate);
 	this.waterNeed = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
-	this.chartDataMap = {};
 	this.programs = [];
 
 	console.log("Initialised ChartData from %s to %s",this.startDate.toDateString(), end.toDateString());
@@ -67,13 +75,6 @@ function fillChartData(pastDays) {
 			chartData.maxt.insertAtDate(day, recent[j].maxTemp);
 			chartData.mint.insertAtDate(day, recent[j].minTemp);
 			chartData.condition.insertAtDate(day, recent[j].condition);
-
-			chartData.chartDataMap[day] = {
-				qpf: recent[j].condition,
-				maxt: recent[j].maxTemp,
-				mint: recent[j].minTemp,
-				condition: recent[j].condition
-			};
 		}
 	}
 
@@ -198,7 +199,8 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category)) + '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+					+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
 				}
 			},
 			type: 'column'
@@ -220,8 +222,8 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 			labels: {
 				formatter: function () {
 					//Our condition mapping in TTF front
-					var condition = chartData.chartDataMap[this.value].condition,
-						temperatureValue = Math.round(chartData.chartDataMap[this.value].maxt),
+					var condition = chartData.condition.getAtDate(this.value),
+						temperatureValue = Math.round(chartData.maxt.getAtDate(this.value)),
 						conditionValue;
 
 					if (condition === undefined) {
