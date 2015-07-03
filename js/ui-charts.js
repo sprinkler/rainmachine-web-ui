@@ -178,7 +178,7 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 				dataLabels: {
 					enabled: true,
 					formatter: function () {
-						return this.total + "%";
+						return this.total +"%";
 					}
 				},
 				stacking: 'normal'
@@ -263,7 +263,7 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 				stacking: 'normal',
 				dataLabels: {
 					formatter: function () {
-						return this.total + " %";
+						return this.total + "%";
 					},
 					enabled: true
 				}
