@@ -216,7 +216,12 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 					"color": "#808080",
 					"font-size": "10px",
 				}
-			}
+			},
+			plotLines: [{
+                            color: 'rgba(0, 0, 255, 0.1)',
+                            width: 40,
+                            value: 7
+                        }]
 		}, {
 			categories: waterNeedChartPrimaryAxisCategories,
 			labels: {
@@ -285,6 +290,12 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 		},
 		xAxis: [{
 			categories: chartData.days.slice(daysSlice),
+			plotLines: [{
+							color: 'rgba(0, 0, 255, 0.1)',
+							width: 40,
+							value: 7
+                            }]
+
 		}],
 
 		yAxis: {
@@ -316,6 +327,11 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 		},
 		xAxis: [{
 			categories: chartData.days.slice(daysSlice),
+			plotLines: [{
+							color: 'rgba(0, 0, 255, 0.1)',
+							width: 40,
+							value: 7
+                       }]
 		}],
 
 		yAxis: {
@@ -359,6 +375,11 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 				},
 				xAxis: [{
 					categories: chartData.days.slice(daysSlice),
+					plotLines: [{
+									color: 'rgba(0, 0, 255, 0.1)',
+									width: 40,
+									value: 7
+								}]
 				}],
 
 				yAxis: {

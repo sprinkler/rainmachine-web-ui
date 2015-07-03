@@ -74,6 +74,20 @@ Util.getDateWithDaysDiff = function(days, fromDate)
 	return fromDate.toISOString().split("T")[0];
 }
 
+
+Util.getTodayDateStr = function()
+{
+   var today = new Date();
+   return today.toISOString().split("T")[0]
+}
+
+Util.isToday = function(dateStr)
+{
+	var today = Util.getTodayDateStr();
+
+	return (dateStr === today);
+}
+
 Util.normalizeWaterNeed = function(user, scheduled)
 {
 	var wn = 0;
