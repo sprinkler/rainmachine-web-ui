@@ -167,19 +167,20 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 
 	makeVisibleBlock($("#dashboard"));
 
-	var waterNeedChartPrimaryAxisCategories = chartData.days.slice(daysSlice);
+	var chartsPrimaryAxisCategories = chartData.days.slice(daysSlice);
 
 	var waterNeedChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartWaterNeed',
-			spacingTop: -40
+			spacingTop: 20,
+			marginTop: 130
 		},
 		plotOptions: {
 			column: {
 				dataLabels: {
 					enabled: true,
 					formatter: function () {
-						return this.total +"%";
+						return this.total + '%';
 					}
 				},
 				stacking: 'normal'
@@ -205,25 +206,28 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 			},
 			type: 'column'
 		}],
-		title: false,
+		title: {
+			text: '<h1>Water need (mm)</h1>',
+			useHTML: true
+		},
 		xAxis: [{
-			categories: waterNeedChartPrimaryAxisCategories,
+			categories: chartsPrimaryAxisCategories,
 			labels: {
 				formatter: function () {
 					return Highcharts.dateFormat('%b %e', new Date(this.value));
 				},
 				style: {
 					"color": "#808080",
-					"font-size": "10px",
+					"font-size": "10px"
 				}
 			},
 			plotLines: [{
-                            color: 'rgba(0, 0, 255, 0.1)',
-                            width: 40,
-                            value: 7
-                        }]
+					color: 'rgba(0, 0, 255, 0.1)',
+					width: 40,
+					value: 7
+			}]
 		}, {
-			categories: waterNeedChartPrimaryAxisCategories,
+			categories: chartsPrimaryAxisCategories,
 			labels: {
 				formatter: function () {
 					//Our condition mapping in TTF front
@@ -258,22 +262,83 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 			labels: {
 				enabled: true,
 				formatter: function () {
-					return this.value + "%";
+					return this.value + '%';
 				},
+				useHTML: true
 			},
 			max: chartData.maxWN,
 			min: 0,
 			title: false
+		}
+	});
+
+	var tempChart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'chartTemperature',
+			spacingTop: 20
 		},
 		plotOptions: {
 			column: {
 				stacking: 'normal',
 				dataLabels: {
 					formatter: function () {
-						return this.total + "%";
+						return this.total + '&deg;C';
 					},
 					enabled: true
 				}
+			}
+		},
+		title: {
+			text: '<h1>Temperature (&deg;C)</h1>',
+			useHTML: true
+		},
+		series: [{
+			data: chartData.maxt.data.slice(daysSlice),
+			name: 'Maximum Temperature',
+			tooltip: {
+				headerFormat: '',
+				pointFormatter: function () {
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + 'C</span>'; // adding the degree symbol does not work here for some reason
+				}
+			},
+			type: 'line'
+		}, {
+			data: chartData.mint.data.slice(daysSlice),
+			name: 'Minimum Temperature',
+			tooltip: {
+				headerFormat: '',
+				pointFormatter: function () {
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + 'C</span>'; // adding the degree symbol does not work here for some reason
+				}
+			},
+			type: 'line'
+		}],
+		xAxis: {
+			categories: chartsPrimaryAxisCategories,
+			labels: {
+				formatter: function () {
+					return Highcharts.dateFormat('%b %e', new Date(this.value));
+				},
+				style: {
+					"color": "#808080",
+					"font-size": "10px"
+				}
+			},
+			plotLines: [{
+				color: 'rgba(0, 0, 255, 0.1)',
+				width: 40,
+				value: 7
+			}]
+		},
+		yAxis: {
+			labels: {
+				enabled: true,
+				formatter: function () {
+					return this.value + '&deg;C';
+				},
+				useHTML: true
 			},
 			title: false
 		}
@@ -282,77 +347,67 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 	var qpfChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'chartQpf',
-			marginRight: 0
+			spacingTop: 20
 		},
-		title: {
-			text: '',
-			x: -20 //center
+		plotOptions: {
+			column: {
+				stacking: 'normal',
+				dataLabels: {
+					formatter: function () {
+						return this.total + 'mm';
+					},
+					enabled: true
+				}
+			}
 		},
-		xAxis: [{
-			categories: chartData.days.slice(daysSlice),
-			plotLines: [{
-							color: 'rgba(0, 0, 255, 0.1)',
-							width: 40,
-							value: 7
-                            }]
-
-		}],
-
-		yAxis: {
-			title: {
-				text: 'QPF (mm)'
-			},
-			plotLines: [{
-				value: 0,
-				width: 1,
-				color: '#808080'
-			}]
-		},
-
 		series: [{
-			type: 'column',
+			data: chartData.qpf.data.slice(daysSlice),
+			events: {
+				legendItemClick: function() {
+					return false;
+				}
+			},
 			name: 'Rain Amount',
-			data: chartData.qpf.data.slice(daysSlice)
-		}]
-	});
-
-	var tempChart = new Highcharts.Chart({
-		chart: {
-			renderTo: 'chartTemperature',
-			marginRight: 0
-		},
-		title: {
-			text: '',
-			x: -20 //center
-		},
-		xAxis: [{
-			categories: chartData.days.slice(daysSlice),
-			plotLines: [{
-							color: 'rgba(0, 0, 255, 0.1)',
-							width: 40,
-							value: 7
-                       }]
+			tooltip: {
+				headerFormat: '',
+				pointFormatter: function () {
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
+				}
+			},
+			type: 'column'
 		}],
-
-		yAxis: {
-			title: {
-				text: 'Temperature  (C)'
+		title: {
+			text: '<h1>QPF (mm)</h1>',
+			useHTML: true
+		},
+		xAxis: {
+			categories: chartsPrimaryAxisCategories,
+			labels: {
+				formatter: function () {
+					return Highcharts.dateFormat('%b %e', new Date(this.value));
+				},
+				style: {
+					"color": "#808080",
+					"font-size": "10px"
+				}
 			},
 			plotLines: [{
-				value: 0,
-				width: 1,
-				color: '#808080'
+				color: 'rgba(0, 0, 255, 0.1)',
+				width: 40,
+				value: 7
 			}]
 		},
-
-		series: [{
-			name: 'Maximum Temperature',
-			data: chartData.maxt.data.slice(daysSlice)
-		},
-		{
-			name: 'Minimum Temperature',
-			data: chartData.mint.data.slice(daysSlice)
-		}]
+		yAxis: {
+			labels: {
+				enabled: true,
+				formatter: function () {
+					return this.value + 'mm';
+				},
+				useHTML: true
+			},
+			title: false
+		}
 	});
 
 	//Per Program chart
@@ -367,38 +422,67 @@ function generateCharts(shouldRefreshData, pastDays, daysSlice) {
 			{
 				chart: {
 					renderTo: div.id,
-					marginRight: 0
+					spacingTop: 20
 				},
-				title: {
-					text: 'Program ' + c + " Water Need",
-					x: -20 //center
-				},
-				xAxis: [{
-					categories: chartData.days.slice(daysSlice),
-					plotLines: [{
-									color: 'rgba(0, 0, 255, 0.1)',
-									width: 40,
-									value: 7
-								}]
-				}],
-
-				yAxis: {
-					title: {
-						text: 'Water Need (%)'
-					},
-					min: 0,
-					max: chartData.maxWN,
-					plotLines: [{
-						value: 0,
-						width: 1,
-						color: '#808080'
-					}]
+				plotOptions: {
+					column: {
+						stacking: 'normal',
+						dataLabels: {
+							formatter: function () {
+								return this.total + '%';
+							},
+							enabled: true
+						}
+					}
 				},
 				series: [{
-					type: 'column',
+					data: chartData.programs[c].data.slice(daysSlice),
+					events: {
+						legendItemClick: function() {
+							return false;
+						}
+					},
 					name: 'Program ' + c,
-					data: chartData.programs[c].data.slice(daysSlice)
-				}]
+					tooltip: {
+						headerFormat: '',
+						pointFormatter: function () {
+							return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+								+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+						}
+					},
+					type: 'column'
+				}],
+				title: {
+					text: '<h1>Program ' + c + ': Water Need (%)</h1>',
+					useHTML: true
+				},
+				xAxis: {
+					categories: chartsPrimaryAxisCategories,
+					labels: {
+						formatter: function () {
+							return Highcharts.dateFormat('%b %e', new Date(this.value));
+						},
+						style: {
+							"color": "#808080",
+							"font-size": "10px"
+						}
+					},
+					plotLines: [{
+						color: 'rgba(0, 0, 255, 0.1)',
+						width: 40,
+						value: 7
+					}]
+				},
+				yAxis: {
+					labels: {
+						enabled: true,
+						formatter: function () {
+							return this.value + '%';
+						},
+						useHTML: true
+					},
+					title: false
+				}
 			});
 
 		programsCharts.push(tmpChart);
