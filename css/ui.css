@@ -70,7 +70,7 @@ h1.title {
 }
 .w250 {
     display: inherit;
-    width: 250px;
+    width: 180px;
 }
 #settings, #settingsMenu {
     display: none;
@@ -238,17 +238,14 @@ h1 {
 }
 
 
-.save {
-    background-color: #00B25C;
+.save, .set {
+    background-color: #3399cc;
 }
 .edit {
     background-color: #FF9700;
 }
 .stop {
     background-color: #FF0000;
-}
-.set {
-    background-color: #3399cc;
 }
 .default{
     background-color: #ccc;
@@ -261,19 +258,19 @@ h1 {
     font-size: 80px;
     text-align: center;
     margin-top:35px;
-    color: #555;
+    color: #3399cc;
     padding: 1px;
 }
 .addNew:hover {
-    color: #3399cc;
+    color: #555;
     background-color: #fff;
     border-radius: 100%;
 }
 
-.save:hover {
-    color: #00B25C;
+.save:hover, .set:hover {
+    color: #3399cc;
     background-color: transparent;
-    border: 1px solid #00B25C;
+    border: 1px solid #3399cc;
     cursor: pointer;
 }
 .edit:hover {
@@ -287,13 +284,6 @@ h1 {
     background-color: transparent;
     border: 1px solid #FF0000;
     cursor: pointer;
-}
-.set:hover {
-    color: #3399cc;
-    background-color: transparent;
-    border: 1px solid #3399cc;
-    cursor: pointer;
-
 }
 .default:hover {
     color: #ccc;
@@ -681,14 +671,13 @@ select {
 .programInactive button[rm-id="program-start"] {
     display: none;
 }
-.programEdit, .settingsBlock, .settingsBlockZones {
+.programEdit, .settingsBlock, .settingsBlockZones, .settingsBlockProgram {
     padding: 25px;
     border: 1px solid #ddd;
     border-bottom: 2px solid #ddd;
     border-radius: 5px;
     text-align: left;
     margin-bottom: 20px;
-    min-height: 250px;
 }
 .programEdit {
     background-color: #fff;
@@ -697,10 +686,10 @@ select {
     left: 0px;
     z-index: 9999;
 }
-.settingsBlock, .settingsBlockZones {
+.settingsBlock, .settingsBlockZones,.settingsBlockProgram {
     background-color: #fff;
 }
-.settingsBlockZones, .settingsBlock {
+.settingsBlockZones,.settingsBlockProgram {
     height: 100%;
     width: 95%;
 }
@@ -716,6 +705,10 @@ select {
     width: 1%;
     border-bottom: 0;
 }
+.gapProrgEdit {
+    width: 5%;
+    border-bottom: 0;
+}
 .cardTitle {
     font-size:16px;
     text-align: left;
@@ -729,6 +722,9 @@ select {
     color:#999;
     font-size:12px;
     text-align: left;
+    max-width: 230px;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
 }
 
 .masterValve {
