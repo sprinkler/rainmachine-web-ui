@@ -14,9 +14,9 @@ var settingsSubmenus = [
 	];
 
 var dashboardSubmenus = [
-    	{ name: "Daily", 		func: _genericSubMenu,		container: null },
-        { name: "Weekly", 		func: _genericSubMenu,		container: null },
-        { name: "Yearly",  		func: _genericSubMenu,		container: null }
+    	{ name: "Weekly", 		func: generateWeeklyCharts,		container: null },
+        { name: "Monthly", 		func: generateMonthlyCharts,		container: null },
+        { name: "Yearly",  		func: generateYearlyCharts,		container: null }
       ];
 
 var zonesSubmenus = [
@@ -184,7 +184,7 @@ function uiStart()
 	dashboardBtn.setAttribute("selected", true);
 
 	ui.login.login(function() {
-		generateCharts(true, 60, -14); //generate charts forcing data refresh for 60 days in the past with a -14 days slice shown by default
+		generateCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		showDeviceInfo();
 		loop = setInterval(uiLoop, 1000);
 	});
