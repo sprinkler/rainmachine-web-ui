@@ -6,7 +6,13 @@ var chartsLevel = {
 	},
 	currentChartsLevel = chartsLevel.weekly,
 	chartDateFormat = '%b %e',
-	chartData = new ChartData();
+	chartData = new ChartData(),
+	charts = {
+		waterNeed: null,
+		temperature: null,
+		qpf: null,
+		programs: []
+	};
 
 //Holds a 365 length array of a weather measurement
 function ChartSeries (startDate) {
@@ -359,12 +365,6 @@ function generateWaterNeedChart () {
 	if (currentChartsLevel === chartsLevel.weekly) {
 		waterNeedChartOptions.chart.marginTop = 130;
 
-		waterNeedChartOptions.xAxis[0].plotLines = [{
-			color: 'rgba(0, 0, 255, 0.1)',
-			width: 40,
-			value: 7
-		}];
-
 		waterNeedChartOptions.xAxis.push({
 			categories: chartData.currentAxisCategories,
 			labels: {
@@ -399,7 +399,13 @@ function generateWaterNeedChart () {
 		});
 	}
 
-	new Highcharts.Chart(waterNeedChartOptions);
+	// before generating the chart we must destroy the old one if it exists
+	if (charts.waterNeed) {
+		charts.waterNeed.destroy();
+	}
+
+	// generate the chart
+	charts.waterNeed = new Highcharts.Chart(waterNeedChartOptions, generateChartCallback);
 }
 
 function generateTemperatureChart () {
@@ -451,15 +457,12 @@ function generateTemperatureChart () {
 		}]
 	};
 
-	if (currentChartsLevel === chartsLevel.weekly) {
-		temperatureChartOptions.xAxis[0].plotLines = [{
-			color: 'rgba(0, 0, 255, 0.1)',
-			width: 40,
-			value: 7
-		}];
+	// before generating the chart we must destroy the old one if it exists
+	if (charts.temperature) {
+		charts.temperature.destroy();
 	}
 
-	new Highcharts.Chart(temperatureChartOptions);
+	charts.temperature = new Highcharts.Chart(temperatureChartOptions, generateChartCallback);
 }
 
 function generateQPFChart () {
@@ -506,15 +509,12 @@ function generateQPFChart () {
 		}]
 	};
 
-	if (currentChartsLevel === chartsLevel.weekly) {
-		qpfChartOptions.xAxis[0].plotLines = [{
-			color: 'rgba(0, 0, 255, 0.1)',
-			width: 40,
-			value: 7
-		}];
+	// before generating the chart we must destroy the old one if it exists
+	if (charts.qpf) {
+		charts.qpf.destroy();
 	}
 
-	new Highcharts.Chart(qpfChartOptions);
+	charts.qpf = new Highcharts.Chart(qpfChartOptions, generateChartCallback);
 }
 
 function generateProgramChart (programIndex) {
@@ -561,13 +561,40 @@ function generateProgramChart (programIndex) {
 		}]
 	};
 
-	if (currentChartsLevel === chartsLevel.weekly) {
-		programChartOptions.xAxis[0].plotLines = [{
-			color: 'rgba(0, 0, 255, 0.1)',
-			width: 40,
-			value: 7
-		}];
+	// before generating the chart we must destroy the old one if it exists
+	if (charts.programs[programIndex]) {
+		charts.programs[programIndex].destroy();
 	}
 
-	new Highcharts.Chart(programChartOptions);
+	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
+}
+
+function generateChartCallback (chart) {
+	// after the chart has been generated, if we are on level weekly we need to highlight the current day
+	if (currentChartsLevel === chartsLevel.weekly) {
+		highlightCurrentDayInChart(chart);
+	}
+}
+
+function highlightCurrentDayInChart(chart) {
+	var highlighter = null,
+		x1 = chart.xAxis[0].toPixels(6.5, false),
+		x2 = chart.xAxis[0].toPixels(7.5, false),
+		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false),
+		y2 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().max, false);
+
+	// if we have all the points needed
+	if(!isNaN(x1) && !isNaN(x2) && !isNaN(y1) && !isNaN(y2)) {
+		// draw the highlighter
+		highlighter = chart.renderer.rect(x1, y2, x2 - x1, y1 - y2);
+
+		// add properties to the highlighter
+		highlighter.attr({
+			fill: 'gray',
+			opacity: 0.2
+		});
+
+		// add the highlighter to the chart stage
+		highlighter.add();
+	}
 }
