@@ -4,19 +4,21 @@ var chartsLevel = {
 		monthly: 1,
 		yearly: 2
 	},
-	currentChartsLevel = chartsLevel.weekly;
+	currentChartsLevel = chartsLevel.weekly,
+	chartDateFormat = '%b %e',
 	chartData = new ChartData();
 
 //Holds a 365 length array of a weather measurement
-function ChartSeries(startDate) {
+function ChartSeries (startDate) {
 	this.startDate = startDate;
 	this.data = new Array(365);
 	this.monthsData = [];
+	this.currentSeries = [];
 
 	for (var i = 0; i < this.data.length; this.data[i] = null, i++);
 }
 
-ChartSeries.prototype.insertAtDate = function(dateStr, value) {
+ChartSeries.prototype.insertAtDate = function (dateStr, value) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 
 	if (index < 0 || index >= 365)	{
@@ -28,7 +30,7 @@ ChartSeries.prototype.insertAtDate = function(dateStr, value) {
 	return true;
 };
 
-ChartSeries.prototype.getAtDate = function(dateStr) {
+ChartSeries.prototype.getAtDate = function (dateStr) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 	if (index < 0 || index >= 365) {
     		console.log('Index %d for date %s outside needed range', index, dateStr);
@@ -39,10 +41,11 @@ ChartSeries.prototype.getAtDate = function(dateStr) {
 };
 
 //Object that holds entire weather/programs watering data
-function ChartData() {
+function ChartData () {
 	this.days = []; //array with dates ('YYYY-MM-DD')
 	this.months = [];
 	this.maxWN = 100; //maximum percentage of water need/used
+	this.currentAxisCategories = [];
 
 	var end = new Date();
 	end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
@@ -75,7 +78,7 @@ function ChartData() {
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
 }
 
-function fillChartData(pastDays) {
+function fillChartData (pastDays) {
 	Data.mixerData = API.getMixer(); //for weather measurements
 	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
 	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
@@ -217,7 +220,7 @@ function fillChartData(pastDays) {
 	}
 }
 
-function generateCharts(shouldRefreshData, pastDays) {
+function loadCharts (shouldRefreshData, pastDays) {
 	if (shouldRefreshData) {
 		fillChartData(pastDays);
 	}
@@ -227,7 +230,7 @@ function generateCharts(shouldRefreshData, pastDays) {
 	// make the dashboard visible before generating the charts so that the charts can take the correct size
 	makeVisibleBlock($('#dashboard'));
 
-	generateWeeklyCharts();
+	loadWeeklyCharts();
 }
 
 function generateProgramsChartsContainers () {
@@ -238,76 +241,83 @@ function generateProgramsChartsContainers () {
 	}
 }
 
-function generateWeeklyCharts() {
+function loadWeeklyCharts () {
 	currentChartsLevel = chartsLevel.weekly;
+	chartDateFormat = '%b %e';
 
 	var daysSlice = -14;
 
-	var axisCategories = chartData.days.slice(daysSlice),
-		waterNeedChartSeriesData = chartData.waterNeed.data.slice(daysSlice),
-		temperatureChartMaxTSeriesData = chartData.maxt.data.slice(daysSlice),
-		temperatureChartMinTSeriesData = chartData.mint.data.slice(daysSlice),
-		qpfChartSeriesData = chartData.qpf.data.slice(daysSlice);
-
-	generateWeeklyWaterNeedChart(axisCategories, waterNeedChartSeriesData);
-	generateWeeklyTemperatureChart(axisCategories, temperatureChartMaxTSeriesData, temperatureChartMinTSeriesData);
-	generateWeeklyQPFChart(axisCategories, qpfChartSeriesData);
+	chartData.currentAxisCategories = chartData.days.slice(daysSlice);
+	chartData.waterNeed.currentSeries = chartData.waterNeed.data.slice(daysSlice);
+	chartData.maxt.currentSeries = chartData.maxt.data.slice(daysSlice);
+	chartData.mint.currentSeries = chartData.mint.data.slice(daysSlice);
+	chartData.qpf.currentSeries = chartData.qpf.data.slice(daysSlice);
 
 	for (var programIndex = 0; programIndex < chartData.programs.length; programIndex++) {
-		var programChartSeriesData = chartData.programs[programIndex].data.slice(daysSlice);
-		generateWeeklyProgramChart(programIndex, axisCategories, programChartSeriesData);
+		chartData.programs[programIndex].currentSeries = chartData.programs[programIndex].data.slice(daysSlice);
 	}
+
+	// render all charts with the currentAxisCategories and currentSeries
+	generateCharts();
 }
 
-function generateMonthlyCharts() {
+function loadMonthlyCharts () {
 	currentChartsLevel = chartsLevel.monthly;
+	chartDateFormat = '%b %e';
 
-	var daysSlice = -20;
+	var daysSlice = -30;
 
-	var axisCategories = chartData.days.slice(daysSlice),
-		waterNeedChartSeriesData = chartData.waterNeed.data.slice(daysSlice),
-		temperatureChartMaxTSeriesData = chartData.maxt.data.slice(daysSlice),
-		temperatureChartMinTSeriesData = chartData.mint.data.slice(daysSlice),
-		qpfChartSeriesData = chartData.qpf.data.slice(daysSlice);
-
-	generateMonthlyWaterNeedChart(axisCategories, waterNeedChartSeriesData);
-	generateMonthlyTemperatureChart(axisCategories, temperatureChartMaxTSeriesData, temperatureChartMinTSeriesData);
-	generateMonthlyQPFChart(axisCategories, qpfChartSeriesData);
+	chartData.currentAxisCategories = chartData.days.slice(daysSlice);
+	chartData.waterNeed.currentSeries = chartData.waterNeed.data.slice(daysSlice);
+	chartData.maxt.currentSeries = chartData.maxt.data.slice(daysSlice);
+	chartData.mint.currentSeries = chartData.mint.data.slice(daysSlice);
+	chartData.qpf.currentSeries = chartData.qpf.data.slice(daysSlice);
 
 	for (var programIndex = 0; programIndex < chartData.programs.length; programIndex++) {
-		var programChartSeriesData = chartData.programs[programIndex].data.slice(daysSlice);
-		generateMonthlyProgramChart(programIndex, axisCategories, programChartSeriesData);
+		chartData.programs[programIndex].currentSeries = chartData.programs[programIndex].data.slice(daysSlice);
 	}
+
+	// render all charts with the currentAxisCategories and currentSeries
+	generateCharts();
 }
 
-function generateYearlyCharts() {
+function loadYearlyCharts () {
 	currentChartsLevel = chartsLevel.yearly;
+	chartDateFormat = '%b';
 
-	var axisCategories = chartData.months,
-		waterNeedChartSeriesData = chartData.waterNeed.monthsData,
-		temperatureChartMaxTSeriesData = chartData.maxt.monthsData,
-		temperatureChartMinTSeriesData = chartData.mint.monthsData,
-		qpfChartSeriesData = chartData.qpf.monthsData;
-
-	generateYearlyWaterNeedChart(axisCategories, waterNeedChartSeriesData);
-	generateYearlyTemperatureChart(axisCategories, temperatureChartMaxTSeriesData, temperatureChartMinTSeriesData);
-	generateYearlyQPFChart(axisCategories, qpfChartSeriesData);
+	chartData.currentAxisCategories = chartData.months;
+	chartData.waterNeed.currentSeries = chartData.waterNeed.monthsData;
+	chartData.maxt.currentSeries = chartData.maxt.monthsData;
+	chartData.mint.currentSeries = chartData.mint.monthsData;
+	chartData.qpf.currentSeries = chartData.qpf.monthsData;
 
 	for (var programIndex = 0; programIndex < chartData.programs.length; programIndex++) {
-		var programChartSeriesData = chartData.programs[programIndex].monthsData;
-		generateYearlyProgramChart(programIndex, axisCategories, programChartSeriesData);
+		chartData.programs[programIndex].currentSeries = chartData.programs[programIndex].monthsData;
+	}
+
+	// render all charts with the currentAxisCategories and currentSeries
+	generateCharts();
+}
+
+
+function generateCharts () {
+	generateWaterNeedChart();
+	generateTemperatureChart();
+	generateQPFChart();
+
+	for (var programIndex = 0; programIndex < chartData.programs.length; programIndex++) {
+		generateProgramChart(programIndex);
 	}
 }
 
-function generateWeeklyWaterNeedChart (axisCategories, seriesData) {
-	new Highcharts.Chart({
+function generateWaterNeedChart () {
+	var waterNeedChartOptions = {
 		chart: {
 			renderTo: 'waterNeedChartContainer',
-			spacingTop: 20,
-			marginTop: 130
+			spacingTop: 20
 		},
 		series: [{
-			data: seriesData,
+			data: chartData.waterNeed.currentSeries,
 			dataLabels: {
 				enabled: true,
 				format: '{y}%',
@@ -318,7 +328,7 @@ function generateWeeklyWaterNeedChart (axisCategories, seriesData) {
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.category))
 						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
 				}
 			},
@@ -329,19 +339,34 @@ function generateWeeklyWaterNeedChart (axisCategories, seriesData) {
 			useHTML: true
 		},
 		xAxis: [{
-			categories: axisCategories,
+			categories: chartData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.value)) + '</span>';
 				}
+			}
+		}],
+		yAxis: [{
+			labels: {
+				format: '{value}%'
 			},
-			plotLines: [{
-				color: 'rgba(0, 0, 255, 0.1)',
-				width: 40,
-				value: 7
-			}]
-		}, {
-			categories: axisCategories,
+			max: chartData.maxWN,
+			min: 0,
+			title: false
+		}]
+	};
+
+	if (currentChartsLevel === chartsLevel.weekly) {
+		waterNeedChartOptions.chart.marginTop = 130;
+
+		waterNeedChartOptions.xAxis[0].plotLines = [{
+			color: 'rgba(0, 0, 255, 0.1)',
+			width: 40,
+			value: 7
+		}];
+
+		waterNeedChartOptions.xAxis.push({
+			categories: chartData.currentAxisCategories,
 			labels: {
 				formatter: function () {
 					//Our condition mapping in TTF front
@@ -357,7 +382,7 @@ function generateWeeklyWaterNeedChart (axisCategories, seriesData) {
 
 					return '<span style="font-family: RainMachine, sans-serif; font-size: 42px;">' + conditionValue + '</span>' +
 						'<br />' +
-						'<span style="font-size: 16px; line-height: 24px;">' + temperatureValue + '</span>';
+						'<span style="font-size: 16px; line-height: 24px;">' + temperatureValue + '\xB0C</span>';
 				},
 				style: {
 					color: '#808080',
@@ -371,415 +396,135 @@ function generateWeeklyWaterNeedChart (axisCategories, seriesData) {
 			offset: 50,
 			opposite: true,
 			tickWidth: 0
-		}],
-		yAxis: {
-			labels: {
-				format: '{value}%'
-			},
-			max: chartData.maxWN,
-			min: 0,
-			title: false
-		}
-	});
+		});
+	}
+
+	new Highcharts.Chart(waterNeedChartOptions);
 }
 
-function generateMonthlyWaterNeedChart (axisCategories, seriesData) {
-	new Highcharts.Chart({
+function generateTemperatureChart () {
+	var temperatureChartOptions = {
 		chart: {
-			renderTo: 'waterNeedChartContainer',
+			renderTo: 'temperatureChartContainer',
 			spacingTop: 20
 		},
 		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}%',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Water need',
+			data: chartData.maxt.currentSeries,
+			name: 'Maximum Temperature',
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
 				}
 			},
-			type: 'column'
+			type: 'line'
+		}, {
+			data: chartData.mint.currentSeries,
+			name: 'Minimum Temperature',
+			tooltip: {
+				headerFormat: '',
+				pointFormatter: function () {
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
+				}
+			},
+			type: 'line'
 		}],
 		title: {
-			text: '<h1>Water need (%)</h1>',
+			text: '<h1>Temperature (&deg;C)</h1>',
 			useHTML: true
 		},
 		xAxis: [{
-			categories: axisCategories,
+			categories: chartData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.value)) + '</span>';
 				}
 			}
 		}],
-		yAxis: {
+		yAxis: [{
 			labels: {
-				format: '{value}%'
+				format: '{value}\xB0C'
 			},
-			max: chartData.maxWN,
-			min: 0,
 			title: false
-		}
-	});
+		}]
+	};
+
+	if (currentChartsLevel === chartsLevel.weekly) {
+		temperatureChartOptions.xAxis[0].plotLines = [{
+			color: 'rgba(0, 0, 255, 0.1)',
+			width: 40,
+			value: 7
+		}];
+	}
+
+	new Highcharts.Chart(temperatureChartOptions);
 }
 
-function generateYearlyWaterNeedChart (axisCategories, seriesData) {
-	new Highcharts.Chart({
+function generateQPFChart () {
+	var qpfChartOptions = {
 		chart: {
-			renderTo: 'waterNeedChartContainer',
+			renderTo: 'qpfChartContainer',
 			spacingTop: 20
 		},
 		series: [{
-			data: seriesData,
+			data: chartData.qpf.currentSeries,
 			dataLabels: {
 				enabled: true,
-				format: '{y}%',
+				format: '{y}mm',
 				inside: true,
 				verticalAlign: 'bottom'
 			},
-			name: 'Water need',
+			name: 'Rain Amount',
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.category))
+						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
 				}
 			},
 			type: 'column'
 		}],
 		title: {
-			text: '<h1>Water need (%)</h1>',
+			text: '<h1>QPF (mm)</h1>',
 			useHTML: true
 		},
 		xAxis: [{
-			categories: axisCategories,
+			categories: chartData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.value)) + '</span>';
 				}
 			}
 		}],
-		yAxis: {
-			labels: {
-				format: '{value}%'
-			},
-			max: chartData.maxWN,
-			min: 0,
-			title: false
-		}
-	});
-}
-
-function generateWeeklyTemperatureChart (axisCategories, firstSeriesData, secondSeriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'temperatureChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: firstSeriesData,
-			name: 'Maximum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}, {
-			data: secondSeriesData,
-			name: 'Minimum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}],
-		title: {
-			text: '<h1>Temperature (&deg;C)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
-				}
-			},
-			plotLines: [{
-				color: 'rgba(0, 0, 255, 0.1)',
-				width: 40,
-				value: 7
-			}]
-		},
-		yAxis: {
-			labels: {
-				format: '{value}\xB0C'
-			},
-			title: false
-		}
-	});
-}
-
-function generateMonthlyTemperatureChart (axisCategories, firstSeriesData, secondSeriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'temperatureChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: firstSeriesData,
-			name: 'Maximum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}, {
-			data: secondSeriesData,
-			name: 'Minimum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}],
-		title: {
-			text: '<h1>Temperature (&deg;C)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
-				}
-			}
-		},
-		yAxis: {
-			labels: {
-				format: '{value}\xB0C'
-			},
-			title: false
-		}
-	});
-}
-
-function generateYearlyTemperatureChart (axisCategories, firstSeriesData, secondSeriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'temperatureChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: firstSeriesData,
-			name: 'Maximum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}, {
-			data: secondSeriesData,
-			name: 'Minimum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
-				}
-			},
-			type: 'line'
-		}],
-		title: {
-			text: '<h1>Temperature (&deg;C)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.value)) + '</span>';
-				}
-			}
-		},
-		yAxis: {
-			labels: {
-				format: '{value}\xB0C'
-			},
-			title: false
-		}
-	});
-}
-
-function generateWeeklyQPFChart(axisCategories, seriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'qpfChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}mm',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Rain Amount',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
-				}
-			},
-			type: 'column'
-		}],
-		title: {
-			text: '<h1>QPF (mm)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
-				}
-			},
-			plotLines: [{
-				color: 'rgba(0, 0, 255, 0.1)',
-				width: 40,
-				value: 7
-			}]
-		},
-		yAxis: {
+		yAxis: [{
 			labels: {
 				format: '{value}mm'
 			},
 			title: false
-		}
-	});
+		}]
+	};
+
+	if (currentChartsLevel === chartsLevel.weekly) {
+		qpfChartOptions.xAxis[0].plotLines = [{
+			color: 'rgba(0, 0, 255, 0.1)',
+			width: 40,
+			value: 7
+		}];
+	}
+
+	new Highcharts.Chart(qpfChartOptions);
 }
 
-function generateMonthlyQPFChart(axisCategories, seriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'qpfChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}mm',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Rain Amount',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
-				}
-			},
-			type: 'column'
-		}],
-		title: {
-			text: '<h1>QPF (mm)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
-				}
-			}
-		},
-		yAxis: {
-			labels: {
-				format: '{value}mm'
-			},
-			title: false
-		}
-	});
-}
-
-function generateYearlyQPFChart(axisCategories, seriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'qpfChartContainer',
-			spacingTop: 20
-		},
-		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}mm',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Rain Amount',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
-				}
-			},
-			type: 'column'
-		}],
-		title: {
-			text: '<h1>QPF (mm)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.value)) + '</span>';
-				}
-			}
-		},
-		yAxis: {
-			labels: {
-				format: '{value}mm'
-			},
-			title: false
-		}
-	});
-}
-
-function generateWeeklyProgramChart(programIndex, axisCategories, seriesData) {
-	new Highcharts.Chart({
+function generateProgramChart (programIndex) {
+	var programChartOptions = {
 		chart: {
 			renderTo: 'programChartContainer-' + programIndex,
 			spacingTop: 20
 		},
 		series: [{
-			data: seriesData,
+			data: chartData.programs[programIndex].currentSeries,
 			dataLabels: {
 				enabled: true,
 				format: '{y}%',
@@ -790,7 +535,7 @@ function generateWeeklyProgramChart(programIndex, axisCategories, seriesData) {
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.category))
 						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
 				}
 			},
@@ -800,114 +545,29 @@ function generateWeeklyProgramChart(programIndex, axisCategories, seriesData) {
 			text: '<h1>Program ' + programIndex + ': Water Need (%)</h1>',
 			useHTML: true
 		},
-		xAxis: {
-			categories: axisCategories,
+		xAxis: [{
+			categories: chartData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
-				}
-			},
-			plotLines: [{
-				color: 'rgba(0, 0, 255, 0.1)',
-				width: 40,
-				value: 7
-			}]
-		},
-		yAxis: {
-			labels: {
-				format: '{value}%'
-			},
-			title: false
-		}
-	});
-}
-
-function generateMonthlyProgramChart(programIndex, axisCategories, seriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'programChartContainer-' + programIndex,
-			spacingTop: 20
-		},
-		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}%',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Program ' + programIndex,
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
-				}
-			},
-			type: 'column'
-		}],
-		title: {
-			text: '<h1>Program ' + programIndex + ': Water Need (%)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b %e', new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartDateFormat, new Date(this.value)) + '</span>';
 				}
 			}
-		},
-		yAxis: {
-			labels: {
-				format: '{value}%'
-			},
-			title: false
-		}
-	});
-}
-
-function generateYearlyProgramChart(programIndex, axisCategories, seriesData) {
-	new Highcharts.Chart({
-		chart: {
-			renderTo: 'programChartContainer-' + programIndex,
-			spacingTop: 20
-		},
-		series: [{
-			data: seriesData,
-			dataLabels: {
-				enabled: true,
-				format: '{y}%',
-				inside: true,
-				verticalAlign: 'bottom'
-			},
-			name: 'Program ' + programIndex,
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
-				}
-			},
-			type: 'column'
 		}],
-		title: {
-			text: '<h1>Program ' + programIndex + ': Water Need (%)</h1>',
-			useHTML: true
-		},
-		xAxis: {
-			categories: axisCategories,
-			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat('%b', new Date(this.value)) + '</span>';
-				}
-			}
-		},
-		yAxis: {
+		yAxis: [{
 			labels: {
 				format: '{value}%'
 			},
 			title: false
-		}
-	});
+		}]
+	};
+
+	if (currentChartsLevel === chartsLevel.weekly) {
+		programChartOptions.xAxis[0].plotLines = [{
+			color: 'rgba(0, 0, 255, 0.1)',
+			width: 40,
+			value: 7
+		}];
+	}
+
+	new Highcharts.Chart(programChartOptions);
 }
