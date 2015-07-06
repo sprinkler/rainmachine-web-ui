@@ -223,11 +223,11 @@ h1 {
 
 .submenu[selected] {
     background-color: #f9f9f9;
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid #3399cc;
 }
 
 .submenu:hover {
-    color: blue; /*blue color*/
+    color: #3399cc; /*blue color*/
     background-color: #f9f9f9;
 }
 
@@ -474,6 +474,7 @@ input.typeNumber, input.typeTime {
     padding: 5px 0 5px 5px;
     font-size: 16px;
     width: 60px;
+    height: 36px;
 }
 input.typeTime {
     width: 180px;
@@ -751,7 +752,7 @@ td.middle, .middle {
     vertical-align: middle;
 }
 
-td.right {
+td.right, .right {
     text-align: right;
 }
 
