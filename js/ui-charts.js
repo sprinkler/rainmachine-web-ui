@@ -7,7 +7,11 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
 	chartsMaximumDataRange = 365, // the maximum amount of data that the application loads
-	chartsWeeklySlice = 14, // the size of the weekly data
+	chartsWeeklySlice = 7, // the size of the weekly data
+	chartsWeeklyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
+	chartsMinWeeklyPeriod = 0, // the minimum value that the chartsWeeklyPeriod can take
+	chartsMaxWeeklyPeriod = Math.floor(chartsMaximumDataRange / chartsWeeklySlice), // the maximum value that the chartsWeeklyPeriod can take
+	chartsCurrentDayIndex = 0, // current day index from the array of days of length chartsWeeklySlice (e.g. this should be 7 - the eight day - when the chartsWeeklySlice is 14) - starts at 0
 	chartsMonthlySlice = 30, // the size of the montly data
 	chartsMonthlyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinMonthlyPeriod = 0, // the minimum value that the chartsMonthlyPeriod can take
@@ -274,20 +278,33 @@ function loadWeeklyCharts () {
 	chartsCurrentLevel = chartsLevel.weekly;
 	chartsDateFormat = '%b %e';
 
-	// reset the charts montly period
+	// reset the charts monthly period
 	chartsMonthlyPeriod = 0;
 
-	var sliceStart = -chartsWeeklySlice;
+	// taking care of weird situations when the period might be out of bounds
+	if (chartsWeeklyPeriod < chartsMinWeeklyPeriod) {
+		chartsWeeklyPeriod = chartsMinWeeklyPeriod;
+	} else if (chartsWeeklyPeriod > chartsMaxWeeklyPeriod) {
+		chartsWeeklyPeriod = chartsMaxWeeklyPeriod;
+	}
+
+	var sliceStart = -(chartsWeeklySlice * (chartsWeeklyPeriod + 1)),
+		sliceEnd = -(chartsWeeklySlice * chartsWeeklyPeriod);
+
+	// if the slice end is 0 than we need to make it
+	if (sliceEnd === 0) {
+		sliceEnd = chartsData.days.length;
+	}
 
 	// set the categories and series for all charts
-	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart);
-	chartsData.waterNeed.currentSeries = chartsData.waterNeed.data.slice(sliceStart);
-	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart);
-	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart);
-	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart);
+	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
+	chartsData.waterNeed.currentSeries = chartsData.waterNeed.data.slice(sliceStart, sliceEnd);
+	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart, sliceEnd);
+	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart, sliceEnd);
+	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
-		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart);
+		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
 	}
 
 	// render all charts with the currentAxisCategories and currentSeries
@@ -300,6 +317,9 @@ function loadWeeklyCharts () {
 function loadMonthlyCharts () {
 	chartsCurrentLevel = chartsLevel.monthly;
 	chartsDateFormat = '%b %e';
+
+	// reset the charts weekly period
+	chartsWeeklyPeriod = 0;
 
 	// taking care of weird situations when the period might be out of bounds
 	if (chartsMonthlyPeriod < chartsMinMonthlyPeriod) {
@@ -338,7 +358,8 @@ function loadYearlyCharts () {
 	chartsCurrentLevel = chartsLevel.yearly;
 	chartsDateFormat = '%b';
 
-	// reset the charts montly period
+	// reset the charts weekly and monthly periods
+	chartsWeeklyPeriod = 0;
 	chartsMonthlyPeriod = 0;
 
 	// set the categories and series for all charts
@@ -642,40 +663,90 @@ function generateProgramChart (programIndex) {
  * @param chart
  */
 function generateChartCallback (chart) {
-	if (chartsCurrentLevel === chartsLevel.weekly) { //if we are on level weekly we need to highlight the current day
-		highlightCurrentDayInChart(chart);
-	} else if (chartsCurrentLevel === chartsLevel.monthly) { // if we are on the level monthly we need to draw the next/previous buttons
+	if (chartsCurrentLevel === chartsLevel.weekly) {
+	//if we are on level weekly we need to highlight the current day but only if the chartsWeeklyPeriod is 0 (period which contains the current date)
+		if (chartsWeeklyPeriod === 0) {
+			highlightCurrentDayInChart(chart);
+		}
 
 		// add the previous button if available
-		if (chartsMonthlyPeriod < chartsMaxMonthlyPeriod) {
-			var previousBtn = chart.renderer.image('images/arrow_left_24.png', 16, 16, 24, 24);
-			previousBtn.add();
-			previousBtn.css({'cursor': 'pointer'});
-			previousBtn.attr({'title': 'Previous period'});
-			previousBtn.on('click', function() {
-				event.preventDefault();
-				event.stopPropagation();
+		if (chartsWeeklyPeriod < chartsMaxWeeklyPeriod) {
+			generatePeriodNavigationButton(chart, true, loadWeeklyPeriod);
+		}
 
-				chartsMonthlyPeriod += 1;
-				loadMonthlyCharts();
-			});
+		// add the next button if available
+		if (chartsWeeklyPeriod > chartsMinWeeklyPeriod) {
+			generatePeriodNavigationButton(chart, false, loadWeeklyPeriod);
+		}
+	} else if (chartsCurrentLevel === chartsLevel.monthly) { // if we are on the level monthly we need to draw the next/previous buttons
+		// add the previous button if available
+		if (chartsMonthlyPeriod < chartsMaxMonthlyPeriod) {
+			generatePeriodNavigationButton(chart, true, loadMonthlyPeriod);
 		}
 
 		// add the next button if available
 		if (chartsMonthlyPeriod > chartsMinMonthlyPeriod) {
-			var nextButton = chart.renderer.image('images/arrow_right_24.png', chart.chartWidth - 40, 16, 24, 24);
-			nextButton.add();
-			nextButton.css({'cursor': 'pointer'});
-			nextButton.attr({'title': 'Next period'});
-			nextButton.on('click', function(event) {
-				event.preventDefault();
-				event.stopPropagation();
-
-				chartsMonthlyPeriod -= 1;
-				loadMonthlyCharts();
-			});
+			generatePeriodNavigationButton(chart, false, loadMonthlyPeriod);
 		}
 	}
+}
+
+/**
+ * Generates a button for generating within a period
+ * @param chart - chart to generate the button on
+ * @param previous - if true we will generate a previous button, otherwise a next button
+ * @param callback - this callback is called when the button is pressed
+ */
+function generatePeriodNavigationButton (chart, previous, callback) {
+	var navButton = null;
+
+	// generate either a previous or a next button
+	if (previous === true) {
+		navButton = chart.renderer.image('images/arrow_left_24.png', 16, 16, 24, 24);
+	} else {
+		navButton = chart.renderer.image('images/arrow_right_24.png', chart.chartWidth - 40, 16, 24, 24);
+	}
+
+	// add the buttons + styles + callback for click
+	navButton.add();
+	navButton.css({'cursor': 'pointer'});
+	navButton.attr({'title': 'Previous period'});
+	navButton.on('click', function() {
+		// prevent the default behaviour of the button to avoid interface errors
+		event.preventDefault();
+		event.stopPropagation();
+
+		// execute the callback passed as a parameter
+		callback(previous);
+	});
+}
+
+/**
+ * Adjust the weekly period and load the weekly charts
+ * @param previous - if true we will load the previous period
+ */
+function loadWeeklyPeriod (previous) {
+	if (previous === true) {
+		chartsWeeklyPeriod += 1;
+	} else {
+		chartsWeeklyPeriod -= 1;
+	}
+
+	loadWeeklyCharts();
+}
+
+/**
+ * Adjust the monthly period and load the monthly charts
+ * @param previous - if true we will load the previous period
+ */
+function loadMonthlyPeriod (previous) {
+	if (previous === true) {
+		chartsMonthlyPeriod += 1;
+	} else {
+		chartsMonthlyPeriod -= 1;
+	}
+
+	loadMonthlyCharts();
 }
 
 /**
@@ -684,8 +755,10 @@ function generateChartCallback (chart) {
  */
 function highlightCurrentDayInChart(chart) {
 	var highlighter = null,
-		x1 = chart.xAxis[0].toPixels(6.5, false),
-		x2 = chart.xAxis[0].toPixels(7.5, false),
+		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
+		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.5,
+		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
+		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
 		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false),
 		y2 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().max, false);
 
