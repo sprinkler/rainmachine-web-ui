@@ -111,16 +111,38 @@ function rainDelaySettingsUI()
 	setButton.onclick = function() { console.log(API.setRestrictionsRainDelay(+snoozeDays)); rainDelaySettingsUI() };
 }
 
+function onWaterLogFetch() {
+	var startDate = $("#waterHistoryStartDate").value;
+    var days = parseInt($("#waterHistoryDays").value);
+    console.log("Getting water log starting from %s for %d days...", startDate, days);
+    Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
 
-function wateringLogUI()
-{
-	var days = 7;
-	var startDate = Util.getDateWithDaysDiff(days);
+    wateringLogUI();
+}
 
-	waterLog = API.getWateringLog(false, true, startDate, days);
-	console.log(waterLog);
+function wateringLogUI() {
 
-	var container = $("#wateringHistoryContent");
+    var container = $("#wateringHistoryContent");
+	var startDateElem = $("#waterHistoryStartDate");
+	var daysElem = $("#waterHistoryDays");
+	var buttonElem = $("#waterHistoryFetch");
+
+	buttonElem.onclick = function() { onWaterLogFetch() };
+	clearTag(container);
+
+	//First time on this page view 7 past days
+	if (Data.waterLogCustom === null) {
+		var days = 7;
+		var startDate = Util.getDateWithDaysDiff(days);
+
+		startDateElem.value = startDate;
+		daysElem.value = days;
+
+		Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
+	}
+
+	var waterLog = Data.waterLogCustom;
+
 
 	for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 	{
