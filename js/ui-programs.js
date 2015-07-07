@@ -454,11 +454,14 @@ window.ui = window.ui || {};
 		if (program.frequency.type === FrequencyType.Daily) { // Daily
 			infoText = "Daily";
 		} else if (program.frequency.type === FrequencyType.EveryN) { // Every N days
-			infoText = "Every N days";
+		    var param = parseInt(program.frequency.param);
+			infoText = "Every " + param +  " days";
 		} else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
-			infoText = "Weekdays: ";
-			for(var index = 0; index < WeekdaysOrder.length; index++)
-            	infoText += WeekdaysOrder[index] + " ";
+			infoText = "Weekdays ";
+			var param = program.frequency.param;
+			param = param.substr(param.length - WeekdaysOrder.length - 1);
+			for(var index = 0; index < param.length; index++)
+            	infoText += (param[index] === "1" ? WeekdaysOrder[index] : "") + " ";
 		} else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
 			var param = parseInt(program.frequency.param);
 			if (param % 2 === FrequencyParam.Odd) { // Odd
