@@ -7,11 +7,11 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
 	chartsMaximumDataRange = 365, // the maximum amount of data that the application loads
-	chartsWeeklySlice = 7, // the size of the weekly data
+	chartsWeeklySlice = 14, // the size of the weekly data
 	chartsWeeklyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinWeeklyPeriod = 0, // the minimum value that the chartsWeeklyPeriod can take
 	chartsMaxWeeklyPeriod = Math.floor(chartsMaximumDataRange / chartsWeeklySlice), // the maximum value that the chartsWeeklyPeriod can take
-	chartsCurrentDayIndex = 0, // current day index from the array of days of length chartsWeeklySlice (e.g. this should be 7 - the eight day - when the chartsWeeklySlice is 14) - starts at 0
+	chartsCurrentDayIndex = 7, // current day index from the array of days of length chartsWeeklySlice (e.g. this should be 7 - the eight day - when the chartsWeeklySlice is 14) - starts at 0
 	chartsMonthlySlice = 30, // the size of the montly data
 	chartsMonthlyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinMonthlyPeriod = 0, // the minimum value that the chartsMonthlyPeriod can take
@@ -110,8 +110,23 @@ function ChartData () {
 	this.waterNeed = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.programs = [];
+	this.programsMap = {}; //Holds programs index to program uid
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
+}
+
+/**
+* Returns a program object. Requires Data.programs structure to be available
+* @param id
+*/
+function getProgramById (id) {
+	for (var p = 0; p < Data.programs.programs.length; p++) {
+		var existingProgram = Data.programs.programs[p];
+		if (id == existingProgram.uid && existingProgram.active == true) {
+			return existingProgram;
+		}
+	}
+    return null;
 }
 
 /**
@@ -119,6 +134,7 @@ function ChartData () {
  * @param pastDays
  */
 function getChartData (pastDays) {
+	Data.programs = API.getPrograms(); //for programs name and status
 	Data.mixerData = API.getMixer(); //for weather measurements
 	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
 	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
@@ -190,17 +206,23 @@ function getChartData (pastDays) {
 
 		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
 			currentProgram = day.programs[programIndex];
+			// Is program active/still available in current programs list ?
+            var existingProgram = getProgramById(currentProgram.id)
+
+			if (existingProgram === null || existingProgram.active == false)
+				continue;
 
 			// Program index not in our struct ?
 			if (programIndex > chartsData.programs.length - 1) {
 				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+				chartsData.programsMap[currentProgramIndex] = existingProgram.uid;
 			} else {
 				currentProgramIndex = programIndex;
 			}
 
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				var zone = currentProgram.zones[zoneIndex];
-				//var zoneDurations = { machine: 0, user: 0, real: 0 };
+
 				for (var c = 0; c < zone.cycles.length; c++) {
 					var cycle = zone.cycles[c];
 					wnpTotalDayScheduledWater += cycle.realDuration;
@@ -605,6 +627,13 @@ function generateQPFChart () {
  * @param programIndex
  */
 function generateProgramChart (programIndex) {
+	var program = getProgramById(chartsData.programsMap[programIndex]);
+
+	if (program === null)
+		var programName = programIndex;
+	else
+		var programName = program.name;
+
 	var programChartOptions = {
 		chart: {
 			renderTo: 'programChartContainer-' + programIndex,
@@ -629,7 +658,7 @@ function generateProgramChart (programIndex) {
 			type: 'column'
 		}],
 		title: {
-			text: '<h1>Program ' + programIndex + ': Water Need (%)</h1>',
+			text: '<h1>Program ' + programName + ': Water Need (%)</h1>',
 			useHTML: true
 		},
 		xAxis: [{
