@@ -72,6 +72,9 @@ h1.title {
     display: inherit;
     width: 180px;
 }
+.mr{
+  margin-right: 60px;
+}
 #settings, #settingsMenu {
     display: none;
 }

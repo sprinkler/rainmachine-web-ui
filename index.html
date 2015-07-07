@@ -542,216 +542,185 @@
 								</table>
 							</div>
 							<div class="settingsBlock center">
-								<h1 class="title center">Advanced Settings</h1>
-								<table cellspacing="0" cellpadding="0" class="center full">
+								<table cellspacing="0" cellpadding="0" class="full">
 								  	<tr>
-										<td class="listItemSettings">
-											<div class="bold">SSH Access</div>
-											<span class="separator"></span>
-												Enable: <input type="radio" id="enable" class="middle" /> Disable: <input type="radio" id="disable" class="middle" />
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-										</td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Log Level</div>
-											<span class="separator"></span>
-											<select>
+									    <th>
+								            <h1 class="title">Advanced Settings</h1>
+
+								        </th>
+								  	</tr>
+								  	<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<input type="checkbox" class="right mr" />
+								  			<span class="cardTitle">SSH Access</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr">
+								  			<select>
 												<option value="0">Debug</option>
 												<option value="1" selected>Normal</option>
 											</select>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Disable Touch</div>
-											<span class="separator"></span>
-											Disable: <input type="checkbox" class="middle" />
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Light LEDs</div>
-											<span class="separator"></span>
-											Enable: <input type="checkbox" class="middle" />
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
+											</span>
+								  			<span class="cardTitle">Log Level</span>
+								  			
+								  		</td>
 									</tr>
 									<tr>
-										<td class="gap"></td>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<input type="checkbox" class="right mr" />
+								  			<span class="cardTitle">Disable Touch</span>
+								  		</td>
 									</tr>
 									<tr>
-									    <td class="listItemSettings">
-											<div class="bold">Mixer History Size</div>
-											<span class="separator"></span>
-											<span class="middle">Time span for:  <input type="number" id="" class="typeNumber" placeholder="1"> days.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Simulator History Size</div>
-											<span class="separator"></span>
-											<span class="middle">Time span for:  <input type="number" id="" class="typeNumber" placeholder="1"> days.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Water Log History Size</div>
-											<span class="separator"></span>
-											<span class="middle">Time span for:  <input type="number" id="" class="typeNumber" placeholder="1"> days.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Parser Data Size In Days</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="1"> days.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									</tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<input type="checkbox" class="right mr" />
+								  			<span class="cardTitle">Light LEDs</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="gap"></td>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> days</span>
+								  			<span class="cardTitle">Mixer History Size</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="listItemSettings">
-											<div class="bold">Parser History Size</div>
-											<span class="separator"></span>
-											<span class="middle">Time span for:  <input type="number" id="" class="typeNumber" placeholder="1"> days.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Min Watering Duration Threshold</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="0"> %</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Local Valve Count</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="1"> valves.</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Use Correction For Past</div>
-											<span class="separator"></span>
-											Enable: <input type="radio" id="enable" class="middle" /> Disable: <input type="radio" id="disable" class="middle" />
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> days</span>
+								  			<span class="cardTitle">Simulator History Size</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="gap"></td>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> days</span>
+								  			<span class="cardTitle">Water Log History Size</span>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="listItemSettings">
-											<div class="bold">Max Watering Coefficient</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="200"> %</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> days</span>
+								  			<span class="cardTitle">Parser Data Size</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> days</span>
+								  			<span class="cardTitle">Parser History Size</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="0"> %</span>
+								  			<span class="cardTitle">Min Watering Duration Threshold</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="1"> valves</span>
+								  			<span class="cardTitle">Local Valve Count</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<input type="checkbox" class="right mr" />
+								  			<span class="cardTitle">Use Correction For Past</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="200"> %</span>
+								  			<span class="cardTitle">Max Watering Coefficient</span>
+								  		</td>
 									</tr>
 								</table>
 							</div>
 							<div class="settingsBlock center">
-								<h1 class="title center">My SPK2 Name - Advanced Settings</h1>
-								<table cellspacing="0" cellpadding="0" class="center full">
+							<table cellspacing="0" cellpadding="0" class="full">
 								  	<tr>
-										<td class="listItemSettings">
-											<div class="bold">Max LED Brighness</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="80"> (0 to 255)</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-										</td>
-										<td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Min LED Brighness</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="50"> (0 to 255)</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-										</td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Rain Sensor</div>
-											<span class="separator"></span>
-											Use: <input type="checkbox" id="" class="middle" />
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Touch Sleep Timeout</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="3">seconds</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>									    
-									<tr>
-										<td class="gap"></td>
+									    <th>
+								            <h1 class="title">My SPK2 Name - Advanced Settings</h1>
+
+								        </th>
+								  	</tr>
+								  	<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="80"> (0 to 255)</span>
+								  			<span class="cardTitle">Max LED Brighness</span>
+								  		</td>
 									</tr>
 									<tr>
-									    <td class="listItemSettings">
-											<div class="bold">Touch Sleep Timeout</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="3">seconds</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Touch Advanced</div>
-											<span class="separator"></span>
-											<span class="middle">Use: <input type="checkbox" id="" class="middle" /></span><br>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="30"> (0 to 255)</span>
+								  			<span class="cardTitle">Min LED Brighness</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="checkbox" id="" class="middle" /></span>
+								  			<span class="cardTitle">Rain Sensor</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="3"> seconds</span>
+								  			<span class="cardTitle">Touch Sleep Timeout</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="3"> seconds</span>
+								  			<span class="cardTitle">Touch Advanced</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="checkbox" id="" class="middle" /></span>
+								  			<span class="cardTitle">Touch Advanced</span><br>
 											<span class="subtitle">(multiple zone queueing by pressing "Start Water" button)</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Touch Long Press Timeout</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="3">seconds</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
-										<td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
-											<div class="bold">Touch to Authorize Access Point</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="3">seconds</span><br>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="3"> seconds</span>
+								  			<span class="cardTitle">Touch Long Press Timeout</span>
+								  		</td>
+									</tr>
+									<tr>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="3"> seconds</span>
+								  			<span class="cardTitle">Touch to Authorize Access Point</span><br>
 											<span class="subtitle">(how many seconds after a touch the setup program is allowed)</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-										</td>
+								  		</td>
 									</tr>
 									<tr>
-										<td class="gap"></td>
-									</tr>
-									<tr>
-									    <td class="listItemSettings">
-											<div class="bold">Touch to Cycle Programs</div>
-											<span class="separator"></span>
-											<span class="middle"><input type="number" id="" class="typeNumber" placeholder="3">seconds</span><br>
+								  		<td class="middle">
+								  			<button id="NicuChange" class="save right">Change</button>
+								  			<span class="right mr"><input type="number" id="" class="typeNumber" placeholder="3"> seconds</span>
+								  			<span class="cardTitle">Touch to Cycle Programs</span><br>
 											<span class="subtitle">(should show P on digit display and enable to start the first available program)</span>
-											<span class="separator"></span>
-											<button id="" class="save">Change</button>
-									    </td>
+								  		</td>
 									</tr>
 								</table>
 							</div>
