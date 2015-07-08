@@ -206,19 +206,6 @@ function getChartData (pastDays) {
 
 		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
 			currentProgram = day.programs[programIndex];
-			// Is program active/still available in current programs list ?
-            var existingProgram = getProgramById(currentProgram.id)
-
-			if (existingProgram === null || existingProgram.active == false)
-				continue;
-
-			// Program index not in our struct ?
-			if (programIndex > chartsData.programs.length - 1) {
-				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-				chartsData.programsMap[currentProgramIndex] = existingProgram.uid;
-			} else {
-				currentProgramIndex = programIndex;
-			}
 
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				var zone = currentProgram.zones[zoneIndex];
@@ -230,6 +217,25 @@ function getChartData (pastDays) {
 				}
 
 				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayUserWater, wnpTotalDayScheduledWater);
+
+				//Add program used water
+				//Skip Manual run programs (id 0)
+				if (currentProgram.id == 0)
+					continue;
+
+				// Is program active/still available in current programs list ?
+				var existingProgram = getProgramById(currentProgram.id)
+				if (existingProgram === null || existingProgram.active == false)
+					continue;
+
+				// Program index not in our struct ?
+				if (programIndex > chartsData.programs.length - 1) {
+					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+					chartsData.programsMap[currentProgramIndex] = existingProgram.uid;
+				} else {
+					currentProgramIndex = programIndex;
+				}
+
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
 			}
 		}
