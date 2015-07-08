@@ -484,11 +484,11 @@ function generateWaterNeedChart () {
 						'<span style="font-size: 16px; line-height: 24px;">' + temperatureValue + '\xB0C</span>';
 				},
 				style: {
-					color: '#808080',
+					color: '#3399cc',
 					textAlign: 'center'
 				},
 				useHTML: true,
-				x: -10
+				x: -1
 			},
 			lineWidth: 0,
 			linkedTo: 0,
