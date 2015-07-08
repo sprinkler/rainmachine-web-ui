@@ -117,7 +117,7 @@ function systemSettingsUI()
 	systemSettingsView.UnitsMetric.checked = units;
 
 	systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
-	systemSettingsView.DeviceNameSet.onclick = function() { systemSettingsChangeDeviceName(); };
+	systemSettingsView.DeviceNameSet.onclick = function() { changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value); };
 	systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
 	systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
 	systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
@@ -135,16 +135,52 @@ function systemSettingsUI()
 	systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 	systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
-	systemSettingsView.MixerHistorySet.onclick = function() { systemSettingsChangeMixerHistory(); };
-	systemSettingsView.SimulatorHistorySet.onclick = function() { systemSettingsChangeSimulatorHistory(); };
-	systemSettingsView.WaterHistorySet.onclick = function() { systemSettingsChangeWaterHistory(); };
-	systemSettingsView.ParserHistorySet.onclick = function() { systemSettingsChangeParserHistory(); };
-	systemSettingsView.ParserDaysSet.onclick = function() { systemSettingsChangeParserDays(); };
-	systemSettingsView.MinWateringSet.onclick = function() { systemSettingsChangeMinWatering(); };
-	systemSettingsView.ValvesSet.onclick = function() { systemSettingsChangeValves(); };
-	systemSettingsView.CorrectionPastSet.onclick = function() { systemSettingsChangeCorrectionPast(); };
-	systemSettingsView.MaxWaterSet.onclick = function() { systemSettingsChangeMaxWater(); };
+	systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
+	systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); }
 
+	systemSettingsView.MixerHistorySet.onclick = function()	{
+		changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
+	};
+	systemSettingsView.SimulatorHistorySet.onclick = function() {
+		changeSingleSystemProvisionValue("simulatorHistorySize", systemSettingsView.SimulatorHistory.value);
+	};
+	systemSettingsView.WaterHistorySet.onclick = function() {
+		changeSingleSystemProvisionValue("waterLogHistorySize", systemSettingsView.WaterHistory.value);
+	};
+	systemSettingsView.ParserHistorySet.onclick = function() {
+		changeSingleSystemProvisionValue("parserHistorySize", systemSettingsView.ParserHistory.value);
+	};
+	systemSettingsView.ParserDaysSet.onclick = function() {
+		changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
+	};
+	systemSettingsView.MinWateringSet.onclick = function() {
+		changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
+	};
+	systemSettingsView.ValvesSet.onclick = function() {
+		changeSingleSystemProvisionValue("localValveCount", systemSettingsView.Valves.value);
+	};
+	systemSettingsView.CorrectionPastSet.onclick = function() {
+		changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
+	};
+	systemSettingsView.MaxWaterSet.onclick = function() {
+	 	changeSingleSystemProvisionValue("maxWateringCoef", parseInt(systemSettingsView.MaxWater.value) / 100);
+	};
+}
+
+function changeSingleSystemProvisionValue(provisionKey, value)
+{
+	var data = {};
+	data[provisionKey] = value;
+
+	var r = API.setProvision(data, null);
+
+	if (r === undefined || !r || r.statusCode != 0)
+	{
+		console.log("Can't set %s", provisionKey);
+		return;
+	}
+
+	Data.provision.system[provisionKey] = value;
 
 }
 
@@ -169,25 +205,6 @@ function systemSettingsChangeMasterValve()
 
     Data.provision.system.masterValveBefore = b;
     Data.provision.system.masterValveAfter = a;
-}
-
-function systemSettingsChangeDeviceName()
-{
-	var n = systemSettingsView.DeviceName.value;
-
-	var data = {
-		netName: n
-	};
-
-	var r = API.setProvision(data, null);
-
-	if (r === undefined || !r || r.statusCode != 0)
-	{
-		console.log("Can't set Device Name");
-		return;
-	}
-
-	Data.provision.system.netName = n;
 }
 
 function systemSettingsChangeUnits()
@@ -216,16 +233,17 @@ function systemSettingsReset()
 }
 
 
-function systemSettingsChangeMixerHistory() {}
-function systemSettingsChangeSimulatorHistory(){}
-function systemSettingsChangeWaterHistory(){}
-function systemSettingsChangeParserHistory(){}
-function systemSettingsChangeParserDays(){}
-function systemSettingsChangeMinWatering(){}
-function systemSettingsChangeValves(){}
-function systemSettingsChangeCorrectionPast(){}
-function systemSettingsChangeMaxWater(){}
+function systemSettingsChangeSSH()
+{
+	var isEnabled = systemSettingsView.SSH.checked;
+	API.setSSH(isEnabled);
+}
 
+function systemSettingsChangeLog()
+{
+	var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
+	API.setLogLevel(level);
+}
 
 function buildTimeZoneSelect(container)
 {

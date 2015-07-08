@@ -484,7 +484,14 @@ API.getDiagUpload = function()
 API.sendDiag = function()
 {
     var url = API.URL.diag + "/upload";
-    return post(url, null);
+    return post(url, {}, null);
+}
+
+API.setLogLevel = function(level)
+{
+	var url = API.URL.diag + "/log/level";
+	var data  = { level: level };
+	return post(url, data, null);
 }
 
 /* ------------------------------------------ MACHINE API CALLS ---------------------------------------------*/
@@ -517,7 +524,31 @@ API.setDateTime = function(dateStr) //dateStr: '%Y-%m-%d %H:%M'
 {
 	var url = API.URL.machine + "/time";
 	var data = { appDate: dateStr };
-	return post(url, dateStr);
+	return post(url, data, null);
+}
+
+API.setSSH = function(isEnabled)
+{
+	var url = API.URL.machine + "/ssh";
+	var data = { enabled: isEnabled };
+
+	return post(url, data, null);
+}
+
+API.setTouch = function(isEnabled)
+{
+	var url = API.URL.machine + "/touch";
+	var data = { enabled: isEnabled };
+
+	return post(url, data, null);
+}
+
+API.setLeds = function(isOn)
+{
+	var url = API.URL.machine + "/lightleds";
+	var data = { enabled: isEnabled };
+
+	return post(url, data, null);
 }
 
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
