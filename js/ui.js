@@ -10,7 +10,7 @@ var settingsSubmenus = [
     	{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
     	{ name: "Weather", 			func: weatherSettingUI, 						container: '#weather' },
     	{ name: "System Settings",  func: systemSettingsUI,							container: '#systemSettings' },
-    	{ name: "About",  			func: aboutSettingsUI, 							container: '#about' }
+    	{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
 	];
 
 var dashboardSubmenus = [
