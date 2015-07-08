@@ -246,6 +246,54 @@ function systemSettingsUI()
 		PasswordSet: $("#systemSettingsPasswordSet"),
 
 		ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
+
+		//Advanced Settings
+		/*
+
+		"systemSettingsSSHSet
+"systemSettingsSSH
+"systemSettingsLogSet
+"systemSettingsLog
+"systemSettingsMixerHistorySet
+"systemSettingsMixerHistory
+"systemSettingsSimulatorHistorySet
+"systemSettingsSimulatorHistory
+"systemSettingsWaterHistorySet
+"systemSettingsWaterHistory
+"systemSettingsParserHistorySet
+"systemSettingsParserHistory
+"systemSettingsParserDaysSet
+"systemSettingsParserDays
+"systemSettingsMinWateringSet
+"systemSettingsMinWatering
+"systemSettingsValvesSet
+"systemSettingsValves
+"systemSettingsCorrectionPastSet
+"systemSettingsCorrectionPast
+"systemSettingsMaxWaterSet
+"systemSettingsMaxWater
+"systemSettingsTouchSet
+"systemSettingsTouch
+"systemSettingsLedsSet
+"systemSettingsLeds
+"systemSettingsMaxLedSet
+"systemSettingsMaxLed
+"systemSettingsMixLedSet
+"systemSettingsMinLed
+"systemSettingsSensorSet
+"systemSettingsSensor
+"systemSettingsTouchTimeoutSet
+"systemSettingsTouchTimeout
+"systemSettingsTouchAdvSet
+"systemSettingsTouchAdv
+"systemSettingsTouchPressTimeoutSet
+"systemSettingsTouchPressTimeout
+"systemSettingsTouchAuthSet
+"systemSettingsTouchAuth
+"systemSettingsTouchProgSet
+"systemSettingsTouchProg
+
+		 */
 	};
 
 	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
