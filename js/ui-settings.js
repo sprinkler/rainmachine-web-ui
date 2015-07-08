@@ -224,6 +224,7 @@ function aboutSettingsUI()
 	$("#aboutUptime").textContent = Data.diag.uptime;
 	$("#aboutUpdate").onclick = function() { API.startUpdate(); aboutSettingsUI(); };
 	$("#aboutDiagSend").onclick = function() { API.sendDiag(); aboutSettingsUI(); };
+	$("#aboutDiagViewLog").onclick = function() { API.getDiagLog(); };
 
 	API.checkUpdate();
 	var updateStatus = API.getUpdate();

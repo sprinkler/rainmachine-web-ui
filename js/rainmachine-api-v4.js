@@ -481,6 +481,12 @@ API.getDiagUpload = function()
 	return get(url, null);
 }
 
+API.getDiagLog = function()
+{
+	var url = API.URL.diag + "/log";
+	return get(url, null);
+}
+
 API.sendDiag = function()
 {
     var url = API.URL.diag + "/upload";
