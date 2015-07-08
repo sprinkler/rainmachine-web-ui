@@ -248,52 +248,50 @@ function systemSettingsUI()
 		ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 
 		//Advanced Settings
-		/*
+		SSHSet: $("systemSettingsSSHSet"),
+		SSH: $("systemSettingsSSH"),
+		LogSet: $("systemSettingsLogSet"),
+		Log: $("systemSettingsLog"),
+		MixerHistorySet: $("systemSettingsMixerHistorySet"),
+		MixerHistory: $("systemSettingsMixerHistory"),
+		SimulatorHistorySet: $("systemSettingsSimulatorHistorySet"),
+		SimulatorHistory: $("systemSettingsSimulatorHistory"),
+		WaterHistorySet: $("systemSettingsWaterHistorySet"),
+		WaterHistory: $("systemSettingsWaterHistory"),
+		ParserHistorySet: $("systemSettingsParserHistorySet"),
+		ParserHistory: $("systemSettingsParserHistory"),
+		ParserDaysSet: $("systemSettingsParserDaysSet"),
+		ParserDays: $("systemSettingsParserDays"),
+		MinWateringSet: $("systemSettingsMinWateringSet"),
+		MinWatering: $("systemSettingsMinWatering"),
+		ValvesSet: $("systemSettingsValvesSet"),
+		Valves: $("systemSettingsValves"),
+		CorrectionPastSet: $("systemSettingsCorrectionPastSet"),
+		CorrectionPast: $("systemSettingsCorrectionPast"),
+		MaxWaterSet: $("systemSettingsMaxWaterSet"),
+		MaxWater: $("systemSettingsMaxWater"),
 
-		"systemSettingsSSHSet
-"systemSettingsSSH
-"systemSettingsLogSet
-"systemSettingsLog
-"systemSettingsMixerHistorySet
-"systemSettingsMixerHistory
-"systemSettingsSimulatorHistorySet
-"systemSettingsSimulatorHistory
-"systemSettingsWaterHistorySet
-"systemSettingsWaterHistory
-"systemSettingsParserHistorySet
-"systemSettingsParserHistory
-"systemSettingsParserDaysSet
-"systemSettingsParserDays
-"systemSettingsMinWateringSet
-"systemSettingsMinWatering
-"systemSettingsValvesSet
-"systemSettingsValves
-"systemSettingsCorrectionPastSet
-"systemSettingsCorrectionPast
-"systemSettingsMaxWaterSet
-"systemSettingsMaxWater
-"systemSettingsTouchSet
-"systemSettingsTouch
-"systemSettingsLedsSet
-"systemSettingsLeds
-"systemSettingsMaxLedSet
-"systemSettingsMaxLed
-"systemSettingsMixLedSet
-"systemSettingsMinLed
-"systemSettingsSensorSet
-"systemSettingsSensor
-"systemSettingsTouchTimeoutSet
-"systemSettingsTouchTimeout
-"systemSettingsTouchAdvSet
-"systemSettingsTouchAdv
-"systemSettingsTouchPressTimeoutSet
-"systemSettingsTouchPressTimeout
-"systemSettingsTouchAuthSet
-"systemSettingsTouchAuth
-"systemSettingsTouchProgSet
-"systemSettingsTouchProg
-
-		 */
+		//Advanced Settings Mini-8 SPK2
+		TouchSet: $("systemSettingsTouchSet"),
+		Touch: $("systemSettingsTouch"),
+		LedsSet: $("systemSettingsLedsSet"),
+		Leds: $("systemSettingsLeds"),
+		MaxLedSet: $("systemSettingsMaxLedSet"),
+		MaxLed: $("systemSettingsMaxLed"),
+		MinLedSet: $("systemSettingsMixLedSet"),
+		MinLed: $("systemSettingsMinLed"),
+		SensorSet: $("systemSettingsSensorSet"),
+		Sensor: $("systemSettingsSensor"),
+		TouchTimeoutSet: $("systemSettingsTouchTimeoutSet"),
+		TouchTimeout: $("systemSettingsTouchTimeout"),
+		TouchAdvSet: $("systemSettingsTouchAdvSet"),
+		TouchAdv: $("systemSettingsTouchAdv"),
+		TouchPressTimeoutSet: $("systemSettingsTouchPressTimeoutSet"),
+		TouchPressTimeout: $("systemSettingsTouchPressTimeout"),
+		TouchAuthSet: $("systemSettingsTouchAuthSet"),
+		TouchAuth: $("systemSettingsTouchAuth"),
+		TouchProgSet: $("systemSettingsTouchProgSet"),
+		TouchProg: $("systemSettingsTouchProg"),
 	};
 
 	systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
