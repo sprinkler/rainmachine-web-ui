@@ -14,6 +14,7 @@
 	<script src="js/ui-login.js"></script>
 	<script src="js/ui-restrictions.js"></script>
 	<script src="js/ui-settings.js"></script>
+	<script src="js/ui-system-settings.js"></script>
 	<script src="js/ui-programs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
@@ -570,41 +571,6 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsMixerHistorySet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
-								  			<span class="cardTitle">Mixer History Size</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsSimulatorHistorySet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
-								  			<span class="cardTitle">Simulator History Size</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsWaterHistorySet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
-								  			<span class="cardTitle">Water Log History Size</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsParserHistorySet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
-								  			<span class="cardTitle">Parser History Size</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsParserDaysSet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
-								  			<span class="cardTitle">Parser Future Days</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
 								  			<button id="systemSettingsMinWateringSet" class="save right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
 								  			<span class="cardTitle">Min Watering Duration Threshold</span><br>
@@ -614,7 +580,7 @@
 									<tr>
 								  		<td class="middle">
 								  			<button id="systemSettingsValvesSet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsValves" class="typeNumber" placeholder="1"> valves</span>
+								  			<span class="right mr"><input type="number" id="systemSettingsValves" class="typeNumber"> valves</span>
 								  			<span class="cardTitle">Local Valve Count</span><br>
                                             <span class="subtitle">(Number of valves of this device)</span>
 								  		</td>
@@ -630,10 +596,45 @@
 									<tr>
 								  		<td class="middle">
 								  			<button id="systemSettingsMaxWaterSet" class="save right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber" placeholder="200"> %</span>
+								  			<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
 								  			<span class="cardTitle">Max Watering Coefficient</span><br>
                                             <span class="subtitle">(How much over watering (more than user specified) is allowed)</span>
 								  		</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<button id="systemSettingsMixerHistorySet" class="save right">Change</button>
+											<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
+											<span class="cardTitle">Mixer History Size</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<button id="systemSettingsSimulatorHistorySet" class="save right">Change</button>
+											<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
+											<span class="cardTitle">Simulator History Size</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<button id="systemSettingsWaterHistorySet" class="save right">Change</button>
+											<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
+											<span class="cardTitle">Water Log History Size</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<button id="systemSettingsParserHistorySet" class="save right">Change</button>
+											<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
+											<span class="cardTitle">Parser History Size</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<button id="systemSettingsParserDaysSet" class="save right">Change</button>
+											<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
+											<span class="cardTitle">Parser Future Days</span>
+										</td>
 									</tr>
 								</table>
 							</div>
