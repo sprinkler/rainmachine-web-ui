@@ -232,7 +232,6 @@ function systemSettingsReset()
 	API.setProvisionReset(true);
 }
 
-
 function systemSettingsChangeSSH()
 {
 	var isEnabled = systemSettingsView.SSH.checked;

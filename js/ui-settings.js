@@ -1,6 +1,5 @@
 function weatherSettingUI()
 {
-
 	//Weather Sources List
 	var parsers = API.getParsers();
 	var weatherSourcesDiv = $('#weatherDataSourcesList');
@@ -142,7 +141,6 @@ function wateringLogUI() {
 	}
 
 	var waterLog = Data.waterLogCustom;
-
 
 	for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 	{

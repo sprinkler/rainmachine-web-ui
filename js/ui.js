@@ -4,18 +4,18 @@ function _genericSubMenu()
 }
 
 var settingsSubmenus = [
-		{ name: "Programs", 		func: window.ui.programs.showPrograms, 	container: '#programs' },
-    	{ name: "Watering History", func: wateringLogUI, 					container: '#wateringHistory' },
-    	{ name: "Snooze",  			func: rainDelaySettingsUI, 				container: '#snooze' },
-    	{ name: "Restrictions",  	func: restrictionsSettingsUI,			container: '#restrictions' },
-    	{ name: "Weather", 			func: weatherSettingUI, 				container: '#weather' },
-    	{ name: "System Settings",  func: systemSettingsUI,					container: '#systemSettings' },
-    	{ name: "About",  			func: aboutSettingsUI, 					container: '#about' }
+		{ name: "Programs", 		func: window.ui.programs.showPrograms, 			container: '#programs' },
+    	{ name: "Watering History", func: wateringLogUI, 							container: '#wateringHistory' },
+    	{ name: "Snooze",  			func: rainDelaySettingsUI, 						container: '#snooze' },
+    	{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
+    	{ name: "Weather", 			func: weatherSettingUI, 						container: '#weather' },
+    	{ name: "System Settings",  func: systemSettingsUI,							container: '#systemSettings' },
+    	{ name: "About",  			func: aboutSettingsUI, 							container: '#about' }
 	];
 
 var dashboardSubmenus = [
     	{ name: "Weekly", 		func: loadWeeklyCharts,		container: null },
-        { name: "Monthly", 		func: loadMonthlyCharts,		container: null },
+        { name: "Monthly", 		func: loadMonthlyCharts,	container: null },
         { name: "Yearly",  		func: loadYearlyCharts,		container: null }
       ];
 
@@ -26,7 +26,6 @@ var zonesSubmenus = [
 
 function buildSubMenu(submenus, category, parentTag)
 {
-
 	for (var i = 0; i < submenus.length; i++)
 	{
 		var div = addTag(parentTag, 'div')
