@@ -372,7 +372,7 @@ input[type="checkbox"] {
      -webkit-appearance:button;
     width:15px;
     height:15px;
-    border: 1px solid #ddd;
+    border: 1px solid #6B6B6B;
     background-color: #fff;
 }
 input[type="checkbox"]:checked {
