@@ -676,7 +676,7 @@ function generateProgramChart (programUid, programIndex) {
 			type: 'column'
 		}],
 		title: {
-			text: '<h1>Program ' + programName + ' Water Need (%)</h1>',
+			text: '<h1>' + programName + ' program water need (%)</h1>',
 			useHTML: true
 		},
 		xAxis: [{
