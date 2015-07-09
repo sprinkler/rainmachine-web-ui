@@ -471,6 +471,7 @@ window.ui = window.ui || {};
 			}
 		}
 
+		infoText += " at " + program.startTime;
 		return infoText;
     }
 
