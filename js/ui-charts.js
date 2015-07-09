@@ -110,7 +110,7 @@ function ChartData () {
 	this.waterNeed = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.programs = [];
-	this.programsMap = {}; //Holds programs index to program uid
+	this.programsMap = {}; //Holds programs uid to programs array index mapping
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
 }
@@ -174,11 +174,12 @@ function getChartData (pastDays) {
 			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
 
 			// Program index not in our struct ?
-			if (programIndex > chartsData.programs.length - 1) {
-				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-			} else {
-				currentProgramIndex = programIndex;
-			}
+            if (currentProgram.id in chartsData.programsMap) {
+            	currentProgramIndex = chartsData.programsMap[currentProgram.id];
+            } else {
+            	currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+            	chartsData.programsMap[currentProgram.id] = currentProgramIndex;
+            }
 
 			//zones for the programs
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
@@ -223,17 +224,17 @@ function getChartData (pastDays) {
 				if (currentProgram.id == 0)
 					continue;
 
-				// Is program active/still available in current programs list ?
+				// Is program active/still available in current programs list (might be an old deleted program)?
 				var existingProgram = getProgramById(currentProgram.id)
 				if (existingProgram === null || existingProgram.active == false)
 					continue;
 
 				// Program index not in our struct ?
-				if (programIndex > chartsData.programs.length - 1) {
-					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-					chartsData.programsMap[currentProgramIndex] = existingProgram.uid;
+				if (currentProgram.id in chartsData.programsMap) {
+					currentProgramIndex = chartsData.programsMap[currentProgram.id];
 				} else {
-					currentProgramIndex = programIndex;
+					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+					chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 				}
 
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
@@ -413,8 +414,13 @@ function generateCharts () {
 	generateTemperatureChart();
 	generateQPFChart();
 
-	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
-		generateProgramChart(programIndex);
+
+	//Walk by uid
+    var uids = Object.keys(chartsData.programsMap);
+	for (var i = 0; i < uids; i++) {
+		var uid = uids[i];
+		var index = chartsData.programsMap[uid];
+		generateProgramChart(uid, index);
 	}
 }
 
@@ -475,19 +481,25 @@ function generateWaterNeedChart () {
 			labels: {
 				formatter: function () {
 					//Our condition mapping in TTF front
-					var condition = chartsData.condition.getAtDate(this.value),
-						temperatureValue = Math.round(chartsData.maxt.getAtDate(this.value)),
-						conditionValue;
+					var condition = chartsData.condition.getAtDate(this.value);
+					var temperature = chartsData.maxt.getAtDate(this.value);
+					var conditionValue, temperatureValue;
 
-					if (condition === undefined) {
+					if (condition === undefined || condition === null) {
 						conditionValue = String.fromCharCode(122);
 					} else {
 						conditionValue = String.fromCharCode(97 + condition);
 					}
 
+					if (temperature === undefined || temperature === null) {
+						temperatureValue = "-";
+					} else {
+						temperatureValue = Math.round(temperature) + "\xB0C";
+					}
+
 					return '<span style="font-family: RainMachine, sans-serif; font-size: 42px;">' + conditionValue + '</span>' +
 						'<br />' +
-						'<span style="font-size: 16px; line-height: 24px;">' + temperatureValue + '\xB0C</span>';
+						'<span style="font-size: 16px; line-height: 24px;">' + temperatureValue + '</span>';
 				},
 				style: {
 					color: '#3399cc',
@@ -632,8 +644,8 @@ function generateQPFChart () {
  * Generates a chart for a program
  * @param programIndex
  */
-function generateProgramChart (programIndex) {
-	var program = getProgramById(chartsData.programsMap[programIndex]);
+function generateProgramChart (programUid, programIndex) {
+	var program = getProgramById(programUid);
 
 	if (program === null)
 		var programName = programIndex;
@@ -653,7 +665,7 @@ function generateProgramChart (programIndex) {
 				inside: true,
 				verticalAlign: 'bottom'
 			},
-			name: 'Program ' + programIndex,
+			name: 'Program ' + programName,
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
