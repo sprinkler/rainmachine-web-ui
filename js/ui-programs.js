@@ -84,7 +84,7 @@ window.ui = window.ui || {};
 
 			console.log("%o", p.wateringTimes);
 
-			infoElem.textContent = programTypeToText(p);
+			infoElem.innerHTML = programTypeToText(p);
 
 			/* Show small zones circles */
 			for (var zi = 0; zi < p.wateringTimes.length; zi++)
@@ -457,11 +457,10 @@ window.ui = window.ui || {};
 		    var param = parseInt(program.frequency.param);
 			infoText = "Every " + param +  " days";
 		} else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
-			infoText = "Weekdays ";
 			var param = program.frequency.param;
 			param = param.substr(param.length - WeekdaysOrder.length - 1);
 			for(var index = 0; index < param.length; index++)
-            	infoText += (param[index] === "1" ? WeekdaysOrder[index] : "") + " ";
+            	infoText += (param[index] === "1" ? WeekdaysOrder[index].substr(0,3).toUpperCase() : "") + " ";
 		} else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
 			var param = parseInt(program.frequency.param);
 			if (param % 2 === FrequencyParam.Odd) { // Odd
@@ -472,6 +471,15 @@ window.ui = window.ui || {};
 		}
 
 		infoText += " at " + program.startTime;
+
+        var nextRun = new Date(program.nextRun);
+
+        if(isNaN(nextRun.getTime())) {
+           nextRun = "";
+        } else {
+           nextRun = nextRun.toDateString();
+        }
+		infoText += "<br><strong>Next run on " + nextRun + "</strong>";
 		return infoText;
     }
 
