@@ -173,14 +173,6 @@ function getChartData (pastDays) {
 		for (programIndex = 0; programIndex < daily[dailyDetailsIndex].programs.length; programIndex++) {
 			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
 
-			// Program index not in our struct ?
-            if (currentProgram.id in chartsData.programsMap) {
-            	currentProgramIndex = chartsData.programsMap[currentProgram.id];
-            } else {
-            	currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-            	chartsData.programsMap[currentProgram.id] = currentProgramIndex;
-            }
-
 			//zones for the programs
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				wnfTotalDayUserWater += currentProgram.zones[zoneIndex].computedWateringTime;
@@ -189,6 +181,24 @@ function getChartData (pastDays) {
 			}
 
 			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
+
+			//Add program used water
+			//Skip Manual run programs (id 0)
+			if (currentProgram.id == 0)
+				continue;
+
+			// Is program active/still available in current programs list (might be an old deleted program)?
+			var existingProgram = getProgramById(currentProgram.id)
+			if (existingProgram === null || existingProgram.active == false)
+				continue;
+
+			// Program index not in our struct ?
+			if (currentProgram.id in chartsData.programsMap) {
+				currentProgramIndex = chartsData.programsMap[currentProgram.id];
+			} else {
+				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+				chartsData.programsMap[currentProgram.id] = currentProgramIndex;
+			}
 			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
 		}
 
@@ -417,8 +427,9 @@ function generateCharts () {
 
 	//Walk by uid
     var uids = Object.keys(chartsData.programsMap);
-	for (var i = 0; i < uids; i++) {
-		var uid = uids[i];
+	console.log("UIDS: %o", uids);
+	for (var i = 0; i < uids.length; i++) {
+		var uid = +uids[i];
 		var index = chartsData.programsMap[uid];
 		generateProgramChart(uid, index);
 	}
