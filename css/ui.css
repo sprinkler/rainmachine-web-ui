@@ -142,7 +142,7 @@ h1 {
 }
 
 #programsList, #zonesList {
-    padding-left: 10px;
+    padding-left: 12px;
 }
 .subtitle {
     font: 12px normal Arial, sans-serif;
@@ -563,7 +563,7 @@ select {
     padding: 25px;
     border-bottom: 1px solid #ddd;
     border-radius: 5px;
-    width: 263px;
+    width: 315px;
     text-align: left;
     margin-bottom: 10px;
     margin-right: 10px;
