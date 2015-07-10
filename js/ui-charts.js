@@ -424,10 +424,8 @@ function generateCharts () {
 	generateTemperatureChart();
 	generateQPFChart();
 
-
 	//Walk by uid
     var uids = Object.keys(chartsData.programsMap);
-	console.log("UIDS: %o", uids);
 	for (var i = 0; i < uids.length; i++) {
 		var uid = +uids[i];
 		var index = chartsData.programsMap[uid];
