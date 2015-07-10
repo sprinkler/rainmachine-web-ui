@@ -62,9 +62,32 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function showDeviceInfo()
+    {
+    	Data.diag = API.getDiag();
+        Data.provision = API.getProvision();
+        Data.provision.wifi = API.getProvisionWifi();
+        Data.provision.api = API.getApiVer();
+    	Data.provision.cloud = API.getProvisionCloud();
+
+        var deviceImgDiv = $('#deviceImage');
+        var deviceNameDiv = $('#deviceName');
+        var deviceNetDiv = $('#deviceNetwork');
+        var footerInfoDiv = $('#footerInfo');
+
+        deviceNameDiv.innerHTML = Data.provision.system.netName;
+        deviceNetDiv.innerHTML = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+
+        if (Data.provision.api.hwVer == 3)
+        	deviceImgDiv.className = "spk3";
+
+    	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+    }
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_about.showAbout = showAbout;
+	_about.showDeviceInfo = showDeviceInfo;
 
 } (window.ui.about = window.ui.about || {}));

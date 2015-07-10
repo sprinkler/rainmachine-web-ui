@@ -228,7 +228,6 @@ function showZones()
 	Data.zoneAdvData = API.getZonesProperties();
 
 	var zonesDiv = $('#zonesList');
-
 	clearTag(zonesDiv);
 
 	for (var i = 0; i < Data.zoneData.zones.length; i++)

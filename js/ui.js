@@ -1,8 +1,3 @@
-function _genericSubMenu()
-{
-	console.log("SubMenu: %s : %s", this.id, this.name)
-}
-
 var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 			container: '#programs' },
     	{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
@@ -23,6 +18,12 @@ var zonesSubmenus = [
 		{ name: "Stop All",		func: stopAllWatering,		container: null }
 ];
 
+var loop = null;
+
+function _genericSubMenu()
+{
+	console.log("SubMenu: %s : %s", this.id, this.name)
+}
 
 function buildSubMenu(submenus, category, parentTag)
 {
@@ -61,33 +62,9 @@ function buildSubMenu(submenus, category, parentTag)
 	}
 }
 
-function showDeviceInfo()
-{
-	Data.diag = API.getDiag();
-    Data.provision = API.getProvision();
-    Data.provision.wifi = API.getProvisionWifi();
-    Data.provision.api = API.getApiVer();
-	Data.provision.cloud = API.getProvisionCloud();
-
-    var deviceImgDiv = $('#deviceImage');
-    var deviceNameDiv = $('#deviceName');
-    var deviceNetDiv = $('#deviceNetwork');
-    var footerInfoDiv = $('#footerInfo');
-
-    deviceNameDiv.innerHTML = Data.provision.system.netName;
-    deviceNetDiv.innerHTML = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
-
-    if (Data.provision.api.hwVer == 3)
-    	deviceImgDiv.className = "spk3";
-
-	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
-}
-
-var loop = null;
-
 function uiLoop()
 {
-	if (isVisible("#zones"))
+	if (isVisible("#zones") && isVisible("#zonesList"))
 	{
 		var waterQueue = API.getWateringQueue();
 
@@ -126,6 +103,8 @@ function uiStart()
     buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
 
 	zonesBtn.onclick = function() {
+		makeVisible("#zonesList"); //Added to set initial display property to this layer which we use on uiLoop
+
 		makeVisible(zonesDiv);
 		makeVisible(zonesMenu);
 
@@ -184,7 +163,7 @@ function uiStart()
 
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
-		showDeviceInfo();
+		window.ui.about.showDeviceInfo();
 		loop = setInterval(uiLoop, 1000);
 	});
 }
