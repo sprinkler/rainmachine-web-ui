@@ -4,7 +4,7 @@ var settingsSubmenus = [
     	{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
     	{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
     	{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
-    	{ name: "System Settings",  func: systemSettingsUI,							container: '#systemSettings' },
+    	{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
     	{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
 	];
 
