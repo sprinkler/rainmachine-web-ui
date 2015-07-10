@@ -15,7 +15,7 @@ var dashboardSubmenus = [
       ];
 
 var zonesSubmenus = [
-		{ name: "Stop All",		func: stopAllWatering,		container: null }
+		{ name: "Stop All",		func: window.ui.zones.stopAllWatering,		container: null }
 ];
 
 var loop = null;
@@ -72,7 +72,7 @@ function uiLoop()
 			return;
 
 		console.log("Watering Loop: %o", waterQueue);
-		showZones();
+		window.ui.zones.showZones();
 		return;
 	}
 	else
@@ -118,7 +118,7 @@ function uiStart()
         dashboardBtn.removeAttribute("selected");
         settingsBtn.removeAttribute("selected");
 
-		showZones();
+		window.ui.zones.showZones();
 		console.log("Zones");
 	}
 
