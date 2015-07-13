@@ -1,3 +1,8 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
+
 var Util = (function(Util) {
 
 Util.secondsToHuman = function(seconds)

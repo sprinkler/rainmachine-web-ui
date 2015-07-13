@@ -1,3 +1,8 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
+
 var Storage  = (function(Storage) {
 
 	Storage.saveItem = function(key, object)

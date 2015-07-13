@@ -1,3 +1,8 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
+
 /* global Highcharts */
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,

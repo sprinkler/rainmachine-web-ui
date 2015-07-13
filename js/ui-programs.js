@@ -1,3 +1,7 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
 
 window.ui = window.ui || {};
 

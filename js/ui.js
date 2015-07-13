@@ -1,3 +1,8 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
+
 var settingsSubmenus = [
 		{ name: "Programs", 		func: window.ui.programs.showPrograms, 			container: '#programs' },
     	{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },

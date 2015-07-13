@@ -1,3 +1,8 @@
+/*
+ *	Copyright (c) 2015 RainMachine, Green Electronics LLC
+ *	All rights reserved.
+ */
+
 /* Generic DOM functions */
 
 function $(elem, selector)
