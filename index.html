@@ -74,7 +74,7 @@
 
 				<div id="zones">
 					<div class="settingsBlockZones center">
-						<h1 class="title center">Watering zones list</h1>
+						<h1 class="title center">Zone list</h1>
 							<div id="zonesList" class="list left"></div>
 							<!-- Zones Settings -->
 							<div id="zonesSettings" class="settings"></div>
@@ -828,7 +828,6 @@
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="listItemSettingsZones">
         	<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
-        	<button rm-id="zone-edit" class="edittxt right">Edit</button>
             <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
             <br><hr><br>
@@ -837,8 +836,9 @@
                 <span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
-            <button rm-id="zone-start" class="save full">Start</button>
-			<button rm-id="zone-stop" class="stop full">Stop</button>
+            <button rm-id="zone-start" class="button label-blue center right">Start</button>
+			<button rm-id="zone-stop" class="button label-red center right">Stop</button>
+			<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
         </div>
         <!-- Template for Zone Card (End) -->
 
@@ -880,12 +880,11 @@
 		<!-- Template for Program Card (Begin) -->
 		<div id="program-entry" class="programActive">
 			<span rm-id="program-status">!</span>
-			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
-			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>
-			<br><hr><br>
-			<button rm-id="program-edit" class="edittxt right">Edit</button>
+			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>		
 		    <div rm-id="program-zones-bullets" class="zones-bullets"></div>
+		    <button rm-id="program-start" class="button label-blue right center">Start</button>
+		    <button rm-id="program-edit" class="button label-grey right center">Edit</button>
 		</div>
 		<!-- Template for Program Card (End) -->
 

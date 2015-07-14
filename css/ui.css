@@ -240,7 +240,7 @@ h1 {
 }
 
 /*buttons*/
-.save, .edit, .stop, .set, .default {
+.save, .edit, .set, .default {
     display:inline;
     text-align: center;
     color: #fff;
@@ -256,9 +256,6 @@ h1 {
 .edit {
     background-color: #FF9700;
 }
-.stop {
-    background-color: #FF0000;
-}
 .default{
     background-color: #ccc;
 }
@@ -266,17 +263,20 @@ h1 {
 .addNew, .addNew:hover {
     display: block;
     margin: 0 auto;
-    font-family:'RainMachine';
+    font-family: 'RainMachine';
     font-size: 80px;
     text-align: center;
-    margin-top:35px;
-    color: #3399cc;
+    margin-top: 45px;
+    color: #39c;
     padding: 1px;
+    background-color: #fff;
+    border-radius: 100%;
 }
 .addNew:hover {
     color: #555;
     background-color: #fff;
     border-radius: 100%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
 .save:hover, .set:hover {
@@ -356,10 +356,7 @@ h1 {
     padding: 0;
     position: relative;
 }
-.bottom {
-     position: absolute;
-     bottom: 25px;
-}
+
 button {
     display: inline;
     background-color: transparent;
@@ -543,7 +540,13 @@ select {
     display:inline-block;
 }
 .zones-bullets {
-    width: 240px;
+    height: 50px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 /*small devices images*/
@@ -564,24 +567,30 @@ select {
 /*zone, programs squares*/
 .listItem, .listItemSettings, .listItemSettingsZones, .listItemSettingsRestrictions {
     vertical-align: top;
-    background-color: #f9f9f9;
-    padding: 25px;
-    border-bottom: 1px solid #ddd;
-    border-radius: 5px;
-    width: 315px;
+    background-color: #fff;
+    padding: 10px;
+    width: 250px;
     text-align: left;
     margin-bottom: 10px;
-    margin-right: 10px;
-    min-height: 150px;
+    margin-right: 20px;
+    min-height: 178px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.14);
 }
 .listItemSettings, .listItemSettingsRestrictions {
-    background-color: #f9f9f9;
+    background-color: #fff;
     width:25%;
     min-width: 263px;
     line-height: 24px;
 }
 .listItem, .listItemSettingsZones, .listItemSettingsRestrictions {
     display: inline-block;
+}
+.listItem:hover, .listItemSettings:hover, .listItemSettingsZones:hover, .listItemSettingsRestrictions:hover {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.24);
+}
+.listItemSettingsZones {
+  min-height: 158px;
+  float: left;
 }
 
 .inactive {
@@ -885,3 +894,148 @@ td.right, .right {
     }
 }
 
+/* Material UI Button */
+    .button {
+      display: inline-block;
+      position: relative;
+      width: 70px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 2px;
+      font-size: 1.1em;
+      color: #646464;
+      text-transform: uppercase;
+    }
+    
+    .button > paper-ripple {
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .button.narrow {
+      width: 60px;
+    }
+    
+    .button.grey {
+      background-color: #eee;
+    }
+    
+    .button.blue {
+      background-color: #4285f4;
+      color: #fff;
+    }
+    
+    .button.green {
+      background-color: #0f9d58;
+      color: #fff;
+    }
+    
+    .button.raised {
+      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    
+    .button.raised:active {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+      transition-delay: 0s;
+    }
+    
+    /* Icon Button */
+    .icon-button {
+      position: relative;
+      display: inline-block;
+      width: 56px;
+      height: 56px;
+    }
+    
+    .icon-button > core-icon {
+      margin: 16px;
+      transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .icon-button:hover > core-icon {
+      -webkit-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+    
+    .icon-button > paper-ripple {
+      overflow: hidden;
+      color: #646464;
+    }
+    
+    .icon-button.red > core-icon::shadow path {
+      fill: #db4437;
+    }
+    
+    .icon-button.red > paper-ripple {
+      color: #db4437;
+    }
+    
+    .icon-button.blue > core-icon::shadow path {
+      fill: #4285f4;
+    }
+    
+    .icon-button.blue > paper-ripple {
+      color: #4285f4;
+    }
+        /* Misc */
+    .center {
+      text-align: center;
+    }
+    
+    .label {
+      padding: 0 16px;
+    }
+    
+    .label-blue {
+      color: #3399cc; 
+    }
+    
+    .label-red {
+      color: #d23f31; 
+    }
+
+    /* FAB */
+    .fab {
+      position: relative;
+      display: inline-block;
+      margin: 0 auto;
+      margin-top: 50px;
+      font-size: 25px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      color: #fff;
+      overflow: hidden;
+      transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    
+    .fab.red {
+      background-color: #d23f31;
+    }
+    
+    .fab.blue {
+      background-color: #39c;
+    }
+    
+    .fab.green {
+      background-color: #0f9d58;
+    }
+    
+    .fab:active {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+      transition-delay: 0s;
+    }
+    
+    .fab > core-icon {
+      margin: 16px;
+    }
+    
+    .fab > core-icon::shadow path {
+      fill: #fff;
+    }
+    
