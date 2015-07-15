@@ -367,7 +367,10 @@
 														    </td>
 														   </tr>
 														   <tr>
-														   	<td colspan="3"><button id="restrictionHourlyAdd" class="button label-blue right">Add New</button></td>
+														   	<td colspan="3">&nbsp;</td>
+														   </tr>
+														   <tr>
+														   	<td colspan="3" class="noborder"><button id="restrictionHourlyAdd" class="button label-blue center">Add New</button></td>
 														   </tr>
 														</table>														
 													</div>
@@ -851,11 +854,8 @@
 
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template" class="programEdit">
-            <table class="full" cellpadding="0" cellspacing="0">
+            <table class="listItem" style="width:100%;" cellpadding="0" cellspacing="0">
                 <tbody>
-                <tr>
-                	<td class="middle" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
-                </tr>
                 <tr rm-id="zone-master-valve-option">
 	                <td class="middle" width="15%">Master Valve:</td>
 	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
@@ -879,6 +879,9 @@
                 </td></tr>
                 <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
                 <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+                <tr>
+                	<td class="middle noborder" colspan="2"><button class="button label-blue center right" rm-id="zone-save">Save</button><button class="button label-red center right" rm-id="zone-cancel">Cancel</button></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -901,9 +904,9 @@
                 <tr>
                     <td class="programProperties">
                         <div class="center">
-                            <button class="edit left" rm-id="program-cancel">Cancel</button>
-                            <button class="stop" rm-id="program-delete">Delete</button>
-                            <button class="save right" rm-id="program-save">Save</button>
+                            <button class="button label-grey left" rm-id="program-cancel">Cancel</button>
+                            <button class="button label-red center" rm-id="program-delete">Delete</button>
+                            <button class="button label-blue right" rm-id="program-save">Save</button>
                         </div>
                         <table width="100%" cellpadding="0" cellspacing="0">
                             <tbody>
