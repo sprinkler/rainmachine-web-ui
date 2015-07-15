@@ -103,7 +103,7 @@
 											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
 											days.
 										</span>
-										<button id="waterHistoryFetch" class="save">Show</button>
+										<button id="waterHistoryFetch" class="button label-blue center" style="font-size:16px;">Show</button>
 									</h1>
 										<div class="historyDateContainer" style="margin-top: -40px;border:0;">
 											<div class="historyDate"></div>
@@ -137,7 +137,7 @@
 									    <td class="middle center">
 											<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
 											<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
-											<button id="snoozeSet" class="save">Snooze</button>
+											<button id="snoozeSet" class="button label-blue center">Snooze</button>
 										</td>
 									  </tr>
 									</table>
@@ -176,7 +176,7 @@
 										            <span>Allow extra watering</span>
 									        	</div>
 									        	<div class="bottom">
-									            	<button id="restrictionsHotDaysSet" class="save full center">Set</button>
+									            	<button id="restrictionsHotDaysSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -198,7 +198,7 @@
 														</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionFreezeSet" class="save full">Set</button>
+									            	<button id="restrictionFreezeSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -273,7 +273,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionsMonthsSet" class="save full">Set</button>
+									            	<button id="restrictionsMonthsSet" class="button label-blue absolute right">Set</button>
 									            </div>
 									        </div>
 									    </td>
@@ -323,7 +323,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionWeekDaysSet" class="save full">Set</button>
+									            	<button id="restrictionWeekDaysSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -366,9 +366,10 @@
 		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
 														    </td>
 														   </tr>
-														</table>
-														<div class="clear30"></div>
-														<button id="restrictionHourlyAdd" class="save full">Add New</button>
+														   <tr>
+														   	<td colspan="3"><button id="restrictionHourlyAdd" class="button label-blue right">Add New</button></td>
+														   </tr>
+														</table>														
 													</div>
 										</div>
 						</div>
