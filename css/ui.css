@@ -809,6 +809,7 @@ td.right, .right {
     width:10%;
     padding: 15px 0;
     font-weight: bold;
+    text-align: left;
 }
 .historyAllZones {
     border-top: 1px solid #ddd;
@@ -898,7 +899,7 @@ td.right, .right {
     .button {
       display: inline-block;
       position: relative;
-      width: 70px;
+      width: 75px;
       height: 32px;
       line-height: 32px;
       border-radius: 2px;
@@ -939,6 +940,11 @@ td.right, .right {
     .button.raised:active {
       box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
       transition-delay: 0s;
+    }
+    .absolute {
+      position: absolute;
+      bottom:10;
+      right:10;
     }
     
     /* Icon Button */
