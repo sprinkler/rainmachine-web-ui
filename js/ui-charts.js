@@ -54,7 +54,7 @@ ChartSeries.prototype.insertAtDate = function (dateStr, value) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 
 	if (index < 0 || index >= chartsMaximumDataRange) {
-		console.log('Index %d for date %s outside needed range', index, dateStr);
+		//console.log('Index %d for date %s outside needed range', index, dateStr);
 		return false;
 	}
 
@@ -70,7 +70,7 @@ ChartSeries.prototype.insertAtDate = function (dateStr, value) {
 ChartSeries.prototype.getAtDate = function (dateStr) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 	if (index < 0 || index >= chartsMaximumDataRange) {
-    		console.log('Index %d for date %s outside needed range', index, dateStr);
+    	//console.log('Index %d for date %s outside needed range', index, dateStr);
 		return null;
 	}
 
@@ -530,6 +530,11 @@ function generateWaterNeedChart () {
 		});
 	}
 
+	// Hide labels from monthly charts
+	if (chartsCurrentLevel === chartsLevel.monthly)  {
+    		waterNeedChartOptions.series[0].dataLabels.enabled = false;
+	}
+
 	// before generating the chart we must destroy the old one if it exists
 	if (charts.waterNeed) {
 		charts.waterNeed.destroy();
@@ -646,6 +651,11 @@ function generateQPFChart () {
 		}]
 	};
 
+	// Hide labels from monthly charts
+	if (chartsCurrentLevel === chartsLevel.monthly)  {
+		qpfChartOptions.series[0].dataLabels.enabled = false;
+	}
+
 	// before generating the chart we must destroy the old one if it exists
 	if (charts.qpf) {
 		charts.qpf.destroy();
@@ -708,6 +718,11 @@ function generateProgramChart (programUid, programIndex) {
 			title: false
 		}]
 	};
+
+	// Hide labels from monthly charts
+	if (chartsCurrentLevel === chartsLevel.monthly)  {
+		programChartOptions.series[0].dataLabels.enabled = false;
+	}
 
 	// before generating the chart we must destroy the old one if it exists
 	if (charts.programs[programIndex]) {
