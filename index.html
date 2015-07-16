@@ -30,7 +30,7 @@
 			<div class="clear30"></div>
 			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
 			<div><input type="checkbox" id="loginRememberMe" class="middle"/> <span>Remember me</span></div>
-			<button id="loginButton" class="save full">Login</button>
+			<button id="loginButton" class="button label-blue right">Login</button>
 		</div>
 	</div>
 	<div class="pageHeader">
@@ -74,7 +74,7 @@
 
 				<div id="zones">
 					<div class="settingsBlockZones center">
-						<h1 class="title center">Watering zones list</h1>
+						<h1 class="title center">Zone list</h1>
 							<div id="zonesList" class="list left"></div>
 							<!-- Zones Settings -->
 							<div id="zonesSettings" class="settings"></div>
@@ -103,7 +103,7 @@
 											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
 											days.
 										</span>
-										<button id="waterHistoryFetch" class="save">Show</button>
+										<button id="waterHistoryFetch" class="button label-blue center" style="font-size:16px;">Show</button>
 									</h1>
 										<div class="historyDateContainer" style="margin-top: -40px;border:0;">
 											<div class="historyDate"></div>
@@ -137,7 +137,7 @@
 									    <td class="middle center">
 											<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
 											<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
-											<button id="snoozeSet" class="save">Snooze</button>
+											<button id="snoozeSet" class="button blue center">Snooze</button>
 										</td>
 									  </tr>
 									</table>
@@ -176,7 +176,7 @@
 										            <span>Allow extra watering</span>
 									        	</div>
 									        	<div class="bottom">
-									            	<button id="restrictionsHotDaysSet" class="save full center">Set</button>
+									            	<button id="restrictionsHotDaysSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -198,7 +198,7 @@
 														</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionFreezeSet" class="save full">Set</button>
+									            	<button id="restrictionFreezeSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -273,7 +273,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionsMonthsSet" class="save full">Set</button>
+									            	<button id="restrictionsMonthsSet" class="button label-blue absolute right">Set</button>
 									            </div>
 									        </div>
 									    </td>
@@ -323,7 +323,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionWeekDaysSet" class="save full">Set</button>
+									            	<button id="restrictionWeekDaysSet" class="button label-blue absolute right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -366,9 +366,13 @@
 		                                                        <div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
 														    </td>
 														   </tr>
-														</table>
-														<div class="clear30"></div>
-														<button id="restrictionHourlyAdd" class="save full">Add New</button>
+														   <tr>
+														   	<td colspan="3">&nbsp;</td>
+														   </tr>
+														   <tr>
+														   	<td colspan="3" class="noborder"><button id="restrictionHourlyAdd" class="button blue center">Add New</button></td>
+														   </tr>
+														</table>														
 													</div>
 										</div>
 						</div>
@@ -393,7 +397,7 @@
 
 									    </td>
 									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
 									    	<div>
 									            <div class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
@@ -405,15 +409,14 @@
 													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
 													}
 													</script>
-
-									            <div align="center">
-										            <button id="rainSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button id="rainSensitivityDefault" class="default left" value="80">Default</button>
-									            </div>
+													<div class="absolute">
+										            <button id="rainSensitivitySave" class="button label-blue center right">Save</button>
+										            <button id="rainSensitivityDefault" class="button label-grey center right" value="80">Default</button>
+										        	</div>
 									        </div>
 									    </td>
 									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
 									    	<div>
 									            <div class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
@@ -426,9 +429,9 @@
 													}
 													</script>
 
-									            <div align="center">
-										            <button id="windSensitivitySave" class="set right">Save</button>&nbsp;&nbsp;&nbsp;
-										            <button id="windSensitivityDefault" class="default left" value="50">Default</button>
+									            <div class="absolute">
+										            <button id="windSensitivitySave" class="button label-blue center right">Save</button>
+										            <button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
 									            </div>
 									        </div>
 	        							</td>
@@ -444,39 +447,42 @@
 							<div class="settingsBlock center">
 								<table cellspacing="0" cellpadding="0" class="center full">
 								  	<tr>
-										<td class="listItemSettings">
+										<td class="listItemSettings relative">
 											<div class="bold">Device Name</div>
 											<span class="separator"></span>
 											<input type="text" id="systemSettingsDeviceName" placeholder="Name" class="typeText"/>
 											<span class="separator"></span>
-											<button id="systemSettingsDeviceNameSet" class="save">Change</button>
+											<br><br>
+											<button id="systemSettingsDeviceNameSet" class="button label-blue absolute center right">Change</button>
 										</td>
 									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
+											<div class="bold">Units</div>
+											<span class="separator"></span>
+											<input type="radio" id="systemSettingsUnitsUS" name="units" class="right typeCheckbox" checked="checked">US
+											<span class="separator"></span>
+											<input type="radio" id="systemSettingsUnitsMetric" name="units" class="right typeCheckbox">Metric
+											<span class="separator"></span>
+											<br><br>
+											<button id="systemSettingsUnitsSet" class="button label-blue absolute center right">Change</button>
+										</td>
+									    <td class="gap">&nbsp;</td>
+									    <td class="listItemSettings relative">
 											<div class="bold">Remote Access</div>
 											<span class="separator"></span>
 											<input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
 											<span class="separator"></span>
 											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 											<span class="separator"></span>
-											<button id="systemSettingsCloudSet" class="save">Change</button>
+											<br><br>
+											<button id="systemSettingsCloudSet" class="button label-blue absolute center right">Change</button>
 									    </td>
-									    <td class="gap">&nbsp;</td>
-										<td class="listItemSettings">
-											<div class="bold">Admin Password</div>
-											<span class="separator"></span>
-											<input type="password" id="systemSettingsPasswordOld" placeholder="Old Password" class="typeText"/>
-											<span class="separator"></span>
-											<input type="password" id="systemSettingsPassword" placeholder="New Password" class="typeText"/>
-											<span class="separator"></span>
-											<button id="systemSettingsPasswordSet" class="save">Change</button>
-										</td>
 									</tr>
 									<tr>
 										<td class="gap"></td>
 									</tr>
 									<tr>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
 											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
 											<div class="bold">Location</div>
 											<span class="separator"></span>
@@ -486,10 +492,11 @@
 											<span class="separator"></span>
 											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
 											<span class="separator"></span>
-											<button id="systemSettingsLocationSet" class="save">Change</button>
+											<br><br>
+											<button id="systemSettingsLocationSet" class="button label-blue absolute center right">Change</button>
 									    </td>
 									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
 									            <div class="bold">Date and Time</div>
 												<span class="separator"></span>
 												<div>
@@ -504,41 +511,44 @@
 													<!-- Generated from Javascript -->
 												</select>
 									            <span class="separator"></span>
-									            <button id="systemSettingsTimeZoneSet" class="save">Change</button>
+									            <br><br>
+									            <button id="systemSettingsTimeZoneSet" class="button label-blue absolute center right">Change</button>
 									    </td>
 										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings">
-											<div class="bold">Units</div>
+										<td class="listItemSettings relative">
+											<div class="bold">Admin Password</div>
 											<span class="separator"></span>
-											<input type="radio" id="systemSettingsUnitsUS" name="units" class="right typeCheckbox" checked="checked">US
+											<input type="password" id="systemSettingsPasswordOld" placeholder="Old Password" class="typeText"/>
 											<span class="separator"></span>
-											<input type="radio" id="systemSettingsUnitsMetric" name="units" class="right typeCheckbox">Metric
+											<input type="password" id="systemSettingsPassword" placeholder="New Password" class="typeText"/>
 											<span class="separator"></span>
-											<button id="systemSettingsUnitsSet" class="save">Change</button>
-										</td>
+											<br><br>
+											<button id="systemSettingsPasswordSet" class="button label-blue absolute center right">Change</button>
+										</td>										
 									</tr>
 									<tr>
 										<td class="gap"></td>
 									</tr>
 									<tr>
-										<td class="listItemSettings">
+										<td class="listItemSettings relative">
 											<div class="bold">Master Valve</div>
 											<span class="separator"></span>
 											<div>
 												Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> min before and
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> after each program.
 											</div>
-											<br>
-											<button id="systemSettingsMasterValveSet" class="save">Change</button>
+											<br><br>
+											<button id="systemSettingsMasterValveSet" class="button label-blue absolute center right">Change</button>
 										</td>
 									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
 									            <div class="bold">Reset to Defaults</div>
 									            <span class="separator"></span>
 									            Reset device to factory defaults.<br>
 									            This action will remove all settings and data saved on device.
 									            <span class="separator"></span>
-									            <button id="systemSettingsResetDefaultSet" class="stop">Reset</button>
+									            <br><br>
+									            <button id="systemSettingsResetDefaultSet" class="button label-red absolute center right">Reset</button>
 									    </td>
 									</tr>
 								</table>
@@ -552,14 +562,14 @@
 								  	</tr>
 								  	<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsSSHSet" class="save right">Change</button>
+								  			<button id="systemSettingsSSHSet" class="button label-blue center right">Change</button>
 								  			<input id="systemSettingsSSH" type="checkbox" class="right mr" />
 								  			<span class="cardTitle">SSH Access</span>
 								  		</td>
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsLogSet" class="save right">Change</button>
+								  			<button id="systemSettingsLogSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr">
 								  			<select id="systemSettingsLog">
 												<option value="10">Debug</option>
@@ -573,7 +583,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsMinWateringSet" class="save right">Change</button>
+								  			<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
 								  			<span class="cardTitle">Min Watering Duration Threshold</span><br>
                                             <span class="subtitle">Don't start zone if computed zone time is below this threshold</span>
@@ -581,7 +591,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsValvesSet" class="save right">Change</button>
+								  			<button id="systemSettingsValvesSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsValves" class="typeNumber"> valves</span>
 								  			<span class="cardTitle">Local Valve Count</span><br>
                                             <span class="subtitle">Number of valves of this device</span>
@@ -589,7 +599,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsCorrectionPastSet" class="save right">Change</button>
+								  			<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
 								  			<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
 								  			<span class="cardTitle">Use Correction For Past</span><br>
                                             <span class="subtitle">If future water needs should take in account past precipitations</span>
@@ -597,7 +607,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsMaxWaterSet" class="save right">Change</button>
+								  			<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
 								  			<span class="cardTitle">Max Watering Coefficient</span><br>
                                             <span class="subtitle">How much over watering (more than user specified) is allowed</span>
@@ -605,35 +615,35 @@
 									</tr>
 									<tr>
 										<td class="middle">
-											<button id="systemSettingsMixerHistorySet" class="save right">Change</button>
+											<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Change</button>
 											<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
 											<span class="cardTitle">Mixer History Size</span>
 										</td>
 									</tr>
 									<tr>
 										<td class="middle">
-											<button id="systemSettingsSimulatorHistorySet" class="save right">Change</button>
+											<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Change</button>
 											<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
 											<span class="cardTitle">Simulator History Size</span>
 										</td>
 									</tr>
 									<tr>
 										<td class="middle">
-											<button id="systemSettingsWaterHistorySet" class="save right">Change</button>
+											<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Change</button>
 											<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
 											<span class="cardTitle">Water Log History Size</span>
 										</td>
 									</tr>
 									<tr>
 										<td class="middle">
-											<button id="systemSettingsParserHistorySet" class="save right">Change</button>
+											<button id="systemSettingsParserHistorySet" class="button label-blue center right">Change</button>
 											<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
 											<span class="cardTitle">Parser History Size</span>
 										</td>
 									</tr>
 									<tr>
 										<td class="middle">
-											<button id="systemSettingsParserDaysSet" class="save right">Change</button>
+											<button id="systemSettingsParserDaysSet" class="button label-blue center right">Change</button>
 											<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
 											<span class="cardTitle">Parser Future Days</span>
 										</td>
@@ -650,42 +660,42 @@
 								  	</tr>
                                     <tr>
                                         <td class="middle">
-                                            <button id="systemSettingsTouchSet" class="save right">Change</button>
+                                            <button id="systemSettingsTouchSet" class="button label-blue center right">Change</button>
                                             <input id="systemSettingsTouch" type="checkbox" class="right mr" />
                                             <span class="cardTitle">Disable Touch</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="middle">
-                                            <button id="systemSettingsLedsSet" class="save right">Change</button>
+                                            <button id="systemSettingsLedsSet" class="button label-blue center right">Change</button>
                                             <input id="systemSettingsLeds" type="checkbox" class="right mr" />
                                             <span class="cardTitle">Light LEDs</span>
                                         </td>
                                     </tr>
 								  	<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsMaxLedSet" class="save right">Change</button>
+								  			<button id="systemSettingsMaxLedSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsMaxLed" class="typeNumber" > (0 to 255)</span>
 								  			<span class="cardTitle">Max LED Brighness</span>
 								  		</td>
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsMixLedSet" class="save right">Change</button>
+								  			<button id="systemSettingsMixLedSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsMinLed" class="typeNumber"> (0 to 255)</span>
 								  			<span class="cardTitle">Min LED Brighness</span>
 								  		</td>
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsSensorSet" class="save right">Change</button>
+								  			<button id="systemSettingsSensorSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
 								  			<span class="cardTitle">Rain Sensor</span>
 								  		</td>
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsTouchTimeoutSet" class="save right">Change</button>
+								  			<button id="systemSettingsTouchTimeoutSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsTouchTimeout" class="typeNumber"> seconds</span>
 								  			<span class="cardTitle">Touch Sleep Timeout</span><br>
                                             <span class="subtitle">After how many seconds of inactivity touch display will sleep</span>
@@ -693,7 +703,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsTouchAdvSet" class="save right">Change</button>
+								  			<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="checkbox" id="systemSettingsTouchAdv" class="middle" /></span>
 								  			<span class="cardTitle">Touch Advanced</span><br>
 											<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button</span>
@@ -701,7 +711,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsTouchPressTimeoutSet" class="save right">Change</button>
+								  			<button id="systemSettingsTouchPressTimeoutSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsTouchPressTimeout" class="typeNumber" placeholder="3"> seconds</span>
 								  			<span class="cardTitle">Touch Long Press Timeout</span><br>
 											<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically</span>
@@ -709,7 +719,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsTouchAuthSet" class="save right">Change</button>
+								  			<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
 								  			<span class="cardTitle">Touch to Authorize Access Point</span><br>
 											<span class="subtitle">How many seconds after a touch the setup program is given access</span>
@@ -717,7 +727,7 @@
 									</tr>
 									<tr>
 								  		<td class="middle">
-								  			<button id="systemSettingsTouchProgSet" class="save right">Change</button>
+								  			<button id="systemSettingsTouchProgSet" class="button label-blue center right">Change</button>
 								  			<span class="right mr"><input type="number" id="systemSettingsTouchProg" class="typeNumber" placeholder="3"> seconds</span>
 								  			<span class="cardTitle">Touch to Cycle Programs</span><br>
 											<span class="subtitle">Show P on digit display and enable to start the first available program</span>
@@ -737,7 +747,7 @@
 								  	</tr>
 								  	<tr>
 								  		<td class="middle">
-								  			<button id="aboutUpdate" class="set right">Update Now</button>
+								  			<button id="aboutUpdate" class="button blue center right" style="width:160px;">Update Now</button>
 								  			<span class="cardTitle">Firmware version</span><br>
 								  			<span class="cardSubtitle" id="aboutVersion"></span>
 											<span class="start" id="aboutNewVersion"></span>
@@ -806,8 +816,8 @@
 									<tr>
 								  		<td class="middle">
 											<span class="start" id="aboutDiagStatus"></span>
-								  			<button id="aboutDiagSend" class="set">Send Diagnostics</button>
-								  			<button id="aboutDiagViewLog" class="set">View Log</button>
+								  			<button id="aboutDiagSend" class="button label-blue" style="width:160px;text-align:left;">Send Diagnostics</button>
+								  			<button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button>
 								  		</td>
 									</tr>
 								</table>
@@ -828,7 +838,6 @@
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="listItemSettingsZones">
         	<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
-        	<button rm-id="zone-edit" class="edittxt right">Edit</button>
             <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
             <br><hr><br>
@@ -837,18 +846,16 @@
                 <span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
             </div>
             <br>&nbsp;<br>
-            <button rm-id="zone-start" class="save full">Start</button>
-			<button rm-id="zone-stop" class="stop full">Stop</button>
+            <button rm-id="zone-start" class="button label-blue center right">Start</button>
+			<button rm-id="zone-stop" class="button label-red center right">Stop</button>
+			<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
         </div>
         <!-- Template for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template" class="programEdit">
-            <table class="full" cellpadding="0" cellspacing="0">
+            <table class="listItem" style="width:100%;" cellpadding="0" cellspacing="0">
                 <tbody>
-                <tr>
-                	<td class="middle" colspan="2"><button class="edit left" rm-id="zone-cancel">Cancel</button><button class="save right" rm-id="zone-save">Save</button></td>
-                </tr>
                 <tr rm-id="zone-master-valve-option">
 	                <td class="middle" width="15%">Master Valve:</td>
 	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
@@ -872,6 +879,9 @@
                 </td></tr>
                 <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
                 <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+                <tr>
+                	<td class="middle noborder" colspan="2"><button class="button blue center right" rm-id="zone-save">Save</button><button class="button grey center right" rm-id="zone-cancel">Cancel</button></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -880,12 +890,11 @@
 		<!-- Template for Program Card (Begin) -->
 		<div id="program-entry" class="programActive">
 			<span rm-id="program-status">!</span>
-			<button rm-id="program-start" class="save right">Start</button>
 			<div rm-id="program-name" class="cardTitle"></div>
-			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>
-			<br><hr><br>
-			<button rm-id="program-edit" class="edittxt right">Edit</button>
+			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>		
 		    <div rm-id="program-zones-bullets" class="zones-bullets"></div>
+		    <button rm-id="program-start" class="button label-blue right center">Start</button>
+		    <button rm-id="program-edit" class="button label-grey right center">Edit</button>
 		</div>
 		<!-- Template for Program Card (End) -->
 
@@ -895,9 +904,9 @@
                 <tr>
                     <td class="programProperties">
                         <div class="center">
-                            <button class="edit left" rm-id="program-cancel">Cancel</button>
-                            <button class="stop" rm-id="program-delete">Delete</button>
-                            <button class="save right" rm-id="program-save">Save</button>
+                            <button class="button grey left" rm-id="program-cancel">Cancel</button>
+                            <button class="button red center" rm-id="program-delete">Delete</button>
+                            <button class="button blue center right" rm-id="program-save">Save</button>
                         </div>
                         <table width="100%" cellpadding="0" cellspacing="0">
                             <tbody>
