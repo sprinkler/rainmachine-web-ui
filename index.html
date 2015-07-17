@@ -42,8 +42,10 @@
 
 		<div>
 			<div id="settingsBtn" class="topButton"><span class="icon">S</span><br>Settings</div>
+			<div id="programsBtn" class="topButton"><span class="icon">Z</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
 			<div id="dashboardBtn" class="topButton"><span class="icon">A</span><br>Dashboard</div>
+
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -54,6 +56,7 @@
 			<div class="pageLeftMenu">
 				<div id="dashboardMenu" class="dashboardMenu"></div>
 				<div id="zonesMenu"></div>
+				<div id="programsMenu"></div>
 				<div id="settingsMenu"></div>
 			</div>
 
@@ -65,6 +68,9 @@
 				<div id="error">
 						<strong>Error:</strong> Settings has not been set.<br><br>
 						<span class="start">Try again</span>
+				</div>
+				<div id="dummy">
+					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
 				<div id="dashboard" class="dashboard" style="display: none;">
 					<div id="waterNeedChartContainer" class="charts"></div>
@@ -81,19 +87,18 @@
 					</div>
 				</div>
 
+				<div id="programs">
+					<div class="settingsBlockProgram center">
+						<h1 class="title center">List of available watering programs</h1>
+						<div id="programsList" class="list left"></div>
+						<!-- Program Settings -->
+						<div id="programsSettings" class="settings"></div>
+					</div>
+				</div>
+
 				<div id="settings">
 					<h1 id="settingsTitle"></h1>
 					<div id="settingsContent" class="content">
-
-						<div id="programs">
-							<div class="settingsBlockProgram center">
-							<h1 class="title center">List of available watering programs</h1>
-								<div id="programsList" class="list left"></div>
-								<!-- Program Settings -->
-								<div id="programsSettings" class="settings"></div>
-							</div>
-						</div>
-
 						<div id="wateringHistory">
 								<div class="settingsBlock center">
 									<h1 class="title center">Watering History<br>

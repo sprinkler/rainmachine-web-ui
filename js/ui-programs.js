@@ -507,6 +507,13 @@ window.ui = window.ui || {};
 		uiElems = {};
 	}
 
+	function stopAllWatering()
+    {
+		console.log("Stop All Watering (programs)");
+		API.stopAll();
+		showPrograms();
+	}
+
     function onCancel() {
     	closeProgramSettings();
     }
@@ -553,5 +560,6 @@ window.ui = window.ui || {};
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
+	_programs.stopAllWatering = stopAllWatering;
 
 } (window.ui.programs = window.ui.programs || {}));

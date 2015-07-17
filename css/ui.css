@@ -80,9 +80,7 @@ h1.title {
 .mr{
   margin-right: 60px;
 }
-#settings, #settingsMenu {
-    display: none;
-}
+
 #success, #error {
     display: none;
     padding: 15px 0;
@@ -102,7 +100,7 @@ h1.title {
 b, strong {
       font-weight: 700;
 }
-#zones, #zonesMenu {
+#zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
     display: none;
 }
 
