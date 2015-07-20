@@ -80,13 +80,14 @@ window.ui = window.ui || {};
         var deviceNetDiv = $('#deviceNetwork');
         var footerInfoDiv = $('#footerInfo');
 
-        deviceNameDiv.innerHTML = Data.provision.system.netName;
-        deviceNetDiv.innerHTML = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+        deviceNameDiv.textContent = Data.provision.system.netName;
+        deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+		deviceNetDiv.textContent += " - UI Version: 0.8-beta"
 
         if (Data.provision.api.hwVer == 3)
         	deviceImgDiv.className = "spk3";
 
-    	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+    	footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
     }
 
 	//--------------------------------------------------------------------------------------------
