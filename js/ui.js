@@ -7,7 +7,7 @@ var mainMenus = [
 		{ prefix: "dashboard",	func: null,								visibilityFunc: makeVisibleBlock },
 		{ prefix: "zones", 		func: window.ui.zones.showZones, 		visibilityFunc: makeVisible },
 		{ prefix: "programs", 	func: window.ui.programs.showPrograms,	visibilityFunc: makeVisible },
-		{ prefix: "settings", 	func: null,								visibilityFunc: makeVisible },
+		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,	visibilityFunc: makeVisible },
 ];
 
 var settingsSubmenus = [
