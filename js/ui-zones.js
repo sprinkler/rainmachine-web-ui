@@ -34,12 +34,6 @@ window.ui = window.ui || {};
 
 			makeVisible(timersElem);
 
-			if (! za.active)
-			{
-				template.className += " inactive";
-				makeHidden(timersElem);
-			}
-
 			if (z.master)
 			{
 				template.className += " master";
@@ -52,6 +46,12 @@ window.ui = window.ui || {};
 			{
 				nameElem.textContent = z.name;
 				typeElem.textContent = zoneTypeToString(z.type);
+
+				if (!za.active) {
+					template.className += " inactive";
+					nameElem.textContent += " (inactive)"
+					makeHidden(timersElem);
+				}
 			}
 
 			startElem.onclick = function() { startZone(this.parentNode.data.uid); };

@@ -84,7 +84,7 @@
 				<div id="zones">
 					<div class="settingsBlockZones center">
 						<h1 class="title center">Zone list</h1>
-							<div id="zonesList" class="list left"></div>
+							<div id="zonesList" class="list left" style="display: inline"></div>
 							<!-- Zones Settings -->
 							<div id="zonesSettings" class="settings"></div>
 					</div>
@@ -494,9 +494,11 @@
 											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
 											<div class="bold">Location</div>
 											<span class="separator"></span>
-											<input type="text"  placeholder="Latitude" class="typeText" id="systemSettingsLocationLat"/><br>
-											<input type="text"  placeholder="Longitude" class="typeText" id="systemSettingsLocationLon"/><br>
-											<input type="text"  placeholder="Elevation(m)" class="typeText" id="systemSettingsLocationElev"/><br>
+											<div>
+												Latitude: <input type="text"  placeholder="Latitude" class="typeNumber" id="systemSettingsLocationLat"/><br>
+												Longitude: <input type="text"  placeholder="Longitude" class="typeNumber" id="systemSettingsLocationLon"/><br>
+												Elevation(m): <input type="text"  placeholder="Elevation(m)" class="typeNumber" id="systemSettingsLocationElev"/><br>
+											</div>
 											<span class="separator"></span>
 											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
 											<span class="separator"></span>
