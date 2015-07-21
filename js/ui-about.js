@@ -23,7 +23,7 @@ window.ui = window.ui || {};
 		$("#aboutUptime").textContent = Data.diag.uptime;
 		$("#aboutUpdate").onclick = function() { API.startUpdate(); showAbout(); };
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
-		$("#aboutDiagViewLog").onclick = function() { API.getDiagLog(); };
+		$("#aboutDiagViewLog").onclick = function() { var logText = API.getDiagLog(); var logWin = window.open(); logWin.document.write("<pre>" + logText.log + "</pre>");};
 
 		API.checkUpdate();
 		var updateStatus = API.getUpdate();
