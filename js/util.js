@@ -101,7 +101,7 @@ Util.normalizeWaterNeed = function(user, scheduled)
 	else if (scheduled == 0 && user == 0)
 		wn = 0;
 	else
-		wn = Math.round((user / scheduled) * 100);
+		wn = Math.round((scheduled / user) * 100);
 
 	return wn;
 }
