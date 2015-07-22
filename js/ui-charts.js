@@ -180,8 +180,8 @@ function getChartData (pastDays) {
 
 			//zones for the programs
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
-				wnfTotalDayUserWater += currentProgram.zones[zoneIndex].computedWateringTime;
-				wnfTotalDayScheduledWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
+				wnfTotalDayUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
+				wnfTotalDayScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
 				//console.log('User: %d, Scheduled: %d', wnfTotalDayUserWater, wnfTotalDayScheduledWater);
 			}
 
