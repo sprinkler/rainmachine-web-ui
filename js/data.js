@@ -29,6 +29,7 @@ Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
 Data.dateTime = null;
+Data.uiVer = "0.9-beta";
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;

@@ -82,7 +82,7 @@ window.ui = window.ui || {};
 
         deviceNameDiv.textContent = Data.provision.system.netName;
         deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
-		deviceNetDiv.textContent += " - UI Version: 0.8-beta"
+		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
 
         if (Data.provision.api.hwVer == 3)
         	deviceImgDiv.className = "spk3";
