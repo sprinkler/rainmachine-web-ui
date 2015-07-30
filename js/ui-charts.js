@@ -561,7 +561,6 @@ function generateWaterNeedChart () {
  * Generates the Temperature chart
  */
 function generateTemperatureChart () {
-	console.log('generating temperature', chartsData.maxt.currentSeries);
 	var temperatureChartOptions = {
 		chart: {
 			renderTo: 'temperatureChartContainer',
