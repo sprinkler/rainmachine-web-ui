@@ -140,9 +140,9 @@ function getProgramById (id) {
  */
 function getChartData (pastDays) {
 	Data.programs = API.getPrograms(); //for programs name and status
-	Data.mixerData = API.getMixer(); //for weather measurements
-	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
-	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
+	//Data.mixerData = API.getMixer(); //for weather measurements
+	//Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
+	//Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
 
 	var mixedDataIndex,
 		programIndex,
@@ -154,85 +154,43 @@ function getChartData (pastDays) {
 		currentProgram,
 		currentProgramIndex;
 
-	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
-	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.mixerData.length; mixedDataIndex++) {
-		var recent = Data.mixerData.mixerData[mixedDataIndex].dailyValues;
+	API.getMixer(null, null, function (r) {
+		Data.mixerData = r;
+		var dataByDate = Data.mixerData.mixerData;
+		//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
+		for (mixedDataIndex = 0; mixedDataIndex < dataByDate.length; mixedDataIndex++) {
+			var recent = Data.mixerData.mixerData[mixedDataIndex].dailyValues;
 
-		for (dailyValuesIndex = 0; dailyValuesIndex < recent.length; dailyValuesIndex++) {
-			var dvDay =  recent[dailyValuesIndex].day.split(' ')[0];
-			chartsData.qpf.insertAtDate(dvDay, recent[dailyValuesIndex].qpf);
-			chartsData.maxt.insertAtDate(dvDay, recent[dailyValuesIndex].maxTemp);
-			chartsData.mint.insertAtDate(dvDay, recent[dailyValuesIndex].minTemp);
-			chartsData.condition.insertAtDate(dvDay, recent[dailyValuesIndex].condition);
-		}
-	}
-
-	//Total Water Need future days
-	var daily = Data.dailyDetails.DailyStatsDetails;
-
-	for (dailyDetailsIndex = 0; dailyDetailsIndex < daily.length; dailyDetailsIndex++) {
-		var wnfTotalDayUserWater = 0,
-			wnfTotalDayScheduledWater = 0;
-
-		//programs for the day
-		for (programIndex = 0; programIndex < daily[dailyDetailsIndex].programs.length; programIndex++) {
-			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
-
-			//zones for the programs
-			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
-				wnfTotalDayUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
-				wnfTotalDayScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
-				//console.log('User: %d, Scheduled: %d', wnfTotalDayUserWater, wnfTotalDayScheduledWater);
+			for (dailyValuesIndex = 0; dailyValuesIndex < recent.length; dailyValuesIndex++) {
+				var dvDay =  recent[dailyValuesIndex].day.split(' ')[0];
+				chartsData.qpf.insertAtDate(dvDay, recent[dailyValuesIndex].qpf);
+				chartsData.maxt.insertAtDate(dvDay, recent[dailyValuesIndex].maxTemp);
+				chartsData.mint.insertAtDate(dvDay, recent[dailyValuesIndex].minTemp);
+				chartsData.condition.insertAtDate(dvDay, recent[dailyValuesIndex].condition);
 			}
-
-			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
-
-			//Add program used water
-			//Skip Manual run programs (id 0)
-			if (currentProgram.id == 0)
-				continue;
-
-			// Is program active/still available in current programs list (might be an old deleted program)?
-			var existingProgram = getProgramById(currentProgram.id)
-			if (existingProgram === null || existingProgram.active == false)
-				continue;
-
-			// Program index not in our struct ?
-			if (currentProgram.id in chartsData.programsMap) {
-				currentProgramIndex = chartsData.programsMap[currentProgram.id];
-			} else {
-				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-				chartsData.programsMap[currentProgram.id] = currentProgramIndex;
-			}
-			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
 		}
+	});
 
-		var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
-		if (wnfDailyWN > chartsData.maxWN)
-			chartsData.maxWN = wnfDailyWN;
+	API.getDailyStats(null, true, function (r) {
+		Data.dailyDetails = r;
+		var daily = Data.dailyDetails.DailyStatsDetails;
 
-		chartsData.waterNeed.insertAtDate(daily[dailyDetailsIndex].day, wnfDailyWN);
-	}
+		for (dailyDetailsIndex = 0; dailyDetailsIndex < daily.length; dailyDetailsIndex++) {
+			var wnfTotalDayUserWater = 0,
+				wnfTotalDayScheduledWater = 0;
 
-	//Used 'water need'
-	for (var i = Data.waterLog.waterLog.days.length - 1; i >= 0 ; i--) {
-		var day =  Data.waterLog.waterLog.days[i];
-		var wnpTotalDayUserWater = 0,
-			wnpTotalDayScheduledWater = 0;
+			//programs for the day
+			for (programIndex = 0; programIndex < daily[dailyDetailsIndex].programs.length; programIndex++) {
+				currentProgram = daily[dailyDetailsIndex].programs[programIndex];
 
-		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
-			currentProgram = day.programs[programIndex];
-
-			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
-				var zone = currentProgram.zones[zoneIndex];
-
-				for (var c = 0; c < zone.cycles.length; c++) {
-					var cycle = zone.cycles[c];
-					wnpTotalDayScheduledWater += cycle.realDuration;
-					wnpTotalDayUserWater += cycle.userDuration;
+				//zones for the programs
+				for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
+					wnfTotalDayUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
+					wnfTotalDayScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
+					//console.log('User: %d, Scheduled: %d', wnfTotalDayUserWater, wnfTotalDayScheduledWater);
 				}
 
-				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayUserWater, wnpTotalDayScheduledWater);
+				var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
 
 				//Add program used water
 				//Skip Manual run programs (id 0)
@@ -251,18 +209,73 @@ function getChartData (pastDays) {
 					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
 					chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 				}
-
-				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
+				chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
 			}
-		}
 
-		var wnpDailyWN = Util.normalizeWaterNeed(wnpTotalDayUserWater, wnpTotalDayScheduledWater);
-		if (wnpDailyWN > chartsData.maxWN) {
-			chartsData.maxWN = wnpDailyWN;
-		}
+			var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
+			if (wnfDailyWN > chartsData.maxWN)
+				chartsData.maxWN = wnfDailyWN;
 
-		chartsData.waterNeed.insertAtDate(day.date, wnpDailyWN);
-	}
+			chartsData.waterNeed.insertAtDate(daily[dailyDetailsIndex].day, wnfDailyWN);
+		}
+	});
+	//Total Water Need future days
+
+
+	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays, function (r) {
+
+		Data.waterLog = r;
+		//Used 'water need'
+		for (var i = Data.waterLog.waterLog.days.length - 1; i >= 0 ; i--) {
+			var day =  Data.waterLog.waterLog.days[i];
+			var wnpTotalDayUserWater = 0,
+				wnpTotalDayScheduledWater = 0;
+
+			for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
+				currentProgram = day.programs[programIndex];
+
+				for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
+					var zone = currentProgram.zones[zoneIndex];
+
+					for (var c = 0; c < zone.cycles.length; c++) {
+						var cycle = zone.cycles[c];
+						wnpTotalDayScheduledWater += cycle.realDuration;
+						wnpTotalDayUserWater += cycle.userDuration;
+					}
+
+					var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayUserWater, wnpTotalDayScheduledWater);
+
+					//Add program used water
+					//Skip Manual run programs (id 0)
+					if (currentProgram.id == 0)
+						continue;
+
+					// Is program active/still available in current programs list (might be an old deleted program)?
+					var existingProgram = getProgramById(currentProgram.id)
+					if (existingProgram === null || existingProgram.active == false)
+						continue;
+
+					// Program index not in our struct ?
+					if (currentProgram.id in chartsData.programsMap) {
+						currentProgramIndex = chartsData.programsMap[currentProgram.id];
+					} else {
+						currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+						chartsData.programsMap[currentProgram.id] = currentProgramIndex;
+					}
+
+					chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
+				}
+			}
+
+			var wnpDailyWN = Util.normalizeWaterNeed(wnpTotalDayUserWater, wnpTotalDayScheduledWater);
+			if (wnpDailyWN > chartsData.maxWN) {
+				chartsData.maxWN = wnpDailyWN;
+			}
+
+			chartsData.waterNeed.insertAtDate(day.date, wnpDailyWN);
+		}
+	});
+
 
 	// calculate months data
 	for (monthsIndex = 0; monthsIndex < chartsData.months.length; monthsIndex++) {
@@ -548,6 +561,7 @@ function generateWaterNeedChart () {
  * Generates the Temperature chart
  */
 function generateTemperatureChart () {
+	console.log('generating temperature', chartsData.maxt.currentSeries);
 	var temperatureChartOptions = {
 		chart: {
 			renderTo: 'temperatureChartContainer',
@@ -602,6 +616,7 @@ function generateTemperatureChart () {
 	}
 
 	charts.temperature = new Highcharts.Chart(temperatureChartOptions, generateChartCallback);
+	console.log(charts.temperature);
 }
 
 /**

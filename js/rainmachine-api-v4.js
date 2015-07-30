@@ -17,14 +17,14 @@ var host = window.location.hostname;
 var port = window.location.port;
 //var port = "8888";
 
-var apiUrl = "https://" + host + ":" + port + "/api/4";
-//var apiUrl = "http://" + host + ":" + port + "/api/4";
+//var apiUrl = "https://" + host + ":" + port + "/api/4";
+var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 var async = false;
 
 var token = null;
 
-function rest(type, apiCall, data, callback)
+function rest(type, apiCall, data, callback, onResponse)
 {
 	var url;
 
@@ -38,10 +38,17 @@ function rest(type, apiCall, data, callback)
 		r = new XMLHttpRequest();
 		r.open(type, url, async);
 
+		if (callback !== undefined && typeof callback === 'function') {
+			r.onreadystatechange = function () {
+				if (r.readyState == 4 && r.status == 200) {
+					callback(JSON.parse(r.responseText));
+				}
+			};
+		}
 
 		if (type === "POST")
 		{
-			r.setRequestHeader("Content-type","text/plain");
+			r.setRequestHeader("Content-type","application/json");
 			r.send(JSON.stringify(data));
 		}
 		else
@@ -106,7 +113,7 @@ API.auth = function(password, remember)
 	var data = 
 	{
 		pwd: password,
-		remember: remember
+		remember: +!!remember
 	};
 	
 	var reply = post(url, data, null);
@@ -210,7 +217,7 @@ API.setProvisionReset = function(withRestart)
 
 /* ------------------------------------------ DAILY STATS API CALLS ---------------------------------------*/
 
-API.getDailyStats = function(dayDate, withDetails)
+API.getDailyStats = function(dayDate, withDetails, callback)
 {
 	var url = API.URL.dailystats;
 
@@ -223,7 +230,11 @@ API.getDailyStats = function(dayDate, withDetails)
 	if (withDetails !== undefined && withDetails)
 		url += "/details";
 
-	return get(url, null);
+	if (callback === undefined) {
+		callback = null;
+	}
+
+	return get(url, callback);
 }
 
 /* ----------------------------------------- RESTRICTIONS API CALLS ---------------------------------------*/
@@ -408,7 +419,7 @@ API.setZonesProperties = function(id, properties, advancedProperties)
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
-API.getWateringLog = function(simulated, details, startDate, days)
+API.getWateringLog = function(simulated, details, startDate, days, callback)
 {
 	var url = API.URL.watering + "/log" + (simulated ? "/simulated" : "") + (details ? "/details" : "");
 
@@ -419,7 +430,11 @@ API.getWateringLog = function(simulated, details, startDate, days)
 	if (days !== null && days > 0)
 		url += "/" + days;
 
-	return get(url, null);
+	if (callback === undefined) {
+		callback = null;
+	}
+
+	return get(url, callback);
 }
 
 API.getWateringQueue = function()
@@ -463,17 +478,21 @@ API.setParserEnable = function(id, enable)
 }
 
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
-API.getMixer = function(startDate, days)
+API.getMixer = function(startDate, days, callback)
 {
 	var url = API.URL.mixer;
 
-	if (startDate !== undefined)
+	if (startDate !== undefined && startDate !== null)
 		url += "/" + startDate;
 
-	if (days !== undefined)
+	if (days !== undefined && startDate !== null)
 		url += "/" + days;
 
-	return get(url, null);
+	if (callback === undefined) {
+		callback = null;
+	}
+
+	return get(url, callback);
 }
 
 /* ------------------------------------------ DIAG API CALLS ------------------------------------------------*/

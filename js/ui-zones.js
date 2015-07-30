@@ -65,8 +65,15 @@ window.ui = window.ui || {};
 			var seconds = z.remaining;
 
 			//Not running show default minutes
-			if (z.state == 0)
-				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			if (z.state == 0) {
+				try {
+					seconds = Data.provision.system.zoneDuration[z.uid - 1];
+				}
+				catch(ex) {
+					Data.provision = API.getProvision();
+					seconds = Data.provision.system.zoneDuration[z.uid - 1];
+				}
+			}
 
 			updateZoneTimer(z.uid, seconds);
 		}
