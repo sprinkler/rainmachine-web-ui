@@ -28,8 +28,9 @@ Data.mixerData = null;
 Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
+Data.waterLogSimulated = null;
 Data.dateTime = null;
-Data.uiVer = "0.9-beta";
+Data.uiVer = "0.10-beta";
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;

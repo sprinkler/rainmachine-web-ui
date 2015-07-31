@@ -93,15 +93,15 @@ Util.isToday = function(dateStr)
 	return (dateStr === today);
 }
 
-Util.normalizeWaterNeed = function(user, scheduled)
+Util.normalizeWaterNeed = function(user, real)
 {
 	var wn = 0;
-	if (scheduled <= 0 && user > 0)
-		wn = 100;
-	else if (scheduled == 0 && user == 0)
+	if (real <= 0 && user > 0)
 		wn = 0;
+	else if (real >= 0 && user == 0)
+		wn = 100;
 	else
-		wn = Math.round((scheduled / user) * 100);
+		wn = Math.round((real / user) * 100);
 
 	return wn;
 }
