@@ -98,7 +98,7 @@ window.ui = window.ui || {};
 		var stopButton = $("#snoozeStop");
 		var setButton = $("#snoozeSet");
 
-		var snoozeDays = $('#snoozeDays').value;
+
 
 		//Are we already in Snooze
 		if (rd > 0)
@@ -116,7 +116,11 @@ window.ui = window.ui || {};
 		}
 
 		stopButton.onclick = function() { console.log(API.setRestrictionsRainDelay(0)); showRainDelay(); };
-		setButton.onclick = function() { console.log(API.setRestrictionsRainDelay(+snoozeDays)); showRainDelay() };
+		setButton.onclick = function() {
+			var snoozeDays = $('#snoozeDays').value;
+			console.log(API.setRestrictionsRainDelay(parseInt(snoozeDays)));
+			showRainDelay()
+		};
 	}
 
 	function onWaterLogFetch() {
