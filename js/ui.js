@@ -121,23 +121,6 @@ function buildMenu() {
 	}
 }
 
-function updateSnoozeTimer() {
-
-	var onDiv = $("#snoozeCurrentContent");
-	
-	if(isVisible(onDiv)){
-		var raindelay = API.getRestrictionsRainDelay();
-		var rd = +raindelay.delayCounter;
-
-		if(rd > 0) {
-			var v = Util.secondsToHuman(rd);
-			var vdiv = $("#snoozeCurrentValue");
-			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
-		}
-	}
-}
-
-
 function uiLoop()
 {
 	if (isVisible("#zones") && isVisible("#zonesList"))
@@ -157,7 +140,10 @@ function uiLoop()
 	}
 
 	//update snooze timer
-	updateSnoozeTimer();
+	var onDiv = $("#snoozeCurrentContent");
+	if(isVisible(onDiv)){
+		window.ui.settings.showRainDelay();
+	}
 
 	return;
 }
