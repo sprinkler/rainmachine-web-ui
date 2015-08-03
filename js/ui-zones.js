@@ -10,7 +10,6 @@ window.ui = window.ui || {};
 	function showZones() {
 
 		Data.zoneData = API.getZones();
-		Data.zoneAdvData = API.getZonesProperties();
 
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
@@ -18,7 +17,8 @@ window.ui = window.ui || {};
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
-			var za = Data.zoneAdvData.zones[i];
+			var za = API.getZonesProperties(z.uid);
+
 			z.active = za.active;
 
 			var template = loadTemplate("zone-entry");
