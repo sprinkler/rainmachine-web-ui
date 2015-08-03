@@ -127,11 +127,19 @@ function uiLoop()
 	{
 		var waterQueue = API.getWateringQueue();
 
-		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
+		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length) {
 			return;
+		}else{
+            console.log("Watering Loop: %o", waterQueue);
 
-		console.log("Watering Loop: %o", waterQueue);
-		window.ui.zones.showZones();
+            for(var j = 0; j < waterQueue.queue.length; j++) {
+                var zone = waterQueue.queue[j];
+                window.ui.zones.refreshZone(zone.zid);
+            }
+
+		}
+
+
 		return;
 	}
 	else
@@ -164,7 +172,7 @@ function uiStart()
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.showDeviceInfo();
-		loop = setInterval(uiLoop, 1000);
+		loop = setInterval(uiLoop, 2000);
 	});
 }
 

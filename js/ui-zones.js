@@ -10,7 +10,6 @@ window.ui = window.ui || {};
 	function showZones() {
 
 		Data.zoneData = API.getZones();
-		Data.zoneAdvData = API.getZonesProperties();
 
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
@@ -18,7 +17,8 @@ window.ui = window.ui || {};
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
-			var za = Data.zoneAdvData.zones[i];
+			var za = API.getZonesProperties(z.uid);
+
 			z.active = za.active;
 
 			var template = loadTemplate("zone-entry");
@@ -77,6 +77,36 @@ window.ui = window.ui || {};
 
 			updateZoneTimer(z.uid, seconds);
 		}
+	}
+
+	function refreshZone(zoneId) {
+
+		if( zoneId === undefined || !zoneId) {
+			return;
+		}
+
+		var z = API.getZones(zoneId);
+        var za = API.getZonesProperties(zoneId);
+
+        z.active = za.active;
+
+		setZoneState(z);
+
+		var seconds = z.remaining;
+
+		//Not running show default minutes
+		if (z.state == 0) {
+			try {
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+			catch(ex) {
+				Data.provision = API.getProvision();
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+		}
+
+		updateZoneTimer(z.uid, seconds);
+
 	}
 
 	function showZoneSettings(zone)
@@ -209,14 +239,14 @@ window.ui = window.ui || {};
 			console.log("Cannot start zone %d with duration %d", uid, duration);
 		}
 
-		showZones();
+		refreshZone(uid);
 	}
 
 	function stopZone(uid)
 	{
 		console.log("Stop zone %d", uid);
 		API.stopZone(uid);
-		showZones();
+		refreshZone(uid);
 	}
 
 	function stopAllWatering()
@@ -279,7 +309,7 @@ window.ui = window.ui || {};
 		}
 
 		closeZoneSettings();
-		showZones();
+		refreshZone(uid);
 	}
 
 	function zoneTypeToString(type)
@@ -310,5 +340,6 @@ window.ui = window.ui || {};
 	_zones.showZones = showZones;
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
+	_zones.refreshZone = refreshZone;
 
 } (window.ui.zones = window.ui.zones || {}));
