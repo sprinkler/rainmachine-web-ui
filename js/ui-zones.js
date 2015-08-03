@@ -79,6 +79,36 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function refreshZone(zoneId) {
+
+		if( zoneId === undefined || !zoneId) {
+			return;
+		}
+
+		var z = API.getZones(zoneId);
+        var za = API.getZonesProperties(zoneId);
+
+        z.active = za.active;
+
+		setZoneState(z);
+
+		var seconds = z.remaining;
+
+		//Not running show default minutes
+		if (z.state == 0) {
+			try {
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+			catch(ex) {
+				Data.provision = API.getProvision();
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+		}
+
+		updateZoneTimer(z.uid, seconds);
+
+	}
+
 	function showZoneSettings(zone)
 	{
 		var zoneSettingsDiv = $("#zonesSettings");
@@ -209,14 +239,14 @@ window.ui = window.ui || {};
 			console.log("Cannot start zone %d with duration %d", uid, duration);
 		}
 
-		showZones();
+		refreshZone(uid);
 	}
 
 	function stopZone(uid)
 	{
 		console.log("Stop zone %d", uid);
 		API.stopZone(uid);
-		showZones();
+		refreshZone(uid);
 	}
 
 	function stopAllWatering()
@@ -279,7 +309,7 @@ window.ui = window.ui || {};
 		}
 
 		closeZoneSettings();
-		showZones();
+		refreshZone(uid);
 	}
 
 	function zoneTypeToString(type)
@@ -310,5 +340,6 @@ window.ui = window.ui || {};
 	_zones.showZones = showZones;
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
+	_zones.refreshZone = refreshZone;
 
 } (window.ui.zones = window.ui.zones || {}));
