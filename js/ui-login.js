@@ -57,6 +57,12 @@ window.ui = window.ui || {};
             }
         };
 
+        loginPasswordElem.onkeypress = function(event) {
+            if(event.keyCode == 13) {
+                loginButtonElem.click();
+            }
+        };
+
         document.body.className = "login";
     };
 
