@@ -62,9 +62,10 @@ Util.bitStringToWeekDays = function(bitstr)
 //Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
-	var dayDate = new Date(dateStr.split("-"));
-    var diff = dayDate - startDate;
-    return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	var dateTokens = dateStr.split("-");
+	var dayDate = new Date(dateTokens[0],dateTokens[1] - 1 , dateTokens[2]);
+	var diff = dayDate - startDate;
+	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
 }
 
 
