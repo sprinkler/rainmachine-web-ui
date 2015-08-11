@@ -493,22 +493,6 @@
 									</tr>
 									<tr>
 									    <td class="listItemSettings relative">
-											<span class="subtitle right" id="systemSettingsLocationFull">systemSettingsLocationFull</span>
-											<div class="bold">Location</div>
-											<span class="separator"></span>
-											<div>
-												Latitude: <input type="text"  placeholder="Latitude" class="typeNumber" id="systemSettingsLocationLat"/><br>
-												Longitude: <input type="text"  placeholder="Longitude" class="typeNumber" id="systemSettingsLocationLon"/><br>
-												Elevation(m): <input type="text"  placeholder="Elevation(m)" class="typeNumber" id="systemSettingsLocationElev"/><br>
-											</div>
-											<span class="separator"></span>
-											<span class="restriction">Warning: Changing this settings will delete all weather data</span>
-											<span class="separator"></span>
-											<br><br>
-											<button id="systemSettingsLocationSet" class="button label-blue absolute center right">Change</button>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings relative">
 									            <div class="bold">Date and Time</div>
 												<span class="separator"></span>
 												<div>
@@ -518,10 +502,6 @@
 													Minute: <input type="number" id="systemSettingsMinute" class="typeNumber">
 													Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber">
 												</div>
-									            <span class="separator"></span>
-									            <select id="systemSettingsTimeZoneSelect">
-													<!-- Generated from Javascript -->
-												</select>
 									            <span class="separator"></span>
 									            <br><br>
 									            <button id="systemSettingsTimeZoneSet" class="button label-blue absolute center right">Change</button>
@@ -536,12 +516,8 @@
 											<span class="separator"></span>
 											<br><br>
 											<button id="systemSettingsPasswordSet" class="button label-blue absolute center right">Change</button>
-										</td>										
-									</tr>
-									<tr>
-										<td class="gap"></td>
-									</tr>
-									<tr>
+										</td>
+										<td class="gap">&nbsp;</td>
 										<td class="listItemSettings relative">
 											<div class="bold">Master Valve</div>
 											<span class="separator"></span>
@@ -552,7 +528,12 @@
 											<br><br>
 											<button id="systemSettingsMasterValveSet" class="button label-blue absolute center right">Change</button>
 										</td>
-									    <td class="gap">&nbsp;</td>
+									</tr>
+									<tr>
+										<td class="gap"></td>
+									</tr>
+									<tr>
+
 									    <td class="listItemSettings relative">
 									            <div class="bold">Reset to Defaults</div>
 									            <span class="separator"></span>
@@ -562,103 +543,6 @@
 									            <br><br>
 									            <button id="systemSettingsResetDefaultSet" class="button label-red absolute center right">Reset</button>
 									    </td>
-									</tr>
-								</table>
-							</div>
-							<div class="settingsBlock center">
-								<table cellspacing="0" cellpadding="0" class="full">
-								  	<tr>
-									    <th>
-								            <h1 class="title">Advanced Settings</h1>
-								        </th>
-								  	</tr>
-								  	<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsSSHSet" class="button label-blue center right">Change</button>
-								  			<input id="systemSettingsSSH" type="checkbox" class="right mr" />
-								  			<span class="cardTitle">SSH Access</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsLogSet" class="button label-blue center right">Change</button>
-								  			<span class="right mr">
-								  			<select id="systemSettingsLog">
-												<option value="10">Debug</option>
-												<option value="20" selected>Normal</option>
-												<option value="30">Only Warnings/Errors</option>
-											</select>
-											</span>
-								  			<span class="cardTitle">Log Level</span>
-								  			
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
-								  			<span class="cardTitle">Min Watering Duration Threshold</span><br>
-                                            <span class="subtitle">Don't start zone if computed zone time is below this threshold</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsValvesSet" class="button label-blue center right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsValves" class="typeNumber"> valves</span>
-								  			<span class="cardTitle">Local Valve Count</span><br>
-                                            <span class="subtitle">Number of valves of this device</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
-								  			<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
-								  			<span class="cardTitle">Use Correction For Past</span><br>
-                                            <span class="subtitle">If future water needs should take in account past precipitations</span>
-								  		</td>
-									</tr>
-									<tr>
-								  		<td class="middle">
-								  			<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
-								  			<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
-								  			<span class="cardTitle">Max Watering Coefficient</span><br>
-                                            <span class="subtitle">How much over watering (more than user specified) is allowed</span>
-								  		</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Change</button>
-											<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
-											<span class="cardTitle">Mixer History Size</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Change</button>
-											<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
-											<span class="cardTitle">Simulator History Size</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Change</button>
-											<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
-											<span class="cardTitle">Water Log History Size</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<button id="systemSettingsParserHistorySet" class="button label-blue center right">Change</button>
-											<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
-											<span class="cardTitle">Parser History Size</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<button id="systemSettingsParserDaysSet" class="button label-blue center right">Change</button>
-											<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
-											<span class="cardTitle">Parser Future Days</span>
-										</td>
 									</tr>
 								</table>
 							</div>
@@ -829,7 +713,6 @@
 								  		<td class="middle">
 											<span class="start" id="aboutDiagStatus"></span>
 								  			<button id="aboutDiagSend" class="button label-blue" style="width:160px;text-align:left;">Send Diagnostics</button>
-								  			<button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button>
 								  		</td>
 									</tr>
 								</table>
