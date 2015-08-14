@@ -16,22 +16,24 @@ window.ui = window.ui || {};
 
 		console.log("%o", parsers);
 
-		for (var i = 0; i < parsers.parsers.length; i++)
-		{
-			var p = parsers.parsers[i];
+		if(parsers.parsers != undefined && parsers.parsers.length) {
+			for (var i = 0; i < parsers.parsers.length; i++)
+			{
+				var p = parsers.parsers[i];
 
-			var template = loadTemplate("weather-sources-template");
-			var enabledElem = $(template, '[rm-id="weather-source-enable"]');
-			var nameElem = $(template, '[rm-id="weather-source-name"]');
-			var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+				var template = loadTemplate("weather-sources-template");
+				var enabledElem = $(template, '[rm-id="weather-source-enable"]');
+				var nameElem = $(template, '[rm-id="weather-source-name"]');
+				var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
-			enabledElem.checked = p.enabled;
-			enabledElem.value = p.uid;
-			enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
-			nameElem.textContent = p.name;
-			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+				enabledElem.checked = p.enabled;
+				enabledElem.value = p.uid;
+				enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
+				nameElem.textContent = p.name;
+				lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 
-			weatherSourcesDiv.appendChild(template);
+				weatherSourcesDiv.appendChild(template);
+			}
 		}
 
 		//Rain, Wind, Days sensitivity
@@ -39,8 +41,8 @@ window.ui = window.ui || {};
 		var ws = Data.provision.location.windSensitivity;
 		var fc = Data.provision.location.wsDays;
 
-		var rsElem = $("#rainSensitivity");
-		var wsElem = $("#windSensitivity");
+		var rsElem = $("#outputRainSensitivity");
+		var wsElem = $("#outputWindSensitivity");
 
 		var rsSaveElem = $("#rainSensitivitySave");
 		var wsSaveElem = $("#windSensitivitySave");
@@ -50,33 +52,33 @@ window.ui = window.ui || {};
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
-		rsElem.oninput();
+		//rsElem.oninput();
 
 		wsElem.value = parseInt(ws * 100);
-		wsElem.oninput();
+		//wsElem.oninput();
 
-		rsSaveElem.onclick = function() {
-			var rsNew = +rsElem.value/100.0;
-			if (rsNew != rs)
-			{
-				var data = {rainSensitivity: rsNew};
-				API.setProvision(null, data);
-				console.log("Set Rain Sensitivity: %f",  rsNew);
-			}
-		};
-
-		wsSaveElem.onclick = function() {
-			var wsNew = +wsElem.value/100.0;
-			if (wsNew != ws)
-			{
-				var data = {windSensitivity: wsNew};
-				API.setProvision(null, data);
-				console.log("Set Wind Sensitivity: %f",  wsNew);
-			}
-		};
-
-		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
-		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+		//rsSaveElem.onclick = function() {
+		//	var rsNew = +rsElem.value/100.0;
+		//	if (rsNew != rs)
+		//	{
+		//		var data = {rainSensitivity: rsNew};
+		//		API.setProvision(null, data);
+		//		console.log("Set Rain Sensitivity: %f",  rsNew);
+		//	}
+		//};
+        //
+		//wsSaveElem.onclick = function() {
+		//	var wsNew = +wsElem.value/100.0;
+		//	if (wsNew != ws)
+		//	{
+		//		var data = {windSensitivity: wsNew};
+		//		API.setProvision(null, data);
+		//		console.log("Set Wind Sensitivity: %f",  wsNew);
+		//	}
+		//};
+        //
+		//rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
+		//wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 	}
 
 	function setWeatherSource(id, enabled)

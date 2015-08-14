@@ -22,17 +22,17 @@ window.ui = window.ui || {};
 			DeviceName: $("#systemSettingsDeviceName"),
 			DeviceNameSet: $("#systemSettingsDeviceNameSet"),
 
-			LocationFull: $("#systemSettingsLocationFull"),
-			LocationLat: $("#systemSettingsLocationLat"),
-			LocationLon: $("#systemSettingsLocationLon"),
-			LocationElev: $("#systemSettingsLocationElev"),
-			LocationSet: $("#systemSettingsLocationSet"),
+			//LocationFull: $("#systemSettingsLocationFull"),
+			//LocationLat: $("#systemSettingsLocationLat"),
+			//LocationLon: $("#systemSettingsLocationLon"),
+			//LocationElev: $("#systemSettingsLocationElev"),
+			//LocationSet: $("#systemSettingsLocationSet"),
 
 			Date: $("#systemSettingsDate"),
 			Hour: $("#systemSettingsHour"),
 			Minute: $("#systemSettingsMinute"),
 			Seconds: $("#systemSettingsSeconds"),
-			TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
+			//TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
 			TimeZoneSet: $("#systemSettingsTimeZoneSet"),
 
 			UnitsUS: $("#systemSettingsUnitsUS"),
@@ -46,28 +46,28 @@ window.ui = window.ui || {};
 			ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 
 			//Advanced Settings
-			SSHSet: $("#systemSettingsSSHSet"),
-			SSH: $("#systemSettingsSSH"),
-			LogSet: $("#systemSettingsLogSet"),
-			Log: $("#systemSettingsLog"),
-			MixerHistorySet: $("#systemSettingsMixerHistorySet"),
-			MixerHistory: $("#systemSettingsMixerHistory"),
-			SimulatorHistorySet: $("#systemSettingsSimulatorHistorySet"),
-			SimulatorHistory: $("#systemSettingsSimulatorHistory"),
-			WaterHistorySet: $("#systemSettingsWaterHistorySet"),
-			WaterHistory: $("#systemSettingsWaterHistory"),
-			ParserHistorySet: $("#systemSettingsParserHistorySet"),
-			ParserHistory: $("#systemSettingsParserHistory"),
-			ParserDaysSet: $("#systemSettingsParserDaysSet"),
-			ParserDays: $("#systemSettingsParserDays"),
-			MinWateringSet: $("#systemSettingsMinWateringSet"),
-			MinWatering: $("#systemSettingsMinWatering"),
-			ValvesSet: $("#systemSettingsValvesSet"),
-			Valves: $("#systemSettingsValves"),
-			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
-			CorrectionPast: $("#systemSettingsCorrectionPast"),
-			MaxWaterSet: $("#systemSettingsMaxWaterSet"),
-			MaxWater: $("#systemSettingsMaxWater"),
+			//SSHSet: $("#systemSettingsSSHSet"),
+			//SSH: $("#systemSettingsSSH"),
+			//LogSet: $("#systemSettingsLogSet"),
+			//Log: $("#systemSettingsLog"),
+			//MixerHistorySet: $("#systemSettingsMixerHistorySet"),
+			//MixerHistory: $("#systemSettingsMixerHistory"),
+			//SimulatorHistorySet: $("#systemSettingsSimulatorHistorySet"),
+			//SimulatorHistory: $("#systemSettingsSimulatorHistory"),
+			//WaterHistorySet: $("#systemSettingsWaterHistorySet"),
+			//WaterHistory: $("#systemSettingsWaterHistory"),
+			//ParserHistorySet: $("#systemSettingsParserHistorySet"),
+			//ParserHistory: $("#systemSettingsParserHistory"),
+			//ParserDaysSet: $("#systemSettingsParserDaysSet"),
+			//ParserDays: $("#systemSettingsParserDays"),
+			//MinWateringSet: $("#systemSettingsMinWateringSet"),
+			//MinWatering: $("#systemSettingsMinWatering"),
+			//ValvesSet: $("#systemSettingsValvesSet"),
+			//Valves: $("#systemSettingsValves"),
+			//CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
+			//CorrectionPast: $("#systemSettingsCorrectionPast"),
+			//MaxWaterSet: $("#systemSettingsMaxWaterSet"),
+			//MaxWater: $("#systemSettingsMaxWater"),
 
 			//Advanced Settings Mini-8 SPK2
 			TouchSet: $("#systemSettingsTouchSet"),
@@ -107,13 +107,13 @@ window.ui = window.ui || {};
 
 		systemSettingsView.DeviceName.value = Data.provision.system.netName;
 
-		systemSettingsView.LocationFull.textContent = Data.provision.location.name + " (" +
-													Data.provision.location.latitude + ", " +
-													Data.provision.location.longitude + ")";
+		//systemSettingsView.LocationFull.textContent = Data.provision.location.name + " (" +
+		//											Data.provision.location.latitude + ", " +
+		//											Data.provision.location.longitude + ")";
 
-		systemSettingsView.LocationLat.value = Data.provision.location.latitude;
-		systemSettingsView.LocationLon.value = Data.provision.location.longitude;
-		systemSettingsView.LocationElev.value = Data.provision.location.elevation;
+		//systemSettingsView.LocationLat.value = Data.provision.location.latitude;
+		//systemSettingsView.LocationLon.value = Data.provision.location.longitude;
+		//systemSettingsView.LocationElev.value = Data.provision.location.elevation;
 
 
 		Data.timeDate = API.getDateTime();
@@ -124,7 +124,7 @@ window.ui = window.ui || {};
 		systemSettingsView.Minute.value = fields.minute;
 		systemSettingsView.Seconds.value = fields.seconds;
 
-		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
+		//buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
 		var units = Storage.restoreItem("units") || false;
 		systemSettingsView.UnitsUS.checked = !units;
@@ -135,7 +135,7 @@ window.ui = window.ui || {};
 			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
 			window.ui.about.showDeviceInfo(); //refresh
 		};
-		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
+		//systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
 		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
 		systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
 		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
