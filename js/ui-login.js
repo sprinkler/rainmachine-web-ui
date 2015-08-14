@@ -10,6 +10,7 @@ window.ui = window.ui || {};
     var loginPasswordElem = null;
     var loginRememberMeElem = null;
     var loginButtonElem = null;
+    var logoutButtonElem = null;
     var errorContainerElem = null;
 
     _login.login = function(callback) {
@@ -22,6 +23,16 @@ window.ui = window.ui || {};
 
         var provision = API.getProvision();
         if(provision && !provision.statusCode) {
+
+            logoutButtonElem = $("#logoutBtn");
+
+            logoutButtonElem.onclick = function() {
+
+                Storage.deleteItem("access_token");
+                location.reload();
+            }
+
+
             return callback();
         }
 
