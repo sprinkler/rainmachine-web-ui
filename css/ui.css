@@ -45,6 +45,10 @@ body.login .loginContainer {
     display: block;
 }
 
+body.login .logout{
+    display: none;
+}
+
 body {
 	font-family: Helvetica, Arial, sans-serif;
 }
