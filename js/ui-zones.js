@@ -119,6 +119,7 @@ window.ui = window.ui || {};
 
 		var zoneMasterValveElem = $(zoneTemplate, '[rm-id="zone-master-valve"]');
 		var zoneMasterValveContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-option"]');
+		var zoneMasterTimerContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-timer"]');
 		var zoneNameElem = $(zoneTemplate, '[rm-id="zone-name"]');
 		var zoneActiveElem = $(zoneTemplate, '[rm-id="zone-active"]');
 		var zoneVegetationElem = $(zoneTemplate, '[rm-id="zone-vegetation-type"]');
@@ -126,9 +127,13 @@ window.ui = window.ui || {};
 		var zoneHistoricalElem = $(zoneTemplate, '[rm-id="zone-historical-averages"]');
 
 
-		if (zone.uid != 1)
+		if (zone.uid != 1){
 			makeHidden(zoneMasterValveContainerElem);
-		else
+			makeHidden(zoneMasterTimerContainerElem);
+		}
+		else{
+
+		}
 			zoneMasterValveElem.checked = zone.master;
 
 		zoneTemplate.id = "zone-settings-" + zone.uid;
@@ -293,10 +298,12 @@ window.ui = window.ui || {};
 		if (uid == 1)
 		{
 			zoneProperties.master = zoneMasterValveElem.checked;
-			if (zoneProperties.master != Data.provision.system.useMasterValve)
+			if (zoneProperties.master != Data.provision.system.useMasterValve) {
 				shouldSetMasterValve = true;
-		}
+			}
 
+			saveMasterValveTimer();
+		}
 
 		console.log("Saving zone %d with properties: %o", uid, zoneProperties);
 		API.setZonesProperties(uid, zoneProperties, null);
@@ -308,8 +315,40 @@ window.ui = window.ui || {};
 			Data.provision.system.useMasterValve = zoneProperties.master;
 		}
 
+
+
 		closeZoneSettings();
 		refreshZone(uid);
+	}
+
+	function saveMasterValveTimer()
+	{
+
+		var masterValveBeforeElem = $("#zoneSettingMasterValveBefore");
+		var masterValveAfterElem = $("#zoneSettingMasterValveAfter");
+
+		var b = parseInt(masterValveBeforeElem.value) * 60;
+		var a = parseInt(masterValveAfterElem.value) * 60;
+
+		if(!isNaN(b) && !isNaN(a)) {
+			var data = {
+				masterValveBefore: b,
+				masterValveAfter: a
+			};
+
+			var r = API.setProvision(data, null);
+			console.log(r);
+
+			if (r === undefined || !r ||  r.statusCode != 0)
+			{
+				console.log("Can't set Master Valve");
+				return;
+			}
+
+			Data.provision.system.masterValveBefore = b;
+			Data.provision.system.masterValveAfter = a;
+		}
+
 	}
 
 	function zoneTypeToString(type)

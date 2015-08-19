@@ -18,6 +18,7 @@ window.ui = window.ui || {};
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
+			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
 			DeviceName: $("#systemSettingsDeviceName"),
 			DeviceNameSet: $("#systemSettingsDeviceNameSet"),
@@ -103,6 +104,7 @@ window.ui = window.ui || {};
 
 		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
 		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
+		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
 		systemSettingsView.DeviceName.value = Data.provision.system.netName;
@@ -203,6 +205,14 @@ window.ui = window.ui || {};
 
 	function systemSettingsChangeMasterValve()
 	{
+		var valveEnabled = systemSettingsView.enableMasterValveInput.checked;
+
+		if(valveEnabled != Data.provision.system.useMasterValve){
+			var valveData = { useMasterValve: valveEnabled };
+			API.setProvision(valveData, null);
+			Data.provision.system.useMasterValve = valveEnabled;
+		}
+
 		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
 		var a = parseInt(systemSettingsView.MasterValveAfter.value) * 60;
 
