@@ -17,8 +17,8 @@ var host = window.location.hostname;
 var port = window.location.port;
 //var port = "8888";
 
-//var apiUrl = "https://" + host + ":" + port + "/api/4";
-var apiUrl = "http://" + host + ":" + port + "/api/4";
+var apiUrl = "https://" + host + ":" + port + "/api/4";
+//var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 var async = false;
 
