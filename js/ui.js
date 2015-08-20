@@ -125,21 +125,7 @@ function uiLoop()
 {
 	if (isVisible("#zones") && isVisible("#zonesList"))
 	{
-		var waterQueue = API.getWateringQueue();
-
-		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length) {
-			return;
-		}else{
-            console.log("Watering Loop: %o", waterQueue);
-
-            for(var j = 0; j < waterQueue.queue.length; j++) {
-                var zone = waterQueue.queue[j];
-                window.ui.zones.refreshZone(zone.zid);
-            }
-
-		}
-
-
+		API.getWateringQueue(refreshQueuedZones);
 		return;
 	}
 	else
@@ -153,6 +139,22 @@ function uiLoop()
 		window.ui.settings.showRainDelay();
 	}
 
+	return;
+}
+
+function refreshQueuedZones(waterQueue)
+{
+
+	if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length) {
+		return;
+	}else{
+		console.log("Watering Loop: %o", waterQueue);
+
+		for(var j = 0; j < waterQueue.queue.length; j++) {
+			var zone = waterQueue.queue[j];
+			window.ui.zones.refreshZone(zone.zid);
+		}
+	}
 	return;
 }
 

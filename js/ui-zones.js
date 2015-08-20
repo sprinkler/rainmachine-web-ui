@@ -84,29 +84,34 @@ window.ui = window.ui || {};
 		if( zoneId === undefined || !zoneId) {
 			return;
 		}
+		API.getZones(zoneId, processZoneData);
 
-		var z = API.getZones(zoneId);
-        var za = API.getZonesProperties(zoneId);
+	}
 
-        z.active = za.active;
+	function processZoneData(z) {
 
-		setZoneState(z);
+		API.getZonesProperties(z.uid,
+				function(za) {
+					z.active = za.active;
 
-		var seconds = z.remaining;
+					setZoneState(z);
 
-		//Not running show default minutes
-		if (z.state == 0) {
-			try {
-				seconds = Data.provision.system.zoneDuration[z.uid - 1];
-			}
-			catch(ex) {
-				Data.provision = API.getProvision();
-				seconds = Data.provision.system.zoneDuration[z.uid - 1];
-			}
-		}
+					var seconds = z.remaining;
 
-		updateZoneTimer(z.uid, seconds);
+					//Not running show default minutes
+					if (z.state == 0) {
+						try {
+							seconds = Data.provision.system.zoneDuration[z.uid - 1];
+						}
+						catch(ex) {
+							Data.provision = API.getProvision();
+							seconds = Data.provision.system.zoneDuration[z.uid - 1];
+						}
+					}
 
+					updateZoneTimer(z.uid, seconds);
+				}
+		);
 	}
 
 	function showZoneSettings(zone)
