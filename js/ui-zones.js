@@ -79,39 +79,52 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function refreshZone(zoneId) {
+	function refreshZone(zoneId, zone) {
 
-		if( zoneId === undefined || !zoneId) {
-			return;
+		if(zone !== undefined && zone != null) {
+			processZoneData(zone);
+		}else {
+			if( zoneId === undefined || !zoneId) {
+				return;
+			}
+			API.getZones(zoneId, processZoneData);
 		}
-		API.getZones(zoneId, processZoneData);
-
 	}
 
 	function processZoneData(z) {
 
-		API.getZonesProperties(z.uid,
+		if( z.active != undefined) {
+			processCompleteZone(z);
+		}else {
+			API.getZonesProperties(z.uid,
 				function(za) {
 					z.active = za.active;
-
-					setZoneState(z);
-
-					var seconds = z.remaining;
-
-					//Not running show default minutes
-					if (z.state == 0) {
-						try {
-							seconds = Data.provision.system.zoneDuration[z.uid - 1];
-						}
-						catch(ex) {
-							Data.provision = API.getProvision();
-							seconds = Data.provision.system.zoneDuration[z.uid - 1];
-						}
-					}
-
-					updateZoneTimer(z.uid, seconds);
+					processCompleteZone(z);
 				}
-		);
+			);
+		}
+
+
+	}
+
+	function processCompleteZone(z) {
+
+		setZoneState(z);
+
+		var seconds = z.remaining;
+
+		//Not running show default minutes
+		if (z.state == 0) {
+			try {
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+			catch(ex) {
+				Data.provision = API.getProvision();
+				seconds = Data.provision.system.zoneDuration[z.uid - 1];
+			}
+		}
+
+		updateZoneTimer(z.uid, seconds);
 	}
 
 	function showZoneSettings(zone)
@@ -255,8 +268,10 @@ window.ui = window.ui || {};
 	function stopZone(uid)
 	{
 		console.log("Stop zone %d", uid);
-		API.stopZone(uid);
-		refreshZone(uid);
+		API.stopZone(uid, function(response) {
+			refreshZone(uid);
+		});
+
 	}
 
 	function stopAllWatering()
