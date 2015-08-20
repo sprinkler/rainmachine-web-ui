@@ -20,13 +20,15 @@ var port = window.location.port;
 var apiUrl = "https://" + host + ":" + port + "/api/4";
 //var apiUrl = "http://" + host + ":" + port + "/api/4";
 
-var async = false;
-
 var token = null;
 
-function rest(type, apiCall, data, callback, onResponse)
+function rest(type, apiCall, data, callback, async)
 {
 	var url;
+
+	if(async == undefined || !async){
+		async = false;
+	}
 
 	if (token !== null)
 		url = apiUrl + apiCall + "?access_token=" + token;
@@ -36,15 +38,18 @@ function rest(type, apiCall, data, callback, onResponse)
 	console.log("Doing API call: %s", url);
 	try {
 		r = new XMLHttpRequest();
-		r.open(type, url, async);
 
-		if (callback !== undefined && typeof callback === 'function') {
-			r.onreadystatechange = function () {
-				if (r.readyState == 4 && r.status == 200) {
-					callback(JSON.parse(r.responseText));
-				}
-			};
+		if(async == true) {
+			if (callback !== undefined && typeof callback === 'function') {
+				r.onreadystatechange = function () {
+					if (r.readyState == 4 && r.status == 200) {
+						callback(JSON.parse(r.responseText));
+					}
+				};
+			}
 		}
+
+		r.open(type, url, async);
 
 		if (type === "POST")
 		{
@@ -56,14 +61,17 @@ function rest(type, apiCall, data, callback, onResponse)
 			r.send();
 		}
 
-		return JSON.parse(r.responseText);
+		if(async == false) {
+			return JSON.parse(r.responseText);
+		}
+
 	} catch(e) { }
 
 	return null;
 }
 
-function post(apiCall, data, callback) { return rest("POST", apiCall, data, callback); }
-function get(apiCall, callback) { return rest("GET", apiCall, null, callback); }
+function post(apiCall, data, callback, async) { return rest("POST", apiCall, data, callback, async); }
+function get(apiCall, callback, async) { return rest("GET", apiCall, null, callback, async); }
 
 /* ------------------------------------------ API ROOT PATHS ----------------------------------------------*/
 API.URL = Object.freeze({
@@ -348,14 +356,20 @@ API.stopProgram = function(id)
 }
 
 /* ------------------------------------------ ZONES API CALLS --------------------------------------------*/
-API.getZones = function(id)
+API.getZones = function(id, callback)
 {
 	var url = API.URL.zone;
 
-	if (id !== undefined)
+	if (id !== undefined){
 		url += "/" + id;
+	}
 
-	return get(url, null);
+	if(callback !== undefined ){
+		return get(url, callback, true);
+	}else {
+		return get(url, null);
+	}
+
 }
 
 API.startZone = function(id, duration)
@@ -384,7 +398,7 @@ API.stopZone = function(id)
 	return post(url, data, null);
 }
 
-API.getZonesProperties = function(id)
+API.getZonesProperties = function(id, callback)
 {
 	var url = API.URL.zone;
 
@@ -393,7 +407,11 @@ API.getZonesProperties = function(id)
 
 	url += "/properties";
 
-	return get(url, null);
+	if( callback !== undefined && callback != null) {
+		return get(url, callback, true);
+	}else {
+		return get(url, null);
+	}
 }
 
 API.setZonesProperties = function(id, properties, advancedProperties)
@@ -437,11 +455,17 @@ API.getWateringLog = function(simulated, details, startDate, days, callback)
 	return get(url, callback);
 }
 
-API.getWateringQueue = function()
+API.getWateringQueue = function(callback)
 {
 	var url = API.URL.watering + "/queue";
 
-	return get(url, null);
+	if(callback !== undefined && callback != null) {
+		return get(url, callback, true);
+	}else {
+		return get(url, null);
+	}
+
+
 }
 
 API.stopAll = function()
