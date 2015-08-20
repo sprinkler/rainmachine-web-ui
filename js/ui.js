@@ -125,7 +125,7 @@ function uiLoop()
 {
 	if (isVisible("#zones") && isVisible("#zonesList"))
 	{
-		API.getWateringQueue(refreshQueuedZones);
+		API.getZones(null, refreshQueuedZones);
 		return;
 	}
 	else
@@ -142,20 +142,21 @@ function uiLoop()
 	return;
 }
 
-function refreshQueuedZones(waterQueue)
+function refreshQueuedZones(zonesList)
 {
-
-	if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length) {
+	if (zonesList === undefined || !zonesList || !zonesList.zones || !zonesList.zones.length) {
 		return;
 	}else{
-		console.log("Watering Loop: %o", waterQueue);
 
-		for(var j = 0; j < waterQueue.queue.length; j++) {
-			var zone = waterQueue.queue[j];
-			window.ui.zones.refreshZone(zone.zid);
-		}
+		API.getZonesProperties(null, function(zonesProperties){
+
+			for(var j = 0; j < zonesList.zones.length; j++) {
+				var zone = zonesList.zones[j];
+				zone.active = zonesProperties.zones[j].active;
+				window.ui.zones.refreshZone(null, zone);
+			}
+		});
 	}
-	return;
 }
 
 function uiStart()

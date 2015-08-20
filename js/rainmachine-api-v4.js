@@ -360,7 +360,7 @@ API.getZones = function(id, callback)
 {
 	var url = API.URL.zone;
 
-	if (id !== undefined){
+	if (id !== undefined && id != null){
 		url += "/" + id;
 	}
 
@@ -386,7 +386,7 @@ API.startZone = function(id, duration)
 	return post(url, data, null);
 }
 
-API.stopZone = function(id)
+API.stopZone = function(id, callback)
 {
 	if (id === undefined || id === null)
 		return API.ERROR.InvalidRequest;
@@ -395,14 +395,18 @@ API.stopZone = function(id)
 
 	var data = { zid : id };
 
-	return post(url, data, null);
+	if(callback !== undefined && callback !=null) {
+		return post(url, data, callback, true);
+	}else{
+		return post(url, data, null);
+	}
 }
 
 API.getZonesProperties = function(id, callback)
 {
 	var url = API.URL.zone;
 
-	if (id !== undefined)
+	if (id !== undefined && id != null)
 		url += "/" + id;
 
 	url += "/properties";
