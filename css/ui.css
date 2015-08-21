@@ -1020,3 +1020,39 @@ td.right, .right {
     .label-red {
       color: #d23f31; 
     }
+
+
+    /* Ajax Loader Styles*/
+.ajaxLoaderContainer {
+    display: block;
+    z-index: 9999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ajaxLoaderContainer .ajaxLoaderInnerContainer {
+    background-color: #f7f7f7;
+    padding: 25px;
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+    margin: 100px auto;
+}
+
+.ajaxLoaderContainer span.ajaxLoader {
+    font-family: RainMachine, sans-serif;
+    font-size: 32px;
+    white-space: nowrap;
+    cursor: default;
+    display: block;
+    float: left;
+    width: 32px;
+    margin-right: 3px;
+    color: #555555;
+    animation: rotate 2s infinite linear;
+    animation-iteration-count: infinite;
+}

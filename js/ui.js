@@ -159,6 +159,16 @@ function refreshQueuedZones(zonesList)
 	}
 }
 
+function displayAjaxLoader() {
+	var ajaxLoaderElem = $("#ajaxLoaderElem");
+	makeVisible(ajaxLoaderElem);
+}
+
+function hideAjaxLoader() {
+	var ajaxLoaderElem = $("#ajaxLoaderElem");
+	makeHidden(ajaxLoaderElem);
+}
+
 function uiStart()
 {
     buildMenu();
@@ -175,7 +185,7 @@ function uiStart()
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.showDeviceInfo();
-		loop = setInterval(uiLoop, 3000);
+		loop = setInterval(uiLoop, 2000);
 	});
 }
 
