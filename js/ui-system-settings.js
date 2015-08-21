@@ -11,9 +11,9 @@ window.ui = window.ui || {};
 
 	function loadView() {
 		systemSettingsView= {
-			CloudEnable: $("#systemSettingsCloudEnable"),
-			Email: $("#systemSettingsEmail"),
-			CloudSet: $("#systemSettingsCloudSet"),
+			//CloudEnable: $("#systemSettingsCloudEnable"),
+			//Email: $("#systemSettingsEmail"),
+			//CloudSet: $("#systemSettingsCloudSet"),
 
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
@@ -99,8 +99,8 @@ window.ui = window.ui || {};
 		if (! systemSettingsView)
 			loadView();
 
-		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
-		systemSettingsView.Email.value = Data.provision.cloud.email;
+		//systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
+		//systemSettingsView.Email.value = Data.provision.cloud.email;
 
 		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
 		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
@@ -144,46 +144,46 @@ window.ui = window.ui || {};
 		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
 
 		//Advanced Settings
-		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
-		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
-		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
-		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
-		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
-		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
-		systemSettingsView.Valves.value = Data.provision.system.localValveCount;
-		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
-		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
-
-		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
-		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); }
-
-		systemSettingsView.MixerHistorySet.onclick = function()	{
-			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
-		};
-		systemSettingsView.SimulatorHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("simulatorHistorySize", systemSettingsView.SimulatorHistory.value);
-		};
-		systemSettingsView.WaterHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("waterLogHistorySize", systemSettingsView.WaterHistory.value);
-		};
-		systemSettingsView.ParserHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("parserHistorySize", systemSettingsView.ParserHistory.value);
-		};
-		systemSettingsView.ParserDaysSet.onclick = function() {
-			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
-		};
-		systemSettingsView.MinWateringSet.onclick = function() {
-			changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
-		};
-		systemSettingsView.ValvesSet.onclick = function() {
-			changeSingleSystemProvisionValue("localValveCount", systemSettingsView.Valves.value);
-		};
-		systemSettingsView.CorrectionPastSet.onclick = function() {
-			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
-		};
-		systemSettingsView.MaxWaterSet.onclick = function() {
-			changeSingleSystemProvisionValue("maxWateringCoef", parseInt(systemSettingsView.MaxWater.value) / 100);
-		};
+		//systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
+		//systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
+		//systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
+		//systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
+		//systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
+		//systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
+		//systemSettingsView.Valves.value = Data.provision.system.localValveCount;
+		//systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
+		//systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
+        //
+		//systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
+		//systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); }
+        //
+		//systemSettingsView.MixerHistorySet.onclick = function()	{
+		//	changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
+		//};
+		//systemSettingsView.SimulatorHistorySet.onclick = function() {
+		//	changeSingleSystemProvisionValue("simulatorHistorySize", systemSettingsView.SimulatorHistory.value);
+		//};
+		//systemSettingsView.WaterHistorySet.onclick = function() {
+		//	changeSingleSystemProvisionValue("waterLogHistorySize", systemSettingsView.WaterHistory.value);
+		//};
+		//systemSettingsView.ParserHistorySet.onclick = function() {
+		//	changeSingleSystemProvisionValue("parserHistorySize", systemSettingsView.ParserHistory.value);
+		//};
+		//systemSettingsView.ParserDaysSet.onclick = function() {
+		//	changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
+		//};
+		//systemSettingsView.MinWateringSet.onclick = function() {
+		//	changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
+		//};
+		//systemSettingsView.ValvesSet.onclick = function() {
+		//	changeSingleSystemProvisionValue("localValveCount", systemSettingsView.Valves.value);
+		//};
+		//systemSettingsView.CorrectionPastSet.onclick = function() {
+		//	changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
+		//};
+		//systemSettingsView.MaxWaterSet.onclick = function() {
+		//	changeSingleSystemProvisionValue("maxWateringCoef", parseInt(systemSettingsView.MaxWater.value) / 100);
+		//};
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
