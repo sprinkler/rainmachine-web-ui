@@ -39,14 +39,12 @@ function rest(type, apiCall, data, callback, async)
 	try {
 		r = new XMLHttpRequest();
 
-		if(async == true) {
-			if (callback !== undefined && typeof callback === 'function') {
-				r.onreadystatechange = function () {
-					if (r.readyState == 4 && r.status == 200) {
-						callback(JSON.parse(r.responseText));
-					}
-				};
-			}
+		if(async == true ||(callback !== undefined && typeof callback === 'function')) {
+			r.onreadystatechange = function () {
+				if (r.readyState == 4 && r.status == 200) {
+					callback(JSON.parse(r.responseText));
+				}
+			};
 		}
 
 		r.open(type, url, async);
@@ -242,7 +240,7 @@ API.getDailyStats = function(dayDate, withDetails, callback)
 		callback = null;
 	}
 
-	return get(url, callback);
+	return get(url, callback, false);
 }
 
 /* ----------------------------------------- RESTRICTIONS API CALLS ---------------------------------------*/
@@ -460,7 +458,7 @@ API.getWateringLog = function(simulated, details, startDate, days, callback)
 		callback = null;
 	}
 
-	return get(url, callback);
+	return get(url, callback, false);
 }
 
 API.getWateringQueue = function(callback)
@@ -524,7 +522,7 @@ API.getMixer = function(startDate, days, callback)
 		callback = null;
 	}
 
-	return get(url, callback);
+	return get(url, callback, false);
 }
 
 /* ------------------------------------------ DIAG API CALLS ------------------------------------------------*/
