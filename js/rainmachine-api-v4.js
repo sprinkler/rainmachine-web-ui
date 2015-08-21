@@ -372,7 +372,7 @@ API.getZones = function(id, callback)
 
 }
 
-API.startZone = function(id, duration)
+API.startZone = function(id, duration, callback)
 {
 	if (id === undefined || id === null)
 		return API.ERROR.InvalidRequest;
@@ -383,7 +383,11 @@ API.startZone = function(id, duration)
 	var url = API.URL.zone + "/" + id + "/start";
 	var data = { time: duration };
 
-	return post(url, data, null);
+	if(callback !== undefined && callback !=null) {
+		return post(url, data, callback, true);
+	}else{
+		return post(url, data, null);
+	}
 }
 
 API.stopZone = function(id, callback)

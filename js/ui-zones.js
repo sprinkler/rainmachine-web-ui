@@ -103,8 +103,6 @@ window.ui = window.ui || {};
 				}
 			);
 		}
-
-
 	}
 
 	function processCompleteZone(z) {
@@ -256,20 +254,28 @@ window.ui = window.ui || {};
 		var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
 
 		try {
+
+			displayAjaxLoader();
+
 			var duration = parseInt(minutesElem.value) * 60 + parseInt(secondsElem.value);
-			API.startZone(uid, duration);
+			API.startZone(uid, duration, function (){
+				refreshZone(uid);
+				hideAjaxLoader();
+			});
+
 		} catch(e) {
 			console.log("Cannot start zone %d with duration %d", uid, duration);
 		}
-
-		refreshZone(uid);
 	}
 
 	function stopZone(uid)
 	{
+		displayAjaxLoader();
+
 		console.log("Stop zone %d", uid);
 		API.stopZone(uid, function(response) {
 			refreshZone(uid);
+			hideAjaxLoader();
 		});
 
 	}
