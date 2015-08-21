@@ -7,14 +7,14 @@ var API  = (function(API) {
 
 //var host = "private-bd9e-rainmachine.apiary-mock.com";
 //var host = "127.0.0.1";
-var host = "192.168.12.174";
-//var host = window.location.hostname;
+//var host = "192.168.12.174";
+var host = window.location.hostname;
 //var host = "5.2.191.144";
 
 //var port = "443";
 //var port = "18080";
-var port = "8080";
-//var port = window.location.port;
+//var port = "8080";
+var port = window.location.port;
 //var port = "8888";
 
 var apiUrl = "https://" + host + ":" + port + "/api/4";

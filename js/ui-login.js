@@ -10,6 +10,8 @@ window.ui = window.ui || {};
     var loginPasswordElem = null;
     var loginRememberMeElem = null;
     var loginButtonElem = null;
+    var logoutButtonElem = null;
+    var errorContainerElem = null;
 
     _login.login = function(callback) {
 
@@ -21,6 +23,16 @@ window.ui = window.ui || {};
 
         var provision = API.getProvision();
         if(provision && !provision.statusCode) {
+
+            logoutButtonElem = $("#logoutBtn");
+
+            logoutButtonElem.onclick = function() {
+
+                Storage.deleteItem("access_token");
+                location.reload();
+            }
+
+
             return callback();
         }
 
@@ -28,9 +40,13 @@ window.ui = window.ui || {};
             loginPasswordElem = $("#loginPassword");
             loginRememberMeElem = $("#loginRememberMe");
             loginButtonElem = $("#loginButton");
+            errorContainerElem = $("#loginError");
         }
 
         loginButtonElem.onclick = function() {
+
+            makeHidden(errorContainerElem);
+
             var info = {
                 pwd: loginPasswordElem.value,
                 remember: loginRememberMeElem.checked
@@ -42,7 +58,19 @@ window.ui = window.ui || {};
                     document.body.className = "";
                     Storage.saveItem("access_token", accessToken);
                     setTimeout(callback, 0);
+                }else {
+                    makeVisible(errorContainerElem);
+                    errorContainerElem.innerHTML = "Invalid password";
                 }
+            }else {
+                makeVisible(errorContainerElem);
+                errorContainerElem.innerHTML = "Invalid password";
+            }
+        };
+
+        loginPasswordElem.onkeypress = function(event) {
+            if(event.keyCode == 13) {
+                loginButtonElem.click();
             }
         };
 

@@ -62,9 +62,10 @@ Util.bitStringToWeekDays = function(bitstr)
 //Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
-	var dayDate = new Date(dateStr.split("-"));
-    var diff = dayDate - startDate;
-    return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	var dateTokens = dateStr.split("-");
+	var dayDate = new Date(dateTokens[0],dateTokens[1] - 1 , dateTokens[2]);
+	var diff = dayDate - startDate;
+	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
 }
 
 
@@ -93,15 +94,15 @@ Util.isToday = function(dateStr)
 	return (dateStr === today);
 }
 
-Util.normalizeWaterNeed = function(user, scheduled)
+Util.normalizeWaterNeed = function(user, real)
 {
 	var wn = 0;
-	if (scheduled <= 0 && user > 0)
-		wn = 100;
-	else if (scheduled == 0 && user == 0)
+	if (real <= 0 && user > 0)
 		wn = 0;
+	else if (real >= 0 && user == 0)
+		wn = 100;
 	else
-		wn = Math.round((user / scheduled) * 100);
+		wn = Math.round((real / user) * 100);
 
 	return wn;
 }

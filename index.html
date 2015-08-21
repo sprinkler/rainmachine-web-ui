@@ -30,7 +30,8 @@
 			<div class="clear30"></div>
 			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
 			<div><input type="checkbox" id="loginRememberMe" class="middle"/> <span>Remember me</span></div>
-			<button id="loginButton" class="button label-blue center right">Login</button>
+			<div class="error" id="loginError" style="display:none;"></div>
+			<button id="loginButton" class="button label-blue right">Login</button>
 		</div>
 	</div>
 	<div class="pageHeader">
@@ -44,11 +45,11 @@
 		</div>
 
 		<div>
+			<div id="logoutBtn" class="topButton logout"><span class="icon">-</span><br/>Logout</div>
 			<div id="settingsBtn" class="topButton"><span class="icon">S</span><br>Settings</div>
 			<div id="programsBtn" class="topButton"><span class="icon">Z</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
 			<div id="dashboardBtn" class="topButton"><span class="icon">A</span><br>Dashboard</div>
-
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -134,7 +135,7 @@
 								</div>		
 						</div>
 
-						<div id="snooze">
+						<div id="snooze" style="display: none;">
 							<div class="settingsBlock center">
 								<div id="snoozeSetContent">
 									<table cellspacing="0" cellpadding="0" class="center full">
@@ -541,6 +542,10 @@
 										<td class="listItemSettings relative">
 											<div class="bold">Master Valve</div>
 											<span class="separator"></span>
+											Enable master valve:
+											<input type="checkbox" id="systemSettingsEnableMasterValve"/>
+											<span class="separator"></span>
+											<br/><br/>
 											<div>
 												Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> min before and
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> after each program.
@@ -868,6 +873,15 @@
 	                <td class="middle" width="15%">Master Valve:</td>
 	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
                 </tr>
+
+				<tr rm-id="zone-master-valve-timer">
+					<td class="middle" width="15%">Master Valve:</td>
+					<td>
+						Start <input type="number" class="typeNumber" id="zoneSettingMasterValveBefore" min="0"> min before and
+						<input type="number" class="typeNumber" id="zoneSettingMasterValveAfter" min="0"> after each program.
+					</td>
+
+				</tr>
                 <tr>
                 	<td class="middle">Name:</td>
                 	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>

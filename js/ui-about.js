@@ -23,7 +23,7 @@ window.ui = window.ui || {};
 		$("#aboutUptime").textContent = Data.diag.uptime;
 		$("#aboutUpdate").onclick = function() { API.startUpdate(); showAbout(); };
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
-		$("#aboutDiagViewLog").onclick = function() { API.getDiagLog(); };
+		$("#aboutDiagViewLog").onclick = function() { var logText = API.getDiagLog(); var logWin = window.open(); logWin.document.write("<pre>" + logText.log + "</pre>");};
 
 		API.checkUpdate();
 		var updateStatus = API.getUpdate();
@@ -80,13 +80,14 @@ window.ui = window.ui || {};
         var deviceNetDiv = $('#deviceNetwork');
         var footerInfoDiv = $('#footerInfo');
 
-        deviceNameDiv.innerHTML = Data.provision.system.netName;
-        deviceNetDiv.innerHTML = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+        deviceNameDiv.textContent = Data.provision.system.netName;
+        deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
 
         if (Data.provision.api.hwVer == 3)
         	deviceImgDiv.className = "spk3";
 
-    	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+    	footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
     }
 
 	//--------------------------------------------------------------------------------------------
