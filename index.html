@@ -31,7 +31,7 @@
 			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
 			<div><input type="checkbox" id="loginRememberMe" class="middle"/> <span>Remember me</span></div>
 			<div class="error" id="loginError" style="display:none;"></div>
-			<button id="loginButton" class="button label-blue right">Login</button>
+			<button id="loginButton" class="button blue center right">Login</button>
 		</div>
 	</div>
 	<div class="pageHeader">
@@ -45,9 +45,9 @@
 		</div>
 
 		<div>
-			<div id="logoutBtn" class="topButton logout"><span class="icon">-</span><br/>Logout</div>
+			<div id="logoutBtn" class="topButton logout"><span class="icon">L</span><br>Logout</div>
 			<div id="settingsBtn" class="topButton"><span class="icon">S</span><br>Settings</div>
-			<div id="programsBtn" class="topButton"><span class="icon">Z</span><br>Programs</div>
+			<div id="programsBtn" class="topButton"><span class="icon">P</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
 			<div id="dashboardBtn" class="topButton"><span class="icon">A</span><br>Dashboard</div>
 		</div>
@@ -112,7 +112,7 @@
 											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
 											days.
 										</span>
-										<button id="waterHistoryFetch" class="button label-blue center" style="font-size:16px;">Show</button>
+										<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
 									</h1>
 										<div class="historyDateContainer" style="margin-top: -40px;border:0;">
 											<div class="historyDate"></div>
@@ -547,8 +547,8 @@
 											<span class="separator"></span>
 											<br/><br/>
 											<div>
-												Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> min before and
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> after each program.
+												Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
 											</div>
 											<br><br>
 											<button id="systemSettingsMasterValveSet" class="button label-blue absolute center right">Change</button>
@@ -853,12 +853,13 @@
         	<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
             <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
             <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
-            <br><hr><br>
-            <div style="margin-bottom: 20px;" rm-id="zone-timers">
-                <span class="right">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
-                <span class="left">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
-            </div>
-            <br>&nbsp;<br>
+            <div rm-id="zone-timers">
+            	<span class="separator" style="margin:10px 0;clear:both;">&nbsp;</span>
+            	<span>Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
+            	&nbsp;
+                <span>Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
+                <span class="separator" style="margin:10px 0;clear:both;">&nbsp;</span>    
+            </div> 
             <button rm-id="zone-start" class="button label-blue center right">Start</button>
 			<button rm-id="zone-stop" class="button label-red center right">Stop</button>
 			<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
@@ -876,9 +877,9 @@
 
 				<tr rm-id="zone-master-valve-timer">
 					<td class="middle" width="15%">Master Valve:</td>
-					<td>
-						Start <input type="number" class="typeNumber" id="zoneSettingMasterValveBefore" min="0"> min before and
-						<input type="number" class="typeNumber" id="zoneSettingMasterValveAfter" min="0"> after each program.
+					<td class="middle">
+						Start <input type="number" class="typeNumber" id="zoneSettingMasterValveBefore" min="0" placeholder="0"> minutes before and
+						<input type="number" class="typeNumber" id="zoneSettingMasterValveAfter" min="0" placeholder="0"> minutes after each program.
 					</td>
 
 				</tr>
