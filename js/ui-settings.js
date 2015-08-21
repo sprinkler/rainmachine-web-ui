@@ -11,30 +11,31 @@ window.ui = window.ui || {};
 	{
 		//Weather Sources List
 		var parsers = API.getParsers();
-		var weatherSourcesDiv = $('#weatherDataSourcesList');
-		clearTag(weatherDataSourcesList);
 
-		console.log("%o", parsers);
-
-		if(parsers.parsers != undefined && parsers.parsers.length) {
-			for (var i = 0; i < parsers.parsers.length; i++)
-			{
-				var p = parsers.parsers[i];
-
-				var template = loadTemplate("weather-sources-template");
-				var enabledElem = $(template, '[rm-id="weather-source-enable"]');
-				var nameElem = $(template, '[rm-id="weather-source-name"]');
-				var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
-
-				enabledElem.checked = p.enabled;
-				enabledElem.value = p.uid;
-				enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
-				nameElem.textContent = p.name;
-				lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
-
-				weatherSourcesDiv.appendChild(template);
-			}
-		}
+		//var weatherSourcesDiv = $('#weatherDataSourcesList');
+		//clearTag(weatherDataSourcesList);
+        //
+		//console.log("%o", parsers);
+        //
+		//if(parsers.parsers != undefined && parsers.parsers.length) {
+		//	for (var i = 0; i < parsers.parsers.length; i++)
+		//	{
+		//		var p = parsers.parsers[i];
+        //
+		//		var template = loadTemplate("weather-sources-template");
+		//		var enabledElem = $(template, '[rm-id="weather-source-enable"]');
+		//		var nameElem = $(template, '[rm-id="weather-source-name"]');
+		//		var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+        //
+		//		enabledElem.checked = p.enabled;
+		//		enabledElem.value = p.uid;
+		//		enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
+		//		nameElem.textContent = p.name;
+		//		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+        //
+		//		weatherSourcesDiv.appendChild(template);
+		//	}
+		//}
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -42,19 +43,19 @@ window.ui = window.ui || {};
 		var fc = Data.provision.location.wsDays;
 
 		var rsElem = $("#outputRainSensitivity");
-		var wsElem = $("#outputWindSensitivity");
+		//var wsElem = $("#outputWindSensitivity");
 
 		var rsSaveElem = $("#rainSensitivitySave");
-		var wsSaveElem = $("#windSensitivitySave");
+		//var wsSaveElem = $("#windSensitivitySave");
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
-		var wsDefaultElem = $("#windSensitivityDefault");
+		//var wsDefaultElem = $("#windSensitivityDefault");
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
 		//rsElem.oninput();
 
-		wsElem.value = parseInt(ws * 100);
+		//wsElem.value = parseInt(ws * 100);
 		//wsElem.oninput();
 
 		//rsSaveElem.onclick = function() {
