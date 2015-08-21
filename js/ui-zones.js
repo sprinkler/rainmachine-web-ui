@@ -14,10 +14,13 @@ window.ui = window.ui || {};
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
 
+		var zonesProperties = API.getZonesProperties();
+
+
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
-			var za = API.getZonesProperties(z.uid);
+			var za = zonesProperties.zones[i];
 
 			z.active = za.active;
 
