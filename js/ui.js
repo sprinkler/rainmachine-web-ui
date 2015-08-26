@@ -101,7 +101,6 @@ function buildMenu() {
 				visibilityFunc(currentElements.container);
 				visibilityFunc(currentElements.menu);
 				currentElements.button.setAttribute("selected", true);
-				console.log("makeVisible %s", mainMenus[index].prefix)
 				//Hide others
 				var otherMenus = mainMenus.slice(0);
                 otherMenus.splice(index, 1);
@@ -177,7 +176,7 @@ function uiStart()
 
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
-		window.ui.about.showDeviceInfo();
+		window.ui.about.getDeviceInfo();
 		loop = setInterval(uiLoop, 1000);
 	});
 }
