@@ -98,8 +98,6 @@ window.ui = window.ui || {};
 		var stopButton = $("#snoozeStop");
 		var setButton = $("#snoozeSet");
 
-
-
 		//Are we already in Snooze
 		if (rd > 0)
 		{
@@ -119,7 +117,7 @@ window.ui = window.ui || {};
 		setButton.onclick = function() {
 			var snoozeDays = $('#snoozeDays').value;
 			console.log(API.setRestrictionsRainDelay(parseInt(snoozeDays)));
-			showRainDelay()
+			showRainDelay();
 		};
 	}
 
@@ -127,9 +125,10 @@ window.ui = window.ui || {};
 		var startDate = $("#waterHistoryStartDate").value;
 		var days = parseInt($("#waterHistoryDays").value);
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
-		Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
 
-		showWaterLog();
+		APIAsync.getWateringLog(false, true, startDate, days).then(
+			function(o) {Data.waterLogCustom = o; showWaterLog();}
+		);
 	}
 
 	function showWaterLog() {
@@ -150,7 +149,11 @@ window.ui = window.ui || {};
 			startDateElem.value = startDate;
 			daysElem.value = days;
 
-			Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
+			APIAsync.getWateringLog(false, true, startDate, days).then(
+            	function(o) {Data.waterLogCustom = o; showWaterLog();}
+            );
+
+			return;
 		}
 
 		var waterLog = Data.waterLogCustom;
