@@ -528,7 +528,7 @@ function generateWaterNeedChart () {
 				inside: true,
 				verticalAlign: 'bottom'
 			},
-			name: 'Simulated water need',
+			name: 'Water need',
 			stack: 'wn'
 		}],
 		plotOptions: {
