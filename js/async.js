@@ -3,6 +3,8 @@
  *	All rights reserved.
  */
 
+//TODO parallel processing of multiple Async objects (needed in zones and charts)
+
 function Async() {
 	this.queue = [];
 	this.ready = false;

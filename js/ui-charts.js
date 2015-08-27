@@ -4,6 +4,7 @@
  */
 
 /* global Highcharts */
+var chartsDataCounter = 0;
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,
 		monthly: 1,
@@ -136,15 +137,40 @@ function getProgramById (id) {
 }
 
 /**
- * Gets the data from the API for all the Charts, parses and processes the data into the correct holders
+ * Gets the data from the API for all the Charts,
  * @param pastDays
  */
-function getChartData (pastDays) {
+function getChartDataSync(pastDays) {
 	Data.programs = API.getPrograms(); //for programs name and status
 	Data.mixerData = API.getMixer(); //for weather measurements
 	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
 	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
 	Data.waterLogSimulated = API.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for simulated used water
+	processChartData();
+}
+
+function getChartData(pastDays) {
+	APIAsync.getPrograms()
+	.then(function(o) { Data.programs = o; chartsDataCounter++; processChartData(); }); //for programs name and status
+
+	APIAsync.getMixer()
+	.then(function(o) { Data.mixerData = o; chartsDataCounter++; processChartData(); }) //for weather measurements
+
+	APIAsync.getDailyStats(null, true)
+	.then(function(o) { Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
+
+	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
+	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();}) //for used water
+
+	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
+	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
+}
+
+
+/**
+ * Parses and processes the data into the correct holders
+ */
+function processChartData() {
 	var mixedDataIndex,
 		programIndex,
 		dailyValuesIndex,
@@ -154,6 +180,13 @@ function getChartData (pastDays) {
 		daysIndex,
 		currentProgram,
 		currentProgramIndex;
+
+	if (chartsDataCounter < 5) {
+		return;
+	} else {
+		chartsDataCounter = 0;
+	}
+
 
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.mixerData.length; mixedDataIndex++) {
@@ -359,6 +392,15 @@ function getChartData (pastDays) {
 			chartsData.programs[programIndex].monthsData[monthsIndex] = Math.round((chartsData.programs[programIndex].monthsData[monthsIndex]) / daysInMonth * 100) / 100;
 		}
 	}
+
+	generateProgramsChartsContainers();
+
+	// hide the spinner
+	makeHidden($('#pageLoadSpinner'));
+    // make the dashboard visible before generating the charts so that the charts can take the correct size
+    makeVisibleBlock($('#dashboard'));
+
+    loadWeeklyCharts();
 }
 
 /**
@@ -937,11 +979,4 @@ function loadCharts (shouldRefreshData, pastDays) {
 	if (shouldRefreshData) {
 		getChartData(pastDays);
 	}
-
-	generateProgramsChartsContainers();
-
-	// make the dashboard visible before generating the charts so that the charts can take the correct size
-	makeVisibleBlock($('#dashboard'));
-
-	loadWeeklyCharts();
 }
