@@ -141,24 +141,21 @@ function uiLoop()
 {
 	if (isVisible("#zones") && isVisible("#zonesList"))
 	{
-		var waterQueue = API.getWateringQueue();
-
-		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
-			return;
-
-		console.log("Watering Loop: %o", waterQueue);
-		window.ui.zones.showZones();
-		return;
+		APIAsync.getWateringQueue()
+		.then(
+			function(waterQueue) {
+				if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
+                	return;
+                window.ui.zones.showZonesSimple();
+			}
+		);
 	}
 	else
 	{
 		console.log("Idle Loop");
+        updateSnoozeTimer(); //update snooze timer
+
 	}
-
-	//update snooze timer
-	updateSnoozeTimer();
-
-	return;
 }
 
 function uiStart()
@@ -177,7 +174,7 @@ function uiStart()
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.getDeviceInfo();
-		loop = setInterval(uiLoop, 1000);
+		loop = setInterval(uiLoop, 2000);
 	});
 }
 
