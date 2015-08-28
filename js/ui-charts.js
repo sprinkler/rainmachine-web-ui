@@ -451,6 +451,39 @@ function generateCharts () {
 	}
 }
 
+function redrawCurrentDayRectangle(containerId, chart) {
+	//delete old rectangle
+	var container = $('#' + containerId);
+	var rectangleElem = $(container, '[class="day_rectangle"]');
+	rectangleElem.parentNode.removeChild(rectangleElem);
+
+	//create new rectangle
+	var highlighter = null,
+		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
+		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.5,
+		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
+		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
+		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false),
+		y2 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().max, false);
+
+	// if we have all the points needed
+	if (!isNaN(x1) && !isNaN(x2) && !isNaN(y1) && !isNaN(y2)) {
+		// draw the highlighter
+		highlighter = chart.renderer.rect(x1, y2, x2 - x1, y1 - y2);
+
+		// add properties to the highlighter
+		highlighter.attr({
+			fill: 'gray',
+			opacity: 0.2,
+			'class': 'day_rectangle'
+		});
+
+		// add the highlighter to the chart stage
+		highlighter.add();
+	}
+
+}
+
 /**
  * Generates the Water Need chart
  */
@@ -458,7 +491,12 @@ function generateWaterNeedChart () {
 	var waterNeedChartOptions = {
 		chart: {
 			renderTo: 'waterNeedChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+						redrawCurrentDayRectangle('waterNeedChartContainer', this);
+				}
+			}
 		},
 		series: [{
 			data: chartsData.waterNeed.currentSeries,
@@ -564,7 +602,12 @@ function generateTemperatureChart () {
 	var temperatureChartOptions = {
 		chart: {
 			renderTo: 'temperatureChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					redrawCurrentDayRectangle('temperatureChartContainer', this);
+				}
+			}
 		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
@@ -625,7 +668,12 @@ function generateQPFChart () {
 	var qpfChartOptions = {
 		chart: {
 			renderTo: 'qpfChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					redrawCurrentDayRectangle('qpfChartContainer', this);
+				}
+			}
 		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
@@ -693,7 +741,13 @@ function generateProgramChart (programUid, programIndex) {
 	var programChartOptions = {
 		chart: {
 			renderTo: 'programChartContainer-' + programIndex,
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					redrawCurrentDayRectangle('programChartContainer-' + programIndex, this);
+				}
+			}
+
 		},
 		series: [{
 			data: chartsData.programs[programIndex].currentSeries,
@@ -757,6 +811,8 @@ function generateChartCallback (chart) {
 	//if we are on level weekly we need to highlight the current day but only if the chartsWeeklyPeriod is 0 (period which contains the current date)
 		if (chartsWeeklyPeriod === 0) {
 			highlightCurrentDayInChart(chart);
+
+
 		}
 
 		// add the previous button if available
@@ -860,7 +916,8 @@ function highlightCurrentDayInChart(chart) {
 		// add properties to the highlighter
 		highlighter.attr({
 			fill: 'gray',
-			opacity: 0.2
+			opacity: 0.2,
+			'class': 'day_rectangle'
 		});
 
 		// add the highlighter to the chart stage
