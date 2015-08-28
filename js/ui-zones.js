@@ -10,6 +10,7 @@ window.ui = window.ui || {};
 	function showZones() {
 
 		Data.zoneData = API.getZones();
+		Data.provision = API.getProvision();
 
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
@@ -42,8 +43,8 @@ window.ui = window.ui || {};
 				template.className += " master";
 				makeHidden(timersElem);
 				nameElem.textContent = "Master Valve";
-				typeElem.textContent = "Before: " + Data.provision.system.masterValveBefore +
-										" sec After: " + Data.provision.system.masterValveAfter + " sec";
+				typeElem.textContent = "Before: " + Data.provision.system.masterValveBefore/60 +
+										" min After: " + Data.provision.system.masterValveAfter/60 + " min";
 			}
 			else
 			{
@@ -241,6 +242,14 @@ window.ui = window.ui || {};
 
 		minutesElem.value = m;
 		secondsElem.value = s;
+
+		if(uid == 1) {
+			if(Data.provision.system.useMasterValve) {
+				var masterTimerElem = $(zoneDiv, '[rm-id="zone-info"]');
+				masterTimerElem.textContent = "Before: " + Data.provision.system.masterValveBefore/60 +
+				" min After: " + Data.provision.system.masterValveAfter/60 + " min";
+			}
+		}
 	}
 
 	function startZone(uid)
@@ -405,8 +414,6 @@ window.ui = window.ui || {};
 			Data.provision.system.useMasterValve = zoneProperties.master;
 		}
 
-
-
 		closeZoneSettings();
 		refreshZone(uid);
 	}
@@ -427,18 +434,11 @@ window.ui = window.ui || {};
 			};
 
 			var r = API.setProvision(data, null);
-			console.log(r);
-
-			if (r === undefined || !r ||  r.statusCode != 0)
-			{
-				console.log("Can't set Master Valve");
-				return;
-			}
 
 			Data.provision.system.masterValveBefore = b;
 			Data.provision.system.masterValveAfter = a;
-		}
 
+		}
 	}
 
 	function zoneTypeToString(type)
@@ -461,7 +461,6 @@ window.ui = window.ui || {};
 				return "Other"
 		}
 	}
-
 
 	//--------------------------------------------------------------------------------------------
 	//

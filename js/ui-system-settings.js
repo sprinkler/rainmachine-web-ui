@@ -106,7 +106,6 @@ window.ui = window.ui || {};
 		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
 		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
-
 		systemSettingsView.DeviceName.value = Data.provision.system.netName;
 
 		//systemSettingsView.LocationFull.textContent = Data.provision.location.name + " (" +
@@ -222,13 +221,6 @@ window.ui = window.ui || {};
 		};
 
 		var r = API.setProvision(data, null);
-		console.log(r);
-
-		if (r === undefined || !r ||  r.statusCode != 0)
-		{
-			console.log("Can't set Master Valve");
-			return;
-		}
 
 		Data.provision.system.masterValveBefore = b;
 		Data.provision.system.masterValveAfter = a;
