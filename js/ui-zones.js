@@ -290,8 +290,7 @@ window.ui = window.ui || {};
 		statusElem.className = "zonePending";
 		makeHidden(startElem)
 		makeVisible(stopElem);
-
-		setZoneDefaultTimer(uid);
+		
 	}
 
 	function setTemporaryIdleZone(uid)
