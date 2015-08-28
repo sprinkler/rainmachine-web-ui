@@ -245,6 +245,8 @@ window.ui = window.ui || {};
 
 	function startZone(uid)
 	{
+		setTemporaryPendingZone(uid);
+
 		var zoneDiv = $("#zone-" + uid);
 
 		if (zoneDiv === undefined || zoneDiv === null)
@@ -258,27 +260,86 @@ window.ui = window.ui || {};
 
 		try {
 
-			displayAjaxLoader();
-
 			var duration = parseInt(minutesElem.value) * 60 + parseInt(secondsElem.value);
 			API.startZone(uid, duration, function (){
 				refreshZone(uid);
-				hideAjaxLoader();
 			});
 
 		} catch(e) {
 			console.log("Cannot start zone %d with duration %d", uid, duration);
 		}
+
+
+
+	}
+
+	function setTemporaryPendingZone(uid)
+	{
+		var zoneDiv = $("#zone-" + uid);
+
+		if (zoneDiv === undefined || zoneDiv === null)
+		{
+			console.log("Zone State: Cannot find zone %d", zone.uid);
+			return -2;
+		}
+
+		var statusElem = $(zoneDiv, '[rm-id="zone-status"]');
+		var startElem = $(zoneDiv, '[rm-id="zone-start"]');
+		var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
+
+		statusElem.className = "zonePending";
+		makeHidden(startElem)
+		makeVisible(stopElem);
+		
+	}
+
+	function setTemporaryIdleZone(uid)
+	{
+		var zoneDiv = $("#zone-" + uid);
+
+		if (zoneDiv === undefined || zoneDiv === null)
+		{
+			console.log("Zone State: Cannot find zone %d", zone.uid);
+			return -2;
+		}
+
+		var statusElem = $(zoneDiv, '[rm-id="zone-status"]');
+		var startElem = $(zoneDiv, '[rm-id="zone-start"]');
+		var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
+
+		statusElem.className = "zoneIdle";
+		makeHidden(stopElem);
+		makeVisible(startElem);
+
+		setZoneDefaultTimer(uid);
+
+	}
+
+	function setZoneDefaultTimer(uid)
+	{
+		var seconds = 300;
+
+		//set default timer
+		try {
+			seconds = Data.provision.system.zoneDuration[uid - 1];
+		}
+		catch(ex) {
+			Data.provision = API.getProvision();
+			seconds = Data.provision.system.zoneDuration[uid - 1];
+		}
+
+		updateZoneTimer(uid, seconds);
 	}
 
 	function stopZone(uid)
 	{
-		displayAjaxLoader();
 
 		console.log("Stop zone %d", uid);
+
+		setTemporaryIdleZone(uid);
+
 		API.stopZone(uid, function(response) {
 			refreshZone(uid);
-			hideAjaxLoader();
 		});
 
 	}
