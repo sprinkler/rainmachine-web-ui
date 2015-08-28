@@ -159,16 +159,6 @@ function refreshQueuedZones(zonesList)
 	}
 }
 
-function displayAjaxLoader() {
-	var ajaxLoaderElem = $("#ajaxLoaderElem");
-	makeVisible(ajaxLoaderElem);
-}
-
-function hideAjaxLoader() {
-	var ajaxLoaderElem = $("#ajaxLoaderElem");
-	makeHidden(ajaxLoaderElem);
-}
-
 function uiStart()
 {
     buildMenu();
