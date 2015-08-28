@@ -119,6 +119,15 @@ function buildMenu() {
 			}
 		})(i)
 	}
+
+	var logoutButtonElem = $("#logoutBtn");
+
+	logoutButtonElem.onclick = function() {
+
+		Storage.deleteItem("access_token");
+		location.reload();
+	}
+
 }
 
 function uiLoop()
