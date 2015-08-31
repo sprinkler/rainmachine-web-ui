@@ -154,20 +154,34 @@ function getChartData (pastDays) {
 		currentProgram,
 		currentProgramIndex;
 
-	API.getMixer(null, null, function (r) {
+	var days = 5; // Days you want to subtract
+	var date = new Date();
+	var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
+	var day = last.getDate();
+	var month = last.getMonth()+1;
+	var year = last.getFullYear();
+
+	var pastDays = 11;
+
+	API.getMixer(year + '-' + month + '-' + day , pastDays, function (r) {
+
+
 		Data.mixerData = r;
 		var dataByDate = Data.mixerData.mixerData;
+
+		if(dataByDate == undefined) {
+			dataByDate = Data.mixerData.mixerDataByDate;
+		}
+
 		//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 		for (mixedDataIndex = 0; mixedDataIndex < dataByDate.length; mixedDataIndex++) {
-			var recent = Data.mixerData.mixerData[mixedDataIndex].dailyValues;
+			var recent = dataByDate[mixedDataIndex];
 
-			for (dailyValuesIndex = 0; dailyValuesIndex < recent.length; dailyValuesIndex++) {
-				var dvDay =  recent[dailyValuesIndex].day.split(' ')[0];
-				chartsData.qpf.insertAtDate(dvDay, recent[dailyValuesIndex].qpf);
-				chartsData.maxt.insertAtDate(dvDay, recent[dailyValuesIndex].maxTemp);
-				chartsData.mint.insertAtDate(dvDay, recent[dailyValuesIndex].minTemp);
-				chartsData.condition.insertAtDate(dvDay, recent[dailyValuesIndex].condition);
-			}
+				var dvDay =  recent.day.split(' ')[0];
+				chartsData.qpf.insertAtDate(dvDay, recent.qpf);
+				chartsData.maxt.insertAtDate(dvDay, recent.maxTemp);
+				chartsData.mint.insertAtDate(dvDay, recent.minTemp);
+				chartsData.condition.insertAtDate(dvDay, recent.condition);
 		}
 	});
 
@@ -599,6 +613,7 @@ function generateWaterNeedChart () {
  * Generates the Temperature chart
  */
 function generateTemperatureChart () {
+
 	var temperatureChartOptions = {
 		chart: {
 			renderTo: 'temperatureChartContainer',
