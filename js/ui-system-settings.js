@@ -90,7 +90,7 @@ window.ui = window.ui || {};
 			TouchAuthSet: $("#systemSettingsTouchAuthSet"),
 			TouchAuth: $("#systemSettingsTouchAuth"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
-			TouchProg: $("#systemSettingsTouchProg"),
+			TouchProg: $("#systemSettingsTouchProg")
 			};
     	};
 
