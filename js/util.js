@@ -52,9 +52,8 @@ Util.bitStringToWeekDays = function(bitstr)
 	var str = "";
 
 	for (var i = 0; i < bitstr.length; i++)
-		if (bitstr[i])
+		if (bitstr[i] == "1")
         	str += Util.weekDaysNames[i] + " ";
-
 
 	return str;
 }

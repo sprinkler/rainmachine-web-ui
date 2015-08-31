@@ -8,17 +8,31 @@ window.ui = window.ui || {};
 (function(_zones) {
 
 	function showZones() {
+		APIAsync.getZones().then(function(o) { Data.zoneData = o;})
+        .then(APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; renderZones();}));
+    }
 
-		Data.zoneData = API.getZones();
-		Data.zoneAdvData = API.getZonesProperties();
+	//Only uses API.getZones() as advanced properties doesn't change often
+    function showZonesSimple() {
+    	APIAsync.getZones().then(function(o) { Data.zoneData = o; renderZones();} );
+    }
 
+	function renderZones() {
+
+        console.log("Called renderZones()");
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
-			var za = Data.zoneAdvData.zones[i];
+			var za;
+
+			if (Data.zoneAdvData !== undefined)
+				za = Data.zoneAdvData.zones[i];
+			else
+				za.active = true;
+
 			z.active = za.active;
 
 			var template = loadTemplate("zone-entry");
@@ -181,7 +195,7 @@ window.ui = window.ui || {};
 		var m = (seconds / 60) >> 0;
 		var s = (seconds % 60) >> 0;
 
-		console.log("Seconds: %d - %d:%d", seconds, m, s);
+		//console.log("Seconds: %d - %d:%d", seconds, m, s);
 
 		minutesElem.value = m;
 		secondsElem.value = s;
@@ -278,8 +292,6 @@ window.ui = window.ui || {};
 			Data.provision.system.useMasterValve = zoneProperties.master;
 		}
 
-
-
 		closeZoneSettings();
 		showZones();
 	}
@@ -340,6 +352,7 @@ window.ui = window.ui || {};
 	//
 	//
 	_zones.showZones = showZones;
+	_zones.showZonesSimple = showZonesSimple;
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
 

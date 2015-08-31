@@ -612,6 +612,17 @@ select {
     display: none;
 }
 
+.pageLoading {
+    font-family: RainMachine, sans-serif;
+    font-size: 42px;
+    overflow: hidden;
+    color: #0099ff;
+    *-webkit-animation: rotation 2s infinite linear;
+    animation: rotate 2s infinite linear;
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+}
+
 .zoneRunning, .zonePending {
     font-family: RainMachine, sans-serif;
     font-size: 32px;

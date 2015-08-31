@@ -23,14 +23,16 @@ window.ui = window.ui || {};
 		$("#aboutUptime").textContent = Data.diag.uptime;
 		$("#aboutUpdate").onclick = function() { API.startUpdate(); showAbout(); };
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
-		$("#aboutDiagViewLog").onclick = function() { var logText = API.getDiagLog(); var logWin = window.open(); logWin.document.write("<pre>" + logText.log + "</pre>");};
+		$("#aboutDiagViewLog").onclick = function() { showLog(); };
 
-		API.checkUpdate();
-		var updateStatus = API.getUpdate();
-		showUpdateStatus(updateStatus);
+		APIAsync.checkUpdate().then(APIAsync.getUpdate().then(function(o) { showUpdateStatus(o);}))
+		APIAsync.getDiagUpload().then(function(o) { showDiagUploadStatus(o);});
+	}
 
-		var uploadStatus = API.getDiagUpload();
-		showDiagUploadStatus(uploadStatus);
+	function showLog(log) {
+		var logWin = window.open();
+		logWin.document.write("<h2>Retriving log from device ...</h2>");
+		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
 	}
 
 	function showUpdateStatus(updateStatus)
@@ -67,33 +69,63 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function showDeviceInfo()
-    {
-    	Data.diag = API.getDiag();
-        Data.provision = API.getProvision();
-        Data.provision.wifi = API.getProvisionWifi();
-        Data.provision.api = API.getApiVer();
-    	Data.provision.cloud = API.getProvisionCloud();
+	function showDeviceInfo() {
+		if (Data.provision.wifi === undefined || Data.provision.system === undefined ||
+			Data.provision.api === undefined || Data.diag === null) {
+			return false;
+		}
+		var deviceImgDiv = $('#deviceImage');
+		var deviceNameDiv = $('#deviceName');
+		var deviceNetDiv = $('#deviceNetwork');
+		var footerInfoDiv = $('#footerInfo');
 
-        var deviceImgDiv = $('#deviceImage');
-        var deviceNameDiv = $('#deviceName');
-        var deviceNetDiv = $('#deviceNetwork');
-        var footerInfoDiv = $('#footerInfo');
-
-        deviceNameDiv.textContent = Data.provision.system.netName;
-        deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+		deviceNameDiv.textContent = Data.provision.system.netName;
+		deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
 		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
 
-        if (Data.provision.api.hwVer == 3)
-        	deviceImgDiv.className = "spk3";
+		if (Data.provision.api.hwVer == 3)
+			deviceImgDiv.className = "spk3";
 
-    	footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+		footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime +
+		 " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+
+		return true;
+	}
+
+	function getDeviceInfo()
+    {
+    	Data.provision = {};
+
+    	APIAsync.getProvision().then(
+		   function(o) {
+				Data.provision = o;
+			}).then(showDeviceInfo);
+
+		APIAsync.getApiVer().then(
+			function(o) {
+				Data.provision.api = o;
+			}).then(showDeviceInfo);
+
+    	APIAsync.getProvisionWifi().then(
+			function(o) {
+				Data.provision.wifi = o;
+			}).then(showDeviceInfo);
+
+		APIAsync.getProvisionCloud().then(
+			function(o) {
+				Data.provision.cloud = o;
+			}).then(showDeviceInfo);
+
+		APIAsync.getDiag().then(
+			function(o) {
+				Data.diag = o;
+			}).then(showDeviceInfo);
     }
 
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_about.showAbout = showAbout;
-	_about.showDeviceInfo = showDeviceInfo;
+	_about.getDeviceInfo = getDeviceInfo;
 
 } (window.ui.about = window.ui.about || {}));

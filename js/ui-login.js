@@ -19,6 +19,7 @@ window.ui = window.ui || {};
 
         if(accessToken && accessToken !== "") {
             API.setAccessToken(accessToken);
+            APIAsync.setAccessToken(accessToken);
         }
 
         var provision = API.getProvision();
@@ -31,7 +32,6 @@ window.ui = window.ui || {};
                 Storage.deleteItem("access_token");
                 location.reload();
             }
-
 
             return callback();
         }

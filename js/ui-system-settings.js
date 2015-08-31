@@ -135,7 +135,7 @@ window.ui = window.ui || {};
 		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
 		systemSettingsView.DeviceNameSet.onclick = function() {
 			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
-			window.ui.about.showDeviceInfo(); //refresh
+			window.ui.about.getDeviceInfo(); //refresh
 		};
 		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
 		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
@@ -293,6 +293,6 @@ window.ui = window.ui || {};
 	//
 	//
 	_system.showSettings = showSettings;
-	_system.systemSettingsView = systemSettingsView;
+	//_system.systemSettingsView = systemSettingsView;
 
 } (window.ui.system = window.ui.system || {}));
