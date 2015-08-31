@@ -94,8 +94,6 @@ window.ui = window.ui || {};
 
 	function getDeviceInfo()
     {
-    	Data.provision = {};
-
     	APIAsync.getProvision().then(
 		   function(o) {
 				Data.provision = o;

@@ -86,8 +86,6 @@ window.ui = window.ui || {};
 			startElem.onclick = onStart;
 			editElem.onclick = function() { showProgramSettings(this.data); };
 
-			console.log("%o", p.wateringTimes);
-
 			infoElem.innerHTML = programTypeToText(p);
 
 			/* Show small zones circles */
@@ -98,7 +96,6 @@ window.ui = window.ui || {};
 					var div = addTag(zonesElem, 'div');
 					div.className = "zoneCircle";
 					div.innerHTML = p.wateringTimes[zi].id;
-					console.log("Added zone circle %d", p.wateringTimes[zi].id)
 				}
 			}
 			programListDiv.appendChild(template);
