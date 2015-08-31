@@ -108,7 +108,7 @@ b, strong {
 }
 
 .main-menu {
-    float:left;
+    float:right;
 }
 
 #zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
@@ -487,7 +487,7 @@ input.typeNumber, input.typeTime {
     border: 1px solid #eee;
     padding: 5px 0 5px 5px;
     font-size: 16px;
-    width: 60px;
+    width: 58px;
     height: 36px;
 }
 input.typeTime {
