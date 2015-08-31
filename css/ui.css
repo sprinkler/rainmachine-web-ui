@@ -106,6 +106,11 @@ h1.title {
 b, strong {
       font-weight: 700;
 }
+
+.main-menu {
+    float:left;
+}
+
 #zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
     display: none;
 }
