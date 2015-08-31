@@ -188,7 +188,7 @@
 										            <span>Allow extra watering</span>
 									        	</div>
 									        	<div class="bottom">
-									            	<button id="restrictionsHotDaysSet" class="button label-blue absolute right">Set</button>
+									            	<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -210,7 +210,7 @@
 														</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionFreezeSet" class="button label-blue absolute right">Set</button>
+									            	<button id="restrictionFreezeSet" class="button label-blue absolute center right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -285,7 +285,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionsMonthsSet" class="button label-blue absolute right">Set</button>
+									            	<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Set</button>
 									            </div>
 									        </div>
 									    </td>
@@ -335,7 +335,7 @@
 													</div>
 												</div>
 												<div class="bottom">
-									            	<button id="restrictionWeekDaysSet" class="button label-blue absolute right">Set</button>
+									            	<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Set</button>
 									        	</div>
 									        </div>
 									    </td>
@@ -414,7 +414,7 @@
 									            <div class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
 									            <input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
-													<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">80</output>
+													<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;margin-bottom:60px;clear:both;font-size:64px;text-align:center;color:#39c;">80</output>
 													<script>
 													function outputUpdateRain(rainsensitivity) {
 													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
@@ -422,7 +422,7 @@
 													</script>
 													<div class="absolute">
 										            <button id="rainSensitivitySave" class="button label-blue center right">Save</button>
-										            <button id="rainSensitivityDefault" class="button label-grey center right" value="80">Default</button>
+										            <button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right: 10px;">Default</button>
 										        	</div>
 									        </div>
 									    </td>
@@ -432,7 +432,7 @@
 									            <div class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
 									            <input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
-													<output for="windSensitivity" id="outputWindSensitivity" style="display:block;font-size:64px;text-align:center;color:#39c;">50</output>
+													<output for="windSensitivity" id="outputWindSensitivity" style="display:block;margin-bottom:60px;font-size:64px;text-align:center;color:#39c;">50</output>
 													<script>
 													function outputUpdateWind(windsensitivity) {
 													document.querySelector('#outputWindSensitivity').value = windsensitivity;
@@ -441,7 +441,7 @@
 
 									            <div class="absolute">
 										            <button id="windSensitivitySave" class="button label-blue center right">Save</button>
-										            <button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
+										            <button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right: 10px;">Default</button>
 									            </div>
 									        </div>
 	        							</td>
@@ -832,7 +832,7 @@
 									<tr>
 								  		<td class="middle">
 											<span class="start" id="aboutDiagStatus"></span>
-								  			<button id="aboutDiagSend" class="button label-blue" style="width:160px;text-align:left;">Send Diagnostics</button>
+								  			<button id="aboutDiagSend" class="button label-blue center" style="width:160px;">Send Diagnostics</button>
 								  			<button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button>
 								  		</td>
 									</tr>
@@ -1163,7 +1163,6 @@
 
 		<!-- Template for Hourly Restriction (Start)-->
 		<div id="restriction-hourly-template" class="listItemSettingsRestrictions">
-				<button rm-id="restriction-hourly-delete" class="restriction right">Delete</button>
 				<div rm-id="restriction-hourly-name" class="bold"></div>
 				<span class="separator"></span>
 				<strong>Restriction Hours: </strong>
@@ -1171,6 +1170,7 @@
 				<div class="clear30"></div>
 				<strong>Weekdays:</strong>
 				<div rm-id="restriction-hourly-weekdays"></div>
+				<button rm-id="restriction-hourly-delete" class="button label-red center right" style="margin-top:25px;">Delete</button>
 		</div>
 		<!-- Template for Hourly Restriction (End)-->
 	</div>

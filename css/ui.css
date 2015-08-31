@@ -925,6 +925,11 @@ td.right, .right {
       font-size: 1.1em;
       color: #646464;
       text-transform: uppercase;
+      -webkit-transition: background-color 500ms linear;
+      -moz-transition: background-color 500ms linear;
+      -o-transition: background-color 500ms linear;
+      -ms-transition: background-color 500ms linear;
+      transition: background-color 500ms linear;
     }
     
     .button > paper-ripple {
@@ -979,7 +984,9 @@ td.right, .right {
       bottom:10;
       right:10;
     }
-    
+    .button:active, .button:focus {
+      background-color: #eee;
+    }
     /* Icon Button */
     .icon-button {
       position: relative;
@@ -1035,3 +1042,6 @@ td.right, .right {
     .label-red {
       color: #d23f31; 
     }
+*:focus {
+    outline: none;
+}
