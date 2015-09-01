@@ -25,7 +25,7 @@ window.ui = window.ui || {};
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
 		$("#aboutDiagViewLog").onclick = function() { showLog(); };
 
-		APIAsync.checkUpdate().then(APIAsync.getUpdate().then(function(o) { showUpdateStatus(o);}))
+		APIAsync.checkUpdate().then(setTimeout(function(){ APIAsync.getUpdate().then(function(o) { showUpdateStatus(o);})}, 1000));
 		APIAsync.getDiagUpload().then(function(o) { showDiagUploadStatus(o);});
 	}
 
@@ -94,8 +94,6 @@ window.ui = window.ui || {};
 
 	function getDeviceInfo()
     {
-    	Data.provision = {};
-
     	APIAsync.getProvision().then(
 		   function(o) {
 				Data.provision = o;

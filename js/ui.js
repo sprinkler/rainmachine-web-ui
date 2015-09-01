@@ -171,6 +171,12 @@ function uiStart()
 	$('#dashboard0').setAttribute("selected", true);
 	$('#settings0').setAttribute("selected", true);
 
+
+	$("#logoutBtn").onclick = function() {
+		Storage.deleteItem("access_token");
+		location.reload();
+	}
+
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.getDeviceInfo();
