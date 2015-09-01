@@ -322,7 +322,7 @@ _API.prototype.getProgramsNextRun = function()
 	return this.get(url, null);
 }
 
-this.setProgram = function(id, programProperties)
+_API.prototype.setProgram = function(id, programProperties)
 {
 	var url = this.URL.program + "/" + id;
 	var data = programProperties;
