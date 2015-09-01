@@ -33,6 +33,7 @@
 			<div><input type="password" id="loginPassword" placeholder="Password"/></div>
 			<div><input type="checkbox" id="loginRememberMe" class="middle"/> <span>Remember me</span></div>
 			<div class="error" id="loginError" style="display:none;"></div>
+			<br>
 			<button id="loginButton" class="button blue center right">Login</button>
 		</div>
 	</div>
@@ -77,12 +78,14 @@
 				<div id="dummy">
 					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
-				<div id="pageLoadSpinner" class="full center pageLoading ">!</div>
-				<div id="dashboard" class="dashboard" style="display: none;">
-					<div id="waterNeedChartContainer" class="charts"></div>
-					<div id="temperatureChartContainer" class="charts"></div>
-					<div id="qpfChartContainer" class="charts"></div>
-				</div>
+				
+					<div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div>
+					<div id="dashboard" class="dashboard" style="display: none;">
+						<div id="waterNeedChartContainer" class="charts"></div>
+						<div id="temperatureChartContainer" class="charts"></div>
+						<div id="qpfChartContainer" class="charts"></div>
+					</div>
+
 
 				<div id="zones">
 					<div class="settingsBlockZones center">

@@ -7,7 +7,7 @@ body.login {
     overflow: hidden;
 }
 
-.loginContainer {
+.loginContainer  {
     display: none;
     z-index: 9999999;
     position: fixed;
@@ -15,16 +15,20 @@ body.login {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.9);
 }
-
+#pageLoadSpinner {
+  position: fixed;
+  color:#555;
+  font-size: 14px;
+}
 .loginContainer .loginInnerContainer {
     background-color: #f7f7f7;
     padding: 25px;
     border-radius: 5px;
     width: 350px;
-    height: 200px;
-    margin: 100px auto;
+    height: 210px;
+    margin: 150px auto;
 }
 
 .loginInnerContainer > div {
@@ -38,6 +42,48 @@ body.login {
     height: 32px;
     border: 1px solid #eee;
     padding: 10px 10px;
+}
+
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(51, 153, 204, 0.1);
+  border-right: 1.1em solid rgba(51, 153, 204, 0.1);
+  border-bottom: 1.1em solid rgba(51, 153, 204, 0.1);
+  border-left: 1.1em solid #3399cc;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 
@@ -102,6 +148,7 @@ h1.title {
     color: #a94442;
     background-color: #f2dede;
     border: 1px solid #ebccd1;
+    padding:5px;
 }
 b, strong {
       font-weight: 700;
@@ -925,11 +972,6 @@ td.right, .right {
       font-size: 1.1em;
       color: #646464;
       text-transform: uppercase;
-      -webkit-transition: background-color 500ms linear;
-      -moz-transition: background-color 500ms linear;
-      -o-transition: background-color 500ms linear;
-      -ms-transition: background-color 500ms linear;
-      transition: background-color 500ms linear;
     }
     
     .button > paper-ripple {
@@ -985,8 +1027,13 @@ td.right, .right {
       right:10;
     }
     .button:active, .button:focus {
-      background-color: #eee;
+      animation: flash 1s ease-in;
     }
+      @keyframes flash { 
+      0%, 50%, 100% {opacity: 1;background-color: #eee;} 
+      25%, 75% {opacity: 0;} 
+    } 
+
     /* Icon Button */
     .icon-button {
       position: relative;
