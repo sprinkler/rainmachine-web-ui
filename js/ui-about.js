@@ -97,27 +97,32 @@ window.ui = window.ui || {};
     	APIAsync.getProvision().then(
 		   function(o) {
 				Data.provision = o;
-			}).then(showDeviceInfo);
+				showDeviceInfo();
+			});
 
 		APIAsync.getApiVer().then(
 			function(o) {
 				Data.provision.api = o;
-			}).then(showDeviceInfo);
+				showDeviceInfo();
+			});
 
     	APIAsync.getProvisionWifi().then(
 			function(o) {
 				Data.provision.wifi = o;
-			}).then(showDeviceInfo);
+				showDeviceInfo();
+			});
 
 		APIAsync.getProvisionCloud().then(
 			function(o) {
 				Data.provision.cloud = o;
-			}).then(showDeviceInfo);
+				showDeviceInfo();
+			});
 
 		APIAsync.getDiag().then(
 			function(o) {
 				Data.diag = o;
-			}).then(showDeviceInfo);
+				showDeviceInfo();
+			});
     }
 
 	//--------------------------------------------------------------------------------------------
