@@ -362,12 +362,12 @@ window.ui = window.ui || {};
         if(uiElems.frequencyDailyElem.checked) {
             program.frequency = {
                 type: FrequencyType.Daily,
-                param: 0
+                param: "0"
             };
         } else if(uiElems.frequencyEveryElem.checked) {
             program.frequency = {
                 type: FrequencyType.EveryN,
-                param: parseInt(uiElems.frequencyEveryParamElem.value) || 0
+                param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
             };
         } else if(uiElems.frequencyWeekdaysElem.checked) {
             program.frequency = {
@@ -379,12 +379,12 @@ window.ui = window.ui || {};
         } else if(uiElems.frequencyOddElem.checked) {
             program.frequency = {
                 type: FrequencyType.OddEven,
-                param: FrequencyParam.Odd
+                param: FrequencyParam.Odd.toString()
             };
         } else if(uiElems.frequencyEvenElem.checked) {
             program.frequency = {
                 type: FrequencyType.OddEven,
-                param: FrequencyParam.Even
+                param: FrequencyParam.Even.toString()
             };
         }
 
