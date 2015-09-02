@@ -96,7 +96,8 @@ window.ui = window.ui || {};
     {
     	APIAsync.getProvision().then(
 		   function(o) {
-				Data.provision = o;
+				Data.provision.system = o.system;
+				Data.provision.location = o.location;
 				showDeviceInfo();
 			});
 
