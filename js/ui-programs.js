@@ -300,9 +300,11 @@ window.ui = window.ui || {};
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
 
+        var zonesProperties = API.getZonesProperties();
+
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
 
-            if(!Data.provision.system.useMasterValve || index != 0) {
+            if((!Data.provision.system.useMasterValve || index != 0) && (zonesProperties.zones[index].active)) {
                 var zoneId = index + 1;
                 var zoneTemplate = loadTemplate("program-settings-zone-template");
 
