@@ -301,25 +301,28 @@ window.ui = window.ui || {};
         templateInfo.zoneElems = {};
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
-            var zoneId = index + 1;
-            var zoneTemplate = loadTemplate("program-settings-zone-template");
 
-            var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
-            var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
-            var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
-            var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
+            if(!Data.provision.system.useMasterValve || index != 0) {
+                var zoneId = index + 1;
+                var zoneTemplate = loadTemplate("program-settings-zone-template");
 
-            zoneNameElem.innerText = "Zone " + zoneId;
-            zoneTemplate.setAttribute("rm-zone-id", zoneId);
+                var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
+                var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
+                var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
+                var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
 
-            templateInfo.zoneElems[zoneId] = {
-                templateElem: zoneTemplate,
-                nameElem: zoneNameElem,
-                durationMinElem: zoneDurationMinElem,
-                durationSecElem: zoneDurationSecElem,
-                activeElem: zoneActiveElem
-            };
-            templateInfo.zoneTableElem.appendChild(zoneTemplate);
+                zoneNameElem.innerText = "Zone " + zoneId;
+                zoneTemplate.setAttribute("rm-zone-id", zoneId);
+
+                templateInfo.zoneElems[zoneId] = {
+                    templateElem: zoneTemplate,
+                    nameElem: zoneNameElem,
+                    durationMinElem: zoneDurationMinElem,
+                    durationSecElem: zoneDurationSecElem,
+                    activeElem: zoneActiveElem
+                };
+                templateInfo.zoneTableElem.appendChild(zoneTemplate);
+            }
         }
 
         return templateInfo;
