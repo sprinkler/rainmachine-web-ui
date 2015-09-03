@@ -399,15 +399,20 @@
 									    <th colspan="5"><h1 class="title">Weather</h1></th>
 									  </tr>
 									  <tr>
-									    <td class="listItemSettings">
+									    <td class="listItemSettings relative">
+									    	<div>
 									    		<div>
-									    		<div class="bold right">Enabled</div>
-									    		<div class="bold left w250">Weather Source</div>
-												<div class="bold">Last Run</div>
+									    			<div class="bold left w250">Weather Source</div>
+													<div class="bold">Last Run</div>
 												</div>
-												<div  id="weatherDataSourcesList"	>
+												<div  id="weatherDataSourcesList">
 													<!--- weather-sources-template -->
 												</div>
+												<span class="separator"></span>
+												<div class="absolute">
+										            <button id="weatherSourcesSave" class="button label-blue center right">Save</button>
+										        </div>
+										    </div>
 
 									    </td>
 									    <td class="gap">&nbsp;</td>
@@ -449,6 +454,9 @@
 	        							</td>
 									  </tr>
 									</table>
+									<br>
+									<span class="restriction center">Warning: The RainMachine device weather settings are meant for advanced users. Changing this settings will affect all weather data results.</span>
+									<br>
 								</div>
 							</div>
 							<div id="weatherWaterSaveDays">
@@ -919,7 +927,8 @@
 		<div id="program-entry" class="programActive">
 			<span rm-id="program-status">!</span>
 			<div rm-id="program-name" class="cardTitle"></div>
-			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>		
+			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>
+			<br><span class="subtitle" style="display:block;margin-bottom:-10px;">Zones:</span>
 		    <div rm-id="program-zones-bullets" class="zones-bullets"></div>
 		    <button rm-id="program-start" class="button label-blue right center">Start</button>
 		    <button rm-id="program-edit" class="button label-grey right center">Edit</button>
@@ -1132,7 +1141,7 @@
 		<div id="weather-sources-template">
 			<span class="separator"></span>
 			<div>
-				<div class="right"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+				<div class="right" style="margin-right:30px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
 				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
 			</div>
