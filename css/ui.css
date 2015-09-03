@@ -315,7 +315,7 @@ h1 {
     font-family: 'RainMachine';
     font-size: 80px;
     text-align: center;
-    margin-top: 45px;
+    margin-top: 55px;
     color: #39c;
     padding: 1px;
     background-color: #fff;
@@ -361,6 +361,7 @@ h1 {
 }
 .restriction {
     color: #FF0000;
+    font-size: 11px;
 }
 .restrictionList {
     display: inline;
@@ -416,6 +417,9 @@ input.typeText {
     padding: 15px;
     font-size: 16px;
     width: 100%;
+}
+#systemSettingsLocationLat, #systemSettingsLocationLon, #systemSettingsLocationElev {
+  width:150px;
 }
 input[type="checkbox"] {
     padding-left:5px;
@@ -626,7 +630,7 @@ select {
     text-align: left;
     margin-bottom: 10px;
     margin-right: 20px;
-    min-height: 178px;
+    min-height: 197px;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.14);
 }
 .listItemSettings, .listItemSettingsRestrictions {
