@@ -102,8 +102,8 @@ window.ui = window.ui || {};
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 		systemSettingsView.Email.value = Data.provision.cloud.email;
 
-		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
-		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
+		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
+		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
 		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
@@ -205,33 +205,11 @@ window.ui = window.ui || {};
 
 	function systemSettingsChangeMasterValve()
 	{
-		var valveEnabled = systemSettingsView.enableMasterValveInput.checked;
-
-		if(valveEnabled != Data.provision.system.useMasterValve){
-			var valveData = { useMasterValve: valveEnabled };
-			API.setProvision(valveData, null);
-			Data.provision.system.useMasterValve = valveEnabled;
-		}
-
+		var enabled = systemSettingsView.enableMasterValveInput.checked;
 		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
-		var a = parseInt(systemSettingsView.MasterValveAfter.value) * 60;
+        var a =  parseInt(systemSettingsView.MasterValveAfter.value) * 60;
 
-		var data = {
-			masterValveBefore: b,
-			masterValveAfter: a
-		};
-
-		var r = API.setProvision(data, null);
-		console.log(r);
-
-		if (r === undefined || !r ||  r.statusCode != 0)
-		{
-			console.log("Can't set Master Valve");
-			return;
-		}
-
-		Data.provision.system.masterValveBefore = b;
-		Data.provision.system.masterValveAfter = a;
+		return Util.saveMasterValve(enabled, b, a);
 	}
 
 	function systemSettingsChangeUnits()
