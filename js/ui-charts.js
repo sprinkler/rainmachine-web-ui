@@ -548,7 +548,14 @@ function generateWaterNeedChart () {
 		chart: {
 			type: 'column',
 			renderTo: 'waterNeedChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					if (chartsWeeklyPeriod === 0) {
+						highlightCurrentDayInChart(this);
+					};
+				}
+			}
 		},
 		series: [{
 			data: chartsData.waterNeedReal.currentSeries,
@@ -667,7 +674,14 @@ function generateTemperatureChart () {
 	var temperatureChartOptions = {
 		chart: {
 			renderTo: 'temperatureChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					if (chartsWeeklyPeriod === 0) {
+						highlightCurrentDayInChart(this);
+					};
+				}
+			}
 		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
@@ -727,7 +741,14 @@ function generateQPFChart () {
 	var qpfChartOptions = {
 		chart: {
 			renderTo: 'qpfChartContainer',
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					if (chartsWeeklyPeriod === 0) {
+						highlightCurrentDayInChart(this);
+					};
+				}
+			}
 		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
@@ -795,7 +816,14 @@ function generateProgramChart (programUid, programIndex) {
 	var programChartOptions = {
 		chart: {
 			renderTo: 'programChartContainer-' + programIndex,
-			spacingTop: 20
+			spacingTop: 20,
+			events: {
+				redraw: function () {
+					if (chartsWeeklyPeriod === 0) {
+                    	highlightCurrentDayInChart(this);
+                    };
+				}
+			}
 		},
 		series: [{
 			data: chartsData.programs[programIndex].currentSeries,
@@ -946,6 +974,12 @@ function loadMonthlyPeriod (previous) {
  * @param chart
  */
 function highlightCurrentDayInChart(chart) {
+
+	var oldHighlighter = $(chart.container, '[rm-id="dayHighlight"]');
+	if (oldHighlighter) {
+		oldHighlighter.parentNode.removeChild(oldHighlighter);
+	}
+
 	var highlighter = null,
 		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
 		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.5,
@@ -962,7 +996,8 @@ function highlightCurrentDayInChart(chart) {
 		// add properties to the highlighter
 		highlighter.attr({
 			fill: 'gray',
-			opacity: 0.2
+			opacity: 0.2,
+			'rm-id': 'dayHighlight'
 		});
 
 		// add the highlighter to the chart stage
