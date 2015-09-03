@@ -53,8 +53,9 @@ window.ui = window.ui || {};
 				template.className += " master";
 				makeHidden(timersElem);
 				nameElem.textContent = "Master Valve";
-				typeElem.textContent = "Before: " + Data.provision.system.masterValveBefore +
-										" sec After: " + Data.provision.system.masterValveAfter + " sec";
+				var b = Data.provision.system.masterValveBefore/60;
+				var a = Data.provision.system.masterValveAfter/60;
+				typeElem.textContent = "Before: " + b + " min After: " + a + " min";
 			}
 			else
 			{
@@ -104,14 +105,22 @@ window.ui = window.ui || {};
 		var zoneHistoricalElem = $(zoneTemplate, '[rm-id="zone-historical-averages"]');
 
 
-		if (zone.uid != 1){
-			makeHidden(zoneMasterValveContainerElem);
-			makeHidden(zoneMasterTimerContainerElem);
-		}
-		else{
+		if (zone.uid == 1) {
+			zoneMasterValveElem.checked = Data.provision.system.useMasterValve;
 
+			var masterValveBeforeElem = $(zoneTemplate, '[rm-id="zone-master-valve-before"]');
+            var masterValveAfterElem = $(zoneTemplate, '[rm-id="zone-master-valve-after"]');
+
+            var b = Data.provision.system.masterValveBefore/60;
+            var a = Data.provision.system.masterValveAfter/60;
+
+            masterValveBeforeElem.value = b;
+            masterValveAfterElem.value = a;
+
+		} else {
+			makeHidden(zoneMasterValveContainerElem);
+        	makeHidden(zoneMasterTimerContainerElem);
 		}
-			zoneMasterValveElem.checked = zone.master;
 
 		zoneTemplate.id = "zone-settings-" + zone.uid;
 		zoneNameElem.value = zone.name;
@@ -275,55 +284,21 @@ window.ui = window.ui || {};
 		if (uid == 1)
 		{
 			zoneProperties.master = zoneMasterValveElem.checked;
-			if (zoneProperties.master != Data.provision.system.useMasterValve) {
-				shouldSetMasterValve = true;
-			}
 
-			saveMasterValveTimer();
+			var masterValveBeforeElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before"]');
+            var masterValveAfterElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after"]');
+
+            var b = parseInt(masterValveBeforeElem.value) * 60;
+            var a = parseInt(masterValveAfterElem.value) * 60;
+
+     		Util.saveMasterValve(zoneProperties.master, b, a);
 		}
 
 		console.log("Saving zone %d with properties: %o", uid, zoneProperties);
 		API.setZonesProperties(uid, zoneProperties, null);
 
-		if (shouldSetMasterValve)
-		{
-			var data = { useMasterValve: zoneProperties.master };
-			API.setProvision(data, null);
-			Data.provision.system.useMasterValve = zoneProperties.master;
-		}
-
 		closeZoneSettings();
 		showZones();
-	}
-
-	function saveMasterValveTimer()
-	{
-
-		var masterValveBeforeElem = $("#zoneSettingMasterValveBefore");
-		var masterValveAfterElem = $("#zoneSettingMasterValveAfter");
-
-		var b = parseInt(masterValveBeforeElem.value) * 60;
-		var a = parseInt(masterValveAfterElem.value) * 60;
-
-		if(!isNaN(b) && !isNaN(a)) {
-			var data = {
-				masterValveBefore: b,
-				masterValveAfter: a
-			};
-
-			var r = API.setProvision(data, null);
-			console.log(r);
-
-			if (r === undefined || !r ||  r.statusCode != 0)
-			{
-				console.log("Can't set Master Valve");
-				return;
-			}
-
-			Data.provision.system.masterValveBefore = b;
-			Data.provision.system.masterValveAfter = a;
-		}
-
 	}
 
 	function zoneTypeToString(type)

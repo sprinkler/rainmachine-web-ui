@@ -129,4 +129,40 @@ Util.appDateToFields = function(appDateStr)
 	return fields;
 }
 
+
+Util.saveMasterValve = function(enabled, before, after)
+{
+	var data = {};
+
+	if (enabled != Data.provision.system.useMasterValve) {
+		data.useMasterValve = enabled;
+	}
+
+	if (!isNaN(before)) {
+		data.masterValveBefore = before;
+	}
+
+	if (!isNaN(after)) {
+		data.masterValveAfter = after;
+	}
+
+	if (Object.keys(data).length == 0) {
+		console.error("saveMasterValve: no changes needed");
+		return false;
+	}
+
+	var r = API.setProvision(data, null);
+	if (r === undefined || !r ||  r.statusCode != 0)
+	{
+		console.error("saveMasterValve: API call error or invalid values provided %o !", data);
+		return false;
+	}
+
+	Data.provision.system.useMasterValve = enabled;
+	Data.provision.system.masterValveBefore = before;
+	Data.provision.system.masterValveAfter = after;
+
+	return true;
+}
+
 return Util; } ( Util || {}));
