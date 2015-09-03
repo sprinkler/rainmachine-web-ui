@@ -914,7 +914,7 @@ td.right, .right {
 
 /* MEDIA QUERIES */
 
-@media screen and (max-width: 768px)
+@media screen and (max-width: 1024px)
 {
     .pageLeftMenu {
         float : left;
@@ -926,36 +926,10 @@ td.right, .right {
         clear : none;
         width: 100%;
         background-color: #f9f9f9;
-    }
-
-    #topMenu ul {
-        float:none;
-        display: block;
-        margin: 0 auto;
-        padding: 0;
-        list-style-type: none;
-        text-align: center;
     }
 
     #name {
         display: none;
-    }
-
-}
-
-@media screen and (max-width: 480px)
-{
-    .pageLeftMenu {
-        float : left;
-        clear : none;
-        width: 100%;
-    }
-
-    .pageContent {
-        float : left;
-        clear : none;
-        width: 100%;
-        background-color: #f9f9f9;
     }
 }
 
