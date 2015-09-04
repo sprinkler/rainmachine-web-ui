@@ -125,7 +125,11 @@ function buildMenu() {
 	logoutButtonElem.onclick = function() {
 
 		Storage.deleteItem("access_token");
-		location.reload();
+		var host = window.location.hostname;
+		var port = parseInt(window.location.port);
+		var protocol = location.protocol;
+		var baseHostName = protocol + "//" + host + ( port > 0 ? ":" + port.toString() : "") + "/";
+		window.location.href = baseHostName;
 	}
 
 }
