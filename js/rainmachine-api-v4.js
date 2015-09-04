@@ -14,11 +14,12 @@ var host = window.location.hostname;
 //var port = "443";
 //var port = "18080";
 //var port = "8080";
-var port = window.location.port;
+var port = parseInt(window.location.port);
 //var port = "8888";
 
-var apiUrl = "https://" + host + ":" + port + "/api/4";
-//var apiUrl = "http://" + host + ":" + port + "/api/4";
+var protocol = location.protocol;
+
+var apiUrl = protocol + "//" + host + ( port > 0 ? ":" + port.toString() : "") + "/api/4";
 
 var token = null;
 
