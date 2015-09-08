@@ -10,15 +10,14 @@ window.ui = window.ui || {};
 	function showWeather()
 	{
 		//Weather Sources List
-		var parsers = API.getParsers();
+		Data.parsers = API.getParsers();
 		var weatherSourcesDiv = $('#weatherDataSourcesList');
+
 		clearTag(weatherDataSourcesList);
 
-		console.log("%o", parsers);
-
-		for (var i = 0; i < parsers.parsers.length; i++)
+		for (var i = 0; i < Data.parsers.parsers.length; i++)
 		{
-			var p = parsers.parsers[i];
+			var p = Data.parsers.parsers[i];
 
 			var template = loadTemplate("weather-sources-template");
 			var enabledElem = $(template, '[rm-id="weather-source-enable"]');
@@ -26,13 +25,18 @@ window.ui = window.ui || {};
 			var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
 			enabledElem.checked = p.enabled;
+			enabledElem.id = "weatherSourceStatus-" + p.uid;
 			enabledElem.value = p.uid;
-			enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
-			nameElem.textContent = p.name;
+
+			var lw = p.name.lastIndexOf(" ");
+			nameElem.textContent = p.name.substring(0, lw); //Don't show Parser word in weather parsers
 			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 
 			weatherSourcesDiv.appendChild(template);
 		}
+
+		var weatherSourcesSaveElem = $('#weatherSourcesSave');
+		weatherSourcesSaveElem.onclick = onWeatherSourceSave;
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -77,6 +81,27 @@ window.ui = window.ui || {};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+	}
+
+	function onWeatherSourceSave() {
+		var hasChanges = false;
+
+		for (var i = 0; i < Data.parsers.parsers.length; i++) {
+			var p = Data.parsers.parsers[i];
+			var enabledElem = $("#weatherSourceStatus-" + p.uid);
+
+			if (!enabledElem) continue;
+
+            if (enabledElem.checked != p.enabled) {
+            	console.log("Parser %s changed configuration from %s to %s", p.name, p.enabled, enabledElem.checked)
+            	API.setParserEnable(p.uid, enabledElem.checked);
+            	hasChanges = true;
+            }
+		}
+
+		if (hasChanges) {
+			showWeather();
+		}
 	}
 
 	function setWeatherSource(id, enabled)

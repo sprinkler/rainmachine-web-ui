@@ -174,7 +174,7 @@ function uiStart()
 
 	$("#logoutBtn").onclick = function() {
 		Storage.deleteItem("access_token");
-		location.reload();
+		Util.redirectHome(location);
 	}
 
 	ui.login.login(function() {
