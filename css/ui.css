@@ -895,6 +895,23 @@ td.right, .right {
   overflow: auto;
 }
 
+#weatherSource {
+  padding: 8px 0;
+  border-top: 0px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+#weatherSource:hover {
+  background-color: #ecf0f1;
+}
+#whiteEdit {
+  display: none;
+  color:#3399cc;
+  float: right;
+  margin-right: 20px;
+  text-transform: uppercase;
+}
+#weatherSource:hover #whiteEdit {display: block;}
+
 .dashboard {
   position: relative;
   width: 100%;

@@ -401,19 +401,19 @@
 									  <tr>
 									    <td class="listItemSettings relative">
 									    	<div>
-									    		<div>
+									    		<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
 									    			<div class="bold left w250">Weather Source</div>
 													<div class="bold">Last Run</div>
 												</div>
 												<div  id="weatherDataSourcesList">
 													<!--- weather-sources-template -->
 												</div>
-												<span class="separator"></span>
+												<br><br><br>
 												<div class="absolute">
 										            <button id="weatherSourcesSave" class="button label-blue center right">Save</button>
+										            <button id="weatherSourcesSave" class="button label-grey center right">Add New</button>
 										        </div>
 										    </div>
-
 									    </td>
 									    <td class="gap">&nbsp;</td>
 									    <td class="listItemSettings relative">
@@ -1139,11 +1139,11 @@
 
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
-			<span class="separator"></span>
-			<div>
-				<div class="right" style="margin-right:30px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+			<!-- <span class="separator"></span> -->
+			<div id="weatherSource">
+				<div class="right" style="margin-right:10px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
-				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
+				<div><span class="subtitle" rm-id="weather-source-lastrun"></span><div id="whiteEdit">Edit</div></div>
 			</div>
 
 		</div>
