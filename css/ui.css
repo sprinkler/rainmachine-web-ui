@@ -899,9 +899,14 @@ td.right, .right {
   padding: 8px 0;
   border-top: 0px solid #eee;
   border-bottom: 1px solid #eee;
+  background-image: url("../images/arrow_right.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  padding-right:10px;
 }
 #weatherSource:hover {
   background-color: #ecf0f1;
+  cursor: pointer;
 }
 #whiteEdit {
   display: none;
