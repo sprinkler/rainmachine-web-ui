@@ -416,6 +416,7 @@ window.ui = window.ui || {};
 
 		closeZoneSettings();
 		refreshZone(uid);
+		showZones();
 	}
 
 	function saveMasterValveTimer()
