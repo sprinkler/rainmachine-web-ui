@@ -185,48 +185,15 @@ function getChartData (pastDays) {
 		}
 	});
 
-	API.getDailyStats(null, true, function (r) {
+	API.getDailyStats(null, false, function (r) {
+
 		Data.dailyDetails = r;
-		var daily = Data.dailyDetails.DailyStatsDetails;
+		var daily = Data.dailyDetails.DailyStats;
 
 		for (dailyDetailsIndex = 0; dailyDetailsIndex < daily.length; dailyDetailsIndex++) {
-			var wnfTotalDayUserWater = 0,
-				wnfTotalDayScheduledWater = 0;
 
-			//programs for the day
-			for (programIndex = 0; programIndex < daily[dailyDetailsIndex].programs.length; programIndex++) {
-				currentProgram = daily[dailyDetailsIndex].programs[programIndex];
+			var wnfDailyWN = Math.ceil(daily[dailyDetailsIndex].percentage);
 
-				//zones for the programs
-				for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
-					wnfTotalDayUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
-					wnfTotalDayScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
-					//console.log('User: %d, Scheduled: %d', wnfTotalDayUserWater, wnfTotalDayScheduledWater);
-				}
-
-				var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
-
-				//Add program used water
-				//Skip Manual run programs (id 0)
-				if (currentProgram.id == 0)
-					continue;
-
-				// Is program active/still available in current programs list (might be an old deleted program)?
-				var existingProgram = getProgramById(currentProgram.id)
-				if (existingProgram === null || existingProgram.active == false)
-					continue;
-
-				// Program index not in our struct ?
-				if (currentProgram.id in chartsData.programsMap) {
-					currentProgramIndex = chartsData.programsMap[currentProgram.id];
-				} else {
-					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
-					chartsData.programsMap[currentProgram.id] = currentProgramIndex;
-				}
-				chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
-			}
-
-			var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
 			if (wnfDailyWN > chartsData.maxWN)
 				chartsData.maxWN = wnfDailyWN;
 
