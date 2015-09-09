@@ -497,7 +497,6 @@ window.ui = window.ui || {};
 	//
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
-        uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
     }
 	//--------------------------------------------------------------------------------------------
 	//
