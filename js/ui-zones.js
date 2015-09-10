@@ -243,6 +243,16 @@ window.ui = window.ui || {};
 		minutesElem.value = m;
 		secondsElem.value = s;
 
+
+		if(seconds != Data.provision.system.zoneDuration[uid - 1]) {
+			//disable inputs
+			minutesElem.setAttribute('disabled', "");
+			secondsElem.setAttribute('disabled', "");
+		}else {
+			minutesElem.removeAttribute('disabled');
+			secondsElem.removeAttribute('disabled');
+		}
+
 		if(uid == 1) {
 			if(Data.provision.system.useMasterValve) {
 				var masterTimerElem = $(zoneDiv, '[rm-id="zone-info"]');
