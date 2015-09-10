@@ -30,6 +30,7 @@ var zonesSubmenus = [
 ];
 
 var programsSubmenus = [
+		{ name: "Stop All",		func: window.ui.programs.stopAllWatering,		container: null }
 ];
 
 var loop = null;
