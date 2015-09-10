@@ -42,18 +42,13 @@ window.ui = window.ui || {};
                 remember: loginRememberMeElem.checked
             };
 
-            if(info.pwd != "") {
-                accessToken = API.auth(info.pwd, info.remember);
-                if(accessToken) {
-                    document.body.className = "";
-                    Storage.saveItem("access_token", accessToken);
-					API.setAccessToken(accessToken);
-					APIAsync.setAccessToken(accessToken);
-                    setTimeout(callback, 0);
-                }else {
-                    makeVisible(errorContainerElem);
-                    errorContainerElem.innerHTML = "Invalid password";
-                }
+            accessToken = API.auth(info.pwd, info.remember);
+            if(accessToken) {
+                document.body.className = "";
+                Storage.saveItem("access_token", accessToken);
+                API.setAccessToken(accessToken);
+                APIAsync.setAccessToken(accessToken);
+                setTimeout(callback, 0);
             }else {
                 makeVisible(errorContainerElem);
                 errorContainerElem.innerHTML = "Invalid password";
