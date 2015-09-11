@@ -92,7 +92,7 @@
 						<h1 class="title center">Zone list</h1>
 							<div id="zonesList" class="list left" style="display: inline"></div>
 							<!-- Zones Settings -->
-							<div id="zonesSettings" class="settings"></div>
+							<div id="zonesSettings"></div>
 					</div>
 				</div>
 
@@ -101,7 +101,7 @@
 						<h1 class="title center">List of available watering programs</h1>
 						<div id="programsList" class="list left"></div>
 						<!-- Program Settings -->
-						<div id="programsSettings" class="settings"></div>
+						<div id="programsSettings"></div>
 					</div>
 				</div>
 
@@ -400,7 +400,17 @@
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings relative">
-									    	<div>
+											<div id="weatherSourcesUpload" class="hidden programEdit">
+												<input type="text" id="weatherSourcesUploadFileName" placeholder="Choose a .py or .pyc file">
+												<br>
+												<input type="file" id="weatherSourcesUploadFile" class="button label-blue center right">
+												<br>
+												<button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
+												<button id="weatherSourcesUploadClose" class="button label-red center right">Close</button>
+												<br>
+												<div id="weatherSourcesUploadStatus">Status: idle</div>
+											</div>
+									    	<div id="weatherSourcesList">
 									    		<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
 									    			<div class="bold right" style="margin-right:40px;">Enabled</div>
 									    			<div class="bold left w250">Weather Source</div>
@@ -412,7 +422,7 @@
 												<br><br><br>
 												<div class="absolute">
 										            <button id="weatherSourcesSave" class="button label-blue center right">Save</button>
-										            <button id="weatherSourcesSave" class="button label-grey center right">Add New</button>
+										            <button id="weatherSourcesAdd" class="button label-grey center right">Add New</button>
 										        </div>
 										    </div>
 									    </td>

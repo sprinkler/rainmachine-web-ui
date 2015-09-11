@@ -176,4 +176,37 @@ Util.redirectHome = function(locationObj) {
 	}
 }
 
+
+Util.postUploadFile = function(files, status, urlPath) {
+	if(!files || files.length < 0) {
+		return;
+	}
+
+	var file = files[0];
+	var req = new XMLHttpRequest();
+
+	req.onprogress = function(e) { status.innerHTML = "Status: Uploading " + Math.round((e.loaded/e.total) * 100) + "%"; };
+	req.onloadend = function(e) { status.innerHTML = "Status: Uploading complete. Processing: " + req.responseText; };
+	req.onerror = function(e) { status.innerHTML = "Status: Upload error, aborted."; };
+
+	var reader = new FileReader();
+	reader.onprogress = function(e) { status.innerHTML = "Status: Reading file " + Math.round((e.loaded/e.total) * 100) + "%"; };
+	reader.onloadend = function() {
+		if(!reader.result) {
+			status.textContent = "Status: Error reading file";
+			return;
+		}
+		status.textContent = "Status: Uploading ";
+
+		var binary = new Uint8Array(reader.result);
+
+		req.open("POST", urlPath, false);
+		req.setRequestHeader("Content-Type", file.type);
+		req.setRequestHeader("Content-Disposition", "inline; filename=" + file.name)
+		req.send(binary);
+	};
+
+	status.textContent = "Status: Reading file";
+	reader.readAsArrayBuffer(file);
+}
 return Util; } ( Util || {}));
