@@ -316,6 +316,25 @@ window.ui = window.ui || {};
                 zoneNameElem.innerText = "Zone " + zoneId;
                 zoneTemplate.setAttribute("rm-zone-id", zoneId);
 
+                zoneDurationMinElem.onchange = function(){
+
+                    var currentZone = parseInt(this.parentElement.parentElement.parentElement.getAttribute("rm-zone-id"));
+                    if(this.value != "") {
+                        uiElems.zoneElems[currentZone].activeElem.checked = true;
+                    }else {
+                        uiElems.zoneElems[currentZone].activeElem.checked = false;
+                    }
+                };
+
+                zoneDurationSecElem.onchange = function() {
+                    var currentZone = parseInt(this.parentElement.parentElement.parentElement.getAttribute("rm-zone-id"));
+                    if(this.value != "") {
+                        uiElems.zoneElems[currentZone].activeElem.checked = true;
+                    }else {
+                        uiElems.zoneElems[currentZone].activeElem.checked = false;
+                    }
+                };
+
                 templateInfo.zoneElems[zoneId] = {
                     templateElem: zoneTemplate,
                     nameElem: zoneNameElem,
