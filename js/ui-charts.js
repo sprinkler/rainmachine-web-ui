@@ -212,9 +212,9 @@ function processChartData() {
 
 		//simulated machine programs for the day
 		for (programIndex = 0; programIndex < daily[dailyDetailsIndex].simulatedPrograms.length; programIndex++) {
-			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
+			currentProgram = daily[dailyDetailsIndex].simulatedPrograms[programIndex];
 
-			//zones for the real user programs, we only need day stats not per-program stats
+			//zones for the simulated programs, we only need day stats not per-program stats
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				wnfTotalDaySimulatedUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
 				wnfTotalDaySimulatedScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
