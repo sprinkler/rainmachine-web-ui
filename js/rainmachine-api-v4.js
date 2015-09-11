@@ -50,13 +50,11 @@ function rest(type, apiCall, data, callback, async)
 
 		r.open(type, url, async);
 
-		if (type === "POST")
-		{
-			r.setRequestHeader("Content-type","application/json");
+		if (type === "POST") {
+			r.setRequestHeader("Content-Type","application/json");
 			r.send(JSON.stringify(data));
 		}
-		else
-		{
+		else {
 			r.send();
 		}
 
