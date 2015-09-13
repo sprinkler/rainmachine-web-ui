@@ -400,15 +400,14 @@
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings relative">
-											<div id="weatherSourcesUpload" class="hidden programEdit">
-												<input type="text" id="weatherSourcesUploadFileName" placeholder="Choose a .py or .pyc file">
+											<div id="weatherSourcesUpload" class="hidden">
+												<input type="file" id="weatherSourcesUploadFile">
 												<br>
-												<input type="file" id="weatherSourcesUploadFile" class="button label-blue center right">
-												<br>
-												<button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
-												<button id="weatherSourcesUploadClose" class="button label-red center right">Close</button>
-												<br>
-												<div id="weatherSourcesUploadStatus">Status: idle</div>
+                                                <div id="weatherSourcesUploadStatus">Please select a *.py or *.pyc file</div>
+                                                <div class="absolute">
+												    <button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
+												    <button id="weatherSourcesUploadClose" class="button label-red center right">Close</button>
+                                                </div>
 											</div>
 									    	<div id="weatherSourcesList">
 									    		<div style="border-bottom:1px solid #eee;padding-bottom:5px;">

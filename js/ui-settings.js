@@ -123,7 +123,6 @@ window.ui = window.ui || {};
 
 		uiElems.weatherSources.Add = $('#weatherSourcesAdd');
 		uiElems.weatherSources.Upload.Close = $('#weatherSourcesUploadClose');
-		uiElems.weatherSources.Upload.FileName = $('#weatherSourcesUploadFileName');
 		uiElems.weatherSources.Upload.File = $('#weatherSourcesUploadFile');
 		uiElems.weatherSources.Upload.Upload = $('#weatherSourcesUploadUpload');
 		uiElems.weatherSources.Upload.Status = $('#weatherSourcesUploadStatus');
@@ -136,13 +135,27 @@ window.ui = window.ui || {};
         uiElems.weatherSources.Upload.Close.onclick = function() {
         	makeVisible("#weatherSourcesList");
         	makeHidden("#weatherSourcesUpload");
-        	uiElems.weatherSources.Upload.Status.textContent = "Idle";
+        	uiElems.weatherSources.Upload.Status.textContent = "Please select a *.py or *.pyc file";
         }
 
 		uiElems.weatherSources.Upload.Upload.onclick = function() {
-			console.log(uiElems.weatherSources.Upload.File.files);
-			console.log($('#weatherSourcesUploadFile'));
-			Util.postUploadFile(uiElems.weatherSources.Upload.File.files, uiElems.weatherSources.Upload.Status, "dev/import/parser");
+			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+		}
+	}
+
+	function onParserLoad(status) {
+		var o = uiElems.weatherSources.Upload.Status;
+
+		if (status.message) {
+			o.textContent = status.message;
+		}
+
+		if (status.data && status.file) {
+			o.textContent = "Uploading file " + status.file.name;
+			var ret = API.uploadParser(status.file.name, status.file.type, status.data);
+			if (ret === null) {
+				o.textContent = "Error uploading";
+			}
 		}
 	}
 
