@@ -49,8 +49,8 @@ body.login {
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border: 1.1em solid #3399c9;
-  border-left: #3399cc;
+  border: 1.1em solid rgba(207, 239, 255, 0.4);
+  border-left: 1.1em solid #3399cc;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
