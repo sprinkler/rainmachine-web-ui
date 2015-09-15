@@ -58,7 +58,7 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 
 		if (extraHeaders) {
 			while (header = extraHeaders.shift()) {
-				r.setRequestHeader(header.name, header.value);
+				r.setRequestHeader(header[0], header[1]);
 			}
 		}
 
@@ -615,3 +615,4 @@ _API.prototype.uploadParser = function(fileName, fileType, binData)
 
 	return this.uploadFile(url, binData, extraHeaders);
 }
+

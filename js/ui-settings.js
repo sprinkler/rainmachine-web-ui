@@ -154,7 +154,9 @@ window.ui = window.ui || {};
 			o.textContent = "Uploading file " + status.file.name;
 			var ret = API.uploadParser(status.file.name, status.file.type, status.data);
 			if (ret === null) {
-				o.textContent = "Error uploading";
+				o.textContent = "Error uploading" + status.file.name;
+			} else {
+				o.textContent = "Successful uploaded " + status.file.name
 			}
 		}
 	}
