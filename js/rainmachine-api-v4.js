@@ -27,7 +27,7 @@ var apiUrl = "https://" + host + ":" + port + "/api/4";
 var token = null;
 var async = async;
 
-function rest(type, apiCall, data)
+function rest(type, apiCall, data, isBinary, extraHeaders)
 {
 	var url;
 	var a = new Async();
@@ -54,18 +54,23 @@ function rest(type, apiCall, data)
 	};
 
 	try {
-
 		r.open(type, url, async);
 
-		if (type === "POST")
-		{
-			r.setRequestHeader("Content-type","text/plain");
-			//r.setRequestHeader("Content-type", "application/json");
-			//r.setRequestHeader('Access-Control-Allow-Origin', '*');
-			r.send(JSON.stringify(data));
+		if (extraHeaders) {
+			while (header = extraHeaders.shift()) {
+				r.setRequestHeader(header[0], header[1]);
+			}
 		}
-		else
-		{
+
+		//r.setRequestHeader("Content-type", "application/json");
+		if (type === "POST") {
+			if (isBinary) {
+				r.send(data);
+			} else {
+				r.setRequestHeader("Content-type", "text/plain");
+				r.send(JSON.stringify(data));
+			}
+		} else	{
 			r.send();
 		}
 
@@ -80,8 +85,9 @@ function rest(type, apiCall, data)
 	return null;
 }
 
-this.post = function(apiCall, data) { return rest("POST", apiCall, data); }
-this.get = function(apiCall) { return rest("GET", apiCall, null); }
+this.post = function(apiCall, data) { return rest("POST", apiCall, data, false, null); }
+this.get = function(apiCall) { return rest("GET", apiCall, null, false, null); }
+this.uploadFile = function(apiCall, data, extraHeaders) { return rest("POST", apiCall, data, true, extraHeaders); }
 this.setAccessToken = function(accessToken) { token = accessToken; }
 
 
@@ -598,3 +604,15 @@ _API.prototype.getTimeZoneDB = function()
 
 	return this.get(url, null);
 }
+
+_API.prototype.uploadParser = function(fileName, fileType, binData)
+{
+	var url = this.URL.dev + "/import/parser";
+	var extraHeaders = [];
+
+	extraHeaders.push(["Content-Type", fileType]);
+	extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
+
+	return this.uploadFile(url, binData, extraHeaders);
+}
+

@@ -7,6 +7,8 @@ window.ui = window.ui || {};
 
 (function(_settings) {
 
+	var uiElems = {}
+
 	function showWeather()
 	{
 		//Weather Sources List
@@ -81,6 +83,8 @@ window.ui = window.ui || {};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+
+		setupWeatherSourceUpload();
 	}
 
 	function onWeatherSourceSave() {
@@ -108,6 +112,53 @@ window.ui = window.ui || {};
 	{
 		console.log("Setting weather source %d to %o", id, enabled);
 		API.setParserEnable(id, enabled);
+	}
+
+	function setupWeatherSourceUpload() {
+		if (uiElems.hasOwnProperty("weatherSources"))
+			return;
+
+		uiElems.weatherSources = {};
+		uiElems.weatherSources.Upload = {};
+
+		uiElems.weatherSources.Add = $('#weatherSourcesAdd');
+		uiElems.weatherSources.Upload.Close = $('#weatherSourcesUploadClose');
+		uiElems.weatherSources.Upload.File = $('#weatherSourcesUploadFile');
+		uiElems.weatherSources.Upload.Upload = $('#weatherSourcesUploadUpload');
+		uiElems.weatherSources.Upload.Status = $('#weatherSourcesUploadStatus');
+
+		uiElems.weatherSources.Add.onclick = function() {
+			makeHidden("#weatherSourcesList");
+			makeVisible("#weatherSourcesUpload");
+        }
+
+        uiElems.weatherSources.Upload.Close.onclick = function() {
+        	makeVisible("#weatherSourcesList");
+        	makeHidden("#weatherSourcesUpload");
+        	uiElems.weatherSources.Upload.Status.textContent = "Please select a *.py or *.pyc file";
+        }
+
+		uiElems.weatherSources.Upload.Upload.onclick = function() {
+			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+		}
+	}
+
+	function onParserLoad(status) {
+		var o = uiElems.weatherSources.Upload.Status;
+
+		if (status.message) {
+			o.textContent = status.message;
+		}
+
+		if (status.data && status.file) {
+			o.textContent = "Uploading file " + status.file.name;
+			var ret = API.uploadParser(status.file.name, status.file.type, status.data);
+			if (ret === null) {
+				o.textContent = "Error uploading" + status.file.name;
+			} else {
+				o.textContent = "Successful uploaded " + status.file.name
+			}
+		}
 	}
 
 	function showRainDelay()

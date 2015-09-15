@@ -176,4 +176,56 @@ Util.redirectHome = function(locationObj) {
 	}
 }
 
+//filesObject is the object returned by files property of input type=file
+Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
+
+	var status = {
+		message: "",
+		data: null,
+		file: null,
+		isError: false
+	};
+
+	if(!filesObject || filesObject.length == 0) {
+		status.message = "No files selected";
+		status.isError = true;
+		callback(status);
+		return;
+	}
+
+	var file = filesObject[0];
+	var reader = new FileReader();
+
+	reader.onprogress = function(e) {
+		var progress =  Math.round((e.loaded/e.total) * 100);
+		status.message = "Reading file " + progress + " %";
+		setTimeout(callback(status), 0);
+	};
+
+	reader.onloadend = function() {
+		if(!reader.result) {
+			status.message = "Error reading file.";
+			status.isError = true;
+			setTimeout(callback(status), 0);
+			return;
+		}
+
+		if (asBinary) {
+			status.data = new Uint8Array(reader.result);
+		} else {
+			status.data = reader.result;
+		}
+
+		status.message = "Done reading file";
+		status.file = file;
+		callback(status);
+	}
+
+	if (asBinary) {
+		reader.readAsArrayBuffer(file);
+	} else {
+		reader.readAsText(file);
+	}
+}
+
 return Util; } ( Util || {}));
