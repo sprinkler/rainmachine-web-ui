@@ -394,7 +394,42 @@
 						<div id="weather" style="display: none;">
 							<div id="weatherDataSources">
 								<div class="settingsBlock center">
-									<table cellspacing="0" cellpadding="0" class="center full">
+									<!-- Weather Data Source EDIT (Begin) -->
+										<div id="weather-data-source-edit-template" class="settingsBlock center relative" style="width:50%;margin: 0 auto;">
+								            <table cellspacing="0" cellpadding="0" class="full">
+								            	<tr valign="top">
+												    <th colspan="3">
+											            <h1 class="title">NOAA</h1>
+											        </th>
+											  	</tr>
+								                <tr>
+								                	<td class="middle">
+														<div style="float:right;width:70%;"><input type="text" placeholder="" class="typeText" id="appkey"/></div>
+														<div><span class="cardTitle">appkey</span></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">
+														<div style="float:right;width:70%;"><input id="USECustom" type="checkbox" class="right" /></div>
+														<div><span class="cardTitle">customStation</span></div>
+													</td>
+								                </tr>
+								                <tr>
+													<td class="middle">
+								                		<span class="right"><input type="number" id="historicDays" class="typeNumber" placeholder="5"> days</span>
+								  						<span class="cardTitle">historicDays</span><br>
+								  					</td>
+								  				</tr>
+								            </table>
+								            <div style="height:40px;">&nbsp;</div>
+								            <div class="absolute full">
+									            	<button id="setWeatherDataSettings" class="button label-blue center right">Set</button>
+									            	<button id="cancelWeatherDataSettings" class="button label-gray center right">Cancel</button>
+									        </div>
+										</div>
+									<!-- Weather Data Source EDIT (End) -->
+
+									<table cellspacing="0" cellpadding="0" class="center full" id="weatherContentCards">
 									  <tr>
 									    <th colspan="5"><h1 class="title">Weather</h1></th>
 									  </tr>
@@ -464,6 +499,22 @@
 	        							</td>
 									  </tr>
 									</table>
+									<!-- Weather Data Source Comparison Graphs (Begin) -->
+										<div id="weather-data-source-comparison" style="margin-top:60px;">
+								            <table cellspacing="0" cellpadding="0" class="full" height="500">
+								            	<tr valign="top">
+												    <th>
+											            <h1 class="title">Weather Data Source - Comparison</h1>
+											        </th>
+											  	</tr>
+								                <tr>
+								                    <td>
+								                        <div id="temperatureChartContainer" class="charts"></div>
+								                    </td>
+								                </tr>
+								            </table>
+										</div>
+									<!-- Weather Data Source Comparison Graphs (End) -->
 									<br>
 									<span class="restriction center">Warning: The RainMachine device weather settings are meant for advanced users. Changing this settings will affect all weather data results.</span>
 									<br>
@@ -1149,7 +1200,6 @@
 
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
-			<!-- <span class="separator"></span> -->
 			<div id="weatherSource">
 				<div class="right" style="margin-right:50px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
