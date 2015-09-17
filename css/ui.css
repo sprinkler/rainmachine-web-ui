@@ -544,17 +544,25 @@ input.typeNumber, input.typeTime {
 input.typeTime {
     width: 180px;
 }
+input[type=file] {
+    padding:10px;
+    padding-left:0px;
+    color:#ddd;
+    border-bottom: 1px solid #f0f0f0;
+    width:100%;
+    margin-bottom: 20px;
+}
 select {
-   background: #fff url('../images/arrow.png') no-repeat;
-   background-position:right center;
-   min-width: 180px;
-   padding: 10px;
-   font-size: 15px;
-   line-height: 1;
-   border: 1px solid #ddd;
-   border-radius: 0;
-   height:44px;
-   -webkit-appearance: none;
+     background: #fff url('../images/arrow.png') no-repeat;
+     background-position:right center;
+     min-width: 180px;
+     padding: 10px;
+     font-size: 15px;
+     line-height: 1;
+     border: 1px solid #ddd;
+     border-radius: 0;
+     height:44px;
+     -webkit-appearance: none;
 }
 
 .circle {
@@ -907,7 +915,7 @@ td.right, .right {
   background-repeat: no-repeat;
   padding-right:10px;
 }
-#weatherSource:hover {
+.weatherSource:hover {
   background-color: #ecf0f1;
   cursor: pointer;
 }
