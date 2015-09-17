@@ -96,7 +96,6 @@ window.ui = window.ui || {};
 			return;
 		}
 
-
 		var weatherDataSourcesEditTitle = $('#weatherSourcesEditTitle');
 		var weatherDataSourcesEditContent = $('#weatherSourcesEditContent');
 		var saveButton =  $('#weatherSourcesEditSave');
