@@ -394,47 +394,25 @@
 						<div id="weather" style="display: none;">
 							<div id="weatherDataSources">
 								<div class="settingsBlock center">
-									<!-- Weather Data Source EDIT (Begin) -->
-										<div id="weather-data-source-edit-template" class="settingsBlock center relative" style="width:50%;margin: 0 auto;">
-								            <table cellspacing="0" cellpadding="0" class="full">
-								            	<tr valign="top">
-												    <th colspan="3">
-											            <h1 class="title">NOAA</h1>
-											        </th>
-											  	</tr>
-								                <tr>
-								                	<td class="middle">
-														<div style="float:right;width:70%;"><input type="text" placeholder="" class="typeText" id="appkey"/></div>
-														<div><span class="cardTitle">appkey</span></div>
-													</td>
-												</tr>
-												<tr>
-													<td class="middle">
-														<div style="float:right;width:70%;"><input id="USECustom" type="checkbox" class="right" /></div>
-														<div><span class="cardTitle">customStation</span></div>
-													</td>
-								                </tr>
-								                <tr>
-													<td class="middle">
-								                		<span class="right"><input type="number" id="historicDays" class="typeNumber" placeholder="5"> days</span>
-								  						<span class="cardTitle">historicDays</span><br>
-								  					</td>
-								  				</tr>
-								            </table>
-								            <div style="height:40px;">&nbsp;</div>
-								            <div class="absolute full">
-									            	<button id="setWeatherDataSettings" class="button label-blue center right">Set</button>
-									            	<button id="cancelWeatherDataSettings" class="button label-gray center right">Cancel</button>
-									        </div>
-										</div>
-									<!-- Weather Data Source EDIT (End) -->
-
 									<table cellspacing="0" cellpadding="0" class="center full" id="weatherContentCards">
 									  <tr>
 									    <th colspan="5"><h1 class="title">Weather</h1></th>
 									  </tr>
 									  <tr>
 									    <td class="listItemSettings relative">
+											<!-- Weather Data Source EDIT (Begin) -->
+											<div id="weatherSourcesEdit" class="hidden">
+												<h1 class="title" id="weatherSourcesEditTitle"></h1>
+												<div id="weatherSourcesEditContent"></div>
+												<div style="height:40px;">&nbsp;</div>
+												<div class="absolute full">
+													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
+													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
+												</div>
+											</div>
+											<!-- Weather Data Source EDIT (End) -->
+
+											<!-- Weather Data Source UPLOAD (Begin) -->
 											<div id="weatherSourcesUpload" class="hidden">
 												<input type="file" id="weatherSourcesUploadFile">
 												<br>
@@ -444,6 +422,7 @@
 												    <button id="weatherSourcesUploadClose" class="button label-red center right">Close</button>
                                                 </div>
 											</div>
+											<!-- Weather Data Source UPLOAD (End) -->
 									    	<div id="weatherSourcesList">
 									    		<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
 									    			<div class="bold right" style="margin-right:40px;">Enabled</div>
@@ -519,7 +498,7 @@
 											  	<!-- Data Sources info buttons (end) -->
 											  	<tr>
 								                    <td>
-								                        <div id="temperatureChartContainer" class="charts"></div>
+								                        <div id="temperatureParsersChartContainer" class="charts"></div>
 								                    </td>
 								                </tr>
 								            </table>
@@ -1210,7 +1189,7 @@
 
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
-			<div id="weatherSource">
+			<div class="weatherSource">
 				<div class="right" style="margin-right:50px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
 				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
