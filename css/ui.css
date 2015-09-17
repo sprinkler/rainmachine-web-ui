@@ -898,7 +898,7 @@ td.right, .right {
   overflow: auto;
 }
 
-#weatherSource {
+.weatherSource {
   padding: 8px 0;
   border-top: 0px solid #eee;
   border-bottom: 1px solid #eee;
