@@ -414,6 +414,8 @@
 
 											<!-- Weather Data Source UPLOAD (Begin) -->
 											<div id="weatherSourcesUpload" class="hidden">
+												<div class="bold">Add new weather data source</div>
+												<span class="separator"></span>
 												<input type="file" id="weatherSourcesUploadFile">
 												<br>
                                                 <div id="weatherSourcesUploadStatus">Please select a *.py or *.pyc file</div>
@@ -489,11 +491,11 @@
 											  	<!-- Data Sources info buttons (Begin) -->
 											  		<td class="middle center">
 											  			<button id="parserTemp" class="button label-blue center raised">Temp</button>
-											  			<button id="parserRain" class="button label-blue center" style="width:120px;">Rain (QPF)</button>
+											  			<button id="parserRain" class="button label-blue center">Rain (QPF)</button>
 											  			<button id="parserWind" class="button label-blue center">Wind</button>
-											  			<button id="parserDewPoint" class="button label-blue center" style="width:120px;">Dew Point</button>
-											  			<button id="parserHumidity" class="button label-blue center" style="width:120px;">Humidity</button>
-											  			<button id="parserPressure" class="button label-blue center" style="width:120px;">Pressure</button>
+											  			<button id="parserDewPoint" class="button label-blue center">Dew Point</button>
+											  			<button id="parserHumidity" class="button label-blue center">Humidity</button>
+											  			<button id="parserPressure" class="button label-blue center">Pressure</button>
 											  		</td>
 											  	<!-- Data Sources info buttons (end) -->
 											  	<tr>
@@ -1190,7 +1192,7 @@
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
 			<div class="weatherSource">
-				<div class="right" style="margin-right:50px;"><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+				<div rm-id="weather-source-enable" class="weatherDataSourceEnabled"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
 				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
 			</div>
@@ -1199,10 +1201,14 @@
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
-			<h1 rm-id="weather-source-name"></h1>
-			<div>Last successfully run: <span rm-id="weather-source-lastrun"></span></div>
-			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+			<div class="bold" rm-id="weather-source-name"></div>
+			<span class="separator"></span>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="right"></span></div>
+			<span class="separator"></span>
+			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle right"></div>
+			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
+			<br><br>
 		</div>
 		<!-- Template for Weather Data Sources Details (End) -->
 
