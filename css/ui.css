@@ -941,7 +941,7 @@ td.right, .right {
   background-color: #ecf0f1;
   cursor: pointer;
 }
-.weatherDataSourceEnabled[enabled] {
+.weatherSourceStatus[enabled] {
     width:16px;
     height:16px;
     background: url('../images/selected.png') no-repeat center;
