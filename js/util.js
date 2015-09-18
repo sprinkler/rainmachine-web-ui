@@ -52,9 +52,8 @@ Util.bitStringToWeekDays = function(bitstr)
 	var str = "";
 
 	for (var i = 0; i < bitstr.length; i++)
-		if (bitstr[i])
+		if (bitstr[i] == "1")
         	str += Util.weekDaysNames[i] + " ";
-
 
 	return str;
 }
@@ -62,9 +61,10 @@ Util.bitStringToWeekDays = function(bitstr)
 //Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
-	var dayDate = new Date(dateStr.split("-"));
-    var diff = dayDate - startDate;
-    return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	var dateTokens = dateStr.split("-");
+	var dayDate = new Date(dateTokens[0],dateTokens[1] - 1 , dateTokens[2]);
+	var diff = dayDate - startDate;
+	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
 }
 
 
@@ -93,15 +93,15 @@ Util.isToday = function(dateStr)
 	return (dateStr === today);
 }
 
-Util.normalizeWaterNeed = function(user, scheduled)
+Util.normalizeWaterNeed = function(user, real)
 {
 	var wn = 0;
-	if (scheduled <= 0 && user > 0)
-		wn = 100;
-	else if (scheduled == 0 && user == 0)
+	if (real <= 0 && user > 0)
 		wn = 0;
+	else if (real >= 0 && user == 0)
+		wn = 100;
 	else
-		wn = Math.round((user / scheduled) * 100);
+		wn = Math.round((real / user) * 100);
 
 	return wn;
 }
@@ -127,6 +127,124 @@ Util.appDateToFields = function(appDateStr)
 	fields.seconds = t[2];
 
 	return fields;
+}
+
+
+Util.saveMasterValve = function(enabled, before, after)
+{
+	var data = {};
+
+	if (enabled != Data.provision.system.useMasterValve) {
+		data.useMasterValve = enabled;
+	}
+
+	if (!isNaN(before)) {
+		data.masterValveBefore = before;
+	}
+
+	if (!isNaN(after)) {
+		data.masterValveAfter = after;
+	}
+
+	if (Object.keys(data).length == 0) {
+		console.error("saveMasterValve: no changes needed");
+		return false;
+	}
+
+	var r = API.setProvision(data, null);
+	if (r === undefined || !r ||  r.statusCode != 0)
+	{
+		console.error("saveMasterValve: API call error or invalid values provided %o !", data);
+		return false;
+	}
+
+	Data.provision.system.useMasterValve = enabled;
+	Data.provision.system.masterValveBefore = before;
+	Data.provision.system.masterValveAfter = after;
+
+	return true;
+}
+
+Util.redirectHome = function(locationObj) {
+	var re = "my.rainmachine.com";
+	var host = locationObj.hostname;
+
+	if (host.match(re)) {
+		window.location.href = locationObj.origin
+	} else {
+		location.reload();
+	}
+}
+Util.tagFromDataType = function(parent, data, label) {
+	var div = addTag(parent, 'div');
+	div.textContent = label;
+
+	var input = addTag(div, 'input');
+    input.type = "text"; //default type for null, object, number or string types
+
+    if (typeof data == "boolean") {
+    	input.type = "checkbox"
+    	if (data) {
+    		input.checked = true;
+    	}
+    } else {
+    	input.value = data;
+    	input.className = "typeText";
+    }
+
+    return div;
+}
+
+//filesObject is the object returned by files property of input type=file
+Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
+
+	var status = {
+		message: "",
+		data: null,
+		file: null,
+		isError: false
+	};
+
+	if(!filesObject || filesObject.length == 0) {
+		status.message = "No files selected";
+		status.isError = true;
+		callback(status);
+		return;
+	}
+
+	var file = filesObject[0];
+	var reader = new FileReader();
+
+	reader.onprogress = function(e) {
+		var progress =  Math.round((e.loaded/e.total) * 100);
+		status.message = "Reading file " + progress + " %";
+		setTimeout(callback(status), 0);
+	};
+
+	reader.onloadend = function() {
+		if(!reader.result) {
+			status.message = "Error reading file.";
+			status.isError = true;
+			setTimeout(callback(status), 0);
+			return;
+		}
+
+		if (asBinary) {
+			status.data = new Uint8Array(reader.result);
+		} else {
+			status.data = reader.result;
+		}
+
+		status.message = "Done reading file";
+		status.file = file;
+		callback(status);
+	}
+
+	if (asBinary) {
+		reader.readAsArrayBuffer(file);
+	} else {
+		reader.readAsText(file);
+	}
 }
 
 return Util; } ( Util || {}));

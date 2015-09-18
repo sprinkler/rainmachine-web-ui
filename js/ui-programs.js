@@ -86,8 +86,6 @@ window.ui = window.ui || {};
 			startElem.onclick = onStart;
 			editElem.onclick = function() { showProgramSettings(this.data); };
 
-			console.log("%o", p.wateringTimes);
-
 			infoElem.innerHTML = programTypeToText(p);
 
 			/* Show small zones circles */
@@ -98,7 +96,6 @@ window.ui = window.ui || {};
 					var div = addTag(zonesElem, 'div');
 					div.className = "zoneCircle";
 					div.innerHTML = p.wateringTimes[zi].id;
-					console.log("Added zone circle %d", p.wateringTimes[zi].id)
 				}
 			}
 			programListDiv.appendChild(template);
@@ -121,7 +118,7 @@ window.ui = window.ui || {};
 	function showProgramSettings(program)
 	{
         selectedProgram = program;
-        console.log(JSON.stringify(program, null, "  "));
+        //console.log(JSON.stringify(program, null, "  "));
 
         var programSettingsDiv = $('#programsSettings');
         clearTag(programSettingsDiv);
@@ -216,11 +213,13 @@ window.ui = window.ui || {};
             // Show zones and watering times.
             //
             var wateringTimeList = program.wateringTimes;
+            console.log(program);
             if (wateringTimeList) {
                 for (var index = 0; index < wateringTimeList.length; index++) {
                     var wateringTime = wateringTimeList[index];
 
                     var zoneTemplateElem = uiElems.zoneElems[wateringTime.id];
+
                     var duration = {min: 0, sec: 0};
 
                     try {
@@ -253,7 +252,6 @@ window.ui = window.ui || {};
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
 
-        console.log(uiElems);
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 	}
 
@@ -302,6 +300,7 @@ window.ui = window.ui || {};
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
+
             var zoneTemplate = loadTemplate("program-settings-zone-template");
 
             var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
@@ -319,6 +318,12 @@ window.ui = window.ui || {};
                 durationSecElem: zoneDurationSecElem,
                 activeElem: zoneActiveElem
             };
+
+            //Don't show zone 1 when master valve is enabled
+            if (Data.provision.system.useMasterValve && index == 0) {
+                zoneTemplate.style.display = "none";
+            }
+
             templateInfo.zoneTableElem.appendChild(zoneTemplate);
         }
 
@@ -362,12 +367,12 @@ window.ui = window.ui || {};
         if(uiElems.frequencyDailyElem.checked) {
             program.frequency = {
                 type: FrequencyType.Daily,
-                param: 0
+                param: "0"
             };
         } else if(uiElems.frequencyEveryElem.checked) {
             program.frequency = {
                 type: FrequencyType.EveryN,
-                param: parseInt(uiElems.frequencyEveryParamElem.value) || 0
+                param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
             };
         } else if(uiElems.frequencyWeekdaysElem.checked) {
             program.frequency = {
@@ -379,12 +384,12 @@ window.ui = window.ui || {};
         } else if(uiElems.frequencyOddElem.checked) {
             program.frequency = {
                 type: FrequencyType.OddEven,
-                param: FrequencyParam.Odd
+                param: FrequencyParam.Odd.toString()
             };
         } else if(uiElems.frequencyEvenElem.checked) {
             program.frequency = {
                 type: FrequencyType.OddEven,
-                param: FrequencyParam.Even
+                param: FrequencyParam.Even.toString()
             };
         }
 
@@ -507,6 +512,13 @@ window.ui = window.ui || {};
 		uiElems = {};
 	}
 
+	function stopAllWatering()
+    {
+		console.log("Stop All Watering (programs)");
+		API.stopAll();
+		showPrograms();
+	}
+
     function onCancel() {
     	closeProgramSettings();
     }
@@ -553,5 +565,6 @@ window.ui = window.ui || {};
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
+	_programs.stopAllWatering = stopAllWatering;
 
 } (window.ui.programs = window.ui.programs || {}));

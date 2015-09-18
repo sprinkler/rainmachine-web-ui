@@ -3,63 +3,96 @@
  *	All rights reserved.
  */
 
-var API  = (function(API) {
+var APIAsync = new _API(true);
+var APISync = new _API(false)
+
+var API = APISync;
+
+function _API(async) {
 
 //var host = "private-bd9e-rainmachine.apiary-mock.com";
 //var host = "127.0.0.1";
-var host = "192.168.12.174";
-//var host = window.location.hostname;
+var host = window.location.hostname;
 //var host = "5.2.191.144";
 
 //var port = "443";
 //var port = "18080";
-var port = "8080";
-//var port = window.location.port;
+//var port = "8080";
+var port = window.location.port;
 //var port = "8888";
 
 var apiUrl = "https://" + host + ":" + port + "/api/4";
 //var apiUrl = "http://" + host + ":" + port + "/api/4";
 
-var async = false;
-
 var token = null;
+var async = async;
 
-function rest(type, apiCall, data, callback)
+function rest(type, apiCall, data, isBinary, extraHeaders)
 {
 	var url;
+	var a = new Async();
+	var r = new XMLHttpRequest();
 
 	if (token !== null)
 		url = apiUrl + apiCall + "?access_token=" + token;
 	else
 		url = apiUrl + apiCall;
 
-	console.log("Doing API call: %s", url);
+	console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
+
+	if (async) {
+		r.onload = function() {
+			if (r.readyState === 4) {
+				if (r.status === 200) {
+					a.resolve(JSON.parse(r.responseText));
+				} else {
+					console.error("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
+					a.reject();
+				}
+			}
+		};
+	};
+
 	try {
-		r = new XMLHttpRequest();
 		r.open(type, url, async);
 
-
-		if (type === "POST")
-		{
-			r.setRequestHeader("Content-type","text/plain");
-			r.send(JSON.stringify(data));
+		if (extraHeaders) {
+			while (header = extraHeaders.shift()) {
+				r.setRequestHeader(header[0], header[1]);
+			}
 		}
-		else
-		{
+
+		//r.setRequestHeader("Content-type", "application/json");
+		if (type === "POST") {
+			if (isBinary) {
+				r.send(data);
+			} else {
+				r.setRequestHeader("Content-type", "text/plain");
+				r.send(JSON.stringify(data));
+			}
+		} else	{
 			r.send();
 		}
 
-		return JSON.parse(r.responseText);
-	} catch(e) { }
+		if (async)
+			return a;
+		else
+			return JSON.parse(r.responseText);
 
+	} catch(e) { console.log(e);}
+
+	console.log("REST: NULL return");
 	return null;
 }
 
-function post(apiCall, data, callback) { return rest("POST", apiCall, data, callback); }
-function get(apiCall, callback) { return rest("GET", apiCall, null, callback); }
+this.post = function(apiCall, data) { return rest("POST", apiCall, data, false, null); }
+this.get = function(apiCall) { return rest("GET", apiCall, null, false, null); }
+this.uploadFile = function(apiCall, data, extraHeaders) { return rest("POST", apiCall, data, true, extraHeaders); }
+this.setAccessToken = function(accessToken) { token = accessToken; }
+
 
 /* ------------------------------------------ API ROOT PATHS ----------------------------------------------*/
-API.URL = Object.freeze({
+this.URL = Object.freeze({
 	auth			: "/auth",
 	provision		: "/provision",
 	dailystats		: "/dailystats",
@@ -75,7 +108,7 @@ API.URL = Object.freeze({
 });
 
 /* ------------------------------------------ API ERROR CODES ----------------------------------------------*/
-API.ERROR = {
+this.ERROR = {
     Success                 : '{ "statusCode":  0,  "message": "OK"                         }',
     ExceptionOccurred       : '{ "statusCode":  1,  "message": "Exception occurred !"       }',
     NotAuthenticated        : '{ "statusCode":  2,  "message": "Not Authenticated !"        }',
@@ -88,20 +121,21 @@ API.ERROR = {
     ProgramValidationFailed : '{ "statusCode":  9,  "message": "Invalid program constraints"}'
 };
 
+};
 
 /* ------------------------------------------ VER API CALLS -----------------------------------------------*/
 
-API.getApiVer = function()
+_API.prototype.getApiVer = function()
 {
 	var url = "/apiVer";
-	return get(url, null);
+	return this.get(url, null);
 }
 
 /* ------------------------------------------ AUTH API CALLS ----------------------------------------------*/
 
-API.auth = function(password, remember)
+_API.prototype.auth = function(password, remember)
 {
-	var url = API.URL.auth + "/login";
+	var url = this.URL.auth + "/login";
 	
 	var data = 
 	{
@@ -109,15 +143,17 @@ API.auth = function(password, remember)
 		remember: remember
 	};
 	
-	var reply = post(url, data, null);
+	var reply = this.post(url, data, null);
 	console.log(JSON.stringify(reply, null, "  "));
-	token = reply.access_token;
+
+	var token = reply.access_token;
+	this.setAccessToken(token);
 	return token;
 };
 
-API.authChange = function(oldPass, newPass)
+_API.prototype.authChange = function(oldPass, newPass)
 {
-    var url = API.URL.auth + "/change";
+    var url = this.URL.auth + "/change";
 
     var data =
     {
@@ -125,35 +161,31 @@ API.authChange = function(oldPass, newPass)
     	oldPass: oldPass
     }
 
-    return post(url, data, null);
-}
-
-API.setAccessToken = function(accessToken) {
-	token = accessToken;
+    return this.post(url, data, null);
 }
 
 /* ------------------------------------------ PROVISION API CALLS -----------------------------------------*/
 
-API.getProvision = function()
+_API.prototype.getProvision = function()
 {
-	return get(API.URL.provision, null);
+	return this.get(this.URL.provision, null);
 }
 
-API.getProvisionWifi = function()
+_API.prototype.getProvisionWifi = function()
 {
-	var url = API.URL.provision + "/wifi";
-	return get(url, null);
+	var url = this.URL.provision + "/wifi";
+	return this.get(url, null);
 }
 
-API.getProvisionCloud = function()
+_API.prototype.getProvisionCloud = function()
 {
-	var url = API.URL.provision + "/cloud";
-	return get(url, null);
+	var url = this.URL.provision + "/cloud";
+	return this.get(url, null);
 }
 
-API.setProvision = function(systemObj, locationObj)
+_API.prototype.setProvision = function(systemObj, locationObj)
 {
-	var url = API.URL.provision;
+	var url = this.URL.provision;
 	var data = {};
 
 	if (systemObj !== undefined && systemObj !== null)
@@ -163,237 +195,237 @@ API.setProvision = function(systemObj, locationObj)
     	data.location = locationObj;
 
     if (Object.keys(data).length == 0)
-    	return API.ERROR.InvalidRequest;
+    	return this.ERROR.InvalidRequest;
 
-    return post(url, data, null);
+    return this.post(url, data, null);
 }
 
-API.setProvisionName = function(name)
+_API.prototype.setProvisionName = function(name)
 {
-	var url = API.URL.provision +  "/name";
+	var url = this.URL.provision +  "/name";
 	var data = { netName: name };
 
-	return post(url, data,  null);
+	return this.post(url, data,  null);
 }
 
-API.setProvisionCloud = function(cloudObj)
+_API.prototype.setProvisionCloud = function(cloudObj)
 {
-	var url = API.URL.provision +  "/cloud";
+	var url = this.URL.provision +  "/cloud";
 	var data = cloudObj;
 
 	return(url, data, null);
 }
 
-API.setProvisionCloudEnable = function(isEnabled)
+_API.prototype.setProvisionCloudEnable = function(isEnabled)
 {
-	var url = API.URL.provision +  "/cloud/enable";
+	var url = this.URL.provision +  "/cloud/enable";
 	var data = { enable: isEnabled };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setProvisionCloudReset = function()
+_API.prototype.setProvisionCloudReset = function()
 {
-	var url = API.URL.provision +  "/cloud/reset";
+	var url = this.URL.provision +  "/cloud/reset";
 	var data = { };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setProvisionReset = function(withRestart)
+_API.prototype.setProvisionReset = function(withRestart)
 {
-	var url = API.URL.provision;
+	var url = this.URL.provision;
 	var data = { restart: withRestart };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ------------------------------------------ DAILY STATS API CALLS ---------------------------------------*/
 
-API.getDailyStats = function(dayDate, withDetails)
+_API.prototype.getDailyStats = function(dayDate, withDetails)
 {
-	var url = API.URL.dailystats;
+	var url = this.URL.dailystats;
 
 	if (dayDate !== undefined && dayDate !== null) // current API doesn't support daily stats details with specified day
 	{
 		url += "/" + dayDate;
-		return get(url, null);
+		return this.get(url, null);
 	}
 
 	if (withDetails !== undefined && withDetails)
 		url += "/details";
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
 /* ----------------------------------------- RESTRICTIONS API CALLS ---------------------------------------*/
 
-API.getRestrictionsRainDelay = function()
+_API.prototype.getRestrictionsRainDelay = function()
 {
-	var url = API.URL.restrictions + "/raindelay";
-	return get(url, null);
+	var url = this.URL.restrictions + "/raindelay";
+	return this.get(url, null);
 }
 
-API.getRestrictionsGlobal = function()
+_API.prototype.getRestrictionsGlobal = function()
 {
-	var url = API.URL.restrictions + "/global";
-	return get(url, null);
+	var url = this.URL.restrictions + "/global";
+	return this.get(url, null);
 }
 
-API.getRestrictionsHourly = function()
+_API.prototype.getRestrictionsHourly = function()
 {
-	var url = API.URL.restrictions + "/hourly";
-	return get(url, null);
+	var url = this.URL.restrictions + "/hourly";
+	return this.get(url, null);
 }
 
-API.setRestrictionsRainDelay = function(days)
+_API.prototype.setRestrictionsRainDelay = function(days)
 {
-	var url = API.URL.restrictions + "/raindelay";
+	var url = this.URL.restrictions + "/raindelay";
 	var data = { rainDelay: days };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setRestrictionsGlobal = function(globalRestrictionObj)
+_API.prototype.setRestrictionsGlobal = function(globalRestrictionObj)
 {
-	var url = API.URL.restrictions + "/global";
+	var url = this.URL.restrictions + "/global";
 	var data = globalRestrictionObj;
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setRestrictionsHourly = function(hourlyRestrictionObj)
+_API.prototype.setRestrictionsHourly = function(hourlyRestrictionObj)
 {
-	var url = API.URL.restrictions + "/hourly";
+	var url = this.URL.restrictions + "/hourly";
 	var data = hourlyRestrictionObj;
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.deleteRestrictionsHourly = function(id)
+_API.prototype.deleteRestrictionsHourly = function(id)
 {
-    var url = API.URL.restrictions + "/hourly/" + id + "/delete";
+    var url = this.URL.restrictions + "/hourly/" + id + "/delete";
     var data = {};
 
-    return post(url, data, null);
+    return this.post(url, data, null);
 }
 
 /* ----------------------------------------- PROGRAMS API CALLS -------------------------------------------*/
-API.getPrograms = function(id)
+_API.prototype.getPrograms = function(id)
 {
-	var url = API.URL.program;
+	var url = this.URL.program;
 
 	if (id !== undefined)
 		url += "/" + id;
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.getProgramsNextRun = function()
+_API.prototype.getProgramsNextRun = function()
 {
-	var url = API.URL.program + "/nextrun";
+	var url = this.URL.program + "/nextrun";
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.setProgram = function(id, programProperties)
+_API.prototype.setProgram = function(id, programProperties)
 {
-	var url = API.URL.program + "/" + id;
+	var url = this.URL.program + "/" + id;
 	var data = programProperties;
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.newProgram = function(programProperties)
+_API.prototype.newProgram = function(programProperties)
 {
-	var url = API.URL.program;
+	var url = this.URL.program;
 	var data = programProperties;
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.deleteProgram = function(id)
+_API.prototype.deleteProgram = function(id)
 {
-	var url = API.URL.program + "/" + id + "/delete";
+	var url = this.URL.program + "/" + id + "/delete";
     var data = { pid: id };
 
-    return post(url, data, null);
+    return this.post(url, data, null);
 }
 
-API.startProgram = function(id)
+_API.prototype.startProgram = function(id)
 {
-	var url = API.URL.program + "/" + id + "/start";
+	var url = this.URL.program + "/" + id + "/start";
     var data = { pid: id };
 
-    return post(url, data, null);
+    return this.post(url, data, null);
 }
 
-API.stopProgram = function(id)
+_API.prototype.stopProgram = function(id)
 {
-	var url = API.URL.program + "/" + id + "/stop";
+	var url = this.URL.program + "/" + id + "/stop";
     var data = { pid: id };
 
-    return post(url, data, null);
+    return this.post(url, data, null);
 }
 
 /* ------------------------------------------ ZONES API CALLS --------------------------------------------*/
-API.getZones = function(id)
+_API.prototype.getZones = function(id)
 {
-	var url = API.URL.zone;
+	var url = this.URL.zone;
 
 	if (id !== undefined)
 		url += "/" + id;
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.startZone = function(id, duration)
+_API.prototype.startZone = function(id, duration)
 {
 	if (id === undefined || id === null)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
 	if (duration === undefined || duration === null)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
-	var url = API.URL.zone + "/" + id + "/start";
+	var url = this.URL.zone + "/" + id + "/start";
 	var data = { time: duration };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.stopZone = function(id)
+_API.prototype.stopZone = function(id)
 {
 	if (id === undefined || id === null)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
-	var url = API.URL.zone + "/" + id + "/stop";
+	var url = this.URL.zone + "/" + id + "/stop";
 
 	var data = { zid : id };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.getZonesProperties = function(id)
+_API.prototype.getZonesProperties = function(id)
 {
-	var url = API.URL.zone;
+	var url = this.URL.zone;
 
 	if (id !== undefined)
 		url += "/" + id;
 
 	url += "/properties";
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.setZonesProperties = function(id, properties, advancedProperties)
+_API.prototype.setZonesProperties = function(id, properties, advancedProperties)
 {
-	var url = API.URL.zone;
+	var url = this.URL.zone;
 
 	if (id === undefined)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
 	if (properties === undefined || properties === null)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
 
 	url += "/" + id + "/properties";
@@ -403,14 +435,14 @@ API.setZonesProperties = function(id, properties, advancedProperties)
 	if (advancedProperties !== undefined && advancedProperties !== null)
 		data.advanced = advancedProperties;
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
-API.getWateringLog = function(simulated, details, startDate, days)
+_API.prototype.getWateringLog = function(simulated, details, startDate, days)
 {
-	var url = API.URL.watering + "/log" + (simulated ? "/simulated" : "") + (details ? "/details" : "");
+	var url = this.URL.watering + "/log" + (simulated ? "/simulated" : "") + (details ? "/details" : "");
 
 	//start date format YYYY-DD-MM
 	if (startDate !== null && startDate.length > 9)
@@ -419,53 +451,53 @@ API.getWateringLog = function(simulated, details, startDate, days)
 	if (days !== null && days > 0)
 		url += "/" + days;
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.getWateringQueue = function()
+_API.prototype.getWateringQueue = function()
 {
-	var url = API.URL.watering + "/queue";
+	var url = this.URL.watering + "/queue";
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.stopAll = function()
+_API.prototype.stopAll = function()
 {
-	var url = API.URL.watering + "/stopall";
+	var url = this.URL.watering + "/stopall";
 	var data = { all: true };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ------------------------------------------ PARSER API CALLS --------------------------------------------*/
-API.getParsers = function(id)
+_API.prototype.getParsers = function(id)
 {
-	var url = API.URL.parser;
+	var url = this.URL.parser;
 
 	if (id !== undefined)
 		url += "/" + id;
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
-API.setParserEnable = function(id, enable)
+_API.prototype.setParserEnable = function(id, enable)
 {
-	var url = API.URL.parser;
+	var url = this.URL.parser;
 
 	if (id === undefined || id === null)
-		return API.ERROR.InvalidRequest;
+		return this.ERROR.InvalidRequest;
 
 	url += "/" + id + "/activate";
 
 	var data = { activate: enable };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
-API.getMixer = function(startDate, days)
+_API.prototype.getMixer = function(startDate, days)
 {
-	var url = API.URL.mixer;
+	var url = this.URL.mixer;
 
 	if (startDate !== undefined)
 		url += "/" + startDate;
@@ -473,116 +505,114 @@ API.getMixer = function(startDate, days)
 	if (days !== undefined)
 		url += "/" + days;
 
-	return get(url, null);
+	return this.get(url, null);
 }
 
 /* ------------------------------------------ DIAG API CALLS ------------------------------------------------*/
-API.getDiag = function()
+_API.prototype.getDiag = function()
 {
-	return get(API.URL.diag, null)
+	return this.get(this.URL.diag, null)
 }
 
-API.getDiagUpload = function()
+_API.prototype.getDiagUpload = function()
 {
-	var url = API.URL.diag + "/upload";
-	return get(url, null);
+	var url = this.URL.diag + "/upload";
+	return this.get(url, null);
 }
 
-API.getDiagLog = function()
+_API.prototype.getDiagLog = function()
 {
-	var url = API.URL.diag + "/log";
-	return get(url, null);
+	var url = this.URL.diag + "/log";
+	return this.get(url, null);
 }
 
-API.sendDiag = function()
+_API.prototype.sendDiag = function()
 {
-    var url = API.URL.diag + "/upload";
-    return post(url, {}, null);
+    var url = this.URL.diag + "/upload";
+    return this.post(url, {}, null);
 }
 
-API.setLogLevel = function(level)
+_API.prototype.setLogLevel = function(level)
 {
-	var url = API.URL.diag + "/log/level";
+	var url = this.URL.diag + "/log/level";
 	var data  = { level: level };
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ------------------------------------------ MACHINE API CALLS ---------------------------------------------*/
 
-API.checkUpdate = function()
+_API.prototype.checkUpdate = function()
 {
-	var url = API.URL.machine + "/update/check";
-	return post(url, {}, null);
+	var url = this.URL.machine + "/update/check";
+	return this.post(url, {}, null);
 }
 
-API.getUpdate = function()
+_API.prototype.getUpdate = function()
 {
-	var url = API.URL.machine + "/update";
-	return get(url, null);
+	var url = this.URL.machine + "/update";
+	return this.get(url, null);
 }
 
-API.startUpdate = function()
+_API.prototype.startUpdate = function()
 {
-	var url = API.URL.machine + "/update";
-	return post(url, {}, null);
+	var url = this.URL.machine + "/update";
+	return this.post(url, {}, null);
 }
 
-API.getDateTime = function()
+_API.prototype.getDateTime = function()
 {
-	var url = API.URL.machine + "/time";
-	return get(url, null);
+	var url = this.URL.machine + "/time";
+	return this.get(url, null);
 }
 
-API.setDateTime = function(dateStr) //dateStr: '%Y-%m-%d %H:%M'
+_API.prototype.setDateTime = function(dateStr) //dateStr: '%Y-%m-%d %H:%M'
 {
-	var url = API.URL.machine + "/time";
+	var url = this.URL.machine + "/time";
 	var data = { appDate: dateStr };
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setSSH = function(isEnabled)
+_API.prototype.setSSH = function(isEnabled)
 {
-	var url = API.URL.machine + "/ssh";
+	var url = this.URL.machine + "/ssh";
 	var data = { enabled: isEnabled };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setTouch = function(isEnabled)
+_API.prototype.setTouch = function(isEnabled)
 {
-	var url = API.URL.machine + "/touch";
+	var url = this.URL.machine + "/touch";
 	var data = { enabled: isEnabled };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
-API.setLeds = function(isOn)
+_API.prototype.setLeds = function(isOn)
 {
-	var url = API.URL.machine + "/lightleds";
+	var url = this.URL.machine + "/lightleds";
 	var data = { enabled: isEnabled };
 
-	return post(url, data, null);
+	return this.post(url, data, null);
 }
 
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
-API.getTimeZoneDB = function()
+_API.prototype.getTimeZoneDB = function()
 {
-	var url = API.URL.dev + "/timezonedb.json";
+	var url = this.URL.dev + "/timezonedb.json";
 
-	return get(url, null);
+	return this.get(url, null);
 }
-/*
+
+_API.prototype.uploadParser = function(fileName, fileType, binData)
 {
-	var r = new XMLHttpRequest();
-	r.onreadystatechange = function() {
-		if ((r.readyState == 4)&& (r.status == 200))
-			Data.timeZoneDB = JSON.parse(r.responseText);
-	};
-	r.open("GET", "/api/4/dev/timezonedb.json", true)
-	r.send();
+	var url = this.URL.dev + "/import/parser";
+	var extraHeaders = [];
+
+	extraHeaders.push(["Content-Type", fileType]);
+	extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
+
+	return this.uploadFile(url, binData, extraHeaders);
 }
-*/
 
-
-return API; } (API || {} ));

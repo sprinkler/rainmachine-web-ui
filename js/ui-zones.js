@@ -8,17 +8,31 @@ window.ui = window.ui || {};
 (function(_zones) {
 
 	function showZones() {
+		APIAsync.getZones().then(function(o) { Data.zoneData = o;})
+        .then(APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; renderZones();}));
+    }
 
-		Data.zoneData = API.getZones();
-		Data.zoneAdvData = API.getZonesProperties();
+	//Only uses API.getZones() as advanced properties doesn't change often
+    function showZonesSimple() {
+    	APIAsync.getZones().then(function(o) { Data.zoneData = o; renderZones();} );
+    }
 
+	function renderZones() {
+
+        console.log("Called renderZones()");
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
-			var za = Data.zoneAdvData.zones[i];
+			var za;
+
+			if (Data.zoneAdvData !== undefined)
+				za = Data.zoneAdvData.zones[i];
+			else
+				za.active = true;
+
 			z.active = za.active;
 
 			var template = loadTemplate("zone-entry");
@@ -34,24 +48,25 @@ window.ui = window.ui || {};
 
 			makeVisible(timersElem);
 
-			if (! za.active)
-			{
-				template.className += " inactive";
-				makeHidden(timersElem);
-			}
-
 			if (z.master)
 			{
 				template.className += " master";
 				makeHidden(timersElem);
 				nameElem.textContent = "Master Valve";
-				typeElem.textContent = "Before: " + Data.provision.system.masterValveBefore +
-										" sec After: " + Data.provision.system.masterValveAfter + " sec";
+				var b = Data.provision.system.masterValveBefore/60;
+				var a = Data.provision.system.masterValveAfter/60;
+				typeElem.textContent = "Before: " + b + " min After: " + a + " min";
 			}
 			else
 			{
 				nameElem.textContent = z.name;
 				typeElem.textContent = zoneTypeToString(z.type);
+
+				if (!za.active) {
+					template.className += " inactive";
+					nameElem.textContent += " (inactive)"
+					makeHidden(timersElem);
+				}
 			}
 
 			startElem.onclick = function() { startZone(this.parentNode.data.uid); };
@@ -82,6 +97,7 @@ window.ui = window.ui || {};
 
 		var zoneMasterValveElem = $(zoneTemplate, '[rm-id="zone-master-valve"]');
 		var zoneMasterValveContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-option"]');
+		var zoneMasterTimerContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-timer"]');
 		var zoneNameElem = $(zoneTemplate, '[rm-id="zone-name"]');
 		var zoneActiveElem = $(zoneTemplate, '[rm-id="zone-active"]');
 		var zoneVegetationElem = $(zoneTemplate, '[rm-id="zone-vegetation-type"]');
@@ -89,10 +105,22 @@ window.ui = window.ui || {};
 		var zoneHistoricalElem = $(zoneTemplate, '[rm-id="zone-historical-averages"]');
 
 
-		if (zone.uid != 1)
+		if (zone.uid == 1) {
+			zoneMasterValveElem.checked = Data.provision.system.useMasterValve;
+
+			var masterValveBeforeElem = $(zoneTemplate, '[rm-id="zone-master-valve-before"]');
+            var masterValveAfterElem = $(zoneTemplate, '[rm-id="zone-master-valve-after"]');
+
+            var b = Data.provision.system.masterValveBefore/60;
+            var a = Data.provision.system.masterValveAfter/60;
+
+            masterValveBeforeElem.value = b;
+            masterValveAfterElem.value = a;
+
+		} else {
 			makeHidden(zoneMasterValveContainerElem);
-		else
-			zoneMasterValveElem.checked = zone.master;
+        	makeHidden(zoneMasterTimerContainerElem);
+		}
 
 		zoneTemplate.id = "zone-settings-" + zone.uid;
 		zoneNameElem.value = zone.name;
@@ -176,7 +204,7 @@ window.ui = window.ui || {};
 		var m = (seconds / 60) >> 0;
 		var s = (seconds % 60) >> 0;
 
-		console.log("Seconds: %d - %d:%d", seconds, m, s);
+		//console.log("Seconds: %d - %d:%d", seconds, m, s);
 
 		minutesElem.value = m;
 		secondsElem.value = s;
@@ -256,20 +284,18 @@ window.ui = window.ui || {};
 		if (uid == 1)
 		{
 			zoneProperties.master = zoneMasterValveElem.checked;
-			if (zoneProperties.master != Data.provision.system.useMasterValve)
-				shouldSetMasterValve = true;
-		}
 
+			var masterValveBeforeElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before"]');
+            var masterValveAfterElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after"]');
+
+            var b = parseInt(masterValveBeforeElem.value) * 60;
+            var a = parseInt(masterValveAfterElem.value) * 60;
+
+     		Util.saveMasterValve(zoneProperties.master, b, a);
+		}
 
 		console.log("Saving zone %d with properties: %o", uid, zoneProperties);
 		API.setZonesProperties(uid, zoneProperties, null);
-
-		if (shouldSetMasterValve)
-		{
-			var data = { useMasterValve: zoneProperties.master };
-			API.setProvision(data, null);
-			Data.provision.system.useMasterValve = zoneProperties.master;
-		}
 
 		closeZoneSettings();
 		showZones();
@@ -301,6 +327,7 @@ window.ui = window.ui || {};
 	//
 	//
 	_zones.showZones = showZones;
+	_zones.showZonesSimple = showZonesSimple;
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
 

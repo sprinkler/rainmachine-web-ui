@@ -22,13 +22,15 @@ Data.zoneData = null;
 Data.zoneAdvData = null;
 Data.parsers = null;
 Data.programs = null;
-Data.provision = null;
+Data.provision = {};
 Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
+Data.waterLogSimulated = null;
 Data.dateTime = null;
+Data.uiVer = "0.11-beta";
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;

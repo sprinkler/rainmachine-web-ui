@@ -3,8 +3,14 @@
  *	All rights reserved.
  */
 
+var mainMenus = [
+		{ prefix: "dashboard",	func: null,								visibilityFunc: makeVisibleBlock },
+		{ prefix: "zones", 		func: window.ui.zones.showZones, 		visibilityFunc: makeVisible },
+		{ prefix: "programs", 	func: window.ui.programs.showPrograms,	visibilityFunc: makeVisible },
+		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,	visibilityFunc: makeVisible },
+];
+
 var settingsSubmenus = [
-		{ name: "Programs", 		func: window.ui.programs.showPrograms, 			container: '#programs' },
     	{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
     	{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
     	{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
@@ -14,13 +20,17 @@ var settingsSubmenus = [
 	];
 
 var dashboardSubmenus = [
-    	{ name: "Weekly", 		func: loadWeeklyCharts,		container: null },
-        { name: "Monthly", 		func: loadMonthlyCharts,	container: null },
-        { name: "Yearly",  		func: loadYearlyCharts,		container: null }
+    	{ name: "Weekly", 		func: loadWeeklyCharts,		container: '#dummy' },
+        { name: "Monthly", 		func: loadMonthlyCharts,	container: '#dummy' },
+        { name: "Yearly",  		func: loadYearlyCharts,		container: '#dummy' }
       ];
 
 var zonesSubmenus = [
 		{ name: "Stop All",		func: window.ui.zones.stopAllWatering,		container: null }
+];
+
+var programsSubmenus = [
+		{ name: "Stop All",		func: window.ui.programs.stopAllWatering,		container: null }
 ];
 
 var loop = null;
@@ -67,109 +77,110 @@ function buildSubMenu(submenus, category, parentTag)
 	}
 }
 
+function getMenuElements(id) {
+	var elements = {
+		container: $("#" + id),
+		button: $("#" + id + "Btn"),
+		menu: $("#" + id + "Menu")
+	};
+
+	return elements;
+}
+
+function buildMenu() {
+	for (var i = 0; i < mainMenus.length; i++) {
+		var id = mainMenus[i].prefix;
+		var currentButton = $("#" + id + "Btn");
+
+		currentButton.onclick = (function(index) {
+			return function() {
+			    var visibilityFunc = mainMenus[index].visibilityFunc;
+			    var currentElements = getMenuElements(mainMenus[index].prefix);
+
+				//Show current
+				visibilityFunc(currentElements.container);
+				visibilityFunc(currentElements.menu);
+				currentElements.button.setAttribute("selected", true);
+				//Hide others
+				var otherMenus = mainMenus.slice(0);
+                otherMenus.splice(index, 1);
+                for (var j = 0; j < otherMenus.length; j++) {
+                	var otherElements = getMenuElements(otherMenus[j].prefix);
+                	makeHidden(otherElements.container);
+                	makeHidden(otherElements.menu);
+                	otherElements.button.removeAttribute("selected");
+                }
+
+                if (mainMenus[index].func !== null)
+                	mainMenus[index].func();
+
+                console.log("Main Menu Selected: %s", mainMenus[index].prefix);
+			}
+		})(i)
+	}
+}
+
+function updateSnoozeTimer() {
+
+	var onDiv = $("#snoozeCurrentContent");
+	
+	if(isVisible(onDiv)){
+		var raindelay = API.getRestrictionsRainDelay();
+		var rd = +raindelay.delayCounter;
+
+		if(rd > 0) {
+			var v = Util.secondsToHuman(rd);
+			var vdiv = $("#snoozeCurrentValue");
+			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
+		}
+	}
+}
+
+
 function uiLoop()
 {
 	if (isVisible("#zones") && isVisible("#zonesList"))
 	{
-		var waterQueue = API.getWateringQueue();
-
-		if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
-			return;
-
-		console.log("Watering Loop: %o", waterQueue);
-		window.ui.zones.showZones();
-		return;
+		APIAsync.getWateringQueue()
+		.then(
+			function(waterQueue) {
+				if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
+                	return;
+                window.ui.zones.showZonesSimple();
+			}
+		);
 	}
 	else
 	{
 		console.log("Idle Loop");
-	}
+        updateSnoozeTimer(); //update snooze timer
 
-	return;
+	}
 }
 
 function uiStart()
 {
-	var zonesDiv = $('#zones');
-	var settingsDiv = $('#settings');
-	var dashboardDiv = $('#dashboard');
-
-	var zonesBtn = $('#zonesBtn');
-	var settingsBtn = $('#settingsBtn');
-	var dashboardBtn = $('#dashboardBtn');
-
-	var zonesMenu = $('#zonesMenu');
-    var settingsMenu = $('#settingsMenu');
-    var dashboardMenu = $('#dashboardMenu');
-
-
+    buildMenu();
     buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
     buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
     buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
+    buildSubMenu(programsSubmenus, "programs", $('#programsMenu'));
 
-	zonesBtn.onclick = function() {
-		makeVisible("#zonesList"); //Added to set initial display property to this layer which we use on uiLoop
+	//Set default button selections
+	$('#dashboardBtn').setAttribute("selected", true);
+	$('#dashboard0').setAttribute("selected", true);
+	$('#settings0').setAttribute("selected", true);
 
-		makeVisible(zonesDiv);
-		makeVisible(zonesMenu);
 
-		makeHidden(settingsDiv);
-		makeHidden(dashboardDiv);
-
-		makeHidden(settingsMenu);
-        makeHidden(dashboardMenu);
-
-        zonesBtn.setAttribute("selected", true);
-        dashboardBtn.removeAttribute("selected");
-        settingsBtn.removeAttribute("selected");
-
-		window.ui.zones.showZones();
-		console.log("Zones");
+	$("#logoutBtn").onclick = function() {
+		Storage.deleteItem("access_token");
+		Util.redirectHome(location);
 	}
-
-	settingsBtn.onclick = function() {
-		makeVisible(settingsDiv);
-		makeVisible(settingsMenu);
-
-		makeHidden(zonesDiv);
-		makeHidden(dashboardDiv);
-
-		makeHidden(zonesMenu);
-        makeHidden(dashboardMenu);
-
-        settingsBtn.setAttribute("selected", true);
-        zonesBtn.removeAttribute("selected");
-        dashboardBtn.removeAttribute("selected");
-
-        var defaultViewDiv = $("#settings0");
-        defaultViewDiv.onclick();
-
-		console.log("Settings");
-	}
-
-	dashboardBtn.onclick = function() {
-		makeVisibleBlock(dashboardDiv);
-		makeVisibleBlock(dashboardMenu);
-
-		makeHidden(zonesDiv);
-		makeHidden(settingsDiv);
-
-		makeHidden(zonesMenu);
-		makeHidden(settingsMenu);
-
-		dashboardBtn.setAttribute("selected", true);
-		zonesBtn.removeAttribute("selected");
-		settingsBtn.removeAttribute("selected");
-
-		console.log("Dashboard");
-	}
-
-	dashboardBtn.setAttribute("selected", true);
 
 	ui.login.login(function() {
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
-		window.ui.about.showDeviceInfo();
-		loop = setInterval(uiLoop, 1000);
+		window.ui.about.getDeviceInfo();
+		loop = setInterval(uiLoop, 2000);
 	});
 }
 

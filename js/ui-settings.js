@@ -7,32 +7,42 @@ window.ui = window.ui || {};
 
 (function(_settings) {
 
+	var uiElems = {}
+
 	function showWeather()
 	{
 		//Weather Sources List
-		var parsers = API.getParsers();
+		Data.parsers = API.getParsers();
 		var weatherSourcesDiv = $('#weatherDataSourcesList');
+
 		clearTag(weatherDataSourcesList);
 
-		console.log("%o", parsers);
-
-		for (var i = 0; i < parsers.parsers.length; i++)
+		for (var i = 0; i < Data.parsers.parsers.length; i++)
 		{
-			var p = parsers.parsers[i];
+			var p = Data.parsers.parsers[i];
 
 			var template = loadTemplate("weather-sources-template");
 			var enabledElem = $(template, '[rm-id="weather-source-enable"]');
 			var nameElem = $(template, '[rm-id="weather-source-name"]');
 			var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
+			template.parserid = p.uid;
+			template.parseridx = i;
 			enabledElem.checked = p.enabled;
+			enabledElem.id = "weatherSourceStatus-" + p.uid;
 			enabledElem.value = p.uid;
-			enabledElem.onchange = function() { setWeatherSource(+this.value, this.checked); };
-			nameElem.textContent = p.name;
+
+			var lw = p.name.lastIndexOf(" ");
+			nameElem.textContent = p.name.substring(0, lw); //Don't show Parser word in weather parsers
 			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
+			template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
 
 			weatherSourcesDiv.appendChild(template);
 		}
+
+		var weatherSourcesSaveElem = $('#weatherSourcesSave');
+		weatherSourcesSaveElem.onclick = onWeatherSourceSave;
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -77,12 +87,121 @@ window.ui = window.ui || {};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+
+		setupWeatherSourceUpload();
+	}
+
+	function showParserDetails(p) {
+
+		if (!p) {
+			console.log("No parser data");
+			return;
+		}
+
+		var weatherDataSourcesEditContent = $('#weatherSourcesEditContent');
+		var saveButton =  $('#weatherSourcesEditSave');
+		var closeButton =  $('#weatherSourcesEditClose');
+
+		clearTag(weatherDataSourcesEditContent);
+		makeHidden('#weatherSourcesList');
+		makeVisible('#weatherSourcesEdit');
+
+		var template = loadTemplate("weather-sources-details-template");
+		var nameElem = $(template, '[rm-id="weather-source-name"]');
+        var enabledElem = $(template, '[rm-id="weather-source-enable"]');
+        var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+        var paramsElem = $(template, '[rm-id="weather-source-params"]');
+
+        nameElem.textContent = p.name;
+		enabledElem.checked = p.enabled;
+		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+
+		if (p.params) {
+			for (param in p.params) {
+				Util.tagFromDataType(paramsElem, p.params[param], param);
+			}
+		}
+
+		weatherDataSourcesEditContent.appendChild(template);
+
+		closeButton.onclick = function() {
+			makeHidden('#weatherSourcesEdit');
+			makeVisible('#weatherSourcesList');
+		}
+	}
+
+	function onWeatherSourceSave() {
+		var hasChanges = false;
+
+		for (var i = 0; i < Data.parsers.parsers.length; i++) {
+			var p = Data.parsers.parsers[i];
+			var enabledElem = $("#weatherSourceStatus-" + p.uid);
+
+			if (!enabledElem) continue;
+
+            if (enabledElem.checked != p.enabled) {
+            	console.log("Parser %s changed configuration from %s to %s", p.name, p.enabled, enabledElem.checked)
+            	API.setParserEnable(p.uid, enabledElem.checked);
+            	hasChanges = true;
+            }
+		}
+
+		if (hasChanges) {
+			showWeather();
+		}
 	}
 
 	function setWeatherSource(id, enabled)
 	{
 		console.log("Setting weather source %d to %o", id, enabled);
 		API.setParserEnable(id, enabled);
+	}
+
+	function setupWeatherSourceUpload() {
+		if (uiElems.hasOwnProperty("weatherSources"))
+			return;
+
+		uiElems.weatherSources = {};
+		uiElems.weatherSources.Upload = {};
+
+		uiElems.weatherSources.Add = $('#weatherSourcesAdd');
+		uiElems.weatherSources.Upload.Close = $('#weatherSourcesUploadClose');
+		uiElems.weatherSources.Upload.File = $('#weatherSourcesUploadFile');
+		uiElems.weatherSources.Upload.Upload = $('#weatherSourcesUploadUpload');
+		uiElems.weatherSources.Upload.Status = $('#weatherSourcesUploadStatus');
+
+		uiElems.weatherSources.Add.onclick = function() {
+			makeHidden("#weatherSourcesList");
+			makeVisible("#weatherSourcesUpload");
+        }
+
+        uiElems.weatherSources.Upload.Close.onclick = function() {
+        	makeVisible("#weatherSourcesList");
+        	makeHidden("#weatherSourcesUpload");
+        	uiElems.weatherSources.Upload.Status.textContent = "Please select a *.py or *.pyc file";
+        }
+
+		uiElems.weatherSources.Upload.Upload.onclick = function() {
+			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+		}
+	}
+
+	function onParserLoad(status) {
+		var o = uiElems.weatherSources.Upload.Status;
+
+		if (status.message) {
+			o.textContent = status.message;
+		}
+
+		if (status.data && status.file) {
+			o.textContent = "Uploading file " + status.file.name;
+			var ret = API.uploadParser(status.file.name, status.file.type, status.data);
+			if (ret === null) {
+				o.textContent = "Error uploading" + status.file.name;
+			} else {
+				o.textContent = "Successful uploaded " + status.file.name
+			}
+		}
 	}
 
 	function showRainDelay()
@@ -97,8 +216,6 @@ window.ui = window.ui || {};
 
 		var stopButton = $("#snoozeStop");
 		var setButton = $("#snoozeSet");
-
-		var snoozeDays = $('#snoozeDays').value;
 
 		//Are we already in Snooze
 		if (rd > 0)
@@ -116,16 +233,21 @@ window.ui = window.ui || {};
 		}
 
 		stopButton.onclick = function() { console.log(API.setRestrictionsRainDelay(0)); showRainDelay(); };
-		setButton.onclick = function() { console.log(API.setRestrictionsRainDelay(+snoozeDays)); showRainDelay() };
+		setButton.onclick = function() {
+			var snoozeDays = $('#snoozeDays').value;
+			console.log(API.setRestrictionsRainDelay(parseInt(snoozeDays)));
+			showRainDelay();
+		};
 	}
 
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
 		var days = parseInt($("#waterHistoryDays").value);
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
-		Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
 
-		showWaterLog();
+		APIAsync.getWateringLog(false, true, startDate, days).then(
+			function(o) {Data.waterLogCustom = o; showWaterLog();}
+		);
 	}
 
 	function showWaterLog() {
@@ -146,7 +268,11 @@ window.ui = window.ui || {};
 			startDateElem.value = startDate;
 			daysElem.value = days;
 
-			Data.waterLogCustom = API.getWateringLog(false, true, startDate, days);
+			APIAsync.getWateringLog(false, true, startDate, days).then(
+            	function(o) {Data.waterLogCustom = o; showWaterLog();}
+            );
+
+			return;
 		}
 
 		var waterLog = Data.waterLogCustom;

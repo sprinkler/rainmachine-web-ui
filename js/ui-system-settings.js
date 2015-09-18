@@ -18,6 +18,7 @@ window.ui = window.ui || {};
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
+			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
 			DeviceName: $("#systemSettingsDeviceName"),
 			DeviceNameSet: $("#systemSettingsDeviceNameSet"),
@@ -101,8 +102,9 @@ window.ui = window.ui || {};
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 		systemSettingsView.Email.value = Data.provision.cloud.email;
 
-		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore;
-		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter;
+		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
+		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
+		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
 		systemSettingsView.DeviceName.value = Data.provision.system.netName;
@@ -133,7 +135,7 @@ window.ui = window.ui || {};
 		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
 		systemSettingsView.DeviceNameSet.onclick = function() {
 			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
-			window.ui.about.showDeviceInfo(); //refresh
+			window.ui.about.getDeviceInfo(); //refresh
 		};
 		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
 		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
@@ -203,25 +205,11 @@ window.ui = window.ui || {};
 
 	function systemSettingsChangeMasterValve()
 	{
+		var enabled = systemSettingsView.enableMasterValveInput.checked;
 		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
-		var a = parseInt(systemSettingsView.MasterValveAfter.value) * 60;
+        var a =  parseInt(systemSettingsView.MasterValveAfter.value) * 60;
 
-		var data = {
-			masterValveBefore: b,
-			masterValveAfter: a
-		};
-
-		var r = API.setProvision(data, null);
-		console.log(r);
-
-		if (r === undefined || !r ||  r.statusCode != 0)
-		{
-			console.log("Can't set Master Valve");
-			return;
-		}
-
-		Data.provision.system.masterValveBefore = b;
-		Data.provision.system.masterValveAfter = a;
+		return Util.saveMasterValve(enabled, b, a);
 	}
 
 	function systemSettingsChangeUnits()
@@ -283,6 +271,6 @@ window.ui = window.ui || {};
 	//
 	//
 	_system.showSettings = showSettings;
-	_system.systemSettingsView = systemSettingsView;
+	//_system.systemSettingsView = systemSettingsView;
 
 } (window.ui.system = window.ui.system || {}));

@@ -23,14 +23,16 @@ window.ui = window.ui || {};
 		$("#aboutUptime").textContent = Data.diag.uptime;
 		$("#aboutUpdate").onclick = function() { API.startUpdate(); showAbout(); };
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
-		$("#aboutDiagViewLog").onclick = function() { API.getDiagLog(); };
+		$("#aboutDiagViewLog").onclick = function() { showLog(); };
 
-		API.checkUpdate();
-		var updateStatus = API.getUpdate();
-		showUpdateStatus(updateStatus);
+		APIAsync.checkUpdate().then(setTimeout(function(){ APIAsync.getUpdate().then(function(o) { showUpdateStatus(o);})}, 1000));
+		APIAsync.getDiagUpload().then(function(o) { showDiagUploadStatus(o);});
+	}
 
-		var uploadStatus = API.getDiagUpload();
-		showDiagUploadStatus(uploadStatus);
+	function showLog(log) {
+		var logWin = window.open();
+		logWin.document.write("<h2>Retriving log from device ...</h2>");
+		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
 	}
 
 	function showUpdateStatus(updateStatus)
@@ -67,32 +69,67 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function showDeviceInfo()
+	function showDeviceInfo() {
+		if (Data.provision.wifi === undefined || Data.provision.system === undefined ||
+			Data.provision.api === undefined || Data.diag === null) {
+			return false;
+		}
+		var deviceImgDiv = $('#deviceImage');
+		var deviceNameDiv = $('#deviceName');
+		var deviceNetDiv = $('#deviceNetwork');
+		var footerInfoDiv = $('#footerInfo');
+
+		deviceNameDiv.textContent = Data.provision.system.netName;
+		deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
+
+		if (Data.provision.api.hwVer == 3)
+			deviceImgDiv.className = "spk3";
+
+		footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime +
+		 " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+
+		return true;
+	}
+
+	function getDeviceInfo()
     {
-    	Data.diag = API.getDiag();
-        Data.provision = API.getProvision();
-        Data.provision.wifi = API.getProvisionWifi();
-        Data.provision.api = API.getApiVer();
-    	Data.provision.cloud = API.getProvisionCloud();
+    	APIAsync.getProvision().then(
+		   function(o) {
+				Data.provision.system = o.system;
+				Data.provision.location = o.location;
+				showDeviceInfo();
+			});
 
-        var deviceImgDiv = $('#deviceImage');
-        var deviceNameDiv = $('#deviceName');
-        var deviceNetDiv = $('#deviceNetwork');
-        var footerInfoDiv = $('#footerInfo');
+		APIAsync.getApiVer().then(
+			function(o) {
+				Data.provision.api = o;
+				showDeviceInfo();
+			});
 
-        deviceNameDiv.innerHTML = Data.provision.system.netName;
-        deviceNetDiv.innerHTML = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+    	APIAsync.getProvisionWifi().then(
+			function(o) {
+				Data.provision.wifi = o;
+				showDeviceInfo();
+			});
 
-        if (Data.provision.api.hwVer == 3)
-        	deviceImgDiv.className = "spk3";
+		APIAsync.getProvisionCloud().then(
+			function(o) {
+				Data.provision.cloud = o;
+				showDeviceInfo();
+			});
 
-    	footerInfoDiv.innerHTML = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime + " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+		APIAsync.getDiag().then(
+			function(o) {
+				Data.diag = o;
+				showDeviceInfo();
+			});
     }
 
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_about.showAbout = showAbout;
-	_about.showDeviceInfo = showDeviceInfo;
+	_about.getDeviceInfo = getDeviceInfo;
 
 } (window.ui.about = window.ui.about || {}));
