@@ -175,9 +175,11 @@ Util.redirectHome = function(locationObj) {
 		location.reload();
 	}
 }
-Util.tagFromDataType = function(parent, data, label) {
+Util.generateTagFromDataType = function(parent, data, label) {
 	var div = addTag(parent, 'div');
 	div.textContent = label;
+	div.id = "generated-" + label;
+	div.className = "generatedTag";
 
 	var input = addTag(div, 'input');
     input.type = "text"; //default type for null, object, number or string types

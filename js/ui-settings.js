@@ -28,9 +28,7 @@ window.ui = window.ui || {};
 
 			template.parserid = p.uid;
 			template.parseridx = i;
-			//enabledElem.checked = p.enabled;
-			enabledElem.id = "weatherSourceStatus-" + p.uid;
-			//enabledElem.value = p.uid;
+
 			if (p.enabled) {
 				enabledElem.setAttribute("enabled", true);
 			} else {
@@ -45,9 +43,6 @@ window.ui = window.ui || {};
 
 			weatherSourcesDiv.appendChild(template);
 		}
-
-		var weatherSourcesSaveElem = $('#weatherSourcesSave');
-		weatherSourcesSaveElem.onclick = onWeatherSourceSave;
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -99,7 +94,7 @@ window.ui = window.ui || {};
 	function showParserDetails(p) {
 
 		if (!p) {
-			console.log("No parser data");
+			console.error("No parser data");
 			return;
 		}
 
@@ -119,11 +114,12 @@ window.ui = window.ui || {};
 
         nameElem.textContent = p.name;
 		enabledElem.checked = p.enabled;
+		enabledElem.id = 'weatherSourceStatus-' + p.uid;
 		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 
 		if (p.params) {
 			for (param in p.params) {
-				Util.tagFromDataType(paramsElem, p.params[param], param);
+				Util.generateTagFromDataType(paramsElem, p.params[param], param);
 			}
 		}
 
@@ -133,25 +129,44 @@ window.ui = window.ui || {};
 			makeHidden('#weatherSourcesEdit');
 			makeVisible('#weatherSourcesList');
 		}
+
+		saveButton.onclick = function() { onWeatherSourceSave(p.uid) };
 	}
 
-	function onWeatherSourceSave() {
-		var hasChanges = false;
+	function onWeatherSourceSave(id) {
+		var shouldSaveEnable = false;
+		var shouldSaveParams = false;
 
+		var p = null;
 		for (var i = 0; i < Data.parsers.parsers.length; i++) {
-			var p = Data.parsers.parsers[i];
-			var enabledElem = $("#weatherSourceStatus-" + p.uid);
-
-			if (!enabledElem) continue;
-
-            if (enabledElem.checked != p.enabled) {
-            	console.log("Parser %s changed configuration from %s to %s", p.name, p.enabled, enabledElem.checked)
-            	API.setParserEnable(p.uid, enabledElem.checked);
-            	hasChanges = true;
-            }
+			if (Data.parsers.parsers[i].uid == id) {
+				p = Data.parsers.parsers[i];
+				break;
+			}
 		}
 
-		if (hasChanges) {
+		if (!p) {
+			console.error("Parser id not found in list !");
+			return;
+		}
+
+		var enabledElem = $("#weatherSourceStatus-" + p.uid);
+		if (enabledElem != p.enabled) {
+			console.log("Parser %s changed configuration from %s to %s", p.name, p.enabled, enabledElem.checked)
+			shouldSaveEnable = true;
+		}
+
+        if (p.params) {
+			for (param in p.params) {
+
+			}
+		}
+
+		if (shouldSaveEnable) {
+			API.setParserEnable(p.uid, enabledElem.checked);
+		}
+
+		if (shouldSaveEnable) {
 			showWeather();
 		}
 	}
