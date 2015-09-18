@@ -419,7 +419,7 @@ input.typeText {
     border: 1px solid #eee;
     padding: 15px;
     font-size: 16px;
-    width: 100%;
+    width: 50%;
 }
 #systemSettingsLocationLat, #systemSettingsLocationLon, #systemSettingsLocationElev {
   width:150px;
@@ -949,6 +949,11 @@ td.right, .right {
     border:0px;
     margin-right:50px;
     float:right;
+}
+.generatedTag {
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 8px 0px;
 }
 /* Settings - Weather (END) */
 
