@@ -544,6 +544,14 @@ input.typeNumber, input.typeTime {
 input.typeTime {
     width: 180px;
 }
+input[type=file] {
+    padding:10px;
+    padding-left:0px;
+    color:#ddd;
+    border-bottom: 1px solid #f0f0f0;
+    width:100%;
+    margin-bottom: 20px;
+}
 select {
    background: #fff url('../images/arrow.png') no-repeat;
    background-position:right center;
@@ -898,28 +906,6 @@ td.right, .right {
   overflow: auto;
 }
 
-.weatherSource {
-  padding: 8px 0;
-  border-top: 0px solid #eee;
-  border-bottom: 1px solid #eee;
-  background-image: url("../images/arrow_right.png");
-  background-position: right;
-  background-repeat: no-repeat;
-  padding-right:10px;
-}
-#weatherSource:hover {
-  background-color: #ecf0f1;
-  cursor: pointer;
-}
-#whiteEdit {
-  display: none;
-  color:#3399cc;
-  float: right;
-  margin-right: 20px;
-  text-transform: uppercase;
-}
-#weatherSource:hover #whiteEdit {display: block;}
-
 .dashboard {
   position: relative;
   width: 100%;
@@ -940,6 +926,31 @@ td.right, .right {
 }
 
 /* DASHBOARD */
+
+/* Settings - Weather (START) */
+.weatherSource {
+  padding: 8px 0;
+  border-top: 0px solid #eee;
+  border-bottom: 1px solid #eee;
+  background-image: url("../images/arrow_right.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  padding-right:10px;
+}
+#weatherSource:hover {
+  background-color: #ecf0f1;
+  cursor: pointer;
+}
+.weatherDataSourceEnabled[enabled] {
+    width:16px;
+    height:16px;
+    background: url('../images/selected.png') no-repeat center;
+    padding-top: 0px;
+    border:0px;
+    margin-right:50px;
+    float:right;
+}
+/* Settings - Weather (END) */
 
 /* MEDIA QUERIES */
 
@@ -966,7 +977,7 @@ td.right, .right {
     .button {
       display: inline-block;
       position: relative;
-      width: 75px;
+      min-width: 100px;
       height: 32px;
       line-height: 32px;
       border-radius: 2px;
