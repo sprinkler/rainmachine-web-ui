@@ -27,6 +27,7 @@ window.ui = window.ui || {};
 			var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
 
 			template.parserid = p.uid;
+			template.parseridx = i;
 			enabledElem.checked = p.enabled;
 			enabledElem.id = "weatherSourceStatus-" + p.uid;
 			enabledElem.value = p.uid;
@@ -34,7 +35,8 @@ window.ui = window.ui || {};
 			var lw = p.name.lastIndexOf(" ");
 			nameElem.textContent = p.name.substring(0, lw); //Don't show Parser word in weather parsers
 			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
-			template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData) }); }
+			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
+			template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
 
 			weatherSourcesDiv.appendChild(template);
 		}
@@ -89,14 +91,13 @@ window.ui = window.ui || {};
 		setupWeatherSourceUpload();
 	}
 
-	function showParserDetails(parserData) {
+	function showParserDetails(p) {
 
-		if (!parserData) {
+		if (!p) {
 			console.log("No parser data");
 			return;
 		}
 
-		var weatherDataSourcesEditTitle = $('#weatherSourcesEditTitle');
 		var weatherDataSourcesEditContent = $('#weatherSourcesEditContent');
 		var saveButton =  $('#weatherSourcesEditSave');
 		var closeButton =  $('#weatherSourcesEditClose');
@@ -105,10 +106,23 @@ window.ui = window.ui || {};
 		makeHidden('#weatherSourcesList');
 		makeVisible('#weatherSourcesEdit');
 
-		var p = parserData.parser;
-		weatherDataSourcesEditTitle.textContent = p.name;
-		weatherDataSourcesEditContent.textContent = JSON.stringify(p);
+		var template = loadTemplate("weather-sources-details-template");
+		var nameElem = $(template, '[rm-id="weather-source-name"]');
+        var enabledElem = $(template, '[rm-id="weather-source-enable"]');
+        var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+        var paramsElem = $(template, '[rm-id="weather-source-params"]');
 
+        nameElem.textContent = p.name;
+		enabledElem.checked = p.enabled;
+		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+
+		if (p.params) {
+			for (param in p.params) {
+				Util.tagFromDataType(paramsElem, p.params[param], param);
+			}
+		}
+
+		weatherDataSourcesEditContent.appendChild(template);
 
 		closeButton.onclick = function() {
 			makeHidden('#weatherSourcesEdit');

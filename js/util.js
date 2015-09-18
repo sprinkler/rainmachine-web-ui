@@ -175,6 +175,25 @@ Util.redirectHome = function(locationObj) {
 		location.reload();
 	}
 }
+Util.tagFromDataType = function(parent, data, label) {
+	var div = addTag(parent, 'div');
+	div.textContent = label;
+
+	var input = addTag(div, 'input');
+    input.type = "text"; //default type for null, object, number or string types
+
+    if (typeof data == "boolean") {
+    	input.type = "checkbox"
+    	if (data) {
+    		input.checked = true;
+    	}
+    } else {
+    	input.value = data;
+    	input.className = "typeText";
+    }
+
+    return div;
+}
 
 //filesObject is the object returned by files property of input type=file
 Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {

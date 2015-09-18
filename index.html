@@ -402,11 +402,11 @@
 									    <td class="listItemSettings relative">
 											<!-- Weather Data Source EDIT (Begin) -->
 											<div id="weatherSourcesEdit" class="hidden">
-												<h1 class="title" id="weatherSourcesEditTitle"></h1>
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
 												<div style="height:40px;">&nbsp;</div>
 												<div class="absolute full">
 													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
+													<button id="weatherSourcesEditRun" class="button label-red center right">Run Now</button>
 													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
 												</div>
 											</div>
@@ -1199,12 +1199,10 @@
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
-			<div class="weatherSource">
-				<div><span rm-id="weather-source-lastrun"></span></div>
-				<div><input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
-				<div><input type="checkbox" rm-id="weather-source-custom" class="typeCheckbox middle"></div>
-				<div rm-id="weather-source-params"></div>
-			</div>
+			<h1 rm-id="weather-source-name"></h1>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun"></span></div>
+			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox middle"></div>
+			<div rm-id="weather-source-params"></div>
 		</div>
 		<!-- Template for Weather Data Sources Details (End) -->
 
