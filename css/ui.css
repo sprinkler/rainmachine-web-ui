@@ -419,7 +419,7 @@ input.typeText {
     border: 1px solid #eee;
     padding: 15px;
     font-size: 16px;
-    width: 50%;
+    width: 100%;
 }
 #systemSettingsLocationLat, #systemSettingsLocationLon, #systemSettingsLocationElev {
   width:150px;
@@ -950,10 +950,18 @@ td.right, .right {
     margin-right:50px;
     float:right;
 }
-.generatedTag {
+#weatherSourcesEditContent:first-child div {
     vertical-align: middle;
-    border-bottom: 1px solid #f0f0f0;
     padding: 8px 0px;
+}
+#weatherSourcesEditContent:first-child input[type="checkbox"] {
+    margin-left:10px;
+}
+#weatherSourcesEditContent:first-child input[type="text"] {
+   margin-left:10px;
+   vertical-align: middle;
+   width:75%;
+   height:18px;
 }
 /* Settings - Weather (END) */
 
