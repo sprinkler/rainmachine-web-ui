@@ -919,14 +919,15 @@ td.right, .right {
   background-color: #ecf0f1;
   cursor: pointer;
 }
-#whiteEdit {
-  display: none;
-  color:#3399cc;
-  float: right;
-  margin-right: 20px;
-  text-transform: uppercase;
+.weatherDataSourceEnabled[enabled] {
+    width:16px;
+    height:16px;
+    background: url('../images/selected.png') no-repeat center;
+    padding-top: 0px;
+    border:0px;
+    margin-right:50px;
+    float:right;
 }
-#weatherSource:hover #whiteEdit {display: block;}
 
 .dashboard {
   position: relative;
