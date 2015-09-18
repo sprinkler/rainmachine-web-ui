@@ -28,9 +28,14 @@ window.ui = window.ui || {};
 
 			template.parserid = p.uid;
 			template.parseridx = i;
-			enabledElem.checked = p.enabled;
+			//enabledElem.checked = p.enabled;
 			enabledElem.id = "weatherSourceStatus-" + p.uid;
-			enabledElem.value = p.uid;
+			//enabledElem.value = p.uid;
+			if (p.enabled) {
+				enabledElem.setAttribute("enabled", true);
+			} else {
+				enabledElem.removeAttribute("enabled");
+			}
 
 			var lw = p.name.lastIndexOf(" ");
 			nameElem.textContent = p.name.substring(0, lw); //Don't show Parser word in weather parsers
