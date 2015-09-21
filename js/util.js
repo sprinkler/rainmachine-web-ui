@@ -175,13 +175,21 @@ Util.redirectHome = function(locationObj) {
 		location.reload();
 	}
 }
+
+/**
+ * Generates a div with a label and an input tag depending on data type
+ * @param parent - parent element for the newly created div
+ * @param data - data
+ * @param label - label for the data
+ * @returns the newly created div
+ */
 Util.generateTagFromDataType = function(parent, data, label) {
 	var div = addTag(parent, 'div');
 	div.textContent = label;
-	div.id = "generated-" + label;
 	div.className = "generatedTag";
 
 	var input = addTag(div, 'input');
+	input.id = "generated-" + label;
     input.type = "text"; //default type for null, object, number or string types
 
     if (typeof data == "boolean") {
@@ -195,6 +203,39 @@ Util.generateTagFromDataType = function(parent, data, label) {
     }
 
     return div;
+}
+
+/**
+ * Generates a div with a label and an input tag depending on data type
+ * @param parent - parent element for the newly created div
+ * @param data - data
+ * @param label - label for the data
+ * @returns {array} - in form [label, value]
+ */
+
+
+Util.readGeneratedTagValue = function(label) {
+	var id = "#generated-" + label;
+	var tag = $(id);
+
+	if (!tag) {
+		console.error("No generated tag with id %s found", id);
+		return [];
+	}
+
+	if (tag.type == "checkbox") {
+		console.log("Checkbox input detected label: %s value: %s", label, tag.checked);
+		return [label, tag.checked];
+	} else {
+		console.log("Generic input detected label: %s value: %s", label, tag.value);
+
+		var n = parseFloat(tag.value);
+
+		if (isNaN(n)) {
+			n = tag.value;
+		}
+		return [label, n];
+	}
 }
 
 //filesObject is the object returned by files property of input type=file

@@ -125,12 +125,14 @@ window.ui = window.ui || {};
 
 		weatherDataSourcesEditContent.appendChild(template);
 
-		closeButton.onclick = function() {
-			makeHidden('#weatherSourcesEdit');
-			makeVisible('#weatherSourcesList');
-		}
+		closeButton.onclick = onWeatherSourceClose;
 
 		saveButton.onclick = function() { onWeatherSourceSave(p.uid) };
+	}
+
+	function onWeatherSourceClose() {
+		makeHidden('#weatherSourcesEdit');
+		makeVisible('#weatherSourcesList');
 	}
 
 	function onWeatherSourceSave(id) {
@@ -156,18 +158,31 @@ window.ui = window.ui || {};
 			shouldSaveEnable = true;
 		}
 
+		var newParams = {}
         if (p.params) {
 			for (param in p.params) {
+				var t = Util.readGeneratedTagValue(param);
+				if (t && t.length == 2) {
+					newParams[t[0]] = t[1];
+				}
 
+				if (p.params[param] != t[1]) {
+					shouldSaveParams = true;
+				}
 			}
 		}
 
 		if (shouldSaveEnable) {
-			API.setParserEnable(p.uid, enabledElem.checked);
+			console.log(API.setParserEnable(p.uid, enabledElem.checked));
 		}
 
-		if (shouldSaveEnable) {
+		if (shouldSaveParams) {
+			console.log(API.setParserParams(p.uid, newParams));
+		}
+
+		if (shouldSaveEnable || shouldSaveParams) {
 			showWeather();
+			onWeatherSourceClose();
 		}
 	}
 
