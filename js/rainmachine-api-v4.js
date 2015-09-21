@@ -494,6 +494,18 @@ _API.prototype.setParserEnable = function(id, enable)
 	return this.post(url, data, null);
 }
 
+_API.prototype.setParserParams = function(id, params)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+    url += "/" + id + "/params";
+
+    return this.post(url, params, null);
+}
+
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 _API.prototype.getMixer = function(startDate, days)
 {

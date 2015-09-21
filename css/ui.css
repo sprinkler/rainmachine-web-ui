@@ -937,7 +937,7 @@ td.right, .right {
   background-repeat: no-repeat;
   padding-right:10px;
 }
-#weatherSource:hover {
+.weatherSource:hover {
   background-color: #ecf0f1;
   cursor: pointer;
 }
