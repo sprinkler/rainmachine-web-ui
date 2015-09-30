@@ -35,8 +35,16 @@ window.ui = window.ui || {};
 				enabledElem.removeAttribute("enabled");
 			}
 
+
 			var lw = p.name.lastIndexOf(" ");
-			nameElem.textContent = p.name.substring(0, lw); //Don't show Parser word in weather parsers
+            var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
+
+			if (p.custom) {
+				parserName = "Custom:" + parserName
+			}
+
+			nameElem.textContent = parserName;
+
 			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
 			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
 			template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
@@ -100,6 +108,7 @@ window.ui = window.ui || {};
 
 		var weatherDataSourcesEditContent = $('#weatherSourcesEditContent');
 		var saveButton =  $('#weatherSourcesEditSave');
+		var runButton = $('#weatherSourcesEditRun');
 		var closeButton =  $('#weatherSourcesEditClose');
 
 		clearTag(weatherDataSourcesEditContent);
@@ -126,13 +135,18 @@ window.ui = window.ui || {};
 		weatherDataSourcesEditContent.appendChild(template);
 
 		closeButton.onclick = onWeatherSourceClose;
-
-		saveButton.onclick = function() { onWeatherSourceSave(p.uid) };
+		saveButton.onclick = function() { onWeatherSourceSave(p.uid); }
+		runButton.onclick = function() { onWeatherSourceRun(p.uid); }
 	}
 
 	function onWeatherSourceClose() {
 		makeHidden('#weatherSourcesEdit');
 		makeVisible('#weatherSourcesList');
+	}
+
+	function onWeatherSourceRun(id) {
+		API.runParser(id, true, false, false);
+		onWeatherSourceClose();
 	}
 
 	function onWeatherSourceSave(id) {

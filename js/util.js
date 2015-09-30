@@ -176,6 +176,14 @@ Util.redirectHome = function(locationObj) {
 	}
 }
 
+Util.isFloat = function(value) {
+	if(/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)) {
+		return true;
+	}
+
+	return false;
+}
+
 /**
  * Generates a div with a label and an input tag depending on data type
  * @param parent - parent element for the newly created div
@@ -213,7 +221,6 @@ Util.generateTagFromDataType = function(parent, data, label) {
  * @returns {array} - in form [label, value]
  */
 
-
 Util.readGeneratedTagValue = function(label) {
 	var id = "#generated-" + label;
 	var tag = $(id);
@@ -229,14 +236,20 @@ Util.readGeneratedTagValue = function(label) {
 	} else {
 		console.log("Generic input detected label: %s value: %s", label, tag.value);
 
-		var n = parseFloat(tag.value);
+		var n;
 
-		if (isNaN(n)) {
+		// We don't want 123ab to be parsed as float 123
+		if (Util.isFloat(tag.value)) {
+			n = parseFloat(tag.value)
+		} else {
 			n = tag.value;
 		}
+
 		return [label, n];
 	}
 }
+
+
 
 //filesObject is the object returned by files property of input type=file
 Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
