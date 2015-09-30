@@ -97,6 +97,7 @@ window.ui = window.ui || {};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		setupWeatherSourceUpload();
+		getAllEnabledParsersData()
 	}
 
 	function showParserDetails(p) {

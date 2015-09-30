@@ -25,10 +25,11 @@ function getParserData(id) {
 }
 
 function getAllEnabledParsersData() {
-	getParserData(1);
-	getParserData(3);
-	getParserData(4);
-	getParserData(5);
+	for (var i = 0; i < Data.parsers.parsers.length; i++) {
+		if (Data.parsers.parsers[i].enabled) {
+			getParserData(Data.parsers.parsers[i].uid);
+		}
+	}
 }
 
 function processParserChartData(id) {
@@ -109,6 +110,8 @@ function generateTemperatureParsersChart() {
 			tempData[id].sort(function(a, b) { return a[0] - b[0];});
 		}
     }
+
+	console.log(tempData);
 
 	var temperatureChartOptions = {
 		chart: {
