@@ -2,14 +2,35 @@
  *	Copyright (c) 2015 RainMachine, Green Electronics LLC
  *	All rights reserved.
  */
-
-
 var parserCharts = {
-	temperature: null,
-	qpf: null
+	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature (&deg;C)" },
+	qpf: 			{ chart: null, container: "qpfParsersChartContainer", 			title: "Precipitation Forecast(mm)" },
+	wind:			{ chart: null, container: "windParsersChartContainer",			title: "Wind (m/s)" },
+	dewPoint: 		{ chart: null, container: "dewParsersChartContainer",			title: "Dew Point (&deg;C)" },
+	rh:				{ chart: null, container: "rhParsersChartContainer",			title: "Relative Humidity (%)" },
+    pressure:		{ chart: null, container: "pressureParsersChartContainer",		title: "Atmospheric Pressure" }
 };
 
-var parsersHourlyChartData = {};
+/*
+ *	Holds parsed data from weather parsers, each possible observation has multiple id (for each parser) and
+ * an array containing [timestamp, data] (eg: parsersHourlyChartData.temp[id] has [timestamp, data] as value
+ */
+var parsersHourlyChartData = {
+	condition: {},
+	dewPoint: {},
+	et0:  {},
+	maxRh: {},
+	maxTemperature:  {},
+	minRh:  {},
+	minTemperature:  {},
+	qpf:  {},
+	pressure:  {},
+	rh:  {},
+	solarRad: {},
+	temperature:  {},
+	wind:  {}
+};
+
 
 function getParserData(id) {
 	var startDate = Util.getDateWithDaysDiff(0); //7 days from today
@@ -36,7 +57,13 @@ function processParserChartData(id) {
 
 	var parserData = Data.parserData[id].parserData;
 
-	parsersHourlyChartData[id] = {};
+	// initialize all data points for this parser id
+	var keys = Object.keys(parsersHourlyChartData);
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+		parsersHourlyChartData[key][id] = [];
+	}
+	console.log("initialised id: %d", id);
 
 	//for (var parserDataIndex = 0; parserDataIndex < parserData.length; parserDataIndex++) {
 		var days = parserData[0].dailyValues;
@@ -48,79 +75,105 @@ function processParserChartData(id) {
 
 			for (var hourlyValuesIndex = 0; hourlyValuesIndex < hours.length; hourlyValuesIndex++) {
 				var currentHour =  hours[hourlyValuesIndex];
-				parsersHourlyChartData[id][currentHour.hour] = {
-					condition:	currentHour.condition,
-					dewPoint:	currentHour.dewPoint,
-					et0:		currentHour.et0,
-					maxRh:		currentHour.maxRh,
-					maxt: 		currentHour.maxTemperature,
-					minRh:		currentHour.minRh,
-					mint: 		currentHour.minTemperature,
-					qpf:  		currentHour.qpf,
-					pressure:	currentHour.pressure,
-					rh:			currentHour.rh,
-					solarRad:	currentHour.solarRad,
-					temp: 		currentHour.temperature,
-					wind:		currentHour.wind
-				};
+
+				addDataPoint(id, currentHour, "condition");
+				addDataPoint(id, currentHour, "dewPoint");
+                addDataPoint(id, currentHour, "et0");
+                addDataPoint(id, currentHour, "maxRh");
+                addDataPoint(id, currentHour, "maxTemperature");
+                addDataPoint(id, currentHour, "minRh");
+                addDataPoint(id, currentHour, "minTemperature");
+                addDataPoint(id, currentHour, "qpf");
+                addDataPoint(id, currentHour, "pressure");
+                addDataPoint(id, currentHour, "rh");
+                addDataPoint(id, currentHour, "solarRad");
+                addDataPoint(id, currentHour, "temperature");
+                addDataPoint(id, currentHour, "wind");
 			}
 		}
 	//}
 
+	//HighCharts needs data points to be sorted
+	sortDataPoint("condition");
+    sortDataPoint("dewPoint");
+    sortDataPoint("et0");
+    sortDataPoint("maxRh");
+    sortDataPoint("maxTemperature");
+    sortDataPoint("minRh");
+    sortDataPoint("minTemperature");
+    sortDataPoint("qpf");
+    sortDataPoint("pressure");
+    sortDataPoint("rh");
+    sortDataPoint("solarRad");
+    sortDataPoint("temperature");
+    sortDataPoint("wind");
+
 	console.log(parsersHourlyChartData);
-	generateTemperatureParsersChart(id);
+	generateAllKnownCharts(id);
+}
+
+function addDataPoint(id, data, key) {
+	if (data[key]) {
+        parsersHourlyChartData[key][id].push([Date.parse(data.hour), data[key]]);
+	}
+}
+
+function sortDataPoint(key) {
+	var data = parsersHourlyChartData[key];
+	for (id in data) {
+		if (data[id].length > 0) {
+			data[id].sort(function(a, b) { return a[0] - b[0];});
+		}
+	}
+}
+
+
+function generateAllKnownCharts(id) {
+	var keys = Object.keys(parserCharts);
+	for (var i = 0; i < keys.length; i++) {
+		var keyName = keys[i];
+		console.log("Generating chart for parser %d key: %s", id, keyName);
+		generateSpecificParsersChart(keyName);
+	}
 }
 
 /**
- * Generates the Temperature chart for all available parsers
+ * Generates chart for a specific data point for all available parsers
  */
-function generateTemperatureParsersChart() {
+function generateSpecificParsersChart(key) {
 
-	var tempData = {};
+	var data = parsersHourlyChartData[key];
 	var chartSeries = [];
 
-    var todayTimestamp = new Date();
-    todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
-
-    for (id in parsersHourlyChartData) {
-    	tempData[id] = [];
-		for (date in parsersHourlyChartData[id]) {
-			if (parsersHourlyChartData[id][date].temp === null)
-				continue;
-			tempData[id].push([Date.parse(date), parsersHourlyChartData[id][date].temp]);
+    for (id in data) {
+		if (data[id].length > 0) {
+		// Build the chart series
+		chartSeries.push({
+			data: data[id],
+			name: getParserName(id),
+			zoneAxis: 'x',
+			/*
+			zones: [{
+				value: todayTimestamp,
+			}, {
+				dashStyle: 'LongDash'
+			}]
+			*/
+		});
 		}
+	}
 
+	var todayTimestamp = new Date();
+	todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
 
-		if (tempData[id].length > 0) {
-			//Build the chart series
-			chartSeries.push({
-				data: tempData[id],
-				name: getParserName(id),
-				/*
-				zoneAxis: 'x',
-				zones: [{
-					value: todayTimestamp,
-				}, {
-					color: '#b4c5ff'
-				}]
-				*/
-			});
-
-			//Sort the data for charts
-			tempData[id].sort(function(a, b) { return a[0] - b[0];});
-		}
-    }
-
-	console.log(tempData);
-
-	var temperatureChartOptions = {
+	var chartOptions = {
 		chart: {
-			renderTo: 'temperatureParsersChartContainer',
+			renderTo: parserCharts[key].container,
 			spacingTop: 20,
 		},
 		series: chartSeries,
 		title: {
-			text: '<h1>Temperature (&deg;C)</h1>',
+			text: '<h1>' +  parserCharts[key].title + '</h1>',
 			useHTML: true
 		},
 		plotOptions: {
@@ -140,11 +193,11 @@ function generateTemperatureParsersChart() {
 	};
 
 	// before generating the chart we must destroy the old one if it exists
-	if (parserCharts.temperature) {
-		parserCharts.temperature.destroy();
+	if (parserCharts[key].chart) {
+		parserCharts[key].chart.destroy();
 	}
 
-	parserCharts.temperature = new Highcharts.Chart(temperatureChartOptions, null);
+	parserCharts[key].chart = new Highcharts.Chart(chartOptions, null);
 }
 
 

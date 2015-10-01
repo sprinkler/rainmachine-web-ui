@@ -481,7 +481,7 @@
 									  </tr>
 									</table>
 									<!-- Weather Data Source Comparison Graphs (Begin) -->
-										<div id="weather-data-source-comparison" style="margin-top:60px;">
+										<div  style="margin-top:60px;">
 								            <table cellspacing="0" cellpadding="0" class="full" height="500">
 								            	<tr valign="top">
 												    <th>
@@ -490,17 +490,22 @@
 											  	</tr>
 											  	<!-- Data Sources info buttons (Begin) -->
 											  		<td class="middle center">
-											  			<button id="parserTemp" class="button label-blue center raised">Temp</button>
-											  			<button id="parserRain" class="button label-blue center">Rain (QPF)</button>
-											  			<button id="parserWind" class="button label-blue center">Wind</button>
-											  			<button id="parserDewPoint" class="button label-blue center">Dew Point</button>
-											  			<button id="parserHumidity" class="button label-blue center">Humidity</button>
-											  			<button id="parserPressure" class="button label-blue center">Pressure</button>
+											  			<button id="parserTemp" class="submenu" selected="true">Temp</button>
+											  			<button id="parserRain" class=" submenu">Rain (QPF)</button>
+											  			<button id="parserWind" class="submenu">Wind</button>
+											  			<button id="parserDewPoint" class="submenu">Dew Point</button>
+											  			<button id="parserHumidity" class="submenu">Humidity</button>
+											  			<button id="parserPressure" class="submenu">Pressure</button>
 											  		</td>
 											  	<!-- Data Sources info buttons (end) -->
 											  	<tr>
 								                    <td>
 								                        <div id="temperatureParsersChartContainer" class="charts"></div>
+														<div id="qpfParsersChartContainer" class="charts"></div>
+														<div id="windParsersChartContainer" class="charts"></div>
+														<div id="dewParsersChartContainer" class="charts"></div>
+														<div id="rhParsersChartContainer" class="charts"></div>
+														<div id="pressureParsersChartContainer" class="charts"></div>
 								                    </td>
 								                </tr>
 								            </table>
