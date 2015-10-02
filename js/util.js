@@ -193,22 +193,38 @@ Util.isFloat = function(value) {
  */
 Util.generateTagFromDataType = function(parent, data, label) {
 	var div = addTag(parent, 'div');
-	div.textContent = label;
 	div.className = "generatedTag";
 
-	var input = addTag(div, 'input');
-	input.id = "generated-" + label;
-    input.type = "text"; //default type for null, object, number or string types
+	var isReadOnly = label.startsWith("_");
 
-    if (typeof data == "boolean") {
-    	input.type = "checkbox"
-    	if (data) {
-    		input.checked = true;
-    	}
-    } else {
-    	input.value = data;
-    	input.className = "typeText";
-    }
+	if (! isReadOnly) {
+		div.textContent = label;
+		var input = addTag(div, 'input');
+		input.id = "generated-" + label;
+		input.type = "text"; //default type for null, object, number or string types
+
+
+		if (typeof data == "boolean") {
+			input.type = "checkbox"
+			if (data) {
+				input.checked = true;
+			}
+		} else {
+			input.value = data;
+			input.className = "typeText";
+		}
+	} else {
+		div.textContent = label.substr(1);
+		var input = addTag(div, 'div');
+
+		if (data instanceof Array) {
+			for (var d in data) {
+				input.innerHTML += data[d] + "<br>";
+			}
+		} else {
+			input.textContent = data;
+		}
+	}
 
     return div;
 }

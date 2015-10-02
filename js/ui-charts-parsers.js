@@ -33,9 +33,9 @@ var parsersHourlyChartData = {
 
 
 function getParserData(id) {
-	var startDate = Util.getDateWithDaysDiff(0); //7 days from today
+	var startDate = Util.getDateWithDaysDiff(1); //7 days from today
 
-	APIAsync.getParserData(id, startDate, 7).then(function(o) {
+	APIAsync.getParserData(id, startDate, 8).then(function(o) {
 	 	if (Data.parserData === null) {
 	 		Data.parserData = {};
 	 	}
@@ -56,6 +56,11 @@ function getAllEnabledParsersData() {
 function processParserChartData(id) {
 
 	var parserData = Data.parserData[id].parserData;
+
+	if (parserData[0] === undefined || !parserData[0]) {
+		console.error("No recent data for parser %s", getParserName(id));
+		return;
+	}
 
 	// initialize all data points for this parser id
 	var keys = Object.keys(parsersHourlyChartData);
