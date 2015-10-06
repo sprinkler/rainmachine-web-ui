@@ -144,7 +144,9 @@ window.ui = window.ui || {};
             //
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
+            var soakMins = 0;
             var nextRun = new Date(program.nextRun);
+
             if(isNaN(nextRun.getTime())) {
                 nextRun = "";
             } else {
@@ -164,6 +166,11 @@ window.ui = window.ui || {};
             } catch (e) {
             }
 
+            try {
+                soakMins = parseInt(program.soak / 60);
+            } catch (e) {
+            }
+
             if (startTime.min == 0 && startTime.hour == 0) {
                 startTime.min = startTime.hour = "";
             }
@@ -171,6 +178,7 @@ window.ui = window.ui || {};
             if (delay.min == 0 && delay.sec == 0) {
                 delay.min = delay.sec = "";
             }
+
 
             //---------------------------------------------------------------------------------------
             // Show program data.
@@ -186,7 +194,7 @@ window.ui = window.ui || {};
 
             uiElems.cyclesSoakElem.checked = program.cs_on;
             uiElems.cyclesElem.value = program.cycles;
-            uiElems.soakElem.value = program.soak;
+            uiElems.soakElem.value = soakMins;
             uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
             uiElems.delayZonesElem.checked = program.delay_on;
@@ -343,6 +351,7 @@ window.ui = window.ui || {};
         startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
+        soakMins =   parseInt(uiElems.soakElem.value)  || 0;
 
         if(selectedProgram) {
             program.uid = selectedProgram.uid;
@@ -356,7 +365,7 @@ window.ui = window.ui || {};
 
         program.cs_on = uiElems.cyclesSoakElem.checked;
         program.cycles = parseInt(uiElems.cyclesElem.value || 0);
-        program.soak = parseInt(uiElems.soakElem.value) || 0;
+        program.soak = soakMins * 60;
         program.delay_on = uiElems.delayZonesElem.checked;
         program.delay = delay.min * 60 + delay.sec;
 
