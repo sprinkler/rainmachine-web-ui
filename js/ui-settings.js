@@ -96,6 +96,9 @@ window.ui = window.ui || {};
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
+		var updateWeatherButton = $('#weatherSourcesRun');
+		updateWeatherButton.onclick = function() { onWeatherSourcesRun(); };
+
 		setupWeatherSourceUpload();
 		getAllEnabledParsersData()
 	}
@@ -143,6 +146,10 @@ window.ui = window.ui || {};
 	function onWeatherSourceClose() {
 		makeHidden('#weatherSourcesEdit');
 		makeVisible('#weatherSourcesList');
+	}
+
+	function onWeatherSourcesRun() {
+		API.runParser(-1, true, true, false);
 	}
 
 	function onWeatherSourceRun(id) {
