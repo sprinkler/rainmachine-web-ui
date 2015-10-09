@@ -107,6 +107,7 @@ body {
 .right {
     float: right;
 }
+
 .center {
     text-align: center;
 }
@@ -271,7 +272,6 @@ h1 {
 
 /*leftMenu starts*/
 .submenu {
-    display:block;
     float:left;
     margin: 0;
     text-align: center;
@@ -1119,3 +1119,8 @@ td.right, .right {
 *:focus {
     outline: none;
 }
+
+.nofloat {
+    float: none;
+}
+

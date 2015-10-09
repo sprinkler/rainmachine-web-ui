@@ -21,6 +21,7 @@ Data.now = Date.now() / 1000 >> 0;
 Data.zoneData = null;
 Data.zoneAdvData = null;
 Data.parsers = null;
+Data.parserData = null;
 Data.programs = null;
 Data.provision = {};
 Data.diag = null;

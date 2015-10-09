@@ -176,6 +176,14 @@ Util.redirectHome = function(locationObj) {
 	}
 }
 
+Util.isFloat = function(value) {
+	if(/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)) {
+		return true;
+	}
+
+	return false;
+}
+
 /**
  * Generates a div with a label and an input tag depending on data type
  * @param parent - parent element for the newly created div
@@ -185,22 +193,38 @@ Util.redirectHome = function(locationObj) {
  */
 Util.generateTagFromDataType = function(parent, data, label) {
 	var div = addTag(parent, 'div');
-	div.textContent = label;
 	div.className = "generatedTag";
 
-	var input = addTag(div, 'input');
-	input.id = "generated-" + label;
-    input.type = "text"; //default type for null, object, number or string types
+	var isReadOnly = label.startsWith("_");
 
-    if (typeof data == "boolean") {
-    	input.type = "checkbox"
-    	if (data) {
-    		input.checked = true;
-    	}
-    } else {
-    	input.value = data;
-    	input.className = "typeText";
-    }
+	if (! isReadOnly) {
+		div.textContent = label;
+		var input = addTag(div, 'input');
+		input.id = "generated-" + label;
+		input.type = "text"; //default type for null, object, number or string types
+
+
+		if (typeof data == "boolean") {
+			input.type = "checkbox"
+			if (data) {
+				input.checked = true;
+			}
+		} else {
+			input.value = data;
+			input.className = "typeText";
+		}
+	} else {
+		div.textContent = label.substr(1);
+		var input = addTag(div, 'div');
+
+		if (data instanceof Array) {
+			for (var d in data) {
+				input.innerHTML += data[d] + "<br>";
+			}
+		} else {
+			input.textContent = data;
+		}
+	}
 
     return div;
 }
@@ -212,7 +236,6 @@ Util.generateTagFromDataType = function(parent, data, label) {
  * @param label - label for the data
  * @returns {array} - in form [label, value]
  */
-
 
 Util.readGeneratedTagValue = function(label) {
 	var id = "#generated-" + label;
@@ -229,14 +252,20 @@ Util.readGeneratedTagValue = function(label) {
 	} else {
 		console.log("Generic input detected label: %s value: %s", label, tag.value);
 
-		var n = parseFloat(tag.value);
+		var n;
 
-		if (isNaN(n)) {
+		// We don't want 123ab to be parsed as float 123
+		if (Util.isFloat(tag.value)) {
+			n = parseFloat(tag.value)
+		} else {
 			n = tag.value;
 		}
+
 		return [label, n];
 	}
 }
+
+
 
 //filesObject is the object returned by files property of input type=file
 Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
