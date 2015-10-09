@@ -506,6 +506,40 @@ _API.prototype.setParserParams = function(id, params)
     return this.post(url, params, null);
 }
 
+_API.prototype.getParserData = function(id, startDate, days)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+    		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/data";
+
+	if (startDate !== undefined)
+		url += "/" + startDate;
+
+	if (days !== undefined)
+		url += "/" + days;
+
+	return this.get(url, null);
+}
+
+
+_API.prototype.runParser = function(id, withParser, withMixer, withSimulator)
+{
+	var url = this.URL.parser;
+	url += "/run";
+
+	var data = {
+		parserId: id, // -1 means all parsers
+		parser: withParser,
+		mixer: withMixer,
+		simulator: withSimulator
+	};
+
+    return this.post(url, data, null);
+}
+
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 _API.prototype.getMixer = function(startDate, days)
 {

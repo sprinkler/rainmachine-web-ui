@@ -13,6 +13,7 @@
 
 
 	<script src="js/ui-charts.js"></script>
+	<script src="js/ui-charts-parsers.js"></script>
 	<script src="js/ui-login.js"></script>
 	<script src="js/ui-restrictions.js"></script>
 	<script src="js/ui-settings.js"></script>
@@ -437,6 +438,7 @@
 												<br><br><br>
 												<div class="absolute">
 										            <button id="weatherSourcesAdd" class="button label-grey center right">Add New</button>
+													<button id="weatherSourcesRun" class="button label-red center right">Run All</button>
 										        </div>
 										    </div>
 									    </td>
@@ -480,8 +482,8 @@
 									  </tr>
 									</table>
 									<!-- Weather Data Source Comparison Graphs (Begin) -->
-										<div id="weather-data-source-comparison" style="margin-top:60px;">
-								            <table cellspacing="0" cellpadding="0" class="full" height="500">
+										<div  style="margin-top:60px;">
+								            <table cellspacing="10" cellpadding="0" class="full" height="500">
 								            	<tr valign="top">
 												    <th>
 											            <h1 class="title">Weather Data Source - Comparison</h1>
@@ -489,17 +491,22 @@
 											  	</tr>
 											  	<!-- Data Sources info buttons (Begin) -->
 											  		<td class="middle center">
-											  			<button id="parserTemp" class="button label-blue center raised">Temp</button>
-											  			<button id="parserRain" class="button label-blue center">Rain (QPF)</button>
-											  			<button id="parserWind" class="button label-blue center">Wind</button>
-											  			<button id="parserDewPoint" class="button label-blue center">Dew Point</button>
-											  			<button id="parserHumidity" class="button label-blue center">Humidity</button>
-											  			<button id="parserPressure" class="button label-blue center">Pressure</button>
+											  			<a href="#temperatureParsersChartContainer" id="parserTemp" class="submenu nofloat">Temperature</a>
+											  			<a href="#qpfParsersChartContainer" id="parserRain" class="submenu nofloat">Rain (QPF)</a>
+											  			<a href="#windParsersChartContainer" id="parserWind" class="submenu nofloat">Wind</a>
+											  			<a href="#dewParsersChartContainer" id="parserDewPoint" class="submenu nofloat">Dew Point</a>
+											  			<a href="#rhParsersChartContainer" id="parserHumidity" class="submenu nofloat">Humidity</a>
+											  			<a href="#pressureParsersChartContainer" id="parserPressure" class="submenu nofloat">Pressure</a>
 											  		</td>
 											  	<!-- Data Sources info buttons (end) -->
 											  	<tr>
 								                    <td>
 								                        <div id="temperatureParsersChartContainer" class="charts"></div>
+														<div id="qpfParsersChartContainer" class="charts"></div>
+														<div id="windParsersChartContainer" class="charts"></div>
+														<div id="dewParsersChartContainer" class="charts"></div>
+														<div id="rhParsersChartContainer" class="charts"></div>
+														<div id="pressureParsersChartContainer" class="charts"></div>
 								                    </td>
 								                </tr>
 								            </table>
