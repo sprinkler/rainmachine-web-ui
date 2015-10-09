@@ -395,12 +395,9 @@
 						<div id="weather" style="display: none;">
 							<div id="weatherDataSources">
 								<div class="settingsBlock center">
-									<table cellspacing="0" cellpadding="0" class="center full" id="weatherContentCards">
-									  <tr>
-									    <th colspan="5"><h1 class="title">Weather</h1></th>
-									  </tr>
-									  <tr>
-									    <td class="listItemSettings relative">
+									<div cellspacing="0" cellpadding="0" class="center full" id="weatherContentCards">
+									  <h1 class="title">Weather</h1>
+									    <div class="listItemSettings relative" style="width:40%;">
 											<!-- Weather Data Source EDIT (Begin) -->
 											<div id="weatherSourcesEdit" class="hidden">
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
@@ -441,9 +438,9 @@
 													<button id="weatherSourcesRun" class="button label-red center right">Run All</button>
 										        </div>
 										    </div>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings relative">
+									    </div>
+
+									    <div class="listItemSettings relative">
 									    	<div>
 									            <div class="bold">Rain Sensitivity</div>
 									            <span class="separator"></span>
@@ -459,14 +456,19 @@
 										            <button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right: 10px;">Default</button>
 										        	</div>
 									        </div>
-									    </td>
-									    <td class="gap">&nbsp;</td>
-									    <td class="listItemSettings relative">
+									    </div>
+
+									    <div class="listItemSettings relative">
 									    	<div>
 									            <div class="bold">Wind Sensitivity</div>
 									            <span class="separator"></span>
 									            <input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
-													<output for="windSensitivity" id="outputWindSensitivity" style="display:block;margin-bottom:60px;font-size:64px;text-align:center;color:#39c;">50</output>
+													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
+													<span class="helpText">
+													0-33% Little or no wind exposure.<br>
+                                                    33-75% Urban areas + trees (Default).<br>
+                                                    75-100% Full wind exposure, open fields.
+													</span>
 													<script>
 													function outputUpdateWind(windsensitivity) {
 													document.querySelector('#outputWindSensitivity').value = windsensitivity;
@@ -478,9 +480,9 @@
 										            <button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right: 10px;">Default</button>
 									            </div>
 									        </div>
-	        							</td>
-									  </tr>
-									</table>
+	        							</div>
+									  </div>
+									</div>
 									<!-- Weather Data Source Comparison Graphs (Begin) -->
 										<div  style="margin-top:60px;">
 								            <table cellspacing="10" cellpadding="0" class="full" height="500">
