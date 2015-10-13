@@ -53,6 +53,7 @@
 			<div id="programsBtn" class="topButton"><span class="icon">P</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
 			<div id="dashboardBtn" class="topButton"><span class="icon">A</span><br>Dashboard</div>
+			<div id="homeBtn" class="topButton"><span class="icon">H</span><br>Home</div>
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -79,14 +80,29 @@
 				<div id="dummy">
 					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
-				
 					<div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div>
+
 					<div id="dashboard" class="dashboard" style="display: none;">
+						<div style="width: 1280px; margin:0 auto;">
+							<div style="width:424px;display:inline-block;background-color:transparent;margin-right:5px;vertical-align:top;border:0px solid #ddd;">
+								<div class="WaterSavedPercent" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+								</div>
+								<div class="DataSources" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+								</div>
+								<div class="7DayWateringHistory" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+								</div>
+							</div>
+							<div style="width:803px;display:inline-block;background-color:transparent;vertical-align:top;border:0px solid #ddd;">
+								<div class="ProgramList" style="display:block;background-color:#fff;border:1px solid #ddd;height:450px;margin-bottom:10px;">
+								</div>
+								<div class="ZoneList" style="display:block;background-color:#fff;border:1px solid #ddd;height:450px;margin-bottom:10px;">
+								</div>
+							</div>
+						</div>
 						<div id="waterNeedChartContainer" class="charts"></div>
 						<div id="temperatureChartContainer" class="charts"></div>
 						<div id="qpfChartContainer" class="charts"></div>
 					</div>
-
 
 				<div id="zones">
 					<div class="settingsBlockZones center">

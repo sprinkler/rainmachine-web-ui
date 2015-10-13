@@ -211,7 +211,7 @@ h1 {
     margin: 0 auto; /*center the div*/
     width : 100%;
     overflow : auto;
-    background-color: #fff;
+    background-color: #dfdfdf;
 }
 .pageHeader {
     height : 80px;
