@@ -8,7 +8,7 @@
     <script src="js/storage.js"></script>
 	<script src="js/util.js"></script>
 	<script src="js/async.js"></script>
-    <script src="js/rainmachine-api-v4.js"></script>
+    <!-- <script src="js/rainmachine-api-v4.js"></script> -->
 	<script src="js/data.js"></script>
 
 
@@ -80,28 +80,117 @@
 				<div id="dummy">
 					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
-					<div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div>
+					<!-- <div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div> -->
 
 					<div id="dashboard" class="dashboard" style="display: none;">
-						<div style="width: 1280px; margin:0 auto;">
-							<div style="width:424px;display:inline-block;background-color:transparent;margin-right:5px;vertical-align:top;border:0px solid #ddd;">
-								<div class="WaterSavedPercent" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+						<div class="homeScreenMain">
+							<div class="homeScreenLeft">
+								<div class="homeScreenWaterSaved">
+									<h1 class="title center">Water Saved</h1>
+									<div class="WaterSavedDial" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
+										<img src="images/water-saved-mockup.png" border="0">
+									</div>
+									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:10px;">
+										<button id="WaterSavedDialTimeWeek" class="button label-blue center">Week</button>
+										<button id="WaterSavedDialTimeMonth" class="button label-gray center">Month</button>
+										<button id="WaterSavedDialTimeYear" class="button label-gray center">Year</button>
+									</div>
 								</div>
-								<div class="DataSources" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+								<div class="homeScreenDataSource">
+									<button rm-id="weather-data-edit" class="button label-grey center right">Edit</button>
+									<h1 class="title">Weather Data</h1>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">4 Hours ago</span>
+										<span class="homeScreenDataSourceName">NOAA</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Met.no</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">6 Hours ago</span>
+										<span class="homeScreenDataSourceName">PWS (3 stations)</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Rain Gauge wired</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Rain Gauge radar</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago red right">Never</span>
+										<span class="homeScreenDataSourceName">Wunderground</span>
+									</div>
+									<span class="separator"></span>
+									<span class="homeScreenDataSourceMessage">Everything looks good!</span>
 								</div>
-								<div class="7DayWateringHistory" style="display:block;background-color:#fff;border:1px solid #ddd;height:250px;margin-bottom:10px;">
+								<div class="homeScreen7Day">
+									<h1 class="title">7-Day Watering History</h1>
+									<div id="accordion">
+									  <ul>
+									    <li>
+									      <a href="#one">Example 1</a>
+									      <div id="one" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#two">Example 2</a>
+									      <div id="two" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>    
+									    <li>
+									      <a href="#three">Example 3</a>
+									      <div id="three" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#four">Example 4</a>
+									      <div id="four" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#five">Example 5</a>
+									      <div id="five" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>    
+									    <li>
+									      <a href="#six">Example 6</a>
+									      <div id="six" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#seven">Example 7</a>
+									      <div id="seven" class="accordion">
+									        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet in laborum praesentium esse aliquam molestiae animi non facilis perspiciatis corporis ad molestias quo harum suscipit ipsum incidunt ea voluptates accusantium.
+									      </div>
+									    </li>
+									  </ul>
+									</div>
 								</div>
 							</div>
-							<div style="width:803px;display:inline-block;background-color:transparent;vertical-align:top;border:0px solid #ddd;">
-								<div class="ProgramList" style="display:block;background-color:#fff;border:1px solid #ddd;height:450px;margin-bottom:10px;">
+							<div class="homeScreenRight">
+								<div class="homeScreenProgramList">
+									<button rm-id="home-programs-edit" class="button label-grey center right">Edit</button>
+									<button rm-id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
+									<h1 class="title">Programs</h1>
 								</div>
-								<div class="ZoneList" style="display:block;background-color:#fff;border:1px solid #ddd;height:450px;margin-bottom:10px;">
+								<div class="homeScreenZoneList">
+									<button rm-id="home-zones-edit" class="button label-grey center right">Edit</button>
+									<h1 class="title">Zones</h1>
 								</div>
 							</div>
 						</div>
-						<div id="waterNeedChartContainer" class="charts"></div>
+						<!-- <div id="waterNeedChartContainer" class="charts"></div>
 						<div id="temperatureChartContainer" class="charts"></div>
-						<div id="qpfChartContainer" class="charts"></div>
+						<div id="qpfChartContainer" class="charts"></div> -->
 					</div>
 
 				<div id="zones">

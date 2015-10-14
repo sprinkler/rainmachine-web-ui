@@ -161,6 +161,70 @@ b, strong {
 
 /*Iulian CSS starts*/
 
+/* Home screen start */
+.homeScreenMain {
+    width: 1280px;
+    margin:0 auto;
+}
+.homeScreenLeft {
+    display:inline-block;
+    width:424px;
+    background-color:transparent;
+    margin-right:5px;
+    vertical-align:top;
+    border:0px;
+}
+.homeScreenRight {
+    display:inline-block;
+    width:803px;
+    background-color:transparent;
+    vertical-align:top;
+    border:0px;
+}
+.homeScreenWaterSaved, .homeScreenDataSource, .homeScreen7Day, .homeScreenProgramList, .homeScreenZoneList {
+    display:block;
+    padding-top:5px;
+    background-color:#fff;
+    border:1px solid #ddd;
+    margin-bottom:10px;
+}
+.homeScreenDataSourceItem {
+  padding:10px;
+}
+.homeScreenDataSourceName, .hoursago {
+  font-size: 18px;
+}
+.homeScreenDataSourceMessage {
+  display: block;
+  padding:15px;
+  margin: 0 auto;
+  color:#888;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase; 
+}
+
+#accordion ul{list-style:none;margin:0;padding:0;}
+.accordion{display:none;}
+.accordion:target{display:block;}
+#accordion ul li a{text-decoration:none;display:block;padding:10px;}
+.accordion{padding:4px;}
+
+#accordion ul li a{
+    background:#fff;
+    border-bottom:1px solid #E0E0E0;
+    color:#555;
+}
+.accordion{
+    background:#fdfdfd;
+    color:#555;
+}
+.accordion:target{
+    padding-bottom: 10px;
+    border-bottom:1px solid #E0E0E0;
+}
+/* Home screen end */ 
+
 @font-face {
     font-family: RainMachine;
     src: url('../font/rainmachine.woff');
@@ -412,6 +476,9 @@ h1 {
 }
 .green {
     color: #00B25C;
+}
+.red {
+    color: #ff0000;
 }
 .separator {
      margin-top:5px;
