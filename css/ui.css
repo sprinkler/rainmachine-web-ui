@@ -130,7 +130,10 @@ h1.title {
     width: 180px;
 }
 .mr{
-  margin-right: 60px;
+    margin-right: 60px;
+}
+.mr20 {
+    margin-right:20px;
 }
 
 #success, #error {
@@ -181,7 +184,7 @@ b, strong {
     vertical-align:top;
     border:0px;
 }
-.homeScreenWaterSaved, .homeScreenDataSource, .homeScreen7Day, .homeScreenProgramList, .homeScreenZoneList {
+.homeScreenWaterSaved, .homeScreenDataSource, .homeScreensevendays, .homeScreenProgramList, .homeScreenZoneList {
     display:block;
     padding-top:5px;
     background-color:#fff;
@@ -204,24 +207,38 @@ b, strong {
   text-transform: uppercase; 
 }
 
-#accordion ul{list-style:none;margin:0;padding:0;}
-.accordion{display:none;}
-.accordion:target{display:block;}
-#accordion ul li a{text-decoration:none;display:block;padding:10px;}
-.accordion{padding:4px;}
+#sevendays ul{list-style:none;margin:0;padding:0;}
+.sevendays{display:none;}
+.sevendays:target{display:block;padding-left: 10px;}
+#sevendays ul li a{text-decoration:none;display:block;padding:10px;}
+.sevendays{padding:4px;}
 
-#accordion ul li a{
+#sevendays ul li a{
     background:#fff;
     border-bottom:1px solid #E0E0E0;
     color:#555;
 }
-.accordion{
+#sevendays ul li a::before {
+  content: "+";
+}
+#sevendays ul li a:target::before {
+  content: "-";
+}
+.sevendays{
     background:#fdfdfd;
     color:#555;
 }
-.accordion:target{
-    padding-bottom: 10px;
+.sevendays:target{
+    padding-top: 10px;
+    padding-bottom: 0px;
     border-bottom:1px solid #E0E0E0;
+}
+.sevendays-zones-single {
+    color:#888;
+    padding-top: 10px;
+}
+.sevendays-program {
+    margin-bottom: 15px;
 }
 /* Home screen end */ 
 
