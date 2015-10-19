@@ -148,11 +148,10 @@ window.ui = window.ui || {};
 		makeVisible('#weatherSourcesList');
 	}
 
-	function onWeatherSourcesRun() {
-		API.runParser(-1, true, true, false);
-	}
-
 	function onWeatherSourceRun(id) {
+		if (id === undefined || id === null)
+			id = -1;
+
 		API.runParser(id, true, false, false);
 		onWeatherSourceClose();
 	}
