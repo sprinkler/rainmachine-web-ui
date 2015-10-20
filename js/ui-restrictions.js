@@ -140,7 +140,7 @@ window.ui = window.ui || {};
 				bitstrWeekDays += "0";
 		}
 
-		var data = { noWaterInWeekDays: bitStringToWeekDays };
+		var data = { noWaterInWeekDays: bitstrWeekDays };
 		console.log("WeekDays restrictions: %o", data);
 		API.setRestrictionsGlobal(data);
 	}
