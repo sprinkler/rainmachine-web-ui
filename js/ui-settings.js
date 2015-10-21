@@ -45,7 +45,14 @@ window.ui = window.ui || {};
 
 			nameElem.textContent = parserName;
 
-			lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+
+			if (p.lastRun) {
+				lastRunElem.textContent = Util.sinceDateAsText(p.lastRun) + " ago";
+			} else {
+				lastRunElem.textContent = "Never";
+			}
+
+
 			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
 			template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
 
