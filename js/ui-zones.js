@@ -7,6 +7,12 @@ window.ui = window.ui || {};
 
 (function(_zones) {
 
+	var zoneState = {
+		idle: 0,
+		running: 1,
+		pending: 2
+	}
+
 	function showZones() {
 		APIAsync.getZones().then(function(o) { Data.zoneData = o;})
         .then(APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; renderZones();}));
@@ -18,8 +24,6 @@ window.ui = window.ui || {};
     }
 
 	function renderZones() {
-
-        console.log("Called renderZones()");
 		var zonesDiv = $('#zonesList');
 		clearTag(zonesDiv);
 
@@ -72,18 +76,10 @@ window.ui = window.ui || {};
 			startElem.onclick = function() { startZone(this.parentNode.data.uid); };
 			stopElem.onclick = function() { stopZone(this.parentNode.data.uid); };
 			editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
-
 			zonesDiv.appendChild(template);
 
 			setZoneState(z);
-
-			var seconds = z.remaining;
-
-			//Not running show default minutes
-			if (z.state == 0)
-				seconds = Data.provision.system.zoneDuration[z.uid - 1];
-
-			updateZoneTimer(z.uid, seconds);
+			updateZoneTimer(z);
 		}
 	}
 
@@ -143,8 +139,7 @@ window.ui = window.ui || {};
 	{
 		var zoneDiv = $("#zone-" + zone.uid);
 
-		if (zoneDiv === undefined || zoneDiv === null)
-		{
+		if (zoneDiv === undefined || zoneDiv === null)	{
 			console.log("Zone State: Cannot find zone %d", zone.uid);
 			return -2;
 		}
@@ -155,18 +150,18 @@ window.ui = window.ui || {};
 
 		var state = zone.state;
 
-		// API keeps state 2 pending but can have remaining 0 if it was stopped
-		if (zone.remaining <= 0 && state == 2)
-			var state = 0;
+		// API keeps state 2 pending but can have remaining 0 if it was stopped by user
+		if (zone.remaining <= 0 && state == zoneState.pending)
+			state = zoneState.idle;
 
 		switch (state)
 		{
-			case 1: //running
+			case zoneState.running:
 				statusElem.className = "zoneRunning";
 				makeHidden(startElem)
 				makeVisible(stopElem);
 				break;
-			case 2: //pending running
+			case zoneState.pending:
 				statusElem.className = "zonePending";
 				makeHidden(startElem)
 				makeVisible(stopElem);
@@ -179,35 +174,45 @@ window.ui = window.ui || {};
 		}
 
 		//Don't show buttons for master or inactive zones
-		if (zone.master || ! zone.active)
-		{
+		if (zone.master || !zone.active) {
 			makeHidden(startElem);
 			makeHidden(stopElem);
 		}
-
 	}
 
-	function updateZoneTimer(uid, seconds)
+	function updateZoneTimer(zone)
 	{
-		var zoneDiv = $("#zone-" + uid);
+		var zoneDiv = $("#zone-" + zone.uid);
 
-		if (zoneDiv === undefined || zoneDiv === null)
-		{
+		if (zoneDiv === undefined || zoneDiv === null || zoneDiv === document.activeElement) {
 			console.log("Zone Timer: Cannot find zone %d", uid);
 			return -2;
+		}
+
+		var seconds;
+
+		if (zone.state == zoneState.running) {
+			seconds = zone.remaining
+		} else {
+			seconds = Data.provision.system.zoneDuration[zone.uid - 1];
 		}
 
 		var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
 		var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
 
-
 		var m = (seconds / 60) >> 0;
 		var s = (seconds % 60) >> 0;
 
-		//console.log("Seconds: %d - %d:%d", seconds, m, s);
-
 		minutesElem.value = m;
-		secondsElem.value = s;
+       	secondsElem.value = s;
+
+		if( zone.state == zoneState.running) {
+			minutesElem.setAttribute('disabled', "");
+			secondsElem.setAttribute('disabled', "");
+        } else {
+			minutesElem.removeAttribute('disabled');
+			secondsElem.removeAttribute('disabled');
+		}
 	}
 
 	function startZone(uid)

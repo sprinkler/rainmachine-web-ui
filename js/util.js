@@ -319,4 +319,31 @@ Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
 	}
 }
 
+Util.recurseObject = function(obj, keys) {
+	var str = "";
+	if (keys === undefined) {
+		console.log("Undefined key");
+		keys = {};
+	}
+
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			child = obj[key];
+			if (child !== null && typeof child === "object") {
+                str += "\n" + Util.recurseObject(child, keys);
+			} else {
+				str += obj[key] + ", ";
+				keys[key] = null;
+			}
+		}
+	}
+
+	return str;
+}
+
+Util.json2csv = function(array, title) {
+
+
+}
+
 return Util; } ( Util || {}));
