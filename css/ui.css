@@ -130,7 +130,10 @@ h1.title {
     width: 180px;
 }
 .mr{
-  margin-right: 60px;
+    margin-right: 60px;
+}
+.mr20 {
+    margin-right:20px;
 }
 
 #success, #error {
@@ -160,6 +163,177 @@ b, strong {
 }
 
 /*Iulian CSS starts*/
+
+/* Home screen start */
+.homeScreenMain {
+    width: 1280px;
+    margin:0 auto;
+}
+.homeScreenLeft {
+    display:inline-block;
+    width:400px;
+    background-color:transparent;
+    margin-right:5px;
+    vertical-align:top;
+    border:0px;
+}
+.homeScreenRight {
+    display:inline-block;
+    width:806px;
+    background-color:transparent;
+    vertical-align:top;
+    border:0px;
+}
+.homeScreenWaterSaved, .homeScreenDataSource, .homeScreensevendays, .homeScreenProgramList, .homeScreenZoneList {
+    display:block;
+    padding-top:5px;
+    background-color:#fff;
+    border:1px solid #ddd;
+    margin-bottom:10px;
+}
+.homeScreenDataSourceItem {
+    padding:10px;
+}
+.homeScreenDataSourceName, .hoursago {
+    font-size: 18px;
+}
+.homeScreenDataSourceMessage {
+    display: block;
+    padding:15px;
+    margin: 0 auto;
+    color:#888;
+    font-size: 18px;
+    text-align: center;
+    text-transform: uppercase; 
+}
+.homeScreenProgramList {
+    padding-bottom: 10px;
+}
+
+#sevendays ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+.sevendays {
+    display:none;
+}
+.sevendays:target {
+    display:block;
+    padding-left: 10px;
+}
+#sevendays ul li a {
+    text-decoration:none;
+    display:block;
+    padding:10px;
+}
+.sevendays {
+    padding:4px;
+}
+#sevendays ul li a{
+    background:#fff;
+    border-bottom:1px solid #E0E0E0;
+    color:#555;
+}
+#sevendays ul li a::before {
+    content: "+";
+}
+#sevendays ul li a:target::before {
+    content: "-";
+}
+.sevendays{
+    background:#fdfdfd;
+    color:#555;
+}
+.sevendays:target{
+    padding-top: 10px;
+    padding-bottom: 0px;
+    border-bottom:1px solid #E0E0E0;
+}
+.sevendays-zones-single {
+    color:#888;
+    padding-top: 10px;
+}
+.sevendays-program {
+    margin-bottom: 15px;
+}
+
+.program-line {
+    display: block;
+    height: 142px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+.program-title-next-run, .zoneListLine {
+    display:inline-block;
+    width: 218px;
+    vertical-align: middle;
+}
+.program-title-next-run {
+    height:142px;
+}
+.zoneListLine {
+    height: 70px;
+}
+.zoneListName {
+    padding-top: 25px;
+    padding-left: 10px;
+    font-size: 18px;
+}
+.program-graph, .inputStepDown {
+    display: inline-block;
+    width: 478px;
+    vertical-align: middle;
+}
+.program-start-stop {
+    display:inline-block;
+    width:100px;
+    vertical-align: middle;
+    text-align: center;
+}
+.graphday, .today {
+    display:inline-block;
+    width:64px;
+    height:142px;
+    text-align: center;
+}
+.today {
+    background-color:#f6f6f6;
+}
+.dateno {
+    display: block;
+    padding-top: 10px;
+    color:#999;
+    padding-bottom: 15px;
+}
+.weatherIcon {
+    display: block;
+    font-family: RainMachine;
+    font-size: 52px;
+    width:64px;
+    height:64px;
+    margin-bottom: 10px;
+    color:#4296cd;
+}
+.dayTemp {
+    color: #4296cd;
+    font-size: 18px;
+}
+sup {
+    font-size: 12px;
+}
+.programListName, .programNextRun {
+    padding-left: 10px;
+}
+.programListName {
+    padding-top: 45px;
+    font-size: 18px;
+}
+.programNextRun {
+    font-size: 14px;
+    color: #888;
+}
+/* Home screen end */ 
 
 @font-face {
     font-family: RainMachine;
@@ -211,7 +385,7 @@ h1 {
     margin: 0 auto; /*center the div*/
     width : 100%;
     overflow : auto;
-    background-color: #fff;
+    background-color: #dfdfdf;
 }
 .pageHeader {
     height : 80px;
@@ -412,6 +586,9 @@ h1 {
 }
 .green {
     color: #00B25C;
+}
+.red {
+    color: #ff0000;
 }
 .separator {
      margin-top:5px;

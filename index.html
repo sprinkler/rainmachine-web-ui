@@ -8,7 +8,7 @@
     <script src="js/storage.js"></script>
 	<script src="js/util.js"></script>
 	<script src="js/async.js"></script>
-    <script src="js/rainmachine-api-v4.js"></script>
+    <!-- <script src="js/rainmachine-api-v4.js"></script> -->
 	<script src="js/data.js"></script>
 
 
@@ -53,6 +53,7 @@
 			<div id="programsBtn" class="topButton"><span class="icon">P</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
 			<div id="dashboardBtn" class="topButton"><span class="icon">A</span><br>Dashboard</div>
+			<div id="homeBtn" class="topButton"><span class="icon">H</span><br>Home</div>
 		</div>
 	</div>
 	<div class="mainContainer">
@@ -79,14 +80,555 @@
 				<div id="dummy">
 					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
-				
-					<div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div>
-					<div id="dashboard" class="dashboard" style="display: none;">
-						<div id="waterNeedChartContainer" class="charts"></div>
-						<div id="temperatureChartContainer" class="charts"></div>
-						<div id="qpfChartContainer" class="charts"></div>
-					</div>
+					<!-- <div id="pageLoadSpinner" class="full center"><div class="loader"></div>Please wait<br>Loading RainMachine data</div> -->
 
+					<div id="dashboard" class="dashboard" style="display: none;">
+						<div class="homeScreenMain">
+							<div class="homeScreenLeft">
+								<div class="homeScreenWaterSaved">
+									<h1 class="title center">Water Saved</h1>
+									<div class="WaterSavedDial" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
+										<img src="images/water-saved-mockup.png" border="0">
+									</div>
+									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:10px;">
+										<button id="WaterSavedDialTimeWeek" class="button label-blue center">Week</button>
+										<button id="WaterSavedDialTimeMonth" class="button label-gray center">Month</button>
+										<button id="WaterSavedDialTimeYear" class="button label-gray center">Year</button>
+									</div>
+								</div>
+								<div class="homeScreenDataSource">
+									<button rm-id="weather-data-edit" class="button label-grey center right">Edit</button>
+									<h1 class="title">Weather Data</h1>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">4 Hours ago</span>
+										<span class="homeScreenDataSourceName">NOAA</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Met.no</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">6 Hours ago</span>
+										<span class="homeScreenDataSourceName">PWS (3 stations)</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Rain Gauge wired</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago green right">2 Hours ago</span>
+										<span class="homeScreenDataSourceName">Rain Gauge radar</span>
+									</div>
+									<div class="homeScreenDataSourceItem">
+										<span class="hoursago gray right">Never</span>
+										<span class="homeScreenDataSourceName">Wunderground</span>
+									</div>
+									<span class="separator"></span>
+									<span class="homeScreenDataSourceMessage">Everything looks good!</span>
+								</div>
+								<div class="homeScreensevendays">
+									<h1 class="title">7-Day Watering History</h1>
+									<div style="display:block;padding-bottom:25px;padding-top:15px;border-bottom:1px solid #ddd;color:#555;">
+										<span class="right center mr20" style="width:70px;">Watered</span>
+										<span class="right center mr20" style="width:70px;">Scheduled</span>
+									</div>
+									<div id="sevendays">
+									  <ul>
+									    <li>
+									      <a href="#firstday">
+									      	<span class="right mr20" style="width:70px;">130 min</span>
+											<span class="right mr20" style="width:70px;">200 min</span>
+									      	OCT 7
+									      </a>
+									      <div id="firstday" class="sevendays">
+									      	<!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									        <!-- Second program -->
+									        <div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 10:15 AM</span>
+										        	<span class="programName bold">East side</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 5
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 7
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 8
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- Second program End -->
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#secondday">
+									      	<span class="right mr20" style="width:70px;">89 min</span>
+											<span class="right mr20" style="width:70px;">120 min</span>
+									      	OCT 8
+									      </a>
+									      <div id="secondday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>    
+									    <li>
+									      <a href="#thirdday">
+									      	<span class="right mr20" style="width:70px;">160 min</span>
+											<span class="right mr20" style="width:70px;">90 min</span>
+									      	OCT 9
+									      </a>
+									      <div id="thirdday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#fourthday">
+									      	<span class="right mr20" style="width:70px;">55 min</span>
+											<span class="right mr20" style="width:70px;">80 min</span>
+									      	OCT 10
+									      </a>
+									      <div id="fourthday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#fifthday">
+									      	<span class="right mr20" style="width:70px;">25 min</span>
+											<span class="right mr20" style="width:70px;">50 min</span>
+									      	OCT 11
+									      </a>
+									      <div id="fifthday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>    
+									    <li>
+									      <a href="#sixthday">
+									      	<span class="right mr20" style="width:70px;">180 min</span>
+											<span class="right mr20" style="width:70px;">120 min</span>
+									      	OCT 12
+									      </a>
+									      <div id="sixthday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>
+									    <li>
+									      <a href="#seventhday">
+									      	<span class="right mr20" style="width:70px;">30 min</span>
+											<span class="right mr20" style="width:70px;">110 min</span>
+									      	OCT 13
+									      </a>
+									      <div id="seventhday" class="sevendays">
+									        <!-- First program -->
+									      	<div class="sevendays-program">
+										        <div class="program-name-start-time">
+										        	<span class="right bold mr20">starting time: 07:45 AM</span>
+										        	<span class="programName bold">Flower Pot</span>
+										        </div>
+										        <div class="sevendays-zones">
+										        	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 1
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 2
+											      	</div>
+											      	<div class="sevendays-zones-single">
+											        	<span class="right center mr20" style="width:70px;">05:25</span>
+														<span class="right center mr20" style="width:70px;">08:00</span>
+											      		zone 3
+											      	</div>
+										        </div>
+										    </div>
+										    <!-- First program End-->
+									      </div>
+									    </li>
+									  </ul>
+									</div>
+								</div>
+							</div>
+							<div class="homeScreenRight">
+								<div class="homeScreenProgramList">
+									<button rm-id="home-programs-edit" class="button label-grey center right">Edit</button>
+									<button rm-id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
+									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
+									<!-- Top weather days start -->
+									<div class="program-line">
+										<div class="program-title-next-run">
+										</div>
+										<div class="program-graph">
+											<div class="graphDay">
+												<div class="dateno">SEP 13</div>
+												<div class="weatherIcon">s</div>
+												<div class="dayTemp">79<sup>o</sup></div>
+											</div>
+											<div class="graphDay today">
+												<div class="dateno">14</div>
+												<div class="weatherIcon">t</div>
+												<div class="dayTemp">74<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">15</div>
+												<div class="weatherIcon">x</div>
+												<div class="dayTemp">107<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">16</div>
+												<div class="weatherIcon">b</div>
+												<div class="dayTemp">88<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">17</div>
+												<div class="weatherIcon">c</div>
+												<div class="dayTemp">87<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">18</div>
+												<div class="weatherIcon">d</div>
+												<div class="dayTemp">80<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">19</div>
+												<div class="weatherIcon">e</div>
+												<div class="dayTemp">77<sup>o</sup></div>
+											</div>
+										</div>
+										<div class="program-start-stop">
+										</div>
+									</div>
+									<!-- Top weather days end -->
+									<!-- Program 1 line start -->
+									<div class="program-line">
+										<div class="program-title-next-run">
+											<div class="programListName">Flowers pot</div>
+											<div class="programNextRun">Next run:<br>THU Oct 15 07:25AM</div>
+										</div>
+										<div class="program-graph">
+											Program bar graph (w:478/h:142)
+										</div>
+										<div class="program-start-stop">
+											<button id="" class="button label-blue center">Start</button>
+										</div>
+									</div>
+									<!-- Program 1 line end -->
+									<!-- Program 2 line start -->
+									<div class="program-line">
+										<div class="program-title-next-run">
+											<div class="programListName">East side</div>
+											<div class="programNextRun">Next run:<br>FRI Oct 16 1:50PM</div>
+										</div>
+										<div class="program-graph">
+											Program bar graph (w:478/h:142)
+										</div>
+										<div class="program-start-stop">
+											<button id="" class="button label-blue center">Start</button>
+										</div>
+									</div>
+									<!-- Program 2 line end -->
+									<!-- Program 3 line start -->
+									<div class="program-line">
+										<div class="program-title-next-run">
+											<div class="programListName">Front yard lawn</div>
+											<div class="programNextRun">Next run:<br>FRI Oct 17 5:00PM</div>
+										</div>
+										<div class="program-graph">
+											Program bar graph (w:478/h:142)
+										</div>
+										<div class="program-start-stop">
+											<button id="" class="button label-blue center">Start</button>
+										</div>
+									</div>
+									<!-- Program 3 line end -->
+								</div>
+								<div class="homeScreenZoneList">
+									<button rm-id="home-zones-edit" class="button label-grey center right">Edit</button>
+									<h1 class="title" style="margin-bottom:0px;">Zones</h1>
+									<!-- Zone 1 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">1. First Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range1" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele1 = document.getElementById('range1');
+
+											setInterval(function(){
+											   ele1.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<!-- <button id="" class="button label-red center">Stop</button> -->
+										</div>
+									</div>
+									<!-- Zone 1 end -->
+									<!-- Zone 2 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">2. Second Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range2" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele2 = document.getElementById('range2');
+
+											setInterval(function(){
+											   ele2.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<button id="" class="button label-red center">Stop</button>
+										</div>
+									</div>
+									<!-- Zone 2 end -->
+									<!-- Zone 3 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">3. Third Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range3" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele3 = document.getElementById('range3');
+
+											setInterval(function(){
+											   ele3.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<!-- <button id="" class="button label-red center">Stop</button> -->
+										</div>
+									</div>
+									<!-- Zone 3 end -->
+									<!-- Zone 4 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">4. Fourth Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range4" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele4 = document.getElementById('range4');
+
+											setInterval(function(){
+											   ele4.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<!-- <button id="" class="button label-red center">Stop</button> -->
+										</div>
+									</div>
+									<!-- Zone 4 end -->
+									<!-- Zone 10 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">10. Tenth Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range10" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele10 = document.getElementById('range10');
+
+											setInterval(function(){
+											   ele10.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<!-- <button id="" class="button label-red center">Stop</button> -->
+										</div>
+									</div>
+									<!-- Zone 10 end -->
+									<!-- Zone 12 start -->
+									<div class="zone-line">
+										<div class="program-title-next-run zoneListLine">
+											<div class="zoneListName">12. Twelfth Zone</div>
+										</div>
+										<div class="inputStepDown">
+											<input id="range12" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+											<script>
+											ele12 = document.getElementById('range12');
+
+											setInterval(function(){
+											   ele12.stepDown();
+											},1)
+
+											  </script>
+										</div>
+										<div class="program-start-stop">
+											<!-- <button id="" class="button label-red center">Stop</button> -->
+										</div>
+									</div>
+									<!-- Zone 12 end -->
+							</div>
+						</div>
+						<!-- <div id="waterNeedChartContainer" class="charts"></div>
+						<div id="temperatureChartContainer" class="charts"></div>
+						<div id="qpfChartContainer" class="charts"></div> -->
+					</div>
 
 				<div id="zones">
 					<div class="settingsBlockZones center">
