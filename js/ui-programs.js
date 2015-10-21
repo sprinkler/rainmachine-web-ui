@@ -56,7 +56,7 @@ window.ui = window.ui || {};
 			var zonesElem = $(template, '[rm-id="program-zones-bullets"]');
 			var infoElem = $(template, '[rm-id="program-info"]');
 
-			template.className = "listItem";
+			template.className = "program-line";
 			template.id = "program-" + p.uid;
 
 			template.data = p;
@@ -105,7 +105,7 @@ window.ui = window.ui || {};
 		var div = addTag(programListDiv, 'div');
 		var button = addTag(div, 'button');
 
-		div.className = "listItem";
+		div.className = "program-line";
 		button.className = "addNew";
 		button.textContent = ">";
 		button.onclick = div.onclick = function() { showProgramSettings(null); };
