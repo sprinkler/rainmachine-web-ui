@@ -453,24 +453,9 @@
 									<!-- Top weather days end -->
 									<!-- Program 1 line start -->
 									<div id="programs">
-										<div class="settingsBlockProgram center">
-											<div id="programsList" class="list left"></div>
+											<div id="programsList"></div>
 											<!-- Program Settings -->
 											<div id="programsSettings"></div>
-										</div>
-									</div>
-
-									<div class="program-line">
-										<div class="program-title-next-run">
-											<div class="programListName">Flowers pot</div>
-											<div class="programNextRun">Next run:<br>THU Oct 15 07:25AM</div>
-										</div>
-										<div class="program-graph">
-											Program bar graph (w:478/h:142)
-										</div>
-										<div class="program-start-stop">
-											<button class="button label-blue center">Start</button>
-										</div>
 									</div>
 									<!-- Program 1 line end -->
 								</div>
@@ -479,139 +464,16 @@
 									<h1 class="title" style="margin-bottom:0px;">Zones</h1>
 
 									<div id="zones">
-										<div class="settingsBlockZones center">
-											<div id="zonesList" class="list left" style="display: inline"></div>
+										<div id="zonesList" style="display: inline"></div>
 											<!-- Zones Settings -->
-											<div id="zonesSettings"></div>
-										</div>
+										<div id="zonesSettings"></div>
 									</div>
 
 									<!-- Zone 1 start -->
 									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">1. First Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range1" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele1 = document.getElementById('range1');
-
-											setInterval(function(){
-											   ele1.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<!-- <button id="" class="button label-red center">Stop</button> -->
-										</div>
+										
 									</div>
 									<!-- Zone 1 end -->
-									<!-- Zone 2 start -->
-									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">2. Second Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range2" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele2 = document.getElementById('range2');
-
-											setInterval(function(){
-											   ele2.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<button id="" class="button label-red center">Stop</button>
-										</div>
-									</div>
-									<!-- Zone 2 end -->
-									<!-- Zone 3 start -->
-									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">3. Third Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range3" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele3 = document.getElementById('range3');
-
-											setInterval(function(){
-											   ele3.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<!-- <button id="" class="button label-red center">Stop</button> -->
-										</div>
-									</div>
-									<!-- Zone 3 end -->
-									<!-- Zone 4 start -->
-									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">4. Fourth Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range4" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele4 = document.getElementById('range4');
-
-											setInterval(function(){
-											   ele4.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<!-- <button id="" class="button label-red center">Stop</button> -->
-										</div>
-									</div>
-									<!-- Zone 4 end -->
-									<!-- Zone 10 start -->
-									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">10. Tenth Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range10" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele10 = document.getElementById('range10');
-
-											setInterval(function(){
-											   ele10.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<!-- <button id="" class="button label-red center">Stop</button> -->
-										</div>
-									</div>
-									<!-- Zone 10 end -->
-									<!-- Zone 12 start -->
-									<div class="zone-line">
-										<div class="program-title-next-run zoneListLine">
-											<div class="zoneListName">12. Twelfth Zone</div>
-										</div>
-										<div class="inputStepDown">
-											<input id="range12" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
-											<script>
-											ele12 = document.getElementById('range12');
-
-											setInterval(function(){
-											   ele12.stepDown();
-											},1)
-
-											  </script>
-										</div>
-										<div class="program-start-stop">
-											<!-- <button id="" class="button label-red center">Stop</button> -->
-										</div>
-									</div>
-									<!-- Zone 12 end -->
 							</div>
 						</div>
 						<div id="waterNeedChartContainer" class="charts"></div>
@@ -1435,21 +1297,29 @@
 	<div id="templates" style="display: none;">
 
         <!-- Template for Zone Card (Begin) -->
-        <div id="zone-entry" class="listItemSettingsZones">
-        	<span class="zoneIdle" rm-id="zone-status">!</span> <!-- Glyph from TTF font for the wheel -->
-            <div rm-id="zone-name" class="cardTitle">Front yard lawn</div>
-            <div rm-id="zone-info" class="cardSubtitle">Lawn</div>
-            <div rm-id="zone-timers">
-            	<span class="separator" style="margin:10px 0;clear:both;">&nbsp;</span>
-            	<span>Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00"></span>
-            	&nbsp;
-                <span>Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00"></span>
-                <span class="separator" style="margin:10px 0;clear:both;">&nbsp;</span>    
-            </div> 
-            <button rm-id="zone-start" class="button label-blue center right">Start</button>
-			<button rm-id="zone-stop" class="button label-red center right">Stop</button>
-			<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
-        </div>
+        <div id="zone-entry" class="zone-line">
+			<div class="program-title-next-run zoneListLine">
+				<section>
+					<div rm-id="zone-name" class="zoneListName"></div>
+				</section>
+				<div rm-id="zone-info" style="display:none;"></div>
+            	<div rm-id="zone-timers" style="display:none;">
+	            	<span class="separator" style="margin:10px 0;clear:both;display:none;">&nbsp;</span>
+	            	<span style="display:none;">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00" style="display:none;"></span>
+	            	&nbsp;
+	                <span style="display:none;">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00" style="display:none;"></span> 
+            	</div> 
+			</div>
+			<div class="inputStepDown">
+				<input id="range1" style="width:478px;" step=1 min=0 max=10000 type="range" value="0" name="">
+			</div>
+			<div class="program-start-stop">
+				<span class="zoneIdle" rm-id="zone-status">!</span>
+				<button rm-id="zone-start" class="button label-blue center right">Start</button>
+				<button rm-id="zone-stop" class="button label-red center right">Stop</button>
+				<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
+			</div>
+		</div>
         <!-- Template for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
@@ -1498,13 +1368,21 @@
 
 		<!-- Template for Program Card (Begin) -->
 		<div id="program-entry" class="programActive">
-			<span rm-id="program-status">!</span>
-			<div rm-id="program-name" class="cardTitle"></div>
-			<div rm-id="program-info" class="cardSubtitle">Daily at 06:00 AM</div>
-			<br><span class="subtitle" style="display:block;margin-bottom:-10px;">Zones:</span>
-		    <div rm-id="program-zones-bullets" class="zones-bullets"></div>
-		    <button rm-id="program-start" class="button label-blue right center">Start</button>
-		    <button rm-id="program-edit" class="button label-grey right center">Edit</button>
+			<div class="program-title-next-run">
+				<div rm-id="program-name" class="programListName"></div>
+				<div rm-id="program-info" class="programNextRun"></div>
+				<div style="margin-left:10px;margin-top:10px;display:none;">Zones:<br>
+					<div rm-id="program-zones-bullets" style="display:none;"></div>
+				</div>
+			</div>
+			<div class="program-graph">
+				
+			</div>
+			<div class="program-start-stop">
+				<span rm-id="program-status">!</span><br>
+				<button rm-id="program-start" class="button label-blue center">Start</button>
+				<button rm-id="program-edit" class="button label-grey center">Edit</button>
+			</div>
 		</div>
 		<!-- Template for Program Card (End) -->
 

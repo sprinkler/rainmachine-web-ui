@@ -282,6 +282,9 @@ b, strong {
 .zoneListLine {
     height: 70px;
 }
+.zone-line {
+    border-bottom:1px solid #eee;
+}
 .zoneListName {
     padding-top: 25px;
     padding-left: 10px;
@@ -331,6 +334,12 @@ sup {
 }
 .programListName, .programNextRun {
     padding-left: 10px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
+    -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
+    width: 218px;
 }
 .programListName {
     padding-top: 45px;
@@ -380,9 +389,9 @@ h1 {
     margin-bottom: 10px;
 }
 
-#programsList, #zonesList {
+/*#programsList, #zonesList {
     padding-left: 12px;
-}
+}*/
 .subtitle {
     font: 12px normal Arial, sans-serif;
     color: #888;
@@ -947,8 +956,8 @@ select {
     font-size: 32px;
     white-space: nowrap;
     cursor: default;
-    display: block;
-    float:left;
+    display: inline-block;
+    text-align: center;
     width:32px;
     margin-right: 3px;
     color: #0099ff;
@@ -959,7 +968,7 @@ select {
 }
 
 .programActive.programRunning [rm-id="program-status"] {
-    color: #00B25C;
+    color: #AF0000;
 }
 
 .programActive.programPending [rm-id="program-status"] {
@@ -975,17 +984,11 @@ select {
 }
 .programEdit, .settingsBlock, .settingsBlockZones, .settingsBlockProgram {
     padding: 25px;
-    border: 1px solid #ddd;
-    border-bottom: 2px solid #ddd;
-    border-radius: 5px;
+    border: 0px solid #ddd;   
     text-align: left;
-    margin-bottom: 20px;
 }
 .programEdit {
     background-color: #fff;
-    position: relative;
-    top: -50px;
-    left: 0px;
     z-index: 9999;
 }
 .settingsBlock, .settingsBlockZones,.settingsBlockProgram {
