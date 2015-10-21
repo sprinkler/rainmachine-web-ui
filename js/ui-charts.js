@@ -24,6 +24,7 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsMaxMonthlyPeriod = Math.floor(chartsMaximumDataRange / chartsMonthlySlice), // the maximum value that the chartsMonthlyPeriod can take
 	chartsData = new ChartData(), // this will hold all the data for the charts
 	charts = { // array that holds the currently generated charts (used for destroying charts when other charts are rendered in the same container - memory optimization)
+		waterSaved: null,
 		waterNeed: null,
 		temperature: null,
 		qpf: null,
@@ -541,6 +542,7 @@ function loadYearlyCharts () {
  * Generates all the charts: Water Need, Temperature, QPF and Programs
  */
 function generateCharts () {
+	generateWaterSavedGauge();
 	generateWaterNeedChart();
 	generateTemperatureChart();
 	generateQPFChart();
@@ -551,6 +553,97 @@ function generateCharts () {
 		var uid = +uids[i];
 		var index = chartsData.programsMap[uid];
 		generateProgramChart(uid, index);
+	}
+}
+
+/**
+ * Generates the Water Saved gauge
+ */
+function generateWaterSavedGauge() {
+	var waterSavedGaugeOptions = {
+		chart: {
+			type: 'solidgauge',
+			margin: [5, 5, 5, 5],
+			backgroundColor: 'transparent',
+			renderTo: 'waterSavedGaugeContainer'
+		},
+		title: null,
+		yAxis: {
+			min: 0,
+			max: 100,
+			minColor: '#009CE8',
+			maxColor: '#009CE8',
+			lineWidth: 0,
+			tickWidth: 0,
+			minorTickLength: 0,
+			minTickInterval: 500,
+			labels: {
+				enabled: false
+			}
+		},
+		pane: {
+			size: '97%',
+			center: ['50%', '50%'],
+			startAngle: 0,
+			endAngle: 360,
+			background: {
+				borderWidth: 10,
+				backgroundColor: '#e5f4ff',
+				shape: 'circle',
+				borderColor: '#e5f4ff',
+				outerRadius: '100%',
+				innerRadius: '80%'
+			}
+		},
+		tooltip: {
+			enabled: false
+		},
+		plotOptions: {
+			solidgauge: {
+				borderColor: '#3399cc',
+				borderWidth: 15,
+				radius: 90,
+				innerRadius: '90%',
+				dataLabels: {
+ 					y: 10,
+ 					borderWidth: 0,
+ 					useHTML: true
+				}
+			}
+		},
+		series: [{
+			name: 'waterSaved',
+			data: [50],
+			dataLabels: {
+				format: '<div style="margin-top:-30px;height:50px;vertical-align:middle;width: 170px;text-align:center"><span style="font-size:36px;color:#555;font-weight:normal;font-family: Arial, sans-serif;">{y} %</span></div>'
+			}
+		}],
+		credits: {
+			enabled: false
+		},
+	};
+
+    // before generating the chart we must destroy the old one if it exists
+    if (charts.waterSaved) {
+    	charts.waterSaved.destroy();
+    }
+
+    // generate the chart
+    charts.waterSaved = new Highcharts.Chart(waterSavedGaugeOptions);
+
+
+	var div = $('#waterSavedGaugeContainer');
+	var svg = div.getElementsByTagName('svg');
+	console.log(div);
+	console.log(svg);
+	if (svg.length > 0) {
+		var path = svg[0].getElementsByTagName('path');
+		if (path.length > 1) {
+			// First path is gauge background
+			path[0].setAttributeNS(null, 'stroke-linejoin', 'round');
+			// Second path is gauge value
+			path[1].setAttributeNS(null, 'stroke-linejoin', 'round');
+		}
 	}
 }
 
