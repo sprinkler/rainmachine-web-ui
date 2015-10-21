@@ -158,9 +158,16 @@ h1.title {
 b, strong {
       font-weight: 700;
 }
+/*
 #zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
     display: none;
 }
+*/
+
+#settings, #settingsMenu {
+    display: none;
+}
+
 
 /*Iulian CSS starts*/
 

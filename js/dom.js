@@ -165,6 +165,7 @@ function makeHidden(tag)
     else { e = tag; }
 
 	e.style.display = "none";
+
 	//e.focus() //focus back the game canvas
 }
 

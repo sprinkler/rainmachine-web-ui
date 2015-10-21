@@ -5,8 +5,8 @@
 
 var mainMenus = [
 		{ prefix: "dashboard",	func: null,								visibilityFunc: makeVisibleBlock },
-		{ prefix: "zones", 		func: window.ui.zones.showZones, 		visibilityFunc: makeVisible },
-		{ prefix: "programs", 	func: window.ui.programs.showPrograms,	visibilityFunc: makeVisible },
+		//{ prefix: "zones", 		func: window.ui.zones.showZones, 		visibilityFunc: makeVisible },
+		//{ prefix: "programs", 	func: window.ui.programs.showPrograms,	visibilityFunc: makeVisible },
 		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,	visibilityFunc: makeVisible },
 ];
 
@@ -188,6 +188,12 @@ function uiStart()
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.getDeviceInfo();
 		loop = setInterval(uiLoop, 2000);
+
+		//TODO Show Programs
+		window.ui.programs.showPrograms();
+
+		//TODO Show zones
+		window.ui.zones.showZones();
 	});
 }
 
