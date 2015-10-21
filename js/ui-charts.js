@@ -149,6 +149,21 @@ function getChartDataSync(pastDays) {
 	processChartData();
 }
 
+function getDailyStatsWithRetry(retryCount, retryDelay) {
+
+	if (retryCount-- > 0) {
+		APIAsync.getDailyStats(null, true)
+        	.then(function(o) { Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
+        	.error(function(o) {
+        	 	showError("Error  " + o + " loading DailyStats ! Retries left: " + retryCount);
+        	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay)})
+	} else {
+		// hide the spinner
+        makeHidden($('#pageLoadSpinner'));
+        showError("Error loading Daily Stats !");
+	}
+}
+
 function getChartData(pastDays) {
 	APIAsync.getPrograms()
 	.then(function(o) { Data.programs = o; chartsDataCounter++; processChartData(); }); //for programs name and status
@@ -156,14 +171,13 @@ function getChartData(pastDays) {
 	APIAsync.getMixer()
 	.then(function(o) { Data.mixerData = o; chartsDataCounter++; processChartData(); }) //for weather measurements
 
-	APIAsync.getDailyStats(null, true)
-	.then(function(o) { Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
-
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
 	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();}) //for used water
 
 	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
 	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
+
+	getDailyStatsWithRetry(5, 5000);
 }
 
 

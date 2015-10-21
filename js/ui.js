@@ -40,6 +40,13 @@ function _genericSubMenu()
 	console.log("SubMenu: %s : %s", this.id, this.name)
 }
 
+function showError(message)
+{
+	 var errorDiv = $('#error');
+	 errorDiv.innerHTML = message;
+	 errorDiv.style.display = "inline";
+}
+
 function buildSubMenu(submenus, category, parentTag)
 {
 	for (var i = 0; i < submenus.length; i++)
