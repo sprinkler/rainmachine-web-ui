@@ -132,8 +132,8 @@ h1.title {
 .mr{
     margin-right: 60px;
 }
-.mr20 {
-    margin-right:20px;
+.mr10 {
+    margin-right:10px;
 }
 
 #success, #error {
@@ -167,9 +167,6 @@ b, strong {
 #settings, #settingsMenu {
     display: none;
 }
-
-
-/*Iulian CSS starts*/
 
 /* Home screen start */
 .homeScreenMain {
@@ -214,10 +211,18 @@ b, strong {
     text-transform: uppercase; 
 }
 
-#sevendays ul {
-    list-style:none;
-    margin:0;
-    padding:0;
+.wateringLogDayNumber, .wateringLogProgramsContainer  {
+    padding-left:10px;
+}
+.wateringLogDayLine {
+    display: block;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+.wateringLogZone {
+    display: block;
+    padding-bottom: 10px;
 }
 .program-line {
     display: block;
