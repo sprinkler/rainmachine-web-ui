@@ -188,6 +188,11 @@ function uiStart()
 		Util.redirectHome(location);
 	}
 
+	$("#weather-data-edit").onclick = function() {
+		$('#settingsBtn').onclick();
+		$('#settings3').onclick();
+	}
+
 	ui.login.login(function() {
 		window.ui.about.getDeviceInfo();
 
@@ -196,6 +201,9 @@ function uiStart()
 
 		//TODO Show zones
 		window.ui.zones.showZones();
+
+		//TODO Show parsers simple
+		window.ui.settings.showParsers(true);
 
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 
