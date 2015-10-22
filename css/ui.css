@@ -213,9 +213,6 @@ b, strong {
     text-align: center;
     text-transform: uppercase; 
 }
-.homeScreenProgramList {
-    padding-bottom: 10px;
-}
 
 #sevendays ul {
     list-style:none;
@@ -293,8 +290,10 @@ b, strong {
 .programGraph, .inputStepDown {
     display: inline-block;
     width: 478px;
-    height: 142px;
     vertical-align: middle;
+}
+.programGraph {
+    height: 142px;
 }
 .program-start-stop {
     display:inline-block;
@@ -333,14 +332,14 @@ b, strong {
 sup {
     font-size: 12px;
 }
-.programListName, .programNextRun {
+.programListName, .programNextRun, .zoneListName {
     padding-left: 10px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
     -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-    width: 218px;
+    width: 210px;
 }
 .programListName {
     padding-top: 45px;
