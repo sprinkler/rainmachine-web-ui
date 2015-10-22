@@ -446,12 +446,17 @@ function loadWeeklyCharts () {
 		chartsWeeklyPeriod = chartsMaxWeeklyPeriod;
 	}
 
-	var sliceStart = -(chartsWeeklySlice * (chartsWeeklyPeriod + 1)),
-		sliceEnd = -(chartsWeeklySlice * chartsWeeklyPeriod);
+	//var sliceStart = -(chartsWeeklySlice  * (chartsWeeklyPeriod + 1)),
+	//	sliceEnd = -(chartsWeeklySlice * chartsWeeklyPeriod);
 
-	// if the slice end is 0 than we need to make it
+	// We want 1 day in the past
+	var sliceStart = -((chartsWeeklySlice + 1)  * (chartsWeeklyPeriod + 1)),
+    	sliceEnd = -(chartsWeeklySlice  * chartsWeeklyPeriod);
+
+
+	// if the slice end is 0 than we need to make it (-1 for the above day in the past)
 	if (sliceEnd === 0) {
-		sliceEnd = chartsData.days.length;
+		sliceEnd = chartsData.days.length - 1;
 	}
 
 	// set the categories and series for all charts
@@ -921,8 +926,7 @@ function generateProgramChart (programUid, programIndex) {
 	var programChartOptions = {
 		chart: {
 			renderTo: 'programChartContainer-' + programUid,
-			spacing: [0, 0, 0, 0],
-			//spacingTop: 20,
+			spacing: [10, 0, 0, 0],
 			events: {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
@@ -974,6 +978,7 @@ function generateProgramChart (programUid, programIndex) {
 			lineColor: 'transparent',
 			minorTickLength: 0,
 			tickLength: 0,
+			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
 			labels: {
 				enabled: false
@@ -985,6 +990,8 @@ function generateProgramChart (programUid, programIndex) {
 //			}
 		}],
 		yAxis: [{
+			min: 0,
+            max: 100,
 			gridLineWidth: 0,
 			minorGridLineWidth: 0,
 			labels: {
@@ -1122,8 +1129,8 @@ function highlightCurrentDayInChart(chart) {
 		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.42,
 		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
 		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
-		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false),
-		y2 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().max, false);
+		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false) + chart.xAxis[0].offset,
+		y2 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().max, false) - chart.spacing[0];
 
 	// if we have all the points needed
 	if(!isNaN(x1) && !isNaN(x2) && !isNaN(y1) && !isNaN(y2)) {
