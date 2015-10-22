@@ -17,10 +17,14 @@ Util.secondsToHuman = function(seconds)
 	return r;
 };
 
-Util.secondsToText = function(seconds)
+Util.secondsToText = function(seconds, rounded)
 {
 	var r = Util.secondsToHuman(seconds);
 	var text = "";
+
+	if (rounded === undefined) {
+		rounded = false;
+	}
 
 	if (r.days > 0)
 		text = r.days + " days ";
@@ -28,8 +32,16 @@ Util.secondsToText = function(seconds)
 	if (r.hours > 0)
 		text += r.hours + " hours ";
 
+	if (rounded && text.length > 0) {
+		return text;
+	}
+
 	if (r.minutes > 0)
 		text += r.minutes + " minutes ";
+
+	if (rounded && text.length > 0) {
+		return text;
+	}
 
 	if (r.seconds > 0)
 		text += r.seconds + " seconds ";
@@ -40,6 +52,21 @@ Util.secondsToText = function(seconds)
 	return text;
 };
 
+Util.sinceDateAsText = function(dateString)
+{
+	var text;
+	var today = new Date();
+	var d = new Date(dateString);
+	var s = d.getTime() / 1000;
+	var sToday = (today.getTime() / 1000) >> 0;
+
+	if (isNaN(s)) {
+		return "";
+	}
+	var diff =  sToday - s;
+	console.log("Today: %s Date: %s Diff: %s Obj: %o", today.toString(), dateString, diff, Util.secondsToHuman(diff));
+	return Util.secondsToText(diff, true);
+}
 
 Util.weekDaysNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 Util.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

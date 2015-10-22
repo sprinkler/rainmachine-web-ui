@@ -91,9 +91,9 @@
 
 									</div>
 									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:10px;">
-										<button id="WaterSavedDialTimeWeek" class="button label-blue center">Week</button>
-										<button id="WaterSavedDialTimeMonth" class="button label-gray center">Month</button>
-										<button id="WaterSavedDialTimeYear" class="button label-gray center">Year</button>
+										<button id="chartsWeek" class="button label-blue center">Week</button>
+										<button id="chartsMonth" class="button label-gray center">Month</button>
+										<button id="chartsYear" class="button label-gray center">Year</button>
 									</div>
 								</div>
 								<div class="homeScreenDataSource">
@@ -403,14 +403,14 @@
 							</div>
 							<div class="homeScreenRight">
 								<div class="homeScreenProgramList">
-									<button rm-id="home-programs-edit" class="button label-grey center right">Edit</button>
-									<button rm-id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
+									<button id="home-programs-edit" class="button label-grey center right">Edit</button>
+									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
 									<div class="program-line">
 										<div class="program-title-next-run">
 										</div>
-										<div class="program-graph">
+										<div class="programGraph">
 											<div class="graphDay">
 												<div class="dateno">SEP 13</div>
 												<div class="weatherIcon">s</div>
@@ -1375,9 +1375,7 @@
 					<div rm-id="program-zones-bullets" style="display:none;"></div>
 				</div>
 			</div>
-			<div class="program-graph">
-				
-			</div>
+			<div class="programGraph" rm-id="program-graph"></div>
 			<div class="program-start-stop">
 				<span rm-id="program-status">!</span><br>
 				<button rm-id="program-start" class="button label-blue center">Start</button>

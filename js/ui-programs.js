@@ -55,6 +55,7 @@ window.ui = window.ui || {};
 			var editElem = $(template, '[rm-id="program-edit"]');
 			var zonesElem = $(template, '[rm-id="program-zones-bullets"]');
 			var infoElem = $(template, '[rm-id="program-info"]');
+			var graphElem = $(template, '[rm-id="program-graph"]');
 
 			template.className = "program-line";
 			template.id = "program-" + p.uid;
@@ -64,6 +65,8 @@ window.ui = window.ui || {};
 
             startElem.data = p;
             startElem.start = true;
+
+            graphElem.id = "programChartContainer-" + p.uid;
 
             if(p.active) {
                 template.className += " programActive";
@@ -101,7 +104,8 @@ window.ui = window.ui || {};
 			programListDiv.appendChild(template);
 		}
 
-		// The Add program button
+		// The Add program button (dynamically)
+		/*
 		var div = addTag(programListDiv, 'div');
 		var button = addTag(div, 'button');
 
@@ -109,6 +113,8 @@ window.ui = window.ui || {};
 		button.className = "addNew";
 		button.textContent = ">";
 		button.onclick = div.onclick = function() { showProgramSettings(null); };
+		*/
+		$('#home-programs-add').onclick = function() { showProgramSettings(null); };
 
 	}
 
