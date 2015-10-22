@@ -14,8 +14,12 @@ window.ui = window.ui || {};
 	}
 
 	function showZones() {
-		APIAsync.getZones().then(function(o) { Data.zoneData = o;})
-        .then(APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; renderZones();}));
+		APIAsync.getZones().then(
+			function(o) {
+				Data.zoneData = o;
+				APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; renderZones();})
+			}
+		)
     }
 
 	//Only uses API.getZones() as advanced properties doesn't change often

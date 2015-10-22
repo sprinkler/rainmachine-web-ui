@@ -13,11 +13,11 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
 	chartsMaximumDataRange = 365, // the maximum amount of data that the application loads
-	chartsWeeklySlice = 14, // the size of the weekly data
+	chartsWeeklySlice = 7, // the size of the weekly data
 	chartsWeeklyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinWeeklyPeriod = 0, // the minimum value that the chartsWeeklyPeriod can take
 	chartsMaxWeeklyPeriod = Math.floor(chartsMaximumDataRange / chartsWeeklySlice), // the maximum value that the chartsWeeklyPeriod can take
-	chartsCurrentDayIndex = 7, // current day index from the array of days of length chartsWeeklySlice (e.g. this should be 7 - the eight day - when the chartsWeeklySlice is 14) - starts at 0
+	chartsCurrentDayIndex = 1, // current day index from the array of days of length chartsWeeklySlice (e.g. this should be 7 - the eight day - when the chartsWeeklySlice is 14) - starts at 0
 	chartsMonthlySlice = 30, // the size of the montly data
 	chartsMonthlyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinMonthlyPeriod = 0, // the minimum value that the chartsMonthlyPeriod can take
@@ -408,7 +408,7 @@ function processChartData() {
 		}
 	}
 
-	generateProgramsChartsContainers();
+	//generateProgramsChartsContainers();
 
 	// hide the spinner
 	//makeHidden($('#pageLoadSpinner'));
@@ -419,7 +419,7 @@ function processChartData() {
 }
 
 /**
- * Generates the containers for the Program charts
+ * Generates the containers for the Program charts (no longer used, containers are now created in ui-programs.js)
  */
 function generateProgramsChartsContainers () {
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
@@ -634,8 +634,6 @@ function generateWaterSavedGauge() {
 
 	var div = $('#waterSavedGaugeContainer');
 	var svg = div.getElementsByTagName('svg');
-	console.log(div);
-	console.log(svg);
 	if (svg.length > 0) {
 		var path = svg[0].getElementsByTagName('path');
 		if (path.length > 1) {
@@ -922,8 +920,9 @@ function generateProgramChart (programUid, programIndex) {
 
 	var programChartOptions = {
 		chart: {
-			renderTo: 'programChartContainer-' + programIndex,
-			spacingTop: 20,
+			renderTo: 'programChartContainer-' + programUid,
+			spacing: [0, 0, 0, 0],
+			//spacingTop: 20,
 			events: {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
@@ -932,15 +931,28 @@ function generateProgramChart (programUid, programIndex) {
 				}
 			}
 		},
+		legend: {
+			enabled: false
+		},
+		plotOptions:{
+			series: {
+				borderRadius:5
+			}
+		},
+		credits: {
+			enabled: false
+		},
 		series: [{
 			data: chartsData.programs[programIndex].currentSeries,
 			dataLabels: {
-				enabled: true,
+				enabled: false,
+				//enabled: true,
 				format: '{y}%',
 				inside: true,
 				verticalAlign: 'bottom'
 			},
-			name: 'Program ' + programName,
+			//name: 'Program ' + programName,
+			name: null,
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
@@ -950,23 +962,38 @@ function generateProgramChart (programUid, programIndex) {
 			},
 			type: 'column'
 		}],
-		title: {
-			text: '<h1>' + programName + ' program water need (%)</h1>',
-			useHTML: true
-		},
+
+		//title: {
+		//	text: '<h1>' + programName + ' program water need (%)</h1>',
+		//	useHTML: true
+		//},
+		title: null,
 		xAxis: [{
+			lineWidth: 0,
+			minorGridLineWidth: 0,
+			lineColor: 'transparent',
+			minorTickLength: 0,
+			tickLength: 0,
 			categories: chartsData.currentAxisCategories,
 			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
-				}
+				enabled: false
 			}
+//			labels: {
+//				formatter: function () {
+//					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
+//				}
+//			}
 		}],
 		yAxis: [{
+			gridLineWidth: 0,
+			minorGridLineWidth: 0,
 			labels: {
+				enabled: false,
 				format: '{value}%'
 			},
-			title: false
+			title: {
+				text: null
+			}
 		}]
 	};
 
@@ -980,6 +1007,7 @@ function generateProgramChart (programUid, programIndex) {
 		charts.programs[programIndex].destroy();
 	}
 
+	console.log("Showing chart for program: ", programName);
 	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
 }
 
@@ -996,6 +1024,7 @@ function generateChartCallback (chart) {
 			highlightCurrentDayInChart(chart);
 		}
 
+    /*
 		// add the previous button if available
 		if (chartsWeeklyPeriod < chartsMaxWeeklyPeriod) {
 			generatePeriodNavigationButton(chart, true, loadWeeklyPeriod);
@@ -1015,6 +1044,7 @@ function generateChartCallback (chart) {
 		if (chartsMonthlyPeriod > chartsMinMonthlyPeriod) {
 			generatePeriodNavigationButton(chart, false, loadMonthlyPeriod);
 		}
+	*/
 	}
 }
 
@@ -1089,7 +1119,7 @@ function highlightCurrentDayInChart(chart) {
 
 	var highlighter = null,
 		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
-		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.5,
+		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.42,
 		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
 		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
 		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false),
@@ -1102,8 +1132,8 @@ function highlightCurrentDayInChart(chart) {
 
 		// add properties to the highlighter
 		highlighter.attr({
-			fill: 'gray',
-			opacity: 0.2,
+			fill: '#f6f6f6',
+			//opacity: 0.2,
 			'rm-id': 'dayHighlight'
 		});
 

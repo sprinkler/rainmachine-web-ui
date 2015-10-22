@@ -169,13 +169,17 @@ function uiStart()
 {
     buildMenu();
     buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
-    buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
-    buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
-    buildSubMenu(programsSubmenus, "programs", $('#programsMenu'));
+	$('#chartsWeek').onclick = loadWeeklyCharts;
+	$('#chartsMonth').onclick = loadMonthlyCharts;
+	$('#chartsYear').onclick = loadYearlyCharts;
+
+    //buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
+    //buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
+    //buildSubMenu(programsSubmenus, "programs", $('#programsMenu'));
 
 	//Set default button selections
 	$('#dashboardBtn').setAttribute("selected", true);
-	$('#dashboard0').setAttribute("selected", true);
+	//$('#dashboard0').setAttribute("selected", true);
 	$('#settings0').setAttribute("selected", true);
 
 
@@ -185,15 +189,17 @@ function uiStart()
 	}
 
 	ui.login.login(function() {
-		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 		window.ui.about.getDeviceInfo();
-		loop = setInterval(uiLoop, 2000);
 
 		//TODO Show Programs
 		window.ui.programs.showPrograms();
 
 		//TODO Show zones
 		window.ui.zones.showZones();
+
+		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
+
+		loop = setInterval(uiLoop, 2000);
 	});
 }
 
