@@ -519,7 +519,6 @@ window.ui = window.ui || {};
 
 				dayTemplate.onclick = function() {
 					var tag = this.children[1];
-					console.log(this);
 					if (isVisible(tag)) {
 						makeHidden(tag);
 						this.removeAttribute("selected");
