@@ -440,8 +440,12 @@ window.ui = window.ui || {};
     		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
     		{
     			var day =  waterLog.waterLog.days[i];
+    			var dayDurations = { scheduled: 0, watered: 0 };
+
     			var dayTemplate = loadTemplate("watering-history-day-simple-template");
     			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
+    			var dayScheduledElem = $(dayTemplate, '[rm-id="wateringLogDayScheduled"]');
+    			var dayWateredElem = $(dayTemplate, '[rm-id="wateringLogDayWatered"]');
     			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
     			//console.log("Day: %s", day.date);
@@ -451,7 +455,6 @@ window.ui = window.ui || {};
     			for (var j = 0; j < day.programs.length; j++)
     			{
     				var program = day.programs[j];
-    				var programDurations = { scheduled: 0, watered: 0 };
 
     				if (program.id == 0) {
     				    var name = "Manual Watering";
@@ -466,9 +469,8 @@ window.ui = window.ui || {};
 
     				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
     				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
-    				var programScheduledElem = $(programTemplate, '[rm-id="wateringLogProgramScheduled"]');
-    				var programWateredElem = $(programTemplate, '[rm-id="wateringLogProgramWatered"]');
     				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
+
     				programNameElem.textContent = name;
 
     				//console.log("\t%s", name);
@@ -495,18 +497,18 @@ window.ui = window.ui || {};
     					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
     					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
 
-    					programDurations.scheduled += zoneDurations.user;
-    					programDurations.watered += zoneDurations.real;
+    					dayDurations.scheduled += zoneDurations.user;
+    					dayDurations.watered += zoneDurations.real;
 
     					programContainerElem.appendChild(zoneListTemplate);
 
     					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
     				}
-
-    				programScheduledElem.textContent = Util.secondsToText(programDurations.scheduled);
-    				programWateredElem.textContent = Util.secondsToText(programDurations.watered);
     				dayContainerElem.appendChild(programTemplate);
     			}
+
+    			dayScheduledElem.textContent = Util.secondsToText(dayDurations.scheduled);
+                dayWateredElem.textContent = Util.secondsToText(dayDurations.watered);
     			container.appendChild(dayTemplate);
     		}
     	}
