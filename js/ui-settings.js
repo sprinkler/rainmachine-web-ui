@@ -11,53 +11,7 @@ window.ui = window.ui || {};
 
 	function showWeather()
 	{
-		//Weather Sources List
-		Data.parsers = API.getParsers();
-		var weatherSourcesDiv = $('#weatherDataSourcesList');
-
-		clearTag(weatherDataSourcesList);
-
-		for (var i = 0; i < Data.parsers.parsers.length; i++)
-		{
-			var p = Data.parsers.parsers[i];
-
-			var template = loadTemplate("weather-sources-template");
-			var enabledElem = $(template, '[rm-id="weather-source-enable"]');
-			var nameElem = $(template, '[rm-id="weather-source-name"]');
-			var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
-
-			template.parserid = p.uid;
-			template.parseridx = i;
-
-			if (p.enabled) {
-				enabledElem.setAttribute("enabled", true);
-			} else {
-				enabledElem.removeAttribute("enabled");
-			}
-
-
-			var lw = p.name.lastIndexOf(" ");
-            var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
-
-			if (p.custom) {
-				parserName = "Custom:" + parserName
-			}
-
-			nameElem.textContent = parserName;
-
-
-			if (p.lastRun) {
-				lastRunElem.textContent = Util.sinceDateAsText(p.lastRun) + " ago";
-			} else {
-				lastRunElem.textContent = "Never";
-			}
-
-
-			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
-			template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
-
-			weatherSourcesDiv.appendChild(template);
-		}
+        showParsers(false);
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -108,6 +62,73 @@ window.ui = window.ui || {};
 
 		setupWeatherSourceUpload();
 		getAllEnabledParsersData()
+	}
+
+	function showParsers(onDashboard) {
+
+		//Weather Sources List
+		Data.parsers = API.getParsers();
+
+		var container = $('#weatherDataSourcesList');
+
+		if (onDashboard) {
+			container = $('#weatherDataSourcesSimpleList');
+		}
+
+		clearTag(container);
+
+		for (var i = 0; i < Data.parsers.parsers.length; i++)
+		{
+			var p = Data.parsers.parsers[i];
+            var template;
+            var enabledElem;
+            var nameElem;
+            var lastRunElem;
+
+            if (onDashboard && !p.enabled) {
+            	continue;
+            }
+
+            if (onDashboard) {
+            	template = loadTemplate("weather-sources-simple-template");
+            } else {
+				template = loadTemplate("weather-sources-template");
+				enabledElem = $(template, '[rm-id="weather-source-enable"]');
+
+				if (p.enabled) {
+					enabledElem.setAttribute("enabled", true);
+				} else {
+					enabledElem.removeAttribute("enabled");
+				}
+            }
+
+			nameElem = $(template, '[rm-id="weather-source-name"]');
+			lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+
+			template.parserid = p.uid;
+			template.parseridx = i;
+
+			var lw = p.name.lastIndexOf(" ");
+			var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
+
+			if (p.custom) {
+				parserName = "Custom:" + parserName
+			}
+
+			nameElem.textContent = parserName;
+
+			if (p.lastRun) {
+				lastRunElem.textContent = Util.sinceDateAsText(p.lastRun) + " ago";
+			} else {
+				lastRunElem.textContent = "Never";
+			}
+
+			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
+			if (!onDashboard) {
+				template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
+			}
+			container.appendChild(template);
+		}
 	}
 
 	function showParserDetails(p) {
@@ -407,6 +428,7 @@ window.ui = window.ui || {};
 	//
 	//
 	_settings.showWeather = showWeather;
+	_settings.showParsers = showParsers;
 	_settings.showRainDelay = showRainDelay;
 	_settings.showWaterLog = showWaterLog;
 

@@ -97,31 +97,10 @@
 									</div>
 								</div>
 								<div class="homeScreenDataSource">
-									<button rm-id="weather-data-edit" class="button label-grey center right">Edit</button>
+									<button id="weather-data-edit" class="button label-grey center right">Edit</button>
 									<h1 class="title">Weather Data</h1>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">4 Hours ago</span>
-										<span class="homeScreenDataSourceName">NOAA</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Met.no</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">6 Hours ago</span>
-										<span class="homeScreenDataSourceName">PWS (3 stations)</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Rain Gauge wired</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Rain Gauge radar</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago gray right">Never</span>
-										<span class="homeScreenDataSourceName">Wunderground</span>
+									<div id="weatherDataSourcesSimpleList">
+										<!--- weather-sources-simple-template -->
 									</div>
 									<span class="separator"></span>
 									<span class="homeScreenDataSourceMessage">Everything looks good!</span>
@@ -1595,6 +1574,15 @@
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
+
+		<!-- Template for Weather Data Sources Simple (dashboard) (Start) -->
+		<div id="weather-sources-simple-template">
+			<div class="homeScreenDataSourceItem">
+				<div rm-id="weather-source-lastrun" class="hoursago green right"></div>
+				<div rm-id="weather-source-name" class="homeScreenDataSourceName"></div>
+			</div>
+		</div>
+		<!-- Template for Weather Data Sources Simple (dashboard) (End) -->
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
