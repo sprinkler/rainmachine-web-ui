@@ -146,7 +146,7 @@ function updateSnoozeTimer() {
 
 function uiLoop()
 {
-	if (isVisible("#zones") && isVisible("#zonesList"))
+	if (isVisible("#dashboard") && isVisible("#zonesList"))
 	{
 		APIAsync.getWateringQueue()
 		.then(
