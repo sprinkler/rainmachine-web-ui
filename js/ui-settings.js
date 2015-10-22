@@ -494,8 +494,8 @@ window.ui = window.ui || {};
     					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
     					zoneNameElem.textContent = "Zone " + zone.uid;
-    					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
-    					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
+    					zoneSchedElem.textContent = ((zoneDurations.user / 60) >> 0) + " min";
+    					zoneWateredElem.textContent = ((zoneDurations.real / 60) >> 0) + " min";
 
     					dayDurations.scheduled += zoneDurations.user;
     					dayDurations.watered += zoneDurations.real;
@@ -507,8 +507,8 @@ window.ui = window.ui || {};
     				dayContainerElem.appendChild(programTemplate);
     			}
 
-    			dayScheduledElem.textContent = Util.secondsToText(dayDurations.scheduled);
-                dayWateredElem.textContent = Util.secondsToText(dayDurations.watered);
+    			dayScheduledElem.textContent = ((dayDurations.scheduled / 60) >> 0) + " min";
+                dayWateredElem.textContent = ((dayDurations.watered / 60) >> 0) + " min";
     			container.appendChild(dayTemplate);
     		}
     	}
