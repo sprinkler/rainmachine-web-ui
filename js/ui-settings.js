@@ -424,6 +424,93 @@ window.ui = window.ui || {};
 			container.appendChild(dayTemplate);
 		}
 	}
+
+
+		function showWaterLogSimple() {
+
+    		var container = $("#wateringHistorySimpleContent");
+    		var waterLog = Data.waterLogCustom;
+
+    		if (waterLog === null) {
+				return;
+    		}
+
+            clearTag(container);
+
+    		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
+    		{
+    			var day =  waterLog.waterLog.days[i];
+    			var dayTemplate = loadTemplate("watering-history-day-simple-template");
+    			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
+    			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
+
+    			//console.log("Day: %s", day.date);
+    			var d = new Date(day.date);
+    			dayNameElem.textContent = d.toLocaleString("en-us", { month: "short" }) + " " + d.getDate();
+
+    			for (var j = 0; j < day.programs.length; j++)
+    			{
+    				var program = day.programs[j];
+    				var programDurations = { scheduled: 0, watered: 0 };
+
+    				if (program.id == 0) {
+    				    var name = "Manual Watering";
+    				} else {
+    					//TODO make sure we have Data.programs
+    					var p = getProgramById(program.id);
+    					if (p !== null)
+    						var name = "Program " + p.name;
+    					else
+    						var name = "Program " + program.id
+    				}
+
+    				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
+    				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
+    				var programScheduledElem = $(programTemplate, '[rm-id="wateringLogProgramScheduled"]');
+    				var programWateredElem = $(programTemplate, '[rm-id="wateringLogProgramWatered"]');
+    				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
+    				programNameElem.textContent = name;
+
+    				//console.log("\t%s", name);
+
+    				for (var k = 0; k < program.zones.length; k++)
+    				{
+    					var zone = program.zones[k];
+    					var zoneDurations = { machine: 0, user: 0, real: 0 };
+    					for (var c = 0; c < zone.cycles.length; c++)
+    					{
+    						 var cycle = zone.cycles[c];
+    						 zoneDurations.machine += cycle.machineDuration;
+    						 zoneDurations.real += cycle.realDuration;
+    						 zoneDurations.user += cycle.userDuration;
+    					}
+
+    					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template")
+
+    					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
+    					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
+    					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
+
+    					zoneNameElem.textContent = "Zone " + zone.uid;
+    					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
+    					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
+
+    					programDurations.scheduled += zoneDurations.user;
+    					programDurations.watered += zoneDurations.real;
+
+    					programContainerElem.appendChild(zoneListTemplate);
+
+    					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
+    				}
+
+    				programScheduledElem.textContent = Util.secondsToText(programDurations.scheduled);
+    				programWateredElem.textContent = Util.secondsToText(programDurations.watered);
+    				dayContainerElem.appendChild(programTemplate);
+    			}
+    			container.appendChild(dayTemplate);
+    		}
+    	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -431,5 +518,6 @@ window.ui = window.ui || {};
 	_settings.showParsers = showParsers;
 	_settings.showRainDelay = showRainDelay;
 	_settings.showWaterLog = showWaterLog;
+	_settings.showWaterLogSimple = showWaterLogSimple;
 
 } (window.ui.settings = window.ui.settings || {}));

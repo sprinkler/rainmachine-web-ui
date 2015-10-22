@@ -191,7 +191,7 @@ b, strong {
     vertical-align:top;
     border:0px;
 }
-.homeScreenWaterSaved, .homeScreenDataSource, .homeScreensevendays, .homeScreenProgramList, .homeScreenZoneList {
+.homeScreenWaterSaved, .homeScreenDataSource, .homeScreenWaterLog, .homeScreenProgramList, .homeScreenZoneList {
     display:block;
     padding-top:5px;
     background-color:#fff;
@@ -219,49 +219,6 @@ b, strong {
     margin:0;
     padding:0;
 }
-.sevendays {
-    display:none;
-}
-.sevendays:target {
-    display:block;
-    padding-left: 10px;
-}
-#sevendays ul li a {
-    text-decoration:none;
-    display:block;
-    padding:10px;
-}
-.sevendays {
-    padding:4px;
-}
-#sevendays ul li a{
-    background:#fff;
-    border-bottom:1px solid #E0E0E0;
-    color:#555;
-}
-#sevendays ul li a::before {
-    content: "+";
-}
-#sevendays ul li a:target::before {
-    content: "-";
-}
-.sevendays{
-    background:#fdfdfd;
-    color:#555;
-}
-.sevendays:target{
-    padding-top: 10px;
-    padding-bottom: 0px;
-    border-bottom:1px solid #E0E0E0;
-}
-.sevendays-zones-single {
-    color:#888;
-    padding-top: 10px;
-}
-.sevendays-program {
-    margin-bottom: 15px;
-}
-
 .program-line {
     display: block;
     height: 142px;
