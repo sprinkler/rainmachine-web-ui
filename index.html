@@ -27,6 +27,9 @@
 	<!-- Program Settings Start -->
 	<div id="programsSettings"></div>
 	<!-- Program Settings End -->
+	<!-- Zones Settings Start -->
+	<div id="zonesSettings"></div>
+	<!-- Zones Settings End -->
 	<div class="loginContainer">
 		<div class="loginInnerContainer">
 			<div class="center">
@@ -178,11 +181,8 @@
 								<div class="homeScreenZoneList">
 									<button rm-id="home-zones-edit" class="button label-grey center right">Edit</button>
 									<h1 class="title" style="margin-bottom:0px;">Zones</h1>
-
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
-											<!-- Zones Settings -->
-										<div id="zonesSettings"></div>
 									</div>
 							</div>
 						</div>
@@ -1031,46 +1031,48 @@
         <!-- Template for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
-        <div id="zone-settings-template" class="programEdit">
-            <table class="listItem" style="width:100%;" cellpadding="0" cellspacing="0">
-                <tbody>
-                <tr rm-id="zone-master-valve-option">
-	                <td class="middle" width="15%">Master Valve:</td>
-	                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
-                </tr>
+        <div id="zone-settings-template">
+       		<div class="overTop">
+	            <table class="programEdit" cellpadding="0" cellspacing="0">
+	                <tbody>
+	                <tr rm-id="zone-master-valve-option">
+		                <td class="middle" width="15%">Master Valve:</td>
+		                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
+	                </tr>
 
-				<tr rm-id="zone-master-valve-timer">
-					<td class="middle" width="15%">Master Valve:</td>
-					<td class="middle">
-						Start <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes before and
-						<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes after each program.
-					</td>
+					<tr rm-id="zone-master-valve-timer">
+						<td class="middle" width="15%">Master Valve:</td>
+						<td class="middle">
+							Start <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes before and
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes after each program.
+						</td>
 
-				</tr>
-                <tr>
-                	<td class="middle">Name:</td>
-                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
-                </tr>
-                <tr><td class="middle">Active:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
-                <tr><td class="middle">Vegetation Type:</td>
-                    <td class="middle">
-                        <select rm-id="zone-vegetation-type">
-                            <option value="1">Other</option>
-                            <option value="2" selected>Lawn</option>
-                            <option value="3">Fruit Trees</option>
-                            <option value="4">Flowers</option>
-                            <option value="5">Vegetables</option>
-                            <option value="6">Citrus</option>
-                            <option value="7">Trees and Bushes</option>
-                        </select>
-                </td></tr>
-                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
-                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
-                <tr>
-                	<td class="middle noborder" colspan="2"><button class="button blue center right" rm-id="zone-save">Save</button><button class="button grey center right" rm-id="zone-cancel">Cancel</button></td>
-                </tr>
-                </tbody>
-            </table>
+					</tr>
+	                <tr>
+	                	<td class="middle">Name:</td>
+	                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
+	                </tr>
+	                <tr><td class="middle">Active:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
+	                <tr><td class="middle">Vegetation Type:</td>
+	                    <td class="middle">
+	                        <select rm-id="zone-vegetation-type">
+	                            <option value="1">Other</option>
+	                            <option value="2" selected>Lawn</option>
+	                            <option value="3">Fruit Trees</option>
+	                            <option value="4">Flowers</option>
+	                            <option value="5">Vegetables</option>
+	                            <option value="6">Citrus</option>
+	                            <option value="7">Trees and Bushes</option>
+	                        </select>
+	                </td></tr>
+	                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
+	                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+	                <tr>
+	                	<td class="middle noborder" colspan="2"><button class="button blue center right" rm-id="zone-save">Save</button><button class="button grey center right" rm-id="zone-cancel">Cancel</button></td>
+	                </tr>
+	                </tbody>
+	            </table>
+            </div>
         </div>
         <!-- Template for Zone Properties Card (End) -->
 
@@ -1367,7 +1369,7 @@
 		<!-- Template for Simple Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-simple-template">
 			<div rm-id="wateringLogProgramStart" class="right mr10 bold" style="width:70px;display:inline-block;vertical-align:middle;"></div>
-			<div rm-id="wateringLogProgramName" class="bold" style="padding-bottom:10px;"></div>
+			<div rm-id="wateringLogProgramName" class="bold" style="padding-bottom:10px;padding-left:10px;"></div>
 			<div rm-id="wateringLogZonesContainer" class="wateringLogAllZones"></div>
 		</div>
 		<!-- Template for Simple Watering History Day per Program (End) -->
@@ -1376,7 +1378,7 @@
 		<div id="watering-history-day-programs-zone-simple-template" class="wateringLogZone">
             <div rm-id="wateringLogZoneRealTime" class="right mr10" style="width:70px;"></div>
             <div rm-id="wateringLogZoneSchedTime" class="right mr10" style="width:70px;"></div>
-			<div rm-id="wateringLogZoneName" class="wateringLogZoneItem"></div>
+			<div rm-id="wateringLogZoneName" class="wateringLogZoneItem" style="padding-left:10px;"></div>
 		</div>
 		<!-- Template for Simple Watering History Day Program per Zone (End) -->
 

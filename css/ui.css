@@ -220,9 +220,6 @@ b, strong {
 
 .wateringLogDayLine {
     display: block;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
 }
 
 .wateringLogZone {
@@ -872,8 +869,8 @@ select {
     font-size: 32px;
     white-space: nowrap;
     cursor: default;
-    display: block;
-    float:left;
+    display: inline-block;
+    text-align: center;
     width:32px;
     margin-right: 3px;
     color: #0099ff;
@@ -1050,9 +1047,15 @@ td.right, .right {
 }
 .historyDateContainer:before {
     content: "+";
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .historyDateContainer[selected]:before {
     content: "-";
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .historyZone {
