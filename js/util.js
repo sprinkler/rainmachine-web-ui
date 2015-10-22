@@ -64,7 +64,6 @@ Util.sinceDateAsText = function(dateString)
 		return "";
 	}
 	var diff =  sToday - s;
-	console.log("Today: %s Date: %s Diff: %s Obj: %o", today.toString(), dateString, diff, Util.secondsToHuman(diff));
 	return Util.secondsToText(diff, true);
 }
 

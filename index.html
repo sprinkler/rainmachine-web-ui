@@ -24,6 +24,9 @@
 	<script src="js/ui.js"></script>
 </head>
 <body>
+	<!-- Program Settings Start -->
+	<div id="programsSettings"></div>
+	<!-- Program Settings End -->
 	<div class="loginContainer">
 		<div class="loginInnerContainer">
 			<div class="center">
@@ -97,314 +100,29 @@
 									</div>
 								</div>
 								<div class="homeScreenDataSource">
-									<button rm-id="weather-data-edit" class="button label-grey center right">Edit</button>
+									<button id="weather-data-edit" class="button label-grey center right">Edit</button>
 									<h1 class="title">Weather Data</h1>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">4 Hours ago</span>
-										<span class="homeScreenDataSourceName">NOAA</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Met.no</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">6 Hours ago</span>
-										<span class="homeScreenDataSourceName">PWS (3 stations)</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Rain Gauge wired</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago green right">2 Hours ago</span>
-										<span class="homeScreenDataSourceName">Rain Gauge radar</span>
-									</div>
-									<div class="homeScreenDataSourceItem">
-										<span class="hoursago gray right">Never</span>
-										<span class="homeScreenDataSourceName">Wunderground</span>
+									<div id="weatherDataSourcesSimpleList">
+										<!--- weather-sources-simple-template -->
 									</div>
 									<span class="separator"></span>
 									<span class="homeScreenDataSourceMessage">Everything looks good!</span>
 								</div>
-								<div class="homeScreensevendays">
+								<div class="homeScreenWaterLog">
 									<h1 class="title">7-Day Watering History</h1>
 									<div style="display:block;padding-bottom:25px;padding-top:15px;border-bottom:1px solid #ddd;color:#555;">
-										<span class="right center mr20" style="width:70px;">Watered</span>
-										<span class="right center mr20" style="width:70px;">Scheduled</span>
+										<span class="right mr10" style="width:70px;">Watered</span>
+										<span class="right center mr10" style="width:70px;">Scheduled</span>
 									</div>
-									<div id="sevendays">
-									  <ul>
-									    <li>
-									      <a href="#firstday">
-									      	<span class="right mr20" style="width:70px;">130 min</span>
-											<span class="right mr20" style="width:70px;">200 min</span>
-									      	OCT 7
-									      </a>
-									      <div id="firstday" class="sevendays">
-									      	<!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									        <!-- Second program -->
-									        <div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 10:15 AM</span>
-										        	<span class="programName bold">East side</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 5
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 7
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 8
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- Second program End -->
-									      </div>
-									    </li>
-									    <li>
-									      <a href="#secondday">
-									      	<span class="right mr20" style="width:70px;">89 min</span>
-											<span class="right mr20" style="width:70px;">120 min</span>
-									      	OCT 8
-									      </a>
-									      <div id="secondday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>    
-									    <li>
-									      <a href="#thirdday">
-									      	<span class="right mr20" style="width:70px;">160 min</span>
-											<span class="right mr20" style="width:70px;">90 min</span>
-									      	OCT 9
-									      </a>
-									      <div id="thirdday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>
-									    <li>
-									      <a href="#fourthday">
-									      	<span class="right mr20" style="width:70px;">55 min</span>
-											<span class="right mr20" style="width:70px;">80 min</span>
-									      	OCT 10
-									      </a>
-									      <div id="fourthday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>
-									    <li>
-									      <a href="#fifthday">
-									      	<span class="right mr20" style="width:70px;">25 min</span>
-											<span class="right mr20" style="width:70px;">50 min</span>
-									      	OCT 11
-									      </a>
-									      <div id="fifthday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>    
-									    <li>
-									      <a href="#sixthday">
-									      	<span class="right mr20" style="width:70px;">180 min</span>
-											<span class="right mr20" style="width:70px;">120 min</span>
-									      	OCT 12
-									      </a>
-									      <div id="sixthday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>
-									    <li>
-									      <a href="#seventhday">
-									      	<span class="right mr20" style="width:70px;">30 min</span>
-											<span class="right mr20" style="width:70px;">110 min</span>
-									      	OCT 13
-									      </a>
-									      <div id="seventhday" class="sevendays">
-									        <!-- First program -->
-									      	<div class="sevendays-program">
-										        <div class="program-name-start-time">
-										        	<span class="right bold mr20">starting time: 07:45 AM</span>
-										        	<span class="programName bold">Flower Pot</span>
-										        </div>
-										        <div class="sevendays-zones">
-										        	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 1
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 2
-											      	</div>
-											      	<div class="sevendays-zones-single">
-											        	<span class="right center mr20" style="width:70px;">05:25</span>
-														<span class="right center mr20" style="width:70px;">08:00</span>
-											      		zone 3
-											      	</div>
-										        </div>
-										    </div>
-										    <!-- First program End-->
-									      </div>
-									    </li>
-									  </ul>
+									<div id="wateringHistorySimpleContent">
+										<!--- waterlog-simple-template -->
 									</div>
 								</div>
 							</div>
 							<div class="homeScreenRight">
 								<div class="homeScreenProgramList">
-									<button rm-id="home-programs-edit" class="button label-grey center right">Edit</button>
-									<button rm-id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
+									<button id="home-programs-edit" class="button label-grey center right">Edit</button>
+									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
 									<div class="program-line">
@@ -454,8 +172,6 @@
 									<!-- Program 1 line start -->
 									<div id="programs">
 											<div id="programsList"></div>
-											<!-- Program Settings -->
-											<div id="programsSettings"></div>
 									</div>
 									<!-- Program 1 line end -->
 								</div>
@@ -476,9 +192,9 @@
 									<!-- Zone 1 end -->
 							</div>
 						</div>
-						<div id="waterNeedChartContainer" class="charts"></div>
-						<div id="temperatureChartContainer" class="charts"></div>
-						<div id="qpfChartContainer" class="charts"></div>
+						<div id="waterNeedChartContainer" class="charts" style="display:none;"></div>
+						<div id="temperatureChartContainer" class="charts" style="display:none;"></div>
+						<div id="qpfChartContainer" class="charts" style="display:none;"></div>
 					</div>
 				</div>
 
@@ -1299,9 +1015,7 @@
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="zone-line">
 			<div class="program-title-next-run zoneListLine">
-				<section>
-					<div rm-id="zone-name" class="zoneListName"></div>
-				</section>
+				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
             	<div rm-id="zone-timers" style="display:none;">
 	            	<span class="separator" style="margin:10px 0;clear:both;display:none;">&nbsp;</span>
@@ -1385,144 +1099,145 @@
 		<!-- Template for Program Card (End) -->
 
 		<!-- Template for Program Settings (Begin) -->
-		<div id="program-settings-template" class="programEdit">
-            <table cellspacing="0" cellpadding="0" class="full">
-                <tr>
-                    <td class="programProperties">
-                        <div class="center">
-                            <button class="button grey left" rm-id="program-cancel">Cancel</button>
-                            <button class="button red center" rm-id="program-delete">Delete</button>
-                            <button class="button blue center right" rm-id="program-save">Save</button>
-                        </div>
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                            <tbody>
-                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
-                            <tr><td class="cardTitle">Active:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
-                            <tr><td class="cardTitle">Wheather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
-                            <tr>
-                                <td colspan="2">
-                                    <span class="cardTitle">Frequency:</span><br><br>
-                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
-                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
-                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
-                                    <div>
-                                        <input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-                                        <select rm-id="program-frequency-every-param">
-                                            <option value="2" selected>2 days</option>
-                                            <option value="3">3 day</option>
-                                            <option value="4">4 day</option>
-                                            <option value="5">5 day</option>
-                                            <option value="6">6 day</option>
-                                            <option value="7">7 day</option>
-                                            <option value="8">8 day</option>
-                                            <option value="9">9 day</option>
-                                            <option value="10">10 day</option>
-                                            <option value="11">11 day</option>
-                                            <option value="12">12 day</option>
-                                            <option value="13">13 day</option>
-                                            <option value="14">14 day</option>
-                                        </select>
-                                    </div><br>
-                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
-                                        <div rm-id="program-frequency-weekdays-container">
-                                            <div class="half">
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-sunday" class="right" />
-                                                    <div>Sunday</div>
-                                                </div>
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-monday" class="right"/>
-                                                    <div>Monday</div>
-                                                </div>
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-tuesday" class="right"/>
-                                                    <div>Tuesday</div>
-                                                </div>
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-wednesday" class="right"/>
-                                                    <div>Wednesday</div>
-                                                </div>
-                                            </div>
-                                            <div class="halfRight">
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-thursday" class="right"/>
-                                                    <div>Thursday</div>
-                                                </div>
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-friday" class="right"/>
-                                                    <div>Friday</div>
-                                                </div>
-                                                <div>
-                                                    <span class="separator"></span>
-                                                    <input type="checkbox" rm-id="weekday-saturday" class="right"/>
-                                                    <div>Saturday</div>
-                                                </div>
-                                            </div>
-                                            <div class="clear30"></div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="middle">
-                                    <span class="cardTitle">Start time:</span><br>
-                                    <span class="cardSubtitle">(hh:mm)</span>
-                                </td>
-                                <td>
-                                    <span rm-id="program-start-time" class="right">
-                                        <span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-                                        :
-                                        <span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="middle">
-                                    <span class="cardTitle">Next run:</span>
-                                </td>
-                                <td>
-                                    <span rm-id="program-next-run" class="right"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="middle cardTitle">Cycles &amp Soak:</span><br/>
-                                    <span class="cardSubtitle">
-                                        <input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
-                                    </span>
-                                </td>
-                                <td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="middle cardTitle">Delay between zones</span><br/>
-                                    <span class="cardSubtitle">
-                                        <input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-                                        :
-                                        <input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-                                    </span>
-                                </td>
-                                <td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </td>
-                    <td class="gapProrgEdit">&nbsp;</td>
-                    <td class="wateringTimes">
-                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-                            <tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+		<div id="program-settings-template">
+			<div class="overTop">
+	            <table cellspacing="0" cellpadding="0" class="programEdit">
+	                <tr>
+	                    <td class="programProperties">
+	                        <div class="center">
+	                            <button class="button grey left" rm-id="program-cancel">Cancel</button>
+	                            <button class="button red center" rm-id="program-delete">Delete</button>
+	                            <button class="button blue center right" rm-id="program-save">Save</button>
+	                        </div>
+	                        <table width="100%" cellpadding="0" cellspacing="0">
+	                            <tbody>
+	                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
+	                            <tr><td class="cardTitle">Active:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+	                            <tr><td class="cardTitle">Wheather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
+	                            <tr>
+	                                <td colspan="2">
+	                                    <span class="cardTitle">Frequency:</span><br><br>
+	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
+	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
+	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
+	                                    <div>
+	                                        <input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+	                                        <select rm-id="program-frequency-every-param">
+	                                            <option value="2" selected>2 days</option>
+	                                            <option value="3">3 day</option>
+	                                            <option value="4">4 day</option>
+	                                            <option value="5">5 day</option>
+	                                            <option value="6">6 day</option>
+	                                            <option value="7">7 day</option>
+	                                            <option value="8">8 day</option>
+	                                            <option value="9">9 day</option>
+	                                            <option value="10">10 day</option>
+	                                            <option value="11">11 day</option>
+	                                            <option value="12">12 day</option>
+	                                            <option value="13">13 day</option>
+	                                            <option value="14">14 day</option>
+	                                        </select>
+	                                    </div><br>
+	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+	                                        <div rm-id="program-frequency-weekdays-container">
+	                                            <div class="half">
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-sunday" class="right" />
+	                                                    <div>Sunday</div>
+	                                                </div>
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-monday" class="right"/>
+	                                                    <div>Monday</div>
+	                                                </div>
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+	                                                    <div>Tuesday</div>
+	                                                </div>
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+	                                                    <div>Wednesday</div>
+	                                                </div>
+	                                            </div>
+	                                            <div class="halfRight">
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-thursday" class="right"/>
+	                                                    <div>Thursday</div>
+	                                                </div>
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-friday" class="right"/>
+	                                                    <div>Friday</div>
+	                                                </div>
+	                                                <div>
+	                                                    <span class="separator"></span>
+	                                                    <input type="checkbox" rm-id="weekday-saturday" class="right"/>
+	                                                    <div>Saturday</div>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td class="middle">
+	                                    <span class="cardTitle">Start time:</span><br>
+	                                    <span class="cardSubtitle">(hh:mm)</span>
+	                                </td>
+	                                <td>
+	                                    <span rm-id="program-start-time" class="right">
+	                                        <span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+	                                        :
+	                                        <span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+	                                    </span>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td class="middle">
+	                                    <span class="cardTitle">Next run:</span>
+	                                </td>
+	                                <td>
+	                                    <span rm-id="program-next-run" class="right"></span>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td>
+	                                    <span class="middle cardTitle">Cycles &amp Soak:</span><br/>
+	                                    <span class="cardSubtitle">
+	                                        <input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="1"> cycles
+	                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                        <input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="00"> min soak
+	                                    </span>
+	                                </td>
+	                                <td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
+	                            </tr>
+	                            <tr>
+	                                <td>
+	                                    <span class="middle cardTitle">Delay between zones</span><br/>
+	                                    <span class="cardSubtitle">
+	                                        <input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+	                                        :
+	                                        <input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+	                                    </span>
+	                                </td>
+	                                <td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                    </td>
+	                    <td class="gapProrgEdit">&nbsp;</td>
+	                    <td class="wateringTimes">
+	                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
+	                            <tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+	                        </table>
+	                    </td>
+	                </tr>
+	            </table>
+        	</div>
 		</div>
 
 		<!-- Template for Program Settings (End) -->
@@ -1531,15 +1246,17 @@
 		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
 			<table cellpadding="0" cellspacing="0">
 				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
-					<td width="80%">
-						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span><br/>
-						<span class="cardSubtitle">
+					<td width="50%" class="middle">
+						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span>
+					</td>
+					<td class="middle">
+						<span class="right">
 							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
-							:
+								:
 							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+							<input type="checkbox" rm-id="program-zone-active"/>
 						</span>
 					</td>
-					<td class="middle"><span class="right"><input type="checkbox" rm-id="program-zone-active"/></span></td>
 				</tr>
 			</table>
 		</div>
@@ -1596,6 +1313,15 @@
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
 
+		<!-- Template for Weather Data Sources Simple (dashboard) (Start) -->
+		<div id="weather-sources-simple-template">
+			<div class="homeScreenDataSourceItem">
+				<div rm-id="weather-source-lastrun" class="hoursago green right"></div>
+				<div rm-id="weather-source-name" class="homeScreenDataSourceName"></div>
+			</div>
+		</div>
+		<!-- Template for Weather Data Sources Simple (dashboard) (End) -->
+
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
 			<span class="bold" rm-id="weather-source-name"></span>
@@ -1629,6 +1355,37 @@
 			<div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
 		</div>
 		<!-- Template for Watering History Day Program per Zone (End) -->
+
+
+		<!-- Simple Watering History Templates -->
+
+		<!-- Template for Simple Watering History per Day (Start) -->
+		<div id="watering-history-day-simple-template" class="historyDateContainer">
+			<div class="wateringLogDayLine">
+				<div rm-id="wateringLogDayScheduled" class="right mr10 wateringLogDayScheduled" style="width:70px;"></div>
+				<div rm-id="wateringLogDayWatered" class="right mr10 wateringLogDayWatered" style="width:70px;"></div>
+				<div rm-id="wateringLogDayName" class="wateringLogDayNumber"></div>
+			</div>
+				<div rm-id="wateringLogProgramsContainer" class="wateringLogProgramsContainer"></div>
+		</div>
+		<!-- Template for Simple Watering History per Day (End) -->
+
+		<!-- Template for Simple Watering History Day per Program (Start) -->
+		<div id="watering-history-day-programs-simple-template">
+			<div rm-id="wateringLogProgramStartTime" class="right mr10 bold" style="width:70px;display:inline-block;vertical-align:middle;">07:45 AM</div>
+			<div rm-id="wateringLogProgramName" class="bold" style="padding-bottom:10px;"></div>
+			<div rm-id="wateringLogZonesContainer" class="wateringLogAllZones"></div>
+		</div>
+		<!-- Template for Simple Watering History Day per Program (End) -->
+
+		<!-- Template for Simple Watering History Day Program per Zone (Start) -->
+		<div id="watering-history-day-programs-zone-simple-template" class="wateringLogZone">
+			<div rm-id="wateringLogZoneSchedTime" class="right mr10" style="width:70px;"></div>
+			<div rm-id="wateringLogZoneRealTime" class="right mr10" style="width:70px;"></div>
+			<div rm-id="wateringLogZoneName" class="wateringLogZoneItem"></div>
+		</div>
+		<!-- Template for Simple Watering History Day Program per Zone (End) -->
+
 
 		<!-- Template for Hourly Restriction (Start)-->
 		<div id="restriction-hourly-template" class="listItemSettingsRestrictions">

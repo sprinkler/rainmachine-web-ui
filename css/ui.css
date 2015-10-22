@@ -132,8 +132,8 @@ h1.title {
 .mr{
     margin-right: 60px;
 }
-.mr20 {
-    margin-right:20px;
+.mr10 {
+    margin-right:10px;
 }
 
 #success, #error {
@@ -168,9 +168,6 @@ b, strong {
     display: none;
 }
 
-
-/*Iulian CSS starts*/
-
 /* Home screen start */
 .homeScreenMain {
     width: 1280px;
@@ -191,7 +188,7 @@ b, strong {
     vertical-align:top;
     border:0px;
 }
-.homeScreenWaterSaved, .homeScreenDataSource, .homeScreensevendays, .homeScreenProgramList, .homeScreenZoneList {
+.homeScreenWaterSaved, .homeScreenDataSource, .homeScreenWaterLog, .homeScreenProgramList, .homeScreenZoneList {
     display:block;
     padding-top:5px;
     background-color:#fff;
@@ -213,58 +210,20 @@ b, strong {
     text-align: center;
     text-transform: uppercase; 
 }
-.homeScreenProgramList {
+
+.wateringLogDayNumber, .wateringLogProgramsContainer  {
+    padding-left:10px;
+}
+.wateringLogDayLine {
+    display: block;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+.wateringLogZone {
+    display: block;
     padding-bottom: 10px;
 }
-
-#sevendays ul {
-    list-style:none;
-    margin:0;
-    padding:0;
-}
-.sevendays {
-    display:none;
-}
-.sevendays:target {
-    display:block;
-    padding-left: 10px;
-}
-#sevendays ul li a {
-    text-decoration:none;
-    display:block;
-    padding:10px;
-}
-.sevendays {
-    padding:4px;
-}
-#sevendays ul li a{
-    background:#fff;
-    border-bottom:1px solid #E0E0E0;
-    color:#555;
-}
-#sevendays ul li a::before {
-    content: "+";
-}
-#sevendays ul li a:target::before {
-    content: "-";
-}
-.sevendays{
-    background:#fdfdfd;
-    color:#555;
-}
-.sevendays:target{
-    padding-top: 10px;
-    padding-bottom: 0px;
-    border-bottom:1px solid #E0E0E0;
-}
-.sevendays-zones-single {
-    color:#888;
-    padding-top: 10px;
-}
-.sevendays-program {
-    margin-bottom: 15px;
-}
-
 .program-line {
     display: block;
     height: 142px;
@@ -293,8 +252,10 @@ b, strong {
 .programGraph, .inputStepDown {
     display: inline-block;
     width: 478px;
-    height: 130px;
     vertical-align: middle;
+}
+.programGraph {
+    height: 142px;
 }
 .program-start-stop {
     display:inline-block;
@@ -333,14 +294,14 @@ b, strong {
 sup {
     font-size: 12px;
 }
-.programListName, .programNextRun {
+.programListName, .programNextRun, .zoneListName {
     padding-left: 10px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
     -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-    width: 218px;
+    width: 210px;
 }
 .programListName {
     padding-top: 45px;
@@ -349,6 +310,16 @@ sup {
 .programNextRun {
     font-size: 14px;
     color: #888;
+}
+.overTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow: scroll;
+    z-index: 3;
 }
 /* Home screen end */ 
 
@@ -390,9 +361,6 @@ h1 {
     margin-bottom: 10px;
 }
 
-/*#programsList, #zonesList {
-    padding-left: 12px;
-}*/
 .subtitle {
     font: 12px normal Arial, sans-serif;
     color: #888;
@@ -990,7 +958,12 @@ select {
 }
 .programEdit {
     background-color: #fff;
-    z-index: 9999;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    z-index: 3;
 }
 .settingsBlock, .settingsBlockZones,.settingsBlockProgram {
     background-color: #fff;
