@@ -187,3 +187,39 @@ function loadTemplate(name) {
 	template.removeAttribute("id");
 	return template;
 }
+
+function rangeSlider(slider, onDragEnd) {
+
+	var thumb = slider.children[0];
+	var mouseDown = false;
+	var sliderWidth;
+	var sliderLeft;
+	var thumbWidth = 35;
+
+	slider.addEventListener("mousedown", function(e) {
+		sliderWidth = this.offsetWidth;
+		sliderLeft = this.offsetLeft;
+		mouseDown = true;
+		updateSlider(e);
+		return false;
+	});
+
+	document.addEventListener("mousemove", function(e) {
+		updateSlider(e);
+	});
+
+	document.addEventListener("mouseup", function(e) {
+		var value = Math.round(e.pageX - sliderLeft);
+		if (mouseDown && typeof onDragEnd == "function") onDragEnd(value);
+		mouseDown = false;
+	});
+
+	function updateSlider(e) {
+		if (mouseDown && e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
+			thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
+			//var value = Math.round(((e.pageX - sliderLeft) / sliderWidth) * 100);
+			var value = Util.secondsToMMSS((e.pageX - sliderLeft));
+			thumb.textContent = value;
+		}
+	}
+}

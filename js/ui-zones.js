@@ -50,6 +50,7 @@ window.ui = window.ui || {};
 			var editElem = $(template, '[rm-id="zone-edit"]');
 			var typeElem = $(template,'[rm-id="zone-info"]');
 			var timersElem = $(template, '[rm-id="zone-timers"]');
+			var timerElem = $(template, '[rm-id="zone-timer"]');
 
 			template.id = "zone-" + z.uid;
 			template.data = za;
@@ -82,6 +83,8 @@ window.ui = window.ui || {};
 			editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 			zonesDiv.appendChild(template);
 
+
+			rangeSlider(timerElem, function(value) {console.log("Stopped dragging at %s", value);});
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
