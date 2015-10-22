@@ -349,6 +349,16 @@ sup {
     font-size: 14px;
     color: #888;
 }
+.overTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow: scroll;
+    z-index: 3;
+}
 /* Home screen end */ 
 
 @font-face {
@@ -389,9 +399,6 @@ h1 {
     margin-bottom: 10px;
 }
 
-/*#programsList, #zonesList {
-    padding-left: 12px;
-}*/
 .subtitle {
     font: 12px normal Arial, sans-serif;
     color: #888;
@@ -989,7 +996,12 @@ select {
 }
 .programEdit {
     background-color: #fff;
-    z-index: 9999;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    z-index: 3;
 }
 .settingsBlock, .settingsBlockZones,.settingsBlockProgram {
     background-color: #fff;
