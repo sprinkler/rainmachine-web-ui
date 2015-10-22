@@ -52,6 +52,24 @@ Util.secondsToText = function(seconds, rounded)
 	return text;
 };
 
+Util.secondsToMMSS = function(seconds)
+{
+	var m = (seconds / 60) >> 0;
+	var s = seconds % 60;
+	var text = "";
+
+	if (m < 10)
+		text += "0";
+	text += m + ":";
+
+	if (s < 10)
+		text += "0";
+
+	text += s
+
+	return text;
+}
+
 Util.sinceDateAsText = function(dateString)
 {
 	var text;

@@ -77,9 +77,9 @@ window.ui = window.ui || {};
 				}
 			}
 
-			startElem.onclick = function() { startZone(this.parentNode.data.uid); };
-			stopElem.onclick = function() { stopZone(this.parentNode.data.uid); };
-			editElem.onclick = function() { showZoneSettings(this.parentNode.data); };
+			startElem.onclick = function() { startZone(this.parentNode.parentNode.data.uid); };
+			stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
+			editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 			zonesDiv.appendChild(template);
 
 			setZoneState(z);

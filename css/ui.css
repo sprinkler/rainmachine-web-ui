@@ -214,12 +214,17 @@ b, strong {
 .wateringLogDayNumber, .wateringLogProgramsContainer  {
     padding-left:10px;
 }
+.wateringLogProgramsContainer {
+    display: none;
+}
+
 .wateringLogDayLine {
     display: block;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
 }
+
 .wateringLogZone {
     display: block;
     padding-bottom: 10px;
@@ -1043,6 +1048,13 @@ td.right, .right {
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
+.historyDateContainer:before {
+    content: "+";
+}
+.historyDateContainer[selected]:before {
+    content: "-";
+}
+
 .historyZone {
     width:100%;
     display: table;

@@ -469,7 +469,9 @@ window.ui = window.ui || {};
 
     				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
     				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
+					var programStartElem = $(programTemplate, '[rm-id="wateringLogProgramStart"]');
     				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
+					var programStart = null;
 
     				programNameElem.textContent = name;
 
@@ -481,10 +483,13 @@ window.ui = window.ui || {};
     					var zoneDurations = { machine: 0, user: 0, real: 0 };
     					for (var c = 0; c < zone.cycles.length; c++)
     					{
-    						 var cycle = zone.cycles[c];
-    						 zoneDurations.machine += cycle.machineDuration;
-    						 zoneDurations.real += cycle.realDuration;
-    						 zoneDurations.user += cycle.userDuration;
+							var cycle = zone.cycles[c];
+    						zoneDurations.machine += cycle.machineDuration;
+    						zoneDurations.real += cycle.realDuration;
+    						zoneDurations.user += cycle.userDuration;
+							if (programStart === null)
+								programStart = cycle.startTime;
+
     					}
 
     					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template")
@@ -494,12 +499,14 @@ window.ui = window.ui || {};
     					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
     					zoneNameElem.textContent = "Zone " + zone.uid;
-    					zoneSchedElem.textContent = ((zoneDurations.user / 60) >> 0) + " min";
-    					zoneWateredElem.textContent = ((zoneDurations.real / 60) >> 0) + " min";
+    					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
+    					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);
 
     					dayDurations.scheduled += zoneDurations.user;
     					dayDurations.watered += zoneDurations.real;
 
+
+						programStartElem.textContent = programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
     					programContainerElem.appendChild(zoneListTemplate);
 
     					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
@@ -509,6 +516,19 @@ window.ui = window.ui || {};
 
     			dayScheduledElem.textContent = ((dayDurations.scheduled / 60) >> 0) + " min";
                 dayWateredElem.textContent = ((dayDurations.watered / 60) >> 0) + " min";
+
+				dayTemplate.onclick = function() {
+					var tag = this.children[1];
+					if (isVisible(tag)) {
+						makeHidden(tag);
+						this.removeAttribute("selected");
+					}
+					else {
+						makeVisible(tag);
+						this.setAttribute("selected", true);
+					}
+				}
+
     			container.appendChild(dayTemplate);
     		}
     	}
