@@ -516,6 +516,20 @@ window.ui = window.ui || {};
 
     			dayScheduledElem.textContent = ((dayDurations.scheduled / 60) >> 0) + " min";
                 dayWateredElem.textContent = ((dayDurations.watered / 60) >> 0) + " min";
+
+				dayTemplate.onclick = function() {
+					var tag = this.children[1];
+					console.log(this);
+					if (isVisible(tag)) {
+						makeHidden(tag);
+						this.removeAttribute("selected");
+					}
+					else {
+						makeVisible(tag);
+						this.setAttribute("selected", true);
+					}
+				}
+
     			container.appendChild(dayTemplate);
     		}
     	}
