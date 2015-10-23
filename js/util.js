@@ -54,6 +54,7 @@ Util.secondsToText = function(seconds, rounded)
 
 Util.secondsToMMSS = function(seconds)
 {
+	seconds = seconds >> 0;
 	var m = (seconds / 60) >> 0;
 	var s = seconds % 60;
 	var text = "";
