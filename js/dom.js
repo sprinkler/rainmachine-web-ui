@@ -188,17 +188,21 @@ function loadTemplate(name) {
 	return template;
 }
 
-function rangeSlider(slider, onDragEnd) {
+function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	var thumb = slider.children[0];
 	var mouseDown = false;
 	var sliderWidth;
 	var sliderLeft;
 	var thumbWidth = 35;
+	var maxValue = virtualMaxValue;
+	var ratio = 1;
 
 	slider.addEventListener("mousedown", function(e) {
+		//These are recalculated as they aren't ready on DOM creation
 		sliderWidth = this.offsetWidth;
 		sliderLeft = this.offsetLeft;
+		ratio = maxValue / sliderWidth;
 		mouseDown = true;
 		updateSlider(e);
 		return false;
@@ -218,8 +222,30 @@ function rangeSlider(slider, onDragEnd) {
 		if (mouseDown && e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
 			thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
 			//var value = Math.round(((e.pageX - sliderLeft) / sliderWidth) * 100);
-			var value = Util.secondsToMMSS((e.pageX - sliderLeft));
-			thumb.textContent = value;
+			setThumbInfo((e.pageX - sliderLeft) * ratio);
 		}
+	}
+
+	function setThumbInfo(value) {
+			thumb.textContent = Util.secondsToMMSS(value);
+	}
+
+	this.setPosition = function(value) {
+		thumb.style.left = (value / ratio) + 'px';
+		setThumbInfo(value);
+	}
+
+	this.setPositionWithOffset = function(value) {
+		var current = this.getPosition();
+		this.setPosition(current + value);
+	}
+
+	this.getPosition = function() {
+		return (thumb.offsetLeft - slider.offsetLeft) * ratio;
+	}
+
+	this.setMaxValue = function(value) {
+		maxValue = value;
+		ratio = maxValue / sliderWidth
 	}
 }

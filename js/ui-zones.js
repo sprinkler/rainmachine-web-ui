@@ -13,6 +13,8 @@ window.ui = window.ui || {};
 		pending: 2
 	}
 
+	var maxZoneManualSeconds = 956;
+
 	function showZones() {
 		APIAsync.getZones().then(
 			function(o) {
@@ -83,8 +85,8 @@ window.ui = window.ui || {};
 			editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 			zonesDiv.appendChild(template);
 
-
-			rangeSlider(timerElem, function(value) {console.log("Stopped dragging at %s", value);});
+			timerElem.id = "zone-timer-" + z.uid;
+			timerElem.controller = new rangeSlider(timerElem, maxZoneManualSeconds, function(value) {console.log("Stopped dragging at %s", value);});
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
