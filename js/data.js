@@ -30,6 +30,7 @@ Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
 Data.waterLogSimulated = null;
+Data.waterLogSimple = null;
 Data.dateTime = null;
 Data.uiVer = "0.12-beta";
 

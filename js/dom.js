@@ -256,7 +256,9 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	}
 
 	this.setMaxValue = function(value) {
+		var current = this.getPosition() / ratio;
 		maxValue = value;
 		ratio = maxValue / sliderWidth
+		this.setPosition(current * ratio);
 	}
 }
