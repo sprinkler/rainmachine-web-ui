@@ -506,7 +506,7 @@ window.ui = window.ui || {};
     					dayDurations.watered += zoneDurations.real;
 
 
-						programStartElem.textContent = programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
+						programStartElem.textContent = "start time: " + programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
     					programContainerElem.appendChild(zoneListTemplate);
 
     					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));

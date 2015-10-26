@@ -195,6 +195,13 @@ b, strong {
     border:1px solid #ddd;
     margin-bottom:10px;
 }
+
+/* Don't allow selection as moving zone sliders might select text around */
+.homeScreenZoneList {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 .homeScreenDataSourceItem {
     padding:10px;
 }
@@ -634,8 +641,6 @@ input[type="checkbox"]:checked {
     background: #3399cc;
     border-radius: 0px;
     border: 0px solid #000101;
-    user-select: none;
-    -webkit-user-select: none;
 }
 .rangeSliderThumb {
     position: relative;
@@ -643,13 +648,13 @@ input[type="checkbox"]:checked {
     box-shadow: 1px 1px 2px #3399cc, 0px 0px 1px #47a3d1;
     border: 2px solid rgba(51, 153, 204, 0);
     height: 20px;
-    width: 35px;
+    width: 46px;
+    left: -46px;
+    text-align: center;
     border-radius: 5px;
     background: #ffffff;
     cursor: pointer;
     padding-top: 4px;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
 input[type=range] {

@@ -13,7 +13,7 @@ window.ui = window.ui || {};
 		pending: 2
 	}
 
-	var maxZoneManualSeconds = 956;
+	var maxZoneManualSeconds = 36000;
 
 	function showZones() {
 		APIAsync.getZones().then(
@@ -86,7 +86,7 @@ window.ui = window.ui || {};
 			zonesDiv.appendChild(template);
 
 			timerElem.id = "zone-timer-" + z.uid;
-			timerElem.controller = new rangeSlider(timerElem, maxZoneManualSeconds, function(value) {console.log("Stopped dragging at %s", value);});
+			timerElem.controller = new rangeSlider(timerElem, maxZoneManualSeconds, function(value) {console.log("Stopped dragging at %s (%s)", value, Util.secondsToMMSS(value));});
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
