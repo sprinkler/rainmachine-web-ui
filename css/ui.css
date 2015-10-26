@@ -241,14 +241,15 @@ b, strong {
 }
 .program-title-next-run, .zoneListLine {
     display:inline-block;
-    width: 218px;
     vertical-align: middle;
 }
 .program-title-next-run {
     height:142px;
+    width: 218px;
 }
 .zoneListLine {
     height: 70px;
+    width: 316px;
 }
 .zone-line {
     border-bottom:1px solid #eee;
@@ -260,11 +261,14 @@ b, strong {
 }
 .programGraph, .inputStepDown {
     display: inline-block;
-    width: 478px;
     vertical-align: middle;
 }
 .programGraph {
     height: 142px;
+    width: 478px;
+}
+.inputStepDown {
+    width:380px;
 }
 .program-start-stop {
     display:inline-block;
@@ -310,15 +314,18 @@ sup {
     overflow: hidden;
     text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
     -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-    width: 210px;
 }
 .programListName {
     padding-top: 45px;
     font-size: 18px;
+    width: 210px;
 }
 .programNextRun {
     font-size: 14px;
     color: #888;
+}
+.zoneListName {
+    width: 256px;
 }
 .overTop {
     position: fixed;
@@ -1071,19 +1078,19 @@ td.right, .right {
 }
 
 /* Watering History Custom Classes */
-.historyDateContainer {
+.historyDateContainer, .wateringLogDayContainer {
     width:100%;
     display: table;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
-.historyDateContainer:before {
+.wateringLogDayContainer:before {
     content: "+";
     float: left;
     margin-left: 10px;
     margin-right: 10px;
 }
-.historyDateContainer[selected]:before {
+.wateringLogDayContainer[selected]:before {
     content: "-";
     float: left;
     margin-left: 10px;
