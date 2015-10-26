@@ -194,7 +194,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	var mouseDown = false;
 	var sliderWidth;
 	var sliderLeft;
-	var thumbWidth = 35;
+	var thumbWidth = 46;
 	var maxValue = virtualMaxValue;
 	var ratio = 1;
 
@@ -213,17 +213,27 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	});
 
 	document.addEventListener("mouseup", function(e) {
-		var value = Math.round(e.pageX - sliderLeft);
-		if (mouseDown && typeof onDragEnd == "function") onDragEnd(value);
+		if (mouseDown && typeof onDragEnd == "function") {
+			var value = updateSlider(e);
+			onDragEnd(value);
+		}
 		mouseDown = false;
 	});
 
 	function updateSlider(e) {
-		if (mouseDown && e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
-			thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
-			//var value = Math.round(((e.pageX - sliderLeft) / sliderWidth) * 100);
-			setThumbInfo((e.pageX - sliderLeft) * ratio);
+		var value = null;
+		if (mouseDown) {
+			if (e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
+        		thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
+        		value = (e.pageX - sliderLeft) * ratio;
+        	} else if (e.pageX < sliderLeft) {
+        		value = 0;
+        	} else {
+        		value = maxValue;
+        	}
+        	setThumbInfo(value);
 		}
+		return value
 	}
 
 	function setThumbInfo(value) {
@@ -231,17 +241,18 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	}
 
 	this.setPosition = function(value) {
-		thumb.style.left = (value / ratio) + 'px';
+		var v = (value / ratio - thumbWidth); // left position is relative to sliderLeft
+		thumb.style.left = v + 'px';
 		setThumbInfo(value);
 	}
 
 	this.setPositionWithOffset = function(value) {
 		var current = this.getPosition();
-		this.setPosition(current + value);
+		this.setPosition(current + value * ratio);
 	}
 
 	this.getPosition = function() {
-		return (thumb.offsetLeft - slider.offsetLeft) * ratio;
+		return (thumb.offsetLeft - slider.offsetLeft + thumbWidth) * ratio;
 	}
 
 	this.setMaxValue = function(value) {
