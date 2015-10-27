@@ -228,7 +228,9 @@ b, strong {
 .wateringLogDayLine {
     display: block;
 }
-
+.wateringLogAllZones {
+    color:#888;
+}
 .wateringLogZone {
     display: block;
     padding-bottom: 10px;
