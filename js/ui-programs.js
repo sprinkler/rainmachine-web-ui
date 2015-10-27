@@ -569,7 +569,6 @@ window.ui = window.ui || {};
 
     function onStart() {
         var program = this.data;
-        console.log("TODO: start stop: ", program);
 
         if(program.active) {
             if (this.start) {
@@ -578,6 +577,9 @@ window.ui = window.ui || {};
                 API.stopProgram(program.uid);
             }
             showPrograms();
+
+            //TODO now we have to refresh zones too (dashboard), as the ui loop won't see the change (as the queue could be empty)
+            window.ui.zones.showZonesSimple();
         }
     }
 
