@@ -245,7 +245,7 @@ b, strong {
 }
 .program-title-next-run {
     height:142px;
-    width: 218px;
+    width: 226px;
 }
 .zoneListLine {
     height: 70px;
@@ -272,7 +272,7 @@ b, strong {
 }
 .program-start-stop {
     display:inline-block;
-    width:100px;
+    width:80px;
     vertical-align: middle;
     text-align: center;
 }
@@ -316,7 +316,7 @@ sup {
     -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
 }
 .programListName {
-    padding-top: 45px;
+    padding-top: 10px;
     font-size: 18px;
     width: 210px;
 }
@@ -813,11 +813,10 @@ select {
 .zonecircle {
     width:20px;
     height:20px;
-    background-color:#85d3ff;
     border: 1px solid #3399cc;
     border-radius:100%;
     line-height:20px;
-    color: #fff;
+    color: #3399cc;
     font-size: 12px;
     margin-right:5px;
     margin-bottom: 5px;
@@ -1222,7 +1221,7 @@ td.right, .right {
     .button {
       display: inline-block;
       position: relative;
-      min-width: 100px;
+      min-width: 80px;
       height: 32px;
       line-height: 32px;
       border-radius: 2px;

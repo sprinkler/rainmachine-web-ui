@@ -375,11 +375,17 @@ window.ui = window.ui || {};
 			{
 				var program = day.programs[j];
 
-				if (program.id == 0)
+				if (program.id == 0) {
 					var name = "Manual Watering";
-				else
-					var name = "Program " + program.id;
-
+				} else {
+					//TODO make sure we have Data.programs
+					//TODO Optimize
+					var p = getProgramById(program.id);
+					if (p !== null)
+						var name = p.name;
+					else
+						var name = "Program " + program.id
+				}
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
@@ -462,7 +468,7 @@ window.ui = window.ui || {};
     					//TODO make sure we have Data.programs
     					var p = getProgramById(program.id);
     					if (p !== null)
-    						var name = "Program " + p.name;
+    						var name = p.name;
     					else
     						var name = "Program " + program.id
     				}
