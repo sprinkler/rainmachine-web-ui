@@ -116,6 +116,7 @@ function ChartData () {
 	this.mint = new ChartSeries(this.startDate);
 	this.waterNeedReal = new ChartSeries(this.startDate);
 	this.waterNeedSimulated = new ChartSeries(this.startDate);
+	this.waterSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.programs = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
@@ -179,8 +180,24 @@ function getChartData(pastDays) {
 	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
 
 	getDailyStatsWithRetry(5, 5000);
+
+	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(356 + 7), 356 + 7)
+	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });
 }
 
+/**
+ * Parses and processes the yearly water log without details into chartsData.waterSaved
+ */
+function processDataWaterSaved() {
+
+	var waterLog = Data.waterLogSimple.waterLog.days;
+	for (var i = 0; i < waterLog.length; i++) {
+		var day = waterLog[i].date;
+		var saved = (100 - parseInt((waterLog[i].realDuration / waterLog[i].userDuration) * 100));
+        if (saved < 0) saved = 0;
+		chartsData.waterSaved.insertAtDate(day, saved);
+	}
+}
 
 /**
  * Parses and processes the data into the correct holders
@@ -418,6 +435,27 @@ function processChartData() {
     loadWeeklyCharts();
 }
 
+
+function setWaterSavedValueForDays(pastDays) {
+	var startDay = Util.getDateWithDaysDiff(pastDays);
+	var startDayIndex = Util.getDateIndex(startDay, chartsData.waterSaved.startDate);
+
+	var nrDays = 0;
+	var sum = 0;
+	for (var i = startDayIndex; i < startDayIndex + pastDays; i++) {
+		var v = chartsData.waterSaved.data[i];
+		if (v) {
+			nrDays++;
+			sum += v;
+		}
+	}
+
+	if (nrDays > 0)
+		chartsData.waterSaved.currentSeries = [ Math.round(sum / nrDays) ];
+	else
+		chartsData.waterSaved.currentSeries = [ 0 ];
+}
+
 /**
  * Generates the containers for the Program charts (no longer used, containers are now created in ui-programs.js)
  */
@@ -473,6 +511,10 @@ function loadWeeklyCharts () {
 
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
+
+	//For water gauge show only last week (today - 7)
+	setWaterSavedValueForDays(7)
+	generateWaterSavedGauge();
 }
 
 /**
@@ -514,6 +556,9 @@ function loadMonthlyCharts () {
 
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
+	//For water gauge show only last month
+    setWaterSavedValueForDays(30)
+    generateWaterSavedGauge();
 }
 
 /**
@@ -541,13 +586,15 @@ function loadYearlyCharts () {
 
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
+	//For water gauge show only last year
+    setWaterSavedValueForDays(356);
+    generateWaterSavedGauge();
 }
 
 /**
  * Generates all the charts: Water Need, Temperature, QPF and Programs
  */
 function generateCharts () {
-	generateWaterSavedGauge();
 	generateWaterNeedChart();
 	generateTemperatureChart();
 	generateQPFChart();
@@ -618,7 +665,7 @@ function generateWaterSavedGauge() {
 		},
 		series: [{
 			name: 'waterSaved',
-			data: [50],
+			data: chartsData.waterSaved.currentSeries,
 			dataLabels: {
 				format: '<div style="margin-top:-30px;height:50px;vertical-align:middle;width: 170px;text-align:center"><span style="font-size:36px;color:#555;font-weight:normal;font-family: Arial, sans-serif;">{y} %</span></div>'
 			}
