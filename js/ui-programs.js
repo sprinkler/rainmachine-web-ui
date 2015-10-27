@@ -102,6 +102,12 @@ window.ui = window.ui || {};
 				}
 			}
 			programListDiv.appendChild(template);
+
+			//TODO Hack to fix disappearing charts on refresh program (needs rewrite)
+			try {
+			    var programIndex = chartsData.programsMap[p.uid];
+			    generateProgramChart(p.uid, programIndex);
+			} catch(e) {}
 		}
 
 		// The Add program button (dynamically)

@@ -70,7 +70,7 @@ window.ui = window.ui || {};
 			}
 			else
 			{
-				nameElem.textContent = z.name;
+				nameElem.textContent = z.uid + ". " + z.name;
 				typeElem.textContent = zoneTypeToString(z.type);
 
 				if (!za.active) {

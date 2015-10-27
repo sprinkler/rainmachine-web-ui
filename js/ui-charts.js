@@ -219,7 +219,6 @@ function processChartData() {
 		chartsDataCounter = 0;
 	}
 
-
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.mixerData.length; mixedDataIndex++) {
 		var recent = Data.mixerData.mixerData[mixedDataIndex].dailyValues;
@@ -598,14 +597,7 @@ function generateCharts () {
 	generateWaterNeedChart();
 	generateTemperatureChart();
 	generateQPFChart();
-
-	//Walk by uid
-    var uids = Object.keys(chartsData.programsMap);
-	for (var i = 0; i < uids.length; i++) {
-		var uid = +uids[i];
-		var index = chartsData.programsMap[uid];
-		generateProgramChart(uid, index);
-	}
+	generateProgramsChart();
 }
 
 /**
@@ -956,6 +948,19 @@ function generateQPFChart () {
 	}
 
 	charts.qpf = new Highcharts.Chart(qpfChartOptions, generateChartCallback);
+}
+
+/**
+ * Generates all programs charts
+ */
+function generateProgramsChart() {
+	//Walk by uid
+    var uids = Object.keys(chartsData.programsMap);
+	for (var i = 0; i < uids.length; i++) {
+		var uid = +uids[i];
+		var index = chartsData.programsMap[uid];
+		generateProgramChart(uid, index);
+	}
 }
 
 /**
