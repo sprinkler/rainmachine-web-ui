@@ -76,7 +76,8 @@ window.ui = window.ui || {};
 				if (!za.active) {
 					template.className += " inactive";
 					nameElem.textContent += " (inactive)"
-					makeHidden(timersElem);
+					//makeHidden(timersElem);
+					makeHidden(timerElem);
 				}
 			}
 
@@ -86,7 +87,7 @@ window.ui = window.ui || {};
 			zonesDiv.appendChild(template);
 
 			timerElem.id = "zone-timer-" + z.uid;
-			timerElem.controller = new rangeSlider(timerElem, maxZoneManualSeconds, function(value) {console.log("Stopped dragging at %s (%s)", value, Util.secondsToMMSS(value));});
+			timerElem.controller = new rangeSlider(timerElem, maxZoneManualSeconds, onZoneSlider.bind(null, z));
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
@@ -142,8 +143,11 @@ window.ui = window.ui || {};
 		zoneSettingsDiv.appendChild(zoneTemplate);
 	}
 
-	// Set zone running/pending/idle status
+	function onZoneSlider(zone, value) {
+		console.log("Zone: %s Stopped dragging at %s (%s)", zone.uid, value, Util.secondsToMMSS(value));
+	}
 
+	// Set zone running/pending/idle status
 	function setZoneState(zone)
 	{
 		var zoneDiv = $("#zone-" + zone.uid);
@@ -198,6 +202,7 @@ window.ui = window.ui || {};
 			return -2;
 		}
 
+		var zoneTimerDiv = $("#zone-timer-" + zone.uid);
 		var seconds;
 
 		if (zone.state == zoneState.running) {
@@ -206,6 +211,10 @@ window.ui = window.ui || {};
 			seconds = Data.provision.system.zoneDuration[zone.uid - 1];
 		}
 
+		if (zoneTimerDiv && zoneTimerDiv.controller)
+			zoneTimerDiv.controller.setPosition(seconds);
+
+		/*
 		var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
 		var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
 
@@ -222,6 +231,7 @@ window.ui = window.ui || {};
 			minutesElem.removeAttribute('disabled');
 			secondsElem.removeAttribute('disabled');
 		}
+		*/
 	}
 
 	function startZone(uid)
