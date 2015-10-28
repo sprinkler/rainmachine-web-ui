@@ -621,6 +621,7 @@ function generateCharts () {
 
 function generateDailyWeatherChart() {
 	var containerDiv = $('#weather-chart');
+	clearTag(containerDiv);
 
 	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 8 days
 	var startDayIndex = Util.getDateIndex(startDay, chartsData.condition.startDate);
