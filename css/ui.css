@@ -210,12 +210,6 @@ strong { font-weight: 700; }
   height: 70px;
   width: 316px;
 }
-.zone-line,
-.program-line {
-  background-image: url("../images/arrow_right.png");
-  background-position: right;
-  background-repeat: no-repeat;
-}
 .zone-line {
   border-bottom: 1px solid #ddd;
 }
@@ -1245,6 +1239,7 @@ td.right,
 .playstopButton {
   border:0px;
   font-size: 40px;
+  color: #3399cc;
   height: 42px;
   cursor:pointer;
 }
@@ -1255,7 +1250,7 @@ td.right,
   color: #ff0000;
 }
 .playstopButton[state="pending"] {
-  color: #00B25C;
+  color: #ff9900;
 }
 /* Misc */
 .center { text-align: center }
