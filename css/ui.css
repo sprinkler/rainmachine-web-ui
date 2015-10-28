@@ -295,6 +295,7 @@ b, strong {
     width:64px;
     height:142px;
     text-align: center;
+    padding: 0px 2px 0px 2px;
 }
 .today {
     background-color:#f6f6f6;
