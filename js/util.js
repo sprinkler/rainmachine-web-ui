@@ -73,9 +73,10 @@ Util.secondsToMMSS = function(seconds)
 
 Util.sinceDateAsText = function(dateString)
 {
+	console.log(dateString);
 	var text;
 	var today = new Date();
-	var d = new Date(dateString);
+	var d = new Date(dateString.split(" ")[0]);
 	var s = d.getTime() / 1000;
 	var sToday = (today.getTime() / 1000) >> 0;
 
