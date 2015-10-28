@@ -59,7 +59,9 @@ window.ui = window.ui || {};
 			uiElems.zones.push(zoneElem);
 		}
 
-		console.log(uiElems);
+		uiElems.editAll = $('#home-zones-edit');
+		uiElems.editAll.onclick = onZonesEdit;
+		uiElems.editAll.isEditing = false;
     }
 
 	function updateZones() {
@@ -160,6 +162,26 @@ window.ui = window.ui || {};
 		$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){ closeZoneSettings(); };
 		$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){ saveZone(zone.uid); };
 		zoneSettingsDiv.appendChild(zoneTemplate);
+	}
+
+	function onZonesEdit() {
+
+		if (uiElems.editAll.isEditing) {
+			for (var i = 0; i < uiElems.zones.length; i++) {
+				var elem = uiElems.zones[i];
+				elem.editElem.style.display = "none";
+			}
+			uiElems.editAll.textContent = "Edit";
+			uiElems.editAll.isEditing = false;
+
+		} else {
+			for (var i = 0; i < uiElems.zones.length; i++) {
+				var elem = uiElems.zones[i];
+				elem.editElem.style.display = "inline";
+			}
+			uiElems.editAll.textContent = "Done";
+			uiElems.editAll.isEditing = true;
+		}
 	}
 
 	function onZoneSlider(zone, value) {
