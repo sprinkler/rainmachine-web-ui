@@ -985,21 +985,14 @@
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
-            	<div rm-id="zone-timers" style="display:none;">
-	            	<span class="separator" style="margin:10px 0;clear:both;display:none;">&nbsp;</span>
-	            	<span style="display:none;">Minutes: <input rm-id="zone-minutes" type="number" name="minutes" min="0" max="99" class="typeNumber" placeholder="00" style="display:none;"></span>
-	            	&nbsp;
-	                <span style="display:none;">Seconds: <input rm-id="zone-seconds" type="number" name="seconds" min="0" max="59" class="typeNumber" placeholder="00" style="display:none;"></span> 
-            	</div> 
 			</div>
 			<div class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
 			</div>
 			<div class="program-start-stop">
-				<span class="zoneIdle" rm-id="zone-status">!</span>
-				<button rm-id="zone-start" class="button label-blue center right">Start</button>
+				<span class="zoneIdle" rm-id="zone-status" style="display: none">!</span>
 				<button rm-id="zone-stop" class="button label-red center right">Stop</button>
-				<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
+				<button rm-id="zone-edit" class="button label-grey center right" style="display: none">Edit</button>
 			</div>
 		</div>
         <!-- Template for Zone Card (End) -->
