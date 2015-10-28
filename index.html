@@ -130,47 +130,11 @@
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
 									<div class="program-line">
-										<div class="program-title-next-run">
+										<div class="program-title-next-run"></div>
+										<div class="programGraph" id="weather-chart">
+											<!-- weather chart filled from javascript -->
 										</div>
-										<div class="programGraph">
-											<div class="graphDay">
-												<div class="dateno">SEP 13</div>
-												<div class="weatherIcon">s</div>
-												<div class="dayTemp">79<sup>o</sup></div>
-											</div>
-											<div class="graphDay today">
-												<div class="dateno">14</div>
-												<div class="weatherIcon">t</div>
-												<div class="dayTemp">74<sup>o</sup></div>
-											</div>
-											<div class="graphDay">
-												<div class="dateno">15</div>
-												<div class="weatherIcon">x</div>
-												<div class="dayTemp">107<sup>o</sup></div>
-											</div>
-											<div class="graphDay">
-												<div class="dateno">16</div>
-												<div class="weatherIcon">b</div>
-												<div class="dayTemp">88<sup>o</sup></div>
-											</div>
-											<div class="graphDay">
-												<div class="dateno">17</div>
-												<div class="weatherIcon">c</div>
-												<div class="dayTemp">87<sup>o</sup></div>
-											</div>
-											<div class="graphDay">
-												<div class="dateno">18</div>
-												<div class="weatherIcon">d</div>
-												<div class="dayTemp">80<sup>o</sup></div>
-											</div>
-											<div class="graphDay">
-												<div class="dateno">19</div>
-												<div class="weatherIcon">e</div>
-												<div class="dayTemp">77<sup>o</sup></div>
-											</div>
-										</div>
-										<div class="program-start-stop">
-										</div>
+										<div class="program-start-stop"></div>
 									</div>
 									<!-- Top weather days end -->
 									<!-- Program 1 line start -->
@@ -1007,6 +971,14 @@
 	</div>
 
 	<div id="templates" style="display: none;">
+
+		<!-- Template for Day Weather (Begin) -->
+		<div id="day-weather-template" class="graphDay">
+			<div rm-id="day-weather-date" class="dateno">SEP 13</div>
+			<div rm-id="day-weather-icon" class="weatherIcon">s</div>
+			<div rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></div>
+		</div>
+		<!-- Template for Day Weather (Begin) -->
 
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="zone-line">
