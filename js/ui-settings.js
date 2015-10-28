@@ -65,10 +65,10 @@ window.ui = window.ui || {};
 	}
 
 	function showParsers(onDashboard) {
+		APIAsync.getParsers().then(function(o) { Data.parsers = o; updateParsers(onDashboard)});
+	}
 
-		//Weather Sources List
-		Data.parsers = API.getParsers();
-
+	function updateParsers(onDashboard) {
 		var container = $('#weatherDataSourcesList');
 
 		if (onDashboard) {

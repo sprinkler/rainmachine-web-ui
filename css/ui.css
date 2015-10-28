@@ -78,15 +78,17 @@ body.login {
   transform: rotate(360deg);
   }
 }
-body.login .loginContainer { display: block }
-body.login .logout { display: none }
-body { font-family: Helvetica, Arial, sans-serif }
-.left { float: left }
-.hidden { display: none }
-.right { float: right }
-.center { text-align: center }
-.full { width: 100% }
-.bold { font-weight: bold }
+
+body.login .loginContainer { display: block; }
+body.login .logout { display: none; }
+body { font-family: Helvetica, Arial, sans-serif; }
+.left { float: left; }
+.hidden { display: none; }
+.right { float: right; }
+.center { text-align: center; }
+.full { width: 100%; }
+.bold { font-weight: bold; }
+
 .clear30 {
   clear: both;
   height: 30px;
@@ -99,9 +101,9 @@ h1.title {
   display: inherit;
   width: 180px;
 }
-.mr { margin-right: 60px }
-.mr10 { margin-right: 10px }
-.ml20 { margin-left: 20px }
+.mr { margin-right: 60px; }
+.mr10 { margin-right: 10px; }
+.ml20 { margin-left: 20px; }
 #success,
 #error {
   display: none;
@@ -122,14 +124,14 @@ h1.title {
   padding: 5px;
 }
 b,
-strong { font-weight: 700 }
+strong { font-weight: 700; }
 /*
 #zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
   display: none;
 }
 */
 #settings,
-#settingsMenu { display: none }
+#settingsMenu { display: none; }
 
 /* Home screen start */
 .homeScreenMain {
@@ -293,7 +295,7 @@ sup { font-size: 12px }
   font-size: 14px;
   color: #888;
 }
-.zoneListName { width: 256px }
+.zoneListName { width: 256px; }
 .overTop {
   position: fixed;
   top: 0;
@@ -1236,10 +1238,10 @@ td.right,
   overflow: hidden;
   color: #646464;
 }
-.icon-button.red > core-icon::shadow path { fill: #db4437 }
-.icon-button.red > paper-ripple { color: #db4437 }
-.icon-button.blue > core-icon::shadow path { fill: #4285f4 }
-.icon-button.blue > paper-ripple { color: #4285f4 }
+.icon-button.red > core-icon::shadow path { fill: #db4437; }
+.icon-button.red > paper-ripple { color: #db4437; }
+.icon-button.blue > core-icon::shadow path { fill: #4285f4; }
+.icon-button.blue > paper-ripple { color: #4285f4; }
 .playstopButton {
   border:0px;
   font-size: 40px;

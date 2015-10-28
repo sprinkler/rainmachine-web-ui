@@ -200,9 +200,9 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	slider.addEventListener("mousedown", function(e) {
 		//These are recalculated as they aren't ready on DOM creation
-//		sliderWidth = this.offsetWidth;
-//		sliderLeft = this.offsetLeft;
-//		ratio = maxValue / sliderWidth;
+		sliderWidth = this.offsetWidth;
+		sliderLeft = this.offsetLeft;
+		ratio = maxValue / sliderWidth;
 		mouseDown = true;
 		updateSlider(e);
 		return false;
@@ -265,4 +265,6 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	this.getMaxValue = function() {
 		return maxValue;
 	}
+
+
 }

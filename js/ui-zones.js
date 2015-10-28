@@ -59,7 +59,9 @@ window.ui = window.ui || {};
 			uiElems.zones.push(zoneElem);
 		}
 
-		console.log(uiElems);
+		uiElems.editAll = $('#home-zones-edit');
+		uiElems.editAll.onclick = onZonesEdit;
+		uiElems.editAll.isEditing = false;
     }
 
 	function updateZones() {
@@ -162,9 +164,33 @@ window.ui = window.ui || {};
 		zoneSettingsDiv.appendChild(zoneTemplate);
 	}
 
+	function onZonesEdit() {
+
+		if (uiElems.editAll.isEditing) {
+			for (var i = 0; i < uiElems.zones.length; i++) {
+				var elem = uiElems.zones[i];
+				elem.editElem.style.display = "none";
+			}
+			uiElems.editAll.textContent = "Edit";
+			uiElems.editAll.isEditing = false;
+
+		} else {
+			for (var i = 0; i < uiElems.zones.length; i++) {
+				var elem = uiElems.zones[i];
+				elem.editElem.style.display = "inline";
+			}
+			uiElems.editAll.textContent = "Done";
+			uiElems.editAll.isEditing = true;
+		}
+	}
+
 	function onZoneSlider(zone, value) {
 		console.log("Zone: %s Stopped dragging at %s (%s)", zone.uid, value, Util.secondsToMMSS(value));
-		API.startZone(zone.uid, value);
+		if (value > 0)
+			API.startZone(zone.uid, value);
+		else
+			API.stopZone(zone.uid);
+
 		showZonesSimple();
 	}
 
