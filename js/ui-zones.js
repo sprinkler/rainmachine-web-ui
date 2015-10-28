@@ -164,7 +164,11 @@ window.ui = window.ui || {};
 
 	function onZoneSlider(zone, value) {
 		console.log("Zone: %s Stopped dragging at %s (%s)", zone.uid, value, Util.secondsToMMSS(value));
-		API.startZone(zone.uid, value);
+		if (value > 0)
+			API.startZone(zone.uid, value);
+		else
+			API.stopZone(zone.uid);
+
 		showZonesSimple();
 	}
 
