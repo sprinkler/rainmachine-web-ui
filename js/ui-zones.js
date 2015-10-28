@@ -13,7 +13,7 @@ window.ui = window.ui || {};
 		pending: 2
 	}
 
-	var maxZoneManualSeconds = 36000;
+	var maxZoneManualSeconds = 3600;
 
 	function showZones() {
 		APIAsync.getZones().then(
@@ -202,36 +202,19 @@ window.ui = window.ui || {};
 			return -2;
 		}
 
-		var zoneTimerDiv = $("#zone-timer-" + zone.uid);
-		var seconds;
 
-		if (zone.state == zoneState.running) {
+		var seconds = 0; //Data.provision.system.zoneDuration[zone.uid - 1];
+
+		if (zone.state == zoneState.running || (zone.state == zoneState.pending && zone.remaining > 0)) {
 			seconds = zone.remaining
-		} else {
-			seconds = Data.provision.system.zoneDuration[zone.uid - 1];
 		}
 
-		if (zoneTimerDiv && zoneTimerDiv.controller)
-			zoneTimerDiv.controller.setPosition(seconds);
+		var zoneTimerDiv = $("#zone-timer-" + zone.uid);
 
-		/*
-		var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
-		var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
-
-		var m = (seconds / 60) >> 0;
-		var s = (seconds % 60) >> 0;
-
-		minutesElem.value = m;
-       	secondsElem.value = s;
-
-		if( zone.state == zoneState.running) {
-			minutesElem.setAttribute('disabled', "");
-			secondsElem.setAttribute('disabled', "");
-        } else {
-			minutesElem.removeAttribute('disabled');
-			secondsElem.removeAttribute('disabled');
+		if (zoneTimerDiv && zoneTimerDiv.controller) {
+			var controller = zoneTimerDiv.controller;
+			controller.setPosition(seconds);
 		}
-		*/
 	}
 
 	function startZone(uid)
