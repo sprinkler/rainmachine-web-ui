@@ -125,15 +125,14 @@
 									</div>
 								</div>
 								<div class="homeScreenProgramList">
+									<button rm-id="" class="button label-red center right mr10">Stop All</button>
 									<button id="home-programs-edit" class="button label-grey center right">Edit</button>
 									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
-									<div class="program-line">
+									<div class="weather-program-line">
 										<div class="program-title-next-run"></div>
-										<div class="programGraph" id="weather-chart">
-											<!-- weather chart filled from javascript -->
-										</div>
+										<div class="programGraph" id="weather-chart"></div>
 										<div class="program-start-stop"></div>
 									</div>
 									<!-- Top weather days end -->
@@ -144,8 +143,9 @@
 									<!-- Program 1 line end -->
 								</div>
 								<div class="homeScreenZoneList">
+                                    <button id="home-zones-stopall" class="button label-red center right mr10">Stop All</button>
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
-									<h1 class="title" style="margin-bottom:0px;">Zones</h1>
+								    <h1 class="title" style="margin-bottom:0px;">Zones</h1>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
 									</div>
@@ -989,10 +989,10 @@
 			<div class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
 			</div>
-			<div class="program-start-stop">
-				<span class="zoneIdle" rm-id="zone-status" style="display: none">!</span>
-				<button rm-id="zone-stop" class="button label-red center right">Stop</button>
-				<button rm-id="zone-edit" class="button label-grey center right" style="display:none">Edit</button>
+			<div class="zone-start-stop">
+				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
+				<div rm-id="zone-stop" class="playstopButton center right">W</div>
+				<div rm-id="zone-edit" class="label-grey center right" style="display: none;">Edit</div>
 			</div>
 		</div>
         <!-- Template for Zone Card (End) -->
@@ -1054,9 +1054,9 @@
 			</div>
 			<div class="programGraph" rm-id="program-graph"></div>
 			<div class="program-start-stop">
-				<span rm-id="program-status">!</span><br>
-				<button rm-id="program-start" class="button label-blue center">Start</button>
-				<button rm-id="program-edit" class="button label-grey center">Edit</button>
+				<span rm-id="program-status" style="display: none;">!</span><br>
+				<div rm-id="program-start" class="playstopButton center">Q</div>
+				<div rm-id="program-edit" class="label-grey center" style="display: none">Edit</div>
 			</div>
 		</div>
 		<!-- Template for Program Card (End) -->
