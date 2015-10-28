@@ -118,8 +118,8 @@ function processParserChartData(id) {
 }
 
 function addDataPoint(id, data, key) {
-	if (data[key]) {
-        parsersHourlyChartData[key][id].push([Date.parse(data.hour), data[key]]);
+	if (data[key] !== null) {
+        parsersHourlyChartData[key][id].push([Date.parse(data.hour.replace(' ', 'T')), data[key]]);
 	}
 }
 
