@@ -80,6 +80,18 @@ ChartSeries.prototype.getAtDate = function (dateStr) {
 };
 
 /**
+ * Gets a the date object that corresponds to the index
+ * @param index
+ * @returns {*}
+ */
+ChartSeries.prototype.getDateAtIndex = function(index) {
+
+	var d = new Date(this.startDate);
+	d.setDate(d.getDate() + index);
+	return d;
+}
+
+/**
  * Object that holds entire weather/programs watering data
  * @constructor
  */
@@ -182,7 +194,7 @@ function getChartData(pastDays) {
 	getDailyStatsWithRetry(5, 5000);
 
 	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(356 + 7), 356 + 7)
-	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });
+	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });  // for water saved gauge
 }
 
 /**
@@ -458,6 +470,7 @@ function setWaterSavedValueForDays(pastDays) {
 /**
  * Generates the containers for the Program charts (no longer used, containers are now created in ui-programs.js)
  */
+/*
 function generateProgramsChartsContainers () {
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		var div = addTag($('#dashboard'), 'div');
@@ -465,6 +478,7 @@ function generateProgramsChartsContainers () {
 		div.className = 'charts';
 	}
 }
+*/
 
 /**
  * Sets the chartsLevel to weekly, sets the categories and series for the charts and generates all the charts
@@ -594,11 +608,57 @@ function loadYearlyCharts () {
  * Generates all the charts: Water Need, Temperature, QPF and Programs
  */
 function generateCharts () {
-	generateWaterNeedChart();
-	generateTemperatureChart();
-	generateQPFChart();
+	//generateWaterNeedChart();
+	//generateTemperatureChart();
+	//generateQPFChart();
+	generateDailyWeatherChart();
 	generateProgramsChart();
 }
+
+/**
+ * Generates the daily weather top row that will replace water need graph
+ */
+
+function generateDailyWeatherChart() {
+	var containerDiv = $('#weather-chart');
+
+	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 8 days
+	var startDayIndex = Util.getDateIndex(startDay, chartsData.condition.startDate);
+
+	console.log("StartDay: %s, index: %s", startDay, startDayIndex);
+
+	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
+		var condition = chartsData.condition.data[i];
+		var temp = chartsData.maxt.data[i];
+		var date = chartsData.condition.getDateAtIndex(i);
+
+		var weatherTemplate = loadTemplate("day-weather-template");
+		var weatherDateElem =  $(weatherTemplate, '[rm-id="day-weather-date"]');
+		var weatherIconElem =  $(weatherTemplate, '[rm-id="day-weather-icon"]');
+		var weatherTempElem =  $(weatherTemplate, '[rm-id="day-weather-temp"]');
+
+		if (i == startDayIndex) {
+			weatherDateElem.textContent = date.toLocaleString("en-us", { month: "short" }) + " " + date.getDate();
+		} else {
+			weatherDateElem.textContent = date.getDate();
+		}
+
+		if (i == startDayIndex + 1) { //today
+			weatherTemplate.className += " today";
+		}
+
+		weatherIconElem.textContent = Util.conditionAsIcon(condition);
+
+		if (temp) {
+			weatherTempElem.textContent = Math.round(temp) + "\xB0";
+		} else {
+			weatherTempElem.textContent = "--";
+		}
+
+		containerDiv.appendChild(weatherTemplate);
+	}
+ }
+
 
 /**
  * Generates the Water Saved gauge
@@ -1044,7 +1104,9 @@ function generateProgramChart (programUid, programIndex) {
 		yAxis: [{
 			min: 0,
             max: 100,
-			gridLineWidth: 0,
+			gridLineWidth: 1,
+			gridLineColor:'#3399cc',
+			gridLineDashStyle: 'dot',
 			minorGridLineWidth: 0,
 			labels: {
 				enabled: false,

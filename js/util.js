@@ -391,4 +391,16 @@ Util.json2csv = function(array, title) {
 
 }
 
+Util.conditionAsIcon = function(condition) {
+	var conditionValue;
+
+	if (condition === undefined || condition === null) {
+		conditionValue = String.fromCharCode(122);
+	} else {
+		conditionValue = String.fromCharCode(97 + condition);
+	}
+
+	return conditionValue;
+}
+
 return Util; } ( Util || {}));
