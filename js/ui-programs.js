@@ -35,9 +35,13 @@ window.ui = window.ui || {};
     //--------------------------------------------------------------------------------------------
     //
     //
-	function showPrograms()
+
+	function showPrograms() {
+		APIAsync.getPrograms().then(function(o) { Data.programs = o; updatePrograms(); })
+	}
+
+	function updatePrograms()
 	{
-		Data.programs = API.getPrograms();
 		var programListDiv = $('#programsList');
 		clearTag(programListDiv);
 		makeVisible('#programs');
