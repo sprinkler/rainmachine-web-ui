@@ -129,10 +129,54 @@
 									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
+<<<<<<< Updated upstream
 									<div class="program-line">
 										<div class="program-title-next-run"></div>
 										<div class="programGraph" id="weather-chart">
 											<!-- weather chart filled from javascript -->
+=======
+									<div class="weather-program-line">
+										<div class="program-title-next-run">
+										</div>
+										<div class="programGraph">
+											<div class="graphDay">
+												<div class="dateno">SEP 13</div>
+												<div class="weatherIcon">s</div>
+												<div class="dayTemp">79<sup>o</sup></div>
+											</div>
+											<div class="graphDay today">
+												<div class="dateno">14</div>
+												<div class="weatherIcon">t</div>
+												<div class="dayTemp">74<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">15</div>
+												<div class="weatherIcon">x</div>
+												<div class="dayTemp">107<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">16</div>
+												<div class="weatherIcon">b</div>
+												<div class="dayTemp">88<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">17</div>
+												<div class="weatherIcon">c</div>
+												<div class="dayTemp">87<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">18</div>
+												<div class="weatherIcon">d</div>
+												<div class="dayTemp">80<sup>o</sup></div>
+											</div>
+											<div class="graphDay">
+												<div class="dateno">19</div>
+												<div class="weatherIcon">e</div>
+												<div class="dayTemp">77<sup>o</sup></div>
+											</div>
+										</div>
+										<div class="program-start-stop">
+>>>>>>> Stashed changes
 										</div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -144,7 +188,7 @@
 									<!-- Program 1 line end -->
 								</div>
 								<div class="homeScreenZoneList">
-									<button rm-id="home-zones-edit" class="button label-grey center right">Edit</button>
+									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
 									<h1 class="title" style="margin-bottom:0px;">Zones</h1>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
@@ -995,11 +1039,11 @@
 			<div class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
 			</div>
-			<div class="program-start-stop">
-				<span class="zoneIdle" rm-id="zone-status">!</span>
-				<button rm-id="zone-start" class="button label-blue center right">Start</button>
-				<button rm-id="zone-stop" class="button label-red center right">Stop</button>
-				<button rm-id="zone-edit" class="button label-grey center right">Edit</button>
+			<div class="zone-start-stop">
+				<span class="zoneIdle" rm-id="zone-status" style="display:none;">W</span>
+				<button rm-id="zone-start" class="button icon label-blue center right" style="font-size: 40px;">Q</button>
+				<button rm-id="zone-stop" class="button icon label-red center right" style="font-size: 40px;">W</button>
+				<button rm-id="zone-edit" class="button label-grey center right" style="display:none;">Edit</button>
 			</div>
 		</div>
         <!-- Template for Zone Card (End) -->
@@ -1061,9 +1105,9 @@
 			</div>
 			<div class="programGraph" rm-id="program-graph"></div>
 			<div class="program-start-stop">
-				<span rm-id="program-status">!</span><br>
-				<button rm-id="program-start" class="button label-blue center">Start</button>
-				<button rm-id="program-edit" class="button label-grey center">Edit</button>
+				<!-- <span rm-id="program-status">!</span><br> -->
+				<button rm-id="program-start" class="button icon label-blue center" style="font-size:40px;">Q</button>
+				<button rm-id="program-edit" class="button label-grey center" style="display:none;">Edit</button>
 			</div>
 		</div>
 		<!-- Template for Program Card (End) -->
