@@ -72,12 +72,12 @@ window.ui = window.ui || {};
                 template.className += " programActive";
                 if(p.status == ProgramStatus.Running) {
                     template.className += " programRunning";
-                    startElem.innerText = "W";
+                    startElem.innerText = "Stop";
                     startElem.start = false;
                     startElem.className += " label-red";
                 } else if(p.status == ProgramStatus.Pending) {
                     template.className += " programPending";
-                    startElem.innerText = "W";
+                    startElem.innerText = "Stop";
                     startElem.start = false;
                     startElem.className += " label-red";
                 }

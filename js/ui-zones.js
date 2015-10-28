@@ -175,7 +175,7 @@ window.ui = window.ui || {};
 				makeVisible(stopElem);
 				break;
 			case zoneState.pending:
-				statusElem.className = "zonePending icon";
+				statusElem.className = "zonePending";
 				makeHidden(startElem)
 				makeVisible(stopElem);
 				break;
