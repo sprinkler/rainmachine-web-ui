@@ -135,6 +135,9 @@ h1.title {
 .mr10 {
     margin-right:10px;
 }
+.ml20 {
+    margin-left: 20px;
+}
 
 #success, #error {
     display: none;
@@ -170,7 +173,7 @@ b, strong {
 
 /* Home screen start */
 .homeScreenMain {
-    width: 1280px;
+    width: 1216px;
     margin:0 auto;
 }
 .homeScreenLeft {
@@ -1108,8 +1111,9 @@ td.right, .right {
 .historyZoneItem  {
     display: table-cell;
     text-align: left;
-    width: 25%;
+    width: 23%;
     padding: 10px 0;
+    background-color: #ffffff;
 }
 .historyZoneItem:last-child {
     text-align: right;
