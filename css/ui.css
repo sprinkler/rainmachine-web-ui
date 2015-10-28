@@ -238,7 +238,7 @@ b, strong {
     display: block;
     padding-bottom: 10px;
 }
-.program-line {
+.program-line, .weather-program-line {
     display: block;
     height: 142px;
     border-bottom: 1px solid #ddd;
@@ -256,8 +256,12 @@ b, strong {
     height: 70px;
     width: 316px;
 }
-.zone-line {
+.zone-line, .program-line {
     border-bottom:1px solid #eee;
+    background-image: url("../images/arrow_right.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    padding-right:10px;
 }
 .zoneListName {
     padding-top: 25px;
@@ -273,19 +277,25 @@ b, strong {
     width: 478px;
 }
 .inputStepDown {
-    width:380px;
+    width:362px;
 }
-.program-start-stop {
+.program-start-stop, .zone-start-stop {
     display:inline-block;
-    width:80px;
     vertical-align: middle;
     text-align: center;
+}
+.program-start-stop {
+    width:80px;
+}
+.zone-start-stop {
+    width:107px;
 }
 .graphday, .today {
     display:inline-block;
     width:64px;
     height:142px;
     text-align: center;
+    padding: 0px 2px 0px 2px;
 }
 .today {
     background-color:#f6f6f6;
@@ -916,14 +926,14 @@ select {
     text-align: center;
     width:32px;
     margin-right: 3px;
-    color: #0099ff;
-    *-webkit-animation: rotation 2s infinite linear;
+    color: #FF0000;
+    /**-webkit-animation: rotation 2s infinite linear;
     animation: rotate 2s infinite linear;
     animation: pulsate 1s ease-out;
-    animation-iteration-count: infinite;
+    animation-iteration-count: infinite;*/
 }
 
-*@-webkit-keyframes rotation {
+/**@-webkit-keyframes rotation {
     from {-webkit-transform: rotate(0deg);}
     to   {-webkit-transform: rotate(359deg);}
 }
@@ -954,7 +964,7 @@ select {
       opacity: 0;
       transform: scale(1.2);
     }
-}
+}*/
 
 .zonePending {
     color: #00B25C;
@@ -1294,7 +1304,7 @@ td.right, .right {
       animation: flash 1s ease-in;
     }
       @keyframes flash { 
-      0%, 50%, 100% {opacity: 1;background-color: #eee;} 
+      0%, 50%, 100% {opacity: 1;background-color: #fff;} 
       25%, 75% {opacity: 0;} 
     } 
 
