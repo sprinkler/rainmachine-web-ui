@@ -236,6 +236,13 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		return value
 	}
 
+	function calculateSizes() {
+		sliderWidth = slider.offsetWidth;
+        sliderLeft = slider.offsetLeft;
+    	ratio = maxValue / sliderWidth;
+    	console.log("Slider width: %d, left: %d, max: %d, ratio: %f", sliderWidth, sliderLeft, maxValue, ratio);
+	}
+
 	function setThumbInfo(value) {
 			thumb.textContent = Util.secondsToMMSS(value);
 	}
@@ -258,7 +265,8 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	this.setMaxValue = function(value) {
 		var current = this.getPosition() / ratio;
 		maxValue = value;
-		ratio = maxValue / sliderWidth
+		calculateSizes();
+		console.log("maxValue: %d Ratio after: %f", maxValue, ratio);
 		this.setPosition(current * ratio);
 	}
 
