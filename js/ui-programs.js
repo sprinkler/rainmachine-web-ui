@@ -577,6 +577,7 @@ window.ui = window.ui || {};
         if(program.active) {
             if (this.start) {
                 API.startProgram(program.uid);
+                window.ui.zones.onProgramStart();
             } else {
                 API.stopProgram(program.uid);
             }

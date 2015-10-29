@@ -532,11 +532,14 @@ _API.prototype.runParser = function(id, withParser, withMixer, withSimulator)
 	url += "/run";
 
 	var data = {
-		parserId: id, // -1 means all parsers
 		parser: withParser,
 		mixer: withMixer,
 		simulator: withSimulator
 	};
+
+	if (typeof id !== undefined && id !== null && id >= 0) {
+		data.parserID = id;
+	}
 
     return this.post(url, data, null);
 }

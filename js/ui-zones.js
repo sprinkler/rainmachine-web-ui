@@ -14,8 +14,8 @@ window.ui = window.ui || {};
 	}
 
 	var uiElems = {};
-
 	var maxZoneManualSeconds = 3600;
+	var startedFromPrograms = false;
 
 	function showZones() {
 		APIAsync.getZones().then(
@@ -35,7 +35,7 @@ window.ui = window.ui || {};
 	function createZonesElems() {
 		var zonesContainer = $('#zonesList');
 		clearTag(zonesContainer);
-		uiElems.zones = [];
+		uiElems.zones = {};
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
@@ -47,6 +47,7 @@ window.ui = window.ui || {};
 			zoneElem.stopElem = $(zoneElem.template, '[rm-id="zone-stop"]');
 			zoneElem.editElem = $(zoneElem.template, '[rm-id="zone-edit"]');
 			zoneElem.typeElem = $(zoneElem.template,'[rm-id="zone-info"]');
+			zoneElem.statusElem = $(zoneElem.template,'[rm-id="zone-status"]');
 			zoneElem.timerElem = $(zoneElem.template, '[rm-id="zone-timer"]');
 
 			zoneElem.template.id = "zone-" + z.uid;
@@ -56,12 +57,15 @@ window.ui = window.ui || {};
 			zoneElem.timerElem.id = "zone-timer-" + z.uid;
 			zoneElem.timerElem.controller = new rangeSlider(zoneElem.timerElem, maxZoneManualSeconds, onZoneSlider.bind(null, z));
 
-			uiElems.zones.push(zoneElem);
+			uiElems.zones[z.uid] = zoneElem;
 		}
 
 		uiElems.editAll = $('#home-zones-edit');
 		uiElems.editAll.onclick = onZonesEdit;
 		uiElems.editAll.isEditing = false;
+
+		uiElems.stopAll = $('#home-zones-stopall');
+        uiElems.stopAll.onclick = stopAllWatering;
     }
 
 	function updateZones() {
@@ -71,9 +75,9 @@ window.ui = window.ui || {};
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
-			var z = Data.zoneData.zones[i];
-			var elem = uiElems.zones[i];
 			var za;
+			var z = Data.zoneData.zones[i];
+			var elem = uiElems.zones[z.uid];
 
 			if (Data.zoneAdvData !== undefined)
 				za = Data.zoneAdvData.zones[i];
@@ -167,16 +171,16 @@ window.ui = window.ui || {};
 	function onZonesEdit() {
 
 		if (uiElems.editAll.isEditing) {
-			for (var i = 0; i < uiElems.zones.length; i++) {
-				var elem = uiElems.zones[i];
+			for (var id in uiElems.zones) {
+				var elem = uiElems.zones[id];
 				elem.editElem.style.display = "none";
 			}
 			uiElems.editAll.textContent = "Edit";
 			uiElems.editAll.isEditing = false;
 
 		} else {
-			for (var i = 0; i < uiElems.zones.length; i++) {
-				var elem = uiElems.zones[i];
+			for (var id in uiElems.zones) {
+				var elem = uiElems.zones[id];
 				elem.editElem.style.display = "inline";
 			}
 			uiElems.editAll.textContent = "Done";
@@ -194,18 +198,19 @@ window.ui = window.ui || {};
 		showZonesSimple();
 	}
 
+	function onProgramStart() {
+		startedFromPrograms = true;
+	}
+
 	// Set zone running/pending/idle status
 	function setZoneState(zone)
 	{
-		var zoneDiv = $("#zone-" + zone.uid);
+		var elem = uiElems.zones[zone.uid];
 
-		if (zoneDiv === undefined || zoneDiv === null)	{
+		if (elem === undefined || elem === null)	{
 			console.log("Zone State: Cannot find zone %d", zone.uid);
 			return -2;
 		}
-
-		var statusElem = $(zoneDiv, '[rm-id="zone-status"]');
-		var stopElem = $(zoneDiv, '[rm-id="zone-stop"]');
 
 		var state = zone.state;
 
@@ -216,34 +221,36 @@ window.ui = window.ui || {};
 		switch (state)
 		{
 			case zoneState.running:
-				statusElem.className = "zoneRunning";
-				makeVisible(stopElem);
+				elem.statusElem.className = "zoneRunning";
+				elem.stopElem.setAttribute("state", "running");
+				makeVisible(elem.stopElem);
 				break;
 			case zoneState.pending:
-				statusElem.className = "zonePending";
-				makeVisible(stopElem);
+				elem.statusElem.className = "zonePending";
+				elem.stopElem.setAttribute("state", "pending");
+				makeVisible(elem.stopElem);
 				break;
 			default: //idle
-				statusElem.className = "zoneIdle";
-				makeHidden(stopElem);
+				elem.statusElem.className = "zoneIdle";
+				elem.stopElem.setAttribute("state", "idle"); //TODO sets display:none same as makeHidden()
+				makeHidden(elem.stopElem);
 				break;
 		}
 
 		//Don't show buttons for master or inactive zones
 		if (zone.master || !zone.active) {
-			makeHidden(stopElem);
+			makeHidden(elem.stopElem);
 		}
 	}
 
 	function updateZoneTimer(zone)
 	{
-		var zoneDiv = $("#zone-" + zone.uid);
+		var elem = uiElems.zones[zone.uid];
 
-		if (zoneDiv === undefined || zoneDiv === null || zoneDiv === document.activeElement) {
+		if (elem === undefined || elem === null) {
 			console.log("Zone Timer: Cannot find zone %d", uid);
 			return -2;
 		}
-
 
 		var seconds = 0; //Data.provision.system.zoneDuration[zone.uid - 1];
 
@@ -251,35 +258,29 @@ window.ui = window.ui || {};
 			seconds = zone.remaining
 		}
 
-		var zoneTimerDiv = $("#zone-timer-" + zone.uid);
+		if (elem.timerElem && elem.timerElem.controller) {
+			var controller = elem.timerElem.controller;
 
-		if (zoneTimerDiv && zoneTimerDiv.controller) {
-			var controller = zoneTimerDiv.controller;
+			//This will set the range of the slider so the zones will start from rightmost position
+			if (startedFromPrograms) {
+				if (seconds > 0) {
+					controller.setMaxValue(seconds);
+				}
+
+				// We set all zones
+				if (Data.provision.system && zone.uid == Data.provision.system.localValveCount)
+				 	startedFromPrograms = false
+			}
+
+			if (seconds > controller.getMaxValue())
+				controller.setMaxValue(seconds);
+
+			//Put the slider range to default
+			if (seconds == 0)
+				controller.setMaxValue(maxZoneManualSeconds);
+
 			controller.setPosition(seconds);
 		}
-	}
-
-	function startZone(uid)
-	{
-		var zoneDiv = $("#zone-" + uid);
-
-		if (zoneDiv === undefined || zoneDiv === null)
-		{
-			console.log("Zone Start: Cannot find zone %d", uid);
-			return -2;
-		}
-
-		var minutesElem = $(zoneDiv, '[rm-id="zone-minutes"]');
-		var secondsElem = $(zoneDiv, '[rm-id="zone-seconds"]');
-
-		try {
-			var duration = parseInt(minutesElem.value) * 60 + parseInt(secondsElem.value);
-			API.startZone(uid, duration);
-		} catch(e) {
-			console.log("Cannot start zone %d with duration %d", uid, duration);
-		}
-
-		showZones();
 	}
 
 	function stopZone(uid)
@@ -379,5 +380,6 @@ window.ui = window.ui || {};
 	_zones.showZonesSimple = showZonesSimple;
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
+	_zones.onProgramStart = onProgramStart;
 
 } (window.ui.zones = window.ui.zones || {}));
