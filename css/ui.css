@@ -218,6 +218,22 @@ strong { font-weight: 700; }
   padding-left: 10px;
   font-size: 18px;
 }
+.zoneListEdit {
+  display:none;
+  position:absolute;
+  font-size: 1.1em;
+  color: #646464;
+  text-transform: uppercase;
+  padding-top: 20px;
+  height: 50px;
+  vertical-align: middle;
+  text-align: right;
+  float: right;
+  width: 570px;
+  margin-left: 234px;
+  background: rgba(255,255,255,0.9);
+  z-index: 2;
+}
 .programGraph,
 .inputStepDown {
   display: inline-block;
@@ -1238,16 +1254,22 @@ td.right,
 .icon-button.blue > paper-ripple { color: #4285f4; }
 .playstopButton {
   border:0px;
-  font-size: 40px;
+  font-size: 42px;
   color: #3399cc;
   height: 42px;
+  border-radius: 50%;
   cursor:pointer;
 }
 .playstopButton[state="idle"] {
   display:none;
 }
+@keyframes pound {
+  from { transform: scale(0.5); }
+  50% { transform: scale(1); }
+  to { transform: none; }
+}
 .playstopButton[state="running"] {
-  color: #ff0000;
+  animation: pound 1s infinite;
 }
 .playstopButton[state="pending"] {
   color: #ff9900;
