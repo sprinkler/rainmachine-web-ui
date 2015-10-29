@@ -58,7 +58,7 @@ window.ui = window.ui || {};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = function() { onWeatherSourcesRun(); };
+		updateWeatherButton.onclick = function() { onWeatherSourceRun(); };
 
 		setupWeatherSourceUpload();
 		getAllEnabledParsersData()
@@ -177,10 +177,14 @@ window.ui = window.ui || {};
 	}
 
 	function onWeatherSourceRun(id) {
-		if (id === undefined || id === null)
-			id = -1;
+		var withMixer = false;
 
-		API.runParser(id, true, false, false);
+		if (id === undefined || id === null) {
+				id = -1;
+				withMixer = true;
+		}
+
+		API.runParser(id, true, withMixer, false);
 		onWeatherSourceClose();
 	}
 
