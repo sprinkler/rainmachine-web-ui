@@ -229,8 +229,8 @@ strong { font-weight: 700; }
   vertical-align: middle;
   text-align: right;
   float: right;
-  width: 570px;
-  margin-left: 234px;
+  width: 542px;
+  margin-left: 262px;
   background: rgba(255,255,255,0.9);
   z-index: 2;
 }
@@ -325,6 +325,7 @@ sup { font-size: 12px }
   font-family: RainMachine;
   src: url('../font/rainmachine.woff');
   font-size: 25px;
+  vertical-align: middle;
 }
 * {
   padding: 0;
@@ -1256,9 +1257,10 @@ td.right,
   border:0px;
   font-size: 42px;
   color: #3399cc;
-  height: 42px;
   border-radius: 50%;
   cursor:pointer;
+  width: 44px;
+  margin: 0 auto;
 }
 .playstopButton[state="idle"] {
   display:none;
@@ -1269,10 +1271,18 @@ td.right,
   to { transform: none; }
 }
 .playstopButton[state="running"] {
-  animation: pound 1s infinite;
+  color: #D23F31;
+  animation: pound 0.5s infinite;
 }
 .playstopButton[state="pending"] {
   color: #ff9900;
+}
+.animated {
+  -webkit-transform: translateZ();
+  -ms-transform: translateZ();
+  transform: translateZ();
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
 }
 /* Misc */
 .center { text-align: center }
