@@ -8,7 +8,8 @@ window.ui = window.ui || {};
 (function(_programs) {
 
     var selectedProgram = null;
-    var uiElems = {};
+    var uiElems = {}; //per program uiElements
+    var isEditing = false;
 
     var FrequencyType = {
         Daily: 0,
@@ -63,8 +64,9 @@ window.ui = window.ui || {};
 
 			template.className = "program-line";
 			template.id = "program-" + p.uid;
+            editElem.id = "program-edit-" + p.uid;
 
-			template.data = p;
+            template.data = p;
 			editElem.data = p;
 
             startElem.data = p;
@@ -125,8 +127,36 @@ window.ui = window.ui || {};
 		button.onclick = div.onclick = function() { showProgramSettings(null); };
 		*/
 		$('#home-programs-add').onclick = function() { showProgramSettings(null); };
+        $('#home-programs-edit').onclick = function() { onProgramsEdit(); }
+
 
 	}
+
+    //--------------------------------------------------------------------------------------------
+    //
+    //
+    function onProgramsEdit() {
+
+        for (var i = 0; i < Data.programs.programs.length; i++) {
+            var p = Data.programs.programs[i];
+
+            var editElem = $("#program-edit-" + p.uid);
+
+            if (isEditing) {
+                editElem.style.display = "none";
+            } else {
+                editElem.style.display = "inline";
+            }
+        }
+
+        if (isEditing) {
+            $('#home-programs-edit').textContent = "Edit";
+            isEditing = false;
+        } else {
+            $('#home-programs-edit').textContent = "Done";
+            isEditing = true;
+        }
+    }
 
     //--------------------------------------------------------------------------------------------
     //
