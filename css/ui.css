@@ -218,21 +218,30 @@ strong { font-weight: 700; }
   padding-left: 10px;
   font-size: 18px;
 }
-.zoneListEdit {
+.zoneListEdit, .programListEdit {
   display:none;
   position:absolute;
   font-size: 1.1em;
   color: #646464;
   text-transform: uppercase;
-  padding-top: 20px;
-  height: 50px;
+
   vertical-align: middle;
   text-align: right;
-  float: right;
-  width: 542px;
-  margin-left: 262px;
+  float: right;  
   background: rgba(255,255,255,0.9);
   z-index: 2;
+}
+.zoneListEdit {
+  padding-top: 20px;
+  height: 50px;
+  width: 542px;
+  margin-left: 262px;
+}
+.programListEdit {
+  padding-top: 57px;
+  height: 85px;
+  width: 574px;
+  margin-left: 230px;
 }
 .programGraph,
 .inputStepDown {
