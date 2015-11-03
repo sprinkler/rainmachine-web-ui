@@ -295,6 +295,7 @@ window.ui = window.ui || {};
 		console.log("Stop All Watering");
 		API.stopAll();
 		showZones();
+		window.ui.programs.showPrograms(); //Also refresh programs state
 	}
 
 	function closeZoneSettings()
