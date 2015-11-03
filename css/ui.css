@@ -1296,7 +1296,7 @@ td.right,
 /* Misc */
 .center { text-align: center }
 .label { padding: 0 16px }
-.label-blue { color: #3399cc }
+.label-blue, .button[selected] { color: #3399cc }
 .label-red { color: #d23f31 }
 *:focus { outline: none }
 .nofloat { float: none }
