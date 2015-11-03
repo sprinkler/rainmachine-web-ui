@@ -1054,6 +1054,9 @@ function generateProgramChart (programUid, programIndex) {
 		plotOptions:{
 			series: {
 				borderRadius:5
+			},
+			column: {
+				minPointLength: 3
 			}
 		},
 		credits: {
