@@ -12,6 +12,7 @@ var chartsLevel = { // available viewing levels for the charts
 	},
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
+	chartsDateFormatSmall = '%e', // format for the dates used in chart labels when charts are in a small container
 	chartsMaximumDataRange = 365, // the maximum amount of data that the application loads
 	chartsWeeklySlice = 7, // the size of the weekly data
 	chartsWeeklyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
@@ -927,7 +928,7 @@ function generateTemperatureChart () {
 			categories: chartsData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
 				}
 			}
 		}],
@@ -983,7 +984,7 @@ function generateQPFChart () {
 						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
 				}
 			},
-			type: 'column'
+			type: 'line'
 		}],
 		title: null,
 		//title: {
@@ -994,14 +995,14 @@ function generateQPFChart () {
 			categories: chartsData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
+					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
 				}
 			}
 		}],
 		yAxis: [{
-			labels: {
-				format: '{value}mm'
-			},
+			//labels: {
+			//	format: '{value}mm'
+			//},
 			title: false
 		}],
 		credits: {

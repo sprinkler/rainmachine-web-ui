@@ -1284,6 +1284,9 @@ td.right,
 .playstopButton[state="idle"] {
   display:none;
 }
+.playstopButton[state="idle-programs"] {
+  display:inline;
+}
 @keyframes pound {
   from { transform: scale(0.5); }
   50% { transform: scale(1); }
