@@ -5,8 +5,6 @@
 
 var mainMenus = [
 		{ prefix: "dashboard",	func: null,								visibilityFunc: makeVisibleBlock },
-		//{ prefix: "zones", 		func: window.ui.zones.showZones, 		visibilityFunc: makeVisible },
-		//{ prefix: "programs", 	func: window.ui.programs.showPrograms,	visibilityFunc: makeVisible },
 		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,	visibilityFunc: makeVisible },
 ];
 
@@ -19,32 +17,39 @@ var settingsSubmenus = [
     	{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
 	];
 
-var dashboardSubmenus = [
-    	{ name: "Weekly", 		func: loadWeeklyCharts,		container: '#dummy' },
-        { name: "Monthly", 		func: loadMonthlyCharts,	container: '#dummy' },
-        { name: "Yearly",  		func: loadYearlyCharts,		container: '#dummy' }
-      ];
-
-var zonesSubmenus = [
-		{ name: "Stop All",		func: window.ui.zones.stopAllWatering,		container: null }
-];
-
-var programsSubmenus = [
-		{ name: "Stop All",		func: window.ui.programs.stopAllWatering,		container: null }
+var dashboardNavigation = [
+	{ id: "chartsWeek",	idText: "waterSavedTitle",	text: "Water saved this week", 	func: loadWeeklyCharts },
+	{ id: "chartsMonth",idText: "waterSavedTitle",	text: "Water saved this month", func: loadMonthlyCharts },
+	{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved this year",	func: loadYearlyCharts }
 ];
 
 var loop = null;
-
-function _genericSubMenu()
-{
-	console.log("SubMenu: %s : %s", this.id, this.name)
-}
 
 function showError(message)
 {
 	 var errorDiv = $('#error');
 	 errorDiv.innerHTML = message;
 	 errorDiv.style.display = "inline";
+}
+
+function buildNavigation(buttonList) {
+	for (var i = 0; i < buttonList.length; i++) {
+		var b = buttonList[i];
+		var buttonElem = $("#" + b.id);
+		buttonElem.func = b.func;
+		buttonElem.onclick = function() {
+			for (var t = 0; t < buttonList.length; t++)	{
+				var c = buttonList[t];
+				if (this.id === c.id) {
+					this.setAttribute("selected", "on");
+					$("#" + c.idText).textContent = c.text;
+					this.func();
+				} else {
+					$("#" + c.id).removeAttribute("selected");
+				}
+			}
+		}
+	}
 }
 
 function buildSubMenu(submenus, category, parentTag)
@@ -169,29 +174,21 @@ function uiStart()
 {
     buildMenu();
     buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
-	$('#chartsWeek').onclick = loadWeeklyCharts;
-	$('#chartsMonth').onclick = loadMonthlyCharts;
-	$('#chartsYear').onclick = loadYearlyCharts;
-
-    //buildSubMenu(dashboardSubmenus, "dashboard", $('#dashboardMenu'));
-    //buildSubMenu(zonesSubmenus, "zones", $('#zonesMenu'));
-    //buildSubMenu(programsSubmenus, "programs", $('#programsMenu'));
+	buildNavigation(dashboardNavigation);
 
 	//Set default button selections
 	$('#dashboardBtn').setAttribute("selected", true);
-	//$('#dashboard0').setAttribute("selected", true);
 	$('#settings0').setAttribute("selected", true);
-
 
 	$("#logoutBtn").onclick = function() {
 		Storage.deleteItem("access_token");
 		Util.redirectHome(location);
-	}
+	};
 
 	$("#weather-data-edit").onclick = function() {
 		$('#settingsBtn').onclick();
 		$('#settings3').onclick();
-	}
+	};
 
 	ui.login.login(function() {
 		window.ui.about.getDeviceInfo();
@@ -210,7 +207,6 @@ function uiStart()
 		var days = 7;
 		var startDate = Util.getDateWithDaysDiff(days);
 		APIAsync.getWateringLog(false, true, startDate, days).then(function(o) {Data.waterLogCustom = o; window.ui.settings.showWaterLogSimple();});
-
 
 		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 
