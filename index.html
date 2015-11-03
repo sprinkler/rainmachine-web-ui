@@ -129,12 +129,29 @@
 									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
 									<!-- Top weather days start -->
-									<div class="weather-program-line">
+									<div class="weather-program-line" id="weatherChartDaysContainer">
 										<div class="program-title-next-run"></div>
-										<div class="programGraph" id="weather-chart"></div>
+										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
 									<!-- Top weather days end -->
+
+									<!-- Top temperature month/year chart start -->
+									<div class="weather-program-line" id="weatherChartTempMonthsContainer" style="display: none">
+										<div class="program-title-next-run" id="weatherChartTempMonthsTitle"></div>
+										<div class="programGraph" id="weatherChartTempMonthly"></div>
+										<div class="program-start-stop"></div>
+									</div>
+									<!-- Top temperature month/year chart end -->
+
+									<!-- Top QPF month/year chart start -->
+									<div class="weather-program-line" id="weatherChartQPFMonthsContainer" style="display: none">
+										<div class="program-title-next-run" id="weatherChartQPFMonthsTitle"></div>
+										<div class="programGraph" id="weatherChartQPFMonthly"></div>
+										<div class="program-start-stop"></div>
+									</div>
+									<!-- Top QPF month/year chart end -->
+
 									<!-- Program 1 line start -->
 									<div id="programs">
 											<div id="programsList"></div>
@@ -150,9 +167,6 @@
 									</div>
 							</div>
 						</div>
-						<div id="waterNeedChartContainer" class="charts" style="display:none;"></div>
-						<div id="temperatureChartContainer" class="charts" style="display:none;"></div>
-						<div id="qpfChartContainer" class="charts" style="display:none;"></div>
 					</div>
 				</div>
 
