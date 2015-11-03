@@ -609,8 +609,8 @@ function loadYearlyCharts () {
  */
 function generateCharts () {
 	//generateWaterNeedChart();
-	//generateTemperatureChart();
-	//generateQPFChart();
+	generateTemperatureChart();
+	generateQPFChart();
 	generateDailyWeatherChart();
 	generateProgramsChart();
 }
@@ -620,7 +620,7 @@ function generateCharts () {
  */
 
 function generateDailyWeatherChart() {
-	var containerDiv = $('#weather-chart');
+	var containerDiv = $('#weatherChartDays');
 	clearTag(containerDiv);
 
 	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 8 days
@@ -725,7 +725,7 @@ function generateWaterSavedGauge() {
 		}],
 		credits: {
 			enabled: false
-		},
+		}
 	};
 
     // before generating the chart we must destroy the old one if it exists
@@ -883,7 +883,7 @@ function generateWaterNeedChart () {
 function generateTemperatureChart () {
 	var temperatureChartOptions = {
 		chart: {
-			renderTo: 'temperatureChartContainer',
+			renderTo: 'weatherChartTempMonthly',
 			spacingTop: 20,
 			events: {
 				redraw: function () {
@@ -895,6 +895,7 @@ function generateTemperatureChart () {
 		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
+			showInLegend: false,
 			name: 'Maximum Temperature',
 			tooltip: {
 				headerFormat: '',
@@ -906,6 +907,7 @@ function generateTemperatureChart () {
 			type: 'line'
 		}, {
 			data: chartsData.mint.currentSeries,
+			showInLegend: false,
 			name: 'Minimum Temperature',
 			tooltip: {
 				headerFormat: '',
@@ -916,10 +918,11 @@ function generateTemperatureChart () {
 			},
 			type: 'line'
 		}],
-		title: {
-			text: '<h1>Temperature (&deg;C)</h1>',
-			useHTML: true
-		},
+		title: null,
+		//title: {
+		//	text: '<h1>Temperature (&deg;C)</h1>',
+		//	useHTML: true
+		//},
 		xAxis: [{
 			categories: chartsData.currentAxisCategories,
 			labels: {
@@ -933,7 +936,10 @@ function generateTemperatureChart () {
 				format: '{value}\xB0C'
 			},
 			title: false
-		}]
+		}],
+		credits: {
+			enabled: false
+		}
 	};
 
 	// before generating the chart we must destroy the old one if it exists
@@ -950,7 +956,7 @@ function generateTemperatureChart () {
 function generateQPFChart () {
 	var qpfChartOptions = {
 		chart: {
-			renderTo: 'qpfChartContainer',
+			renderTo: 'weatherChartQPFMonthly',
 			spacingTop: 20,
 			events: {
 				redraw: function () {
@@ -962,6 +968,7 @@ function generateQPFChart () {
 		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
+			showInLegend: false,
 			dataLabels: {
 				enabled: true,
 				format: '{y}mm',
@@ -978,10 +985,11 @@ function generateQPFChart () {
 			},
 			type: 'column'
 		}],
-		title: {
-			text: '<h1>QPF (mm)</h1>',
-			useHTML: true
-		},
+		title: null,
+		//title: {
+		//	text: '<h1>QPF (mm)</h1>',
+		//	useHTML: true
+		//},
 		xAxis: [{
 			categories: chartsData.currentAxisCategories,
 			labels: {
@@ -995,7 +1003,10 @@ function generateQPFChart () {
 				format: '{value}mm'
 			},
 			title: false
-		}]
+		}],
+		credits: {
+			enabled: false
+		}
 	};
 
 	// Hide labels from monthly charts
@@ -1244,7 +1255,7 @@ function highlightCurrentDayInChart(chart) {
 
 	var highlighter = null,
 		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
-		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.42,
+		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.49,
 		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
 		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
 		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false) + chart.xAxis[0].offset,

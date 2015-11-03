@@ -47,6 +47,17 @@ function buildNavigation(buttonList) {
 				} else {
 					$("#" + c.id).removeAttribute("selected");
 				}
+
+				if (this.id === "chartsWeek") {
+					$('#weatherChartQPFMonthsContainer').style.display = "none";
+					$('#weatherChartTempMonthsContainer').style.display = "none";
+					$('#weatherChartDaysContainer').style.display = "inline-block";
+				} else {
+					$('#weatherChartDaysContainer').style.display = "none";
+					$('#weatherChartQPFMonthsContainer').style.display = "inline-block";
+					$('#weatherChartTempMonthsContainer').style.display = "inline-block";
+
+				}
 			}
 		}
 	}
