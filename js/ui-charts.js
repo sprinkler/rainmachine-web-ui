@@ -1244,7 +1244,7 @@ function highlightCurrentDayInChart(chart) {
 
 	var highlighter = null,
 		highlighterXStart = parseInt(chartsCurrentDayIndex, 10) - 0.5,
-		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.42,
+		highlighterXEnd = parseInt(chartsCurrentDayIndex, 10) + 0.49,
 		x1 = chart.xAxis[0].toPixels(highlighterXStart, false),
 		x2 = chart.xAxis[0].toPixels(highlighterXEnd, false),
 		y1 = chart.yAxis[0].toPixels(chart.yAxis[0].getExtremes().min, false) + chart.xAxis[0].offset,
