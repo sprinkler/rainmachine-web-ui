@@ -811,6 +811,16 @@ select {
   vertical-align: middle;
   display: inline-block;
 }
+@keyframes bullets {
+  from { transform: scale(0.5); }
+  50% { transform: scale(1); }
+  to { transform: none; }
+}
+.zonecircle[state='running'] {
+  background-color: #3399cc;
+  color: #fff;
+  animation: bullets 0.5s infinite;
+}
 .zones-bullets {
   height: 50px;
   margin-top: 15px;
@@ -1285,13 +1295,6 @@ td.right,
 }
 .playstopButton[state="pending"] {
   color: #ff9900;
-}
-.animated {
-  -webkit-transform: translateZ();
-  -ms-transform: translateZ();
-  transform: translateZ();
-  -webkit-animation: load8 1.1s infinite linear;
-  animation: load8 1.1s infinite linear;
 }
 /* Misc */
 .center { text-align: center }
