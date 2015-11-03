@@ -65,11 +65,12 @@ window.ui = window.ui || {};
 			template.className = "program-line";
 			template.id = "program-" + p.uid;
             editElem.id = "program-edit-" + p.uid;
+            startElem.id = "program-start-" + p.uid;
 
             template.data = p;
 			editElem.data = p;
-
             startElem.data = p;
+
             startElem.start = true;
 
             graphElem.id = "programChartContainer-" + p.uid;
@@ -141,11 +142,14 @@ window.ui = window.ui || {};
             var p = Data.programs.programs[i];
 
             var editElem = $("#program-edit-" + p.uid);
+            var startElem = $("#program-start-" + p.uid);
 
             if (isEditing) {
                 editElem.style.display = "none";
+                startElem.style.display = "inline";
             } else {
                 editElem.style.display = "inline";
+                startElem.style.display = "none";
             }
         }
 
