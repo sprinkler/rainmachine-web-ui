@@ -81,15 +81,17 @@ window.ui = window.ui || {};
                     // template.className += " programRunning";
                     startElem.innerText = "W";
                     startElem.start = false;
-                    startElem.className += " label-red";
+                    startElem.setAttribute("state", "running");
                 } else if(p.status == ProgramStatus.Pending) {
-                    template.className += " programPending";
+                    //template.className += " programPending";
                     startElem.innerText = "W";
                     startElem.start = false;
-                    startElem.className += " label-red";
+                    startElem.setAttribute("state", "running");
+
                 }
             } else {
-                template.className += " programInactive";
+                //template.className += " programInactive";
+                startElem.setAttribute("state", "idle-programs");
             }
 
 			nameElem.innerHTML = p.name;
@@ -569,13 +571,6 @@ window.ui = window.ui || {};
 		makeVisible('#programsList');
 		selectedProgram = null;
 		uiElems = {};
-	}
-
-	function stopAllWatering()
-    {
-		console.log("Stop All Watering (programs)");
-		API.stopAll();
-		showPrograms();
 	}
 
     function onCancel() {
