@@ -925,12 +925,21 @@ function generateTemperatureChart () {
 		//	useHTML: true
 		//},
 		xAxis: [{
+			lineWidth: 0,
+			minorGridLineWidth: 0,
+			lineColor: 'transparent',
+			minorTickLength: 0,
+			tickLength: 0,
+			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
 			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
-				}
+				enabled: false
 			}
+			//labels: {
+			//	formatter: function () {
+			//		return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
+			//	}
+			//}
 		}],
 		yAxis: [{
 			gridLineWidth: 1,
@@ -972,11 +981,19 @@ function generateQPFChart () {
 				}
 			}
 		},
+		plotOptions:{
+			series: {
+				borderRadius:5
+			},
+			column: {
+				minPointLength: 1
+			}
+		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
 			showInLegend: false,
 			dataLabels: {
-				enabled: true,
+				enabled: false,
 				format: '{y}mm',
 				inside: true,
 				verticalAlign: 'bottom'
@@ -997,12 +1014,21 @@ function generateQPFChart () {
 		//	useHTML: true
 		//},
 		xAxis: [{
+			lineWidth: 0,
+			minorGridLineWidth: 0,
+			lineColor: 'transparent',
+			minorTickLength: 0,
+			tickLength: 0,
+			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
 			labels: {
-				formatter: function () {
-					return '<span style="font-size: 10px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
-				}
+				enabled: false
 			}
+			//labels: {
+			//	formatter: function () {
+			//		return '<span style="font-size: 10px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
+			//	}
+			//}
 		}],
 		yAxis: [{
 			gridLineWidth: 1,
@@ -1021,7 +1047,7 @@ function generateQPFChart () {
 	};
 
 	// Hide labels from monthly charts
-	if (chartsCurrentLevel === chartsLevel.monthly)  {
+	if (chartsCurrentLevel !== chartsLevel.weekly)  {
 		qpfChartOptions.series[0].dataLabels.enabled = false;
 	}
 
@@ -1066,7 +1092,7 @@ function generateProgramChart (programUid, programIndex) {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
                     	highlightCurrentDayInChart(this);
-                    };
+                    }
 				}
 			}
 		},
@@ -1078,7 +1104,7 @@ function generateProgramChart (programUid, programIndex) {
 				borderRadius:5
 			},
 			column: {
-				minPointLength: 2
+				minPointLength: 1
 			}
 		},
 		credits: {
@@ -1087,9 +1113,11 @@ function generateProgramChart (programUid, programIndex) {
 		series: [{
 			data: chartsData.programs[programIndex].currentSeries,
 			dataLabels: {
-				enabled: false,
-				//enabled: true,
-				format: '{y}%',
+				enabled: true,
+				//format: '{y}%',
+				formatter: function () {
+					return '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
+				},
 				inside: true,
 				verticalAlign: 'bottom'
 			},
