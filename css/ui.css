@@ -1288,13 +1288,19 @@ td.right,
   display:inline;
 }
 @keyframes pound {
-  from { transform: scale(0.5); }
-  50% { transform: scale(1); }
-  to { transform: none; }
+  0% {
+    color: #ff7163;
+  }
+  50% {
+    color: #ac1304;
+  }
+  100% {
+    color: #d23f31;
+  }
 }
 .playstopButton[state="running"] {
   color: #D23F31;
-  animation: pound 0.5s infinite;
+  animation: pound 1.5s infinite;
 }
 .playstopButton[state="pending"] {
   color: #ff9900;
