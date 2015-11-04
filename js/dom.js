@@ -194,7 +194,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	var mouseDown = false;
 	var thumbWidth = 46;
 	var maxValue = virtualMaxValue;
-	var sliderWidth = slider.offsetWidth;
+	var sliderWidth = slider.offsetWidth || 362;
     var sliderLeft = slider.offsetLeft;
 	var ratio = maxValue / sliderWidth;
 
@@ -251,6 +251,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		var v = (value / ratio - thumbWidth); // left position is relative to sliderLeft
 		thumb.style.left = v + 'px';
 		setThumbInfo(value);
+		calculateSizes();
 	}
 
 	this.setPositionWithOffset = function(value) {
@@ -264,9 +265,10 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	this.setMaxValue = function(value) {
 		var current = this.getPosition() / ratio;
+		var oldMax = maxValue;
 		maxValue = value;
 		calculateSizes();
-		console.log("maxValue: %d Ratio after: %f", maxValue, ratio);
+		console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
 		this.setPosition(current * ratio);
 	}
 
