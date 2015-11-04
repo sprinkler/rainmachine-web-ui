@@ -933,8 +933,13 @@ function generateTemperatureChart () {
 			}
 		}],
 		yAxis: [{
+			gridLineWidth: 1,
+			gridLineColor:'#3399cc',
+			gridLineDashStyle: 'dot',
+			minorGridLineWidth: 0,
 			labels: {
-				format: '{value}\xB0C'
+				enabled: false,
+				format: '{value} C'
 			},
 			title: false
 		}],
@@ -984,7 +989,7 @@ function generateQPFChart () {
 						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
 				}
 			},
-			type: 'line'
+			type: 'column'
 		}],
 		title: null,
 		//title: {
@@ -995,14 +1000,19 @@ function generateQPFChart () {
 			categories: chartsData.currentAxisCategories,
 			labels: {
 				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
+					return '<span style="font-size: 10px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
 				}
 			}
 		}],
 		yAxis: [{
-			//labels: {
-			//	format: '{value}mm'
-			//},
+			gridLineWidth: 1,
+			gridLineColor:'#3399cc',
+			gridLineDashStyle: 'dot',
+			minorGridLineWidth: 0,
+			labels: {
+				enabled: false,
+				format: '{value}mm'
+			},
 			title: false
 		}],
 		credits: {
@@ -1068,7 +1078,7 @@ function generateProgramChart (programUid, programIndex) {
 				borderRadius:5
 			},
 			column: {
-				minPointLength: 3
+				minPointLength: 2
 			}
 		},
 		credits: {

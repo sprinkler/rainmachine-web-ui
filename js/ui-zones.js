@@ -15,7 +15,7 @@ window.ui = window.ui || {};
 
 	var uiElems = {};
 	var maxZoneManualSeconds = 3600;
-	var startedFromPrograms = false;
+	var startedFromPrograms = true; //set default to true so we can set sliders positions at page load/refresh
 
 	function showZones() {
 		APIAsync.getZones().then(
@@ -56,7 +56,6 @@ window.ui = window.ui || {};
 
 			zoneElem.timerElem.id = "zone-timer-" + z.uid;
 			zoneElem.timerElem.controller = new rangeSlider(zoneElem.timerElem, maxZoneManualSeconds, onZoneSlider.bind(null, z));
-
 			uiElems.zones[z.uid] = zoneElem;
 		}
 

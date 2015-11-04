@@ -622,6 +622,5 @@ window.ui = window.ui || {};
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
-	_programs.stopAllWatering = stopAllWatering;
 
 } (window.ui.programs = window.ui.programs || {}));
