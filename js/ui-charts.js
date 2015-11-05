@@ -32,6 +32,8 @@ var chartsLevel = { // available viewing levels for the charts
 		programs: []
 	};
 
+var syncCharts = []; // hold the charts that will have their mouse over tooltips syncronized
+
 /**
  * Holds data for a chart: data[chartsMaximumDataRange], monthsData (aggregated data from the original API data), currentSeries
  * @param startDate
@@ -614,6 +616,7 @@ function generateCharts () {
 	generateQPFChart();
 	generateDailyWeatherChart();
 	generateProgramsChart();
+	bindChartsSyncToolTipEvents();
 }
 
 /**
@@ -911,6 +914,7 @@ function generateTemperatureChart () {
 			showInLegend: false,
 			name: 'Minimum Temperature',
 			tooltip: {
+				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -932,6 +936,7 @@ function generateTemperatureChart () {
 			tickLength: 0,
 			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
 				enabled: false
 			}
@@ -1000,6 +1005,7 @@ function generateQPFChart () {
 			},
 			name: 'Rain Amount',
 			tooltip: {
+				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -1021,6 +1027,7 @@ function generateQPFChart () {
 			tickLength: 0,
 			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
 				enabled: false
 			}
@@ -1124,6 +1131,7 @@ function generateProgramChart (programUid, programIndex) {
 			//name: 'Program ' + programName,
 			name: null,
 			tooltip: {
+				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -1146,6 +1154,7 @@ function generateProgramChart (programUid, programIndex) {
 			tickLength: 0,
 			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
 				enabled: false
 			}
@@ -1327,3 +1336,49 @@ function loadCharts (shouldRefreshData, pastDays) {
 		getChartData(pastDays);
 	}
 }
+
+function bindChartsSyncToolTipEvents() {
+	syncCharts = [];
+	syncCharts.push(charts.temperature);
+	charts.temperature.container.addEventListener("mousemove", onChartTooltip);
+	syncCharts.push(charts.qpf);
+	charts.qpf.container.addEventListener("mousemove", onChartTooltip);
+
+	for (i = 0; i < charts.programs.length; i++ ) {
+		syncCharts.push(charts.programs[i]);
+		charts.programs[i].container.addEventListener("mousemove", onChartTooltip);
+	}
+}
+
+/**
+ * Synchronises the tooltips of certain charts to scroll together
+ * This is a eventhandler for mouse move over charts containers
+ * @param e - event
+ */
+function onChartTooltip(e) {
+	var chart, point, pointDate = null, i;
+
+	for (i = 0; i < syncCharts.length; i++) {
+		chart = syncCharts[i];
+		e = chart.pointer.normalize(e); // Find coordinates within the chart
+		point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+		if (point) {
+			//Only show corresponding date tooltips as searchPoint() return closest available one
+			if (pointDate !== null) {
+				if (point.category != pointDate) {
+					chart.tooltip.hide(); //hide any previous selected tooltips;
+					console.log("%s different from %s", pointDate, point.category);
+					continue;
+				}
+			} else {
+				pointDate = point.category;
+			}
+
+			point.onMouseOver(); // Show the hover marker
+			chart.tooltip.refresh(point); // Show the tooltip
+			chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+		}
+	}
+}
+

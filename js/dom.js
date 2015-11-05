@@ -240,7 +240,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		sliderWidth = slider.offsetWidth;
         sliderLeft = slider.offsetLeft;
     	ratio = maxValue / sliderWidth;
-    	console.log("Slider width: %d, left: %d, max: %d, ratio: %f", sliderWidth, sliderLeft, maxValue, ratio);
+    	//console.log("Slider width: %d, left: %d, max: %d, ratio: %f", sliderWidth, sliderLeft, maxValue, ratio);
 	}
 
 	function setThumbInfo(value) {
