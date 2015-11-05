@@ -190,6 +190,7 @@ function uiStart()
 	//Set default button selections
 	$('#dashboardBtn').setAttribute("selected", true);
 	$('#settings0').setAttribute("selected", true);
+	$('#'+ dashboardNavigation[0].id).setAttribute("selected", "on");
 
 	$("#logoutBtn").onclick = function() {
 		Storage.deleteItem("access_token");
