@@ -165,6 +165,7 @@ function makeHidden(tag)
     else { e = tag; }
 
 	e.style.display = "none";
+
 	//e.focus() //focus back the game canvas
 }
 
@@ -185,4 +186,95 @@ function loadTemplate(name) {
 	template = template.cloneNode(true);
 	template.removeAttribute("id");
 	return template;
+}
+
+function rangeSlider(slider, virtualMaxValue, onDragEnd) {
+
+	var thumb = slider.children[0];
+	var mouseDown = false;
+	var thumbWidth = 46;
+	var maxValue = virtualMaxValue;
+	var sliderWidth = slider.offsetWidth || 362;
+    var sliderLeft = slider.offsetLeft;
+	var ratio = maxValue / sliderWidth;
+
+	slider.addEventListener("mousedown", function(e) {
+		//These are recalculated as they aren't ready on DOM creation
+		sliderWidth = this.offsetWidth;
+		sliderLeft = this.offsetLeft;
+		ratio = maxValue / sliderWidth;
+		mouseDown = true;
+		updateSlider(e);
+		return false;
+	});
+
+	document.addEventListener("mousemove", function(e) {
+		updateSlider(e);
+	});
+
+	document.addEventListener("mouseup", function(e) {
+		if (mouseDown && typeof onDragEnd == "function") {
+			var value = updateSlider(e);
+			onDragEnd(value);
+		}
+		mouseDown = false;
+	});
+
+	function updateSlider(e) {
+		var value = null;
+		if (mouseDown) {
+			if (e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
+        		thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
+        		value = (e.pageX - sliderLeft) * ratio;
+        	} else if (e.pageX < sliderLeft) {
+        		value = 0;
+        	} else {
+        		value = maxValue;
+        	}
+        	setThumbInfo(value);
+		}
+		return value
+	}
+
+	function calculateSizes() {
+		sliderWidth = slider.offsetWidth;
+        sliderLeft = slider.offsetLeft;
+    	ratio = maxValue / sliderWidth;
+    	//console.log("Slider width: %d, left: %d, max: %d, ratio: %f", sliderWidth, sliderLeft, maxValue, ratio);
+	}
+
+	function setThumbInfo(value) {
+			thumb.textContent = Util.secondsToMMSS(value);
+	}
+
+	this.setPosition = function(value) {
+		var v = (value / ratio - thumbWidth); // left position is relative to sliderLeft
+		thumb.style.left = v + 'px';
+		setThumbInfo(value);
+		calculateSizes();
+	}
+
+	this.setPositionWithOffset = function(value) {
+		var current = this.getPosition();
+		this.setPosition(current + value * ratio);
+	}
+
+	this.getPosition = function() {
+		return (thumb.offsetLeft - slider.offsetLeft + thumbWidth) * ratio;
+	}
+
+	this.setMaxValue = function(value) {
+		var current = this.getPosition() / ratio;
+		var oldMax = maxValue;
+		maxValue = value;
+		calculateSizes();
+		console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
+		this.setPosition(current * ratio);
+	}
+
+	this.getMaxValue = function() {
+		return maxValue;
+	}
+
+
 }

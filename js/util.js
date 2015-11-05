@@ -17,10 +17,14 @@ Util.secondsToHuman = function(seconds)
 	return r;
 };
 
-Util.secondsToText = function(seconds)
+Util.secondsToText = function(seconds, rounded)
 {
 	var r = Util.secondsToHuman(seconds);
 	var text = "";
+
+	if (rounded === undefined) {
+		rounded = false;
+	}
 
 	if (r.days > 0)
 		text = r.days + " days ";
@@ -28,8 +32,16 @@ Util.secondsToText = function(seconds)
 	if (r.hours > 0)
 		text += r.hours + " hours ";
 
+	if (rounded && text.length > 0) {
+		return text;
+	}
+
 	if (r.minutes > 0)
 		text += r.minutes + " minutes ";
+
+	if (rounded && text.length > 0) {
+		return text;
+	}
 
 	if (r.seconds > 0)
 		text += r.seconds + " seconds ";
@@ -40,6 +52,40 @@ Util.secondsToText = function(seconds)
 	return text;
 };
 
+Util.secondsToMMSS = function(seconds)
+{
+	seconds = seconds >> 0;
+	var m = (seconds / 60) >> 0;
+	var s = seconds % 60;
+	var text = "";
+
+	if (m < 10)
+		text += "0";
+	text += m + ":";
+
+	if (s < 10)
+		text += "0";
+
+	text += s
+
+	return text;
+}
+
+Util.sinceDateAsText = function(dateString)
+{
+	console.log(dateString);
+	var text;
+	var today = new Date();
+	var d = new Date(dateString.split(" ")[0]);
+	var s = d.getTime() / 1000;
+	var sToday = (today.getTime() / 1000) >> 0;
+
+	if (isNaN(s)) {
+		return "";
+	}
+	var diff =  sToday - s;
+	return Util.secondsToText(diff, true);
+}
 
 Util.weekDaysNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 Util.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -174,6 +220,188 @@ Util.redirectHome = function(locationObj) {
 	} else {
 		location.reload();
 	}
+}
+
+Util.isFloat = function(value) {
+	if(/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Generates a div with a label and an input tag depending on data type
+ * @param parent - parent element for the newly created div
+ * @param data - data
+ * @param label - label for the data
+ * @returns the newly created div
+ */
+Util.generateTagFromDataType = function(parent, data, label) {
+	var div = addTag(parent, 'div');
+	div.className = "generatedTag";
+
+	var isReadOnly = label.startsWith("_");
+
+	if (! isReadOnly) {
+		div.textContent = label;
+		var input = addTag(div, 'input');
+		input.id = "generated-" + label;
+		input.type = "text"; //default type for null, object, number or string types
+
+
+		if (typeof data == "boolean") {
+			input.type = "checkbox"
+			if (data) {
+				input.checked = true;
+			}
+		} else {
+			input.value = data;
+			input.className = "typeText";
+		}
+	} else {
+		div.textContent = label.substr(1);
+		var input = addTag(div, 'div');
+
+		if (data instanceof Array) {
+			for (var d in data) {
+				input.innerHTML += data[d] + "<br>";
+			}
+		} else {
+			input.textContent = data;
+		}
+	}
+
+    return div;
+}
+
+/**
+ * Generates a div with a label and an input tag depending on data type
+ * @param parent - parent element for the newly created div
+ * @param data - data
+ * @param label - label for the data
+ * @returns {array} - in form [label, value]
+ */
+
+Util.readGeneratedTagValue = function(label) {
+	var id = "#generated-" + label;
+	var tag = $(id);
+
+	if (!tag) {
+		console.error("No generated tag with id %s found", id);
+		return [];
+	}
+
+	if (tag.type == "checkbox") {
+		console.log("Checkbox input detected label: %s value: %s", label, tag.checked);
+		return [label, tag.checked];
+	} else {
+		console.log("Generic input detected label: %s value: %s", label, tag.value);
+
+		var n;
+
+		// We don't want 123ab to be parsed as float 123
+		if (Util.isFloat(tag.value)) {
+			n = parseFloat(tag.value)
+		} else {
+			n = tag.value;
+		}
+
+		return [label, n];
+	}
+}
+
+
+
+//filesObject is the object returned by files property of input type=file
+Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
+
+	var status = {
+		message: "",
+		data: null,
+		file: null,
+		isError: false
+	};
+
+	if(!filesObject || filesObject.length == 0) {
+		status.message = "No files selected";
+		status.isError = true;
+		callback(status);
+		return;
+	}
+
+	var file = filesObject[0];
+	var reader = new FileReader();
+
+	reader.onprogress = function(e) {
+		var progress =  Math.round((e.loaded/e.total) * 100);
+		status.message = "Reading file " + progress + " %";
+		setTimeout(callback(status), 0);
+	};
+
+	reader.onloadend = function() {
+		if(!reader.result) {
+			status.message = "Error reading file.";
+			status.isError = true;
+			setTimeout(callback(status), 0);
+			return;
+		}
+
+		if (asBinary) {
+			status.data = new Uint8Array(reader.result);
+		} else {
+			status.data = reader.result;
+		}
+
+		status.message = "Done reading file";
+		status.file = file;
+		callback(status);
+	}
+
+	if (asBinary) {
+		reader.readAsArrayBuffer(file);
+	} else {
+		reader.readAsText(file);
+	}
+}
+
+Util.recurseObject = function(obj, keys) {
+	var str = "";
+	if (keys === undefined) {
+		console.log("Undefined key");
+		keys = {};
+	}
+
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			child = obj[key];
+			if (child !== null && typeof child === "object") {
+                str += "\n" + Util.recurseObject(child, keys);
+			} else {
+				str += obj[key] + ", ";
+				keys[key] = null;
+			}
+		}
+	}
+
+	return str;
+}
+
+Util.json2csv = function(array, title) {
+
+
+}
+
+Util.conditionAsIcon = function(condition) {
+	var conditionValue;
+
+	if (condition === undefined || condition === null) {
+		conditionValue = String.fromCharCode(122);
+	} else {
+		conditionValue = String.fromCharCode(97 + condition);
+	}
+
+	return conditionValue;
 }
 
 return Util; } ( Util || {}));

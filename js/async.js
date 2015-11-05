@@ -10,6 +10,7 @@ function Async() {
 	this.ready = false;
 	this.result;
 	this.debug = false;
+	this.onError = null;
 };
 
 Async.prototype.then = function(callback) {
@@ -43,8 +44,17 @@ Async.prototype.resolve = function() {
     }
 };
 
-Async.prototype.reject = function() {
-    console.log("ASYNC: Error detected aborting queue(%d): %o", this.queue.length, this.queue);
+Async.prototype.reject = function(error) {
+    this.debug && console.log("ASYNC: Error detected queue(%d): %o", this.queue.length, this.queue);
+
+    if (this.onError) {
+        this.onError(error);
+    }
+
     this.ready = false;
     this.queue = undefined;
+};
+
+Async.prototype.error = function(callback) {
+    this.onError = callback;
 };

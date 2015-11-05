@@ -27,7 +27,7 @@ var apiUrl = "https://" + host + ":" + port + "/api/4";
 var token = null;
 var async = async;
 
-function rest(type, apiCall, data)
+function rest(type, apiCall, data, isBinary, extraHeaders)
 {
 	var url;
 	var a = new Async();
@@ -44,28 +44,34 @@ function rest(type, apiCall, data)
 		r.onload = function() {
 			if (r.readyState === 4) {
 				if (r.status === 200) {
+					console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
 					a.resolve(JSON.parse(r.responseText));
 				} else {
 					console.error("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
-					a.reject();
+					a.reject(r.status);
 				}
 			}
 		};
 	};
 
 	try {
-
 		r.open(type, url, async);
 
-		if (type === "POST")
-		{
-			r.setRequestHeader("Content-type","text/plain");
-			//r.setRequestHeader("Content-type", "application/json");
-			//r.setRequestHeader('Access-Control-Allow-Origin', '*');
-			r.send(JSON.stringify(data));
+		if (extraHeaders) {
+			while (header = extraHeaders.shift()) {
+				r.setRequestHeader(header[0], header[1]);
+			}
 		}
-		else
-		{
+
+		//r.setRequestHeader("Content-type", "application/json");
+		if (type === "POST") {
+			if (isBinary) {
+				r.send(data);
+			} else {
+				r.setRequestHeader("Content-type", "text/plain");
+				r.send(JSON.stringify(data));
+			}
+		} else	{
 			r.send();
 		}
 
@@ -80,8 +86,9 @@ function rest(type, apiCall, data)
 	return null;
 }
 
-this.post = function(apiCall, data) { return rest("POST", apiCall, data); }
-this.get = function(apiCall) { return rest("GET", apiCall, null); }
+this.post = function(apiCall, data) { return rest("POST", apiCall, data, false, null); }
+this.get = function(apiCall) { return rest("GET", apiCall, null, false, null); }
+this.uploadFile = function(apiCall, data, extraHeaders) { return rest("POST", apiCall, data, true, extraHeaders); }
 this.setAccessToken = function(accessToken) { token = accessToken; }
 
 
@@ -488,6 +495,55 @@ _API.prototype.setParserEnable = function(id, enable)
 	return this.post(url, data, null);
 }
 
+_API.prototype.setParserParams = function(id, params)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+    url += "/" + id + "/params";
+
+    return this.post(url, params, null);
+}
+
+_API.prototype.getParserData = function(id, startDate, days)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+    		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/data";
+
+	if (startDate !== undefined)
+		url += "/" + startDate;
+
+	if (days !== undefined)
+		url += "/" + days;
+
+	return this.get(url, null);
+}
+
+
+_API.prototype.runParser = function(id, withParser, withMixer, withSimulator)
+{
+	var url = this.URL.parser;
+	url += "/run";
+
+	var data = {
+		parser: withParser,
+		mixer: withMixer,
+		simulator: withSimulator
+	};
+
+	if (typeof id !== undefined && id !== null && id >= 0) {
+		data.parserID = id;
+	}
+
+    return this.post(url, data, null);
+}
+
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 _API.prototype.getMixer = function(startDate, days)
 {
@@ -598,3 +654,15 @@ _API.prototype.getTimeZoneDB = function()
 
 	return this.get(url, null);
 }
+
+_API.prototype.uploadParser = function(fileName, fileType, binData)
+{
+	var url = this.URL.dev + "/import/parser";
+	var extraHeaders = [];
+
+	extraHeaders.push(["Content-Type", fileType]);
+	extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
+
+	return this.uploadFile(url, binData, extraHeaders);
+}
+

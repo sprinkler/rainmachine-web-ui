@@ -8,7 +8,8 @@ window.ui = window.ui || {};
 (function(_programs) {
 
     var selectedProgram = null;
-    var uiElems = {};
+    var uiElems = {}; //per program uiElements
+    var isEditing = false;
 
     var FrequencyType = {
         Daily: 0,
@@ -35,9 +36,13 @@ window.ui = window.ui || {};
     //--------------------------------------------------------------------------------------------
     //
     //
-	function showPrograms()
+
+	function showPrograms() {
+		APIAsync.getPrograms().then(function(o) { Data.programs = o; updatePrograms(); })
+	}
+
+	function updatePrograms()
 	{
-		Data.programs = API.getPrograms();
 		var programListDiv = $('#programsList');
 		clearTag(programListDiv);
 		makeVisible('#programs');
@@ -55,31 +60,38 @@ window.ui = window.ui || {};
 			var editElem = $(template, '[rm-id="program-edit"]');
 			var zonesElem = $(template, '[rm-id="program-zones-bullets"]');
 			var infoElem = $(template, '[rm-id="program-info"]');
+			var graphElem = $(template, '[rm-id="program-graph"]');
 
-			template.className = "listItem";
+			template.className = "program-line";
 			template.id = "program-" + p.uid;
+            editElem.id = "program-edit-" + p.uid;
+            startElem.id = "program-start-" + p.uid;
 
-			template.data = p;
+            template.data = p;
 			editElem.data = p;
-
             startElem.data = p;
+
             startElem.start = true;
+
+            graphElem.id = "programChartContainer-" + p.uid;
 
             if(p.active) {
                 template.className += " programActive";
                 if(p.status == ProgramStatus.Running) {
-                    template.className += " programRunning";
-                    startElem.innerText = "Stop";
+                    // template.className += " programRunning";
+                    startElem.innerText = "W";
                     startElem.start = false;
-                    startElem.className += " label-red";
+                    startElem.setAttribute("state", "running");
                 } else if(p.status == ProgramStatus.Pending) {
-                    template.className += " programPending";
-                    startElem.innerText = "Stop";
+                    //template.className += " programPending";
+                    startElem.innerText = "W";
                     startElem.start = false;
-                    startElem.className += " label-red";
+                    startElem.setAttribute("state", "running");
+
                 }
             } else {
-                template.className += " programInactive";
+                //template.className += " programInactive";
+                startElem.setAttribute("state", "idle-programs");
             }
 
 			nameElem.innerHTML = p.name;
@@ -99,18 +111,58 @@ window.ui = window.ui || {};
 				}
 			}
 			programListDiv.appendChild(template);
+
+			//TODO Hack to fix disappearing charts on refresh program (needs rewrite)
+			try {
+			    var programIndex = chartsData.programsMap[p.uid];
+			    generateProgramChart(p.uid, programIndex);
+			} catch(e) {}
 		}
 
-		// The Add program button
+		// The Add program button (dynamically)
+		/*
 		var div = addTag(programListDiv, 'div');
 		var button = addTag(div, 'button');
 
-		div.className = "listItem";
+		div.className = "program-line";
 		button.className = "addNew";
 		button.textContent = ">";
 		button.onclick = div.onclick = function() { showProgramSettings(null); };
+		*/
+		$('#home-programs-add').onclick = function() { showProgramSettings(null); };
+        $('#home-programs-edit').onclick = function() { onProgramsEdit(); }
+
 
 	}
+
+    //--------------------------------------------------------------------------------------------
+    //
+    //
+    function onProgramsEdit() {
+
+        for (var i = 0; i < Data.programs.programs.length; i++) {
+            var p = Data.programs.programs[i];
+
+            var editElem = $("#program-edit-" + p.uid);
+            var startElem = $("#program-start-" + p.uid);
+
+            if (isEditing) {
+                editElem.style.display = "none";
+                startElem.style.display = "inline";
+            } else {
+                editElem.style.display = "inline";
+                startElem.style.display = "none";
+            }
+        }
+
+        if (isEditing) {
+            $('#home-programs-edit').textContent = "Edit";
+            isEditing = false;
+        } else {
+            $('#home-programs-edit').textContent = "Done";
+            isEditing = true;
+        }
+    }
 
     //--------------------------------------------------------------------------------------------
     //
@@ -144,7 +196,9 @@ window.ui = window.ui || {};
             //
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
+            var soakMins = 0;
             var nextRun = new Date(program.nextRun);
+
             if(isNaN(nextRun.getTime())) {
                 nextRun = "";
             } else {
@@ -164,6 +218,11 @@ window.ui = window.ui || {};
             } catch (e) {
             }
 
+            try {
+                soakMins = parseInt(program.soak / 60);
+            } catch (e) {
+            }
+
             if (startTime.min == 0 && startTime.hour == 0) {
                 startTime.min = startTime.hour = "";
             }
@@ -171,6 +230,7 @@ window.ui = window.ui || {};
             if (delay.min == 0 && delay.sec == 0) {
                 delay.min = delay.sec = "";
             }
+
 
             //---------------------------------------------------------------------------------------
             // Show program data.
@@ -186,7 +246,7 @@ window.ui = window.ui || {};
 
             uiElems.cyclesSoakElem.checked = program.cs_on;
             uiElems.cyclesElem.value = program.cycles;
-            uiElems.soakElem.value = program.soak;
+            uiElems.soakElem.value = soakMins;
             uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
             uiElems.delayZonesElem.checked = program.delay_on;
@@ -343,6 +403,7 @@ window.ui = window.ui || {};
         startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
+        soakMins =   parseInt(uiElems.soakElem.value)  || 0;
 
         if(selectedProgram) {
             program.uid = selectedProgram.uid;
@@ -356,7 +417,7 @@ window.ui = window.ui || {};
 
         program.cs_on = uiElems.cyclesSoakElem.checked;
         program.cycles = parseInt(uiElems.cyclesElem.value || 0);
-        program.soak = parseInt(uiElems.soakElem.value) || 0;
+        program.soak = soakMins * 60;
         program.delay_on = uiElems.delayZonesElem.checked;
         program.delay = delay.min * 60 + delay.sec;
 
@@ -512,13 +573,6 @@ window.ui = window.ui || {};
 		uiElems = {};
 	}
 
-	function stopAllWatering()
-    {
-		console.log("Stop All Watering (programs)");
-		API.stopAll();
-		showPrograms();
-	}
-
     function onCancel() {
     	closeProgramSettings();
     }
@@ -548,15 +602,18 @@ window.ui = window.ui || {};
 
     function onStart() {
         var program = this.data;
-        console.log("TODO: start stop: ", program);
 
         if(program.active) {
             if (this.start) {
                 API.startProgram(program.uid);
+                window.ui.zones.onProgramStart();
             } else {
                 API.stopProgram(program.uid);
             }
             showPrograms();
+
+            //TODO now we have to refresh zones too (dashboard), as the ui loop won't see the change (as the queue could be empty)
+            window.ui.zones.showZonesSimple();
         }
     }
 
@@ -565,6 +622,5 @@ window.ui = window.ui || {};
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
-	_programs.stopAllWatering = stopAllWatering;
 
 } (window.ui.programs = window.ui.programs || {}));
