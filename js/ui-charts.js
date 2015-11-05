@@ -32,6 +32,8 @@ var chartsLevel = { // available viewing levels for the charts
 		programs: []
 	};
 
+var syncCharts = []; // hold the charts that will have their mouse over tooltips syncronized
+
 /**
  * Holds data for a chart: data[chartsMaximumDataRange], monthsData (aggregated data from the original API data), currentSeries
  * @param startDate
@@ -614,6 +616,7 @@ function generateCharts () {
 	generateQPFChart();
 	generateDailyWeatherChart();
 	generateProgramsChart();
+	bindChartsSyncToolTipEvents();
 }
 
 /**
@@ -894,6 +897,10 @@ function generateTemperatureChart () {
 				}
 			}
 		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
+		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
 			showInLegend: false,
@@ -925,12 +932,22 @@ function generateTemperatureChart () {
 		//	useHTML: true
 		//},
 		xAxis: [{
+			lineWidth: 0,
+			minorGridLineWidth: 0,
+			lineColor: 'transparent',
+			minorTickLength: 0,
+			tickLength: 0,
+			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
-				formatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
-				}
+				enabled: false
 			}
+			//labels: {
+			//	formatter: function () {
+			//		return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
+			//	}
+			//}
 		}],
 		yAxis: [{
 			gridLineWidth: 1,
@@ -972,11 +989,23 @@ function generateQPFChart () {
 				}
 			}
 		},
+		plotOptions:{
+			series: {
+				borderRadius:5
+			},
+			column: {
+				minPointLength: 1
+			}
+		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
+		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
 			showInLegend: false,
 			dataLabels: {
-				enabled: true,
+				enabled: false,
 				format: '{y}mm',
 				inside: true,
 				verticalAlign: 'bottom'
@@ -997,12 +1026,22 @@ function generateQPFChart () {
 		//	useHTML: true
 		//},
 		xAxis: [{
+			lineWidth: 0,
+			minorGridLineWidth: 0,
+			lineColor: 'transparent',
+			minorTickLength: 0,
+			tickLength: 0,
+			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
-				formatter: function () {
-					return '<span style="font-size: 10px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
-				}
+				enabled: false
 			}
+			//labels: {
+			//	formatter: function () {
+			//		return '<span style="font-size: 10px;">' + Highcharts.dateFormat(chartsDateFormatSmall, new Date(this.value)) + '</span>';
+			//	}
+			//}
 		}],
 		yAxis: [{
 			gridLineWidth: 1,
@@ -1021,7 +1060,7 @@ function generateQPFChart () {
 	};
 
 	// Hide labels from monthly charts
-	if (chartsCurrentLevel === chartsLevel.monthly)  {
+	if (chartsCurrentLevel !== chartsLevel.weekly)  {
 		qpfChartOptions.series[0].dataLabels.enabled = false;
 	}
 
@@ -1066,9 +1105,13 @@ function generateProgramChart (programUid, programIndex) {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
                     	highlightCurrentDayInChart(this);
-                    };
+                    }
 				}
 			}
+		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
 		},
 		legend: {
 			enabled: false
@@ -1078,7 +1121,7 @@ function generateProgramChart (programUid, programIndex) {
 				borderRadius:5
 			},
 			column: {
-				minPointLength: 2
+				minPointLength: 1
 			}
 		},
 		credits: {
@@ -1087,9 +1130,11 @@ function generateProgramChart (programUid, programIndex) {
 		series: [{
 			data: chartsData.programs[programIndex].currentSeries,
 			dataLabels: {
-				enabled: false,
-				//enabled: true,
-				format: '{y}%',
+				enabled: true,
+				//format: '{y}%',
+				formatter: function () {
+					return '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
+				},
 				inside: true,
 				verticalAlign: 'bottom'
 			},
@@ -1118,6 +1163,7 @@ function generateProgramChart (programUid, programIndex) {
 			tickLength: 0,
 			offset: 10, // for spacing between column and bottom
 			categories: chartsData.currentAxisCategories,
+			crosshair: true,
 			labels: {
 				enabled: false
 			}
@@ -1299,3 +1345,58 @@ function loadCharts (shouldRefreshData, pastDays) {
 		getChartData(pastDays);
 	}
 }
+
+function bindChartsSyncToolTipEvents() {
+	syncCharts = [];
+
+	if (chartsCurrentLevel !== chartsLevel.weekly) {
+		syncCharts.push(charts.temperature);
+		syncCharts.push(charts.qpf);
+		charts.temperature.container.addEventListener("mousemove", onChartTooltip.bind(null, charts.temperature));
+		charts.qpf.container.addEventListener("mousemove", onChartTooltip.bind(null, charts.qpf));
+	}
+
+	for (i = 0; i < charts.programs.length; i++ ) {
+		syncCharts.push(charts.programs[i]);
+		charts.programs[i].container.addEventListener("mousemove", onChartTooltip.bind(null, charts.programs[i]));
+	}
+}
+
+/**
+ * Synchronises the tooltips of certain charts to scroll together
+ * This is a eventhandler for mouse move over charts containers
+ * @param e - event
+ */
+function onChartTooltip(focusedChart, e) {
+	var chart, point, pointDate = null, i, savedFrom, eChart;
+
+	// find and save the point position for the hovered chart
+	eChart = focusedChart.pointer.normalize(e); // Find coordinates within the chart
+	point = focusedChart.series[0].searchPoint(eChart, true); // Get the hovered point
+
+	if (point) {
+		pointDate = point.category;
+		savedFrom = focusedChart.renderTo.id;
+	}
+
+	for (i = 0; i < syncCharts.length; i++) {
+		chart = syncCharts[i];
+		eChart = chart.pointer.normalize(e); // Find coordinates within the chart
+		point = chart.series[0].searchPoint(eChart, true); // Get the hovered point
+
+		if (point) {
+			//Only show corresponding date tooltips as searchPoint() return closest available one
+			if (pointDate !== null) {
+				if (point.category != pointDate) {
+					chart.tooltip.hide(); //hide any previous selected tooltips;
+					continue;
+				}
+			}
+
+			point.onMouseOver(); // Show the hover marker
+			chart.tooltip.refresh(point); // Show the tooltip
+			chart.xAxis[0].drawCrosshair(eChart, point); // Show the crosshair
+		}
+	}
+}
+
