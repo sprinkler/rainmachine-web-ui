@@ -897,6 +897,10 @@ function generateTemperatureChart () {
 				}
 			}
 		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
+		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
 			showInLegend: false,
@@ -914,7 +918,6 @@ function generateTemperatureChart () {
 			showInLegend: false,
 			name: 'Minimum Temperature',
 			tooltip: {
-				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -994,6 +997,10 @@ function generateQPFChart () {
 				minPointLength: 1
 			}
 		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
+		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
 			showInLegend: false,
@@ -1005,7 +1012,6 @@ function generateQPFChart () {
 			},
 			name: 'Rain Amount',
 			tooltip: {
-				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -1103,6 +1109,10 @@ function generateProgramChart (programUid, programIndex) {
 				}
 			}
 		},
+		tooltip: {
+			hideDelay: 0,
+			animation: false,
+		},
 		legend: {
 			enabled: false
 		},
@@ -1131,7 +1141,6 @@ function generateProgramChart (programUid, programIndex) {
 			//name: 'Program ' + programName,
 			name: null,
 			tooltip: {
-				hideDelay: 1,
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
@@ -1339,14 +1348,17 @@ function loadCharts (shouldRefreshData, pastDays) {
 
 function bindChartsSyncToolTipEvents() {
 	syncCharts = [];
-	syncCharts.push(charts.temperature);
-	charts.temperature.container.addEventListener("mousemove", onChartTooltip);
-	syncCharts.push(charts.qpf);
-	charts.qpf.container.addEventListener("mousemove", onChartTooltip);
+
+	if (chartsCurrentLevel !== chartsLevel.weekly) {
+		syncCharts.push(charts.temperature);
+		syncCharts.push(charts.qpf);
+		charts.temperature.container.addEventListener("mousemove", onChartTooltip.bind(null, charts.temperature));
+		charts.qpf.container.addEventListener("mousemove", onChartTooltip.bind(null, charts.qpf));
+	}
 
 	for (i = 0; i < charts.programs.length; i++ ) {
 		syncCharts.push(charts.programs[i]);
-		charts.programs[i].container.addEventListener("mousemove", onChartTooltip);
+		charts.programs[i].container.addEventListener("mousemove", onChartTooltip.bind(null, charts.programs[i]));
 	}
 }
 
@@ -1355,29 +1367,35 @@ function bindChartsSyncToolTipEvents() {
  * This is a eventhandler for mouse move over charts containers
  * @param e - event
  */
-function onChartTooltip(e) {
-	var chart, point, pointDate = null, i;
+function onChartTooltip(focusedChart, e) {
+	var chart, point, pointDate = null, i, savedFrom, eChart;
+
+	// find and save the point position for the hovered chart
+	eChart = focusedChart.pointer.normalize(e); // Find coordinates within the chart
+	point = focusedChart.series[0].searchPoint(eChart, true); // Get the hovered point
+
+	if (point) {
+		pointDate = point.category;
+		savedFrom = focusedChart.renderTo.id;
+	}
 
 	for (i = 0; i < syncCharts.length; i++) {
 		chart = syncCharts[i];
-		e = chart.pointer.normalize(e); // Find coordinates within the chart
-		point = chart.series[0].searchPoint(e, true); // Get the hovered point
+		eChart = chart.pointer.normalize(e); // Find coordinates within the chart
+		point = chart.series[0].searchPoint(eChart, true); // Get the hovered point
 
 		if (point) {
 			//Only show corresponding date tooltips as searchPoint() return closest available one
 			if (pointDate !== null) {
 				if (point.category != pointDate) {
 					chart.tooltip.hide(); //hide any previous selected tooltips;
-					console.log("%s different from %s", pointDate, point.category);
 					continue;
 				}
-			} else {
-				pointDate = point.category;
 			}
 
 			point.onMouseOver(); // Show the hover marker
 			chart.tooltip.refresh(point); // Show the tooltip
-			chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+			chart.xAxis[0].drawCrosshair(eChart, point); // Show the crosshair
 		}
 	}
 }
