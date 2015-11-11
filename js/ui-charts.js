@@ -144,6 +144,11 @@ function ChartData () {
 * @param id
 */
 function getProgramById (id) {
+
+	if (Data.programs === null) {
+		return null;
+	}
+
 	for (var p = 0; p < Data.programs.programs.length; p++) {
 		var existingProgram = Data.programs.programs[p];
 		if (id == existingProgram.uid && existingProgram.active == true) {

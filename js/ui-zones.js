@@ -85,7 +85,7 @@ window.ui = window.ui || {};
 
 			z.active = za.active;
 
-
+            elem.template.className="zone-line";
 			elem.template.data = za;
 
 			if (z.master)
