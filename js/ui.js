@@ -24,6 +24,7 @@ var dashboardNavigation = [
 ];
 
 var loop = null;
+var uiLastWateringState = false;
 
 function showError(message)
 {
@@ -167,9 +168,24 @@ function uiLoop()
 		APIAsync.getWateringQueue()
 		.then(
 			function(waterQueue) {
-				if (waterQueue === undefined || !waterQueue || !waterQueue.queue || !waterQueue.queue.length)
-                	return;
-                window.ui.zones.showZonesSimple();
+
+				if (waterQueue === undefined || !waterQueue || !waterQueue.queue) {
+				    return;
+				}
+
+				//If watering has been stopped do 1 more refresh
+				if (waterQueue.queue.length == 0) {
+					if (uiLastWateringState == true) {
+						uiLastWateringState = false;
+					} else {
+						return;
+					}
+				} else {
+					uiLastWateringState = true;
+				}
+
+				window.ui.zones.showZonesSimple();
+				window.ui.programs.showPrograms();
 			}
 		);
 	}

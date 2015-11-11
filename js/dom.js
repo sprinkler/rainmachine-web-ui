@@ -193,10 +193,13 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	var thumb = slider.children[0];
 	var mouseDown = false;
 	var thumbWidth = 46;
+	var defaultSliderWidth = 362;
 	var maxValue = virtualMaxValue;
-	var sliderWidth = slider.offsetWidth || 362;
-    var sliderLeft = slider.offsetLeft;
-	var ratio = maxValue / sliderWidth;
+	var sliderWidth;
+    var sliderLeft;
+	var ratio;
+
+	calculateSizes();
 
 	slider.addEventListener("mousedown", function(e) {
 		//These are recalculated as they aren't ready on DOM creation
@@ -237,7 +240,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 	}
 
 	function calculateSizes() {
-		sliderWidth = slider.offsetWidth;
+		sliderWidth = slider.offsetWidth || defaultSliderWidth;
         sliderLeft = slider.offsetLeft;
     	ratio = maxValue / sliderWidth;
     	//console.log("Slider width: %d, left: %d, max: %d, ratio: %f", sliderWidth, sliderLeft, maxValue, ratio);
