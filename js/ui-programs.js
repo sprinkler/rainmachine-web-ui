@@ -8,7 +8,8 @@ window.ui = window.ui || {};
 (function(_programs) {
 
     var selectedProgram = null;
-    var uiElems = {}; //per program uiElements
+    var uiElems = {}; //current program UI elements
+	var uiElemsAll = {}; //all program UI elements
     var isEditing = false;
 
     var FrequencyType = {
@@ -41,6 +42,155 @@ window.ui = window.ui || {};
 		APIAsync.getPrograms().then(function(o) { Data.programs = o; updatePrograms(); })
 	}
 
+	function createProgramsElems() {
+		var programListDiv = $('#programsList');
+		clearTag(programListDiv);
+		makeVisible('#programs');
+
+		uiElemsAll.programs = {};
+
+		for (var i = 0; i < Data.programs.programs.length; i++) {
+			var p = Data.programs.programs[i];
+			createProgramElems(p)
+		}
+
+		uiElemsAll.add = $('#home-programs-add');
+		uiElemsAll.edit = $('#home-programs-edit');
+		uiElemsAll.add.onclick = function() { showProgramSettings(null); };
+		uiElemsAll.edit.onclick = function() { onProgramsEdit(); }
+	}
+
+	function updatePrograms() {
+		if (!uiElemsAll.hasOwnProperty("programs"))
+			createProgramsElems();
+
+		var foundPrograms = {};
+
+		for (var i = 0; i < Data.programs.programs.length; i++) {
+			var p = Data.programs.programs[i];
+			var programElem = uiElemsAll.programs[p.uid];
+
+			//create
+			if (typeof programElem === undefined || programElem === null) {
+				createProgramElems(p);
+			}
+
+			//update
+			updateProgram(p);
+			foundPrograms[p.uid] = true;
+		}
+
+		//remove programs that no longer exists
+		for (var id in uiElemsAll.programs) {
+			if (typeof foundPrograms[id] === undefined || foundPrograms[id] === null) {
+				console.error("Cannot find program id %d in uiElemsAll list will remove from DOM", p.uid);
+				removeProgramElems(id);
+			}
+		}
+	}
+
+	function createProgramElems(p) {
+
+		var programListDiv = $('#programsList');
+		var programElem = {};
+
+		programElem.template = loadTemplate("program-entry");
+
+		programElem.nameElem = $(programElem.template, '[rm-id="program-name"]');
+		programElem.startElem = $(programElem.template, '[rm-id="program-start"]');
+		programElem.editElem = $(programElem.template, '[rm-id="program-edit"]');
+		programElem.zonesElem = $(programElem.template, '[rm-id="program-zones-bullets"]');
+		programElem.infoElem = $(programElem.template, '[rm-id="program-info"]');
+		programElem.graphElem = $(programElem.template, '[rm-id="program-graph"]');
+
+		programElem.template.className = "program-line";
+		programElem.template.id = "program-" + p.uid;
+		programElem.editElem.id = "program-edit-" + p.uid;
+		programElem.startElem.id = "program-start-" + p.uid;
+
+		programElem.startElem.start = true;
+		programElem.startElem.onclick = onStart;
+		programElem.graphElem.id = "programChartContainer-" + p.uid;
+		programElem.editElem.onclick = function() { showProgramSettings(this.data); };
+
+		programListDiv.appendChild(programElem.template);
+		uiElemsAll.programs[p.uid] = programElem;
+	}
+
+	function removeProgramElems(id) {
+		var programElem = uiElemsAll.programs[id];
+
+		if (typeof programElem === undefined || programElem === null) {
+			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
+			return;
+		}
+
+		var domElem = $('#' + programElem.template.id);
+
+		if (typeof domElem === undefined || domElem === null) {
+			console.error("Cannot find DOM element for program id %d", p.uid);
+			return;
+		}
+
+		clearTag(domElem);
+		delTag(domElem);
+
+		delete uiElemsAll.programs[id];
+	}
+
+	function updateProgram(p) {
+		var programElem = uiElemsAll.programs[p.uid];
+
+		if (typeof programElem === undefined || programElem === null) {
+			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
+			return;
+		}
+
+		programElem.template.data = p;
+		programElem.editElem.data = p;
+		programElem.startElem.data = p;
+
+		programElem.startElem.start = true;
+		programElem.template.className = "program-line";
+		programElem.startElem.removeAttribute("state");
+
+		if (p.active) {
+			programElem.template.className += " programActive";
+			if (p.status == ProgramStatus.Running) {
+				programElem.startElem.textContent = "W";
+				programElem.startElem.start = false;
+				programElem.startElem.setAttribute("state", "running");
+			} else if (p.status == ProgramStatus.Pending) {
+				programElem.startElem.textContent = "W";
+				programElem.startElem.start = false;
+				programElem.startElem.setAttribute("state", "running");
+			} else if (p.status == ProgramStatus.NotRunning) {
+				programElem.startElem.textContent = "Q";
+				programElem.startElem.start = true;
+				programElem.startElem.setAttribute("state", "idle-programs");
+			}
+		} else {
+			programElem.template.className += " programInactive";
+			programElem.startElem.setAttribute("state", "idle-programs");
+			programElem.startElem.textContent = "Q";
+			programElem.startElem.start = true;
+		}
+
+		programElem.nameElem.innerHTML = p.name;
+		programElem.infoElem.innerHTML = programTypeToText(p);
+
+		// update small zones circles
+		clearTag(programElem.zonesElem);
+		for (var zi = 0; zi < p.wateringTimes.length; zi++) {
+			if (p.wateringTimes[zi].active) {
+				var div = addTag(programElem.zonesElem, 'div');
+				div.className = "zoneCircle";
+				div.innerHTML = p.wateringTimes[zi].id;
+			}
+		}
+	}
+
+	/*
 	function updatePrograms()
 	{
 		var programListDiv = $('#programsList');
@@ -100,7 +250,7 @@ window.ui = window.ui || {};
 
 			infoElem.innerHTML = programTypeToText(p);
 
-			/* Show small zones circles */
+			// Show small zones circles
 			for (var zi = 0; zi < p.wateringTimes.length; zi++)
 			{
 				if (p.wateringTimes[zi].active)
@@ -120,20 +270,10 @@ window.ui = window.ui || {};
 		}
 
 		// The Add program button (dynamically)
-		/*
-		var div = addTag(programListDiv, 'div');
-		var button = addTag(div, 'button');
-
-		div.className = "program-line";
-		button.className = "addNew";
-		button.textContent = ">";
-		button.onclick = div.onclick = function() { showProgramSettings(null); };
-		*/
 		$('#home-programs-add').onclick = function() { showProgramSettings(null); };
         $('#home-programs-edit').onclick = function() { onProgramsEdit(); }
-
-
 	}
+	*/
 
     //--------------------------------------------------------------------------------------------
     //
@@ -622,5 +762,4 @@ window.ui = window.ui || {};
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
-
 } (window.ui.programs = window.ui.programs || {}));
