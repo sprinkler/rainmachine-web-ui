@@ -271,7 +271,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		var oldMax = maxValue;
 		maxValue = value;
 		calculateSizes();
-		console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
+		//console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
 		this.setPosition(current * ratio);
 	}
 

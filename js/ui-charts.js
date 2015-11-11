@@ -635,12 +635,14 @@ function generateDailyWeatherChart() {
 	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
 		var condition = chartsData.condition.data[i];
 		var temp = chartsData.maxt.data[i];
+		var qpf = chartsData.qpf.data[i];
 		var date = chartsData.condition.getDateAtIndex(i);
 
 		var weatherTemplate = loadTemplate("day-weather-template");
-		var weatherDateElem =  $(weatherTemplate, '[rm-id="day-weather-date"]');
-		var weatherIconElem =  $(weatherTemplate, '[rm-id="day-weather-icon"]');
-		var weatherTempElem =  $(weatherTemplate, '[rm-id="day-weather-temp"]');
+		var weatherDateElem = $(weatherTemplate, '[rm-id="day-weather-date"]');
+		var weatherIconElem = $(weatherTemplate, '[rm-id="day-weather-icon"]');
+		var weatherTempElem = $(weatherTemplate, '[rm-id="day-weather-temp"]');
+		var weatherQPFElem =  $(weatherTemplate, '[rm-id="day-weather-qpf"]');
 
 		if (i == startDayIndex) {
 			weatherDateElem.textContent = date.toLocaleString("en-us", { month: "short" }) + " " + date.getDate();
@@ -659,6 +661,13 @@ function generateDailyWeatherChart() {
 		} else {
 			weatherTempElem.textContent = "--";
 		}
+
+		try {
+			qpf = qpf.toFixed(1)
+		} catch(e) {}
+
+		weatherQPFElem.textContent = qpf;
+
 
 		containerDiv.appendChild(weatherTemplate);
 	}
