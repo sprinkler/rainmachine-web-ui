@@ -954,27 +954,12 @@ select {
   animation: none;
 }
 .programActive [rm-id="program-status"] { display: none }
-.programActive.programRunning [rm-id="program-status"],
-.programActive.programPending [rm-id="program-status"],
-.programInactive [rm-id="program-status"] {
-  font-family: RainMachine, sans-serif;
-  font-size: 32px;
-  white-space: nowrap;
-  cursor: default;
-  display: inline-block;
-  text-align: center;
-  width: 32px;
-  margin-right: 3px;
-  color: #0099ff;
-  /*-webkit-animation: rotation 2s infinite linear;;
-  animation: rotate 2s infinite linear;*/
-  animation: pulsate 1s ease-out;
-  animation-iteration-count: infinite;
-}
 .programActive.programRunning [rm-id="program-status"] { color: #AF0000 }
 .programActive.programPending [rm-id="program-status"] { color: #0099ff }
-.programInactive [rm-id="program-status"] { color: #FF0000 }
-.programInactive button[rm-id="program-start"] { display: none }
+.programInactive { 
+  opacity: 0.2;
+  filter: alpha(opacity=40); /* For IE8 and earlier */ }
+.programInactive>.program-start-stop { display: none }
 .programEdit,
 .settingsBlock,
 .settingsBlockZones,
