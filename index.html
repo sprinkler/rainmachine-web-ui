@@ -125,7 +125,6 @@
 									</div>
 								</div>
 								<div class="homeScreenProgramList">
-									<h1 class="title" style="margin-bottom:0px;">Weather status</h1>
 									<!-- Top weather days start -->
 									<div class="weather-program-line" id="weatherChartDaysContainer">
 										<div class="program-title-next-run"></div>
@@ -991,7 +990,9 @@
 		<div id="day-weather-template" class="graphDay">
 			<div rm-id="day-weather-date" class="dateno">SEP 13</div>
 			<div rm-id="day-weather-icon" class="weatherIcon">s</div>
-			<div rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></div>
+			<div>
+				<span rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></span><br><span rm-id="day-weather-rain" class="dayTemp">0.0<span class="icon" style="font-size:8px;vertical-align:top;">V</span></span>
+			</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1009,7 +1010,7 @@
 			</div>
 			<div class="zone-start-stop">
 				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
-				<div rm-id="zone-stop" class="playstopButton center right">W</div>
+				<div rm-id="zone-stop" class="playstopButton center right">T</div>
 			</div>
 		</div>
         <!-- Template for Zone Card (End) -->
@@ -1074,7 +1075,7 @@
 			</div>
 			<div class="programGraph" rm-id="program-graph"></div>
 			<div class="program-start-stop">
-				<div rm-id="program-start" class="playstopButton center">Q</div>
+				<div rm-id="program-start" class="playstopButton center">T</div>
 			</div>
 		</div>
 		<!-- Template for Program Card (End) -->
