@@ -230,13 +230,13 @@ function uiStart()
 		//TODO Show parsers simple
 		window.ui.settings.showParsers(true);
 
-		//TODO Show waterlog simple
+		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 
+		//TODO Show waterlog simple
 		var days = 7;
 		var startDate = Util.getDateWithDaysDiff(days);
 		APIAsync.getWateringLog(false, true, startDate, days).then(function(o) {Data.waterLogCustom = o; window.ui.settings.showWaterLogSimple();});
 
-		loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
 
 		loop = setInterval(uiLoop, 2000);
 	});
