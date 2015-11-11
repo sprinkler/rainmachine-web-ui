@@ -921,7 +921,7 @@ select {
   animation-iteration-count: infinite;*/
 }
 .zoneRunning {
-  color: #FF0000;
+  color: #d23f31;
 }
 /**@-webkit-keyframes rotation { 
   from { -webkit-transform: rotate(0deg) }
@@ -1259,7 +1259,7 @@ td.right,
 .icon-button.blue > paper-ripple { color: #4285f4; }
 .playstopButton {
   border:0px;
-  font-size: 70px;
+  font-size: 52px;
   color: #3399cc;
   border-radius: 50%;
   cursor:pointer;
@@ -1271,17 +1271,17 @@ td.right,
 }
 .playstopButton[state="idle-programs"] {
   display:inline;
-  color:#DADADA;
+  color:#3399cc;
 }
 @keyframes pound {
   0% {
-    color: #41b5ef;
+    color: #f34939;
   }
   50% {
-    color: #266f93;
+    color: #d23f31;
   }
   100% {
-    color: #3aa3d8;
+    color: #a8362b;
   }
 }
 .playstopButton[state="running"] {
