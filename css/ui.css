@@ -263,14 +263,15 @@ strong { font-weight: 700; }
   width: 80px;
   height: 70px;
 }
-.zone-start-stop { width: 85px }
+.zone-start-stop { width: 98px }
 .graphday,
 .today {
   display: inline-block;
   width: 64px;
   height: 142px;
   text-align: center;
-  padding: 0px 2px 0px 2px;
+  padding: 0px 2px 5px 2px;
+  margin-top: -5px;
 }
 .today { background-color: #f6f6f6 }
 .dateno {
@@ -285,12 +286,11 @@ strong { font-weight: 700; }
   font-size: 52px;
   width: 64px;
   height: 64px;
-  margin-bottom: 10px;
   color: #4296cd;
 }
 .dayTemp {
   color: #4296cd;
-  font-size: 18px;
+  font-size: 15px;
 }
 sup { font-size: 12px }
 .programListName,
@@ -1274,11 +1274,11 @@ td.right,
 .icon-button.blue > paper-ripple { color: #4285f4; }
 .playstopButton {
   border:0px;
-  font-size: 42px;
+  font-size: 70px;
   color: #3399cc;
   border-radius: 50%;
   cursor:pointer;
-  width: 44px;
+  width: 70px;
   margin: 0 auto;
 }
 .playstopButton[state="idle"] {
@@ -1286,24 +1286,25 @@ td.right,
 }
 .playstopButton[state="idle-programs"] {
   display:inline;
+  color:#DADADA;
 }
 @keyframes pound {
   0% {
-    color: #ff7163;
+    color: #41b5ef;
   }
   50% {
-    color: #ac1304;
+    color: #266f93;
   }
   100% {
-    color: #d23f31;
+    color: #3aa3d8;
   }
 }
 .playstopButton[state="running"] {
-  color: #D23F31;
+  color: #3399cc;
   animation: pound 1.5s infinite;
 }
 .playstopButton[state="pending"] {
-  color: #ff9900;
+  color: #ffa54b;
 }
 /* Misc */
 .center { text-align: center }
