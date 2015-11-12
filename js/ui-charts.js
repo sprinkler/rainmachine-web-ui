@@ -151,7 +151,7 @@ function getProgramById (id) {
 
 	for (var p = 0; p < Data.programs.programs.length; p++) {
 		var existingProgram = Data.programs.programs[p];
-		if (id == existingProgram.uid && existingProgram.active == true) {
+		if (id == existingProgram.uid) {
 			return existingProgram;
 		}
 	}
@@ -298,7 +298,7 @@ function processChartData() {
 
 			// Is program active/still available in current programs list (might be an old deleted program)?
 			var existingProgram = getProgramById(currentProgram.id)
-			if (existingProgram === null || existingProgram.active == false)
+			if (existingProgram === null)
 				continue;
 
 			// Program index not in our struct ?
@@ -383,7 +383,7 @@ function processChartData() {
 				//Add program used water
 				// Is program active/still available in current programs list (might be an old deleted program)?
 				var existingProgram = getProgramById(currentProgram.id)
-				if (existingProgram === null || existingProgram.active == false)
+				if (existingProgram === null)
 					continue;
 
 				// Program index not in our struct ?
