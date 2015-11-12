@@ -181,7 +181,7 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
         	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay)})
 	} else {
 		// hide the spinner
-        //makeHidden($('#pageLoadSpinner'));
+        makeHidden($('#pageLoadSpinner'));
         showError("Error loading Daily Stats !");
 	}
 }
@@ -451,7 +451,7 @@ function processChartData() {
 	//generateProgramsChartsContainers();
 
 	// hide the spinner
-	//makeHidden($('#pageLoadSpinner'));
+	makeHidden($('#pageLoadSpinner'));
     // make the dashboard visible before generating the charts so that the charts can take the correct size
     makeVisibleBlock($('#dashboard'));
 
