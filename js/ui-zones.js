@@ -74,19 +74,11 @@ window.ui = window.ui || {};
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
-			var za;
 			var z = Data.zoneData.zones[i];
 			var elem = uiElems.zones[z.uid];
 
-			if (Data.zoneAdvData !== undefined)
-				za = Data.zoneAdvData.zones[i];
-			else
-				za.active = true;
-
-			z.active = za.active;
-
             elem.template.className="zone-line";
-			elem.template.data = za;
+			elem.template.data = z;
 
 			if (z.master)
 			{
@@ -102,10 +94,12 @@ window.ui = window.ui || {};
 				elem.nameElem.textContent = z.uid + ". " + z.name;
 				elem.typeElem.textContent = zoneTypeToString(z.type);
 
-				if (!za.active) {
+				if (!z.active) {
 					elem.template.className += " inactive";
 					elem.nameElem.textContent += " (inactive)"
 					makeHidden(elem.timerElem);
+				} else {
+					makeVisibleBlock(elem.timerElem);
 				}
 			}
 
