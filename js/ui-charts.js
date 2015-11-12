@@ -129,8 +129,8 @@ function ChartData () {
 	this.qpf = new ChartSeries(this.startDate);
 	this.maxt = new ChartSeries(this.startDate);
 	this.mint = new ChartSeries(this.startDate);
-	this.waterNeedReal = new ChartSeries(this.startDate);
-	this.waterNeedSimulated = new ChartSeries(this.startDate);
+//	this.waterNeedReal = new ChartSeries(this.startDate);
+//	this.waterNeedSimulated = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.programs = [];
@@ -167,7 +167,7 @@ function getChartDataSync(pastDays) {
 	Data.mixerData = API.getMixer(); //for weather measurements
 	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
 	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
-	Data.waterLogSimulated = API.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for simulated used water
+	//Data.waterLogSimulated = API.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for simulated used water
 	processChartData();
 }
 
@@ -196,8 +196,8 @@ function getChartData(pastDays) {
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
 	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();}) //for used water
 
-	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
+//	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
+//	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
 
 	getDailyStatsWithRetry(5, 5000);
 
@@ -233,7 +233,7 @@ function processChartData() {
 		currentProgram,
 		currentProgramIndex;
 
-	if (chartsDataCounter < 5) {
+	if (chartsDataCounter < 4) {
 		return;
 	} else {
 		chartsDataCounter = 0;
@@ -255,12 +255,14 @@ function processChartData() {
 	//Total Water Need future days
 	var daily = Data.dailyDetails.DailyStatsDetails;
 
+
 	for (dailyDetailsIndex = 0; dailyDetailsIndex < daily.length; dailyDetailsIndex++) {
 		var wnfTotalDayUserWater = 0;
 		var wnfTotalDayScheduledWater = 0;
 		var wnfTotalDaySimulatedUserWater = 0;
 		var wnfTotalDaySimulatedScheduledWater = 0;
 
+		/*
 		//simulated machine programs for the day
 		for (programIndex = 0; programIndex < daily[dailyDetailsIndex].simulatedPrograms.length; programIndex++) {
 			currentProgram = daily[dailyDetailsIndex].simulatedPrograms[programIndex];
@@ -272,6 +274,7 @@ function processChartData() {
 			}
 			//console.log("%s Program %d User:%d, Sch: %d", daily[dailyDetailsIndex].day, programIndex,  wnfTotalDaySimulatedUserWater, wnfTotalDaySimulatedScheduledWater);
 		}
+		*/
 
 		//real user programs for the day
 		for (programIndex = 0; programIndex < daily[dailyDetailsIndex].programs.length; programIndex++) {
@@ -316,10 +319,10 @@ function processChartData() {
 		if (wnfDailySimulatedWN > chartsData.maxWN)
 			chartsData.maxWN = wnfDailySimulatedWN;
 
-		chartsData.waterNeedReal.insertAtDate(daily[dailyDetailsIndex].day, wnfDailyWN);
-		chartsData.waterNeedSimulated.insertAtDate(daily[dailyDetailsIndex].day, wnfDailySimulatedWN);
+		//chartsData.waterNeedReal.insertAtDate(daily[dailyDetailsIndex].day, wnfDailyWN);
+		//chartsData.waterNeedSimulated.insertAtDate(daily[dailyDetailsIndex].day, wnfDailySimulatedWN);
 	}
-
+     /*
 	//Past 'water need' for simulated machine programs, we only need per day sum of all programs
 	for (var i = Data.waterLogSimulated.waterLog.days.length - 1; i >= 0 ; i--) {
 		day =  Data.waterLogSimulated.waterLog.days[i];
@@ -347,6 +350,7 @@ function processChartData() {
 
 		chartsData.waterNeedSimulated.insertAtDate(day.date, wnpDailySimultatedWN);
 	}
+	*/
 
 	//Past 'water need' for real user programs
 	for (var i = Data.waterLog.waterLog.days.length - 1; i >= 0 ; i--) {
@@ -399,7 +403,7 @@ function processChartData() {
 			chartsData.maxWN = wnpDailyWN;
 		}
 
-		chartsData.waterNeedReal.insertAtDate(day.date, wnpDailyWN);
+		//chartsData.waterNeedReal.insertAtDate(day.date, wnpDailyWN);
 	}
 
 	// calculate months data
@@ -408,8 +412,8 @@ function processChartData() {
 			monthPrefix = chartsData.months[monthsIndex].split('-')[0] + '-' + chartsData.months[monthsIndex].split('-')[1];
 
 		// initialize the months data for each chart with 0
-		chartsData.waterNeedReal.monthsData[monthsIndex] = 0;
-		chartsData.waterNeedSimulated.monthsData[monthsIndex] = 0;
+		//chartsData.waterNeedReal.monthsData[monthsIndex] = 0;
+		//chartsData.waterNeedSimulated.monthsData[monthsIndex] = 0;
 		chartsData.maxt.monthsData[monthsIndex] = 0;
 		chartsData.mint.monthsData[monthsIndex] = 0;
 		chartsData.qpf.monthsData[monthsIndex] = 0;
@@ -422,8 +426,8 @@ function processChartData() {
 			if (chartsData.days[daysIndex].indexOf(monthPrefix) >= 0) {
 				daysInMonth++;
 
-				chartsData.waterNeedReal.monthsData[monthsIndex] += chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]);
-				chartsData.waterNeedSimulated.monthsData[monthsIndex] += chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]);
+				//chartsData.waterNeedReal.monthsData[monthsIndex] += chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]);
+				//chartsData.waterNeedSimulated.monthsData[monthsIndex] += chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]);
 				chartsData.maxt.monthsData[monthsIndex] += chartsData.maxt.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.maxt.getAtDate(chartsData.days[daysIndex]);
 				chartsData.mint.monthsData[monthsIndex] += chartsData.mint.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.mint.getAtDate(chartsData.days[daysIndex]);
 				chartsData.qpf.monthsData[monthsIndex] += chartsData.qpf.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.qpf.getAtDate(chartsData.days[daysIndex]);
@@ -435,8 +439,8 @@ function processChartData() {
 		}
 
 		// for all the charts except QPF we need to aggregate with an AVG (and round to max two decimals)
-		chartsData.waterNeedReal.monthsData[monthsIndex] = Math.round((chartsData.waterNeedReal.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
-		chartsData.waterNeedSimulated.monthsData[monthsIndex] = Math.round((chartsData.waterNeedSimulated.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
+		//chartsData.waterNeedReal.monthsData[monthsIndex] = Math.round((chartsData.waterNeedReal.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
+		//chartsData.waterNeedSimulated.monthsData[monthsIndex] = Math.round((chartsData.waterNeedSimulated.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		chartsData.maxt.monthsData[monthsIndex] = Math.round((chartsData.maxt.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		chartsData.mint.monthsData[monthsIndex] = Math.round((chartsData.mint.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		for (programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
@@ -520,8 +524,8 @@ function loadWeeklyCharts () {
 
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
-	chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.data.slice(sliceStart, sliceEnd);
-	chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.data.slice(sliceStart, sliceEnd);
+	//chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.data.slice(sliceStart, sliceEnd);
+	//chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.data.slice(sliceStart, sliceEnd);
 	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart, sliceEnd);
 	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
@@ -565,8 +569,8 @@ function loadMonthlyCharts () {
 
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
-	chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.data.slice(sliceStart, sliceEnd);
-	chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.data.slice(sliceStart, sliceEnd);
+	//chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.data.slice(sliceStart, sliceEnd);
+	//chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.data.slice(sliceStart, sliceEnd);
 	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart, sliceEnd);
 	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
@@ -595,8 +599,8 @@ function loadYearlyCharts () {
 
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.months;
-	chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.monthsData;
-	chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.monthsData;
+	//chartsData.waterNeedReal.currentSeries = chartsData.waterNeedReal.monthsData;
+	//chartsData.waterNeedSimulated.currentSeries = chartsData.waterNeedSimulated.monthsData;
 	chartsData.maxt.currentSeries = chartsData.maxt.monthsData;
 	chartsData.mint.currentSeries = chartsData.mint.monthsData;
 	chartsData.qpf.currentSeries = chartsData.qpf.monthsData;
@@ -771,6 +775,8 @@ function generateWaterSavedGauge() {
 /**
  * Generates the Water Need chart
  */
+
+/*
 function generateWaterNeedChart () {
 	var waterNeedChartOptions = {
 		chart: {
@@ -894,6 +900,7 @@ function generateWaterNeedChart () {
 	// generate the chart
 	charts.waterNeed = new Highcharts.Chart(waterNeedChartOptions, generateChartCallback);
 }
+*/
 
 /**
  * Generates the Temperature chart
