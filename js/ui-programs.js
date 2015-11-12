@@ -613,7 +613,7 @@ window.ui = window.ui || {};
         } else {
            nextRun = nextRun.toDateString();
         }
-		infoText += "<br><strong>Next run on " + nextRun + "</strong>";
+		infoText += "<br>Next run on " + nextRun + "";
 		return infoText;
     }
 
