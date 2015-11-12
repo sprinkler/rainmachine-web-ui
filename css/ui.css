@@ -1066,14 +1066,18 @@ td.right,
 .historyZoneItem {
   display: table-cell;
   text-align: left;
-  width: 23%;
+  width: 10%;
   padding: 10px 0;
   background-color: #ffffff;
 }
-.historyZoneItem:last-child {
-  text-align: right;
+.historyZoneItem:nth-child(5), .historyZoneItem:last-child {
+  text-align: left;
   color: #3399cc;
   font-weight: bold;
+}
+.historyZoneItem:last-child {
+  text-align: right;
+  width:20%;
 }
 .historyDate,
 .historyProgName {
@@ -1259,7 +1263,7 @@ td.right,
 .icon-button.blue > paper-ripple { color: #4285f4; }
 .playstopButton {
   border:0px;
-  font-size: 52px;
+  font-size: 42px;
   color: #3399cc;
   border-radius: 50%;
   cursor:pointer;
