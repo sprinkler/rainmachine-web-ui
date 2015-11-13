@@ -138,7 +138,7 @@ strong { font-weight: 700; }
   width: 1216px;
   margin: 0 auto;
 }
-.homeScreenLeft {
+#homeScreenLeft {
   display: inline-block;
   width: 400px;
   background-color: transparent;
@@ -146,26 +146,42 @@ strong { font-weight: 700; }
   vertical-align: top;
   border: 0px;
 }
-.homeScreenRight {
+#homeScreenRight {
   display: inline-block;
   width: 806px;
   background-color: transparent;
   vertical-align: top;
   border: 0px;
 }
+#homeScreenZoneList,
 .homeScreenWaterSaved,
 .homeScreenDataSource,
 .homeScreenWaterLog,
-.homeScreenProgramList,
-.homeScreenZoneList {
+.homeScreenProgramList
+ {
   display: block;
   padding-top: 5px;
   background-color: #fff;
   border: 1px solid #ddd;
   margin-bottom: 10px;
 }
+
+.expanded {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  margin: 100px;
+  height:100%;
+  margin-top: 0px;
+  min-width: 1024px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  z-index: 999;
+}
+
 /* Don't allow selection as moving zone sliders might select text around */
-.homeScreenZoneList {
+#homeScreenZoneList {
   user-select: none;
   -webkit-user-select: none;
 }

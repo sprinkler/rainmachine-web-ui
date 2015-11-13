@@ -90,7 +90,7 @@
 
 				<div id="dashboard" class="dashboard" style="display: none;">
 						<div class="homeScreenMain">
-							<div class="homeScreenLeft">
+							<div id="homeScreenLeft" style="display:inline-block;">
 								<div class="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved this week</h1>
 									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
@@ -114,7 +114,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="homeScreenRight">
+							<div id="homeScreenRight">
 								<div class="homeScreenProgramList">
 									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:5px;">
 										<button id="chartsWeek" class="button label-gray center">Week</button>
@@ -147,7 +147,8 @@
 									</div>
 									<!-- Top QPF month/year chart end -->
 								</div>
-								<div class="homeScreenProgramList">
+								<div class="homeScreenProgramList" id="programsContainer">
+									<button id="home-programs-full" class="label-grey right" style="margin-right:8px;margin-top: 6px;transform: rotate(90deg);"><span class="icon expand" style="font-size: 15px;color: #ccc;">Y</span></button>
 									<button id="home-programs-edit" class="button label-grey center right" style="margin-right:15px;">Edit</button>
 									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
 									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
@@ -157,7 +158,8 @@
 									</div>
 									<!-- Program 1 line end -->
 								</div>
-								<div class="homeScreenZoneList">
+								<div id="homeScreenZoneList">
+									<button id="home-zones-full" class="label-grey right" style="margin-right:8px;margin-top: 6px;transform: rotate(90deg);"><span class="icon expand" style="font-size: 15px;color: #ccc;">Y</span></button>
 									<button id="home-zones-edit" class="button label-grey center right" style="margin-right:15px;">Edit</button>
                                     <button id="home-zones-stopall" class="button label-red center right mr10"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
 								    <h1 class="title">Zones</h1>
