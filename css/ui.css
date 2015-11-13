@@ -170,17 +170,6 @@ strong { font-weight: 700; }
   -webkit-user-select: none;
 }
 .homeScreenDataSourceItem { padding: 10px }
-.homeScreenDataSourceName,
-.hoursago { font-size: 18px }
-.homeScreenDataSourceMessage {
-  display: block;
-  padding: 15px;
-  margin: 0 auto;
-  color: #888;
-  font-size: 18px;
-  text-align: center;
-  text-transform: uppercase;
-}
 .wateringLogDayNumber,
 .wateringLogProgramsContainer { padding-left: 10px }
 .wateringLogProgramsContainer { display: none }
@@ -217,6 +206,7 @@ strong { font-weight: 700; }
   padding-top: 25px;
   padding-left: 10px;
   font-size: 18px;
+  color:#888;
 }
 .zoneListEdit, .programListEdit {
   display:none;
