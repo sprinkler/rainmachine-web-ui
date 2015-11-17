@@ -4,8 +4,8 @@
  */
 
 var mainMenus = [
-		{ prefix: "dashboard",	func: null,								visibilityFunc: makeVisibleBlock },
-		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,	visibilityFunc: makeVisible },
+		{ prefix: "dashboard",	func: function() {togglePrograms(true); toggleZones(true);}, visibilityFunc: makeVisibleBlock },
+		{ prefix: "settings", 	func: window.ui.settings.showWaterLog,		visibilityFunc: makeVisible },
 ];
 
 var settingsSubmenus = [
@@ -25,6 +25,8 @@ var dashboardNavigation = [
 
 var loop = null;
 var uiLastWateringState = false;
+var programsExpanded = false;
+var zonesExpanded = false;
 
 function showError(message)
 {
@@ -121,19 +123,23 @@ function buildMenu() {
 			    var visibilityFunc = mainMenus[index].visibilityFunc;
 			    var currentElements = getMenuElements(mainMenus[index].prefix);
 
+                currentElements.button.setAttribute("selected", true);
+
 				//Show current
-				visibilityFunc(currentElements.container);
-				visibilityFunc(currentElements.menu);
-				currentElements.button.setAttribute("selected", true);
+				if (visibilityFunc) {
+					visibilityFunc(currentElements.container);
+                    visibilityFunc(currentElements.menu);
+				}
+
 				//Hide others
 				var otherMenus = mainMenus.slice(0);
-                otherMenus.splice(index, 1);
-                for (var j = 0; j < otherMenus.length; j++) {
-                	var otherElements = getMenuElements(otherMenus[j].prefix);
-                	makeHidden(otherElements.container);
-                	makeHidden(otherElements.menu);
-                	otherElements.button.removeAttribute("selected");
-                }
+				otherMenus.splice(index, 1);
+				for (var j = 0; j < otherMenus.length; j++) {
+					var otherElements = getMenuElements(otherMenus[j].prefix);
+					makeHidden(otherElements.container);
+					makeHidden(otherElements.menu);
+					otherElements.button.removeAttribute("selected");
+				}
 
                 if (mainMenus[index].func !== null)
                 	mainMenus[index].func();
@@ -197,6 +203,71 @@ function uiLoop()
 	}
 }
 
+function togglePrograms(forceState) {
+
+	if (typeof forceState !== "undefined") {
+		programsExpanded = forceState
+	}
+
+	var homeLeft = $('#homeScreenLeft');
+	var homeRight = $('#homeScreenRight');
+	var homeZones = $('#homeScreenZoneList');
+	var homePrograms = $('#programsContainer');
+
+	if (!programsExpanded) {
+		toggleZones(true);
+		console.log('expanding programs');
+		homeLeft.style.display = "none";
+		homeZones.style.display = "none";
+		homeRight.style.width = '1280px';
+		homePrograms.style.display = "inline-block";
+		programsExpanded = true;
+
+	} else {
+		console.log('shrinking programs');
+		homeLeft.style.display = "inline-block";
+		homeZones.style.display = "inline-block";
+		homeRight.style.width = '';
+		programsExpanded = false;
+
+	}
+}
+
+function toggleZones(forceState) {
+
+	if (typeof forceState !== "undefined") {
+		zonesExpanded = forceState;
+	}
+
+	var homeLeft = $('#homeScreenLeft');
+	var homeRight = $('#homeScreenRight');
+	var homeZones = $('#homeScreenZoneList');
+	var homePrograms = $('#programsContainer');
+	var chartsTime = $('#chartsTimeSpan');
+    var chartsDays = $('#weatherChartsContainer');
+
+	if (!zonesExpanded) {
+		togglePrograms(true);
+		console.log('expanding zones');
+		homeLeft.style.display = "none";
+		homePrograms.style.display = "none";
+		homeZones.style.display = "inline-block";
+		chartsTime.style.display = "none";
+		chartsDays.style.display = "none";
+		homeZones.style.width = '1280px';
+		zonesExpanded = true;
+	} else {
+		console.log('shrinking zones');
+		homeLeft.style.display = "inline-block";
+		homeRight.style.display = "inline-block";
+		chartsTime.style.display = "inline-block";
+		chartsDays.style.display = "inline-block";
+		homePrograms.style.display = "inline-block";
+		homeZones.style.width = '';
+		zonesExpanded = false;
+	}
+}
+
 function uiStart()
 {
     buildMenu();
@@ -217,46 +288,11 @@ function uiStart()
 		$('#settingsBtn').onclick();
 		$('#settings3').onclick();
 	};
-	$('#home-programs-full').onclick = function() {
-		var p = $('#programsContainer');
-		var homeLeft = $('#homeScreenLeft');
-		var homeRight = $('#homeScreenRight');
-		var homeZones = $('#homeScreenZoneList');
-		if (isVisible(homeLeft)) {
-			console.log('expanding programs');
-			homeLeft.style.display = "none";
-			homeZones.style.display = "none";
-			homeRight.style.width = '1280px';
-		} else {
-			console.log('shrinking programs');
-			homeLeft.style.display = "inline-block";
-			homeZones.style.display = "inline-block";
-			homeRight.style.width = '';
-		}
-	};
-	$('#home-zones-full').onclick = function() {
-		var p = $('#homeScreenZoneList');
-		var homeLeft = $('#homeScreenLeft');
-		var homeRight = $('#programsContainer');
-		var homeZones = $('#homeScreenZoneList');
-		var chartsTime = $('#chartsTimeSpan');
-		var chartsDays = $('#weatherChartsContainer');
-		if (isVisible(homeLeft)) {
-			console.log('expanding zones');
-			homeLeft.style.display = "none";
-			homeRight.style.display = "none";
-			chartsTime.style.display = "none";
-			chartsDays.style.display = "none";
-			p.style.width = '1280px';
-		} else {
-			console.log('shrinking zones');
-			homeLeft.style.display = "inline-block";
-			homeRight.style.display = "inline-block";
-			chartsTime.style.display = "inline-block";
-			chartsDays.style.display = "inline-block";
-			p.style.width = '';
-		}
-	};
+
+	//1001 modifications
+	$('#programsBtn').onclick = function() { togglePrograms(); };
+	$('#zonesBtn').onclick = function() { toggleZones(); };
+
 	ui.login.login(function() {
 		window.ui.about.getDeviceInfo();
 

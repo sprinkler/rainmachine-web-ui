@@ -46,9 +46,6 @@ body.login {
   text-indent: -9999em;
   border: 1.1em solid rgba(207, 239, 255, 0.4);
   border-left: 1.1em solid #3399cc;
-  -webkit-transform: translateZ();
-  -ms-transform: translateZ();
-  transform: translateZ();
   -webkit-animation: load8 1.1s infinite linear;
   animation: load8 1.1s infinite linear;
 }
@@ -165,20 +162,6 @@ strong { font-weight: 700; }
   border: 1px solid #ddd;
   margin-bottom: 10px;
   width: 100%;
-}
-
-.expanded {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  margin: 100px;
-  height:100%;
-  margin-top: 0px;
-  min-width: 1024px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  z-index: 999;
 }
 
 /* Don't allow selection as moving zone sliders might select text around */
@@ -340,7 +323,6 @@ sup { font-size: 12px }
 }
 .icon, .playstopButton {
   font-family: RainMachine;
-  src: url('../font/rainmachine.woff');
   font-size: 25px;
   vertical-align: middle;
 }
@@ -1144,7 +1126,7 @@ td.right,
   width: 16px;
   height: 16px;
   background: url('../images/selected.png') no-repeat center;
-  padding-top: 0px;
+  padding-top: 0;
   border: 0px;
   margin-right: 50px;
   float: right;
@@ -1195,7 +1177,7 @@ td.right,
 .button.narrow { width: 60px }
 .button.grey {
   background-color: #eee;
-  padding: 0px 10px;
+  padding: 0 10px;
   width: 100px;
   margin-right: 20px;
 }
@@ -1230,8 +1212,8 @@ td.right,
 }
 .absolute {
   position: absolute;
-  bottom: 10;
-  right: 10;
+  bottom: 10px;
+  right: 10px;
 }
 .button:active,
 .button:focus { animation: flash 1s ease-in }
@@ -1269,6 +1251,7 @@ td.right,
 .icon-button.red > paper-ripple { color: #db4437; }
 .icon-button.blue > core-icon::shadow path { fill: #4285f4; }
 .icon-button.blue > paper-ripple { color: #4285f4; }
+
 .playstopButton {
   border:0px;
   font-size: 42px;
