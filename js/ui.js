@@ -217,7 +217,46 @@ function uiStart()
 		$('#settingsBtn').onclick();
 		$('#settings3').onclick();
 	};
-
+	$('#home-programs-full').onclick = function() {
+		var p = $('#programsContainer');
+		var homeLeft = $('#homeScreenLeft');
+		var homeRight = $('#homeScreenRight');
+		var homeZones = $('#homeScreenZoneList');
+		if (isVisible(homeLeft)) {
+			console.log('expanding programs');
+			homeLeft.style.display = "none";
+			homeZones.style.display = "none";
+			homeRight.style.width = '1280px';
+		} else {
+			console.log('shrinking programs');
+			homeLeft.style.display = "inline-block";
+			homeZones.style.display = "inline-block";
+			homeRight.style.width = '';
+		}
+	};
+	$('#home-zones-full').onclick = function() {
+		var p = $('#homeScreenZoneList');
+		var homeLeft = $('#homeScreenLeft');
+		var homeRight = $('#programsContainer');
+		var homeZones = $('#homeScreenZoneList');
+		var chartsTime = $('#chartsTimeSpan');
+		var chartsDays = $('#weatherChartsContainer');
+		if (isVisible(homeLeft)) {
+			console.log('expanding zones');
+			homeLeft.style.display = "none";
+			homeRight.style.display = "none";
+			chartsTime.style.display = "none";
+			chartsDays.style.display = "none";
+			p.style.width = '1280px';
+		} else {
+			console.log('shrinking zones');
+			homeLeft.style.display = "inline-block";
+			homeRight.style.display = "inline-block";
+			chartsTime.style.display = "inline-block";
+			chartsDays.style.display = "inline-block";
+			p.style.width = '';
+		}
+	};
 	ui.login.login(function() {
 		window.ui.about.getDeviceInfo();
 
