@@ -250,7 +250,7 @@ strong { font-weight: 700; }
   width: 574px;
   margin-left: 230px;
 }
-#inputStepDown,
+.inputStepDown,
 .programGraph {
   display: inline-block;
   vertical-align: middle;
@@ -259,7 +259,7 @@ strong { font-weight: 700; }
   height: 142px;
   width: 60%;
 }
-#inputStepDown { width: 42% }
+.inputStepDown { width: 362px }
 .program-start-stop,
 .zone-start-stop {
   display: inline-block;
