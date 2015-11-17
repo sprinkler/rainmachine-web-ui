@@ -56,16 +56,14 @@
 		<div>
 			<div id="logoutBtn" class="topButton logout"><span class="icon">L</span><br>Logout</div>
 			<div id="settingsBtn" class="topButton"><span class="icon">S</span><br>Settings</div>
-			<!--
 			<div id="programsBtn" class="topButton"><span class="icon">P</span><br>Programs</div>
 			<div id="zonesBtn" class="topButton"><span class="icon">Z</span><br>Zones</div>
-			-->
 			<div id="dashboardBtn" class="topButton"><span class="icon">H</span><br>Home</div>
 		</div>
 	</div>
-	<div class="mainContainer">
+	<div id="mainContainer">
 		<!--- Main Content -->
-		<div class="pageContent">
+		<div id="pageContent">
 			<!-- Top Navigation -->
 			<div class="pageLeftMenu">
 				<div id="dashboardMenu" class="dashboardMenu"></div>
@@ -115,14 +113,14 @@
 								</div>
 							</div>
 							<div id="homeScreenRight">
-								<div class="homeScreenProgramList">
+								<div id="chartsTimeSpan" class="homeScreenProgramList">
 									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:5px;">
 										<button id="chartsWeek" class="button label-gray center">Week</button>
 										<button id="chartsMonth" class="button label-gray center">Month</button>
 										<button id="chartsYear" class="button label-gray center">Year</button>
 									</div>
 								</div>
-								<div class="homeScreenProgramList">
+								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
 									<div class="weather-program-line" id="weatherChartDaysContainer">
 										<div class="program-title-next-run" style="text-align:right;vertical-align:bottom;color:#39c;height:42px;line-height:18px;font-size:12px;">Max Temp<br>Precipitation</div>
@@ -1005,7 +1003,7 @@
 				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
 			</div>
-			<div class="inputStepDown">
+			<div id="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
 			</div>
 			<div class="zone-start-stop">

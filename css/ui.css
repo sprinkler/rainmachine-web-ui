@@ -164,6 +164,7 @@ strong { font-weight: 700; }
   background-color: #fff;
   border: 1px solid #ddd;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .expanded {
@@ -209,11 +210,11 @@ strong { font-weight: 700; }
 }
 .program-title-next-run {
   height: 142px;
-  width: 226px;
+  width: 29%;
 }
 .zoneListLine {
   height: 70px;
-  width: 316px;
+  width: 38%;
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
@@ -249,16 +250,16 @@ strong { font-weight: 700; }
   width: 574px;
   margin-left: 230px;
 }
-.programGraph,
-.inputStepDown {
+#inputStepDown,
+.programGraph {
   display: inline-block;
   vertical-align: middle;
 }
 .programGraph {
   height: 142px;
-  width: 478px;
+  width: 60%;
 }
-.inputStepDown { width: 362px }
+#inputStepDown { width: 42% }
 .program-start-stop,
 .zone-start-stop {
   display: inline-block;
@@ -266,10 +267,11 @@ strong { font-weight: 700; }
   text-align: center;
 }
 .program-start-stop { 
-  width: 80px;
+  width: 10%;
   height: 70px;
+  padding-top: 30px;
 }
-.zone-start-stop { width: 98px }
+.zone-start-stop { width: 16% }
 .graphday,
 .today {
   display: inline-block;
@@ -320,7 +322,7 @@ sup { font-size: 12px }
   font-size: 14px;
   color: #888;
 }
-.zoneListName { width: 256px; }
+.zoneListName { width: 85%; }
 .overTop {
   position: fixed;
   top: 0;
@@ -373,7 +375,7 @@ h1 {
   font: 12px normal Arial, sans-serif;
   color: #888;
 }
-.mainContainer {
+#mainContainer {
   display: block;
   margin: 0 auto;
   /*center the div*/
@@ -397,7 +399,7 @@ h1 {
   border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
 }
-.pageContent {
+#pageContent {
   float: left;
   clear: none;
   width: 100%;

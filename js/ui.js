@@ -231,7 +231,7 @@ function uiStart()
 			console.log('shrinking programs');
 			homeLeft.style.display = "inline-block";
 			homeZones.style.display = "inline-block";
-			homeRight.style.width = '800px';
+			homeRight.style.width = '';
 		}
 	};
 	$('#home-zones-full').onclick = function() {
@@ -239,16 +239,22 @@ function uiStart()
 		var homeLeft = $('#homeScreenLeft');
 		var homeRight = $('#programsContainer');
 		var homeZones = $('#homeScreenZoneList');
+		var chartsTime = $('#chartsTimeSpan');
+		var chartsDays = $('#weatherChartsContainer');
 		if (isVisible(homeLeft)) {
 			console.log('expanding zones');
 			homeLeft.style.display = "none";
 			homeRight.style.display = "none";
+			chartsTime.style.display = "none";
+			chartsDays.style.display = "none";
 			p.style.width = '1280px';
 		} else {
 			console.log('shrinking zones');
 			homeLeft.style.display = "inline-block";
 			homeRight.style.display = "inline-block";
-			p.style.width = '800px';
+			chartsTime.style.display = "inline-block";
+			chartsDays.style.display = "inline-block";
+			p.style.width = '';
 		}
 	};
 	ui.login.login(function() {
