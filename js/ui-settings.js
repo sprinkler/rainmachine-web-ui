@@ -328,6 +328,23 @@ window.ui = window.ui || {};
 		};
 	}
 
+	//TODO clean up and make create/update for rain delay
+	function updateSnoozeTimer() {
+
+		var onDiv = $("#snoozeCurrentContent");
+
+		if(isVisible(onDiv)){
+			var raindelay = API.getRestrictionsRainDelay();
+			var rd = +raindelay.delayCounter;
+
+			if(rd > 0) {
+				var v = Util.secondsToHuman(rd);
+				var vdiv = $("#snoozeCurrentValue");
+				vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
+			}
+		}
+    }
+
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
 		var days = parseInt($("#waterHistoryDays").value);
@@ -551,5 +568,6 @@ window.ui = window.ui || {};
 	_settings.showRainDelay = showRainDelay;
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
+	_settings.updateSnoozeTimer = updateSnoozeTimer;
 
 } (window.ui.settings = window.ui.settings || {}));

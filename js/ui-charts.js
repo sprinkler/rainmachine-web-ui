@@ -182,7 +182,7 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 	} else {
 		// hide the spinner
         makeHidden($('#pageLoadSpinner'));
-        showError("Error loading Daily Stats !");
+        window.ui.main.showError("Error loading Daily Stats !");
 	}
 }
 
