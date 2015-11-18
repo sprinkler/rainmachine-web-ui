@@ -227,7 +227,7 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
   width: 542px;
-  margin-left: 262px;
+  margin-left: 264px;
 }
 .programListEdit {
   padding-top: 57px;
@@ -880,7 +880,8 @@ select {
   opacity: 0.3;
 }
 .master {
-  background-color: #ffdadf;
+  background-color: #E2E2E2;
+  margin-top: -10px;
 }
 .zoneIdle,
 .zonePending {
