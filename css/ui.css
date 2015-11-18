@@ -5,6 +5,13 @@
 body.login { 
   overflow: hidden
 }
+/* Declare RainMachine custom font START */
+@font-face {
+  font-family: 'RainMachine';
+  src: url('../font/rainmachine.woff');
+}
+/* Declare RainMachine custom font END */
+
 .loginContainer {
   display: none;
   z-index: 9999999;
@@ -122,11 +129,6 @@ h1.title {
 }
 b,
 strong { font-weight: 700; }
-/*
-#zones, #zonesMenu, #settings, #settingsMenu, #programs, #programsMenu {
-  display: none;
-}
-*/
 #settings,
 #settingsMenu { display: none; }
 
@@ -141,14 +143,14 @@ strong { font-weight: 700; }
   background-color: transparent;
   margin-right: 5px;
   vertical-align: top;
-  border: 0px;
+  border: 0;
 }
 #homeScreenRight {
   display: inline-block;
   width: 806px;
   background-color: transparent;
   vertical-align: top;
-  border: 0px;
+  border: 0;
 }
 #homeScreenZoneList,
 .homeScreenWaterSaved,
@@ -261,7 +263,7 @@ strong { font-weight: 700; }
   width: 64px;
   height: 142px;
   text-align: center;
-  padding: 0px 2px 5px 2px;
+  padding: 0 2px 5px 2px;
   margin-top: -5px;
 }
 .today { background-color: #f6f6f6 }
@@ -273,7 +275,7 @@ strong { font-weight: 700; }
 }
 .weatherIcon {
   display: block;
-  font-family: RainMachine;
+  font-family: 'RainMachine', Arial, sans-serif;
   font-size: 52px;
   width: 64px;
   height: 64px;
@@ -299,7 +301,7 @@ sup { font-size: 12px }
 .programListName {
   padding-top: 10px;
   font-size: 18px;
-  width: 210px;
+  width: 98%;
 }
 .programNextRun {
   font-size: 14px;
@@ -317,12 +319,8 @@ sup { font-size: 12px }
   z-index: 3;
 }
 /* Home screen end */
-@font-face {
-  font-family: RainMachine;
-  src: url('../font/rainmachine.woff');
-}
 .icon, .playstopButton {
-  font-family: RainMachine;
+  font-family: 'RainMachine', Arial, sans-serif;
   font-size: 25px;
   vertical-align: middle;
 }
@@ -401,7 +399,7 @@ h1 {
 }
 .helpText {
   display: block;
-  padding: 10px 0px;
+  padding: 10px 0;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   color: #888;
@@ -483,11 +481,10 @@ h1 {
 .addNew,
 .addNew:hover {
   display: block;
-  margin: 0 auto;
-  font-family: 'RainMachine';
+  font-family: 'RainMachine', Arial, sans-serif;
   font-size: 80px;
   text-align: center;
-  margin-top: 55px;
+  margin: 55px auto 0;
   color: #39c;
   padding: 1px;
   background-color: #fff;
@@ -558,7 +555,7 @@ td.saved {
   margin-left: 4%;
 }
 .noborder {
-  border: 0px;
+  border: 0;
 }
 .bordertop {
   border-top: 1px solid #ddd;
@@ -614,15 +611,15 @@ input[type="checkbox"]:checked {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
   background: #3399cc;
-  border-radius: 0px;
-  border: 0px solid #000101;
+  border-radius: 0;
+  border: 0 solid #000101;
 }
 .rangeSliderThumb {
   position: relative;
   top: -10px;
-  box-shadow: 1px 1px 2px #3399cc, 0px 0px 1px #47a3d1;
+  box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
   height: 20px;
   width: 46px;
@@ -636,7 +633,7 @@ input[type="checkbox"]:checked {
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
-  margin: 11.7px 0;
+  margin: 11px 0;
   height: 50px;
 }
 input[type=range]:focus {
@@ -646,13 +643,13 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
   background: #3399cc;
-  border-radius: 0px;
-  border: 0px solid #000101;
+  border-radius: 0;
+  border: 0 solid #000101;
 }
 input[type=range]::-webkit-slider-thumb {
-  box-shadow: 1px 1px 2px #3399cc, 0px 0px 1px #47a3d1;
+  box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
   height: 27px;
   width: 35px;
@@ -669,13 +666,13 @@ input[type=range]::-moz-range-track {
   width: 100%;
   height: 4px;
   cursor: pointer;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
   background: #3399cc;
-  border-radius: 0px;
-  border: 0px solid #000101;
+  border-radius: 0;
+  border: 0 solid #000101;
 }
 input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 2px #3399cc, 0px 0px 1px #47a3d1;
+  box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
   height: 27px;
   width: 35px;
@@ -684,8 +681,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
-/*IE custom input range START */
-
+/*/!*IE custom input range START *!/
 ::-ms-track {
   width: 100%;
   height: 4px;
@@ -696,18 +692,18 @@ input[type=range]::-moz-range-thumb {
 }
 ::-ms-fill-lower {
   background: #3399cc;
-  border: 0px solid #000101;
-  border-radius: 0px;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  border: 0 solid #000101;
+  border-radius: 0;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
 }
 ::-ms-fill-upper {
   background: #3399cc;
-  border: 0px solid #000101;
-  border-radius: 0px;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  border: 0 solid #000101;
+  border-radius: 0;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
 }
 ::-ms-thumb {
-  box-shadow: 1px 1px 2px #3399cc, 0px 0px 1px #47a3d1;
+  box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 1px solid rgba(51, 153, 204, 0.5);
   width: 35px;
   border-radius: 5px;
@@ -722,7 +718,7 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: #3399cc;
 }
-/*IE custom input range END */
+/!*IE custom input range END *!/*/
 
 input.typeRadio {
   border: 1px solid #eee;
@@ -731,8 +727,7 @@ input.typeRadio {
 }
 input.typeNumber,
 input.typeTime {
-  margin: 5px;
-  margin-left: 0;
+  margin: 5px 5px 5px 0;
   border: 1px solid #eee;
   padding: 5px 0 5px 5px;
   font-size: 16px;
@@ -743,16 +738,14 @@ input.typeTime {
   width: 180px;
 }
 input[type=file] {
-  padding: 10px;
-  padding-left: 0px;
+  padding: 10px 10px 10px 0;
   color: #ddd;
   border-bottom: 1px solid #f0f0f0;
   width: 100%;
   margin-bottom: 20px;
 }
 select {
-  background: #fff url('../images/arrow.png') no-repeat;
-  background-position: right center;
+  background: #fff url('../images/arrow.png') no-repeat right center;
   min-width: 180px;
   padding: 10px;
   font-size: 15px;
@@ -894,7 +887,6 @@ select {
   color: #0099ff;
   *-webkit-animation: rotation 2s infinite linear;
   animation: rotate 2s infinite linear;
-  animation: pulsate 1s ease-out;
   animation-iteration-count: infinite;
 }
 .zoneRunning,
@@ -955,15 +947,13 @@ select {
 .settingsBlockZones,
 .settingsBlockProgram {
   padding: 25px;
-  border: 0px solid #ddd;
+  border: 0 solid #ddd;
   text-align: left;
 }
 .programEdit {
   background-color: #fff;
   width: 70%;
-  margin: 0 auto;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin: 25px auto;
   border-radius: 10px;
   z-index: 3;
 }
@@ -1110,13 +1100,10 @@ td.right,
 /* DASHBOARD */
 /* Settings - Weather (START) */
 .weatherSource {
-  padding: 8px 0;
-  border-top: 0px solid #eee;
+  border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
-  background-image: url("../images/arrow_right.png");
-  background-position: right;
-  background-repeat: no-repeat;
-  padding-right: 10px;
+  background: url("../images/arrow_right.png") no-repeat right;
+  padding: 8px 10px 8px 0;
 }
 .weatherSource:hover {
   background-color: #ecf0f1;
@@ -1127,13 +1114,13 @@ td.right,
   height: 16px;
   background: url('../images/selected.png') no-repeat center;
   padding-top: 0;
-  border: 0px;
+  border: 0;
   margin-right: 50px;
   float: right;
 }
 #weatherSourcesEditContent:first-child div {
   vertical-align: middle;
-  padding: 8px 0px;
+  padding: 8px 0;
 }
 #weatherSourcesEditContent:first-child input[type="checkbox"] { margin-left: 10px }
 #weatherSourcesEditContent:first-child input[type="text"] {
@@ -1170,10 +1157,6 @@ td.right,
   color: #646464;
   text-transform: uppercase;
 }
-  .button > paper-ripple {
-    border-radius: 2px;
-    overflow: hidden;
-  }
 .button.narrow { width: 60px }
 .button.grey {
   background-color: #eee;
@@ -1184,19 +1167,19 @@ td.right,
 .button.blue {
   background-color: #39c;
   color: #fff;
-  padding: 0px 10px;
+  padding: 0 10px;
   width: 100px;
 }
 .button.red {
   background-color: red;
   color: #fff;
-  padding: 0px 10px;
+  padding: 0 10px;
   width: 100px;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
-  padding: 0px 10px;
+  padding: 0 10px;
   width: 100px;
 }
 .button.raised {
@@ -1228,32 +1211,8 @@ td.right,
   75% { opacity: 0 }
 }
 /* Icon Button */
-.icon-button {
-  position: relative;
-  display: inline-block;
-  width: 56px;
-  height: 56px;
-}
-.icon-button > core-icon {
-  margin: 16px;
-  transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.icon-button:hover > core-icon {
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
-}
-.icon-button > paper-ripple {
-  overflow: hidden;
-  color: #646464;
-}
-.icon-button.red > core-icon::shadow path { fill: #db4437; }
-.icon-button.red > paper-ripple { color: #db4437; }
-.icon-button.blue > core-icon::shadow path { fill: #4285f4; }
-.icon-button.blue > paper-ripple { color: #4285f4; }
-
 .playstopButton {
-  border:0px;
+  border:0;
   font-size: 42px;
   color: #3399cc;
   border-radius: 50%;
