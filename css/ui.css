@@ -260,6 +260,7 @@ strong { font-weight: 700; }
 .graphday,
 .today {
   display: inline-block;
+  vertical-align: top;
   width: 64px;
   height: 142px;
   text-align: center;
