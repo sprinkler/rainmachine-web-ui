@@ -761,31 +761,6 @@ select {
   height: 44px;
   -webkit-appearance: none;
 }
-.circle {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle !important;
-  width: 70px;
-  height: 70px;
-  font-size: 25px;
-  border-radius: 50%;
-  border: 2px solid #3399cc;
-  background-color: transparent;
-  outline: none;
-}
-.circle:hover {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle !important;
-  width: 70px;
-  height: 70px;
-  font-size: 25px;
-  border-radius: 50%;
-  border: 2px solid #3399cc;
-  background-color: #fff;
-  outline: none;
-  cursor: pointer;
-}
 .zonecircle {
   width: 20px;
   height: 20px;
@@ -904,40 +879,10 @@ select {
   display: inline-block;
   text-align: center;
   margin-right: 3px;
-  /**-webkit-animation: rotation 2s infinite linear;
-  animation: rotate 2s infinite linear;
-  animation: pulsate 1s ease-out;
-  animation-iteration-count: infinite;*/
 }
 .zoneRunning {
   color: #d23f31;
 }
-/**@-webkit-keyframes rotation { 
-  from { -webkit-transform: rotate(0deg) }
-  to { -webkit-transform: rotate(359deg) }
-}
-@keyframes rotate { 
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
-}
-@keyframes pulsate { 
-  0% {
-    transform: rotate(360deg);
-    opacity: 0.0;
-    transform: scale(.1);
-  }
-  50% {
-    opacity: 1;
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(0deg);
-    opacity: 0;
-    transform: scale(1.2);
-  }
-}
-*/
-
 .zonePending {
   color: #00B25C;
   animation: none;
@@ -1205,6 +1150,35 @@ td.right,
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+.parserRefresh {
+  display:none;
+  animation: refresh 1.5s infinite linear;
+  font-size: 14px;
+  margin: 10px;
+}
+.parserRefresh[state="running"] {
+  display: inline;
+}
+@-webkit-keyframes refresh {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes refresh {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 .button:active,
 .button:focus { animation: flash 1s ease-in }
