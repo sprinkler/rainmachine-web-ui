@@ -227,7 +227,7 @@
 										</tr>
 										<tr>
 											<td class="middle center">
-												<span class="cardTitle bold"id="snoozeCurrentValue"></span>
+												<span class="cardTitle bold" id="snoozeCurrentValue"></span>
 												<button id="snoozeStop" class="button label-red center">Stop</button>
 											</td>
 										</tr>
@@ -468,7 +468,7 @@
 												<div class="absolute full">
 													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
 													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-													<button id="weatherSourcesEditRun" class="button label-red center left ml20">Refresh Now <span class="icon animated" style="font-size: 20px;margin-left:5px;margin-top:-2px;vertical-align:middle;display:none;">R</span></button>
+													<button id="weatherSourcesEditRun" class="button label-red center left ml20">Refresh Now</button>
 												</div>
 											</div>
 											<!-- Weather Data Source EDIT (End) -->
@@ -1286,7 +1286,7 @@
 			<div class="weatherSource">
 				<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
-				<div><span class="subtitle" rm-id="weather-source-lastrun"></span></div>
+				<div><span class="subtitle" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
@@ -1304,7 +1304,7 @@
 		<div id="weather-sources-details-template">
 			<span class="bold" rm-id="weather-source-name"></span>
 			<span class="separator"></span>
-			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
 			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
