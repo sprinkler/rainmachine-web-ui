@@ -199,7 +199,7 @@ strong { font-weight: 700; }
 }
 .zoneListLine {
   height: 70px;
-  width: 38%;
+  width: 44%;
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
@@ -227,7 +227,7 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
   width: 542px;
-  margin-left: 262px;
+  margin-left: 264px;
 }
 .programListEdit {
   padding-top: 57px;
@@ -256,7 +256,7 @@ strong { font-weight: 700; }
   height: 70px;
   padding-top: 30px;
 }
-.zone-start-stop { width: 16% }
+.zone-start-stop { width: 10% }
 .graphday,
 .today {
   display: inline-block;
@@ -529,6 +529,7 @@ td.saved {
   color: #FF9700;
 }
 .restriction {
+  display: block;
   color: #FF0000;
   font-size: 11px;
 }
@@ -618,17 +619,22 @@ input[type="checkbox"]:checked {
 }
 .rangeSliderThumb {
   position: relative;
-  top: -10px;
+  top: -25px;
   box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
-  height: 20px;
-  width: 46px;
-  left: -46px;
+  height: 33px;
+  width: 50px;
   text-align: center;
-  border-radius: 5px;
+  font-weight: 500;
+  vertical-align: middle;
+  border-radius: 100%;
   background: #ffffff;
   cursor: pointer;
-  padding-top: 4px;
+  padding-top: 17px;
+}
+.rangeSliderThumb:hover {
+  background-color: #3399cc;
+  color: #f9f9f9;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -874,7 +880,8 @@ select {
   opacity: 0.3;
 }
 .master {
-  background-color: #ffdadf;
+  background-color: #E2E2E2;
+  margin-top: -10px;
 }
 .zoneIdle,
 .zonePending {
@@ -947,8 +954,9 @@ select {
 .settingsBlockZones,
 .settingsBlockProgram {
   padding: 25px;
-  border: 0 solid #ddd;
   text-align: left;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 .programEdit {
   background-color: #fff;
@@ -1217,7 +1225,7 @@ td.right,
   color: #3399cc;
   border-radius: 50%;
   cursor:pointer;
-  width: 70px;
+  width: 80px;
   margin: 0 auto;
 }
 .playstopButton[state="idle"] {
