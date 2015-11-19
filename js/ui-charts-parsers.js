@@ -168,6 +168,23 @@ function generateSpecificParsersChart(key) {
 		}
 	}
 
+	//Add mixer entry
+	if (chartsData.hasOwnProperty(key)) {
+		var mixerData = chartsData[key].data.slice(-7);
+        var mixerDates =  chartsData.days.slice(-7);
+        var mixerChartData = [];
+        for (var i = 0; i < mixerData.length; i++) {
+			mixerChartData.push([Date.parse(mixerDates[i]), mixerData[i]]);
+		}
+
+		chartSeries.push({
+			data: mixerChartData,
+			name: "Mixer " + key,
+			lineWidth: 3,
+			zoneAxis: 'x',
+		});
+	}
+
 	var todayTimestamp = new Date();
 	todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
 
