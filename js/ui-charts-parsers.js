@@ -179,7 +179,7 @@ function generateSpecificParsersChart(key) {
 
 		chartSeries.push({
 			data: mixerChartData,
-			name: "Mixer " + key,
+			name: "RainMachine Mixer",
 			lineWidth: 3,
 			zoneAxis: 'x',
 		});
@@ -226,7 +226,10 @@ function generateSpecificParsersChart(key) {
 function getParserName(id) {
 	for (var i = 0; i < Data.parsers.parsers.length; i++) {
 		if (Data.parsers.parsers[i].uid == id) {
-			return Data.parsers.parsers[i].name;
+			var name = Data.parsers.parsers[i].name;
+			var lw = name.lastIndexOf(" ");
+            var newName =  name.substring(0, lw); //Don't show "Parser" word in weather parsers
+			return newName;
 		}
 	}
 }
