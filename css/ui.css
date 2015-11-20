@@ -212,11 +212,9 @@ strong { font-weight: 700; }
 }
 .zoneListEdit, .programListEdit {
   display:none;
-  position:absolute;
   font-size: 1.1em;
   color: #646464;
   text-transform: uppercase;
-
   vertical-align: middle;
   text-align: right;
   float: right;  
@@ -226,14 +224,10 @@ strong { font-weight: 700; }
 .zoneListEdit {
   padding-top: 20px;
   height: 50px;
-  position: absolute;
-  right: 13%;
 }
 .programListEdit {
   padding-top: 57px;
   height: 85px;
-  position: absolute;
-  right: 13%;
 }
 .inputStepDown,
 .programGraph {
@@ -254,11 +248,11 @@ strong { font-weight: 700; }
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  float:right;
 }
 .program-start-stop { 
-  width: 10%;
   height: 70px;
-  padding-top: 30px;
+  padding-top: 50px;
 }
 .zone-start-stop { width: 10% }
 .graphday,
@@ -1205,7 +1199,7 @@ td.right,
   border-radius: 50%;
   cursor:pointer;
   width: 80px;
-  margin: 0 auto;
+  margin: 0 20px;
 }
 .playstopButton[state="idle"] {
   display:none;
