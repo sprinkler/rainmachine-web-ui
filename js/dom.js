@@ -279,5 +279,7 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		return maxValue;
 	}
 
-
+	this.isDragging = function() {
+		return mouseDown;
+	}
 }
