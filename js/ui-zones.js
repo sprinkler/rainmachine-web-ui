@@ -380,5 +380,6 @@ window.ui = window.ui || {};
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
+	_zones.uiElems = uiElems;
 
 } (window.ui.zones = window.ui.zones || {}));
