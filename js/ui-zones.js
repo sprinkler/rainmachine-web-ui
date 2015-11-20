@@ -75,10 +75,11 @@ window.ui = window.ui || {};
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
+			var za = Data.zoneAdvData.zones[i];
 			var elem = uiElems.zones[z.uid];
 
             elem.template.className="zone-line";
-			elem.template.data = z;
+			elem.template.data = za;
 
 			if (z.master)
 			{
@@ -379,5 +380,6 @@ window.ui = window.ui || {};
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
+	_zones.uiElems = uiElems;
 
 } (window.ui.zones = window.ui.zones || {}));

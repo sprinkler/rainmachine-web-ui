@@ -7,7 +7,18 @@ window.ui = window.ui || {};
 
 (function(_settings) {
 
-	var uiElems = {}
+	var uiElems = {};
+
+	var waterLogReason = {
+	    0: "Normal watering",
+        1: "Stopped by user",
+        2: "Restriction threshold exceeded",
+        3: "Freeze protect",
+        4: "Day restriction",
+        5: "Restriction out of day",
+        6: "Water surplus",
+        7: "Rain Sensors Activated"
+	};
 
 	function showWeather()
 	{
@@ -433,10 +444,14 @@ window.ui = window.ui || {};
 					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
 					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 					var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
+					var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
+					var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
 
 					zoneNameElem.textContent = "Zone " + zone.uid;
 					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
+					zoneReasonElem.textContent = waterLogReason[zone.flag];
+					zoneStartTimeElem.textContent = zone.cycles[0].startTime;
 
 					var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 					if (saved < 0) saved = 0;

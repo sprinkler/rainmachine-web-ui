@@ -184,11 +184,15 @@ window.ui = window.ui || {};
 					if (waterQueue.queue.length == 0) {
 						if (uiLastWateringState == true) {
 							uiLastWateringState = false;
+							//Hide STOP all button
+							makeHidden(window.ui.zones.uiElems.stopAll);
 						} else {
 							return;
 						}
 					} else {
 						uiLastWateringState = true;
+						//Show STOP all button
+						makeVisible(window.ui.zones.uiElems.stopAll);
 					}
 
 					window.ui.zones.showZonesSimple();
