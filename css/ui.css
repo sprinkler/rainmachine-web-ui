@@ -226,14 +226,14 @@ strong { font-weight: 700; }
 .zoneListEdit {
   padding-top: 20px;
   height: 50px;
-  width: 542px;
-  margin-left: 264px;
+  position: absolute;
+  right: 13%;
 }
 .programListEdit {
   padding-top: 57px;
   height: 85px;
-  width: 574px;
-  margin-left: 230px;
+  position: absolute;
+  right: 13%;
 }
 .inputStepDown,
 .programGraph {
@@ -243,6 +243,10 @@ strong { font-weight: 700; }
 .programGraph {
   height: 142px;
   width: 60%;
+}
+.programGraph[state="week"] {
+  height: 142px;
+  width: 478px;
 }
 .inputStepDown { width: 362px }
 .program-start-stop,
