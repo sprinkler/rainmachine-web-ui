@@ -265,6 +265,10 @@ window.ui = window.ui || {};
 				 	startedFromPrograms = false
 			}
 
+			//Don't update position/max value if user is dragging
+			if (controller.isDragging())
+				return;
+
 			if (seconds > controller.getMaxValue())
 				controller.setMaxValue(seconds);
 
