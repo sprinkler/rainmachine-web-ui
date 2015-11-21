@@ -248,11 +248,10 @@ strong { font-weight: 700; }
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  float:right;
 }
 .program-start-stop { 
   height: 70px;
-  padding-top: 50px;
+  width:0;
 }
 .zone-start-stop { width: 10% }
 .graphday,
@@ -1193,19 +1192,15 @@ td.right,
 }
 /* Icon Button */
 .playstopButton {
-  border:0;
+  border: 0;
   font-size: 42px;
-  color: #3399cc;
-  border-radius: 50%;
-  cursor:pointer;
-  width: 80px;
-  margin: 0 20px;
+  cursor: pointer;
+  padding: 14px 20px;
 }
 .playstopButton[state="idle"] {
   display:none;
 }
 .playstopButton[state="idle-programs"] {
-  display:inline;
   color:#3399cc;
 }
 @keyframes pound {

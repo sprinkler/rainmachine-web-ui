@@ -209,13 +209,16 @@ window.ui = window.ui || {};
 
             var editElem = $("#program-edit-" + p.uid);
             var startElem = $("#program-start-" + p.uid);
+            var progGraph = $("#programChartContainer-" + p.uid);
 
             if (isEditing) {
                 editElem.style.display = "none";
-                startElem.style.display = "inline";
+                startElem.style.display = "inherit";
+                progGraph.style.opacity = "inherit";
             } else {
-                editElem.style.display = "inline";
+                editElem.style.display = "inherit";
                 startElem.style.display = "none";
+                progGraph.style.opacity = "0.3";
             }
         }
 
