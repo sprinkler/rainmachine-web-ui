@@ -995,16 +995,16 @@
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="zone-line">
         	<div>
-				<div rm-id="zone-edit" class="zoneListEdit" style="float:right;"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
+				<div rm-id="zone-edit" class="zoneListEdit" id="zone-edit" style="float:right;"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
 			</div>
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
 			</div>
-			<div class="inputStepDown">
+			<div id="zoneSlider" class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
 			</div>
-			<div class="zone-start-stop">
+			<div id="playstopButton" class="zone-start-stop">
 				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
