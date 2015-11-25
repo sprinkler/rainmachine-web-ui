@@ -831,7 +831,9 @@ select {
   width: 25%;
   min-width: 257px;
   line-height: 24px;
-  min-height: 315px;
+}
+.listItemSettingsRestrictions {
+  width: 17.4%;
 }
 .listItem,
 .listItemSettingsZones,
@@ -843,6 +845,10 @@ select {
 .listItemSettingsZones:hover,
 .listItemSettingsRestrictions:hover {
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.24);
+}
+#restrictionsHourly {
+  text-align: left;
+  margin-bottom: 25px;
 }
 .listItemSettingsZones {
   min-height: 158px;

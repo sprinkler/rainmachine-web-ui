@@ -438,8 +438,8 @@
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
+												<di class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</di>
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
 												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
 											</td>
@@ -1240,17 +1240,6 @@
 		</div>
 		<!-- Template for Program Settings Zone Watering Times (End) -->
 
-		<!-- Template for Hourly Restriction (Begin) -->
-		<div id="restriction-entry" class="listItem">
-			<button rm-id="restriction-edit" class="edittxt right">Edit</button>
-			<div rm-id="restriction-name" class="cardTitle">From 14:00 To 18:00</div>
-			<div rm-id="restriction-info" class="cardSubtitle">Every Day</div>
-			<br><hr><br>
-			<br>&nbsp;<br>
-			<button rm-id="restriction-delete" class="delete">Delete</button>
-		</div>
-		<!-- Template for Hourly Restriction (End) -->
-
 
 		<!-- Template for New Hourly Restrictions (Start) -->
 		<div id="restrictions-hourly-new-teplate">
@@ -1367,15 +1356,20 @@
 		<!-- Template for Simple Watering History Day Program per Zone (End) -->
 
 		<!-- Template for Hourly Restriction (Start)-->
-		<div id="restriction-hourly-template" class="listItemSettingsRestrictions">
-			<div rm-id="restriction-hourly-name" class="bold"></div>
-			<span class="separator"></span>
-			<strong>Restriction Hours: </strong>
-			<div rm-id="restriction-hourly-interval"></div>
-			<div class="clear30"></div>
-			<strong>Weekdays:</strong>
-			<div rm-id="restriction-hourly-weekdays"></div>
-			<button rm-id="restriction-hourly-delete" class="button label-red center right" style="margin-top:25px;">Delete</button>
+		<div id="restriction-hourly-template" class="listItemSettingsRestrictions relative">
+			<div>
+				<div>
+					<div rm-id="restriction-hourly-name" class="bold" style="display:none;"></div>
+					<strong>Restriction Hours: </strong>
+					<div rm-id="restriction-hourly-interval"></div>
+					<div class="clear30"></div>
+					<strong>Weekdays:</strong>
+					<div rm-id="restriction-hourly-weekdays"></div>
+				</div>
+				<div class="bottom">
+					<button rm-id="restriction-hourly-delete" class="button label-red absolute center right" style="margin-top:25px;">Delete</button>
+				</div>
+			</div>
 		</div>
 		<!-- Template for Hourly Restriction (End)-->
 	</div>
