@@ -374,7 +374,6 @@ h1 {
   clear: none;
   width: 100%;
   background-color: #f2f2f2;
-  border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
 }
 #pageContent {
@@ -1035,7 +1034,7 @@ td.right,
   position: relative;
   width: 100%;
   height: auto;
-  overflow: auto;
+  overflow: hidden;
 }
 .charts {
   position: relative;
