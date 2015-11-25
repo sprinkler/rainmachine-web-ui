@@ -835,6 +835,9 @@ select {
 .listItemSettingsRestrictions {
   width: 17.4%;
 }
+.listItemSettings {
+  min-height: 335px;
+}
 .listItem,
 .listItemSettingsZones,
 .listItemSettingsRestrictions {
