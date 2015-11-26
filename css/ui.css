@@ -374,7 +374,6 @@ h1 {
   clear: none;
   width: 100%;
   background-color: #f2f2f2;
-  border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
 }
 #pageContent {
@@ -832,7 +831,12 @@ select {
   width: 25%;
   min-width: 257px;
   line-height: 24px;
-  min-height: 315px;
+}
+.listItemSettingsRestrictions {
+  width: 17.4%;
+}
+.listItemSettings {
+  min-height: 335px;
 }
 .listItem,
 .listItemSettingsZones,
@@ -844,6 +848,9 @@ select {
 .listItemSettingsZones:hover,
 .listItemSettingsRestrictions:hover {
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.24);
+}
+#restrictionsHourly {
+  text-align: left;
 }
 .listItemSettingsZones {
   min-height: 158px;
@@ -1035,7 +1042,7 @@ td.right,
   position: relative;
   width: 100%;
   height: auto;
-  overflow: auto;
+  overflow: hidden;
 }
 .charts {
   position: relative;
