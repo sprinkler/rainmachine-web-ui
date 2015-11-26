@@ -12,7 +12,7 @@ window.ui = window.ui || {};
 	var waterLogReason = {
 	    0: "Normal watering",
         1: "Stopped by user",
-        2: "Restriction threshold exceeded",
+        2: "Watering time below minimum threshold",
         3: "Freeze protect",
         4: "Day restriction",
         5: "Restriction out of day",
