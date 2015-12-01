@@ -216,6 +216,8 @@ function processDataWaterSaved() {
 		var day = waterLog[i].date;
 		var saved = (100 - parseInt((waterLog[i].realDuration / waterLog[i].userDuration) * 100));
         if (saved < 0) saved = 0;
+        if (saved > 100) saved = 100;
+
 		chartsData.waterSaved.insertAtDate(day, saved);
 	}
 }

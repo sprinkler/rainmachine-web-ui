@@ -455,6 +455,7 @@ window.ui = window.ui || {};
 
 					var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 					if (saved < 0) saved = 0;
+					if (saved > 100) saved = 100;
 					zoneSavedElem.textContent =  saved + " %";
 
 					programContainerElem.appendChild(zoneListTemplate);
