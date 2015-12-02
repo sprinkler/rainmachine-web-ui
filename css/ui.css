@@ -238,7 +238,7 @@ strong { font-weight: 700; }
   height: 142px;
   width: 60%;
 }
-.programGraph[state="week"] {
+.programGraph[state="weekly"] {
   height: 142px;
   width: 478px;
 }

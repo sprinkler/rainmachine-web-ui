@@ -53,6 +53,19 @@ window.ui = window.ui || {};
 			buttonElem.func = b.func;
 			buttonElem.onclick = function() {
 				for (var t = 0; t < buttonList.length; t++)	{
+					if (this.id === "chartsWeek") {
+						$('#weatherChartQPFMonthsContainer').style.display = "none";
+						$('#weatherChartTempMonthsContainer').style.display = "none";
+						$('#weatherChartDaysContainer').style.display = "inline-block";
+						window.ui.programs.onProgramsChartTypeChange(true);
+
+					} else {
+						$('#weatherChartDaysContainer').style.display = "none";
+						$('#weatherChartQPFMonthsContainer').style.display = "inline-block";
+						$('#weatherChartTempMonthsContainer').style.display = "inline-block";
+						window.ui.programs.onProgramsChartTypeChange(false);
+					}
+
 					var c = buttonList[t];
 					if (this.id === c.id) {
 						this.setAttribute("selected", "on");
@@ -60,17 +73,6 @@ window.ui = window.ui || {};
 						this.func();
 					} else {
 						$("#" + c.id).removeAttribute("selected");
-					}
-
-					if (this.id === "chartsWeek") {
-						$('#weatherChartQPFMonthsContainer').style.display = "none";
-						$('#weatherChartTempMonthsContainer').style.display = "none";
-						$('#weatherChartDaysContainer').style.display = "inline-block";
-					} else {
-						$('#weatherChartDaysContainer').style.display = "none";
-						$('#weatherChartQPFMonthsContainer').style.display = "inline-block";
-						$('#weatherChartTempMonthsContainer').style.display = "inline-block";
-
 					}
 				}
 			}

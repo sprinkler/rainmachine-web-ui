@@ -146,7 +146,6 @@ window.ui = window.ui || {};
 			return;
 		}
 
-        console.log(programElem);
 		programElem.template.data = p;
 		programElem.editElem.data = p;
 		programElem.startElem.data = p;
@@ -684,9 +683,24 @@ window.ui = window.ui || {};
         }
     }
 
+    function onProgramsChartTypeChange(isWeekly) {
+        for (var id in uiElemsAll.programs) {
+            var graphElem = uiElemsAll.programs[id].graphElem;
+             if (isWeekly) {
+                graphElem.setAttribute("state", "weekly");
+             } else {
+                graphElem.removeAttribute("state");
+             }
+
+             console.log(graphElem.getAttribute("state"));
+        }
+    }
+
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
+	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
 } (window.ui.programs = window.ui.programs || {}));
