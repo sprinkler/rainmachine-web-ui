@@ -685,7 +685,12 @@ function generateDailyWeatherChart() {
 			qpf = qpf.toFixed(1)
 		} catch(e) {}
 
-		weatherQPFElem.textContent = qpf;
+		if (qpf) {
+			weatherQPFElem.textContent = qpf;
+		} else  {
+			weatherQPFElem.textContent = "--";
+		}
+
 
 
 		containerDiv.appendChild(weatherTemplate);
