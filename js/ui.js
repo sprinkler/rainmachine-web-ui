@@ -207,6 +207,11 @@ window.ui = window.ui || {};
 	}
 
 	function showDashboard() {
+		window.ui.programs.onProgramsChartTypeChange(true);
+		$('#weatherChartQPFMonthsContainer').style.display = "none";
+		$('#weatherChartTempMonthsContainer').style.display = "none";
+		$('#weatherChartDaysContainer').style.display = "inline-block";
+		loadWeeklyCharts();
 		togglePrograms(true);
 		toggleZones(true);
 	}
