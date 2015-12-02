@@ -168,6 +168,7 @@ window.ui = window.ui || {};
 			for (var id in uiElems.zones) {
 				var elem = uiElems.zones[id];
 				elem.editElem.style.display = "none";
+                elem.timerElem.style.opacity = "inherit";
 			}
 			uiElems.editAll.textContent = "Edit";
 			uiElems.editAll.isEditing = false;
@@ -175,7 +176,9 @@ window.ui = window.ui || {};
 		} else {
 			for (var id in uiElems.zones) {
 				var elem = uiElems.zones[id];
-				elem.editElem.style.display = "inline";
+				elem.stopElem.style.display = "none";
+				elem.editElem.style.display = "inherit";
+				elem.timerElem.style.opacity = "0.3";
 			}
 			uiElems.editAll.textContent = "Done";
 			uiElems.editAll.isEditing = true;
@@ -231,8 +234,8 @@ window.ui = window.ui || {};
 				break;
 		}
 
-		//Don't show buttons for master or inactive zones
-		if (zone.master || !zone.active) {
+		//Don't show buttons for master or inactive zones or when editing zones
+		if (zone.master || !zone.active || uiElems.editAll.isEditing) {
 			makeHidden(elem.stopElem);
 		}
 	}

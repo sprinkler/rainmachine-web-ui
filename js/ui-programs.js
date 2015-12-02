@@ -71,7 +71,7 @@ window.ui = window.ui || {};
 			var programElem = uiElemsAll.programs[p.uid];
 
 			//create
-			if (typeof programElem === undefined || programElem === null) {
+			if (typeof programElem === "undefined" || programElem === null) {
 				createProgramElems(p);
 			}
 
@@ -82,8 +82,8 @@ window.ui = window.ui || {};
 
 		//remove programs that no longer exists
 		for (var id in uiElemsAll.programs) {
-			if (typeof foundPrograms[id] === undefined || foundPrograms[id] === null) {
-				console.error("Cannot find program id %d in uiElemsAll list will remove from DOM", p.uid);
+			if (typeof foundPrograms[id] === "undefined" || foundPrograms[id] === null) {
+				console.info("Cannot find program id %d in uiElemsAll list will remove from DOM", p.uid);
 				removeProgramElems(id);
 			}
 		}
@@ -120,14 +120,14 @@ window.ui = window.ui || {};
 	function removeProgramElems(id) {
 		var programElem = uiElemsAll.programs[id];
 
-		if (typeof programElem === undefined || programElem === null) {
+		if (typeof programElem === "undefined" || programElem === null) {
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
 			return;
 		}
 
 		var domElem = $('#' + programElem.template.id);
 
-		if (typeof domElem === undefined || domElem === null) {
+		if (typeof domElem === "undefined" || domElem === null) {
 			console.error("Cannot find DOM element for program id %d", p.uid);
 			return;
 		}
@@ -141,7 +141,7 @@ window.ui = window.ui || {};
 	function updateProgram(p) {
 		var programElem = uiElemsAll.programs[p.uid];
 
-		if (typeof programElem === undefined || programElem === null) {
+		if (typeof programElem === "undefined" || programElem === null) {
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
 			return;
 		}
@@ -163,7 +163,7 @@ window.ui = window.ui || {};
 			} else if (p.status == ProgramStatus.Pending) {
 				programElem.startElem.textContent = "W";
 				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "running");
+				programElem.startElem.setAttribute("state", "pending");
 			} else if (p.status == ProgramStatus.NotRunning) {
 				programElem.startElem.textContent = "Q";
 				programElem.startElem.start = true;
@@ -646,7 +646,7 @@ window.ui = window.ui || {};
 
     function onDelete() {
         if(selectedProgram) {
-            console.log("TODO: delete program ", selectedProgram.uid);
+            console.log("delete program ", selectedProgram.uid);
             API.deleteProgram(selectedProgram.uid);
         }
         closeProgramSettings();
@@ -655,7 +655,6 @@ window.ui = window.ui || {};
 
     function onSave() {
         var data = collectData();
-        console.log("TODO: save: ", data);
 
         if(data.uid) {
             API.setProgram(data.uid, data);
@@ -684,9 +683,24 @@ window.ui = window.ui || {};
         }
     }
 
+    function onProgramsChartTypeChange(isWeekly) {
+        for (var id in uiElemsAll.programs) {
+            var graphElem = uiElemsAll.programs[id].graphElem;
+             if (isWeekly) {
+                graphElem.setAttribute("state", "weekly");
+             } else {
+                graphElem.removeAttribute("state");
+             }
+
+             console.log(graphElem.getAttribute("state"));
+        }
+    }
+
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
+	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
 } (window.ui.programs = window.ui.programs || {}));
