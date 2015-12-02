@@ -163,7 +163,7 @@ window.ui = window.ui || {};
 			} else if (p.status == ProgramStatus.Pending) {
 				programElem.startElem.textContent = "W";
 				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "running");
+				programElem.startElem.setAttribute("state", "pending");
 			} else if (p.status == ProgramStatus.NotRunning) {
 				programElem.startElem.textContent = "Q";
 				programElem.startElem.start = true;
