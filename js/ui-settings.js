@@ -14,10 +14,10 @@ window.ui = window.ui || {};
         1: "Stopped by user",
         2: "Watering time below minimum threshold",
         3: "Freeze protect",
-        4: "Day restriction",
+        4: "Day/Month restriction",
         5: "Restriction out of day",
         6: "Water surplus",
-        7: "Rain Sensors Activated"
+        7: "Rain sensor activated"
 	};
 
 	function showWeather()
@@ -128,10 +128,13 @@ window.ui = window.ui || {};
 
 			nameElem.textContent = parserName;
 
-			if (p.lastRun) {
-				lastRunElem.textContent = Util.sinceDateAsText(p.lastRun) + " ago";
+			if (p.lastKnownError === "") {
+				if (p.lastRun !== null)
+					lastRunElem.textContent = "Success";
+				else
+					lastRunElem.textContent = "Never";
 			} else {
-				lastRunElem.textContent = "Never";
+				lastRunElem.textContent = "ERROR: " + p.lastKnownError;
 			}
 
 			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
@@ -451,7 +454,11 @@ window.ui = window.ui || {};
 					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
 					zoneReasonElem.textContent = waterLogReason[zone.flag];
-					zoneStartTimeElem.textContent = zone.cycles[0].startTime;
+					try {
+						zoneStartTimeElem.textContent = zone.cycles[0].startTime.split(" ")[1];
+					} catch(e) {}
+
+
 
 					var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 					if (saved < 0) saved = 0;
