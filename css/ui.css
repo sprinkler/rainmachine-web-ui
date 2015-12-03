@@ -103,7 +103,7 @@ h1.title {
 }
 .w250 {
   display: inherit;
-  width: 180px;
+  width: 320px;
 }
 .mr { margin-right: 60px; }
 .mr10 { margin-right: 10px; }
@@ -1057,6 +1057,9 @@ td.right,
 }
 /* DASHBOARD */
 /* Settings - Weather (START) */
+#weatherSourcesList {
+  min-width: 580px;
+}
 .weatherSource {
   border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
