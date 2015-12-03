@@ -156,7 +156,8 @@ strong { font-weight: 700; }
 .homeScreenWaterSaved,
 .homeScreenDataSource,
 .homeScreenWaterLog,
-.homeScreenProgramList
+.homeScreenProgramList,
+.homeScreenDeviceStatus
  {
   display: block;
   padding-top: 5px;
@@ -171,7 +172,7 @@ strong { font-weight: 700; }
   user-select: none;
   -webkit-user-select: none;
 }
-.homeScreenDataSourceItem { padding: 10px }
+.homeScreenDataSourceItem, .DeviceStatusSourceItem { padding: 10px }
 .wateringLogDayNumber,
 .wateringLogProgramsContainer { padding-left: 10px }
 .wateringLogProgramsContainer { display: none }
@@ -564,6 +565,9 @@ td.saved {
 }
 .red {
   color: #ff0000;
+}
+.gray{
+  color:#888;
 }
 .separator {
   margin-top: 5px;
