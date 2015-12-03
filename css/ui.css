@@ -404,8 +404,8 @@ h1 {
 }
 .weatherPercent {
   display: block;
-  margin-bottom: 30px;
-  font-size: 64px;
+  margin-bottom: 25px;
+  font-size: 50px;
   text-align: center;
   color: #39c;
 }
@@ -528,7 +528,7 @@ td.saved {
 .restriction {
   display: block;
   color: #FF0000;
-  font-size: 11px;
+  font-size: 14px;
 }
 .restrictionList {
   display: inline;
@@ -836,7 +836,7 @@ select {
   width: 17.4%;
 }
 .listItemSettings {
-  min-height: 335px;
+  min-height: 295px;
 }
 .listItem,
 .listItemSettingsZones,
