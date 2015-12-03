@@ -856,11 +856,10 @@ select {
   min-height: 158px;
   float: left;
 }
-.inactive {
+.inactive, .master {
   opacity: 0.3;
 }
 .master {
-  background-color: #E2E2E2;
   margin-top: -10px;
 }
 .zoneIdle,
