@@ -31,12 +31,15 @@ window.ui = window.ui || {};
 
 		var rsElem = $("#rainSensitivity");
 		var wsElem = $("#windSensitivity");
+		var fcElem = $("#fieldCapacity");
 
 		var rsSaveElem = $("#rainSensitivitySave");
 		var wsSaveElem = $("#windSensitivitySave");
+		var fcSaveElem = $("#fieldCapacitySave");
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
+		var fcDefaultElem = $("#fieldCapacityDefault")
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
@@ -44,6 +47,9 @@ window.ui = window.ui || {};
 
 		wsElem.value = parseInt(ws * 100);
 		wsElem.oninput();
+
+		fcElem.value = parseInt(fc);
+		fcElem.oninput();
 
 		rsSaveElem.onclick = function() {
 			var rsNew = +rsElem.value/100.0;
@@ -62,6 +68,16 @@ window.ui = window.ui || {};
 				var data = {windSensitivity: wsNew};
 				API.setProvision(null, data);
 				console.log("Set Wind Sensitivity: %f",  wsNew);
+			}
+		};
+
+		fcSaveElem.onclick = function() {
+			var fcNew = +fcElem.value;
+			if (fcNew != rs)
+			{
+				var data = {wsDays: fcNew};
+				API.setProvision(null, data);
+				console.log("Set Field Capacity: %f",  fcNew);
 			}
 		};
 
