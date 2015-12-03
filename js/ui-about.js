@@ -86,8 +86,10 @@ window.ui = window.ui || {};
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
 
-		footerInfoDiv.textContent = "Rainmachine " + Data.provision.api.swVer + "  Uptime: " + Data.diag.uptime +
-		 " CPU Usage " + Data.diag.cpuUsage.toFixed(2) + " %";
+		$("#homeVersion").textContent = Data.provision.api.swVer;
+        $("#homeAP").textContent = Data.provision.wifi.ssid;
+        $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
+        $("#homeUptime").textContent = Data.diag.uptime;
 
 		return true;
 	}

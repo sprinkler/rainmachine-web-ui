@@ -111,23 +111,28 @@
 										<!--- weather-sources-simple-template -->
 									</div>
 								</div>
+
 								<div class="homeScreenDeviceStatus">
 									<h1 class="title">Device Status</h1>
-									<!-- dummy -->
 									<div class="DeviceStatusSourceItem">
-										<div rm-id="device-status" class="right gray">4.0.612</div>
-										<div rm-id="device-status-name" class="homeScreenDataSourceName">Firmware version</div>
+										<div id="homeVersion" class="right gray"></div>
+										<div>Firmware</div>
 									</div>
 									<div class="DeviceStatusSourceItem">
-										<div rm-id="device-status" class="right gray">1%</div>
-										<div rm-id="device-status-name" class="homeScreenDataSourceName">CPU usage</div>
+										<div id="homeUptime" class="right gray"></div>
+										<div>Uptime</div>
 									</div>
-									<!-- end dummy -->
-									<div id="DeviceStatusSimpleList">
-										<!--- device-status-simple-template -->
+									<div class="DeviceStatusSourceItem">
+										<div id="homeCPU" class="right gray"></div>
+										<div>CPU Usage</div>
+									</div>
+									<div class="DeviceStatusSourceItem">
+										<div id="homeAP" class="right gray"></div>
+										<div>SSID</div>
 									</div>
 								</div>
 							</div>
+
 							<div id="homeScreenRight">
 								<div id="chartsTimeSpan" class="homeScreenProgramList">
 									<div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:5px;">
@@ -1324,15 +1329,6 @@
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
 
-		<!-- Template for Device Status (dashboard) (Start) -->
-		<div id="home-device-status">
-			<div class="DeviceStatusSourceItem">
-				<div rm-id="device-status" class="right gray"></div>
-				<div rm-id="device-status-name" class="homeScreenDataSourceName"></div>
-			</div>
-		</div>
-		<!-- Template for Device Status (dashboard) (End) -->
-
 		<!-- Template for Weather Data Sources Simple (dashboard) (Start) -->
 		<div id="weather-sources-simple-template">
 			<div class="homeScreenDataSourceItem">
@@ -1377,7 +1373,6 @@
 			<div rm-id="wateringLogZoneSavedReason" class="historyZoneItem"></div>
 		</div>
 		<!-- Template for Watering History Day Program per Zone (End) -->
-
 
 		<!-- Simple Watering History Templates -->
 
