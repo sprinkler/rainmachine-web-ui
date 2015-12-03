@@ -84,7 +84,7 @@
 				<div id="dummy">
 					<!-- dummy container used for dashboard submenus show/hide as dashboard doesn't have real submenus -->
 				</div>
-					<div id="pageLoadSpinner" class="full center"><div class="loader"></div>Hold on! We are gathering important information from your RainMachine device.<br>It could take some time</div>
+					<div id="pageLoadSpinner" class="full center"><div class="loader"></div><h1>Hold on!</h1>We are loading an important amount of data from the RainMachine device.</div>
 
 				<div id="dashboard" class="dashboard" style="display: none;">
 						<div class="homeScreenMain">
@@ -113,20 +113,21 @@
 								</div>
 
 								<div class="homeScreenDeviceStatus">
-									<h1 class="title">Device Status</h1>
-									<div class="DeviceStatusSourceItem">
+									<button id="device-status-more" class="button label-grey center right">More</button>
+									<h1 class="title">About</h1>
+									<div class="deviceStatusItem">
 										<div id="homeVersion" class="right gray"></div>
-										<div>Firmware</div>
+										<div>Firmware version</div>
 									</div>
-									<div class="DeviceStatusSourceItem">
+									<div class="deviceStatusItem">
 										<div id="homeUptime" class="right gray"></div>
 										<div>Uptime</div>
 									</div>
-									<div class="DeviceStatusSourceItem">
+									<div class="deviceStatusItem">
 										<div id="homeCPU" class="right gray"></div>
 										<div>CPU Usage</div>
 									</div>
-									<div class="DeviceStatusSourceItem">
+									<div class="deviceStatusItem">
 										<div id="homeAP" class="right gray"></div>
 										<div>SSID</div>
 									</div>
