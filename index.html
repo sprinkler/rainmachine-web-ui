@@ -90,7 +90,7 @@
 						<div class="homeScreenMain">
 							<div id="homeScreenLeft" style="display:inline-block;">
 								<div class="homeScreenWaterSaved">
-									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
+									<h1 id="waterSavedTitle" class="title center">Water saved this week</h1>
 									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
 									</div>
 								</div>
@@ -459,101 +459,102 @@
 						</div>
 
 						<div id="weather" style="display: none;">
-							<div class="settingsBlock center">
-											<div class="listItemSettings relative" style="width:47%;">
-												<div>
-													<div class="bold">Rain Sensitivity</div>
-													<span class="separator"></span>
-													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
-													<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;margin-bottom:60px;clear:both;font-size:64px;text-align:center;color:#39c;">80</output>
-													<script>
-														function outputUpdateRain(rainsensitivity) {
-														document.querySelector('#outputRainSensitivity').value = rainsensitivity;
-														}
-														</script>
-													<div class="absolute">
-														<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
-														<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right: 10px;">Default</button>
-													</div>
-												</div>
-											</div>
-
-											<div class="listItemSettings relative" style="width:46%;">
-												<div>
-													<div class="bold">Wind Sensitivity</div>
-													<span class="separator"></span>
-													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
-													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
-														<span class="helpText">
-														0-33% Little or no wind exposure.<br>
-	                                                    33-75% Urban areas + trees (Default).<br>
-	                                                    75-100% Full wind exposure, open fields.
-														</span>
-													<script>
-														function outputUpdateWind(windsensitivity) {
-														document.querySelector('#outputWindSensitivity').value = windsensitivity;
-														}
-														</script>
-
-													<div class="absolute">
-														<button id="windSensitivitySave" class="button label-blue center right">Save</button>
-														<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right: 10px;">Default</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
 							<div id="weatherDataSources">
-									<div class="settingsBlock center">
-										<div class="center full" id="weatherContentCards">
-											<h1 class="title">Data Sources</h1>
-											<div class="listItemSettings relative" style="width:96%;">
-												<!-- Weather Data Source EDIT (Begin) -->
-												<div id="weatherSourcesEdit" class="hidden">
-													<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
-													<div style="height:40px;">&nbsp;</div>
-													<div class="absolute full">
-														<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
-														<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-														<button id="weatherSourcesEditRun" class="button label-red center left ml20">Refresh Now</button>
-													</div>
+								<div class="settingsBlock center">
+									<div class="center full" id="weatherContentCards">
+										<h1 class="title">Data Sources</h1>
+										<div class="listItemSettings relative" style="width:96%;">
+											<!-- Weather Data Source EDIT (Begin) -->
+											<div id="weatherSourcesEdit" class="hidden">
+												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
+												<div style="height:40px;">&nbsp;</div>
+												<div class="absolute full">
+													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
+													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
+													<button id="weatherSourcesEditRun" class="button label-red center left ml20">Refresh Now</button>
 												</div>
-												<!-- Weather Data Source EDIT (End) -->
+											</div>
+											<!-- Weather Data Source EDIT (End) -->
 
-												<!-- Weather Data Source UPLOAD (Begin) -->
-												<div id="weatherSourcesUpload" class="hidden">
-													<div class="bold">Add new weather data source</div>
-													<span class="separator"></span>
-													<input type="file" id="weatherSourcesUploadFile">
-													<br>
-													<div id="weatherSourcesUploadStatus">Please select a *.py or *.pyc file</div>
-													<div class="absolute">
-														<button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
-														<button id="weatherSourcesUploadClose" class="button label-gray center right">Close</button>
-													</div>
+											<!-- Weather Data Source UPLOAD (Begin) -->
+											<div id="weatherSourcesUpload" class="hidden">
+												<div class="bold">Add new weather data source</div>
+												<span class="separator"></span>
+												<input type="file" id="weatherSourcesUploadFile">
+												<br>
+												<div id="weatherSourcesUploadStatus">Please select a *.py or *.pyc file</div>
+												<div class="absolute">
+													<button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
+													<button id="weatherSourcesUploadClose" class="button label-gray center right">Close</button>
 												</div>
-												<!-- Weather Data Source UPLOAD (End) -->
-												<div id="weatherSourcesList">
-													<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
-														<div class="bold right" style="margin-right:40px;">Enabled</div>
-														<div class="bold left w250">Weather Source</div>
-														<div class="bold">Last Run</div>
-													</div>
-													<div  id="weatherDataSourcesList">
-														<!--- weather-sources-template -->
-													</div>
-													<br><br><br>
-													<div class="absolute full">
-														<button id="weatherSourcesAdd" class="button label-grey center right">Add New</button>
-														<button id="weatherSourcesRun" class="button label-red center left ml20">Refresh All</button>
-													</div>
+											</div>
+											<!-- Weather Data Source UPLOAD (End) -->
+											<div id="weatherSourcesList">
+												<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
+													<div class="bold right" style="margin-right:40px;">Enabled</div>
+													<div class="bold left w250">Weather Source</div>
+													<div class="bold">Last Run</div>
+												</div>
+												<div  id="weatherDataSourcesList">
+													<!--- weather-sources-template -->
+												</div>
+												<br><br><br>
+												<div class="absolute full">
+													<button id="weatherSourcesAdd" class="button label-grey center right">Add New</button>
+													<button id="weatherSourcesRun" class="button label-red center left ml20">Refresh All</button>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+
+								<div class="settingsBlock center">
+										<div class="listItemSettings relative" style="width:47%;">
+											<div>
+												<div class="bold">Rain Sensitivity</div>
+												<span class="separator"></span>
+												<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
+												<output for="rainSensitivity" id="outputRainSensitivity" style="display:block;margin-bottom:60px;clear:both;font-size:64px;text-align:center;color:#39c;">80</output>
+												<script>
+													function outputUpdateRain(rainsensitivity) {
+													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
+													}
+													</script>
+												<div class="absolute">
+													<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
+													<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right: 10px;">Default</button>
+												</div>
+											</div>
+										</div>
+
+										<div class="listItemSettings relative" style="width:46%;">
+											<div>
+												<div class="bold">Wind Sensitivity</div>
+												<span class="separator"></span>
+												<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
+												<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
+													<span class="helpText">
+													0-33% Little or no wind exposure.<br>
+                                                    33-75% Urban areas + trees (Default).<br>
+                                                    75-100% Full wind exposure, open fields.
+													</span>
+												<script>
+													function outputUpdateWind(windsensitivity) {
+													document.querySelector('#outputWindSensitivity').value = windsensitivity;
+													}
+													</script>
+
+												<div class="absolute">
+													<button id="windSensitivitySave" class="button label-blue center right">Save</button>
+													<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right: 10px;">Default</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
 								<!-- Weather Data Source Comparison Graphs (Begin) -->
-								<div  style="margin-top:20px;">
+								<div  style="margin-top:60px;">
 									<table cellspacing="10" cellpadding="0" class="full" height="500">
 										<tr valign="top">
 											<th>
