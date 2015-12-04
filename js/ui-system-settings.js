@@ -8,6 +8,8 @@ window.ui = window.ui || {};
 (function(_system) {
 
 	var systemSettingsView = null;
+	var deviceDateTime = null;
+	var deviceDateTimeTimer = null;
 
 	function loadView() {
 		systemSettingsView= {
@@ -119,12 +121,9 @@ window.ui = window.ui || {};
 
 
 		Data.timeDate = API.getDateTime();
-		var fields = Util.appDateToFields(Data.timeDate.appDate);
-
-		systemSettingsView.Date.value = fields.date;
-		systemSettingsView.Hour.value = fields.hour;
-		systemSettingsView.Minute.value = fields.minute;
-		systemSettingsView.Seconds.value = fields.seconds;
+		deviceDateTime = new Date(Data.timeDate.appDate);
+		clearInterval(deviceDateTimeTimer);
+		deviceDateTimeTimer = setInterval(showDeviceDateTime, 1000);
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
@@ -247,6 +246,21 @@ window.ui = window.ui || {};
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
 		API.setLogLevel(level);
+	}
+
+	function showDeviceDateTime()
+	{
+		//Month/Day should have a leading 0
+		var dateString = deviceDateTime.getFullYear() + "-" +
+		 				('0' + (deviceDateTime.getMonth() + 1)).slice(-2) + '-' +
+						('0' + deviceDateTime.getDate()).slice(-2)
+
+		systemSettingsView.Date.value = dateString;
+		systemSettingsView.Hour.value = deviceDateTime.getHours();
+		systemSettingsView.Minute.value = deviceDateTime.getMinutes();
+		systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+
+		deviceDateTime.setSeconds(deviceDateTime.getSeconds() - 1);
 	}
 
 	function buildTimeZoneSelect(container)
