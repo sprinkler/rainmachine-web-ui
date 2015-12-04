@@ -292,10 +292,17 @@ window.ui = window.ui || {};
 			Util.redirectHome(location);
 		};
 
+		//Edit button for dashboard weather data
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings3').onclick();
 		};
+
+		//More button for dashboard device status
+		$("#device-status-more").onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings5').onclick();
+        };
 
 		ui.login.login(function() {
 			window.ui.about.getDeviceInfo();
