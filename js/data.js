@@ -32,7 +32,7 @@ Data.waterLogCustom = null;
 Data.waterLogSimulated = null;
 Data.waterLogSimple = null;
 Data.dateTime = null;
-Data.uiVer = "0.12-beta";
+Data.uiVer = "1.0-beta";
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;
