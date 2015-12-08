@@ -260,7 +260,7 @@ window.ui = window.ui || {};
 		systemSettingsView.Minute.value = deviceDateTime.getMinutes();
 		systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
 
-		deviceDateTime.setSeconds(deviceDateTime.getSeconds() - 1);
+		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
 	}
 
 	function buildTimeZoneSelect(container)
