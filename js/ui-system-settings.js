@@ -8,6 +8,8 @@ window.ui = window.ui || {};
 (function(_system) {
 
 	var systemSettingsView = null;
+	var deviceDateTime = null;
+	var deviceDateTimeTimer = null;
 
 	function loadView() {
 		systemSettingsView= {
@@ -47,6 +49,8 @@ window.ui = window.ui || {};
 			ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 
 			//Advanced Settings
+			AlexaSet: $("#systemSettingsAlexaSet"),
+			Alexa: $("#systemSettingsAlexa"),
 			SSHSet: $("#systemSettingsSSHSet"),
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
@@ -119,12 +123,9 @@ window.ui = window.ui || {};
 
 
 		Data.timeDate = API.getDateTime();
-		var fields = Util.appDateToFields(Data.timeDate.appDate);
-
-		systemSettingsView.Date.value = fields.date;
-		systemSettingsView.Hour.value = fields.hour;
-		systemSettingsView.Minute.value = fields.minute;
-		systemSettingsView.Seconds.value = fields.seconds;
+		deviceDateTime = new Date(Data.timeDate.appDate);
+		clearInterval(deviceDateTimeTimer);
+		deviceDateTimeTimer = setInterval(showDeviceDateTime, 1000);
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
@@ -144,6 +145,7 @@ window.ui = window.ui || {};
 		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
 
 		//Advanced Settings
+		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
@@ -155,7 +157,11 @@ window.ui = window.ui || {};
 		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
-		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); }
+		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
+
+		systemSettingsView.AlexaSet.onclick = function() {
+			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
+		};
 
 		systemSettingsView.MixerHistorySet.onclick = function()	{
 			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
@@ -247,6 +253,21 @@ window.ui = window.ui || {};
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
 		API.setLogLevel(level);
+	}
+
+	function showDeviceDateTime()
+	{
+		//Month/Day should have a leading 0
+		var dateString = deviceDateTime.getFullYear() + "-" +
+		 				('0' + (deviceDateTime.getMonth() + 1)).slice(-2) + '-' +
+						('0' + deviceDateTime.getDate()).slice(-2)
+
+		systemSettingsView.Date.value = dateString;
+		systemSettingsView.Hour.value = deviceDateTime.getHours();
+		systemSettingsView.Minute.value = deviceDateTime.getMinutes();
+		systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+
+		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
 	}
 
 	function buildTimeZoneSelect(container)

@@ -187,7 +187,7 @@ window.ui = window.ui || {};
 				div.className = "zoneCircle";
 				div.textContent = p.wateringTimes[zi].id;
 				//Check if zone is actually running now in this program and animate the small circle
-				if (p.status == ProgramStatus.Running && Data.zoneData.zones !== null) {
+				if (p.status == ProgramStatus.Running && Data.zoneData && Data.zoneData.zones !== null) {
 				    var zones = Data.zoneData.zones;
 				    for (var zd = 0; zd < zones.length; zd++ ) {
 				        if (zones[zd].uid == p.wateringTimes[zi].id && zones[zd].state == 1) {
