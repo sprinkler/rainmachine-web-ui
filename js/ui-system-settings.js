@@ -49,6 +49,8 @@ window.ui = window.ui || {};
 			ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 
 			//Advanced Settings
+			AlexaSet: $("#systemSettingsAlexaSet"),
+			Alexa: $("#systemSettingsAlexa"),
 			SSHSet: $("#systemSettingsSSHSet"),
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
@@ -143,6 +145,7 @@ window.ui = window.ui || {};
 		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
 
 		//Advanced Settings
+		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
@@ -154,7 +157,11 @@ window.ui = window.ui || {};
 		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
-		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); }
+		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
+
+		systemSettingsView.AlexaSet.onclick = function() {
+			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
+		};
 
 		systemSettingsView.MixerHistorySet.onclick = function()	{
 			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
