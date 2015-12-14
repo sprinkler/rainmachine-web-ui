@@ -10,11 +10,11 @@ window.ui = window.ui || {};
 	var uiElems = {};
 
 	var waterLogReason = {
-	    0: "Normal watering",
+	    0: "",
         1: "Stopped by user",
         2: "Watering time below minimum threshold",
         3: "Freeze protect",
-        4: "Day/Month restriction",
+        4: "Restriction",
         5: "Restriction out of day",
         6: "Water surplus",
         7: "Rain sensor activated"
@@ -215,6 +215,7 @@ window.ui = window.ui || {};
 		}
 
 		API.runParser(id, true, withMixer, false);
+		showParsers(false);
 		onWeatherSourceClose();
 	}
 
@@ -360,18 +361,13 @@ window.ui = window.ui || {};
 
 	//TODO clean up and make create/update for rain delay
 	function updateSnoozeTimer() {
+		var raindelay = API.getRestrictionsRainDelay();
+		var rd = +raindelay.delayCounter;
 
-		var onDiv = $("#snoozeCurrentContent");
-
-		if(isVisible(onDiv)){
-			var raindelay = API.getRestrictionsRainDelay();
-			var rd = +raindelay.delayCounter;
-
-			if(rd > 0) {
-				var v = Util.secondsToHuman(rd);
-				var vdiv = $("#snoozeCurrentValue");
-				vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
-			}
+		if(rd > 0) {
+			var v = Util.secondsToHuman(rd);
+			var vdiv = $("#snoozeCurrentValue");
+			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
 		}
     }
 
