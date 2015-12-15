@@ -466,6 +466,11 @@ window.ui = window.ui || {};
 					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
 					zoneReasonElem.textContent = waterLogReason[zone.flag];
+
+					if (zone.flag != 0 && zone.flag != 6) {
+						zoneReasonElem.style.color = "red";
+					}
+
 					try {
 						zoneStartTimeElem.textContent = zone.cycles[0].startTime.split(" ")[1];
 					} catch(e) {}
