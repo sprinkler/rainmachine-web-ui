@@ -67,8 +67,6 @@ window.ui = window.ui || {};
 			ParserDays: $("#systemSettingsParserDays"),
 			MinWateringSet: $("#systemSettingsMinWateringSet"),
 			MinWatering: $("#systemSettingsMinWatering"),
-			ValvesSet: $("#systemSettingsValvesSet"),
-			Valves: $("#systemSettingsValves"),
 			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
 			CorrectionPast: $("#systemSettingsCorrectionPast"),
 			MaxWaterSet: $("#systemSettingsMaxWaterSet"),
@@ -152,7 +150,6 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
-		systemSettingsView.Valves.value = Data.provision.system.localValveCount;
 		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
@@ -180,9 +177,6 @@ window.ui = window.ui || {};
 		};
 		systemSettingsView.MinWateringSet.onclick = function() {
 			changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
-		};
-		systemSettingsView.ValvesSet.onclick = function() {
-			changeSingleSystemProvisionValue("localValveCount", systemSettingsView.Valves.value);
 		};
 		systemSettingsView.CorrectionPastSet.onclick = function() {
 			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);

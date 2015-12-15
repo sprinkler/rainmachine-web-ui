@@ -7,6 +7,28 @@ window.ui = window.ui || {};
 
 (function(_about) {
 
+	var cloudStatus = {
+		"-1": "Not running",
+		0: "Connected",
+    	1: "Disabled",
+
+    	2: "Starting",
+    	3: "Waiting for rainmachine application to start",
+    	4: "Waiting for factory setup to finish",
+    	5: "Waiting for device watchdog",
+
+    	10: "Authenticating",
+    	11: "Connecting",
+    	12: "DNS failed",
+    	13: "Authentication refused by proxy server",
+    	14: "No response from proxy server",
+
+    	20: "SSL certificate missing",
+    	21: "Identity file missing",
+
+    	30: "Exited"
+	}
+
 	function showAbout()
 	{
 		$("#aboutName").textContent = Data.provision.system.netName;
@@ -87,7 +109,7 @@ window.ui = window.ui || {};
 			deviceImgDiv.className = "spk3";
 
 		$("#homeVersion").textContent = Data.provision.api.swVer;
-        $("#homeAP").textContent = Data.provision.wifi.ssid;
+        $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
         $("#homeUptime").textContent = Data.diag.uptime;
 

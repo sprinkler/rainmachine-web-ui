@@ -128,8 +128,8 @@
 										<div>CPU Usage</div>
 									</div>
 									<div class="deviceStatusItem">
-										<div id="homeAP" class="right gray"></div>
-										<div>SSID</div>
+										<div id="homeCloud" class="right gray"></div>
+										<div>Remote Access</div>
 									</div>
 								</div>
 							</div>
@@ -581,9 +581,9 @@
 											<!-- Weather Data Source UPLOAD (End) -->
 											<div id="weatherSourcesList">
 												<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
-													<div class="bold right" style="margin-right:40px;">Enabled</div>
-													<div class="bold left w250">Weather Source</div>
-													<div class="bold">Last Run</div>
+													<div class="bold right" style="margin-right:40px;">Active</div>
+													<div class="bold left w250">Weather source</div>
+													<div class="bold">Data download status</div>
 												</div>
 												<div  id="weatherDataSourcesList">
 													<!--- weather-sources-template -->
@@ -793,14 +793,6 @@
 										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Min Watering Duration Threshold</span><br>
 										<span class="subtitle">Don't start zone if computed zone time is below this threshold</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsValvesSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsValves" class="typeNumber"> valves</span>
-										<span class="cardTitle">Local Valve Count</span><br>
-										<span class="subtitle">Number of valves of this device</span>
 									</td>
 								</tr>
 								<tr>
@@ -1350,8 +1342,8 @@
 		<div id="weather-sources-details-template">
 			<span class="bold" rm-id="weather-source-name"></span>
 			<span class="separator"></span>
+			<div>Active: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
-			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
 		</div>

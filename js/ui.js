@@ -201,7 +201,9 @@ window.ui = window.ui || {};
 					window.ui.programs.showPrograms();
 				}
 			);
-		} else {
+		}
+
+		if (isVisible($("#snoozeCurrentContent"))) {
 			window.ui.settings.updateSnoozeTimer();
 		}
 	}
