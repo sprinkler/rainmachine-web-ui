@@ -151,6 +151,7 @@ window.ui = window.ui || {};
 					lastRunElem.textContent = "Never";
 			} else {
 				lastRunElem.textContent = "ERROR: " + p.lastKnownError;
+				lastRunElem.style.color = "red";
 			}
 
 			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
@@ -216,6 +217,7 @@ window.ui = window.ui || {};
 
 		API.runParser(id, true, withMixer, false);
 		showParsers(false);
+		showParsers(true);
 		onWeatherSourceClose();
 	}
 
@@ -266,6 +268,8 @@ window.ui = window.ui || {};
 
 		if (shouldSaveEnable || shouldSaveParams) {
 			showWeather();
+			showParsers(false);
+            showParsers(true);
 			onWeatherSourceClose();
 		}
 	}
