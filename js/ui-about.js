@@ -8,6 +8,7 @@ window.ui = window.ui || {};
 (function(_about) {
 
 	var cloudStatus = {
+		"-1": "Not running",
 		0: "Connected",
     	1: "Disabled",
 
