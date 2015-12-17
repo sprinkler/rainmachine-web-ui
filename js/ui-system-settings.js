@@ -127,9 +127,8 @@ window.ui = window.ui || {};
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
-		var units = Storage.restoreItem("units") || false;
-		systemSettingsView.UnitsUS.checked = !units;
-		systemSettingsView.UnitsMetric.checked = units;
+		systemSettingsView.UnitsUS.checked = !Data.localSettings.units;
+		systemSettingsView.UnitsMetric.checked = Data.localSettings.units;
 
 		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
 		systemSettingsView.DeviceNameSet.onclick = function() {
@@ -214,7 +213,8 @@ window.ui = window.ui || {};
 
 	function systemSettingsChangeUnits()
 	{
-		Storage.saveItem("units", systemSettingsView.UnitsMetric.checked);
+		Data.localSettings.units = systemSettingsView.UnitsMetric.checked;
+		Storage.saveItem("localSettings", Data.localSettings);
 	}
 
 	function systemSettingsChangePassword()

@@ -653,8 +653,8 @@ function generateDailyWeatherChart() {
 
 	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
 		var condition = chartsData.condition.data[i];
-		var temp = chartsData.maxt.data[i];
-		var qpf = chartsData.qpf.data[i];
+		var temp = Util.convert.uiTemp(chartsData.maxt.data[i]);
+		var qpf = Util.convert.uiQuantity(chartsData.qpf.data[i]);
 		var date = chartsData.condition.getDateAtIndex(i);
 
 		var weatherTemplate = loadTemplate("day-weather-template");
@@ -945,7 +945,7 @@ function generateTemperatureChart () {
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
+						+ '</span>: <span style="font-size: 14px;">' + Util.convert.uiTemp(this.y) + Util.convert.uiTempStr() + '</span>';
 				}
 			},
 			type: 'line'
@@ -957,7 +957,7 @@ function generateTemperatureChart () {
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '\xB0C</span>';
+						+ '</span>: <span style="font-size: 14px;">' + Util.convert.uiTemp(this.y) + Util.convert.uiTempStr() + '</span>';
 				}
 			},
 			type: 'line'
@@ -992,7 +992,7 @@ function generateTemperatureChart () {
 			minorGridLineWidth: 0,
 			labels: {
 				enabled: false,
-				format: '{value} C'
+				format: '{value} ' + Util.convert.uiTempStr(),
 			},
 			title: false
 		}],
@@ -1051,7 +1051,7 @@ function generateQPFChart () {
 				headerFormat: '',
 				pointFormatter: function () {
 					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + 'mm</span>';
+						+ '</span>: <span style="font-size: 14px;">'  + Util.convert.uiQuantity(this.y) + Util.convert.uiQuantityStr() + '</span>';
 				}
 			},
 			type: 'column'
@@ -1086,7 +1086,7 @@ function generateQPFChart () {
 			minorGridLineWidth: 0,
 			labels: {
 				enabled: false,
-				format: '{value}mm'
+				format: '{value} ' + Util.convert.uiQuantityStr(),
 			},
 			title: false
 		}],

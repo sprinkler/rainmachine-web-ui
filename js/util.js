@@ -405,4 +405,65 @@ Util.conditionAsIcon = function(condition) {
 	return conditionValue;
 }
 
+Util.convert = {
+
+	knotsToMS: function(knots) {
+		return Math.round((+knots * 0.514444) * 10) / 10;
+	},
+
+	msToKnots: function(ms) {
+		return Math.round((+ms / 0.51444) * 10) / 10;
+
+	},
+
+	fahrenheitToCelsius: function(temp) {
+		return Math.round((+temp - 32) * 5.0/9.0 * 10) / 10;
+	},
+
+	celsiusToFahrenheit: function(temp) {
+		return Math.round((+temp * (9 / 5) + 32) * 10) / 10;
+
+	},
+
+	inchesToMM: function(inches) {
+		return Math.round((+inches * 25.4) * 100) / 100;
+	},
+
+	mmToInches: function(mm) {
+		return Math.round((+mm / 25.4) * 100) / 100;
+	},
+
+	// functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
+	uiTemp: function(temp) {
+		if (!Data.localSettings.units) {
+			return Util.convert.celsiusToFahrenheit(temp);
+		} else {
+			return temp;
+		}
+	},
+
+	uiTempStr: function() {
+		if (!Data.localSettings.units) {
+			return  "\xB0F";
+		} else {
+			return "\xB0C";
+		}
+	},
+
+	uiQuantity: function(q) {
+		if (!Data.localSettings.units) {
+			return Util.convert.mmToInches(q);
+		} else {
+			return q;
+		}
+	},
+	uiQuantityStr: function() {
+		if (!Data.localSettings.units) {
+			return " in";
+		} else {
+			return " mm";
+		}
+	}
+};
+
 return Util; } ( Util || {}));
