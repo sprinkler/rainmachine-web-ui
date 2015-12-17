@@ -521,7 +521,7 @@ window.ui = window.ui || {};
 
     			//console.log("Day: %s", day.date);
     			var d = new Date(day.date);
-    			dayNameElem.textContent = d.toLocaleString("en-us", { month: "short" }) + " " + d.getDate();
+    			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
 
     			for (var j = 0; j < day.programs.length; j++)
     			{
