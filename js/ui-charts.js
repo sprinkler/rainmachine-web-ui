@@ -664,7 +664,7 @@ function generateDailyWeatherChart() {
 		var weatherQPFElem =  $(weatherTemplate, '[rm-id="day-weather-qpf"]');
 
 		if (i == startDayIndex) {
-			weatherDateElem.textContent = date.toLocaleString("en-us", { month: "short" }) + " " + date.getDate();
+			weatherDateElem.textContent = Util.monthNamesShort[date.getMonth()] + " " + date.getDate();
 		} else {
 			weatherDateElem.textContent = date.getDate();
 		}
