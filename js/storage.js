@@ -7,7 +7,7 @@ var Storage  = (function(Storage) {
 
 	Storage.saveItem = function(key, object)
 	{
-		if (localStorage && object)
+		if (localStorage && object !== null)
 			localStorage.setItem(key, JSON.stringify(object));
 	}
 
@@ -18,7 +18,7 @@ var Storage  = (function(Storage) {
 		if (localStorage)
 			object = localStorage.getItem(key);
 
-		if (object)
+		if (object !== null)
 			return JSON.parse(object);
 
 		return null;

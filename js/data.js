@@ -33,6 +33,9 @@ Data.waterLogSimulated = null;
 Data.waterLogSimple = null;
 Data.dateTime = null;
 Data.uiVer = "1.0-beta";
+Data.localSettings =  {
+	units: false // Default to US units
+};
 
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;

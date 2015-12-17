@@ -691,8 +691,7 @@ window.ui = window.ui || {};
              } else {
                 graphElem.removeAttribute("state");
              }
-
-             console.log(graphElem.getAttribute("state"));
+             //console.log(graphElem.getAttribute("state"));
         }
     }
 

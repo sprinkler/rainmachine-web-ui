@@ -306,6 +306,9 @@ window.ui = window.ui || {};
 			$('#settings5').onclick();
         };
 
+		//Load local settings
+		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+
 		ui.login.login(function() {
 			window.ui.about.getDeviceInfo();
 
