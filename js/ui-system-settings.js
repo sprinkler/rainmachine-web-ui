@@ -47,6 +47,7 @@ window.ui = window.ui || {};
 			PasswordSet: $("#systemSettingsPasswordSet"),
 
 			ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
+			RebootSet: $("#systemSettingsRebootSet"),
 
 			//Advanced Settings
 			AlexaSet: $("#systemSettingsAlexaSet"),
@@ -140,6 +141,7 @@ window.ui = window.ui || {};
 		systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
 		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
 		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
+		systemSettingsView.RebootSet.onclick = function() { systemSettingsReboot(); };
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
@@ -235,6 +237,11 @@ window.ui = window.ui || {};
 	function systemSettingsReset()
 	{
 		API.setProvisionReset(true);
+	}
+
+	function systemSettingsReboot()
+	{
+		API.reboot();
 	}
 
 	function systemSettingsChangeSSH()
