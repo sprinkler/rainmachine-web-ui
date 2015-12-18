@@ -235,7 +235,7 @@ _API.prototype.setProvisionCloudReset = function()
 
 _API.prototype.setProvisionReset = function(withRestart)
 {
-	var url = this.URL.provision;
+	var url = this.URL.provision + "/reset";
 	var data = { restart: withRestart };
 
 	return this.post(url, data, null);
