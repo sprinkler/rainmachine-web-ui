@@ -646,6 +646,15 @@ _API.prototype.setLeds = function(isOn)
 	return this.post(url, data, null);
 }
 
+
+_API.prototype.reboot = function()
+{
+	var url = this.URL.machine + "/reboot";
+	var data = {};
+
+	return this.post(url, data, null);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 _API.prototype.getTimeZoneDB = function()
