@@ -11,7 +11,7 @@ window.ui = window.ui || {};
 		idle: 0,
 		running: 1,
 		pending: 2
-	}
+	};
 
 	var uiElems = {};
 	var maxZoneManualSeconds = 3600;

@@ -466,4 +466,9 @@ Util.convert = {
 	}
 };
 
+Util.validateEmail = function(email){
+	var re = /\S+@\S+/;
+	return re.test(email);
+};
+
 return Util; } ( Util || {}));

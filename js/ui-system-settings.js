@@ -15,6 +15,7 @@ window.ui = window.ui || {};
 		systemSettingsView= {
 			CloudEnable: $("#systemSettingsCloudEnable"),
 			Email: $("#systemSettingsEmail"),
+			PendingEmail: $("#systemSettingsPendingEmail"),
 			CloudSet: $("#systemSettingsCloudSet"),
 
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
@@ -95,7 +96,7 @@ window.ui = window.ui || {};
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
 			TouchProg: $("#systemSettingsTouchProg"),
 			};
-    	};
+    	}
 
 	function showSettings()
 	{
@@ -103,7 +104,22 @@ window.ui = window.ui || {};
 			loadView();
 
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
-		systemSettingsView.Email.value = Data.provision.cloud.email;
+
+		//Show the pending email if no email is yet confirmed
+		var currentEmail = Data.provision.cloud.email;
+		var currentPendingEmail = Data.provision.cloud.pendingEmail;
+		var pendingEmailText = "";
+
+		if (currentPendingEmail && currentPendingEmail !== "") {
+			 pendingEmailText = "Unconfirmed email " + currentPendingEmail;
+		}
+
+		if (pendingEmailText !== "" && currentEmail == "") {
+			currentEmail = currentPendingEmail;
+		}
+
+		systemSettingsView.PendingEmail.textContent = pendingEmailText;
+		systemSettingsView.Email.value = currentEmail;
 
 		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
 		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
@@ -156,6 +172,7 @@ window.ui = window.ui || {};
 
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
 		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
+		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
 
 		systemSettingsView.AlexaSet.onclick = function() {
 			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
@@ -237,6 +254,7 @@ window.ui = window.ui || {};
 	function systemSettingsReset()
 	{
 		API.setProvisionReset(true);
+		getProvision();
 	}
 
 	function systemSettingsReboot()
@@ -248,6 +266,28 @@ window.ui = window.ui || {};
 	{
 		var isEnabled = systemSettingsView.SSH.checked;
 		API.setSSH(isEnabled);
+	}
+
+	function systemSettingsChangeCloud()
+	{
+		var isEnabled = systemSettingsView.CloudEnable.checked;
+		var email = systemSettingsView.Email.value;
+		var currentEmail = Data.provision.cloud.email;
+		var data = null;
+
+		if (email && Util.validateEmail(email) && email != currentEmail) {
+			data = {};
+			data.email = "";
+			data.pendingEmail = email;
+			data.enable = isEnabled;
+		}
+
+		if (data) {
+			API.setProvisionCloud(data);
+			getProvisionCloud();
+		} else {
+			console.error("Invalid or unchanged email for remote access");
+		}
 	}
 
 	function systemSettingsChangeLog()
@@ -287,6 +327,23 @@ window.ui = window.ui || {};
 			if (sortedData[i] == Data.provision.location.timezone)
 				o.selected = true;
 		}
+	}
+
+	function getProvisionCloud() {
+		APIAsync.getProvisionCloud().then(
+			function(o) {
+				Data.provision.cloud = o;
+				showSettings();
+			});
+	}
+
+	function getProvision() {
+		APIAsync.getProvision().then(
+			function(o) {
+				Data.provision.system = o.system;
+				Data.provision.location = o.location;
+				showSettings();
+			});
 	}
 
 	//--------------------------------------------------------------------------------------------

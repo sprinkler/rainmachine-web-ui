@@ -4,7 +4,7 @@
  */
 
 var APIAsync = new _API(true);
-var APISync = new _API(false)
+var APISync = new _API(false);
 
 var API = APISync;
 
@@ -214,7 +214,15 @@ _API.prototype.setProvisionCloud = function(cloudObj)
 	var url = this.URL.provision +  "/cloud";
 	var data = cloudObj;
 
-	return(url, data, null);
+	return this.post(url, data, null);
+}
+
+_API.prototype.setProvisionCloudEmail = function(email)
+{
+	var url = this.URL.provision +  "/cloud/mail";
+	var data = { email: email };
+
+	return this.post(url, data, null);
 }
 
 _API.prototype.setProvisionCloudEnable = function(isEnabled)
