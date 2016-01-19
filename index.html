@@ -49,9 +49,8 @@
 				<div class="spks"><img src="images/spks.png" class="spk2" id="deviceImage"></div>
 				<div>
 					<h1 id="deviceName">RainMachine</h1>
-					<span class="subtitle" id="deviceNetwork"></span><br>
 				</div>
-
+				<span class="subtitle" id="deviceNetwork"></span>
 		</div>
 		<div>
 			<div id="logoutBtn" class="topButton logout"><span class="icon">L</span><br>Logout</div>
@@ -228,32 +227,88 @@
 
 						<div id="snooze" style="display: none;">
 							<div class="settingsBlock center">
-								<div id="snoozeSetContent">
-									<table cellspacing="0" cellpadding="0" class="center full">
-										<tr>
-											<th><h1 class="title">Snooze all watering activities</h1></th>
-										</tr>
-										<tr>
-											<td class="middle center">
-												<span class="cardTitle bold">Days:</span>&nbsp;&nbsp;&nbsp;
-												<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
-												<button id="snoozeSet" class="button blue center">Snooze</button>
-											</td>
-										</tr>
-									</table>
+								<div class="listItemSettingsRestrictions" style="min-width:320px;min-height: 231px;">
+									<div id="snoozeSetContent" style="display: inline;">
+										<table cellspacing="0" cellpadding="0" class="center full">
+											<tbody>
+												<tr>
+													<th><h1 class="title">Snooze by days</h1></th>
+												</tr>
+												<tr>
+													<td class="middle center" style="border-bottom:0;">
+														<span class="cardTitle bold">Days:</span>
+														<br><br>
+														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
+													</td>
+												</tr>
+												<tr>
+												<td colspan="3" style="padding-bottom:8px;">&nbsp;</td>
+												</tr>
+												<tr>
+													<td colspan="3" class="noborder">
+														<button id="snoozeSet" class="button blue center">Snooze</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div id="snoozeCurrentContent" style="display: none;">
+										<table cellspacing="0" cellpadding="0" class="center full">
+											<tbody>
+												<tr>
+													<th><h1 class="title">Device is in snooze mode for</h1></th>
+												</tr>
+												<tr>
+													<td class="middle center">
+														<span class="cardTitle bold" id="snoozeCurrentValue"></span>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="3" style="padding-bottom: 68px;">&nbsp;</td>
+												</tr>
+												<tr>
+													<td colspan="3" class="noborder">
+														<button id="snoozeStop" class="button label-red center">Stop</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-								<div id="snoozeCurrentContent">
+								<div class="listItemSettingsRestrictions" style="min-width:600px;">
+									<h1 class="center">Snooze by time of the day and duration</h1>
+									<span class="separator"></span>
 									<table cellspacing="0" cellpadding="0" class="center full">
-										<tr>
-											<th><h1 class="title">Device is in snooze mode for</h1></th>
-										</tr>
-										<tr>
-											<td class="middle center">
-												<span class="cardTitle bold" id="snoozeCurrentValue"></span>
-												<button id="snoozeStop" class="button label-red center">Stop</button>
+										<tbody><tr>
+											<td class="middle noborder">
+												<strong>Date</strong>
+												<br><br>
+												<input type="date" id="snoozeHourlyStartDate" class="typeTime">
+											</td>
+											<td class="middle noborder">
+												<strong>Start time</strong>
+												<br><br>
+												Hour:
+												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartHour" placeholder="14">
+												Minute:
+												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartMinute" placeholder="30">
+											</td>
+											<td class="middle noborder">
+												<strong>Duration</strong>
+												<br><br>
+												<input type="number" min="0" max="1440" class="typeNumber" id="snoozeHourlyDuration" placeholder="60">
+												minutes
 											</td>
 										</tr>
-									</table>
+										<tr>
+											<td colspan="3">&nbsp;</td>
+										</tr>
+										<tr>
+											<td colspan="3" class="noborder">
+												<button id="" class="button blue center">Snooze</button>
+											</td>
+										</tr>
+									</tbody></table>
 								</div>
 							</div>
 						</div>
@@ -783,8 +838,7 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
-										<span class="right mr">Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="right middle" />	</span>
-										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm)</span>
+										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
 										<span class="cardTitle">Software rainsensor</span><br>
 										<span class="subtitle">Overwrite Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified</span>
 									</td>

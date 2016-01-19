@@ -285,6 +285,8 @@ strong { font-weight: 700; }
   font-size: 15px;
 }
 sup { font-size: 12px }
+
+#deviceName,
 .programListName,
 .programNextRun,
 .zoneListName {
@@ -296,6 +298,10 @@ sup { font-size: 12px }
   /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
   -o-text-overflow: ellipsis;
   /** Opera 9 & 10 **/
+}
+#deviceName{
+  width:380px;
+  padding-left:0px;
 }
 .programListName {
   padding-top: 10px;
