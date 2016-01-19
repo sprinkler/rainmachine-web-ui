@@ -683,3 +683,17 @@ _API.prototype.uploadParser = function(fileName, fileType, binData)
 	return this.uploadFile(url, binData, extraHeaders);
 }
 
+_API.prototype.getBeta = function()
+{
+	var url = this.URL.dev + "/beta";
+	return this.get(url, null);
+}
+
+_API.prototype.setBeta = function(enabled)
+{
+	var url = this.URL.dev + "/beta";
+	var data = { enabled: enabled };
+	return this.post(url, data, null);
+}
+
+

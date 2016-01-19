@@ -58,6 +58,9 @@ window.ui = window.ui || {};
 			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
 			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
 
+			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
+			BetaUpdates: $("#systemSettingsBetaUpdates"),
+
 			SSHSet: $("#systemSettingsSSHSet"),
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
@@ -107,6 +110,9 @@ window.ui = window.ui || {};
 	{
 		if (! systemSettingsView)
 			loadView();
+
+
+		getBetaUpdates();
 
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 
@@ -228,6 +234,17 @@ window.ui = window.ui || {};
 
 		Data.provision.system[provisionKey] = value;
 
+	}
+
+	function systemSettingsSetBetaUpdates() {
+		var enable =  systemSettingsView.BetaUpdates.checked;
+		var r = API.setBeta(enable);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't set beta updates %o", data);
+		}
+		getBetaUpdates();
 	}
 
 	function systemSettingsSetSoftwareRainSensor()
@@ -358,6 +375,15 @@ window.ui = window.ui || {};
 				o.selected = true;
 		}
 	}
+
+	function getBetaUpdates() {
+		return APIAsync.getBeta().then(
+			function(o) {
+				systemSettingsView.BetaUpdates.checked = o.enabled;
+			}
+		);
+	}
+
 
 	function getProvisionCloud() {
 		return APIAsync.getProvisionCloud().then(
