@@ -4,6 +4,8 @@
  */
 var parserCharts = {
 	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature (&deg;C)" },
+	maxTemperature:	{ chart: null, container: "maxTemperatureParsersChartContainer",	title: "Maximum Temperature (&deg;C)" },
+	minTemperature:	{ chart: null, container: "minTemperatureParsersChartContainer",	title: "Minimum Temperature (&deg;C)" },
 	qpf: 			{ chart: null, container: "qpfParsersChartContainer", 			title: "Precipitation Forecast(mm)" },
 	wind:			{ chart: null, container: "windParsersChartContainer",			title: "Wind (m/s)" },
 	dewPoint: 		{ chart: null, container: "dewParsersChartContainer",			title: "Dew Point (&deg;C)" },
@@ -168,9 +170,19 @@ function generateSpecificParsersChart(key) {
 		}
 	}
 
+	//Translation from parser keys to mixer keys
+	mixerKey = key;
+	if (key === "maxTemperature") {
+		mixerKey = "maxt";
+	}
+
+	if (key === "minTemperature") {
+		mixerKey = "mint";
+	}
+
 	//Add mixer entry
-	if (chartsData.hasOwnProperty(key)) {
-		var mixerData = chartsData[key].data.slice(-7);
+	if (chartsData.hasOwnProperty(mixerKey)) {
+		var mixerData = chartsData[mixerKey].data.slice(-7);
         var mixerDates =  chartsData.days.slice(-7);
         var mixerChartData = [];
         for (var i = 0; i < mixerData.length; i++) {

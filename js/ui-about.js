@@ -27,7 +27,7 @@ window.ui = window.ui || {};
     	21: "Identity file missing",
 
     	30: "Exited"
-	}
+	};
 
 	function showAbout()
 	{

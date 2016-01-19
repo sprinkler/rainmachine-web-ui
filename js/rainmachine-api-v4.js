@@ -4,7 +4,7 @@
  */
 
 var APIAsync = new _API(true);
-var APISync = new _API(false)
+var APISync = new _API(false);
 
 var API = APISync;
 
@@ -214,7 +214,15 @@ _API.prototype.setProvisionCloud = function(cloudObj)
 	var url = this.URL.provision +  "/cloud";
 	var data = cloudObj;
 
-	return(url, data, null);
+	return this.post(url, data, null);
+}
+
+_API.prototype.setProvisionCloudEmail = function(email)
+{
+	var url = this.URL.provision +  "/cloud/mail";
+	var data = { email: email };
+
+	return this.post(url, data, null);
 }
 
 _API.prototype.setProvisionCloudEnable = function(isEnabled)
@@ -235,7 +243,7 @@ _API.prototype.setProvisionCloudReset = function()
 
 _API.prototype.setProvisionReset = function(withRestart)
 {
-	var url = this.URL.provision;
+	var url = this.URL.provision + "/reset";
 	var data = { restart: withRestart };
 
 	return this.post(url, data, null);
@@ -646,6 +654,15 @@ _API.prototype.setLeds = function(isOn)
 	return this.post(url, data, null);
 }
 
+
+_API.prototype.reboot = function()
+{
+	var url = this.URL.machine + "/reboot";
+	var data = {};
+
+	return this.post(url, data, null);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 _API.prototype.getTimeZoneDB = function()
@@ -665,4 +682,18 @@ _API.prototype.uploadParser = function(fileName, fileType, binData)
 
 	return this.uploadFile(url, binData, extraHeaders);
 }
+
+_API.prototype.getBeta = function()
+{
+	var url = this.URL.dev + "/beta";
+	return this.get(url, null);
+}
+
+_API.prototype.setBeta = function(enabled)
+{
+	var url = this.URL.dev + "/beta";
+	var data = { enabled: enabled };
+	return this.post(url, data, null);
+}
+
 
