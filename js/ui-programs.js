@@ -435,7 +435,12 @@ window.ui = window.ui || {};
             var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
             var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
 
-            zoneNameElem.innerText = "Zone " + zoneId;
+			if (Data.zoneData.zones[index]) {
+				zoneNameElem.innerText = zoneId + ". " + Data.zoneData.zones[index].name;
+			} else {
+				zoneNameElem.innerText = "Zone " + zoneId;
+			}
+
             zoneTemplate.setAttribute("rm-zone-id", zoneId);
 
             templateInfo.zoneElems[zoneId] = {
