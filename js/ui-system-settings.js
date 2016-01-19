@@ -53,6 +53,11 @@ window.ui = window.ui || {};
 			//Advanced Settings
 			AlexaSet: $("#systemSettingsAlexaSet"),
 			Alexa: $("#systemSettingsAlexa"),
+
+			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
+			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
+			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
+
 			SSHSet: $("#systemSettingsSSHSet"),
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
@@ -161,6 +166,8 @@ window.ui = window.ui || {};
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
+		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
+		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
@@ -177,6 +184,8 @@ window.ui = window.ui || {};
 		systemSettingsView.AlexaSet.onclick = function() {
 			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
 		};
+
+		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
 
 		systemSettingsView.MixerHistorySet.onclick = function()	{
 			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
@@ -219,6 +228,27 @@ window.ui = window.ui || {};
 
 		Data.provision.system[provisionKey] = value;
 
+	}
+
+	function systemSettingsSetSoftwareRainSensor()
+	{
+		var enable =  systemSettingsView.SoftwareRainSensorEnable.checked;
+		var threshold = systemSettingsView.SoftwareRainSensorQPF.value;
+		var data = {
+			useSoftwareRainSensor: enable,
+			softwareRainSensorMinQPF: threshold
+		};
+
+		var r = API.setProvision(data, null);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't set software rainsensor values %o", data);
+			return;
+		}
+
+		Data.provision.system.useSoftwareRainSensor = enable;
+		Data.provision.system.softwareRainSensorMinQPF = threshold;
 	}
 
 	function systemSettingsChangeMasterValve()
@@ -330,7 +360,7 @@ window.ui = window.ui || {};
 	}
 
 	function getProvisionCloud() {
-		APIAsync.getProvisionCloud().then(
+		return APIAsync.getProvisionCloud().then(
 			function(o) {
 				Data.provision.cloud = o;
 				showSettings();
@@ -338,7 +368,7 @@ window.ui = window.ui || {};
 	}
 
 	function getProvision() {
-		APIAsync.getProvision().then(
+		return APIAsync.getProvision().then(
 			function(o) {
 				Data.provision.system = o.system;
 				Data.provision.location = o.location;
