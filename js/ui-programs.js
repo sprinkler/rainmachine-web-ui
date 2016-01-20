@@ -435,8 +435,15 @@ window.ui = window.ui || {};
             var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
             var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
 
-            zoneNameElem.innerText = "Zone " + zoneId;
+			if (Data.zoneData.zones[index]) {
+				zoneNameElem.innerText = zoneId + ". " + Data.zoneData.zones[index].name;
+			} else {
+				zoneNameElem.innerText = "Zone " + zoneId;
+			}
+
             zoneTemplate.setAttribute("rm-zone-id", zoneId);
+			zoneDurationMinElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
+			zoneDurationSecElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
 
             templateInfo.zoneElems[zoneId] = {
                 templateElem: zoneTemplate,
@@ -695,6 +702,23 @@ window.ui = window.ui || {};
         }
     }
 
+	function onZoneTimerChange(id) {
+		var zoneElems = uiElems.zoneElems;
+
+		if (!zoneElems.hasOwnProperty(id)) {
+			return;
+		}
+
+		var zoneTemplateElem = uiElems.zoneElems[id];
+		var min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
+		var sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
+
+		if (min !== 0  || sec !== 0) {
+			zoneTemplateElem.activeElem.checked = true;
+		} else {
+			zoneTemplateElem.activeElem.checked = false;
+		}
+	}
 
 	//--------------------------------------------------------------------------------------------
 	//
