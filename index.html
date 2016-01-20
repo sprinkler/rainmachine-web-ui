@@ -1296,18 +1296,39 @@
 	                                </td>
 	                            </tr>
 	                            <tr>
-	                                <td class="middle">
-	                                    <span class="cardTitle">Start time:</span><br>
-	                                    <span class="cardSubtitle">(hh:mm)</span>
-	                                </td>
-	                                <td>
-	                                    <span rm-id="program-start-time" class="right">
+									<td class="middle" colspan="2">
+										<span class="cardTitle bold">Start time</span><br>
+									</td>
+								</tr>
+								<tr>
+	                                <td class="middle" colspan="2">
+										<span class="cardTitle">Time of the day</span><br>
+											<span style="display:inline-block;margin-right:10px;"><input type="radio" rm-id=""></span>HH:MM&nbsp;
 	                                        <span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
 	                                        :
 	                                        <span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
 	                                    </span>
-	                                </td>
-	                            </tr>
+									</td>
+								</tr>
+									<td class="middle" colspan="2">
+										<span class="cardTitle">At sunrise</span><br>
+										<span rm-id="program-start-time-at-sunrise">
+	                                        <span style="display:inline-block;margin-right:10px;"><input type="radio" rm-id=""></span>Hours before:&nbsp;<span><input rm-id="program-program-start-time-at-sunrise-hours-before" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+											or&nbsp;&nbsp;&nbsp;
+											<span style="display:inline-block;margin-right:10px;"><input type="radio" rm-id=""></span>Hours after:&nbsp;<span><input rm-id="program-program-start-time-at-sunrise-hours-after" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+	                                    </span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle" colspan="2">
+										<span class="cardTitle">At sunset</span><br>
+										<span rm-id="program-start-time-at-sunset">
+	                                        <span style="display:inline-block;margin-right:10px;"><input type="radio" rm-id=""></span>Hours before:&nbsp;<span><input rm-id="program-program-start-time-at-sunset-hour-before" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+											or&nbsp;&nbsp;&nbsp;
+											<span style="display:inline-block;margin-right:10px;"><input type="radio" rm-id=""></span>Hours after:&nbsp;<span><input rm-id="program-program-start-time-at-sunset-hour-after" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+	                                    </span>
+									</td>
+								</tr>
 	                            <tr>
 	                                <td class="middle">
 	                                    <span class="cardTitle">Next run:</span>
