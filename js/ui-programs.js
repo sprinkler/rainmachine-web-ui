@@ -359,7 +359,7 @@ window.ui = window.ui || {};
                         duration.min = duration.sec = "";
                     }
 
-                    zoneTemplateElem.nameElem.textContent = wateringTime.name;
+                    zoneTemplateElem.nameElem.textContent = wateringTime.id + ". " + wateringTime.name;
                     zoneTemplateElem.durationMinElem.value = duration.min;
                     zoneTemplateElem.durationSecElem.value = duration.sec;
                     zoneTemplateElem.activeElem.checked = wateringTime.active;
