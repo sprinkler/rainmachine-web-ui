@@ -757,9 +757,8 @@ input[type=file] {
   width: 100%;
   margin-bottom: 20px;
 }
-select {
+select, .selectSmall {
   background: #fff url('../images/arrow.png') no-repeat right center;
-  min-width: 180px;
   padding: 10px;
   font-size: 15px;
   line-height: 1;
@@ -767,6 +766,10 @@ select {
   border-radius: 0;
   height: 44px;
   -webkit-appearance: none;
+}
+
+.selectSmall {
+  width: 90px;
 }
 .zonecircle {
   width: 20px;
