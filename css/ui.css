@@ -643,6 +643,26 @@ input[type="checkbox"]:checked {
   background-color: #3399cc;
   color: #f9f9f9;
 }
+
+input[type="radio"] {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+input[type="radio"],
+input[type="radio"]:checked {
+  -webkit-transition: background-color 0.4s linear;
+  -o-transition: background-color 0.4s linear;
+  -moz-transition: background-color 0.4s linear;
+  transition: background-color 0.4s linear;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   width: 100%;

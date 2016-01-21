@@ -757,10 +757,10 @@
 											MM:<input type="text" id="systemSettingsDateMonths" class="typeNumber">
 											YYYY:<input type="text" id="systemSettingsDateYear" class="typeNumber" style="margin-right:30px;">-->
 											Date:<input type="date" id="systemSettingsDate" class="typeNumber" style="width:180px;margin-right:30px;">
-											HH: <input type="number" id="systemSettingsHour" class="typeNumber">
-											MM: <input type="number" id="systemSettingsMinute" class="typeNumber">
-											SS: <input type="number" id="systemSettingsSeconds" class="typeNumber" style="margin-right:30px;">
-											<select id="systemSettingsTimeZoneSelect">
+											Hour: <input type="number" id="systemSettingsHour" class="typeNumber">
+											Minutes: <input type="number" id="systemSettingsMinute" class="typeNumber">
+											Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber"><br><br>
+											Timezone: <select id="systemSettingsTimeZoneSelect">
 												&lt;!&ndash; Generated from Javascript &ndash;&gt;
 											</select>
 										</span>
@@ -772,8 +772,8 @@
 									<td>
 										<button id="systemSettingsPasswordSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:50%;">
-											Old Password: <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeText" style="display: inline-block;width:180px;margin-right:30px;" />
-											New Password: <input type="password" id="systemSettingsPassword" placeholder="" class="typeText" style="display: inline-block;width:180px;" />
+											Old: <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeText" style="display: inline-block;width:180px;margin-right:30px;" />
+											New: <input type="password" id="systemSettingsPassword" placeholder="" class="typeText" style="display: inline-block;width:180px;" />
 										</span>
 										<span class="cardTitle">Admin Password</span><br>
 										<span class="subtitle">Change the RainMachine device admin password (will be stored locally on the device)</span>
@@ -789,21 +789,6 @@
 										</span>
 										<span class="cardTitle">Master Valve</span><br>
 										<span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).<br>Zone 1 will be used as Master Valve.</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button id="systemSettingsResetDefaultSet" class="button label-red center right">Reset</button>
-										<span class="cardTitle">Reset to Defaults</span><br>
-										<span class="subtitle">Reset device to factory defaults.<br>
-										This action will remove all settings and data saved on device.</span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<button id="systemSettingsRebootSet" class="button label-red center right">Reboot</button>
-										<span class="cardTitle">Reboot Device</span><br>
-										<span class="subtitle">This action will restart the device.<br>No settings or data will be affected.</span>
 									</td>
 								</tr>
 							</table>
@@ -1006,6 +991,27 @@
 										<span class="right mr"><input type="number" id="systemSettingsTouchPressTimeout" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch Long Press Timeout</span><br>
 										<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div id="systemSettings">
+						<div class="settingsBlock center">
+							<table cellspacing="0" cellpadding="0" class="full">
+								<tr>
+									<td>
+										<button id="systemSettingsResetDefaultSet" class="button label-red center right">Reset</button>
+										<span class="cardTitle">Reset to Defaults</span><br>
+										<span class="subtitle">Reset device to factory defaults.<br>
+										This action will remove all settings and data saved on device.</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button id="systemSettingsRebootSet" class="button label-red center right">Reboot</button>
+										<span class="cardTitle">Reboot Device</span><br>
+										<span class="subtitle">This action will restart the device.<br>No settings or data will be affected.</span>
 									</td>
 								</tr>
 							</table>
