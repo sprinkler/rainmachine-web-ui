@@ -65,6 +65,8 @@ window.ui = window.ui || {};
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
 			Log: $("#systemSettingsLog"),
+			//TODO Developer mode commented out atm
+			/*
 			MixerHistorySet: $("#systemSettingsMixerHistorySet"),
 			MixerHistory: $("#systemSettingsMixerHistory"),
 			SimulatorHistorySet: $("#systemSettingsSimulatorHistorySet"),
@@ -75,6 +77,7 @@ window.ui = window.ui || {};
 			ParserHistory: $("#systemSettingsParserHistory"),
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
+			*/
 			MinWateringSet: $("#systemSettingsMinWateringSet"),
 			MinWatering: $("#systemSettingsMinWatering"),
 			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
@@ -174,12 +177,14 @@ window.ui = window.ui || {};
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
 		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+		/*
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
 		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
+		*/
 		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
@@ -193,6 +198,7 @@ window.ui = window.ui || {};
 
 		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
 
+		/*
 		systemSettingsView.MixerHistorySet.onclick = function()	{
 			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
 		};
@@ -208,6 +214,7 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDaysSet.onclick = function() {
 			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
 		};
+		*/
 		systemSettingsView.MinWateringSet.onclick = function() {
 			changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
 		};

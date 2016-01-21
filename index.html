@@ -715,6 +715,7 @@
 										<span class="separator"></span>
 										<input type="radio" id="systemSettingsUnitsMetric" name="units" class="right typeCheckbox">Metric
 										<span class="separator"></span>
+										<span class="restriction">Please reload the webpage for this setting to take effect.</span>
 										<br><br>
 										<button id="systemSettingsUnitsSet" class="button label-blue absolute center right">Change</button>
 									</td>
@@ -853,27 +854,6 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsSSHSet" class="button label-blue center right">Change</button>
-										<input id="systemSettingsSSH" type="checkbox" class="right mr" />
-										<span class="cardTitle">SSH Access</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsLogSet" class="button label-blue center right">Change</button>
-								  			<span class="right mr">
-								  			<select id="systemSettingsLog">
-												<option value="10">Debug</option>
-												<option value="20" selected>Normal</option>
-												<option value="30">Only Warnings/Errors</option>
-											</select>
-											</span>
-										<span class="cardTitle">Log Level</span>
-
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
 										<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Min Watering Duration Threshold</span><br>
@@ -896,6 +876,29 @@
 										<span class="subtitle">How much over watering (more than user specified) is allowed</span>
 									</td>
 								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsSSHSet" class="button label-blue center right">Change</button>
+										<input id="systemSettingsSSH" type="checkbox" class="right mr" />
+										<span class="cardTitle">SSH Access</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsLogSet" class="button label-blue center right">Change</button>
+								  			<span class="right mr">
+								  			<select id="systemSettingsLog">
+												<option value="10">Debug</option>
+												<option value="20" selected>Normal</option>
+												<option value="30">Only Warnings/Errors</option>
+											</select>
+											</span>
+										<span class="cardTitle">Log Level</span>
+
+									</td>
+								</tr>
+								<!-- DEVELOPER ONLY
+
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Change</button>
@@ -931,15 +934,39 @@
 										<span class="cardTitle">Parser Future Days</span>
 									</td>
 								</tr>
+								-->
 							</table>
 						</div>
 						<div style="display: none;" class="settingsBlock center">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<th>
-										<h1 class="title">Advanced Settings Mini-8 specific</h1>
+										<h1 class="title">RainMachine Mini-8 specific</h1>
 
 									</th>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsSensorSet" class="button label-blue center right">Change</button>
+										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
+										<span class="cardTitle">Rain Sensor</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Change</button>
+										<span class="right mr"><input type="checkbox" id="systemSettingsTouchProg"></span>
+										<span class="cardTitle">Enable Touch to Cycle Programs</span><br>
+										<span class="subtitle">Show P on digit display and enable to start the first available program</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Change</button>
+										<span class="right mr"><input type="checkbox" id="systemSettingsTouchAdv" class="middle" /></span>
+										<span class="cardTitle">Touch Advanced</span><br>
+										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button</span>
+									</td>
 								</tr>
 								<tr>
 									<td class="middle">
@@ -958,22 +985,15 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMaxLedSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMaxLed" class="typeNumber" > (0 to 255)</span>
+										<span class="right mr"><input type="number" id="systemSettingsMaxLed" class="typeNumber" min="0" max="255"> (0 to 255)</span>
 										<span class="cardTitle">Max LED Brighness</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMixLedSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMinLed" class="typeNumber"> (0 to 255)</span>
+										<span class="right mr"><input type="number" id="systemSettingsMinLed" class="typeNumber" min="0" max="255"> (0 to 255)</span>
 										<span class="cardTitle">Min LED Brighness</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsSensorSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
-										<span class="cardTitle">Rain Sensor</span>
 									</td>
 								</tr>
 								<tr>
@@ -982,14 +1002,6 @@
 										<span class="right mr"><input type="number" id="systemSettingsTouchTimeout" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Touch Sleep Timeout</span><br>
 										<span class="subtitle">After how many seconds of inactivity touch display will sleep</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="checkbox" id="systemSettingsTouchAdv" class="middle" /></span>
-										<span class="cardTitle">Touch Advanced</span><br>
-										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button</span>
 									</td>
 								</tr>
 								<tr>
@@ -1006,14 +1018,6 @@
 										<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch to Authorize Access Point</span><br>
 										<span class="subtitle">How many seconds after a touch the setup program is given access</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsTouchProg" class="typeNumber" placeholder="3"> seconds</span>
-										<span class="cardTitle">Touch to Cycle Programs</span><br>
-										<span class="subtitle">Show P on digit display and enable to start the first available program</span>
 									</td>
 								</tr>
 							</table>
@@ -1302,31 +1306,31 @@
 								</tr>
 								<tr>
 	                                <td class="middle noborder">
-										<input type="radio" name="program-start-time" rm-id="" style="margin-right:10px;">Time of the day (hh:mm)
+										<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of the day (hh:mm)
 									</td>
 									<td class="middle right noborder">
-											<span><input rm-id="program-program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+											<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
 	                                        :
-											<span><input rm-id="program-program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+											<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle" colspan="2">
-										<input type="radio" name="program-start-time" rm-id="" style="margin-right:10px;">
-										At &nbsp;<select rm-id="program-start-time-sunrise-sunset" class="selectSmall">
+										<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
+										At &nbsp;<select rm-id="program-start-time-sun-option" class="selectSmall">
 												<option value="sunrise" selected>sunrise</option>
 												<option value="sunset">sunset</option>
 											</select>
 										</span>
 										<span class="right">
-											<span rm-id="program-start-time-at-sunrise">
-												with offset (hh:mm)&nbsp;<span><input rm-id="program-program-start-time-at-sunrise-hours-before" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+											<span>
+												with offset (hh:mm)&nbsp;<span><input rm-id="program-start-time-sun-hour" type="number" min="0" max="12" class="typeNumber" placeholder="00"></span>
 												:
-												&nbsp;<span><input rm-id="program-program-start-time-at-sunrise-hours-after" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+												&nbsp;<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
 											</span>
-											<select rm-id="program-start-time-before-after-sunrise" class="selectSmall">
-												<option value="before" selected>before</option>
-												<option value="after">after</option>
+											<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
+												<option value="-1" selected>before</option>
+												<option value="1">after</option>
 											</select>
 										</span>
 									</td>
