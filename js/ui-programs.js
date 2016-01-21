@@ -33,8 +33,9 @@ window.ui = window.ui || {};
     };
 
 	var StartTimeSunType = {
-		sunrise: 1000,
-		sunset: 3000
+		notused: 0,
+		sunrise: 1,
+		sunset: 2
 	};
 
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
@@ -342,19 +343,12 @@ window.ui = window.ui || {};
             }
 
 			//Fixed day or sunrise/sunset start time new in API 4.1
-			var rawStartTime = 0;
-
-			try {
-				rawStartTime = parseInt(program.rawStartTime);
-			} catch(e) {
-			}
-
-			if (rawStartTime < 0) { //sunrise/sunset
-				uiElems.startTimeSunElem.checked = true;
-
-			} else {
-				uiElems.startTimeFixedElem.checked = true;
-
+			if (program.hasOwnProperty("startTimeParams")) {
+				if (program.startTimeParams.type == 0) {
+					uiElems.startTimeFixedElem.checked = true;
+				} else {
+					uiElems.startTimeSunElem.checked = true;
+				}
 			}
 
             //---------------------------------------------------------------------------------------
@@ -503,13 +497,14 @@ window.ui = window.ui || {};
         var program = {};
 
         var startTime = {hour: 0, min: 0}; //start time with fixed hh:mm
+		var startTimeParams = {type: StartTimeSunType.sunrise, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
         var delay = {min: 0, sec: 0};
 
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
         soakMins =  parseInt(uiElems.soakElem.value)  || 0;
 
-        if(selectedProgram) {
+        if (selectedProgram) {
             program.uid = selectedProgram.uid;
         }
 
@@ -517,23 +512,21 @@ window.ui = window.ui || {};
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
-
-
 		if (uiElems.startTimeSunElem.checked) {
 			console.log("Sunset/Sunrise time selected");
-			var type = StartTimeSunType[uiElems.startTimeSunOptionElem.value] || StartTimeSunType.sunrise;
-			var sign = parseInt(uiElems.startTimeSunOffsetOptionElem.value) || 1;
-			var hour = parseInt(uiElems.startTimeSunHourElem.value) || 0;
-			var min = parseInt(uiElems.startTimeSunMinElem.value) || 0;
 
-			if (hour >= 12) {
-				hour = 12;
-				min = 0;
+			var hours = parseInt(uiElems.startTimeSunHourElem.value) || 0;
+			var minutes = parseInt(uiElems.startTimeSunMinElem.value) || 0;
+
+			if (hours >= 12) {
+				hours = 12;
+				minutes = 0;
 			}
 
-			var computedStartTime = - (type + sign * (hour * 60 + min));
-			program.startTime = "" + computedStartTime;
-			console.log("SUN start: %d %d %d %d = %d", type, sign, hour, min, computedStartTime);
+			startTimeParams.type = StartTimeSunType[uiElems.startTimeSunOptionElem.value] || StartTimeSunType.sunrise;
+			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value) || 1;
+			startTimeParams.offsetMinutes = hours * 60 + minutes;
+			program.startTimeParams = startTimeParams;
 		} else { // default to fixed start of day
 			console.log("Default fixed start time with selections: %s", uiElems.startTimeFixedElem.checked);
 			startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
@@ -566,7 +559,6 @@ window.ui = window.ui || {};
                 type: FrequencyType.Weekday,
                 param: weekdaysToParam()
             };
-
             console.log(program.frequency);
         } else if(uiElems.frequencyOddElem.checked) {
             program.frequency = {
@@ -703,7 +695,7 @@ window.ui = window.ui || {};
     }
 
     function onDelete() {
-        if(selectedProgram) {
+        if (selectedProgram) {
             console.log("delete program ", selectedProgram.uid);
             API.deleteProgram(selectedProgram.uid);
         }
@@ -716,7 +708,7 @@ window.ui = window.ui || {};
 
 		return;
 
-        if(data.uid) {
+        if (data.uid) {
             API.setProgram(data.uid, data);
         } else {
             API.newProgram(data);
@@ -729,7 +721,7 @@ window.ui = window.ui || {};
     function onStart() {
         var program = this.data;
 
-        if(program.active) {
+        if (program.active) {
             if (this.start) {
                 API.startProgram(program.uid);
                 window.ui.zones.onProgramStart();
