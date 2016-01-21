@@ -32,12 +32,6 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
-	var StartTimeSunType = {
-		notused: 0,
-		sunrise: 1,
-		sunset: 2
-	};
-
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -352,7 +346,7 @@ window.ui = window.ui || {};
 
 					uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
 					uiElems.startTimeSunMinElem.value = parseInt(minutes % 60);
-					uiElems.startTimeSunOptionElem.value = StartTimeSunType[program.startTimeParams.type];
+					uiElems.startTimeSunOptionElem.value = program.startTimeParams.type;
 					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
 				}
 			}
@@ -503,7 +497,7 @@ window.ui = window.ui || {};
         var program = {};
 
         var startTime = {hour: 0, min: 0}; //start time with fixed hh:mm
-		var startTimeParams = {type: StartTimeSunType.sunrise, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
+		var startTimeParams = {type: 1, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
         var delay = {min: 0, sec: 0};
 
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
@@ -530,7 +524,7 @@ window.ui = window.ui || {};
 			}
 
 
-			startTimeParams.type = StartTimeSunType[uiElems.startTimeSunOptionElem.value];
+			startTimeParams.type = uiElems.startTimeSunOptionElem.value;
 			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
 			startTimeParams.offsetMinutes = hours * 60 + minutes;
 			program.startTimeParams = startTimeParams;
