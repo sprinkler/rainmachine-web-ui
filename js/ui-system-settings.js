@@ -86,10 +86,15 @@ window.ui = window.ui || {};
 			MaxWater: $("#systemSettingsMaxWater"),
 
 			//Advanced Settings Mini-8 SPK2
+			//TODO Developer mode commented out atm
+			/*
 			TouchSet: $("#systemSettingsTouchSet"),
 			Touch: $("#systemSettingsTouch"),
 			LedsSet: $("#systemSettingsLedsSet"),
 			Leds: $("#systemSettingsLeds"),
+			TouchAuthSet: $("#systemSettingsTouchAuthSet"),
+			TouchAuth: $("#systemSettingsTouchAuth"),
+			*/
 			MaxLedSet: $("#systemSettingsMaxLedSet"),
 			MaxLed: $("#systemSettingsMaxLed"),
 			MinLedSet: $("#systemSettingsMixLedSet"),
@@ -102,8 +107,6 @@ window.ui = window.ui || {};
 			TouchAdv: $("#systemSettingsTouchAdv"),
 			TouchPressTimeoutSet: $("#systemSettingsTouchPressTimeoutSet"),
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
-			TouchAuthSet: $("#systemSettingsTouchAuthSet"),
-			TouchAuth: $("#systemSettingsTouchAuth"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
 			TouchProg: $("#systemSettingsTouchProg"),
 			};
@@ -114,8 +117,16 @@ window.ui = window.ui || {};
 		if (! systemSettingsView)
 			loadView();
 
+		if (Data.provision.api.hwVer == 2 || Data.provision.api.hwVer === "simulator") {
+			makeVisibleBlock("#systemSettingsMini8");
+			showSettingsMini8();
+		} else if (Data.provision.api.hwVer == 3) {
+		    console.log("No specific settings for RainMachine HD-* family");
+		}  else {
+			console.log("Unknown device with hwVer %s", Data.provision.api.hwVer);
+		}
 
-		getBetaUpdates();
+		getBetaUpdatesStatus();
 
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 
@@ -177,6 +188,7 @@ window.ui = window.ui || {};
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
 		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+		//TODO Developer mode commented out atm
 		/*
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
@@ -198,6 +210,7 @@ window.ui = window.ui || {};
 
 		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
 
+		//TODO Developer mode commented out atm
 		/*
 		systemSettingsView.MixerHistorySet.onclick = function()	{
 			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
@@ -226,6 +239,39 @@ window.ui = window.ui || {};
 		};
 	}
 
+
+	function showSettingsMini8() {
+		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
+		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
+		systemSettingsView.Sensor.checked = Data.provision.system.useRainSensor;
+		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
+		systemSettingsView.TouchAdv.checked = Data.provision.system.touchAdvanced;
+		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
+		systemSettingsView.TouchProg.checked = Data.provision.system.touchCyclePrograms;
+
+		systemSettingsView.MaxLedSet.onclick = function() {
+			changeSingleSystemProvisionValue("maxLEDBrightness", systemSettingsView.MaxLed.value);
+		};
+		systemSettingsView.MinLedSet.onclick = function() {
+			changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value);
+		};
+		systemSettingsView.SensorSet.onclick = function() {
+			changeSingleSystemProvisionValue("useRainSensor", systemSettingsView.Sensor.checked);
+		};
+		systemSettingsView.TouchTimeoutSet.onclick = function() {
+			changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value);
+		};
+		systemSettingsView.TouchAdvSet.onclick = function() {
+			changeSingleSystemProvisionValue("touchAdvanced", systemSettingsView.TouchAdv.checked);
+		};
+		systemSettingsView.TouchPressTimeoutSet.onclick = function() {
+			changeSingleSystemProvisionValue("touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value);
+		};
+		systemSettingsView.TouchProgSet.onclick = function() {
+			changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked);
+		};
+	}
+
 	function changeSingleSystemProvisionValue(provisionKey, value)
 	{
 		var data = {};
@@ -251,7 +297,7 @@ window.ui = window.ui || {};
 		{
 			console.log("Can't set beta updates %o", data);
 		}
-		getBetaUpdates();
+		getBetaUpdatesStatus();
 	}
 
 	function systemSettingsSetSoftwareRainSensor()
@@ -383,7 +429,7 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function getBetaUpdates() {
+	function getBetaUpdatesStatus() {
 		return APIAsync.getBeta().then(
 			function(o) {
 				systemSettingsView.BetaUpdates.checked = o.enabled;

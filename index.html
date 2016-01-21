@@ -937,19 +937,18 @@
 								-->
 							</table>
 						</div>
-						<div style="display: none;" class="settingsBlock center">
+						<div id="systemSettingsMini8" style="display: none" class="settingsBlock center">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<th>
 										<h1 class="title">RainMachine Mini-8 specific</h1>
-
 									</th>
 								</tr>
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsSensorSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
-										<span class="cardTitle">Rain Sensor</span>
+										<span class="cardTitle">Use hardware rain sensor</span>
 									</td>
 								</tr>
 								<tr>
@@ -968,6 +967,7 @@
 										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button</span>
 									</td>
 								</tr>
+								<!-- DEVELOPER SETTINGS
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsTouchSet" class="button label-blue center right">Change</button>
@@ -982,6 +982,15 @@
 										<span class="cardTitle">Light LEDs</span>
 									</td>
 								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Change</button>
+										<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
+										<span class="cardTitle">Touch to Authorize Access Point</span><br>
+										<span class="subtitle">How many seconds after a touch the setup program is given access</span>
+									</td>
+								</tr>
+								-->
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMaxLedSet" class="button label-blue center right">Change</button>
@@ -1010,14 +1019,6 @@
 										<span class="right mr"><input type="number" id="systemSettingsTouchPressTimeout" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch Long Press Timeout</span><br>
 										<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
-										<span class="cardTitle">Touch to Authorize Access Point</span><br>
-										<span class="subtitle">How many seconds after a touch the setup program is given access</span>
 									</td>
 								</tr>
 							</table>
