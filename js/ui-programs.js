@@ -32,12 +32,6 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
-	var StartTimeSunType = {
-		notused: 0,
-		sunrise: 1,
-		sunset: 2
-	};
-
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -348,6 +342,12 @@ window.ui = window.ui || {};
 					uiElems.startTimeFixedElem.checked = true;
 				} else {
 					uiElems.startTimeSunElem.checked = true;
+					var minutes = program.startTimeParams.offsetMinutes;
+
+					uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
+					uiElems.startTimeSunMinElem.value = parseInt(minutes % 60);
+					uiElems.startTimeSunOptionElem.value = program.startTimeParams.type;
+					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
 				}
 			}
 
@@ -497,7 +497,7 @@ window.ui = window.ui || {};
         var program = {};
 
         var startTime = {hour: 0, min: 0}; //start time with fixed hh:mm
-		var startTimeParams = {type: StartTimeSunType.sunrise, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
+		var startTimeParams = {type: 1, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
         var delay = {min: 0, sec: 0};
 
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
@@ -523,10 +523,12 @@ window.ui = window.ui || {};
 				minutes = 0;
 			}
 
-			startTimeParams.type = StartTimeSunType[uiElems.startTimeSunOptionElem.value] || StartTimeSunType.sunrise;
-			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value) || 1;
+
+			startTimeParams.type = uiElems.startTimeSunOptionElem.value;
+			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
 			startTimeParams.offsetMinutes = hours * 60 + minutes;
 			program.startTimeParams = startTimeParams;
+			console.log(program.startTimeParams);
 		} else { // default to fixed start of day
 			console.log("Default fixed start time with selections: %s", uiElems.startTimeFixedElem.checked);
 			startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
@@ -580,12 +582,11 @@ window.ui = window.ui || {};
         var zoneElems = uiElems.zoneElems;
         for(var zoneId in zoneElems) {
 
-            if(!zoneElems.hasOwnProperty(zoneId)) {
+            if (!zoneElems.hasOwnProperty(zoneId)) {
                 continue;
             }
 
             var zoneTemplateElem = uiElems.zoneElems[zoneId];
-
             var duration = {min: 0, sec: 0};
             duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
             duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
@@ -705,14 +706,20 @@ window.ui = window.ui || {};
 
     function onSave() {
         var data = collectData();
-
-		return;
+		console.log(data);
+		var r;
 
         if (data.uid) {
-            API.setProgram(data.uid, data);
+            r = API.setProgram(data.uid, data);
         } else {
-            API.newProgram(data);
+            r = API.newProgram(data);
         }
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.error("Can't save program %s", r);
+			return;
+		}
 
         closeProgramSettings();
         showPrograms();
