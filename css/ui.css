@@ -740,7 +740,7 @@ input.typeRadio {
 }
 input.typeNumber,
 input.typeTime {
-  margin: 5px 5px 5px 0;
+  margin: 5px 0;
   border: 1px solid #eee;
   padding: 5px 0 5px 5px;
   font-size: 16px;
