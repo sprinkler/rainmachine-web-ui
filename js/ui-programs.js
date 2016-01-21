@@ -32,6 +32,11 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
+	var StartTimeSunType = {
+		sunrise: 1000,
+		sunset: 3000
+	};
+
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -336,6 +341,22 @@ window.ui = window.ui || {};
                 }
             }
 
+			//Fixed day or sunrise/sunset start time new in API 4.1
+			var rawStartTime = 0;
+
+			try {
+				rawStartTime = parseInt(program.rawStartTime);
+			} catch(e) {
+			}
+
+			if (rawStartTime < 0) { //sunrise/sunset
+				uiElems.startTimeSunElem.checked = true;
+
+			} else {
+				uiElems.startTimeFixedElem.checked = true;
+
+			}
+
             //---------------------------------------------------------------------------------------
             // Show zones and watering times.
             //
@@ -393,8 +414,19 @@ window.ui = window.ui || {};
         templateInfo.nameElem = $(templateInfo.programTemplateElem, '[rm-id="program-name"]');
         templateInfo.activeElem = $(templateInfo.programTemplateElem, '[rm-id="program-active"]');
         templateInfo.weatherDataElem = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data"]');
-        templateInfo.startTimeHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-hour"]');
-        templateInfo.startTimeMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-min"]');
+
+		//fixed start time (hh:mm)
+		templateInfo.startTimeFixedElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-fixed"]');
+		templateInfo.startTimeHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-hour"]');
+		templateInfo.startTimeMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-min"]');
+
+		//dynamic start time (sunset/sunrise +/- offset)
+		templateInfo.startTimeSunElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun"]');
+		templateInfo.startTimeSunOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-option"]');
+		templateInfo.startTimeSunHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-hour"]');
+		templateInfo.startTimeSunMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-min"]');
+		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
+
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
         templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
@@ -470,14 +502,12 @@ window.ui = window.ui || {};
     function collectData () {
         var program = {};
 
-        var startTime = {hour: 0, min: 0};
+        var startTime = {hour: 0, min: 0}; //start time with fixed hh:mm
         var delay = {min: 0, sec: 0};
 
-        startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
-        startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
-        soakMins =   parseInt(uiElems.soakElem.value)  || 0;
+        soakMins =  parseInt(uiElems.soakElem.value)  || 0;
 
         if(selectedProgram) {
             program.uid = selectedProgram.uid;
@@ -487,7 +517,29 @@ window.ui = window.ui || {};
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
-        program.startTime = startTime.hour + ":" + startTime.min;
+
+
+		if (uiElems.startTimeSunElem.checked) {
+			console.log("Sunset/Sunrise time selected");
+			var type = StartTimeSunType[uiElems.startTimeSunOptionElem.value] || StartTimeSunType.sunrise;
+			var sign = parseInt(uiElems.startTimeSunOffsetOptionElem.value) || 1;
+			var hour = parseInt(uiElems.startTimeSunHourElem.value) || 0;
+			var min = parseInt(uiElems.startTimeSunMinElem.value) || 0;
+
+			if (hour >= 12) {
+				hour = 12;
+				min = 0;
+			}
+
+			var computedStartTime = - (type + sign * (hour * 60 + min));
+			program.startTime = "" + computedStartTime;
+			console.log("SUN start: %d %d %d %d = %d", type, sign, hour, min, computedStartTime);
+		} else { // default to fixed start of day
+			console.log("Default fixed start time with selections: %s", uiElems.startTimeFixedElem.checked);
+			startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
+			startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
+			program.startTime = startTime.hour + ":" + startTime.min;
+		}
 
         program.cs_on = uiElems.cyclesSoakElem.checked;
         program.cycles = parseInt(uiElems.cyclesElem.value || 0);
@@ -547,7 +599,6 @@ window.ui = window.ui || {};
             duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
 
             var wateringTime = {};
-
 
             wateringTime.id = parseInt(zoneId);
             wateringTime.active = zoneTemplateElem.activeElem.checked;
@@ -662,6 +713,8 @@ window.ui = window.ui || {};
 
     function onSave() {
         var data = collectData();
+
+		return;
 
         if(data.uid) {
             API.setProgram(data.uid, data);
