@@ -348,6 +348,12 @@ window.ui = window.ui || {};
 					uiElems.startTimeFixedElem.checked = true;
 				} else {
 					uiElems.startTimeSunElem.checked = true;
+					var minutes = program.startTimeParams.offsetMinutes;
+
+					uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
+					uiElems.startTimeSunMinElem.value = parseInt(minutes % 60);
+					uiElems.startTimeSunOptionElem.value = StartTimeSunType[program.startTimeParams.type];
+					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
 				}
 			}
 
@@ -523,10 +529,12 @@ window.ui = window.ui || {};
 				minutes = 0;
 			}
 
-			startTimeParams.type = StartTimeSunType[uiElems.startTimeSunOptionElem.value] || StartTimeSunType.sunrise;
-			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value) || 1;
+
+			startTimeParams.type = StartTimeSunType[uiElems.startTimeSunOptionElem.value];
+			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
 			startTimeParams.offsetMinutes = hours * 60 + minutes;
 			program.startTimeParams = startTimeParams;
+			console.log(program.startTimeParams);
 		} else { // default to fixed start of day
 			console.log("Default fixed start time with selections: %s", uiElems.startTimeFixedElem.checked);
 			startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
@@ -580,12 +588,11 @@ window.ui = window.ui || {};
         var zoneElems = uiElems.zoneElems;
         for(var zoneId in zoneElems) {
 
-            if(!zoneElems.hasOwnProperty(zoneId)) {
+            if (!zoneElems.hasOwnProperty(zoneId)) {
                 continue;
             }
 
             var zoneTemplateElem = uiElems.zoneElems[zoneId];
-
             var duration = {min: 0, sec: 0};
             duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
             duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
@@ -705,14 +712,21 @@ window.ui = window.ui || {};
 
     function onSave() {
         var data = collectData();
-
-		return;
+		console.log(data);
+		var r;
 
         if (data.uid) {
-            API.setProgram(data.uid, data);
+            r = API.setProgram(data.uid, data);
         } else {
-            API.newProgram(data);
+            r = API.newProgram(data);
         }
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.error("Can't save program %s", r);
+			ui.main.showError("Invalid programs settings !");
+			return;
+		}
 
         closeProgramSettings();
         showPrograms();
