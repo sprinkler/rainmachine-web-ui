@@ -718,7 +718,6 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.error("Can't save program %s", r);
-			ui.main.showError("Invalid programs settings !");
 			return;
 		}
 
