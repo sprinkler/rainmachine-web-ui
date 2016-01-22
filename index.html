@@ -704,19 +704,21 @@
 									</th>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
 										<button id="systemSettingsDeviceNameSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:30%;"><input type="text" id="systemSettingsDeviceName" placeholder="Name" class="typeText"></span>
+										<span class="right mr" style="width:50%;">
+											Change name: <input type="text" id="systemSettingsDeviceName" placeholder="" class="typeNumber" style="width:45%;">
+										</span>
 										<span class="cardTitle">Device name</span><br>
-										<span class="subtitle">Add a custom name to the RainMachine device</span>
+										<span class="subtitle">Add a custom name to the RainMachine device.</span>
 
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
 										<button id="systemSettingsUnitsSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:30%;">
-											US <input type="radio" id="systemSettingsUnitsUS" name="units" class="typeCheckbox" checked="checked" style="margin-right:50px;">
+											US <input type="radio" id="systemSettingsUnitsUS" name="units" class="typeCheckbox" checked="checked"><br><br>
 											Metric <input type="radio" id="systemSettingsUnitsMetric" name="units" class="typeCheckbox">
 										</span>
 										<span class="cardTitle">Units</span><br>
@@ -724,66 +726,76 @@
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
 
 										<button id="systemSettingsCloudSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:30%;">
-											<input type="text" id="systemSettingsEmail" placeholder="Email Address" class="typeText"/>
+										<span class="right mr" style="width:50%;">
+											Email address: <input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:45%;" /><br><br>
+											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 										</span>
-										<span class="right mr" style="padding-top:15px;">Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/></span>
 										<span class="cardTitle">Remote Access</span><br>
 										<span class="subtitle">Enter the email address asociated with the remote access account.</span>
 										<div id="systemSettingsPendingEmail" class="red"></div>
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
 										<button id="systemSettingsLocationSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:50%;">
-											Latitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat"/>
-											Longitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon"/>
+											Latitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat"/><br><br>
+											Longitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon"/><br><br>
 											Elevation(m): <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev"/>
 										</span>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
-										<span class="restriction">Warning: Changing this settings will delete all weather data</span>
+										<span class="restriction">Warning: Changing this settings will delete all weather data.</span>
 									</td>
 								</tr>
 								<tr>
-									<td>
-										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Change</button>
+									<td class="middle">
+										<button id="" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:70%;">
 											<!--DD:<input type="text" id="systemSettingsDateDays" class="typeNumber">
 											MM:<input type="text" id="systemSettingsDateMonths" class="typeNumber">
 											YYYY:<input type="text" id="systemSettingsDateYear" class="typeNumber" style="margin-right:30px;">-->
-											Date:<input type="date" id="systemSettingsDate" class="typeNumber" style="width:180px;margin-right:30px;">
+											Date:<input type="date" id="systemSettingsDate" class="typeNumber" style="width:180px;"><br><br>
 											Hour: <input type="number" id="systemSettingsHour" class="typeNumber">
 											Minutes: <input type="number" id="systemSettingsMinute" class="typeNumber">
-											Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber"><br><br>
-											Timezone: <select id="systemSettingsTimeZoneSelect">
-												&lt;!&ndash; Generated from Javascript &ndash;&gt;
-											</select>
+											Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber">
 										</span>
 										<span class="cardTitle">Date and Time</span><br>
-										<span class="subtitle">Change the date, time and timezone specific to your location</span>
+										<span class="subtitle">Change the date and time to match your location.</span>
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
+										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Change</button>
+										<span class="right mr" style="width:70%;">
+											Timezone:
+											<select id="systemSettingsTimeZoneSelect">
+												&lt;!&ndash; Generated from Javascript &ndash;&gt;
+											</select>
+											</span>
+										<span class="cardTitle">Time zone</span><br>
+										<span class="subtitle">Choose the timezone specific to your location.</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
 										<button id="systemSettingsPasswordSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:50%;">
-											Old: <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeText" style="display: inline-block;width:180px;margin-right:30px;" />
+											Old: <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeText" style="display: inline-block;width:180px;" /><br><br>
 											New: <input type="password" id="systemSettingsPassword" placeholder="" class="typeText" style="display: inline-block;width:180px;" />
 										</span>
 										<span class="cardTitle">Admin Password</span><br>
-										<span class="subtitle">Change the RainMachine device admin password (will be stored locally on the device)</span>
+										<span class="subtitle">Change the RainMachine device admin password (will be stored locally on the device).</span>
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="middle">
 										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:50%;">
-											Enable master valve (Zone 1): <input type="checkbox" id="systemSettingsEnableMasterValve" style="margin-right:40px;"/>
+											Enable master valve (Zone 1): <input type="checkbox" id="systemSettingsEnableMasterValve" /><br><br>
 											Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
 											<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
 										</span>
@@ -805,7 +817,7 @@
 										<button id="systemSettingsAlexaSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsAlexa" type="checkbox" class="right mr" />
 										<span class="cardTitle">Amazon Echo Alexa Integration</span><br>
-										<span class="subtitle">Allow local LAN integration with Amazon Alexa</span>
+										<span class="subtitle">Allow local LAN integration with Amazon Alexa.</span>
 									</td>
 								</tr>
 								<tr>
@@ -813,7 +825,7 @@
 										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
 										<span class="cardTitle">Software rainsensor</span><br>
-										<span class="subtitle">Overwrite Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified</span>
+										<span class="subtitle">Overwrite Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
 									</td>
 								</tr>
 								<tr>
@@ -821,7 +833,7 @@
 										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
-										<span class="subtitle">Allow to receive beta updates which are more often but not thoroughly tested (use this at your own risk)</span>
+										<span class="subtitle">Allow to receive beta updates which are more often but not thoroughly tested (use this at your own risk).</span>
 									</td>
 								</tr>
 								<tr>
@@ -829,7 +841,7 @@
 										<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Min Watering Duration Threshold</span><br>
-										<span class="subtitle">Don't start zone if computed zone time is below this threshold</span>
+										<span class="subtitle">Don't start zone if computed zone time is below this threshold.</span>
 									</td>
 								</tr>
 								<tr>
@@ -837,7 +849,7 @@
 										<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
 										<span class="cardTitle">Use Correction For Past</span><br>
-										<span class="subtitle">If future water needs should take in account past precipitations</span>
+										<span class="subtitle">If future water needs should take in account past precipitations.</span>
 									</td>
 								</tr>
 								<tr>
@@ -845,7 +857,7 @@
 										<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
 										<span class="cardTitle">Max Watering Coefficient</span><br>
-										<span class="subtitle">How much over watering (more than user specified) is allowed</span>
+										<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 									</td>
 								</tr>
 								<tr>
@@ -928,7 +940,7 @@
 										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsTouchProg"></span>
 										<span class="cardTitle">Enable Touch to Cycle Programs</span><br>
-										<span class="subtitle">Show P on digit display and enable to start the first available program</span>
+										<span class="subtitle">Show P on digit display and enable to start the first available program.</span>
 									</td>
 								</tr>
 								<tr>
@@ -936,7 +948,7 @@
 										<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsTouchAdv" class="middle" /></span>
 										<span class="cardTitle">Touch Advanced</span><br>
-										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button</span>
+										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button.</span>
 									</td>
 								</tr>
 								<!-- DEVELOPER SETTINGS
@@ -959,7 +971,7 @@
 										<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch to Authorize Access Point</span><br>
-										<span class="subtitle">How many seconds after a touch the setup program is given access</span>
+										<span class="subtitle">How many seconds after a touch the setup program is given access.</span>
 									</td>
 								</tr>
 								-->
@@ -982,7 +994,7 @@
 										<button id="systemSettingsTouchTimeoutSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchTimeout" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Touch Sleep Timeout</span><br>
-										<span class="subtitle">After how many seconds of inactivity touch display will sleep</span>
+										<span class="subtitle">After how many seconds of inactivity touch display will sleep.</span>
 									</td>
 								</tr>
 								<tr>
@@ -990,7 +1002,7 @@
 										<button id="systemSettingsTouchPressTimeoutSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchPressTimeout" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch Long Press Timeout</span><br>
-										<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically</span>
+										<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically.</span>
 									</td>
 								</tr>
 							</table>
@@ -998,15 +1010,19 @@
 						<div class="settingsBlock center">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
-									<td>
+									<td class="middle" style="border-top:1px solid #ddd;">
 										<button id="systemSettingsResetDefaultSet" class="button label-red center right">Reset</button>
 										<span class="cardTitle">Reset to Defaults</span><br>
 										<span class="subtitle">Reset device to factory defaults.<br>
 										This action will remove all settings and data saved on device.</span>
 									</td>
 								</tr>
+							</table>
+						</div>
+						<div class="settingsBlock center">
+							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
-									<td>
+									<td class="middle" style="border-top:1px solid #ddd;">
 										<button id="systemSettingsRebootSet" class="button label-red center right">Reboot</button>
 										<span class="cardTitle">Reboot Device</span><br>
 										<span class="subtitle">This action will restart the device.<br>No settings or data will be affected.</span>
