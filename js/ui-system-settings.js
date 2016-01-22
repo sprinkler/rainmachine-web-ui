@@ -175,7 +175,7 @@ window.ui = window.ui || {};
 		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
 		systemSettingsView.DeviceNameSet.onclick = function() {
 			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
-			window.ui.about.getDeviceInfo(); //refresh
+			getProvision(); //refresh
 		};
 		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
 		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
@@ -195,8 +195,8 @@ window.ui = window.ui || {};
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
 		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
-		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
 		*/
+		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
 		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
@@ -209,6 +209,7 @@ window.ui = window.ui || {};
 		};
 
 		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
+		systemSettingsView.BetaUpdatesSet.onclick = function() { systemSettingsSetBetaUpdates() };
 
 		//TODO Developer mode commented out atm
 		/*
@@ -295,7 +296,7 @@ window.ui = window.ui || {};
 
 		if (r === undefined || !r || r.statusCode != 0)
 		{
-			console.log("Can't set beta updates %o", data);
+			console.log("Can't set beta updates");
 		}
 		getBetaUpdatesStatus();
 	}
@@ -388,6 +389,57 @@ window.ui = window.ui || {};
 		} else {
 			console.error("Invalid or unchanged email for remote access");
 		}
+	}
+
+	function systemSettingsChangeLocation()
+	{
+		var lat = systemSettingsView.LocationLat.value;
+		var lon = systemSettingsView.LocationLon.value;
+		var elev = systemSettingsView.LocationElev.value;
+
+		try {
+			lat = parseFloat(lat);
+			lon = parseFloat(lon);
+			elev = parseFloat(elev);
+		} catch(e) {
+			console.error("Invalid location settings %s", e);
+			return;
+		}
+
+		var data = {
+			latitude: lat,
+			longitude: lon,
+			elevation: elev
+		};
+
+		var r = API.setProvision(null, data);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't change location settings.");
+			return;
+		}
+
+		getProvision();
+	}
+
+	function systemSettingsChangeTimeZone()
+	{
+		var timezone =  systemSettingsView.TimeZoneSelect.value;
+
+		var data = {
+			timezone: timezone
+		};
+
+		var r = API.setProvision(null, data);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't change timezone.");
+			return;
+		}
+
+		getProvision();
 	}
 
 	function systemSettingsChangeLog()
