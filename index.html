@@ -706,8 +706,9 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsDeviceNameSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:50%;">
-											Change name: <input type="text" id="systemSettingsDeviceName" placeholder="" class="typeNumber" style="width:45%;">
+										<span class="right mr" style="width:30%;">
+											<span class="left top15">Change name:</span>
+											<input type="text" id="systemSettingsDeviceName" placeholder="" class="typeNumber" style="width:70%;">
 										</span>
 										<span class="cardTitle">Device name</span><br>
 										<span class="subtitle">Add a custom name to the RainMachine device.</span>
@@ -718,8 +719,14 @@
 									<td class="middle">
 										<button id="systemSettingsUnitsSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:30%;">
-											US <input type="radio" id="systemSettingsUnitsUS" name="units" class="typeCheckbox" checked="checked"><br><br>
-											Metric <input type="radio" id="systemSettingsUnitsMetric" name="units" class="typeCheckbox">
+											<span style="display:block;">
+												<span class="left">US</span>
+												<input type="radio" id="systemSettingsUnitsUS" name="units" class="typeCheckbox" checked="checked">
+											</span><br>
+											<span style="display:block;">
+												<span class="left">Metric</span>
+												<input type="radio" id="systemSettingsUnitsMetric" name="units" class="typeCheckbox">
+											</span>
 										</span>
 										<span class="cardTitle">Units</span><br>
 										<span class="restriction">Please reload the webpage for this setting to take effect.</span>
@@ -727,10 +734,11 @@
 								</tr>
 								<tr>
 									<td class="middle">
-
 										<button id="systemSettingsCloudSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:50%;">
-											Email address: <input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:45%;" /><br><br>
+										<span class="right mr" style="width:30%;">
+											<span style="display:block;">
+												<span class="left top15">Email address:</span><input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:70%;" />
+											</span>
 											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 										</span>
 										<span class="cardTitle">Remote Access</span><br>
@@ -741,10 +749,16 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsLocationSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:50%;">
-											Latitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat"/><br><br>
-											Longitude: <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon"/><br><br>
-											Elevation(m): <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev"/>
+										<span class="right mr" style="width:30%;">
+											<span style="display:block;">
+												<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
+											</span>
+											<span style="display:block;">
+												<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
+											</span>
+											<span style="display:block;">
+												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
+											</span>
 										</span>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
@@ -754,14 +768,19 @@
 								<tr>
 									<td class="middle">
 										<button id="" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:70%;">
+										<span class="right mr" style="width:30%;">
 											<!--DD:<input type="text" id="systemSettingsDateDays" class="typeNumber">
 											MM:<input type="text" id="systemSettingsDateMonths" class="typeNumber">
 											YYYY:<input type="text" id="systemSettingsDateYear" class="typeNumber" style="margin-right:30px;">-->
-											Date:<input type="date" id="systemSettingsDate" class="typeNumber" style="width:180px;"><br><br>
-											Hour: <input type="number" id="systemSettingsHour" class="typeNumber">
-											Minutes: <input type="number" id="systemSettingsMinute" class="typeNumber">
-											Seconds: <input type="number" id="systemSettingsSeconds" class="typeNumber">
+											<span style="display:block;">
+												<span class="left top15">Date:</span><input type="date" id="systemSettingsDate" class="typeNumber" style="width:70%;">
+											</span>
+											<span style="display:block;">
+												<span class="left top15">Time:</span>
+													<input type="number" id="systemSettingsHour" class="typeNumber" style="width:21.8%;text-align:center;">
+												: <input type="number" id="systemSettingsMinute" class="typeNumber" style="width:21.6%;text-align:center;">
+												: <input type="number" id="systemSettingsSeconds" class="typeNumber" style="width:21.6%;text-align:center;">
+											</span>
 										</span>
 										<span class="cardTitle">Date and Time</span><br>
 										<span class="subtitle">Change the date and time to match your location.</span>
@@ -770,11 +789,13 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:70%;">
-											Timezone:
-											<select id="systemSettingsTimeZoneSelect">
-												&lt;!&ndash; Generated from Javascript &ndash;&gt;
-											</select>
+										<span class="right mr" style="width:30%;">
+											<span style="display:block;">
+												<span class="left top15">Timezone:</span>
+													<select id="systemSettingsTimeZoneSelect" style="width:70%;">
+														&lt;!&ndash; Generated from Javascript &ndash;&gt;
+													</select>
+												</span>
 											</span>
 										<span class="cardTitle">Time zone</span><br>
 										<span class="subtitle">Choose the timezone specific to your location.</span>
@@ -783,9 +804,13 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsPasswordSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:50%;">
-											Old: <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeText" style="display: inline-block;width:180px;" /><br><br>
-											New: <input type="password" id="systemSettingsPassword" placeholder="" class="typeText" style="display: inline-block;width:180px;" />
+										<span class="right mr" style="width:30%;">
+											<span style="display:block;">
+												<span class="left top15">Old:</span> <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeNumber" style="width:70%;" />
+											</span>
+											<span style="display:block;">
+												<span class="left top15">New:</span> <input type="password" id="systemSettingsPassword" placeholder="" class="typeNumber" style="width:70%;" />
+											</span>
 										</span>
 										<span class="cardTitle">Admin Password</span><br>
 										<span class="subtitle">Change the RainMachine device admin password (will be stored locally on the device).</span>
@@ -794,10 +819,15 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:50%;">
-											Enable master valve (Zone 1): <input type="checkbox" id="systemSettingsEnableMasterValve" /><br><br>
-											Start <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
-											<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
+										<span class="right mr" style="width:30%;">
+											<span style="display:block;">
+												<span class="left">Enable master valve (Zone 1):</span> <input type="checkbox" id="systemSettingsEnableMasterValve" />
+											</span>
+											<br>
+											<span style="display:block;">
+												<span class="left top15">Start</span> <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
+											</span>
 										</span>
 										<span class="cardTitle">Master Valve</span><br>
 										<span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).<br>Zone 1 will be used as Master Valve.</span>
@@ -1011,21 +1041,21 @@
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<td class="middle" style="border-top:1px solid #ddd;">
-										<button id="systemSettingsResetDefaultSet" class="button label-red center right">Reset</button>
-										<span class="cardTitle">Reset to Defaults</span><br>
-										<span class="subtitle">Reset device to factory defaults.<br>
-										This action will remove all settings and data saved on device.</span>
+										<button id="systemSettingsRebootSet" class="button label-red center right">Reboot</button>
+										<span class="cardTitle">Reboot Device</span><br>
+										<span class="subtitle">This action will restart the device.<br>No settings or data will be affected.</span>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<div class="settingsBlock center">
+						<div class="settingsBlock center" style="background-color:#ff3333;">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
-									<td class="middle" style="border-top:1px solid #ddd;">
-										<button id="systemSettingsRebootSet" class="button label-red center right">Reboot</button>
-										<span class="cardTitle">Reboot Device</span><br>
-										<span class="subtitle">This action will restart the device.<br>No settings or data will be affected.</span>
+									<td class="middle" style="border-top:1px solid #ddd; color:white;">
+										<button id="systemSettingsResetDefaultSet" class="button label-red center right" style="color:white;">Reset</button>
+										<span class="cardTitle">Reset to Defaults</span><br>
+										<span class="subtitle" style="color:#660000;">Reset device to factory defaults.<br>
+										This action will remove all settings and data saved on device.</span>
 									</td>
 								</tr>
 							</table>
