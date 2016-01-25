@@ -87,6 +87,7 @@ body.login .loginContainer { display: block; }
 body.login .logout { display: none; }
 body { font-family: Helvetica, Arial, sans-serif; }
 .left { float: left; }
+.top15 {padding-top: 15px;}
 .hidden { display: none; }
 .right { float: right; }
 .center { text-align: center; }
