@@ -515,6 +515,18 @@ _API.prototype.setParserParams = function(id, params)
     return this.post(url, params, null);
 }
 
+_API.prototype.resetParserParams = function(id)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/defaults";
+
+	return this.post(url, {}, null)
+}
+
 _API.prototype.getParserData = function(id, startDate, days)
 {
 	var url = this.URL.parser;

@@ -173,6 +173,7 @@ window.ui = window.ui || {};
 		var saveButton =  $('#weatherSourcesEditSave');
 		var runButton = $('#weatherSourcesEditRun');
 		var closeButton =  $('#weatherSourcesEditClose');
+		var resetButton = $('#weatherSourcesEditDefaults')
 
 		clearTag(weatherDataSourcesEditContent);
 		makeHidden('#weatherSourcesList');
@@ -200,6 +201,7 @@ window.ui = window.ui || {};
 		closeButton.onclick = onWeatherSourceClose;
 		saveButton.onclick = function() { onWeatherSourceSave(p.uid); }
 		runButton.onclick = function() { onWeatherSourceRun(p.uid); }
+		resetButton.onclick = function() { onWeatherSourceReset(p.uid); }
 	}
 
 	function onWeatherSourceClose() {
@@ -219,6 +221,15 @@ window.ui = window.ui || {};
 		showParsers(false);
 		showParsers(true);
 		onWeatherSourceClose();
+	}
+
+
+	function onWeatherSourceReset(id) {
+		API.resetParserParams(id);
+		var p = API.getParsers(id);
+		console.log(p);
+		showParserDetails(p.parser);
+		showParsers(false);
 	}
 
 	function onWeatherSourceSave(id) {
@@ -259,6 +270,7 @@ window.ui = window.ui || {};
 		}
 
 		if (shouldSaveEnable) {
+			console.log("Setting weather source %d to %o", p.uid, enabledElem.checked);
 			console.log(API.setParserEnable(p.uid, enabledElem.checked));
 		}
 
@@ -272,12 +284,6 @@ window.ui = window.ui || {};
             showParsers(true);
 			onWeatherSourceClose();
 		}
-	}
-
-	function setWeatherSource(id, enabled)
-	{
-		console.log("Setting weather source %d to %o", id, enabled);
-		API.setParserEnable(id, enabled);
 	}
 
 	function setupWeatherSourceUpload() {
@@ -496,7 +502,6 @@ window.ui = window.ui || {};
 		}
 	}
 
-
 		function showWaterLogSimple() {
 
     		var container = $("#wateringHistorySimpleContent");
@@ -603,6 +608,15 @@ window.ui = window.ui || {};
     			container.appendChild(dayTemplate);
     		}
     	}
+
+	function getParserById(id) {
+		for (var i = 0; i < Data.parsers.parsers.length; i++) {
+			if (Data.parsers.parsers[i].id === id)
+				return Data.parsers.parsers[i];
+		}
+
+		return null;
+	}
 
 	//--------------------------------------------------------------------------------------------
 	//
