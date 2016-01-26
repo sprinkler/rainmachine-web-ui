@@ -856,7 +856,7 @@
 										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
 										<span class="cardTitle">Software rainsensor</span><br>
-										<span class="subtitle">Overwrite Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
+										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
 									</td>
 								</tr>
 								<tr>
@@ -864,15 +864,15 @@
 										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
-										<span class="subtitle">Allow to receive beta updates which are more often but not thoroughly tested (use this at your own risk).</span>
+										<span class="subtitle">Allow to receive beta updates which are more often, but not thoroughly tested (use this at your own risk).</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
-										<span class="cardTitle">Min Watering Duration Threshold</span><br>
-										<span class="subtitle">Don't start zone if computed zone time is below this threshold.</span>
+										<span class="cardTitle">Minimum Watering Duration Threshold</span><br>
+										<span class="subtitle">Don't start watering zone if computed watering time is below this threshold.</span>
 									</td>
 								</tr>
 								<tr>
@@ -887,7 +887,7 @@
 									<td class="middle">
 										<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
 										<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
-										<span class="cardTitle">Max Watering Coefficient</span><br>
+										<span class="cardTitle">Maximum Watering Coefficient</span><br>
 										<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 									</td>
 								</tr>
@@ -1363,7 +1363,7 @@
 										</span>
 										<span class="right">
 											<span>
-												with offset (hh:mm)&nbsp;<span><input rm-id="program-start-time-sun-hour" type="number" min="0" max="12" class="typeNumber" placeholder="00"></span>
+												+ offset (hh:mm)&nbsp;<span><input rm-id="program-start-time-sun-hour" type="number" min="0" max="12" class="typeNumber" placeholder="00"></span>
 												:
 												&nbsp;<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
 											</span>
