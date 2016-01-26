@@ -144,14 +144,18 @@ window.ui = window.ui || {};
 
 			nameElem.textContent = parserName;
 
-			if (p.lastKnownError === "") {
-				if (p.lastRun !== null)
-					lastRunElem.textContent = "Success";
-				else
-					lastRunElem.textContent = "Never";
+			if (p.enabled) {
+				if (p.lastKnownError === "") {
+					if (p.lastRun !== null)
+						lastRunElem.textContent = "Success";
+					else
+						lastRunElem.textContent = "Never";
+				} else {
+					lastRunElem.textContent = "ERROR: " + p.lastKnownError;
+					lastRunElem.style.color = "red";
+				}
 			} else {
-				lastRunElem.textContent = "ERROR: " + p.lastKnownError;
-				lastRunElem.style.color = "red";
+				lastRunElem.textContent = "	";
 			}
 
 			//template.onclick = function() { APIAsync.getParsers(this.parserid).then(function(parserData){ showParserDetails(parserData.parser) }); }
