@@ -115,7 +115,7 @@ function processParserChartData(id) {
     sortDataPoint("temperature");
     sortDataPoint("wind");
 
-	console.log(parsersHourlyChartData);
+	//console.log(parsersHourlyChartData);
 	generateAllKnownCharts(id);
 }
 
@@ -139,7 +139,7 @@ function generateAllKnownCharts(id) {
 	var keys = Object.keys(parserCharts);
 	for (var i = 0; i < keys.length; i++) {
 		var keyName = keys[i];
-		console.log("Generating chart for parser %d key: %s", id, keyName);
+		//console.log("Generating chart for parser %d key: %s", id, keyName);
 		generateSpecificParsersChart(keyName);
 	}
 }
