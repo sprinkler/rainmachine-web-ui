@@ -331,6 +331,7 @@ window.ui = window.ui || {};
 				o.textContent = "Error uploading" + status.file.name;
 			} else {
 				o.textContent = "Successful uploaded " + status.file.name
+				showParsers(false);
 			}
 		}
 	}
