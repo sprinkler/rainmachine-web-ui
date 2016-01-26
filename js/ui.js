@@ -7,16 +7,15 @@ window.ui = window.ui || {};
 
 (function(_main) {
 
-/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
- * container/menu. It's actually like a submenu but it's important enough to have its button placed on main menu.
-*/
-
  	var loop = null;
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
     var uiElems = {};
 
+	/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
+	 * container/menu. It's actually like a submenu but it's important enough to have its button placed on main menu.
+	 */
 	var mainMenus = [
 		{ prefix: "dashboard",	parent: null, 			func: showDashboard, 							visibilityFunc: makeVisibleBlock },
 		{ prefix: "programs",	parent: "dashboard",	func: function() { togglePrograms(false); },	visibilityFunc: makeVisibleBlock },
@@ -174,6 +173,8 @@ window.ui = window.ui || {};
 
 	function uiLoop() {
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
+
+			//Check if watering and update programs/zones status
 			APIAsync.getWateringQueue()
 			.then(
 				function(waterQueue) {
@@ -201,6 +202,14 @@ window.ui = window.ui || {};
 					window.ui.programs.showPrograms();
 				}
 			);
+			//Refresh (without data download) parser box
+			window.ui.settings.updateParsers(true);
+
+			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
+			if (_main.weatherRefreshed) {
+				loadCharts(true, 60);
+				_main.weatherRefreshed = false;
+			}
 		}
 
 		if (isVisible($("#snoozeCurrentContent"))) {
@@ -335,9 +344,9 @@ window.ui = window.ui || {};
 	//--------------------------------------------------------------------------------------------
 	//
 	//
-	_main.uiStart = uiStart;
 	_main.showError = showError;
 	_main.uiStart = uiStart;
+	_main.weatherRefreshed = false;
 
 } (window.ui.main = window.ui.main || {}));
 
