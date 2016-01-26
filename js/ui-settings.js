@@ -85,7 +85,7 @@ window.ui = window.ui || {};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = function() { onWeatherSourceRun(); };
+		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
 
 		setupWeatherSourceUpload();
 		getAllEnabledParsersData()
@@ -219,7 +219,6 @@ window.ui = window.ui || {};
 
 		API.runParser(id, true, withMixer, false);
 		showParsers(false);
-		showParsers(true);
 		onWeatherSourceClose();
 	}
 
@@ -281,7 +280,6 @@ window.ui = window.ui || {};
 		if (shouldSaveEnable || shouldSaveParams) {
 			showWeather();
 			showParsers(false);
-            showParsers(true);
 			onWeatherSourceClose();
 		}
 	}
@@ -623,6 +621,7 @@ window.ui = window.ui || {};
 	//
 	_settings.showWeather = showWeather;
 	_settings.showParsers = showParsers;
+	_settings.updateParsers = updateParsers;
 	_settings.showRainDelay = showRainDelay;
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
