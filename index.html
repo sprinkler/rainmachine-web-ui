@@ -613,9 +613,8 @@
 											<div id="weatherSourcesEdit" class="hidden">
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
 												<div style="height:40px;">&nbsp;</div>
-												<div class="absolute full center">
-													<button id="weatherSourcesEditSave" class="button label-blue center">Save</button>
-													<button id="weatherSourcesEditDelete" class="button label-red center right">Delete</button>
+												<div class="absolute full">
+													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
 													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
 													<button id="weatherSourcesEditRun" class="button label-gray center left ml20">Refresh Now</button>
 													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml20">Defaults</button>
@@ -1492,8 +1491,9 @@
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
-			<span class="bold" rm-id="weather-source-name"></span>
-			<span class="separator"></span>
+			<button id="weatherSourcesEditDelete" class="button red center right">Delete</button>
+			<h1 rm-id="weather-source-name"></h1>
+			<!--<span class="separator"></span>-->
 			<div>Active: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
 			<span class="separator"></span>
