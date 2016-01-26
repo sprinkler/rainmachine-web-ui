@@ -358,6 +358,8 @@ h1 {
   margin-bottom: 10px;
 }
 .subtitle {
+  padding: 0 10px;
+  padding-left: 0;
   font: 12px normal Arial, sans-serif;
   color: #888;
 }
