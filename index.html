@@ -628,7 +628,7 @@
 												<span class="separator"></span>
 												<input type="file" id="weatherSourcesUploadFile">
 												<br>
-												<div id="weatherSourcesUploadStatus">Please select a *.py or *.pyc file</div>
+												<div id="weatherSourcesUploadStatus">Please select a python source file (.py extension).</div>
 												<div class="absolute">
 													<button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
 													<button id="weatherSourcesUploadClose" class="button label-gray center right">Close</button>
@@ -768,7 +768,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="" class="button label-blue center right">Change</button>
+										<button id="systemSettingsDateTimeSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:30%;">
 											<!--DD:<input type="text" id="systemSettingsDateDays" class="typeNumber">
 											MM:<input type="text" id="systemSettingsDateMonths" class="typeNumber">
@@ -1491,7 +1491,7 @@
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
-			<button id="weatherSourcesEditDelete" class="button red center right">Delete</button>
+			<button rm-id="weather-source-delete" class="button red center right" style="display: none">Delete</button>
 			<h1 rm-id="weather-source-name"></h1>
 			<!--<span class="separator"></span>-->
 			<div>Active: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>

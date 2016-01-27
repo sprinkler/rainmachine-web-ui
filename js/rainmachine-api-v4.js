@@ -564,6 +564,19 @@ _API.prototype.runParser = function(id, withParser, withMixer, withSimulator)
     return this.post(url, data, null);
 }
 
+_API.prototype.deleteParser = function(id)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/delete";
+
+	return this.post(url, {}, null)
+}
+
+
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 _API.prototype.getMixer = function(startDate, days)
 {

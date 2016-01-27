@@ -282,6 +282,7 @@ window.ui = window.ui || {};
         uiElems.chartsTime = $('#chartsTimeSpan');
         uiElems.chartsDays = $('#weatherChartsContainer');
         uiElems.error = $('#error');
+		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
 	}
