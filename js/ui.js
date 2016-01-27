@@ -285,6 +285,8 @@ window.ui = window.ui || {};
 		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
+		uiElems.deviceImage = $('#deviceImage');
+		uiElems.deviceImage.onclick = showDashboard;
 	}
 
 	function uiStart()
