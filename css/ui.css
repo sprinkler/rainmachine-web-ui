@@ -112,22 +112,20 @@ h1.title {
 .ml20 { margin-left: 20px; }
 #success,
 #error {
-  display: none;
-  padding: 15px 0;
-  margin-bottom: 20px;
-  text-align: center;
+  display:none;
+  position: fixed;
+  top: 2vh;
+  left: 22vw;
+  width: 50vw;
+  border-radius: 10px;
+  padding: 2%;
+  z-index: 9999;
+}
+#error {
+  background-color: rgba(247, 169, 169, 0.8);
 }
 #success {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border: 1px solid #d6e9c6;
-}
-#error,
-.error {
-  color: #a94442;
-  background-color: #f2dede;
-  border: 1px solid #ebccd1;
-  padding: 5px;
+  background-color: rgba(163,255,153,0.8);
 }
 b,
 strong { font-weight: 700; }
@@ -932,6 +930,7 @@ select, .selectSmall {
   border-radius: 10px;
   z-index: 3;
 }
+
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram { background-color: #fff }
