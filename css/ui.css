@@ -117,15 +117,17 @@ h1.title {
   top: 2vh;
   left: 22vw;
   width: 50vw;
-  border-radius: 10px;
-  padding: 2%;
+  border-radius: 0px;
+  padding: 30px;
+  background-color: white;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
   z-index: 9999;
 }
 #error {
-  background-color: rgba(247, 169, 169, 0.8);
+  border-top: 3px solid red;
 }
 #success {
-  background-color: rgba(163,255,153,0.8);
+  border-top: 3px solid darkgreen;
 }
 b,
 strong { font-weight: 700; }
