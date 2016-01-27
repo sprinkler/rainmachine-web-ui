@@ -817,6 +817,7 @@ select, .selectSmall {
   overflow: hidden;
   float: left;
   margin-right: 10px;
+  cursor: pointer;
 }
 .spk2 {
   margin-top: 0;

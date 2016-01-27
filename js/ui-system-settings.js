@@ -36,6 +36,7 @@ window.ui = window.ui || {};
 			Hour: $("#systemSettingsHour"),
 			Minute: $("#systemSettingsMinute"),
 			Seconds: $("#systemSettingsSeconds"),
+			DateTimeSet: $("#systemSettingsDateTimeSet"),
 			TimeZoneSelect: $("#systemSettingsTimeZoneSelect"),
 			TimeZoneSet: $("#systemSettingsTimeZoneSet"),
 
@@ -178,6 +179,7 @@ window.ui = window.ui || {};
 			getProvision(); //refresh
 		};
 		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
+		systemSettingsView.DateTimeSet.onclick = function() { systemSettingsChangeDateTime(); };
 		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
 		systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
 		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
@@ -423,6 +425,26 @@ window.ui = window.ui || {};
 		getProvision();
 	}
 
+	function systemSettingsChangeDateTime()
+	{
+		var date = systemSettingsView.Date.value;
+		var h = systemSettingsView.Hour.value;
+		var m = systemSettingsView.Minute.value;
+
+		var dateStr = date + " " + h + ":" + m;
+		console.log("Date: %s DateStr: %s", date, dateStr);
+
+		var r = API.setDateTime(dateStr);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			window.ui.main.showError("Can't change date/time settings: " + r.message);
+			return;
+		}
+
+		getProvision();
+	}
+
 	function systemSettingsChangeTimeZone()
 	{
 		var timezone =  systemSettingsView.TimeZoneSelect.value;
@@ -453,12 +475,19 @@ window.ui = window.ui || {};
 		//Month/Day should have a leading 0
 		var dateString = deviceDateTime.getFullYear() + "-" +
 		 				('0' + (deviceDateTime.getMonth() + 1)).slice(-2) + '-' +
-						('0' + deviceDateTime.getDate()).slice(-2)
+						('0' + deviceDateTime.getDate()).slice(-2);
 
-		systemSettingsView.Date.value = dateString;
-		systemSettingsView.Hour.value = deviceDateTime.getHours();
-		systemSettingsView.Minute.value = deviceDateTime.getMinutes();
-		systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+		//Don't update if focused by user
+		if (document.activeElement !== systemSettingsView.Seconds &&
+			document.activeElement !== systemSettingsView.Minute &&
+			document.activeElement !== systemSettingsView.Hour &&
+			document.activeElement !== systemSettingsView.Date) {
+
+			systemSettingsView.Date.value = dateString;
+			systemSettingsView.Hour.value = deviceDateTime.getHours();
+			systemSettingsView.Minute.value = deviceDateTime.getMinutes();
+			systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+		}
 
 		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
 	}
@@ -511,6 +540,5 @@ window.ui = window.ui || {};
 	//
 	//
 	_system.showSettings = showSettings;
-	//_system.systemSettingsView = systemSettingsView;
 
 } (window.ui.system = window.ui.system || {}));
