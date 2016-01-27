@@ -616,8 +616,8 @@
 												<div class="absolute full">
 													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
 													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-													<button id="weatherSourcesEditRun" class="button label-red center left ml20">Refresh Now</button>
-													<button id="weatherSourcesEditDefaults" class="button label-gray center ml20">Defaults</button>
+													<button id="weatherSourcesEditRun" class="button label-gray center left ml20">Refresh Now</button>
+													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml20">Defaults</button>
 												</div>
 											</div>
 											<!-- Weather Data Source EDIT (End) -->
@@ -646,8 +646,8 @@
 												</div>
 												<br><br><br>
 												<div class="absolute full">
-													<button id="weatherSourcesAdd" class="button label-grey center right">Add New</button>
-													<button id="weatherSourcesRun" class="button label-red center left ml20">Refresh All</button>
+													<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
+													<button id="weatherSourcesRun" class="button label-gray center left ml20">Refresh All</button>
 												</div>
 											</div>
 										</div>
@@ -1491,8 +1491,9 @@
 
 		<!-- Template for Weather Data Sources Details(Start) -->
 		<div id="weather-sources-details-template">
-			<span class="bold" rm-id="weather-source-name"></span>
-			<span class="separator"></span>
+			<button id="weatherSourcesEditDelete" class="button red center right">Delete</button>
+			<h1 rm-id="weather-source-name"></h1>
+			<!--<span class="separator"></span>-->
 			<div>Active: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
 			<span class="separator"></span>
