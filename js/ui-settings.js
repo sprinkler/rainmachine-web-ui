@@ -177,7 +177,7 @@ window.ui = window.ui || {};
 		var saveButton =  $('#weatherSourcesEditSave');
 		var runButton = $('#weatherSourcesEditRun');
 		var closeButton =  $('#weatherSourcesEditClose');
-		var resetButton = $('#weatherSourcesEditDefaults')
+		var resetButton = $('#weatherSourcesEditDefaults');
 
 		clearTag(weatherDataSourcesEditContent);
 		makeHidden('#weatherSourcesList');
@@ -188,6 +188,7 @@ window.ui = window.ui || {};
         var enabledElem = $(template, '[rm-id="weather-source-enable"]');
         var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
         var paramsElem = $(template, '[rm-id="weather-source-params"]');
+
 
         nameElem.textContent = p.name;
 		enabledElem.checked = p.enabled;
@@ -200,12 +201,19 @@ window.ui = window.ui || {};
 			}
 		}
 
+		// we only allow delete on custom uploaded parsers
+		if (p.custom) {
+			var deleteButton = $(template, '[rm-id="weather-source-delete"]');
+			deleteButton.onclick = function() { onWeatherSourceDelete(p.uid); };
+			makeVisible(deleteButton);
+		}
+
 		weatherDataSourcesEditContent.appendChild(template);
 
 		closeButton.onclick = onWeatherSourceClose;
-		saveButton.onclick = function() { onWeatherSourceSave(p.uid); }
-		runButton.onclick = function() { onWeatherSourceRun(p.uid); }
-		resetButton.onclick = function() { onWeatherSourceReset(p.uid); }
+		saveButton.onclick = function() { onWeatherSourceSave(p.uid); };
+		runButton.onclick = function() { onWeatherSourceRun(p.uid); };
+		resetButton.onclick = function() { onWeatherSourceReset(p.uid); };
 	}
 
 	function onWeatherSourceClose() {
@@ -226,13 +234,22 @@ window.ui = window.ui || {};
 		onWeatherSourceClose();
 	}
 
-
 	function onWeatherSourceReset(id) {
 		API.resetParserParams(id);
 		var p = API.getParsers(id);
-		console.log(p);
 		showParserDetails(p.parser);
 		showParsers(false);
+	}
+
+	function onWeatherSourceDelete(id) {
+		var r = API.deleteParser(id);
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.error("Can't delete parser %d: %o",id, r);
+			return;
+		}
+		showParsers(false);
+		onWeatherSourceClose();
 	}
 
 	function onWeatherSourceSave(id) {
@@ -309,7 +326,7 @@ window.ui = window.ui || {};
         uiElems.weatherSources.Upload.Close.onclick = function() {
         	makeVisible("#weatherSourcesList");
         	makeHidden("#weatherSourcesUpload");
-        	uiElems.weatherSources.Upload.Status.textContent = "Please select a *.py or *.pyc file";
+        	uiElems.weatherSources.Upload.Status.textContent = "Please select a python source file (.py extension).";
         }
 
 		uiElems.weatherSources.Upload.Upload.onclick = function() {
@@ -326,9 +343,12 @@ window.ui = window.ui || {};
 
 		if (status.data && status.file) {
 			o.textContent = "Uploading file " + status.file.name;
-			var ret = API.uploadParser(status.file.name, status.file.type, status.data);
-			if (ret === null) {
+			var r = API.uploadParser(status.file.name, status.file.type, status.data);
+			if (r === undefined || !r || r.statusCode != 0) {
 				o.textContent = "Error uploading" + status.file.name;
+				if (r.message) {
+					o.textContent += ": " + r.message;
+				}
 			} else {
 				o.textContent = "Successful uploaded " + status.file.name
 				showParsers(false);
