@@ -160,18 +160,9 @@ function getProgramById (id) {
 }
 
 /**
- * Gets the data from the API for all the Charts,
+ * Gets the daily future data from the API for charts
  * @param pastDays
  */
-function getChartDataSync(pastDays) {
-	Data.programs = API.getPrograms(); //for programs name and status
-	Data.mixerData = API.getMixer(); //for weather measurements
-	Data.dailyDetails = API.getDailyStats(null, true); //for water need in the future
-	Data.waterLog = API.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for used water
-	//Data.waterLogSimulated = API.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays); //for simulated used water
-	processChartData();
-}
-
 function getDailyStatsWithRetry(retryCount, retryDelay) {
 
 	if (retryCount-- > 0) {
@@ -187,23 +178,33 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 	}
 }
 
+/**
+ * Gets the data from the API for all the Charts,
+ * @param pastDays
+ */
 function getChartData(pastDays) {
+	console.log("Getting all dashboard data for %d past days...", pastDays);
+	//for programs name and status
 	APIAsync.getPrograms()
-	.then(function(o) { Data.programs = o; chartsDataCounter++; processChartData(); }); //for programs name and status
+	.then(function(o) { Data.programs = o; chartsDataCounter++; processChartData(); });
 
-	APIAsync.getMixer()
-	.then(function(o) { Data.mixerData = o; chartsDataCounter++; processChartData(); }) //for weather measurements
+	//for weather data in the  past + 7 future
+	APIAsync.getMixer(Util.getDateWithDaysDiff(pastDays), pastDays + 7)
+	.then(function(o) { Data.mixerData = o.mixerDataByDate; chartsDataCounter++; processChartData(); });
 
+	//for used water
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();}) //for used water
+	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();});
 
 //	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
 //	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
 
+	//for future watering/program runs
 	getDailyStatsWithRetry(5, 5000);
 
+	// for water saved gauge (entire year)
 	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(356 + 7), 356 + 7)
-	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });  // for water saved gauge
+	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });
 }
 
 /**
@@ -243,22 +244,19 @@ function processChartData() {
 	}
 
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
-	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.mixerData.length; mixedDataIndex++) {
-		var recent = Data.mixerData.mixerData[mixedDataIndex].dailyValues;
+	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
+		var entry = Data.mixerData[mixedDataIndex];
 
-		for (dailyValuesIndex = 0; dailyValuesIndex < recent.length; dailyValuesIndex++) {
-			var dvDay =  recent[dailyValuesIndex].day.split(' ')[0];
-			chartsData.qpf.insertAtDate(dvDay, recent[dailyValuesIndex].qpf);
-			chartsData.maxt.insertAtDate(dvDay, recent[dailyValuesIndex].maxTemp);
-			chartsData.mint.insertAtDate(dvDay, recent[dailyValuesIndex].minTemp);
-			chartsData.temperature.insertAtDate(dvDay, recent[dailyValuesIndex].temperature);
-			chartsData.condition.insertAtDate(dvDay, recent[dailyValuesIndex].condition);
-		}
+		var dvDay =  entry.day.split(' ')[0];
+		chartsData.qpf.insertAtDate(dvDay, entry.qpf);
+		chartsData.maxt.insertAtDate(dvDay, entry.maxTemp);
+		chartsData.mint.insertAtDate(dvDay, entry.minTemp);
+		chartsData.temperature.insertAtDate(dvDay, entry.temperature);
+		chartsData.condition.insertAtDate(dvDay, entry.condition);
 	}
 
 	//Total Water Need future days
 	var daily = Data.dailyDetails.DailyStatsDetails;
-
 
 	for (dailyDetailsIndex = 0; dailyDetailsIndex < daily.length; dailyDetailsIndex++) {
 		var wnfTotalDayUserWater = 0;
