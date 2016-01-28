@@ -406,7 +406,7 @@ window.ui = window.ui || {};
 
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
-		var days = parseInt($("#waterHistoryDays").value);
+		var days = parseInt($("#waterHistoryDays").value) || 7;
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
 
 		APIAsync.getWateringLog(false, true, startDate, days).then(
@@ -415,6 +415,9 @@ window.ui = window.ui || {};
 	}
 
 	function showWaterLog() {
+
+		var days = 7;
+		var startDate = Util.getDateWithDaysDiff(days);
 
 		var container = $("#wateringHistoryContent");
 		var startDateElem = $("#waterHistoryStartDate");
@@ -425,17 +428,14 @@ window.ui = window.ui || {};
 		clearTag(container);
 
 		//First time on this page view 7 past days
-		if (Data.waterLogCustom === null) {
-			var days = 7;
-			var startDate = Util.getDateWithDaysDiff(days);
-
+		if (!startDateElem.value || !daysElem.value) {
 			startDateElem.value = startDate;
 			daysElem.value = days;
-
+		}
+		if (Data.waterLogCustom === null) {
 			APIAsync.getWateringLog(false, true, startDate, days).then(
             	function(o) {Data.waterLogCustom = o; showWaterLog();}
             );
-
 			return;
 		}
 
@@ -530,9 +530,16 @@ window.ui = window.ui || {};
     		var container = $("#wateringHistorySimpleContent");
     		var waterLog = Data.waterLogCustom;
 
-    		if (waterLog === null) {
+			if (Data.waterLogCustom === null) {
+				var days = 7;
+				var startDate = Util.getDateWithDaysDiff(days);
+				APIAsync.getWateringLog(false, true, startDate, days).then(
+					function(o) {Data.waterLogCustom = o; showWaterLogSimple();}
+				);
 				return;
-    		}
+			}
+
+			var waterLog = Data.waterLogCustom;
 
             clearTag(container);
 

@@ -207,7 +207,7 @@ window.ui = window.ui || {};
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
 			if (_main.weatherRefreshed) {
-				loadCharts(true, 60);
+				loadCharts(true, 30);
 				_main.weatherRefreshed = false;
 			}
 		}
@@ -333,12 +333,10 @@ window.ui = window.ui || {};
 			//TODO Show parsers simple
 			window.ui.settings.showParsers(true);
 
-			loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
+			loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
 
 			//TODO Show waterlog simple
-			var days = 7;
-			var startDate = Util.getDateWithDaysDiff(days);
-			APIAsync.getWateringLog(false, true, startDate, days).then(function(o) {Data.waterLogCustom = o; window.ui.settings.showWaterLogSimple();});
+			window.ui.settings.showWaterLogSimple();
 
 			loop = setInterval(uiLoop, 2000);
 		});
