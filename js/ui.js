@@ -25,7 +25,7 @@ window.ui = window.ui || {};
 
 	var settingsSubmenus = [
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
-		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
+		{ name: "Snooze",  			func: window.ui.settings.getRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
@@ -212,8 +212,8 @@ window.ui = window.ui || {};
 			}
 		}
 
-		if (isVisible($("#snoozeCurrentContent"))) {
-			window.ui.settings.updateSnoozeTimer();
+		if (isVisible($("#snooze"))) {
+			window.ui.settings.getRainDelay();
 		}
 	}
 
