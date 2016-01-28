@@ -164,7 +164,7 @@ window.ui = window.ui || {};
 
 
 		Data.timeDate = API.getDateTime();
-		deviceDateTime = new Date(Data.timeDate.appDate);
+		deviceDateTime = new Date(Data.timeDate.appDate.replace(/-/g, "/"));
 		clearInterval(deviceDateTimeTimer);
 		deviceDateTimeTimer = setInterval(showDeviceDateTime, 1000);
 
@@ -483,10 +483,10 @@ window.ui = window.ui || {};
 			document.activeElement !== systemSettingsView.Hour &&
 			document.activeElement !== systemSettingsView.Date) {
 
-			systemSettingsView.Date.value = dateString;
 			systemSettingsView.Hour.value = deviceDateTime.getHours();
 			systemSettingsView.Minute.value = deviceDateTime.getMinutes();
 			systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+			systemSettingsView.Date.value = dateString;
 		}
 
 		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
