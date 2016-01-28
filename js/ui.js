@@ -212,7 +212,7 @@ window.ui = window.ui || {};
 			}
 		}
 
-		if (isVisible($("#snooze"))) {
+		if (isVisible($("#settings")) && isVisible($("#snooze"))) {
 			window.ui.settings.getRainDelay();
 		}
 	}
@@ -304,6 +304,12 @@ window.ui = window.ui || {};
 		$("#logoutBtn").onclick = function() {
 			Storage.deleteItem("access_token");
 			Util.redirectHome(location);
+		};
+
+		//More button for water log details
+		$("#waterlog-more").onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings0').onclick();
 		};
 
 		//Edit button for dashboard weather data
