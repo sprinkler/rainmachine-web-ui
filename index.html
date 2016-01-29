@@ -535,75 +535,71 @@
 						</div>
 
 						<div id="weather" style="display: none;">
-							<div id="weatherDataSources">
-								<div class="settingsBlock center">
-									<div class="listItemSettings relative" style="width:30%;">
-										<div>
-											<div class="bold">Rain Sensitivity</div>
-											<span class="separator"></span>
-											<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
-											<output for="rainSensitivity" id="outputRainSensitivity" class="weatherPercent">80</output>
-												<span class="helpText">
-													How much, as percentage, of the predicted rain should be taken in consideration.
-													</span>
-											<script>
-													function outputUpdateRain(rainsensitivity) {
-													document.querySelector('#outputRainSensitivity').value = rainsensitivity;
-													}
-													</script>
-											<div class="absolute">
-												<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
-												<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right: 10px;">Default</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="listItemSettings relative" style="width:30%;">
-										<div>
-											<div class="bold">Field Capacity</div>
-											<span class="separator"></span>
-											<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
-											<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
-														<span class="helpText">
-														The maximum number of days your soil can store water in the summer
-														</span>
-											<script>
-														function outputUpdateCapacity(capacity) {
-														document.querySelector('#outputFieldCapacity').value = capacity;
+							<div class="settingsBlock center">
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<th>
+												<h1 class="title">Weather Sensitivity</h1>
+											</th>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="rainSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
+												<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right:10px;margin-top:15px;">Default</button>
+												<span class="right mr" style="width:30%;">
+													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
+													<output for="rainSensitivity" id="outputRainSensitivity" class="weatherPercent">80</output>
+													<script>
+														function outputUpdateRain(rainsensitivity) {
+															document.querySelector('#outputRainSensitivity').value = rainsensitivity;
 														}
-														</script>
-
-											<div class="absolute">
-												<button id="fieldCapacitySave" class="button label-blue center right">Save</button>
-												<button id="fieldCapacityDefault" class="button label-grey center right" value="7" style="margin-right: 10px;">Default</button>
-											</div>
-										</div>
-									</div>
-
-									<div class="listItemSettings relative" style="width:30%;">
-										<div>
-											<div class="bold">Wind Sensitivity</div>
-											<span class="separator"></span>
-											<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
-											<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
-													<span class="helpText">
+													</script>
+												</span>
+												<span class="cardTitle">Rain Sensitivity</span><br>
+												<span class="subtitle">How much, as percentage, of the predicted rain should be taken in consideration.</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="fieldCapacitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
+												<button id="fieldCapacityDefault" class="button label-grey center right" value="2" style="margin-right:10px;margin-top:15px;">Default</button>
+												<span class="right mr" style="width:30%;">
+													<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
+													<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
+													<script>
+														function outputUpdateCapacity(capacity) {
+															document.querySelector('#outputFieldCapacity').value = capacity;
+														}
+													</script>
+												</span>
+												<span class="cardTitle">Field Capacity</span><br>
+												<span class="subtitle">The maximum number of days your soil can store water in the summer.</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="windSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
+												<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right:10px;margin-top:15px;">Default</button>
+												<span class="right mr" style="width:30%;">
+													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
+													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
+													<script>
+														function outputUpdateWind(windsensitivity) {
+															document.querySelector('#outputWindSensitivity').value = windsensitivity;
+														}
+													</script>
+												</span>
+												<span class="cardTitle">Wind Sensitivity</span><br>
+												<span class="subtitle">
 													0-33% Little or no wind exposure.<br>
                                                     33-75% Urban areas + trees (Default).<br>
                                                     75-100% Full wind exposure, open fields.
-													</span>
-											<script>
-												function outputUpdateWind(windsensitivity) {
-													document.querySelector('#outputWindSensitivity').value = windsensitivity;
-												}
-											</script>
-											<div class="absolute">
-												<button id="windSensitivitySave" class="button label-blue center right">Save</button>
-												<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right: 10px;">Default</button>
-											</div>
-										</div>
-									</div>
-								</div>
-
+												</span>
+											</td>
+										</tr>
+									</table>
+							</div>
+							<div id="weatherDataSources">
 								<div class="settingsBlock center">
 									<div class="center full" id="weatherContentCards">
 										<h1 class="title">Data Sources</h1>
@@ -1474,7 +1470,7 @@
 			<div class="weatherSource">
 				<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
 				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
-				<div><span class="subtitle" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
+				<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
