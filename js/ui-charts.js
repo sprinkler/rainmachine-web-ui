@@ -33,6 +33,7 @@ var chartsLevel = { // available viewing levels for the charts
 	};
 
 var syncCharts = []; // hold the charts that will have their mouse over tooltips syncronized
+var downloadedYearlyData = false; //TODO: Temporary until we design this better. If data for 365days has been downloaded.
 
 /**
  * Holds data for a chart: data[chartsMaximumDataRange], monthsData (aggregated data from the original API data), currentSeries
@@ -459,8 +460,11 @@ function processChartData() {
 	makeHidden($('#pageLoadSpinner'));
     // make the dashboard visible before generating the charts so that the charts can take the correct size
     makeVisibleBlock($('#dashboard'));
-
-    loadWeeklyCharts();
+	if (downloadedYearlyData) {
+		loadYearlyCharts();
+	} else {
+		loadWeeklyCharts();
+	}
 }
 
 
@@ -597,6 +601,16 @@ function loadMonthlyCharts () {
  * Sets the chartsLevel to yearly, sets the categories and series for the charts and generates all the charts
  */
 function loadYearlyCharts () {
+
+	//TODO: Temporary. Downloads 365 days data when user clicks on year tab
+	if (!downloadedYearlyData) {
+		makeHidden($('#dashboard'));
+		makeVisible($('#pageLoadSpinner'));
+		loadCharts(true, 365);
+		downloadedYearlyData = true;
+	}
+
+
 	chartsCurrentLevel = chartsLevel.yearly;
 	chartsDateFormat = '%b';
 
