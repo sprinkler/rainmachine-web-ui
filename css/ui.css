@@ -413,8 +413,8 @@ h1 {
   margin-bottom: 40px;
 }
 .weatherPercent {
-  display: block;
-  margin-bottom: 25px;
+  display: inline-block;
+  width: 50px;
   font-size: 50px;
   text-align: center;
   color: #39c;
@@ -650,9 +650,9 @@ input[type="checkbox"]:checked {
 
 input[type=range] {
   -webkit-appearance: none;
-  width: 100%;
-  margin: 11px 0;
-  height: 50px;
+  width: 70%;
+  vertical-align: middle;
+  margin: 0px 30px 30px 0px;
 }
 input[type=range]:focus {
   outline: none;
@@ -1083,7 +1083,7 @@ td.right,
   border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
   background: url("../images/arrow_right.png") no-repeat right;
-  padding: 8px 10px 8px 0;
+  padding: 10px 0;
 }
 .weatherSource:hover {
   background-color: #ecf0f1;
