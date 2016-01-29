@@ -40,10 +40,10 @@ window.ui = window.ui || {};
 		}
 
 		//Set the WeekDays restrictions
-		for (var i = 0; i < Util.weekDaysNames.length; i++)
+		for (i = 0; i < Util.weekDaysNames.length; i++)
 		{
-			var id = "#restrictions" + Util.weekDaysNames[i];
-			var e = $(id);
+			id = "#restrictions" + Util.weekDaysNames[i];
+			e = $(id);
 
 			if (rg.noWaterInWeekDays[i] == "1")
 				e.checked = true;

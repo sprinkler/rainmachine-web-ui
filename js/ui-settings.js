@@ -356,12 +356,16 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function getRainDelay() {
+		APIAsync.getRestrictionsRainDelay().then(function(o) {
+				Data.rainDelay = o;
+				showRainDelay();
+		});
+	}
+
 	function showRainDelay()
 	{
-		var raindelay = API.getRestrictionsRainDelay();
-		var rd = +raindelay.delayCounter;
-
-		console.log("Device is snoozing for %d seconds", rd);
+		var rd = +Data.rainDelay.delayCounter;
 
 		var onDiv = $("#snoozeCurrentContent");
 		var offDiv = $("#snoozeSetContent");
@@ -377,11 +381,13 @@ window.ui = window.ui || {};
 			var v = Util.secondsToHuman(rd);
 			var vdiv = $("#snoozeCurrentValue");
 			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
+			console.log("Device is snoozing for %d seconds", rd);
 		}
 		else
 		{
 			makeHidden(onDiv);
 			makeVisible(offDiv);
+			console.log("Device is not snoozing");
 		}
 
 		stopButton.onclick = function() { console.log(API.setRestrictionsRainDelay(0)); showRainDelay(); };
@@ -391,18 +397,6 @@ window.ui = window.ui || {};
 			showRainDelay();
 		};
 	}
-
-	//TODO clean up and make create/update for rain delay
-	function updateSnoozeTimer() {
-		var raindelay = API.getRestrictionsRainDelay();
-		var rd = +raindelay.delayCounter;
-
-		if(rd > 0) {
-			var v = Util.secondsToHuman(rd);
-			var vdiv = $("#snoozeCurrentValue");
-			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
-		}
-    }
 
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
@@ -654,9 +648,8 @@ window.ui = window.ui || {};
 	_settings.showWeather = showWeather;
 	_settings.showParsers = showParsers;
 	_settings.updateParsers = updateParsers;
-	_settings.showRainDelay = showRainDelay;
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
-	_settings.updateSnoozeTimer = updateSnoozeTimer;
+	_settings.getRainDelay = getRainDelay;
 
 } (window.ui.settings = window.ui.settings || {}));
