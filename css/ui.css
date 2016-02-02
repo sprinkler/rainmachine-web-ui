@@ -98,10 +98,12 @@ body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;min-width: 1124p
   clear: both;
   height: 30px;
 }
-h1.title {
+h1.title, h1.titleHome {
   padding-bottom: 5px;
-  padding-left:10px;
   border-bottom: 1px solid #ddd;
+}
+h1.titleHome {
+  padding-left:10px;
 }
 .w250 {
   display: inherit;
@@ -109,7 +111,7 @@ h1.title {
 }
 .mr { margin-right: 60px; }
 .mr10 { margin-right: 10px; }
-.ml20 { margin-left: 20px; }
+.ml10 { margin-left: 10px; }
 #success,
 #error {
   display:none;
@@ -852,7 +854,7 @@ select, .selectSmall {
   line-height: 24px;
 }
 .listItemSettingsRestrictions {
-  width: 17.4%;
+  width: 44.9%;
 }
 .listItemSettings {
   min-height: 295px;
@@ -927,7 +929,7 @@ select, .selectSmall {
   margin-bottom: 20px;
 }
 .block70{
-  min-width:800px;
+  min-width:932px;
   width:70%;
   margin:0 auto;
   margin-bottom:20px;

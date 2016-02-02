@@ -1,7 +1,8 @@
 <html>
 <head>
-	<title> RainMachine Web UI </title>
+	<title> RainMachine Web Application </title>
 	<meta charset="utf-8" />
+	<link rel="icon" type="image/ico" href="http://rainmachine.com/favicon.ico">
 	<link href="css/ui.css" rel="stylesheet" type="text/css">
 	<script src="js/highcharts-custom.js"></script>
 	<script src="js/dom.js"></script>
@@ -93,7 +94,7 @@
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey center right">More</button>
-									<h1 class="title">7-Day Watering History</h1>
+									<h1 class="titleHome">7-Day Watering History</h1>
 									<div style="display:block;padding-bottom:25px;padding-top:15px;border-bottom:1px solid #ddd;color:#555;">
 										<span class="right mr10" style="width:70px;">Watered</span>
 										<span class="right center mr10" style="width:70px;">Scheduled</span>
@@ -104,7 +105,7 @@
 								</div>
 								<div class="homeScreenDataSource">
 									<button id="weather-data-edit" class="button label-grey center right">Edit</button>
-									<h1 class="title">Weather Updates</h1>
+									<h1 class="titleHome">Weather Updates</h1>
 									<div id="weatherDataSourcesSimpleList">
 										<!--- weather-sources-simple-template -->
 									</div>
@@ -112,7 +113,7 @@
 
 								<div class="homeScreenDeviceStatus">
 									<button id="device-status-more" class="button label-grey center right">More</button>
-									<h1 class="title">About</h1>
+									<h1 class="titleHome">About</h1>
 									<div class="deviceStatusItem">
 										<div id="homeVersion" class="right gray"></div>
 										<div>Firmware version</div>
@@ -168,7 +169,7 @@
 								<div class="homeScreenProgramList" id="programsContainer">
 									<button id="home-programs-edit" class="button label-grey center right">Edit</button>
 									<button id="home-programs-add" class="button label-blue center right" style="width:120px;"><span class="icon" style="width:65%;vertical-align:middle;">></span> Add New</button>
-									<h1 class="title" style="margin-bottom:0px;">Programs</h1>
+									<h1 class="titleHome" style="margin-bottom:0px;">Programs</h1>
 									<!-- Program 1 line start -->
 									<div id="programs">
 											<div id="programsList"></div>
@@ -178,7 +179,7 @@
 								<div id="homeScreenZoneList">
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
                                     <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
-								    <h1 class="title">Zones</h1>
+								    <h1 class="titleHome">Zones</h1>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
 									</div>
@@ -191,7 +192,7 @@
 					<h1 id="settingsTitle"></h1>
 					<div id="settingsContent" class="content">
 						<div id="wateringHistory">
-							<div class="settingsBlock center">
+							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
 										<span class="title"> Start Date
 											<input type="date" id="waterHistoryStartDate" class="typeTime">
@@ -225,13 +226,14 @@
 						</div>
 
 						<div id="snooze" style="display: none;">
-							<div class="settingsBlock center">
-								<div class="listItemSettingsRestrictions" style="min-width:320px;min-height: 231px;">
+							<div class="settingsBlock center block70">
+								<h1 class="title center">Snooze</h1>
+								<div class="listItemSettingsRestrictions" style="height:265px;">
 									<div id="snoozeSetContent" style="display: inline;">
 										<table cellspacing="0" cellpadding="0" class="center full">
 											<tbody>
 												<tr>
-													<th><h1 class="title">Snooze by days</h1></th>
+													<th><h1 class="title">By number of days</h1></th>
 												</tr>
 												<tr>
 													<td class="middle center" style="border-bottom:0;">
@@ -241,7 +243,7 @@
 													</td>
 												</tr>
 												<tr>
-												<td colspan="3" style="padding-bottom:8px;">&nbsp;</td>
+												<td colspan="3" style="padding-bottom:42px;">&nbsp;</td>
 												</tr>
 												<tr>
 													<td colspan="3" class="noborder">
@@ -259,7 +261,7 @@
 												</tr>
 												<tr>
 													<td class="middle center">
-														<span class="cardTitle bold" id="snoozeCurrentValue"></span>
+														<span class="cardTitle bold" id="snoozeCurrentValue" style="font-size: xx-large;"></span>
 													</td>
 												</tr>
 												<tr>
@@ -267,36 +269,30 @@
 												</tr>
 												<tr>
 													<td colspan="3" class="noborder">
-														<button id="snoozeStop" class="button label-red center">Stop</button>
+														<button id="snoozeStop" class="button red center">Stop</button>
 													</td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
 								</div>
-								<div class="listItemSettingsRestrictions" style="min-width:600px;display:none">
-									<h1 class="center">Snooze by time of day and duration</h1>
+								<div class="listItemSettingsRestrictions" style="display: none">
+									<h1 class="center">By time of day and duration</h1>
 									<span class="separator"></span>
 									<table cellspacing="0" cellpadding="0" class="center full">
-										<tbody><tr>
+										<tbody>
+										<tr>
 											<td class="middle noborder">
-												<strong>Date</strong>
-												<br><br>
-												<input type="date" id="snoozeHourlyStartDate" class="typeTime">
-											</td>
-											<td class="middle noborder">
-												<strong>Start time</strong>
-												<br><br>
-												Hour:
-												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartHour" placeholder="14">
-												Minute:
-												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartMinute" placeholder="30">
-											</td>
-											<td class="middle noborder">
-												<strong>Duration</strong>
-												<br><br>
+												<strong>Date</strong>: <input type="date" id="snoozeHourlyStartDate" class="typeTime"><strong> will last</strong>:
 												<input type="number" min="0" max="1440" class="typeNumber" id="snoozeHourlyDuration" placeholder="60">
 												minutes
+											</td>
+										</tr>
+										<tr>
+											<td class="middle noborder">
+												<strong>Will start at (hh:mm)</strong>:
+												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartHour" placeholder="14">
+												<input type="number" min="0" max="24" class="typeNumber" id="snoozeHourlyStartMinute" placeholder="30">
 											</td>
 										</tr>
 										<tr>
@@ -313,186 +309,171 @@
 						</div>
 
 						<div id="restrictions" style="display: none;">
-							<div class="settingsBlock center">
-								<table cellspacing="0" cellpadding="0" class="full">
-									<tr>
-										<th colspan="7">
-											<h1 class="title">Global Restrictions</h1>
-										</th>
-									</tr>
-									<tr>
-										<td class="listItemSettings relative">
+							<div class="settingsBlock center block70">
+								<h1 class="title center">Global Restrictions</h1>
+									<div class="listItemSettingsRestrictions relative">
+										<div>
+											<h1>Hot Days</h1>
+											<span class="separator"></span>
+											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
+											<span>Allow extra watering</span>
+										</div>
+										<div class="bottom">
+											<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
+										</div>
+									</div>
+									<div class="listItemSettingsRestrictions relative">
+										<div>
+											<h1>Freeze Protect</h1>
+											<span class="separator"></span>
+											<div>Do not water under:</div>
 											<div>
-												<div>
-													<h1>Hot Days</h1>
-													<span class="separator"></span>
-													<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-													<span>Allow extra watering</span>
-												</div>
-												<div class="bottom">
-													<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
-												</div>
+												<select  id="restrictionsFreezeProtectTemp" class="selectSmall">
+													<option value="0">0 &deg; C</option>
+													<option value="2" selected>2 &deg; C</option>
+													<option value="5">5 &deg; C</option>
+													<option value="10">10 &deg; C</option>
+												</select>
+												<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
 											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div>
-												<div>
-													<h1>Freeze Protect</h1>
-													<span class="separator"></span>
-													<div>Do not water under:</div>
-													<div>
-														<select  id="restrictionsFreezeProtectTemp" class="selectSmall">
-															<option value="0">0 &deg; C</option>
-															<option value="2" selected>2 &deg; C</option>
-															<option value="5">5 &deg; C</option>
-															<option value="10">10 &deg; C</option>
-														</select>
-														<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
-													</div>
-												</div>
+											</div>
 												<div class="bottom">
 													<button id="restrictionFreezeSet" class="button label-blue absolute center right">Set</button>
 												</div>
-											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div>
-												<div style="height:250px;">
-													<h1>Months</h1>
-													<div class="half">
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsJanuary" class="right" />
-															<div>January</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsFebruary" class="right"/>
-															<div>February</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsMarch" class="right"/>
-															<div>March</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsApril" class="right"/>
-															<div>April</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsMay" class="right"/>
-															<div>May</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsJune" class="right"/>
-															<div>June</div>
-														</div>
-													</div>
-													<div class="halfRight">
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsJuly" class="right"/>
-															<div>July</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsAugust" class="right"/>
-															<div>August</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsSeptember" class="right"/>
-															<div>September</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsOctober" class="right"/>
-															<div>October</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsNovember" class="right"/>
-															<div>November</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsDecember" class="right"/>
-															<div>December</div>
-														</div>
-													</div>
-												</div>
-												<div class="bottom">
-													<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Set</button>
-												</div>
-											</div>
-										</td>
-										<td class="gap">&nbsp;</td>
-										<td class="listItemSettings relative">
-											<div>
+									</div>
+								<div class="listItemSettingsRestrictions relative">
+									<div style="height:250px;">
+										<div>
+											<h1>Weekdays</h1>
+											<div class="half">
 												<div>
-													<h1>Weekdays</h1>
-													<div class="half">
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsSunday" class="right" />
-															<div>Sunday</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsMonday" class="right"/>
-															<div>Monday</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsTuesday" class="right"/>
-															<div>Tuesday</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsWednesday" class="right"/>
-															<div>Wednesday</div>
-														</div>
-													</div>
-													<div class="halfRight">
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsThursday" class="right"/>
-															<div>Thursday</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsFriday" class="right"/>
-															<div>Friday</div>
-														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" id="restrictionsSaturday" class="right"/>
-															<div>Saturday</div>
-														</div>
-													</div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsSunday" class="right" />
+													<div>Sunday</div>
 												</div>
-												<div class="bottom">
-													<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Set</button>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsMonday" class="right"/>
+													<div>Monday</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsTuesday" class="right"/>
+													<div>Tuesday</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsWednesday" class="right"/>
+													<div>Wednesday</div>
 												</div>
 											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="settingsBlock center">
-								<h1 class="title center">Hourly Restrictions</h1>
-								<div id="restrictionsHourly">
-									<!--- Content generated by javascript -->
+											<div class="halfRight">
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsThursday" class="right"/>
+													<div>Thursday</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsFriday" class="right"/>
+													<div>Friday</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsSaturday" class="right"/>
+													<div>Saturday</div>
+												</div>
+											</div>
+										</div>
+										<div class="bottom">
+											<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Set</button>
+										</div>
+									</div>
+								</div>
+								<div class="listItemSettingsRestrictions relative">
+									<div>
+										<div style="height:250px;">
+											<h1>Months</h1>
+											<div class="half">
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsJanuary" class="right" />
+													<div>January</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsFebruary" class="right"/>
+													<div>February</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsMarch" class="right"/>
+													<div>March</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsApril" class="right"/>
+													<div>April</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsMay" class="right"/>
+													<div>May</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsJune" class="right"/>
+													<div>June</div>
+												</div>
+											</div>
+											<div class="halfRight">
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsJuly" class="right"/>
+													<div>July</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsAugust" class="right"/>
+													<div>August</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsSeptember" class="right"/>
+													<div>September</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsOctober" class="right"/>
+													<div>October</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsNovember" class="right"/>
+													<div>November</div>
+												</div>
+												<div>
+													<span class="separator"></span>
+													<input type="checkbox" id="restrictionsDecember" class="right"/>
+													<div>December</div>
+												</div>
+											</div>
+										</div>
+										<div class="bottom">
+											<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Set</button>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="settingsBlock center">
+							<div class="settingsBlock center block70">
+								<h1 class="title center">Hourly Restrictions</h1>
+								<div id="restrictionsHourly">
+										<!--- Content generated by javascript -->
+								</div>
+							</div>
+							<div class="settingsBlock center block70">
 								<div class="listItemSettingsRestrictions" style="width:98.5%;">
-									<h1 class="center">New hourly restriction</h1>
+									<h1 class="center">Add new hourly restriction</h1>
 									<span class="separator"></span>
 									<table cellspacing="0" cellpadding="0" class="center full">
 										<tr>
@@ -535,7 +516,7 @@
 						</div>
 
 						<div id="weather" style="display: none;">
-							<div class="settingsBlock center">
+							<div class="settingsBlock center block70">
 									<table cellspacing="0" cellpadding="0" class="full">
 										<tr>
 											<th>
@@ -600,10 +581,10 @@
 									</table>
 							</div>
 							<div id="weatherDataSources">
-								<div class="settingsBlock center">
+								<div class="settingsBlock center block70">
 									<div class="center full" id="weatherContentCards">
 										<h1 class="title">Data Sources</h1>
-										<div class="listItemSettings relative" style="width:96%;">
+										<div class="relative" style="width:100%;text-align:left;min-height:200px;">
 											<!-- Weather Data Source EDIT (Begin) -->
 											<div id="weatherSourcesEdit" class="hidden">
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
@@ -611,8 +592,8 @@
 												<div class="absolute full">
 													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
 													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-													<button id="weatherSourcesEditRun" class="button label-gray center left ml20">Refresh Now</button>
-													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml20">Defaults</button>
+													<button id="weatherSourcesEditRun" class="button label-gray center left ml10">Refresh Now</button>
+													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml10">Defaults</button>
 												</div>
 											</div>
 											<!-- Weather Data Source EDIT (End) -->
@@ -642,7 +623,7 @@
 												<br><br><br>
 												<div class="absolute full">
 													<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
-													<button id="weatherSourcesRun" class="button label-gray center left ml20">Refresh All</button>
+													<button id="weatherSourcesRun" class="button label-gray center left ml10">Refresh All</button>
 												</div>
 											</div>
 										</div>
@@ -650,7 +631,7 @@
 								</div>
 
 								<!-- Weather Data Source Comparison Graphs (Begin) -->
-								<div class="settingsBlock center">
+								<div class="settingsBlock center block70">
 									<div>
 										<table cellspacing="10" cellpadding="0" class="full" height="500">
 											<tr valign="top">
@@ -1060,7 +1041,7 @@
 						</div>
 					</div>
 					<div id="about" style="display: none;">
-						<div class="settingsBlock center">
+						<div class="settingsBlock center block70">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<th>
