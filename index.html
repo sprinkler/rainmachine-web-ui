@@ -1452,7 +1452,10 @@
 		<div id="weather-sources-template">
 			<div class="weatherSource">
 				<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
-				<div class="left"><span rm-id="weather-source-name" class="w250">Source Name</span></div>
+				<div class="left">
+					<span rm-id="weather-source-name" class="w250">Source Name</span>
+					<span rm-id="weather-source-description" class="subtitle"></span>
+				</div>
 				<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
 			</div>
 		</div>
@@ -1471,7 +1474,8 @@
 		<div id="weather-sources-details-template">
 			<button rm-id="weather-source-delete" class="button red center right" style="display: none">Delete</button>
 			<h1 rm-id="weather-source-name"></h1>
-			<!--<span class="separator"></span>-->
+			<span rm-id="weather-source-description" class="subtitle"></span><br>
+			<span class="separator"></span>
 			<div>Active: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
 			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
 			<span class="separator"></span>

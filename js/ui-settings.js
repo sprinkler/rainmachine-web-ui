@@ -39,7 +39,7 @@ window.ui = window.ui || {};
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
-		var fcDefaultElem = $("#fieldCapacityDefault")
+		var fcDefaultElem = $("#fieldCapacityDefault");
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
@@ -83,6 +83,7 @@ window.ui = window.ui || {};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+		fcDefaultElem.onclick = function() { fcElem.value = fcDefaultElem.value; fcElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
 		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
@@ -110,6 +111,7 @@ window.ui = window.ui || {};
             var template;
             var enabledElem;
             var nameElem;
+			var descriptionElem;
             var lastRunElem;
 
             if (onDashboard && !p.enabled) {
@@ -121,6 +123,8 @@ window.ui = window.ui || {};
             } else {
 				template = loadTemplate("weather-sources-template");
 				enabledElem = $(template, '[rm-id="weather-source-enable"]');
+				descriptionElem = $(template, '[rm-id="weather-source-description"]');
+				descriptionElem.textContent = p.description;
 
 				if (p.enabled) {
 					enabledElem.setAttribute("enabled", true);
@@ -188,12 +192,13 @@ window.ui = window.ui || {};
         var enabledElem = $(template, '[rm-id="weather-source-enable"]');
         var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
         var paramsElem = $(template, '[rm-id="weather-source-params"]');
-
+		var descriptionElem = $(template, '[rm-id="weather-source-description"]');
 
         nameElem.textContent = p.name;
 		enabledElem.checked = p.enabled;
 		enabledElem.id = 'weatherSourceStatus-' + p.uid;
 		lastRunElem.textContent = p.lastRun ? p.lastRun: "Never";
+		descriptionElem.textContent = p.description;
 
 		if (p.params) {
 			for (param in p.params) {

@@ -218,6 +218,7 @@ window.ui = window.ui || {};
 	}
 
 	function showDashboard() {
+		makeVisibleBlock('#dashboard');
 		window.ui.programs.onProgramsChartTypeChange(true);
 		$('#weatherChartQPFMonthsContainer').style.display = "none";
 		$('#weatherChartTempMonthsContainer').style.display = "none";
