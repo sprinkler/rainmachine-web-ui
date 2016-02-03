@@ -1088,7 +1088,7 @@ td.right,
 /* DASHBOARD */
 /* Settings - Weather (START) */
 #weatherSourcesList {
-  min-width: 580px;
+  margin-top:50px;
 }
 .weatherSource {
   border-top: 0 solid #eee;
@@ -1297,3 +1297,49 @@ td.right,
   -webkit-animation: spinner .6s linear infinite;
 }
 /* Spinner end */
+/* Weather services tabs start */
+.weatherServices {
+  position: relative;
+  min-height: 440px;
+  clear: both;
+  background: white;
+}
+.weatherServicesTab {
+  float: left;
+
+}
+.weatherServicesTab label {
+  background: #f1f1f1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-left: -1px;
+  position: relative;
+  left: 30px;
+  top: -27px;
+  -webkit-transition: background-color .17s linear;
+}
+.weatherServicesTab [type=radio] {
+  display: none;
+}
+.weatherServicesTabContent {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  background: white;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  -webkit-transition: opacity .6s linear;
+  opacity: 0;
+}
+[type=radio]:checked ~ label {
+  background: white;
+  border-bottom: 1px solid white;
+  z-index: 2;
+}
+[type=radio]:checked ~ label ~ .weatherServicesTabcontent {
+  z-index: 1;
+  opacity: 1;
+}
+/* Weather services tabs end */
