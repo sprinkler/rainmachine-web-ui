@@ -612,22 +612,61 @@
 											</div>
 											<!-- Weather Data Source UPLOAD (End) -->
 											<div id="weatherSourcesList">
-												<div style="border-bottom:1px solid #eee;padding-bottom:5px;">
-													<div class="bold right" style="margin-right:40px;">Active</div>
-													<div class="bold left w250">Weather source</div>
-													<div class="bold">Data download status</div>
+												<div class="weatherServices">
+													<div class="weatherServicesTab">
+														<input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
+														<label for="weatherServicesTab-1">Recommended</label>
+
+														<div class="weatherServicesTabContent">
+															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="bold right" style="margin-right:40px;">Active</div>
+																<div class="bold right mr">Data download status</div>
+																<div class="bold left w250">Weather service</div>
+
+															</div>
+															<div  id="weatherDataSourcesList">
+																<!--- weather-sources-template -->
+															</div>
+														</div>
+													</div>
+
+													<div class="weatherServicesTab">
+														<input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
+														<label for="weatherServicesTab-2">Developer</label>
+
+														<div class="weatherServicesTabContent">
+															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="bold right" style="margin-right:40px;">Active</div>
+																<div class="bold right mr">Data download status</div>
+																<div class="bold left w250">Weather service</div>
+
+															</div>
+															<div  id="weatherDataSourcesListDeveloper">
+																<!--- weather-sources-template -->
+															</div>
+														</div>
+													</div>
+
+													<div class="weatherServicesTab">
+														<input type="radio" id="weatherServicesTab-3" name="weatherServicesTab-group-1">
+														<label for="weatherServicesTab-3">User uploaded</label>
+
+														<div class="weatherServicesTabContent">
+															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="bold right" style="margin-right:40px;">Active</div>
+																<div class="bold right mr">Data download status</div>
+																<div class="bold left w250">Weather service</div>
+
+															</div>
+															<div  id="weatherDataSourcesListUploaded">
+																<!--- weather-sources-template -->
+															</div>
+														</div>
+													</div>
+
 												</div>
-												<div  id="weatherDataSourcesList">
-													<!--- weather-sources-template -->
-												</div>
-												<div style="border-bottom:1px solid #eee;padding-bottom:5px;">Developer</div>
-												<div  id="weatherDataSourcesListDeveloper">
-													<!--- weather-sources-template -->
-												</div>
-												<div style="border-bottom:1px solid #eee;padding-bottom:5px;">User uploaded</div>
-												<div  id="weatherDataSourcesListUploaded">
-													<!--- weather-sources-template -->
-												</div>
+
+
 												<br><br><br>
 												<div class="absolute full">
 													<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
@@ -648,27 +687,66 @@
 												</th>
 											</tr>
 											<!-- Data Sources info buttons (Begin) -->
-											<td class="middle center">
-												<a href="#temperatureParsersChartContainer" id="parserTemp" class="submenu nofloat">Temperature</a>
-												<a href="#maxTemperatureParsersChartContainer" id="parserMaxTemp" class="submenu nofloat">Max Temperature</a>
-												<a href="#minTemperatureParsersChartContainer" id="parserMinTemp" class="submenu nofloat">Min Temperature</a>
-												<a href="#qpfParsersChartContainer" id="parserRain" class="submenu nofloat">Rain (QPF)</a>
-												<a href="#windParsersChartContainer" id="parserWind" class="submenu nofloat">Wind</a>
-												<a href="#dewParsersChartContainer" id="parserDewPoint" class="submenu nofloat">Dew Point</a>
-												<a href="#rhParsersChartContainer" id="parserHumidity" class="submenu nofloat">Humidity</a>
-												<a href="#pressureParsersChartContainer" id="parserPressure" class="submenu nofloat">Pressure</a>
-											</td>
-											<!-- Data Sources info buttons (end) -->
 											<tr>
-												<td>
-													<div id="temperatureParsersChartContainer" class="charts"></div>
-													<div id="maxTemperatureParsersChartContainer" class="charts"></div>
-													<div id="minTemperatureParsersChartContainer" class="charts"></div>
-													<div id="qpfParsersChartContainer" class="charts"></div>
-													<div id="windParsersChartContainer" class="charts"></div>
-													<div id="dewParsersChartContainer" class="charts"></div>
-													<div id="rhParsersChartContainer" class="charts"></div>
-													<div id="pressureParsersChartContainer" class="charts"></div>
+												<td style="border-bottom: 0">
+													<div class="weatherServices" style="height:540px;margin-top:30px;">
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-4" name="weatherServicesTab-group-2" checked>
+															<label for="weatherServicesTab-4">Temperature</label>
+															<div class="weatherServicesTabContent">
+																<div id="temperatureParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-5" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-5">Max Temperature</label>
+															<div class="weatherServicesTabContent">
+																<div id="maxTemperatureParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-6" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-6">Min Temperature</label>
+															<div class="weatherServicesTabContent">
+																<div id="minTemperatureParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-7" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-7">Rain (QPF)</label>
+															<div class="weatherServicesTabContent">
+																<div id="qpfParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-8" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-8">Wind</label>
+															<div class="weatherServicesTabContent">
+																<div id="windParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-9" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-9">Dew Point</label>
+															<div class="weatherServicesTabContent">
+																<div id="dewParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-10" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-10">Humidity</label>
+															<div class="weatherServicesTabContent">
+																<div id="rhParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-11" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-11">Pressure</label>
+															<div class="weatherServicesTabContent">
+																<div id="pressureParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+													</div>
 												</td>
 											</tr>
 										</table>
@@ -1464,7 +1542,7 @@
 					<span rm-id="weather-source-name" class="w250">Source Name</span>
 					<span rm-id="weather-source-description" class="subtitle"></span>
 				</div>
-				<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
+				<div><span class="subtitle green right mr center" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
