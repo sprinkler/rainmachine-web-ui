@@ -39,7 +39,7 @@ window.ui = window.ui || {};
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
-		var fcDefaultElem = $("#fieldCapacityDefault")
+		var fcDefaultElem = $("#fieldCapacityDefault");
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
@@ -83,6 +83,7 @@ window.ui = window.ui || {};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
+		fcDefaultElem.onclick = function() { fcElem.value = fcDefaultElem.value; fcElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
 		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
