@@ -616,57 +616,53 @@
 													<div class="weatherServicesTab">
 														<input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
 														<label for="weatherServicesTab-1">Recommended</label>
-
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold right" style="margin-right:40px;">Active</div>
-																<div class="bold right mr">Data download status</div>
-																<div class="bold left w250">Weather service</div>
-
+																<div class="bold w250 columnHeader" style="text-align: left;">Weather service</div>
+																<div class="bold center columnHeader">Forecast</div>
+																<div class="bold center columnHeader">Historical</div>
+																<div class="bold center columnHeader">Data download status</div>
+																<div class="bold center columnHeader">Active</div>
 															</div>
 															<div  id="weatherDataSourcesList">
 																<!--- weather-sources-template -->
 															</div>
 														</div>
 													</div>
-
 													<div class="weatherServicesTab">
 														<input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
 														<label for="weatherServicesTab-2">Developer</label>
-
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold right" style="margin-right:40px;">Active</div>
-																<div class="bold right mr">Data download status</div>
-																<div class="bold left w250">Weather service</div>
-
+																<div class="bold w250 columnHeader" style="text-align: left;">Weather service</div>
+																<div class="bold center columnHeader">Forecast</div>
+																<div class="bold center columnHeader">Historical</div>
+																<div class="bold center columnHeader">Data download status</div>
+																<div class="bold center columnHeader">Active</div>
 															</div>
 															<div  id="weatherDataSourcesListDeveloper">
 																<!--- weather-sources-template -->
 															</div>
 														</div>
 													</div>
-
 													<div class="weatherServicesTab">
 														<input type="radio" id="weatherServicesTab-3" name="weatherServicesTab-group-1">
 														<label for="weatherServicesTab-3">User uploaded</label>
 
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold right" style="margin-right:40px;">Active</div>
-																<div class="bold right mr">Data download status</div>
-																<div class="bold left w250">Weather service</div>
-
+																<div class="bold w250 columnHeader" style="text-align: left;">Weather service</div>
+																<div class="bold center columnHeader">Forecast</div>
+																<div class="bold center columnHeader">Historical</div>
+																<div class="bold center columnHeader">Data download status</div>
+																<div class="bold center columnHeader">Active</div>
 															</div>
 															<div  id="weatherDataSourcesListUploaded">
 																<!--- weather-sources-template -->
 															</div>
 														</div>
 													</div>
-
 												</div>
-
-
 												<br><br><br>
 												<div class="absolute full">
 													<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
@@ -1537,12 +1533,18 @@
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
 			<div class="weatherSource">
-				<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
-				<div class="left">
-					<span rm-id="weather-source-name" class="w250">Source Name</span>
+				<div class="w250 columnHeader" style="text-align: left;">
+					<span rm-id="weather-source-name">Source Name</span><br>
 					<span rm-id="weather-source-description" class="subtitle"></span>
 				</div>
-				<div><span class="subtitle green right mr center" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
+				<div class="center columnHeader">x</div>
+				<div class="center columnHeader">v</div>
+				<div class="center columnHeader">
+					<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span><span class="icon label-red parserRefresh">R</span></div>
+				</div>
+				<div class="bold center columnHeader">
+					<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
+				</div>
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->
