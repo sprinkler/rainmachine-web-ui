@@ -20,6 +20,14 @@ window.ui = window.ui || {};
         7: "Rain sensor activated"
 	};
 
+	//Separate the developers focused parsers to make the weather sources list easier to understand
+	var developerParsers = {
+		"My Example Parser": 1,
+		"Fixed Parser": 1,
+		"PWS Parser": 1,
+		"Simulator Parser": 1
+	};
+
 	function showWeather()
 	{
         showParsers(false);
@@ -97,13 +105,20 @@ window.ui = window.ui || {};
 	}
 
 	function updateParsers(onDashboard) {
-		var container = $('#weatherDataSourcesList');
+
+		var containerNormal = $('#weatherDataSourcesList');
+		var containerDeveloper = $('#weatherDataSourcesListDeveloper'); //container for separating developer parsers
+		var containerUploaded = $('#weatherDataSourcesListUploaded'); //container for separating user uploaded parsers
+		var containerDashboard = $('#weatherDataSourcesSimpleList'); //container for showing on dashboard
+		var container = containerNormal;
 
 		if (onDashboard) {
-			container = $('#weatherDataSourcesSimpleList');
+			container = containerDashboard
 		}
 
 		clearTag(container);
+		clearTag(containerDeveloper);
+		clearTag(containerUploaded);
 
 		for (var i = 0; i < Data.parsers.parsers.length; i++)
 		{
@@ -114,11 +129,21 @@ window.ui = window.ui || {};
 			var descriptionElem;
             var lastRunElem;
 
+
             if (onDashboard && !p.enabled) {
             	continue;
             }
 
-            if (onDashboard) {
+			//Separate the parsers list in these 2 categories
+			if (!onDashboard) {
+				if (p.name in developerParsers) {
+					container = containerDeveloper;
+				} else {
+					container = containerNormal;
+				}
+			}
+
+			if (onDashboard) {
             	template = loadTemplate("weather-sources-simple-template");
             } else {
 				template = loadTemplate("weather-sources-template");
@@ -139,11 +164,15 @@ window.ui = window.ui || {};
 			template.parserid = p.uid;
 			template.parseridx = i;
 
+
 			var lw = p.name.lastIndexOf(" ");
 			var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
 
 			if (p.custom) {
 				parserName = "Custom:" + parserName
+				if (!onDashboard) {
+					container = containerUploaded;
+				}
 			}
 
 			nameElem.textContent = parserName;

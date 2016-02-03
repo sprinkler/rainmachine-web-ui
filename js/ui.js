@@ -286,8 +286,6 @@ window.ui = window.ui || {};
 		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
-		uiElems.deviceImage = $('#deviceImage');
-		uiElems.deviceImage.onclick = showDashboard;
 	}
 
 	function uiStart()
@@ -324,6 +322,9 @@ window.ui = window.ui || {};
 			$('#settingsBtn').onclick();
 			$('#settings5').onclick();
         };
+
+
+		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
 
 		//Load local settings
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
