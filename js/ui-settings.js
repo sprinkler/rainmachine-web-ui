@@ -253,7 +253,7 @@ window.ui = window.ui || {};
 
 	function onWeatherSourceClose() {
 		makeHidden('#weatherSourcesEdit');
-		makeVisible('#weatherSourcesList');
+		makeVisibleBlock('#weatherSourcesList');
 	}
 
 	function onWeatherSourceRun(id) {
