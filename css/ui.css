@@ -364,6 +364,7 @@ h1 {
   padding-left: 0;
   font: 12px normal Arial, sans-serif;
   color: #888;
+  vertical-align: top;
 }
 #mainContainer {
   display: block;
@@ -1300,7 +1301,7 @@ td.right,
 /* Weather services tabs start */
 .weatherServices {
   position: relative;
-  min-height: 440px;
+  min-height: 55%;
   clear: both;
   background: white;
 }
@@ -1341,5 +1342,11 @@ td.right,
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
   z-index: 1;
   opacity: 1;
+}
+.columnHeader {
+  display:inline-block;
+  min-width:135px;
+  text-align:center;
+  vertical-align: middle;
 }
 /* Weather services tabs end */
