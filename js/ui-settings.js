@@ -124,11 +124,12 @@ window.ui = window.ui || {};
 		{
 			var p = Data.parsers.parsers[i];
             var template;
-            var enabledElem;
+            var activeElem;
             var nameElem;
 			var descriptionElem;
             var lastRunElem;
-
+			var hasForecastElem;
+			var hasHistoryElem;
 
             if (onDashboard && !p.enabled) {
             	continue;
@@ -147,15 +148,15 @@ window.ui = window.ui || {};
             	template = loadTemplate("weather-sources-simple-template");
             } else {
 				template = loadTemplate("weather-sources-template");
-				enabledElem = $(template, '[rm-id="weather-source-enable"]');
+				activeElem = $(template, '[rm-id="weather-source-enable"]');
 				descriptionElem = $(template, '[rm-id="weather-source-description"]');
+				hasForecastElem = $(template, '[rm-id="weather-source-hasforecast"]');
+				hasHistoryElem = $(template, '[rm-id="weather-source-hashistory"]');
 				descriptionElem.textContent = p.description;
 
-				if (p.enabled) {
-					enabledElem.setAttribute("enabled", true);
-				} else {
-					enabledElem.removeAttribute("enabled");
-				}
+				setEnabledAttr(activeElem, p.enabled);
+				setEnabledAttr(hasForecastElem, p.hasForecast);
+				setEnabledAttr(hasHistoryElem, p.hasHistorical);
             }
 
 			nameElem = $(template, '[rm-id="weather-source-name"]');
