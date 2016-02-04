@@ -107,7 +107,7 @@ h1.titleHome {
 }
 .w250 {
   display: inherit;
-  width: 320px;
+  width: 450px;
 }
 .mr { margin-right: 60px; }
 .mr10 { margin-right: 10px; }
@@ -360,7 +360,6 @@ h1 {
   margin-bottom: 10px;
 }
 .subtitle {
-  padding: 0 10px;
   padding-left: 0;
   font: 12px normal Arial, sans-serif;
   color: #888;
@@ -1108,8 +1107,7 @@ td.right,
   background: url('../images/selected.png') no-repeat center;
   padding-top: 0;
   border: 0;
-  margin-right: 50px;
-  float: right;
+  margin: 0 auto;
 }
 #weatherSourcesEditContent:first-child div {
   vertical-align: middle;
