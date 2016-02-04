@@ -37,14 +37,14 @@ Util.secondsToText = function(seconds, rounded)
 	}
 
 	if (r.minutes > 0)
-		text += r.minutes + " minutes ";
+		text += r.minutes + " min ";
 
 	if (rounded && text.length > 0) {
 		return text;
 	}
 
 	if (r.seconds > 0)
-		text += r.seconds + " seconds ";
+		text += r.seconds + " sec ";
 
 	if (text.length == 0)
 		text = "No time";
