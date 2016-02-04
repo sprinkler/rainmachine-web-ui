@@ -181,6 +181,18 @@ function addStyleSheet(name)
 	return true;
 }
 
+function setEnabledAttr(elem, enable) {
+	if (!elem) {
+		return false;
+	}
+
+	if (enable) {
+		elem.setAttribute("enabled", true);
+	} else {
+		elem.removeAttribute("enabled");
+	}
+}
+
 function loadTemplate(name) {
 	var template = $("#" + name);
 	template = template.cloneNode(true);
