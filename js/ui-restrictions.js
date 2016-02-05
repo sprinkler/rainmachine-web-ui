@@ -82,6 +82,59 @@ window.ui = window.ui || {};
 		buttonHourlySet.onclick =  onSetHourly;
 	}
 
+	function showCurrentRestrictions() {
+		APIAsync.getRestrictionsCurrently().then(function(o) { Data.restrictionsCurrent = o; updateCurrentRestrictions()})
+	}
+
+	function updateCurrentRestrictions() {
+		var container = $("#currentRestrictionsList");
+		var hasRestrictions = false;
+
+		clearTag(container);
+
+		function addCurrentRestriction(name, active) {
+			var template = loadTemplate("current-restrictions-template");
+			var nameElem = $(template, '[rm-id="current-restriction-name"]');
+			var statusElem = $(template, '[rm-id="current-restriction-status"]');
+
+			if (typeof active === "undefined") active = true;
+
+			nameElem.textContent = name;
+			if (active) statusElem.textContent = "Active";
+
+			container.appendChild(template);
+			hasRestrictions = true;
+		}
+
+		if (Data.restrictionsCurrent.hourly) {
+			addCurrentRestriction("Hourly");
+		}
+
+		if (Data.restrictionsCurrent.freeze) {
+			addCurrentRestriction("Freeze Protect");
+		}
+
+		if (Data.restrictionsCurrent.month) {
+			addCurrentRestriction("Monthly");
+		}
+
+		if (Data.restrictionsCurrent.weekDay) {
+			addCurrentRestriction("Week Day");
+		}
+
+		if (Data.restrictionsCurrent.rainDelay) {
+			addCurrentRestriction("Snooze");
+		}
+
+		if (Data.restrictionsCurrent.rainSensor) {
+			addCurrentRestriction("Rain Sensor");
+		}
+
+		if (!hasRestrictions) {
+			addCurrentRestriction("No current active restrictions");
+		}
+	}
+
 	function onSetExtraWatering()
 	{
 		var extraWateringElem = $("#restrictionsExtraWatering");
@@ -183,5 +236,6 @@ window.ui = window.ui || {};
 	//
 	//
 	_restrictions.showRestrictions = showRestrictions;
+	_restrictions.showCurrentRestrictions = showCurrentRestrictions;
 
 } (window.ui.restrictions = window.ui.restrictions || {}));

@@ -34,6 +34,7 @@ Data.waterLogSimple = null;
 Data.dateTime = null;
 Data.rainDelay = null;
 Data.uiVer = "1.1-beta";
+Data.restrictionsCurrent = null;
 Data.localSettings =  {
 	units: false // Default to US units
 };

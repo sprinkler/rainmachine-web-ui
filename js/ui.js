@@ -204,6 +204,8 @@ window.ui = window.ui || {};
 			);
 			//Refresh (without data download) parser box
 			window.ui.settings.updateParsers(true);
+			//Refresh restrictions
+			window.ui.restrictions.showCurrentRestrictions();
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
 			if (_main.weatherRefreshed) {
@@ -317,12 +319,17 @@ window.ui = window.ui || {};
 			$('#settings3').onclick();
 		};
 
+		//Edit button for dashboard current restrictions
+		$("#current-restrictions-edit").onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings2').onclick();
+		};
+
 		//More button for dashboard device status
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings5').onclick();
         };
-
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
 
