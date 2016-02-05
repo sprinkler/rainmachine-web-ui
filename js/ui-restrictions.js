@@ -131,7 +131,7 @@ window.ui = window.ui || {};
 		}
 
 		if (!hasRestrictions) {
-			addCurrentRestriction("No current active restrictions");
+			addCurrentRestriction("No current active restrictions", false);
 		}
 	}
 
