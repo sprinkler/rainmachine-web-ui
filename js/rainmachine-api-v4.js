@@ -287,6 +287,12 @@ _API.prototype.getRestrictionsHourly = function()
 	return this.get(url, null);
 }
 
+_API.prototype.getRestrictionsCurrently = function()
+{
+	var url = this.URL.restrictions + "/currently";
+	return this.get(url, null);
+}
+
 _API.prototype.setRestrictionsRainDelay = function(days)
 {
 	var url = this.URL.restrictions + "/raindelay";
