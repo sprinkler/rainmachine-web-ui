@@ -1109,6 +1109,15 @@ td.right,
   border: 0;
   margin: 0 auto;
 }
+.weatherSourceStatus[circle] {
+  width: 10px;
+  height: 10px;
+  background-color: #39c;
+  padding-top: 0;
+  border: 1px solid #39c;
+  border-radius:100%;
+  margin: 0 auto;
+}
 #weatherSourcesEditContent:first-child div {
   vertical-align: middle;
   padding: 8px 0;

@@ -154,9 +154,9 @@ window.ui = window.ui || {};
 				hasHistoryElem = $(template, '[rm-id="weather-source-hashistory"]');
 				descriptionElem.textContent = p.description;
 
-				setEnabledAttr(activeElem, p.enabled);
-				setEnabledAttr(hasForecastElem, p.hasForecast);
-				setEnabledAttr(hasHistoryElem, p.hasHistorical);
+				toggleAttr(activeElem, p.enabled);
+				toggleAttr(hasForecastElem, p.hasForecast, "circle");
+				toggleAttr(hasHistoryElem, p.hasHistorical, "circle");
             }
 
 			nameElem = $(template, '[rm-id="weather-source-name"]');
@@ -170,7 +170,7 @@ window.ui = window.ui || {};
 			var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
 
 			if (p.custom) {
-				parserName = "Custom:" + parserName
+				parserName = "Custom:" + parserName;
 				if (!onDashboard) {
 					container = containerUploaded;
 				}
