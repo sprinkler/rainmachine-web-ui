@@ -1312,6 +1312,16 @@ td.right,
   clear: both;
   background: white;
 }
+/* Target Firefox only start */
+@-moz-document url-prefix() {
+  .weatherServices {
+    height:60% !important;
+  } 
+  .weatherServicesTabContent {
+    border:0px solid !important;
+  }
+}
+/* Target Firefox only end */
 .weatherServicesTab {
   float: left;
 
