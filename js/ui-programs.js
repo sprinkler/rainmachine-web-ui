@@ -344,8 +344,8 @@ window.ui = window.ui || {};
 					uiElems.startTimeSunElem.checked = true;
 					var minutes = program.startTimeParams.offsetMinutes;
 
-					uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
-					uiElems.startTimeSunMinElem.value = parseInt(minutes % 60);
+					//uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
+					uiElems.startTimeSunMinElem.value = minutes;
 					uiElems.startTimeSunOptionElem.value = program.startTimeParams.type;
 					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
 				}
@@ -417,7 +417,7 @@ window.ui = window.ui || {};
 		//dynamic start time (sunset/sunrise +/- offset)
 		templateInfo.startTimeSunElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun"]');
 		templateInfo.startTimeSunOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-option"]');
-		templateInfo.startTimeSunHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-hour"]');
+		//templateInfo.startTimeSunHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-hour"]');
 		templateInfo.startTimeSunMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-min"]');
 		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
 
@@ -515,18 +515,11 @@ window.ui = window.ui || {};
 		if (uiElems.startTimeSunElem.checked) {
 			console.log("Sunset/Sunrise time selected");
 
-			var hours = parseInt(uiElems.startTimeSunHourElem.value) || 0;
 			var minutes = parseInt(uiElems.startTimeSunMinElem.value) || 0;
-
-			if (hours >= 12) {
-				hours = 12;
-				minutes = 0;
-			}
-
 
 			startTimeParams.type = uiElems.startTimeSunOptionElem.value;
 			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
-			startTimeParams.offsetMinutes = hours * 60 + minutes;
+			startTimeParams.offsetMinutes = minutes;
 			program.startTimeParams = startTimeParams;
 			console.log(program.startTimeParams);
 		} else { // default to fixed start of day
