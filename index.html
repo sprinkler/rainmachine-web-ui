@@ -624,11 +624,15 @@
 														<label for="weatherServicesTab-1">Recommended</label>
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold w250 columnHeader" style="text-align: left;">Weather Service</div>
-																<div class="bold center columnHeader">Weather Forecast</div>
-																<div class="bold center columnHeader">Weather Stations</div>
-																<div class="bold center columnHeader">Status</div>
-																<div class="bold center columnHeader">Active</div>
+																<table class="full" cellpadding="0" cellspacing="0">
+																  <tr>
+																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																    <th class="bold" style="width:13%">Weather Forecast</th>
+																    <th class="bold" style="width:13%">Weather Stations</th>
+																    <th class="bold" style="width:12%">Status</th>
+																    <th class="bold" style="width:10%">Active</th>
+																  </tr>
+																</table>
 															</div>
 															<div  id="weatherDataSourcesList">
 																<!--- weather-sources-template -->
@@ -640,11 +644,15 @@
 														<label for="weatherServicesTab-2">Developer</label>
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold w250 columnHeader" style="text-align: left;">Weather Service</div>
-																<div class="bold center columnHeader">Weather Forecast</div>
-																<div class="bold center columnHeader">Weather Stations</div>
-																<div class="bold center columnHeader">Status</div>
-																<div class="bold center columnHeader">Active</div>
+																<table class="full" cellpadding="0" cellspacing="0">
+																  <tr>
+																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																    <th class="bold" style="width:13%">Weather Forecast</th>
+																    <th class="bold" style="width:13%">Weather Stations</th>
+																    <th class="bold" style="width:12%">Status</th>
+																    <th class="bold" style="width:10%">Active</th>
+																  </tr>
+																</table>
 															</div>
 															<div  id="weatherDataSourcesListDeveloper">
 																<!--- weather-sources-template -->
@@ -657,11 +665,15 @@
 
 														<div class="weatherServicesTabContent">
 															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<div class="bold w250 columnHeader" style="text-align: left;">Weather Service</div>
-																<div class="bold center columnHeader">Weather Forecast</div>
-																<div class="bold center columnHeader">Weather Stations</div>
-																<div class="bold center columnHeader">Status</div>
-																<div class="bold center columnHeader">Active</div>
+																<table class="full" cellpadding="0" cellspacing="0">
+																  <tr>
+																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																    <th class="bold" style="width:13%">Weather Forecast</th>
+																    <th class="bold" style="width:13%">Weather Stations</th>
+																    <th class="bold" style="width:12%">Status</th>
+																    <th class="bold" style="width:10%">Active</th>
+																  </tr>
+																</table>
 															</div>
 															<div  id="weatherDataSourcesListUploaded">
 																<!--- weather-sources-template -->
@@ -680,9 +692,9 @@
 								</div>
 
 								<!-- Weather Data Source Comparison Graphs (Begin) -->
-								<div class="settingsBlock center block70">
+								<div class="settingsBlock center block70" style="height:600px;">
 									<div>
-										<table cellspacing="10" cellpadding="0" class="full" height="500">
+										<table cellspacing="10" cellpadding="0" class="full">
 											<tr valign="top">
 												<th>
 													<h1 class="title">Data Sources - Comparison</h1>
@@ -1534,22 +1546,26 @@
 		<!-- Template for Weather Data Sources (Start) -->
 		<div id="weather-sources-template">
 			<div class="weatherSource">
-				<div class="w250 columnHeader" style="text-align: left;">
-					<span rm-id="weather-source-name">Source Name</span><br>
-					<span rm-id="weather-source-description" class="subtitle"></span>
-				</div>
-				<div class="center columnHeader weatherSourceStatus">
-					<div rm-id="weather-source-hasforecast" class="weatherSourceStatus"></div>
-				</div>
-				<div class="center columnHeader weatherSourceStatus">
-					<div rm-id="weather-source-hashistory" class="weatherSourceStatus"></div>
-				</div>
-				<div class="center columnHeader">
-					<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span></div>
-				</div>
-				<div class="bold center columnHeader">
-					<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
-				</div>
+				<table class="full" cellpadding="0" cellspacing="0">
+					<tr>
+						<td style="width:40%;text-align:left;border:0;padding:0;vertical-align:middle;">
+							<span rm-id="weather-source-name">Source Name</span><br>
+							<span rm-id="weather-source-description" class="subtitle"></span>
+						</td>
+						<td style="width:13%;border:0;padding:0;vertical-align:middle;">
+							<div rm-id="weather-source-hasforecast" class="weatherSourceStatus"></div>
+						</td>
+						<td style="width:13%;border:0;padding:0;vertical-align:middle;">
+							<div rm-id="weather-source-hashistory" class="weatherSourceStatus"></div>
+						</td>
+						<td style="width:12%;border:0;padding:0;vertical-align:middle;text-align:center;">
+							<div><span class="subtitle green" style="font-size: 14px;" rm-id="weather-source-lastrun"></span></div>
+						</td>
+						<td style="width:10%;border:0;padding:0;vertical-align:middle;">
+							<div rm-id="weather-source-enable" class="weatherSourceStatus"></div>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		<!-- Template for Weather Data Sources (End) -->

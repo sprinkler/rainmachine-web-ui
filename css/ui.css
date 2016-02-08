@@ -1308,10 +1308,20 @@ td.right,
 /* Weather services tabs start */
 .weatherServices {
   position: relative;
-  min-height: 55%;
+  min-height: 60%;
   clear: both;
   background: white;
 }
+/* Target Firefox only start */
+@-moz-document url-prefix() {
+  .weatherServices {
+    height:60% !important;
+  } 
+  .weatherServicesTabContent {
+    border:0px solid !important;
+  }
+}
+/* Target Firefox only end */
 .weatherServicesTab {
   float: left;
 
