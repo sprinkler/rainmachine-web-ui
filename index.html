@@ -334,11 +334,11 @@
 											<span class="separator"></span>
 											<div>Do not water under:</div>
 											<div>
-												<select  id="restrictionsFreezeProtectTemp" class="selectSmall">
-													<option value="0">0 &deg; C</option>
-													<option value="2" selected>2 &deg; C</option>
-													<option value="5">5 &deg; C</option>
-													<option value="10">10 &deg; C</option>
+												<select  id="restrictionsFreezeProtectTemp" style="width:180px;">
+													<option value="0">0 &deg; C / 32 &deg; F</option>
+													<option value="2" selected>2 &deg; C / 35.6 &deg; F</option>
+													<option value="5">5 &deg; C / 41 &deg; F</option>
+													<option value="10">10 &deg; C / 50 &deg; F</option>
 												</select>
 												<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
 											</div>
@@ -1422,20 +1422,15 @@
 								<tr>
 									<td class="middle" colspan="2">
 										<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-										At &nbsp;<select rm-id="program-start-time-sun-option" class="selectSmall">
-												<option value="1" selected>sunrise</option>
-												<option value="2">sunset</option>
-											</select>
-										</span>
+										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="000"> minutes (maximum 720 minutes) </span>
 										<span class="right">
-											<span>
-												+ offset (hh:mm)&nbsp;<span><input rm-id="program-start-time-sun-hour" type="number" min="0" max="12" class="typeNumber" placeholder="00"></span>
-												:
-												&nbsp;<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-											</span>
 											<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
 												<option value="-1" selected>before</option>
 												<option value="1">after</option>
+											</select>
+											<select rm-id="program-start-time-sun-option" class="selectSmall">
+												<option value="1" selected>sunrise</option>
+												<option value="2">sunset</option>
 											</select>
 										</span>
 									</td>
