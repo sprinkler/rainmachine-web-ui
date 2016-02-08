@@ -181,15 +181,19 @@ function addStyleSheet(name)
 	return true;
 }
 
-function setEnabledAttr(elem, enable) {
+function toggleAttr(elem, enable, attrName) {
 	if (!elem) {
 		return false;
 	}
 
+	if (typeof attrName === "undefined") {
+		attrName = "enabled";
+	}
+
 	if (enable) {
-		elem.setAttribute("enabled", true);
+		elem.setAttribute(attrName, true);
 	} else {
-		elem.removeAttribute("enabled");
+		elem.removeAttribute(attrName);
 	}
 }
 
