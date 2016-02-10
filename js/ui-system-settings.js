@@ -102,6 +102,7 @@ window.ui = window.ui || {};
 			MinLed: $("#systemSettingsMinLed"),
 			SensorSet: $("#systemSettingsSensorSet"),
 			Sensor: $("#systemSettingsSensor"),
+			SensorType: $("#systemSettingsSensorType"),
 			TouchTimeoutSet: $("#systemSettingsTouchTimeoutSet"),
 			TouchTimeout: $("#systemSettingsTouchTimeout"),
 			TouchAdvSet: $("#systemSettingsTouchAdvSet"),
@@ -247,6 +248,7 @@ window.ui = window.ui || {};
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
 		systemSettingsView.Sensor.checked = Data.provision.system.useRainSensor;
+		systemSettingsView.SensorType.checked = Data.provision.system.rainSensorIsNormallyClosed;
 		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
 		systemSettingsView.TouchAdv.checked = Data.provision.system.touchAdvanced;
 		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
@@ -260,6 +262,7 @@ window.ui = window.ui || {};
 		};
 		systemSettingsView.SensorSet.onclick = function() {
 			changeSingleSystemProvisionValue("useRainSensor", systemSettingsView.Sensor.checked);
+			changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", systemSettingsView.SensorType.checked);
 		};
 		systemSettingsView.TouchTimeoutSet.onclick = function() {
 			changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value);
