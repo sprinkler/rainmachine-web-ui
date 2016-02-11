@@ -1038,15 +1038,12 @@
 									</th>
 								</tr>
 								<tr>
-									<td class="middle noborder">
+									<td class="middle">
+										<button id="systemSettingsSensorSet" class="button label-blue center right" style="margin-top:20px;">Change</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
 										<span class="cardTitle">Use hardware rain sensor</span><br>
 										<span class="subtitle">Stop all watering when rain is detected.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsSensorSet" class="button label-blue center right">Change</button>
+										<br><br>
 										<span class="right mr"><input type="checkbox" id="systemSettingsSensorType" class="middle" /></span>
 										<span class="cardTitle">Rain Sensor type</span><br>
 										<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
@@ -1442,7 +1439,7 @@
 								<tr>
 									<td class="middle" colspan="2">
 										<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="000"> minutes (maximum 720 minutes) </span>
+										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> minutes </span>
 										<span class="right">
 											<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
 												<option value="-1" selected>before</option>
