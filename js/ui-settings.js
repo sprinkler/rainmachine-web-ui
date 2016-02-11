@@ -359,7 +359,7 @@ window.ui = window.ui || {};
         }
 
         uiElems.weatherSources.Upload.Close.onclick = function() {
-        	makeVisible("#weatherSourcesList");
+        	makeVisibleBlock("#weatherSourcesList");
         	makeHidden("#weatherSourcesUpload");
         	uiElems.weatherSources.Upload.Status.textContent = "Please select a python source file (.py extension).";
         }
