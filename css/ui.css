@@ -571,6 +571,9 @@ td.saved {
   border-top: 1px solid #ddd;
   padding-top: 5px;
 }
+.bluerm {
+  color:#39c;
+}
 .green {
   color: #00B25C;
 }
@@ -1308,7 +1311,7 @@ td.right,
 /* Weather services tabs start */
 .weatherServices {
   position: relative;
-  min-height: 50%;
+  min-height: 430px;
   clear: both;
   background: white;
 }
