@@ -618,81 +618,78 @@
 											</div>
 											<!-- Weather Data Source UPLOAD (End) -->
 											<div id="weatherSourcesList">
-												<div class="weatherServices">
-													<div class="weatherServicesTab">
-														<input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
-														<label for="weatherServicesTab-1">Recommended</label>
-														<div class="weatherServicesTabContent">
-															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<table class="full" cellpadding="0" cellspacing="0">
-																  <tr>
-																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
-																    <th class="bold" style="width:13%">Weather Forecast</th>
-																    <th class="bold" style="width:13%">Weather Stations</th>
-																    <th class="bold" style="width:12%">Status</th>
-																    <th class="bold" style="width:10%">Active</th>
-																  </tr>
-																</table>
-															</div>
-															<div  id="weatherDataSourcesList">
-																<!--- weather-sources-template -->
-															</div>
-														</div>
-													</div>
-													<div class="weatherServicesTab">
-														<input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
-														<label for="weatherServicesTab-2">Developer</label>
-														<div class="weatherServicesTabContent">
-															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<table class="full" cellpadding="0" cellspacing="0">
-																  <tr>
-																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
-																    <th class="bold" style="width:13%">Weather Forecast</th>
-																    <th class="bold" style="width:13%">Weather Stations</th>
-																    <th class="bold" style="width:12%">Status</th>
-																    <th class="bold" style="width:10%">Active</th>
-																  </tr>
-																</table>
-															</div>
-															<div  id="weatherDataSourcesListDeveloper">
-																<!--- weather-sources-template -->
+												<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
+												<button id="weatherSourcesRun" class="button label-gray center right mr10">Refresh All</button>
+													<div class="weatherServices">
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
+															<label for="weatherServicesTab-1">Recommended</label>
+															<div class="weatherServicesTabContent">
+																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																	<table class="full" cellpadding="0" cellspacing="0">
+																	  <tr>
+																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																		<th class="bold" style="width:13%">Weather Forecast</th>
+																		<th class="bold" style="width:13%">Weather Stations</th>
+																		<th class="bold" style="width:12%">Status</th>
+																		<th class="bold" style="width:10%">Active</th>
+																	  </tr>
+																	</table>
+																</div>
+																<div  id="weatherDataSourcesList">
+																	<!--- weather-sources-template -->
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="weatherServicesTab">
-														<input type="radio" id="weatherServicesTab-3" name="weatherServicesTab-group-1">
-														<label for="weatherServicesTab-3">User uploaded</label>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
+															<label for="weatherServicesTab-2">Developer</label>
+															<div class="weatherServicesTabContent">
+																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																	<table class="full" cellpadding="0" cellspacing="0">
+																	  <tr>
+																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																		<th class="bold" style="width:13%">Weather Forecast</th>
+																		<th class="bold" style="width:13%">Weather Stations</th>
+																		<th class="bold" style="width:12%">Status</th>
+																		<th class="bold" style="width:10%">Active</th>
+																	  </tr>
+																	</table>
+																</div>
+																<div  id="weatherDataSourcesListDeveloper">
+																	<!--- weather-sources-template -->
+																</div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-3" name="weatherServicesTab-group-1">
+															<label for="weatherServicesTab-3">User uploaded</label>
 
-														<div class="weatherServicesTabContent">
-															<div style="display:block;border-bottom:1px solid #eee;height:24px;">
-																<table class="full" cellpadding="0" cellspacing="0">
-																  <tr>
-																    <th class="bold" style="width:40%;text-align:left;">Weather Service</th>
-																    <th class="bold" style="width:13%">Weather Forecast</th>
-																    <th class="bold" style="width:13%">Weather Stations</th>
-																    <th class="bold" style="width:12%">Status</th>
-																    <th class="bold" style="width:10%">Active</th>
-																  </tr>
-																</table>
-															</div>
-															<div  id="weatherDataSourcesListUploaded">
-																<!--- weather-sources-template -->
+															<div class="weatherServicesTabContent">
+																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																	<table class="full" cellpadding="0" cellspacing="0">
+																	  <tr>
+																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
+																		<th class="bold" style="width:13%">Weather Forecast</th>
+																		<th class="bold" style="width:13%">Weather Stations</th>
+																		<th class="bold" style="width:12%">Status</th>
+																		<th class="bold" style="width:10%">Active</th>
+																	  </tr>
+																	</table>
+																</div>
+																<div  id="weatherDataSourcesListUploaded">
+																	<!--- weather-sources-template -->
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												<br><br><br>
-												<div class="absolute full">
-													<button id="weatherSourcesAdd" class="button label-blue center right">Add New</button>
-													<button id="weatherSourcesRun" class="button label-gray center left ml10">Refresh All</button>
-												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 
 								<!-- Weather Data Source Comparison Graphs (Begin) -->
-								<div class="settingsBlock center block70" style="height:600px;">
+								<div class="settingsBlock center block70" style="height:660px;">
 									<div>
 										<table cellspacing="10" cellpadding="0" class="full">
 											<tr valign="top">
