@@ -71,6 +71,12 @@ Util.secondsToMMSS = function(seconds)
 	return text;
 }
 
+//Convert date in format "YYYY-MM-DD" to a date object that takes local timezone in account
+Util.dateStringToLocalDate = function(dateStr) {
+	var d = new Date(dateStr);
+	return new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+}
+
 Util.sinceDateAsText = function(dateString)
 {
 	console.log(dateString);

@@ -264,7 +264,7 @@ window.ui = window.ui || {};
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
             var soakMins = 0;
-            var nextRun = new Date(program.nextRun);
+            var nextRun = Util.dateStringToLocalDate(program.nextRun);
 
             if(isNaN(nextRun.getTime())) {
                 nextRun = "";
@@ -653,7 +653,7 @@ window.ui = window.ui || {};
 
 		infoText += " at " + program.startTime;
 
-        var nextRun = new Date(program.nextRun);
+        var nextRun = Util.dateStringToLocalDate(program.nextRun);
 
         if(isNaN(nextRun.getTime())) {
            nextRun = "";
