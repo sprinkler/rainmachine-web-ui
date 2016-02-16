@@ -560,9 +560,9 @@ window.ui = window.ui || {};
     		var waterLog = Data.waterLogCustom;
 
 			if (Data.waterLogCustom === null) {
-				var days = 7;
+				var days = 6;
 				var startDate = Util.getDateWithDaysDiff(days);
-				APIAsync.getWateringLog(false, true, startDate, days).then(
+				APIAsync.getWateringLog(false, true, startDate, days + 1).then(
 					function(o) {Data.waterLogCustom = o; showWaterLogSimple();}
 				);
 				return;
@@ -584,7 +584,7 @@ window.ui = window.ui || {};
     			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
     			//console.log("Day: %s", day.date);
-    			var d = new Date(day.date);
+    			var d = Util.dateStringToLocalDate(day.date);
     			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
 
     			for (var j = 0; j < day.programs.length; j++)

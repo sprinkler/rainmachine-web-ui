@@ -35,7 +35,7 @@ var parsersHourlyChartData = {
 
 
 function getParserData(id) {
-	var startDate = Util.getDateWithDaysDiff(1); //7 days from today
+	var startDate = Util.getDateWithDaysDiff(1); //from yesterday
 
 	APIAsync.getParserData(id, startDate, 8).then(function(o) {
 	 	if (Data.parserData === null) {
