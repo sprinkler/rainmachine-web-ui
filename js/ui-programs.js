@@ -83,7 +83,7 @@ window.ui = window.ui || {};
 		//remove programs that no longer exists
 		for (var id in uiElemsAll.programs) {
 			if (typeof foundPrograms[id] === "undefined" || foundPrograms[id] === null) {
-				console.info("Cannot find program id %d in uiElemsAll list will remove from DOM", p.uid);
+				console.info("Cannot find program id %s in uiElemsAll list will remove from DOM", id);
 				removeProgramElems(id);
 			}
 		}
