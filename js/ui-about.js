@@ -155,5 +155,6 @@ window.ui = window.ui || {};
 	//
 	_about.showAbout = showAbout;
 	_about.getDeviceInfo = getDeviceInfo;
+	_about.showDeviceInfo = showDeviceInfo;
 
 } (window.ui.about = window.ui.about || {}));
