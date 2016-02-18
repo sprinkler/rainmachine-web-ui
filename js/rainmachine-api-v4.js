@@ -38,7 +38,7 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 	else
 		url = apiUrl + apiCall;
 
-	console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
+	//console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
 
 	if (async) {
 		r.onload = function() {
