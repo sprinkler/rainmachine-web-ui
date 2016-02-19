@@ -57,7 +57,7 @@ window.ui = window.ui || {};
 		uiElemsAll.add = $('#home-programs-add');
 		uiElemsAll.edit = $('#home-programs-edit');
 		uiElemsAll.add.onclick = function() { showProgramSettings(null); };
-		uiElemsAll.edit.onclick = function() { onProgramsEdit(); }
+		uiElemsAll.edit.onclick = function() { showPrograms(); onProgramsEdit(); }
 	}
 
 	function updatePrograms() {

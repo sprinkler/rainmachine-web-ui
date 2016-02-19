@@ -8,6 +8,7 @@ window.ui = window.ui || {};
 (function(_main) {
 
  	var loop = null;
+	var loopSlowLastRun = Date.now();
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
@@ -171,6 +172,14 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function refreshProgramAndZones(forced) {
+		if (forced || (Date.now() - loopSlowLastRun) > 30 * 1000) {
+			loopSlowLastRun = Date.now();
+			window.ui.programs.showPrograms();
+			window.ui.zones.showZonesSimple();
+		}
+	}
+
 	function uiLoop() {
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
 
@@ -198,14 +207,15 @@ window.ui = window.ui || {};
 						makeVisible(window.ui.zones.uiElems.stopAll);
 					}
 
-					window.ui.zones.showZonesSimple();
-					window.ui.programs.showPrograms();
+					refreshProgramAndZones(true)
 				}
 			);
 			//Refresh (without data download) parser box
 			window.ui.settings.updateParsers(true);
 			//Refresh restrictions
 			window.ui.restrictions.showCurrentRestrictions();
+			//Refresh on a slower timer
+			refreshProgramAndZones(false);
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
 			if (_main.weatherRefreshed) {
