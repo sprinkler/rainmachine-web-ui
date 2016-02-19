@@ -536,6 +536,7 @@ window.ui = window.ui || {};
 				Data.provision.system = o.system;
 				Data.provision.location = o.location;
 				showSettings();
+				window.ui.about.showDeviceInfo();
 			});
 	}
 
