@@ -60,7 +60,7 @@ window.ui = window.ui || {};
 		}
 
 		uiElems.editAll = $('#home-zones-edit');
-		uiElems.editAll.onclick = onZonesEdit;
+		uiElems.editAll.onclick = function() { showZones(); onZonesEdit() };
 		uiElems.editAll.isEditing = false;
 
 		uiElems.stopAll = $('#home-zones-stopall');
