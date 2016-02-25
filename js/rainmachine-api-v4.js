@@ -44,7 +44,7 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 		r.onload = function() {
 			if (r.readyState === 4) {
 				if (r.status === 200) {
-					console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
+					//console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
 					a.resolve(JSON.parse(r.responseText));
 				} else {
 					console.error("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);

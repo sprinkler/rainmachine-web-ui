@@ -4,6 +4,7 @@
  */
 
 /* global Highcharts */
+var YEARDAYS = Util.getYearDays((new Date()).getFullYear());
 var chartsDataCounter = 0;
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,
@@ -13,7 +14,7 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
 	chartsDateFormatSmall = '%e', // format for the dates used in chart labels when charts are in a small container
-	chartsMaximumDataRange = 365, // the maximum amount of data that the application loads
+	chartsMaximumDataRange = YEARDAYS, // the maximum amount of data that the application loads
 	chartsWeeklySlice = 7, // the size of the weekly data
 	chartsWeeklyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinWeeklyPeriod = 0, // the minimum value that the chartsWeeklyPeriod can take
@@ -548,7 +549,7 @@ function loadWeeklyCharts () {
 	generateCharts();
 
 	//For water gauge show only last week (today - 7)
-	setWaterSavedValueForDays(7)
+	setWaterSavedValueForDays(7);
 	generateWaterSavedGauge();
 }
 
@@ -606,7 +607,7 @@ function loadYearlyCharts () {
 	if (!downloadedYearlyData) {
 		makeHidden($('#dashboard'));
 		makeVisible($('#pageLoadSpinner'));
-		loadCharts(true, 365);
+		loadCharts(true, YEARDAYS);
 		downloadedYearlyData = true;
 	}
 
@@ -660,8 +661,6 @@ function generateDailyWeatherChart() {
 
 	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 8 days
 	var startDayIndex = Util.getDateIndex(startDay, chartsData.condition.startDate);
-
-	console.log("StartDay: %s, index: %s", startDay, startDayIndex);
 
 	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
 		var condition = chartsData.condition.data[i];
