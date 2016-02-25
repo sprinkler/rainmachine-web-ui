@@ -205,7 +205,7 @@ function getChartData(pastDays) {
 	getDailyStatsWithRetry(5, 5000);
 
 	// for water saved gauge (entire year)
-	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(356 + 7), 356 + 7)
+	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(YEARDAYS + 7), YEARDAYS + 7)
 	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });
 }
 
@@ -477,7 +477,7 @@ function setWaterSavedValueForDays(pastDays) {
 	var sum = 0;
 	for (var i = startDayIndex; i < startDayIndex + pastDays; i++) {
 		var v = chartsData.waterSaved.data[i];
-		if (v) {
+		if (typeof v !== "undefined" && v !== null) {
 			nrDays++;
 			sum += v;
 		}
