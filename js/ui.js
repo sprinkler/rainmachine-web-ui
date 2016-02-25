@@ -36,7 +36,7 @@ window.ui = window.ui || {};
 	var dashboardNavigation = [
 		{ id: "chartsWeek",	idText: "waterSavedTitle",	text: "Water saved past 7 days", 	func: loadWeeklyCharts },
 		{ id: "chartsMonth",idText: "waterSavedTitle",	text: "Water saved past 30 days", func: loadMonthlyCharts },
-		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past 365 days",	func: loadYearlyCharts }
+		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past year",	func: loadYearlyCharts }
 	];
 
 

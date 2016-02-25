@@ -146,6 +146,19 @@ Util.isToday = function(dateStr)
 	return (dateStr === today);
 }
 
+Util.isLeapYear = function(year)
+{
+	return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+};
+
+Util.getYearDays = function(year)
+{
+	if (Util.isLeapYear(year))
+		return 366;
+
+	return 365;
+};
+
 Util.normalizeWaterNeed = function(user, real)
 {
 	var wn = 0;

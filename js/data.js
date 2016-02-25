@@ -62,20 +62,22 @@ function genericPropertyGetter(p)
 	if (p.data === null && p.apiCall !== null)
 		p.data = p.apiCall();
 
-	console.log("Get property: %o", p);
+	//console.log("Get property: %o", p);
 	return p.data;
 }
 
 function genericPropertySetter(p, d)
 {
 	p.data = d;
-	console.log("Set property data %o", p.data);
+	//console.log("Set property data %o", p.data);
 }
 
 
 return Data; } (Data || {} ));
 
+/*
 console.log(Data.dummy);
 Data.dummy = { test: " Setter " };
 console.log(Data.dummy);
 console.log(Data.dummy.test);
+*/
