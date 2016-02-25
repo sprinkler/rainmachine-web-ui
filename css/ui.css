@@ -757,6 +757,7 @@ input.typeTime {
   width: 60px;
   height: 36px;
 }
+
 input.typeTime {
   width: 180px;
 }
@@ -777,7 +778,6 @@ select, .selectSmall {
   height: 44px;
   -webkit-appearance: none;
 }
-
 .selectSmall {
   width: 90px;
 }
@@ -1087,6 +1087,17 @@ td.right,
 }
 .bgred {
   background-color: #ff0000;
+}
+.pin {
+  display: inline-block;
+  width: 10%;
+  float: right;
+  font-size: x-large;
+  text-align: center;
+  padding:5px;
+  margin-right: 54px;
+  border: 1px solid #ddd;
+}
 }
 /* DASHBOARD */
 /* Settings - Weather (START) */
