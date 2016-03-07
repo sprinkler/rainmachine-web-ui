@@ -152,6 +152,12 @@ _API.prototype.auth = function(password, remember)
 	return token;
 };
 
+_API.prototype.totp = function()
+{
+	var url = this.URL.auth + "/totp";
+	return this.get(url, null);
+};
+
 _API.prototype.authChange = function(oldPass, newPass)
 {
     var url = this.URL.auth + "/change";

@@ -659,7 +659,8 @@ function generateDailyWeatherChart() {
 	var containerDiv = $('#weatherChartDays');
 	clearTag(containerDiv);
 
-	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 8 days
+	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 7 days
+
 	var startDayIndex = Util.getDateIndex(startDay, chartsData.condition.startDate);
 
 	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
@@ -1387,7 +1388,7 @@ function highlightCurrentDayInChart(chart) {
  * @param shouldRefreshData
  * @param pastDays
  */
-function loadCharts (shouldRefreshData, pastDays) {
+function loadCharts(shouldRefreshData, pastDays) {
 	if (shouldRefreshData) {
 		getChartData(pastDays);
 	}

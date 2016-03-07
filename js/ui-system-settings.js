@@ -50,6 +50,8 @@ window.ui = window.ui || {};
 
 			ResetDefaultSet: $("#systemSettingsResetDefaultSet"),
 			RebootSet: $("#systemSettingsRebootSet"),
+			PINOutput: $("#systemSettingsPin"),
+			PINGenerate: $('#systemSettingsGeneratePin'),
 
 			//Advanced Settings
 			AlexaSet: $("#systemSettingsAlexaSet"),
@@ -186,6 +188,7 @@ window.ui = window.ui || {};
 		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
 		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
 		systemSettingsView.RebootSet.onclick = function() { systemSettingsReboot(); };
+		systemSettingsView.PINGenerate.onclick = function() { getLoginPIN(); };
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
@@ -493,6 +496,13 @@ window.ui = window.ui || {};
 		}
 
 		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
+	}
+
+	function getLoginPIN()
+	{
+		APIAsync.totp().then(function(o) {
+			systemSettingsView.PINOutput.value = o.totp;
+		});
 	}
 
 	function buildTimeZoneSelect(container)
