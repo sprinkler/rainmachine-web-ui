@@ -1034,7 +1034,7 @@ td.right,
 .historyZoneItem {
   display: table-cell;
   text-align: left;
-  width: 10%;
+  width: 135px;
   padding: 10px 0;
   background-color: #ffffff;
 }
@@ -1046,6 +1046,13 @@ td.right,
 .historyZoneItem:last-child {
   text-align: right;
   width:20%;
+}
+.historyZoneItemName {
+  white-space: nowrap;
+  display: inline-block;
+  width: 128px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .historyDate,
 .historyProgName {
