@@ -564,8 +564,11 @@ window.ui = window.ui || {};
 					var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
 					var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
 
-					if (Data.zoneData.zones[zone.uid].name) {
-						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zone.uid].name;
+
+					var zoneid = zone.uid - 1;
+
+					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 					}
 					else {
 						zoneNameElem.textContent = "Zone " + zone.uid;
@@ -673,14 +676,15 @@ window.ui = window.ui || {};
 
     					}
 
-    					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template")
+    					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template");
 
     					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
     					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
     					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
-						if (Data.zoneData.zones[zone.uid].name) {
-							zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zone.uid].name;
+						var zoneid = zone.uid - 1;
+						if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+							zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 						}
 						else {
 							zoneNameElem.textContent = "Zone " + zone.uid;
