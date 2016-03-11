@@ -186,6 +186,14 @@ strong { font-weight: 700; }
   display: block;
   padding-bottom: 10px;
 }
+.wateringLogZoneItem {
+  padding-left: 10px;
+  white-space: nowrap;
+  display: inline-block;
+  width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .program-line,
 .weather-program-line {
   display: inline-block;
@@ -1057,7 +1065,7 @@ td.right,
 .historyDate,
 .historyProgName {
   display: table-cell;
-  width: 10%;
+  width: 11%;
   padding: 15px 0;
   text-align: left;
   font-size:16px;
