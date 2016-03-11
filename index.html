@@ -215,11 +215,11 @@
 										<div class="historyAllZones" style="border:0;">
 											<div class="historyZone">
 												<div class="historyZoneItem"></div>
-												<div class="historyZoneItem">Starting hour</div>
+												<div class="historyZoneItem">Start Time</div>
 												<div class="historyZoneItem">Scheduled Time</div>
 												<div class="historyZoneItem">Watered Time</div>
 												<div class="historyZoneItem">Water Saved</div>
-												<div class="historyZoneItem">Reason</div>
+												<div class="historyZoneItem">Special Condition</div>
 											</div>
 										</div>
 									</div>
@@ -1617,7 +1617,19 @@
 
 		<!-- Template for Watering History per Day (Start) -->
 		<div id="watering-history-day-template" class="historyDateContainer">
-			<div rm-id="wateringLogDayName" class="historyDate"></div>
+			<div class="historyDate" style="text-align:center;border-right: 1px solid #eee;padding-right: 10px;">
+				<div rm-id="wateringLogDayName"></div>
+				<br>
+				<div id="day-weather-template-history">
+					<div rm-id="wateringLogDayWeatherIcon" style="font:normal 70px/75px 'RainMachine', Arial, sans-serif;color:#39c;">s</div>
+					<br>
+					<div>Max Temp:</div>
+					<div rm-id="wateringLogDayWeatherTemp" class="dayTemp">79<sup>o</sup></div>
+					<br>
+					<div>Precipitation:</div>
+					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+				</div>
+			</div>
 			<div rm-id="wateringLogProgramsContainer"></div>
 		</div>
 		<!-- Template for Watering History per Day (End) -->
@@ -1632,7 +1644,7 @@
 
 		<!-- Template for Watering History Day Program per Zone (Start) -->
 		<div id="watering-history-day-programs-zone-template" class="historyZone">
-			<div rm-id="wateringLogZoneName" class="historyZoneItem"></div>
+			<div class="historyZoneItem"><span rm-id="wateringLogZoneName" class="historyZoneItemName"></span></div>
 			<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneRealTime" class="historyZoneItem"></div>

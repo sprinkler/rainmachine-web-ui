@@ -47,7 +47,7 @@ Util.secondsToText = function(seconds, rounded)
 		text += r.seconds + " sec ";
 
 	if (text.length == 0)
-		text = "No time";
+		text = "0 min";
 
 	return text;
 };
