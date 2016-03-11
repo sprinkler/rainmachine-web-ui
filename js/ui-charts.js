@@ -687,7 +687,7 @@ function generateDailyWeatherChart() {
 
 		weatherIconElem.textContent = Util.conditionAsIcon(condition);
 
-		if (temp) {
+		if (temp !== null) {
 			weatherTempElem.textContent = Math.round(temp) + "\xB0";
 		} else {
 			weatherTempElem.textContent = "--";
@@ -697,7 +697,7 @@ function generateDailyWeatherChart() {
 			qpf = qpf.toFixed(1)
 		} catch(e) {}
 
-		if (qpf) {
+		if (qpf !== null) {
 			weatherQPFElem.textContent = qpf;
 		} else  {
 			weatherQPFElem.textContent = "--";

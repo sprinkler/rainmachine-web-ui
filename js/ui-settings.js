@@ -475,10 +475,50 @@ window.ui = window.ui || {};
 			var day =  waterLog.waterLog.days[i];
 			var dayTemplate = loadTemplate("watering-history-day-template");
 			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
+			var dayConditionElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherIcon"]');
+			var dayTempElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherTemp"]');
+			var dayQpfElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherQpf"]');
+
 			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
-			//console.log("Day: %s", day.date);
+			var dayCondition;
+			var dayMinTemp;
+			var dayMaxTemp;
+			var dayQpf;
+
+			try {
+				dayCondition =  Util.conditionAsIcon(chartsData.condition.getAtDate(day.date));
+
+				dayMinTemp = Util.convert.uiTemp(chartsData.mint.getAtDate(day.date));
+				if (dayMinTemp !== null) {
+					dayMinTemp += Util.convert.uiTempStr();
+				} else {
+					dayMinTemp = "--";
+				}
+
+				dayMaxTemp = Util.convert.uiTemp(chartsData.maxt.getAtDate(day.date));
+				if (dayMaxTemp !== null) {
+					dayMaxTemp += Util.convert.uiTempStr();
+				} else {
+					dayMaxTemp = "--";
+				}
+
+				dayQpf =  Util.convert.uiQuantity(chartsData.qpf.getAtDate(day.date));
+				if (dayQpf !== null) {
+					dayQpf +=  Util.convert.uiQuantityStr()
+				} else {
+					dayQpf = "--";
+				}
+			} catch(e) {
+				console.error("Missing mixer data for day %s", day.date);
+			}
+
+			//console.log("Day: %s Condition: %s Temp: %s/%s QPF: %s", day.date, dayCondition, dayMinTemp, dayMaxTemp, dayQpf);
+
 			dayNameElem.textContent = day.date;
+			dayConditionElem.textContent = dayCondition;
+			dayTempElem.textContent = dayMinTemp + " / " + dayMaxTemp;
+			dayQpfElem.textContent = dayQpf;
 
 			for (var j = 0; j < day.programs.length; j++)
 			{
@@ -524,7 +564,13 @@ window.ui = window.ui || {};
 					var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
 					var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
 
-					zoneNameElem.textContent = "Zone " + zone.uid;
+					if (Data.zoneData.zones[zone.uid].name) {
+						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zone.uid].name;
+					}
+					else {
+						zoneNameElem.textContent = "Zone " + zone.uid;
+					}
+
 					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
 					zoneReasonElem.textContent = waterLogReason[zone.flag];
@@ -633,7 +679,12 @@ window.ui = window.ui || {};
     					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
     					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
-    					zoneNameElem.textContent = "Zone " + zone.uid;
+						if (Data.zoneData.zones[zone.uid].name) {
+							zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zone.uid].name;
+						}
+						else {
+							zoneNameElem.textContent = "Zone " + zone.uid;
+						}
     					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
     					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);
 
