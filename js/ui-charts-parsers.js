@@ -205,6 +205,9 @@ function generateSpecificParsersChart(key) {
 			renderTo: parserCharts[key].container,
 			spacingTop: 20,
 		},
+		tooltip: {
+			shared: true
+		},
 		series: chartSeries,
 		title: {
 			text: '<h1>' +  parserCharts[key].title + '</h1>',
