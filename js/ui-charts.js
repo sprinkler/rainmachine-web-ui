@@ -945,33 +945,31 @@ function generateTemperatureChart () {
 				}
 			}
 		},
+		//"
 		tooltip: {
 			hideDelay: 0,
 			animation: false,
+			formatter: function() {
+				var date = Highcharts.dateFormat(chartsDateFormat, new Date(this.point.category));
+				var s = '<span style="font-size: 12px;">' + date + '</span>:<span style="font-size: 14px;">';
+
+				if (this.point.secondPoint) {
+					s += " Low:"+ Util.convert.uiTemp(this.point.secondPoint.y) + Util.convert.uiTempStr();
+				}
+
+				s+= " High:" + Util.convert.uiTemp(this.point.y) + Util.convert.uiTempStr() + '</span>';
+				return s;
+			}
 		},
 		series: [{
 			data: chartsData.maxt.currentSeries,
 			showInLegend: false,
 			name: 'Maximum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + Util.convert.uiTemp(this.y) + Util.convert.uiTempStr() + '</span>';
-				}
-			},
 			type: 'line'
 		}, {
 			data: chartsData.mint.currentSeries,
 			showInLegend: false,
 			name: 'Minimum Temperature',
-			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + Util.convert.uiTemp(this.y) + Util.convert.uiTempStr() + '</span>';
-				}
-			},
 			type: 'line'
 		}],
 		title: null,
@@ -1432,6 +1430,8 @@ function onChartTooltip(focusedChart, e) {
 		eChart = chart.pointer.normalize(e); // Find coordinates within the chart
 		point = chart.series[0].searchPoint(eChart, true); // Get the hovered point
 
+		//For 2 graphs on same chart (we don't treat the case with more than 2). This is done because shared tooltip
+		//mode doesn't work properly when we call mouseOver/drawCrosshair on sync charts
 		if (point) {
 			//Only show corresponding date tooltips as searchPoint() return closest available one
 			if (pointDate !== null) {
@@ -1441,9 +1441,15 @@ function onChartTooltip(focusedChart, e) {
 				}
 			}
 
+			var secondPoint = null;
+			if (chart.series.length > 1){
+				secondPoint = chart.series[1].searchPoint(eChart, true);
+			}
+
 			point.onMouseOver(); // Show the hover marker
-			chart.tooltip.refresh(point); // Show the tooltip
 			chart.xAxis[0].drawCrosshair(eChart, point); // Show the crosshair
+			point.secondPoint = secondPoint;
+			chart.tooltip.refresh(point); // Show the tooltip
 		}
 	}
 }
