@@ -974,8 +974,14 @@ select, .selectSmall {
   border-bottom: 0;
 }
 .gapProrgEdit {
-  width: 5%;
+  width: 2%;
   border-bottom: 0;
+}
+.zoneRow {
+  display: block;
+  height:60px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
 .cardTitle {
   font-size: 16px;
