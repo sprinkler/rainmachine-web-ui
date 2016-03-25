@@ -1509,21 +1509,15 @@
 
 		<!-- Template for Program Settings Zone Watering Times (Start) -->
 		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
-			<table cellpadding="0" cellspacing="0">
-				<tr id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
-					<td width="50%" class="middle">
-						<span rm-id="program-zone-name" class="cardTitle">Zone 1</span>
-					</td>
-					<td class="middle">
-						<span class="right">
+				<div id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
+						<span class="right" style="padding-top:10px;">
 							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
 								:
 							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
 							<input type="checkbox" rm-id="program-zone-active"/>
 						</span>
-					</td>
-				</tr>
-			</table>
+						<span rm-id="program-zone-name" class="zoneListName" style="width: 71%;padding-left:0;padding-top:22px;">Zone 1</span>
+				</div>
 		</div>
 		<!-- Template for Program Settings Zone Watering Times (End) -->
 
