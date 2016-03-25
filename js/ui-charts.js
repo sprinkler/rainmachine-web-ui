@@ -169,9 +169,11 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 
 	if (retryCount-- > 0) {
 		APIAsync.getDailyStats(null, true)
-        	.then(function(o) { Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
+        	.then(function(o) {
+				makeHidden("#error");
+				Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
         	.error(function(o) {
-        	 	showError("Error  " + o + " loading DailyStats ! Retries left: " + retryCount);
+				window.ui.main.showError("Please wait while new graphs are generated");
         	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay)})
 	} else {
 		// hide the spinner
@@ -202,7 +204,7 @@ function getChartData(pastDays) {
 //	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
 
 	//for future watering/program runs
-	getDailyStatsWithRetry(5, 5000);
+	getDailyStatsWithRetry(20, 6000);
 
 	// for water saved gauge (entire year)
 	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(YEARDAYS + 7), YEARDAYS + 7)
