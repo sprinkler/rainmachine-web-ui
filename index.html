@@ -23,6 +23,7 @@
 	<script src="js/ui-programs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
+	<script src="js/geolocation.js"></script>
 </head>
 <body>
 	<!-- Success Start -->
@@ -824,7 +825,11 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsLocationSet" class="button label-blue center right">Change</button>
+										<div class="center right">
+											<button onclick="getGeoLocation()"><img src="images/geopin.png"></button><br>
+											<div id="geoMessage"></div>
+											<button id="systemSettingsLocationSet" class="button label-blue center right" style="margin-top:40px;">Change</button>
+										</div>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
 												<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />

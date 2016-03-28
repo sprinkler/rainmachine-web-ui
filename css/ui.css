@@ -210,6 +210,10 @@ strong { font-weight: 700; }
   height: 142px;
   width: 29%;
 }
+.programUsedWeather {
+  font-size: 12px;
+  color: #888888;
+}
 .zoneListLine {
   height: 70px;
   width: 44%;
