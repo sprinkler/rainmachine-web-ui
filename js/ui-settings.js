@@ -96,8 +96,12 @@ window.ui = window.ui || {};
 		var updateWeatherButton = $('#weatherSourcesRun');
 		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
 
+		var fetchWeatherServicesButton = $("#weatherServicesFetch");
+		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
+
 		setupWeatherSourceUpload();
-		getAllEnabledParsersData()
+		onWeatherServicesFetch();
+
 	}
 
 	function showParsers(onDashboard) {
@@ -441,6 +445,20 @@ window.ui = window.ui || {};
 		APIAsync.getWateringLog(false, true, startDate, days).then(
 			function(o) {Data.waterLogCustom = o; showWaterLog();}
 		);
+	}
+
+	function onWeatherServicesFetch() {
+		var startDateElem = $("#weatherServicesStartDate");
+		var daysElem = $("#weatherServicesDays");
+
+		// For parsers we want 8 days from which 1 day in the past rest in the future
+		if (!startDateElem.value || !daysElem.value) {
+			startDateElem.value = Util.getDateWithDaysDiff(1);
+			daysElem.value = 8;
+		}
+
+		console.log("Getting weather services data starting from %s for %d days...", startDateElem.value, parseInt(daysElem.value));
+		getAllEnabledParsersData(startDateElem.value, parseInt(daysElem.value));
 	}
 
 	function showWaterLog() {
