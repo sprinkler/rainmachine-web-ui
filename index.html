@@ -824,18 +824,23 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsLocationSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:40%;">
-											<span style="display:block;">
-												<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
-											</span>
-											<span style="display:block;">
-												<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
-											</span>
+										<div class="center right">
+											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Change</button>
+										</div>
+										<div class="right mr" style="width:40%;">
+											<div style="margin-top:-24px;">
+												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>
+												<span style="display:block;">
+													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:59%;" />
+												</span>
+												<span style="display:block;">
+													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:59%;" />
+												</span>
+											</div>
 											<span style="display:block;">
 												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
 											</span>
-										</span>
+										</div>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
 										<span class="restriction">Warning: Changing this settings will delete all weather data.</span>

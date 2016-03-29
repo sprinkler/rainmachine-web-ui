@@ -331,6 +331,25 @@ Util.readGeneratedTagValue = function(label) {
 	}
 }
 
+//Get geolocation coordinates start
+Util.getGeoLocation = function(latitudeTag, longitudeTag) {
+
+	if (!navigator.geolocation){
+		console.error("Geolocation is not supported by your browser");
+		return;
+	}
+
+	function success(position) {
+		$(latitudeTag).value  = position.coords.latitude;
+		$(longitudeTag).value = position.coords.longitude;
+	};
+
+	function error() {
+		console.error("Geolocation: Unable to retrieve your location");
+	};
+
+	navigator.geolocation.getCurrentPosition(success, error);
+}
 
 
 //filesObject is the object returned by files property of input type=file
