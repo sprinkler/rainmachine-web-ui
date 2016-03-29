@@ -826,21 +826,23 @@
 								<tr>
 									<td class="middle">
 										<div class="center right">
-											<button onclick="getGeoLocation()"><img src="images/geopin.png"></button><br>
-											<div id="geoMessage"></div>
-											<button id="systemSettingsLocationSet" class="button label-blue center right" style="margin-top:40px;">Change</button>
+											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Change</button>
 										</div>
-										<span class="right mr" style="width:40%;">
-											<span style="display:block;">
-												<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
-											</span>
-											<span style="display:block;">
-												<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
-											</span>
+										<div class="right mr" style="width:40%;">
+											<div style="margin-top:-24px;">
+												<button onclick="getGeoLocation()" class="geoPin"><img src="images/geopin.png"></button><br>
+												<div id="geoMessage"></div>
+												<span style="display:block;">
+													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:61%;" />
+												</span>
+												<span style="display:block;">
+													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:61%;" />
+												</span>
+											</div>
 											<span style="display:block;">
 												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
 											</span>
-										</span>
+										</div>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
 										<span class="restriction">Warning: Changing this settings will delete all weather data.</span>

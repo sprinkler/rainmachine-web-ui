@@ -214,6 +214,12 @@ strong { font-weight: 700; }
   font-size: 12px;
   color: #888888;
 }
+.geoPin {
+  float:right;
+  display:block;
+  height:108px;
+  margin-left:10px;
+}
 .zoneListLine {
   height: 70px;
   width: 44%;
