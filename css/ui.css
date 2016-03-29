@@ -215,10 +215,13 @@ strong { font-weight: 700; }
   color: #888888;
 }
 .geoPin {
-  float:right;
-  display:block;
-  height:108px;
-  margin-left:10px;
+  font-family: 'RainMachine', Arial, sans-serif;
+  color:#AF0000;
+  font-size: 40px;
+  float: right;
+  display: block;
+  padding-top: 40px;
+  margin-left: 10px;
 }
 .zoneListLine {
   height: 70px;
@@ -294,7 +297,7 @@ strong { font-weight: 700; }
   color: #999;
   padding-bottom: 15px;
 }
-.weatherIcon {
+.weatherIcon, .pinLocation {
   display: block;
   font-family: 'RainMachine', Arial, sans-serif;
   font-size: 52px;
