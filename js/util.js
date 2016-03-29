@@ -332,30 +332,25 @@ Util.readGeneratedTagValue = function(label) {
 }
 
 //Get geolocation coordinates start
-	function getGeoLocation () {
-		var output = document.getElementById("geoMessage");
+Util.getGeoLocation = function(latitudeTag, longitudeTag) {
 
-		if (!navigator.geolocation){
-			output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-			return;
-		}
-
-		function success(position) {
-			var latitude  = position.coords.latitude;
-			var longitude = position.coords.longitude;
-
-			output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-		};
-
-		function error() {
-			output.innerHTML = "Unable to retrieve your location";
-		};
-
-		output.innerHTML = "<p>Locating…</p>";
-
-		navigator.geolocation.getCurrentPosition(success, error);
+	if (!navigator.geolocation){
+		console.error("Geolocation is not supported by your browser");
+		return;
 	}
-//Get geolocation coordinates end
+
+	function success(position) {
+		$(latitudeTag).value  = position.coords.latitude;
+		$(longitudeTag).value = position.coords.longitude;
+	};
+
+	function error() {
+		console.error("Geolocation: Unable to retrieve your location");
+	};
+
+	navigator.geolocation.getCurrentPosition(success, error);
+}
+
 
 //filesObject is the object returned by files property of input type=file
 Util.loadFileFromDisk =  function(filesObject, callback,  asBinary) {
