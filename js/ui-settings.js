@@ -14,11 +14,14 @@ window.ui = window.ui || {};
         1: "Stopped by user",
         2: "Watering time below minimum threshold",
         3: "Freeze protect",
-        4: "Restriction",
-        5: "Restriction out of day",
+        4: "Day restriction",
+        5: "Watering time reaches next day",
         6: "Water surplus",
-        7: "Rain sensor activated"
-	};
+        7: "Rain detected",
+		8: "Software rain sensor restriction",
+		9: "Month Restricted",
+		10: "Rain Delay set by user"
+};
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
 	var developerParsers = {
