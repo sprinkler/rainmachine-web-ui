@@ -192,7 +192,7 @@ window.ui = window.ui || {};
 					else
 						lastRunElem.textContent = "Never";
 				} else {
-					lastRunElem.textContent = "ERROR: " + p.lastKnownError;
+					lastRunElem.textContent = p.lastKnownError;
 					lastRunElem.style.color = "red";
 				}
 			} else {
