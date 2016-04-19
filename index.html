@@ -322,7 +322,12 @@
 											<h1>Hot Days</h1>
 											<span class="separator"></span>
 											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-											<span>Allow extra watering</span>
+											<span>Allow extra watering</span><br><br>
+											<div id="restrictionsMaximumWateringCoefficient" class="inactive">
+												<span class="right"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
+												<span>Maximum Watering Coefficient</span><br>
+												<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
+											</div>
 										</div>
 										<div class="bottom">
 											<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
@@ -961,14 +966,6 @@
 										<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
 										<span class="cardTitle">Use Correction For Past</span><br>
 										<span class="subtitle">If future water needs should take in account past precipitations.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
-										<span class="cardTitle">Maximum Watering Coefficient</span><br>
-										<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 									</td>
 								</tr>
 								<tr>
