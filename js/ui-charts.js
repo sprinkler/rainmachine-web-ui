@@ -667,7 +667,8 @@ function generateDailyWeatherChart() {
 
 	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
 		var condition = chartsData.condition.data[i];
-		var temp = Util.convert.uiTemp(chartsData.maxt.data[i]);
+		var maxtemp = Util.convert.uiTemp(chartsData.maxt.data[i]);
+		var mintemp = Util.convert.uiTemp(chartsData.mint.data[i]);
 		var qpf = Util.convert.uiQuantity(chartsData.qpf.data[i]);
 		var date = chartsData.condition.getDateAtIndex(i);
 
@@ -689,11 +690,20 @@ function generateDailyWeatherChart() {
 
 		weatherIconElem.textContent = Util.conditionAsIcon(condition);
 
-		if (temp !== null) {
-			weatherTempElem.textContent = Math.round(temp) + "\xB0";
+		if (mintemp !== null) {
+			weatherTempElem.textContent = Math.round(mintemp);
 		} else {
 			weatherTempElem.textContent = "--";
 		}
+		weatherTempElem.textContent += "/";
+
+
+		if (maxtemp !== null) {
+			weatherTempElem.textContent += Math.round(maxtemp);
+		} else {
+			weatherTempElem.textContent += "--";
+		}
+		weatherTempElem.textContent +="\xB0";
 
 		try {
 			qpf = qpf.toFixed(1)
@@ -704,8 +714,6 @@ function generateDailyWeatherChart() {
 		} else  {
 			weatherQPFElem.textContent = "--";
 		}
-
-
 
 		containerDiv.appendChild(weatherTemplate);
 	}

@@ -150,7 +150,7 @@
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
 									<div class="weather-program-line" id="weatherChartDaysContainer">
-										<div class="program-title-next-run" style="text-align:right;vertical-align:bottom;color:#39c;height:42px;line-height:18px;font-size:12px;">Max Temp<br>Precipitation</div>
+										<div class="program-title-next-run" style="text-align:right;vertical-align:bottom;color:#39c;height:42px;line-height:18px;font-size:12px;">Min/Max Temp<br>Precipitation</div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -352,7 +352,7 @@
 											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
 											<span>Allow extra watering</span><br><br>
 											<div id="restrictionsMaximumWateringCoefficient">
-												<span class="right"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
+												<span class="right"><input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %</span>
 												<span>Maximum Watering Coefficient</span><br>
 												<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 											</div>
@@ -508,26 +508,26 @@
 											<h1>Minimum Watering Duration Threshold</h1>
 											<span class="separator"></span>
 											<div>Don't start watering zone if computed watering time is below this threshold.</div>
-											<input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds
+											<input type="number" id="restrictionsMinWatering" class="typeNumber"> seconds
 										</div>
 										<div class="bottom">
-											<button id="systemSettingsMinWateringSet" class="button label-blue absolute center right">Set</button>
+											<button id="restrictionsMinWateringSet" class="button label-blue absolute center right">Set</button>
 										</div>
 									</div>
 									<div class="listItemSettingsRestrictions relative">
 										<div>
 											<h1>Rain Sensor</h1>
 											<span class="separator"></span>
-											<span class="right"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
+											<span class="right"><input type="checkbox" id="restrictionsRainSensor" class="middle" /></span>
 											<span class="cardTitle">Use hardware rain sensor</span><br>
 											<span class="subtitle">Stop all watering when rain is detected.</span>
 											<br><br>
-											<span class="right"><input type="checkbox" id="systemSettingsSensorType" class="middle" /></span>
+											<span class="right"><input type="checkbox" id="restrictionsRainSensorType" class="middle" /></span>
 											<span class="cardTitle">Rain sensor normally closed</span><br>
 											<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
 										</div>
 										<div class="bottom">
-											<button id="systemSettingsSensorSet" class="button label-blue absolute center right">Set</button>
+											<button id="restrictionsRainSensorSet" class="button label-blue absolute center right">Set</button>
 										</div>
 									</div>
 							</div>
@@ -1634,7 +1634,7 @@
 			<span rm-id="weather-source-description" class="subtitle"></span><br>
 			<span class="separator"></span>
 			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
 			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
 		</div>

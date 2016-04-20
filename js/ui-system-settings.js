@@ -12,7 +12,7 @@ window.ui = window.ui || {};
 	var deviceDateTimeTimer = null;
 
 	function loadView() {
-		systemSettingsView= {
+		systemSettingsView = {
 			CloudEnable: $("#systemSettingsCloudEnable"),
 			Email: $("#systemSettingsEmail"),
 			PendingEmail: $("#systemSettingsPendingEmail"),
@@ -81,12 +81,8 @@ window.ui = window.ui || {};
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
 			*/
-			MinWateringSet: $("#systemSettingsMinWateringSet"),
-			MinWatering: $("#systemSettingsMinWatering"),
 			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
 			CorrectionPast: $("#systemSettingsCorrectionPast"),
-			MaxWaterSet: $("#systemSettingsMaxWaterSet"),
-			MaxWater: $("#systemSettingsMaxWater"),
 
 			//Advanced Settings Mini-8 SPK2
 			//TODO Developer mode commented out atm
@@ -102,9 +98,7 @@ window.ui = window.ui || {};
 			MaxLed: $("#systemSettingsMaxLed"),
 			MinLedSet: $("#systemSettingsMixLedSet"),
 			MinLed: $("#systemSettingsMinLed"),
-			SensorSet: $("#systemSettingsSensorSet"),
-			Sensor: $("#systemSettingsSensor"),
-			SensorType: $("#systemSettingsSensorType"),
+
 			TouchTimeoutSet: $("#systemSettingsTouchTimeoutSet"),
 			TouchTimeout: $("#systemSettingsTouchTimeout"),
 			TouchAdvSet: $("#systemSettingsTouchAdvSet"),
@@ -112,7 +106,7 @@ window.ui = window.ui || {};
 			TouchPressTimeoutSet: $("#systemSettingsTouchPressTimeoutSet"),
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
-			TouchProg: $("#systemSettingsTouchProg"),
+			TouchProg: $("#systemSettingsTouchProg")
 			};
     	}
 
@@ -202,10 +196,8 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
-		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
-		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
-		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
+		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
 		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
 		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
@@ -235,14 +227,9 @@ window.ui = window.ui || {};
 			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
 		};
 		*/
-		systemSettingsView.MinWateringSet.onclick = function() {
-			changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
-		};
+
 		systemSettingsView.CorrectionPastSet.onclick = function() {
 			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
-		};
-		systemSettingsView.MaxWaterSet.onclick = function() {
-			changeSingleSystemProvisionValue("maxWateringCoef", parseInt(systemSettingsView.MaxWater.value) / 100);
 		};
 	}
 
@@ -250,8 +237,6 @@ window.ui = window.ui || {};
 	function showSettingsMini8() {
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
-		systemSettingsView.Sensor.checked = Data.provision.system.useRainSensor;
-		systemSettingsView.SensorType.checked = Data.provision.system.rainSensorIsNormallyClosed;
 		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
 		systemSettingsView.TouchAdv.checked = Data.provision.system.touchAdvanced;
 		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
@@ -262,10 +247,6 @@ window.ui = window.ui || {};
 		};
 		systemSettingsView.MinLedSet.onclick = function() {
 			changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value);
-		};
-		systemSettingsView.SensorSet.onclick = function() {
-			changeSingleSystemProvisionValue("useRainSensor", systemSettingsView.Sensor.checked);
-			changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", systemSettingsView.SensorType.checked);
 		};
 		systemSettingsView.TouchTimeoutSet.onclick = function() {
 			changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value);
@@ -283,6 +264,7 @@ window.ui = window.ui || {};
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
 	{
+		console.log("Setting: %s to %o", provisionKey, value);
 		var data = {};
 		data[provisionKey] = value;
 
@@ -554,5 +536,6 @@ window.ui = window.ui || {};
 	//
 	//
 	_system.showSettings = showSettings;
+	_system.changeSingleSystemProvisionValue = changeSingleSystemProvisionValue;
 
 } (window.ui.system = window.ui.system || {}));
