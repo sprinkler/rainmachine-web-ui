@@ -973,10 +973,10 @@ select, .selectSmall {
   border-radius: 10px;
   z-index: 3;
 }
-#restrictionsMaximumWateringCoefficient, #restrictionsFreezeProtectTemp {
+#restrictionsMaximumWateringCoefficient, #restrictionsFreezeProtectMinTemp, #restrictionsMinWateringSeconds, #restrictionsFreezeProtectMinTemp {
   opacity: 0.1;
 }
-#restrictionsMaximumWateringCoefficient[enabled], #restrictionsFreezeProtectTemp[enabled] {
+#restrictionsMaximumWateringCoefficient[enabled], #restrictionsFreezeProtectMinTemp[enabled], #restrictionsMinWateringSeconds[enabled], #restrictionsFreezeProtectMinTemp[enabled] {
   opacity: 1;
 }
 .settingsBlock,

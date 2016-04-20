@@ -345,41 +345,70 @@
 						<div id="restrictions" style="display: none;">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Global Restrictions</h1>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Hot Days</h1>
-											<span class="separator"></span>
-											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-											<span>Allow extra watering</span><br><br>
-											<div id="restrictionsMaximumWateringCoefficient">
-												<span class="right"><input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %</span>
-												<span>Maximum Watering Coefficient</span><br>
-												<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
-											</div>
-										</div>
-										<div class="bottom">
-											<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
-										</div>
-									</div>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Freeze Protect</h1>
-											<span class="separator"></span>
-											<div>Do not water under:</div>
-											<div>
-												<select  id="restrictionsFreezeProtectTemp" style="width:180px;">
-													<option value="0">0 &deg; C / 32 &deg; F</option>
-													<option value="2" selected>2 &deg; C / 35.6 &deg; F</option>
-													<option value="5">5 &deg; C / 41 &deg; F</option>
-													<option value="10">10 &deg; C / 50 &deg; F</option>
-												</select>
-												<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
-											</div>
-											</div>
-												<div class="bottom">
-													<button id="restrictionFreezeSet" class="button label-blue absolute center right">Set</button>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<button id="restrictionsHotDaysSet" class="button label-blue center right">Set</button>
+												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
+												<div id="restrictionsMaximumWateringCoefficient" class="right mr" style="width:48%;">
+													<span class="top15">How much over watering (more than user specified) is allowed.</span>
+													<input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %
 												</div>
-									</div>
+												<span class="cardTitle">Hot Days</span><br>
+												<span class="subtitle">Allow extra watering</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="restrictionFreezeSet" class="button label-blue center right">Set</button>
+												<input type="checkbox" id="restrictionsFreezeProtect" class="right" style="margin-top:8px;" />
+												<div id="restrictionsFreezeProtectMinTemp" class="right mr" style="width:48%;">
+													<span class="top15">Select minimum temperature value:</span>
+													<select id="restrictionsFreezeProtectTemp" style="width:180px;">
+														<option value="0">0 &deg; C / 32 &deg; F</option>
+														<option value="2" selected>2 &deg; C / 35.6 &deg; F</option>
+														<option value="5">5 &deg; C / 41 &deg; F</option>
+														<option value="10">10 &deg; C / 50 &deg; F</option>
+													</select>
+												</div>
+												<span class="cardTitle">Freeze Protect</span><br>
+												<span class="subtitle">Stop all watering activities when minimum temperature has reached:</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="restrictionsMinWateringSet" class="button label-blue center right">Set</button>
+												<input type="checkbox" id="restrictionsMinWateringCheck" class="right" style="margin-top:8px;" />
+												<div id="restrictionsMinWateringSeconds" class="right mr" style="width:48%;">
+													<span class="top15">Select minimum watering threshold duration in seconds:</span>
+													<input type="number" id="restrictionsMinWatering" class="typeNumber">
+												</div>
+												<span class="cardTitle">Minimum Watering Duration Threshold</span><br>
+												<span class="subtitle">Don't start watering zone if computed watering time is below this threshold.</span>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div id="RainSensorJustForMini8" class="settingsBlock center block70">
+									<h1 class="title center">Rain Sensor</h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Set</button>
+												<div>
+													<input type="checkbox" id="restrictionsRainSensor" class="right" />
+													<span class="cardTitle">Use hardware rain sensor</span><br>
+													<span class="subtitle">Stop all watering when rain is detected.</span>
+													<br><br>
+													<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
+													<span class="cardTitle">Rain sensor normally closed</span><br>
+													<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="settingsBlock center block70">
 									<div class="listItemSettingsRestrictions relative">
 									<div style="height:250px;">
 										<div>
@@ -503,33 +532,7 @@
 										</div>
 									</div>
 									</div>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Minimum Watering Duration Threshold</h1>
-											<span class="separator"></span>
-											<div>Don't start watering zone if computed watering time is below this threshold.</div>
-											<input type="number" id="restrictionsMinWatering" class="typeNumber"> seconds
-										</div>
-										<div class="bottom">
-											<button id="restrictionsMinWateringSet" class="button label-blue absolute center right">Set</button>
-										</div>
-									</div>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Rain Sensor</h1>
-											<span class="separator"></span>
-											<span class="right"><input type="checkbox" id="restrictionsRainSensor" class="middle" /></span>
-											<span class="cardTitle">Use hardware rain sensor</span><br>
-											<span class="subtitle">Stop all watering when rain is detected.</span>
-											<br><br>
-											<span class="right"><input type="checkbox" id="restrictionsRainSensorType" class="middle" /></span>
-											<span class="cardTitle">Rain sensor normally closed</span><br>
-											<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
-										</div>
-										<div class="bottom">
-											<button id="restrictionsRainSensorSet" class="button label-blue absolute center right">Set</button>
-										</div>
-									</div>
+
 							</div>
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Hourly Restrictions</h1>
