@@ -973,7 +973,12 @@ select, .selectSmall {
   border-radius: 10px;
   z-index: 3;
 }
-
+#restrictionsMaximumWateringCoefficient, #restrictionsFreezeProtectTemp {
+  opacity: 0.1;
+}
+#restrictionsMaximumWateringCoefficient[enabled], #restrictionsFreezeProtectTemp[enabled] {
+  opacity: 1;
+}
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram { background-color: #fff }
