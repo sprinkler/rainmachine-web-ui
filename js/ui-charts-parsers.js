@@ -33,29 +33,35 @@ var parsersHourlyChartData = {
 	wind:  {}
 };
 
+function clearParserHourlyData() {
+	var keys = Object.keys(parsersHourlyChartData);
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+		parsersHourlyChartData[key] = {};
+	}
+}
 
-function getParserData(id) {
-	var startDate = Util.getDateWithDaysDiff(1); //from yesterday
-
-	APIAsync.getParserData(id, startDate, 8).then(function(o) {
+function getParserData(startDate, days, id) {
+	APIAsync.getParserData(id, startDate, days).then(function(o) {
 	 	if (Data.parserData === null) {
 	 		Data.parserData = {};
 	 	}
 
 		Data.parserData[id] = o;
-		processParserChartData(id);
+		processParserChartData(id, startDate, days);
 	})
 }
 
-function getAllEnabledParsersData() {
+function getAllEnabledParsersData(startDate, days) {
+	clearParserHourlyData();
 	for (var i = 0; i < Data.parsers.parsers.length; i++) {
 		if (Data.parsers.parsers[i].enabled) {
-			getParserData(Data.parsers.parsers[i].uid);
+			getParserData(startDate, days, Data.parsers.parsers[i].uid);
 		}
 	}
 }
 
-function processParserChartData(id) {
+function processParserChartData(id, startDate, days) {
 
 	var parserData = Data.parserData[id].parserData;
 
@@ -70,13 +76,13 @@ function processParserChartData(id) {
 		var key = keys[i];
 		parsersHourlyChartData[key][id] = [];
 	}
-	console.log("initialised id: %d", id);
+	console.log("initialised id: %d %o", id, parsersHourlyChartData);
 
-	//for (var parserDataIndex = 0; parserDataIndex < parserData.length; parserDataIndex++) {
-		var days = parserData[0].dailyValues;
+	for (var parserDataIndex = 0; parserDataIndex < parserData.length; parserDataIndex++) {
+		var d = parserData[parserDataIndex].dailyValues;
 
-		for (var dailyValuesIndex = 0; dailyValuesIndex < days.length; dailyValuesIndex++) {
-			var currentDay = days[dailyValuesIndex];
+		for (var dailyValuesIndex = 0; dailyValuesIndex < d.length; dailyValuesIndex++) {
+			var currentDay = d[dailyValuesIndex];
 			var hours = currentDay.hourlyValues;
 			var currentDayDate = currentDay.day.split(' ')[0];
 
@@ -98,7 +104,7 @@ function processParserChartData(id) {
                 addDataPoint(id, currentHour, "wind");
 			}
 		}
-	//}
+	}
 
 	//HighCharts needs data points to be sorted
 	sortDataPoint("condition");
@@ -116,7 +122,7 @@ function processParserChartData(id) {
     sortDataPoint("wind");
 
 	//console.log(parsersHourlyChartData);
-	generateAllKnownCharts(id);
+	generateAllKnownCharts(id, startDate, days);
 }
 
 function addDataPoint(id, data, key) {
@@ -135,19 +141,19 @@ function sortDataPoint(key) {
 }
 
 
-function generateAllKnownCharts(id) {
+function generateAllKnownCharts(id, startDate, days) {
 	var keys = Object.keys(parserCharts);
 	for (var i = 0; i < keys.length; i++) {
 		var keyName = keys[i];
 		//console.log("Generating chart for parser %d key: %s", id, keyName);
-		generateSpecificParsersChart(keyName);
+		generateSpecificParsersChart(keyName, startDate, days);
 	}
 }
 
 /**
  * Generates chart for a specific data point for all available parsers
  */
-function generateSpecificParsersChart(key) {
+function generateSpecificParsersChart(key, startDate, days) {
 
 	var data = parsersHourlyChartData[key];
 	var chartSeries = [];
@@ -182,8 +188,10 @@ function generateSpecificParsersChart(key) {
 
 	//Add mixer entry
 	if (chartsData.hasOwnProperty(mixerKey)) {
-		var mixerData = chartsData[mixerKey].data.slice(-7);
-        var mixerDates =  chartsData.days.slice(-7);
+		var index = Util.getDateIndex(startDate, chartsData.startDate);
+		var mixerData = chartsData[mixerKey].data.slice(index, index + days);
+        var mixerDates =  chartsData.days.slice(index, index + days);
+		console.log("Sliced from %d to %d", index, index+days);
         var mixerChartData = [];
         for (var i = 0; i < mixerData.length; i++) {
 			mixerChartData.push([Date.parse(mixerDates[i]), mixerData[i]]);
@@ -192,8 +200,9 @@ function generateSpecificParsersChart(key) {
 		chartSeries.push({
 			data: mixerChartData,
 			name: "RainMachine Mixer",
+			color: "#f44336",
 			lineWidth: 3,
-			zoneAxis: 'x',
+			zoneAxis: 'x'
 		});
 	}
 

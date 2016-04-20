@@ -14,11 +14,14 @@ window.ui = window.ui || {};
         1: "Stopped by user",
         2: "Watering time below minimum threshold",
         3: "Freeze protect",
-        4: "Restriction",
-        5: "Restriction out of day",
+        4: "Day restriction",
+        5: "Watering time reaches next day",
         6: "Water surplus",
-        7: "Rain sensor activated"
-	};
+        7: "Rain detected",
+		8: "Software rain sensor restriction",
+		9: "Month Restricted",
+		10: "Rain Delay set by user"
+};
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
 	var developerParsers = {
@@ -96,8 +99,12 @@ window.ui = window.ui || {};
 		var updateWeatherButton = $('#weatherSourcesRun');
 		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
 
+		var fetchWeatherServicesButton = $("#weatherServicesFetch");
+		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
+
 		setupWeatherSourceUpload();
-		getAllEnabledParsersData()
+		onWeatherServicesFetch();
+
 	}
 
 	function showParsers(onDashboard) {
@@ -185,7 +192,7 @@ window.ui = window.ui || {};
 					else
 						lastRunElem.textContent = "Never";
 				} else {
-					lastRunElem.textContent = "ERROR: " + p.lastKnownError;
+					lastRunElem.textContent = p.lastKnownError;
 					lastRunElem.style.color = "red";
 				}
 			} else {
@@ -441,6 +448,20 @@ window.ui = window.ui || {};
 		APIAsync.getWateringLog(false, true, startDate, days).then(
 			function(o) {Data.waterLogCustom = o; showWaterLog();}
 		);
+	}
+
+	function onWeatherServicesFetch() {
+		var startDateElem = $("#weatherServicesStartDate");
+		var daysElem = $("#weatherServicesDays");
+
+		// For parsers we want 8 days from which 1 day in the past rest in the future
+		if (!startDateElem.value || !daysElem.value) {
+			startDateElem.value = Util.getDateWithDaysDiff(1);
+			daysElem.value = 8;
+		}
+
+		console.log("Getting weather services data starting from %s for %d days...", startDateElem.value, parseInt(daysElem.value));
+		getAllEnabledParsersData(startDateElem.value, parseInt(daysElem.value));
 	}
 
 	function showWaterLog() {
