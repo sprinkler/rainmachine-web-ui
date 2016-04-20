@@ -351,8 +351,8 @@
 											<span class="separator"></span>
 											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
 											<span>Allow extra watering</span><br><br>
-											<div id="restrictionsMaximumWateringCoefficient" class="inactive">
-												<span class="right"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
+											<div id="restrictionsMaximumWateringCoefficient">
+												<span class="right"><input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %</span>
 												<span>Maximum Watering Coefficient</span><br>
 												<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 											</div>
@@ -508,10 +508,10 @@
 											<h1>Minimum Watering Duration Threshold</h1>
 											<span class="separator"></span>
 											<div>Don't start watering zone if computed watering time is below this threshold.</div>
-											<input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds
+											<input type="number" id="restrictionsMinWatering" class="typeNumber"> seconds
 										</div>
 										<div class="bottom">
-											<button id="systemSettingsMinWateringSet" class="button label-blue absolute center right">Set</button>
+											<button id="restrictionsMinWateringSet" class="button label-blue absolute center right">Set</button>
 										</div>
 									</div>
 									<div class="listItemSettingsRestrictions relative">
@@ -1634,7 +1634,7 @@
 			<span rm-id="weather-source-description" class="subtitle"></span><br>
 			<span class="separator"></span>
 			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
 			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
 		</div>
