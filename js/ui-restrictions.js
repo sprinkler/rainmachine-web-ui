@@ -100,7 +100,12 @@ window.ui = window.ui || {};
 			if (typeof active === "undefined") active = true;
 
 			nameElem.textContent = name;
-			if (active) statusElem.textContent = "Active";
+			if (active) {
+				if (name == "Rain Sensor")
+					statusElem.textContent = "Rain Detected";
+				else
+					statusElem.textContent = "Active";
+			}
 
 			container.appendChild(template);
 			hasRestrictions = true;
