@@ -186,6 +186,34 @@
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
                                     <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
 								    <h1 class="titleHome">Zones</h1>
+									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
+										<span class="right" style="font-size: 24px;">01:59</span>
+										<span class="icon" style="padding-right: 5px;">P</span>Master Valve pre-open<br>
+										<span style="color:#004d40;margin-left: 30px;">cycle 1/2, program Name of the Program</span>
+									</div>
+									<br>
+									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
+										<span class="right parserRefresh"><span class="icon">R</span></span>
+										<span class="icon" style="padding-right: 5px;">Z</span>Soak time after cycle 1/2 post-open<br>
+										<span style="color:#004d40;margin-left: 30px;">program Name of the Program</span>
+									</div>
+									<br>
+									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
+										<span class="right parserRefresh"><span class="icon">R</span></span>
+										<span class="icon" style="padding-right: 5px;">Z</span>Delay between zones<br>
+										<span style="color:#004d40;margin-left: 30px;">cycle 2/3, program Name of the Program</span>
+									</div>
+									<br>
+									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
+										<span class="right" style="font-size: 24px;">01:59</span>
+										<span class="icon" style="padding-right: 5px;">Z</span>My beautiful zone of flowers<br>
+									</div>
+									<br>
+									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
+										<span class="right" style="font-size: 24px;">01:59</span>
+										<span class="icon" style="padding-right: 5px;">P</span>My beautiful zone of flowers<br>
+										<span style="color:#004d40;margin-left: 30px;">cycle 1/2, program Flowers every day at 06:45AM</span>
+									</div>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
 									</div>
@@ -322,7 +350,12 @@
 											<h1>Hot Days</h1>
 											<span class="separator"></span>
 											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-											<span>Allow extra watering</span>
+											<span>Allow extra watering</span><br><br>
+											<div id="restrictionsMaximumWateringCoefficient" class="inactive">
+												<span class="right"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
+												<span>Maximum Watering Coefficient</span><br>
+												<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
+											</div>
 										</div>
 										<div class="bottom">
 											<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
@@ -347,7 +380,7 @@
 													<button id="restrictionFreezeSet" class="button label-blue absolute center right">Set</button>
 												</div>
 									</div>
-								<div class="listItemSettingsRestrictions relative">
+									<div class="listItemSettingsRestrictions relative">
 									<div style="height:250px;">
 										<div>
 											<h1>Weekdays</h1>
@@ -395,8 +428,8 @@
 											<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Set</button>
 										</div>
 									</div>
-								</div>
-								<div class="listItemSettingsRestrictions relative">
+									</div>
+									<div class="listItemSettingsRestrictions relative">
 									<div>
 										<div style="height:250px;">
 											<h1>Months</h1>
@@ -469,7 +502,34 @@
 											<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Set</button>
 										</div>
 									</div>
-								</div>
+									</div>
+									<div class="listItemSettingsRestrictions relative">
+										<div>
+											<h1>Minimum Watering Duration Threshold</h1>
+											<span class="separator"></span>
+											<div>Don't start watering zone if computed watering time is below this threshold.</div>
+											<input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds
+										</div>
+										<div class="bottom">
+											<button id="systemSettingsMinWateringSet" class="button label-blue absolute center right">Set</button>
+										</div>
+									</div>
+									<div class="listItemSettingsRestrictions relative">
+										<div>
+											<h1>Rain Sensor</h1>
+											<span class="separator"></span>
+											<span class="right"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
+											<span class="cardTitle">Use hardware rain sensor</span><br>
+											<span class="subtitle">Stop all watering when rain is detected.</span>
+											<br><br>
+											<span class="right"><input type="checkbox" id="systemSettingsSensorType" class="middle" /></span>
+											<span class="cardTitle">Rain sensor normally closed</span><br>
+											<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+										</div>
+										<div class="bottom">
+											<button id="systemSettingsSensorSet" class="button label-blue absolute center right">Set</button>
+										</div>
+									</div>
 							</div>
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Hourly Restrictions</h1>
@@ -952,26 +1012,10 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
-										<span class="cardTitle">Minimum Watering Duration Threshold</span><br>
-										<span class="subtitle">Don't start watering zone if computed watering time is below this threshold.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
 										<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
 										<span class="cardTitle">Use Correction For Past</span><br>
 										<span class="subtitle">If future water needs should take in account past precipitations.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
-										<span class="cardTitle">Maximum Watering Coefficient</span><br>
-										<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
 									</td>
 								</tr>
 								<tr>
@@ -1041,18 +1085,6 @@
 									<th>
 										<h1 class="title">RainMachine Mini-8 specific</h1>
 									</th>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsSensorSet" class="button label-blue center right" style="margin-top:20px;">Change</button>
-										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
-										<span class="cardTitle">Use hardware rain sensor</span><br>
-										<span class="subtitle">Stop all watering when rain is detected.</span>
-										<br><br>
-										<span class="right mr"><input type="checkbox" id="systemSettingsSensorType" class="middle" /></span>
-										<span class="cardTitle">Rain sensor normally closed</span><br>
-										<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
-									</td>
 								</tr>
 								<tr>
 									<td class="middle">
