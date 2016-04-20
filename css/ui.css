@@ -251,6 +251,14 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
 }
+.zoneWateringDetails {
+  display:block;
+  margin-top: -10px;
+  background-color: #689f38;
+  color:#ffffff;
+  padding:10px;
+  font-size: 18px;
+}
 .programListEdit {
   padding-top: 57px;
   height: 85px;
@@ -1246,7 +1254,7 @@ td.right,
   right: 10px;
 }
 .parserRefresh {
-  display:none;
+
   animation: refresh 1.5s infinite linear;
   font-size: 14px;
   margin: 10px;
