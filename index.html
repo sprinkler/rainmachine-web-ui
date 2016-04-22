@@ -646,6 +646,14 @@
 												</span>
 											</td>
 										</tr>
+										<tr>
+											<td class="middle">
+												<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
+												<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
+												<span class="cardTitle">Use Correction For Past</span><br>
+												<span class="subtitle">If future water needs should take in account past precipitations.</span>
+											</td>
+										</tr>
 									</table>
 							</div>
 							<div id="weatherDataSources">
@@ -875,20 +883,6 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsCloudSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:40%;">
-											<span style="display:block;">
-												<span class="left top15">Email address:</span><input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:70%;" />
-											</span>
-											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
-										</span>
-										<span class="cardTitle">Remote Access</span><br>
-										<span class="subtitle">Enter the email address asociated with the remote access account.</span>
-										<div id="systemSettingsPendingEmail" class="red"></div>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
 										<div class="center right">
 											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Change</button>
 										</div>
@@ -964,18 +958,40 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsCloudSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
-												<span class="left">Enable master valve (Zone 1):</span> <input type="checkbox" id="systemSettingsEnableMasterValve" />
+												<span class="left top15">Email address:</span><input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:70%;" />
 											</span>
-											<br>
-											<span style="display:block;">
-												<span class="left top15">Start</span> <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
-											</span>
+											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
 										</span>
-										<span class="cardTitle">Master Valve</span><br>
+										<span class="cardTitle">Remote Access</span><br>
+										<span class="subtitle">Enter the email address asociated with the remote access account.</span>
+										<div id="systemSettingsPendingEmail" class="red"></div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="settingsBlock center block70">
+							<table cellspacing="0" cellpadding="0" class="full">
+								<tr>
+									<th>
+										<h1 class="title">Master Valve (Pump)</h1>
+									</th>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
+													<span class="right mr" style="width:40%;">
+														<span style="display:block;">
+															<span class="left">Enable master valve (Zone 1):</span> <input type="checkbox" id="systemSettingsEnableMasterValve" />
+														</span>
+														<br>
+														<span style="display:block;">
+															<span class="left top15">Start</span> <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
+															<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
+														</span>
+													</span>
 										<span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).<br>Zone 1 will be used as Master Valve.</span>
 									</td>
 								</tr>
@@ -1010,14 +1026,6 @@
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
 										<span class="subtitle">Allow to receive beta updates which are more often, but not thoroughly tested (use this at your own risk).</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
-										<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
-										<span class="cardTitle">Use Correction For Past</span><br>
-										<span class="subtitle">If future water needs should take in account past precipitations.</span>
 									</td>
 								</tr>
 								<tr>
