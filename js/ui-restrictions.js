@@ -7,16 +7,20 @@ window.ui = window.ui || {};
 
 (function(_restrictions) {
 
-	var uiElems = {};
+	var uiElems = null;
 
-	function showRestrictions()
-	{
-		//TODO: Move this out
+	function createRestrictionsElems() {
+		uiElems = {};
 		uiElems.extraWateringElem = $("#restrictionsExtraWatering");
 		uiElems.maxWateringElem = $("#restrictionsMaxWatering");
+		uiElems.maxWateringContainer = $("#restrictionsMaxWateringContainer");
+
 		uiElems.freezeProtectElem = $("#restrictionsFreezeProtect");
 		uiElems.freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
+		uiElems.freezeProtectContainer = $("#restrictionsFreezeProtectContainer");
+
 		uiElems.minWateringElem = $("#restrictionsMinWatering");
+
 		uiElems.startHourElem = $("#restrictionHourlyStartHour");
 		uiElems.startMinuteElem = $("#restrictionHourlyStartMinute");
 		uiElems.durationElem = $("#restrictionHourlyDuration");
@@ -30,6 +34,12 @@ window.ui = window.ui || {};
 		uiElems.buttonHourlySet = $("#restrictionHourlyAdd");
 		uiElems.buttonRainSensorSet = $("#restrictionsRainSensorSet");
 		uiElems.buttonMinWateringSet = $("#restrictionsMinWateringSet");
+	}
+
+	function showRestrictions()
+	{
+		if (uiElems === null)
+			createRestrictionsElems();
 
 		var rh = API.getRestrictionsHourly();
 		var rg = API.getRestrictionsGlobal();
@@ -37,12 +47,17 @@ window.ui = window.ui || {};
 
 		uiElems.extraWateringElem.checked = rg.hotDaysExtraWatering;
 		uiElems.freezeProtectElem.checked = rg.freezeProtectEnabled;
-		uiElems.maxWateringElem.value = Data.provision.system.maxWateringCoef * 100;
-		uiElems.minWateringElem.value = Data.provision.system.minWateringDurationThreshold;
 		uiElems.rainSensorElem.checked = Data.provision.system.useRainSensor;
 		uiElems.rainSensorTypeElem.checked = Data.provision.system.rainSensorIsNormallyClosed;
 
+		uiElems.maxWateringElem.value = Data.provision.system.maxWateringCoef * 100;
+		uiElems.minWateringElem.value = Data.provision.system.minWateringDurationThreshold;
+
 		setSelectOption(uiElems.freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
+
+		if (Data.provision.api.hwVer == 2 || Data.provision.api.hwVer === "simulator") {
+			makeVisibleBlock("#restrictionsMini8");
+		}
 
 		//Set the months restrictions
 		for (var i = 0; i < Util.monthNames.length; i++)
@@ -99,6 +114,13 @@ window.ui = window.ui || {};
 		uiElems.buttonHourlySet.onclick = onSetHourly;
 		uiElems.buttonMinWateringSet.onclick = onSetMinWatering;
 		uiElems.buttonRainSensorSet.onclick = onSetRainSensor;
+
+		uiElems.extraWateringElem.onclick = showMaxWatering;
+		uiElems.freezeProtectElem.onclick = showFreezeProtect;
+
+		//Set current state
+		showMaxWatering();
+		showFreezeProtect();
 	}
 
 	function showCurrentRestrictions() {
@@ -260,6 +282,16 @@ window.ui = window.ui || {};
 		window.ui.system.changeSingleSystemProvisionValue("useRainSensor", uiElems.rainSensorElem.checked);
 		window.ui.system.changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", uiElems.rainSensorTypeElem.checked);
 	}
+
+	function showMaxWatering() {
+		toggleAttr(uiElems.maxWateringContainer, uiElems.extraWateringElem.checked);
+	}
+
+	function showFreezeProtect() {
+		toggleAttr(uiElems.freezeProtectContainer, uiElems.freezeProtectElem.checked);
+	}
+
+
 
 	//--------------------------------------------------------------------------------------------
 	//

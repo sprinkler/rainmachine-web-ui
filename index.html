@@ -350,7 +350,7 @@
 											<td class="middle">
 												<button id="restrictionsHotDaysSet" class="button label-blue center right">Set</button>
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
-												<div id="restrictionsMaximumWateringCoefficient" class="right mr" style="width:48%;">
+												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:48%;">
 													<span class="top15">How much over watering (more than user specified) is allowed.</span>
 													<input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %
 												</div>
@@ -362,7 +362,7 @@
 											<td class="middle">
 												<button id="restrictionFreezeSet" class="button label-blue center right">Set</button>
 												<input type="checkbox" id="restrictionsFreezeProtect" class="right" style="margin-top:8px;" />
-												<div id="restrictionsFreezeProtectMinTemp" class="right mr" style="width:48%;">
+												<div id="restrictionsFreezeProtectContainer" class="right mr" style="width:48%;">
 													<span class="top15">Select minimum temperature value:</span>
 													<select id="restrictionsFreezeProtectTemp" style="width:180px;">
 														<option value="0">0 &deg; C / 32 &deg; F</option>
@@ -378,7 +378,6 @@
 										<tr>
 											<td class="middle">
 												<button id="restrictionsMinWateringSet" class="button label-blue center right">Set</button>
-												<input type="checkbox" id="restrictionsMinWateringCheck" class="right" style="margin-top:8px;" />
 												<div id="restrictionsMinWateringSeconds" class="right mr" style="width:48%;">
 													<span class="top15">Select minimum watering threshold duration in seconds:</span>
 													<input type="number" id="restrictionsMinWatering" class="typeNumber">
@@ -389,7 +388,7 @@
 										</tr>
 									</table>
 								</div>
-								<div id="RainSensorJustForMini8" class="settingsBlock center block70">
+								<div id="restrictionsMini8" class="settingsBlock center block70" style="display: none">
 									<h1 class="title center">Rain Sensor</h1>
 									<table cellspacing="0" cellpadding="0" class="full">
 										<tr>

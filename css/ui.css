@@ -973,11 +973,13 @@ select, .selectSmall {
   border-radius: 10px;
   z-index: 3;
 }
-#restrictionsMaximumWateringCoefficient, #restrictionsFreezeProtectMinTemp, #restrictionsMinWateringSeconds, #restrictionsFreezeProtectMinTemp {
+#restrictionsMaxWateringContainer, #restrictionsFreezeProtectContainer {
   opacity: 0.1;
+  pointer-events: none;
 }
-#restrictionsMaximumWateringCoefficient[enabled], #restrictionsFreezeProtectMinTemp[enabled], #restrictionsMinWateringSeconds[enabled], #restrictionsFreezeProtectMinTemp[enabled] {
+#restrictionsMaxWateringContainer[enabled], #restrictionsFreezeProtectContainer[enabled] {
   opacity: 1;
+  pointer-events: auto;
 }
 .settingsBlock,
 .settingsBlockZones,
