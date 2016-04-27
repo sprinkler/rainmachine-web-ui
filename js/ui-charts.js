@@ -136,6 +136,12 @@ function ChartData () {
 //	this.waterNeedSimulated = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
+	this.et0 = new ChartSeries(this.startDate);
+	this.pressure = new ChartSeries(this.startDate);
+	this.rh = new ChartSeries(this.startDate);
+	this.wind = new ChartSeries(this.startDate);
+	this.rain = new ChartSeries(this.startDate);
+	this.dewPoint = new ChartSeries(this.startDate);
 	this.programs = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
 
@@ -257,6 +263,12 @@ function processChartData() {
 		chartsData.mint.insertAtDate(dvDay, entry.minTemp);
 		chartsData.temperature.insertAtDate(dvDay, entry.temperature);
 		chartsData.condition.insertAtDate(dvDay, entry.condition);
+		chartsData.et0.insertAtDate(dvDay, entry.et0final);
+		chartsData.pressure.insertAtDate(dvDay, entry.pressure);
+		chartsData.rh.insertAtDate(dvDay, entry.rh);
+		chartsData.wind.insertAtDate(dvDay, entry.wind);
+		chartsData.rain.insertAtDate(dvDay, entry.rain);
+		chartsData.dewPoint.insertAtDate(dvDay, entry.dewPoint);
 	}
 
 	//Total Water Need future days

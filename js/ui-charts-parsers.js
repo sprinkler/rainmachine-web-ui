@@ -10,7 +10,9 @@ var parserCharts = {
 	wind:			{ chart: null, container: "windParsersChartContainer",			title: "Wind (m/s)" },
 	dewPoint: 		{ chart: null, container: "dewParsersChartContainer",			title: "Dew Point (&deg;C)" },
 	rh:				{ chart: null, container: "rhParsersChartContainer",			title: "Relative Humidity (%)" },
-    pressure:		{ chart: null, container: "pressureParsersChartContainer",		title: "Atmospheric Pressure" }
+    pressure:		{ chart: null, container: "pressureParsersChartContainer",		title: "Atmospheric Pressure" },
+	et0:			{ chart: null, container: "etParsersChartContainer",			title: "EvapoTranspiration(mm)"},
+	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain(mm)"}
 };
 
 /*
@@ -30,7 +32,8 @@ var parsersHourlyChartData = {
 	rh:  {},
 	solarRad: {},
 	temperature:  {},
-	wind:  {}
+	wind:  {},
+	rain: {}
 };
 
 function clearParserHourlyData() {
@@ -102,6 +105,7 @@ function processParserChartData(id, startDate, days) {
                 addDataPoint(id, currentHour, "solarRad");
                 addDataPoint(id, currentHour, "temperature");
                 addDataPoint(id, currentHour, "wind");
+				addDataPoint(id, currentHour, "rain");
 			}
 		}
 	}
@@ -120,6 +124,8 @@ function processParserChartData(id, startDate, days) {
     sortDataPoint("solarRad");
     sortDataPoint("temperature");
     sortDataPoint("wind");
+	sortDataPoint("rain");
+
 
 	//console.log(parsersHourlyChartData);
 	generateAllKnownCharts(id, startDate, days);
@@ -178,6 +184,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 
 	//Translation from parser keys to mixer keys
 	mixerKey = key;
+
 	if (key === "maxTemperature") {
 		mixerKey = "maxt";
 	}
