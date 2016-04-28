@@ -136,6 +136,12 @@ function ChartData () {
 //	this.waterNeedSimulated = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
+	this.et0 = new ChartSeries(this.startDate);
+	this.pressure = new ChartSeries(this.startDate);
+	this.rh = new ChartSeries(this.startDate);
+	this.wind = new ChartSeries(this.startDate);
+	this.rain = new ChartSeries(this.startDate);
+	this.dewPoint = new ChartSeries(this.startDate);
 	this.programs = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
 
@@ -257,6 +263,12 @@ function processChartData() {
 		chartsData.mint.insertAtDate(dvDay, entry.minTemp);
 		chartsData.temperature.insertAtDate(dvDay, entry.temperature);
 		chartsData.condition.insertAtDate(dvDay, entry.condition);
+		chartsData.et0.insertAtDate(dvDay, entry.et0final);
+		chartsData.pressure.insertAtDate(dvDay, entry.pressure);
+		chartsData.rh.insertAtDate(dvDay, entry.rh);
+		chartsData.wind.insertAtDate(dvDay, entry.wind);
+		chartsData.rain.insertAtDate(dvDay, entry.rain);
+		chartsData.dewPoint.insertAtDate(dvDay, entry.dewPoint);
 	}
 
 	//Total Water Need future days
@@ -424,6 +436,7 @@ function processChartData() {
 		chartsData.mint.monthsData[monthsIndex] = 0;
 		chartsData.temperature.monthsData[monthsIndex] = 0;
 		chartsData.qpf.monthsData[monthsIndex] = 0;
+		chartsData.rain.monthsData[monthsIndex] = 0;
 		for (programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 			chartsData.programs[programIndex].monthsData[monthsIndex] = 0;
 		}
@@ -439,6 +452,7 @@ function processChartData() {
 				chartsData.mint.monthsData[monthsIndex] += chartsData.mint.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.mint.getAtDate(chartsData.days[daysIndex]);
 				chartsData.temperature.monthsData[monthsIndex] += chartsData.temperature.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.temperature.getAtDate(chartsData.days[daysIndex]);
 				chartsData.qpf.monthsData[monthsIndex] += chartsData.qpf.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.qpf.getAtDate(chartsData.days[daysIndex]);
+				chartsData.rain.monthsData[monthsIndex] += chartsData.rain.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.rain.getAtDate(chartsData.days[daysIndex]);
 
 				for (programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 					chartsData.programs[programIndex].monthsData[monthsIndex] += chartsData.programs[programIndex].getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.programs[programIndex].getAtDate(chartsData.days[daysIndex]);
@@ -542,6 +556,7 @@ function loadWeeklyCharts () {
 	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart, sliceEnd);
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
+	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -588,6 +603,7 @@ function loadMonthlyCharts () {
 	chartsData.mint.currentSeries = chartsData.mint.data.slice(sliceStart, sliceEnd);
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
+	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -629,6 +645,7 @@ function loadYearlyCharts () {
 	chartsData.mint.currentSeries = chartsData.mint.monthsData;
 	chartsData.temperature.currentSeries = chartsData.temperature.monthsData;
 	chartsData.qpf.currentSeries = chartsData.qpf.monthsData;
+	chartsData.rain.currentSeries = chartsData.rain.monthsData;
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].monthsData;
@@ -1047,15 +1064,27 @@ function generateQPFChart () {
 		},
 		plotOptions:{
 			series: {
-				borderRadius:5
+				borderRadius:0
 			},
 			column: {
-				minPointLength: 1
+				minPointLength: 1,
+				stacking: 'normal'
 			}
 		},
 		tooltip: {
 			hideDelay: 0,
 			animation: false,
+			formatter: function () {
+				var s = '<span style="font-size: 12px;">';
+				s += "Forecast: " + Util.convert.uiQuantity(this.point.y) + Util.convert.uiQuantityStr();
+
+				if (this.point.secondPoint && this.point.secondPoint.y !== null) {
+					s += "<br>Measured:" + Util.convert.uiQuantity(this.point.secondPoint.y) + Util.convert.uiQuantityStr();
+				}
+
+				s += '</span>';
+				return s;
+			}
 		},
 		series: [{
 			data: chartsData.qpf.currentSeries,
@@ -1068,14 +1097,16 @@ function generateQPFChart () {
 			},
 			name: 'Rain Amount',
 			tooltip: {
-				headerFormat: '',
-				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">'  + Util.convert.uiQuantity(this.y) + Util.convert.uiQuantityStr() + '</span>';
-				}
+				headerFormat: ''
 			},
 			type: 'column'
-		}],
+		},
+		{
+			data: chartsData.rain.currentSeries,
+			showInLegend: false,
+			type: 'column'
+		}
+		],
 		title: null,
 		//title: {
 		//	text: '<h1>QPF (mm)</h1>',
