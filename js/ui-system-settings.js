@@ -57,10 +57,6 @@ window.ui = window.ui || {};
 			AlexaSet: $("#systemSettingsAlexaSet"),
 			Alexa: $("#systemSettingsAlexa"),
 
-			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
-			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
-			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
-
 			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
 			BetaUpdates: $("#systemSettingsBetaUpdates"),
 
@@ -80,9 +76,10 @@ window.ui = window.ui || {};
 			ParserHistory: $("#systemSettingsParserHistory"),
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
+			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
+			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
+			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
 			*/
-			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
-			CorrectionPast: $("#systemSettingsCorrectionPast"),
 
 			//Advanced Settings Mini-8 SPK2
 			//TODO Developer mode commented out atm
@@ -186,10 +183,12 @@ window.ui = window.ui || {};
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
-		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
-		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+
+
 		//TODO Developer mode commented out atm
 		/*
+		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
+		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
@@ -197,7 +196,6 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
 
-		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
 		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
 		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
@@ -206,7 +204,7 @@ window.ui = window.ui || {};
 			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
 		};
 
-		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
+
 		systemSettingsView.BetaUpdatesSet.onclick = function() { systemSettingsSetBetaUpdates() };
 
 		//TODO Developer mode commented out atm
@@ -226,11 +224,9 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDaysSet.onclick = function() {
 			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
 		};
-		*/
 
-		systemSettingsView.CorrectionPastSet.onclick = function() {
-			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
-		};
+		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
+		*/
 	}
 
 
@@ -291,6 +287,8 @@ window.ui = window.ui || {};
 		getBetaUpdatesStatus();
 	}
 
+	//TODO: Developer Mode
+	/*
 	function systemSettingsSetSoftwareRainSensor()
 	{
 		var enable =  systemSettingsView.SoftwareRainSensorEnable.checked;
@@ -311,6 +309,7 @@ window.ui = window.ui || {};
 		Data.provision.system.useSoftwareRainSensor = enable;
 		Data.provision.system.softwareRainSensorMinQPF = threshold;
 	}
+	*/
 
 	function systemSettingsChangeMasterValve()
 	{

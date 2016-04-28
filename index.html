@@ -648,10 +648,10 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
-												<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
-												<span class="cardTitle">Use Correction For Past</span><br>
-												<span class="subtitle">If future water needs should take in account past precipitations.</span>
+												<button id="weatherCorrectionPastSet" class="button label-blue center right">Change</button>
+												<input id="weatherCorrectionPast" type="checkbox" class="right mr" />
+												<span class="cardTitle">Use Correction For Past (Beta)</span><br>
+												<span class="subtitle">If future water needs should take in account past recorded precipitations.</span>
 											</td>
 										</tr>
 									</table>
@@ -1028,14 +1028,6 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
-										<span class="cardTitle">Software rainsensor</span><br>
-										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
 										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Change</button>
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
@@ -1064,7 +1056,14 @@
 									</td>
 								</tr>
 								<!-- DEVELOPER ONLY
-
+                                <tr>
+									<td class="middle">
+										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
+										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
+										<span class="cardTitle">Software rainsensor</span><br>
+										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
+									</td>
+								</tr>
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Change</button>
