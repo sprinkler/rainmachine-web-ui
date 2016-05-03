@@ -21,10 +21,10 @@ window.ui = window.ui || {};
 	};
 
 	var zoneTypeTitle = {
-		1001: "Master Valve pre-open",
-		1002: "Master Valve post-open",
-		1003: "Delay Between cycles",
-		1004: "Soak time after cycle"
+		1001: "Master Valve pre-open ",
+		1002: "Master Valve post-open ",
+		1003: "Delay Between cycles ",
+		1004: "Soak time "
 	};
 
 	var uiElems = {};
