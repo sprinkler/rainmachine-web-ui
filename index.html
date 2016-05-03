@@ -186,33 +186,8 @@
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
                                     <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
 								    <h1 class="titleHome">Zones</h1>
-									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
-										<span class="right" style="font-size: 24px;">01:59</span>
-										<span class="icon" style="padding-right: 5px;">P</span>Master Valve pre-open<br>
-										<span style="color:#004d40;margin-left: 30px;">cycle 1/2, program Name of the Program</span>
-									</div>
-									<br>
-									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
-										<span class="right parserRefresh"><span class="icon">R</span></span>
-										<span class="icon" style="padding-right: 5px;">Z</span>Soak time after cycle 1/2 post-open<br>
-										<span style="color:#004d40;margin-left: 30px;">program Name of the Program</span>
-									</div>
-									<br>
-									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
-										<span class="right parserRefresh"><span class="icon">R</span></span>
-										<span class="icon" style="padding-right: 5px;">Z</span>Delay between zones<br>
-										<span style="color:#004d40;margin-left: 30px;">cycle 2/3, program Name of the Program</span>
-									</div>
-									<br>
-									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
-										<span class="right" style="font-size: 24px;">01:59</span>
-										<span class="icon" style="padding-right: 5px;">Z</span>My beautiful zone of flowers<br>
-									</div>
-									<br>
-									<div id="homeScreenWateringDetails" class="zoneWateringDetails">
-										<span class="right" style="font-size: 24px;">01:59</span>
-										<span class="icon" style="padding-right: 5px;">P</span>My beautiful zone of flowers<br>
-										<span style="color:#004d40;margin-left: 30px;">cycle 1/2, program Flowers every day at 06:45AM</span>
+									<div id="wateringQueueContainer">
+										<!--- Inserted from Javascript -->
 									</div>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
@@ -1759,6 +1734,15 @@
 			</div>
 		</div>
 		<!-- Template for Hourly Restriction (End)-->
+
+		<!-- Template for Home Screen Watering details (Start) -->
+		<div id="water-queue-template" class="zoneWateringDetails">
+			<span class="right" style="font-size: 24px;" rm-id="water-queue-timer"></span>
+			<span class="icon" style="padding-right: 5px;" rm-id="water-queue-is-program"></span>
+			<span rm-id="water-queue-zone" style="font-size: 18px"></span><br>
+			<span style="color:#004d40;margin-left: 35px;" rm-id="water-queue-details"></span>
+		</div>
+		<!-- Template for Home Screen Watering details (End) -->
 	</div>
 
 </body>

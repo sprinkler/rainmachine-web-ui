@@ -21,10 +21,10 @@ window.ui = window.ui || {};
 	};
 
 	var zoneTypeTitle = {
-		1001: "Master Valve pre-open",
-		1002: "Master Valve post-open",
-		1003: "Delay Between cycles",
-		1004: "Soak time after cycle"
+		1001: "Master Valve pre-open ",
+		1002: "Master Valve post-open ",
+		1003: "Delay Between cycles ",
+		1004: "Soak time "
 	};
 
 	var uiElems = {};
@@ -107,7 +107,7 @@ window.ui = window.ui || {};
 			else
 			{
 				elem.nameElem.textContent = z.uid + ". " + z.name;
-				elem.typeElem.textContent = zoneTypeToString(z.type);
+				elem.typeElem.textContent = zoneVegetationTypeToString(z.type);
 
 				if (!z.active) {
 					elem.template.className += " inactive";
@@ -124,6 +124,88 @@ window.ui = window.ui || {};
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
+	}
+
+	function updateWateringQueue(wateringQueue) {
+
+		var container = $('#wateringQueueContainer');
+		var template = loadTemplate("water-queue-template");
+		clearTag(container);
+
+		var queue = wateringQueue.queue;
+
+		if (typeof queue === "undefined" || typeof queue[0] === "undefined") {
+			console.error("Queue: Empty watering queue");
+			return;
+		}
+
+		var zones = Data.zoneData.zones;
+		if (zones === null) {
+			console.error("Queue: No zones information");
+			return;
+		}
+
+		var queueTop = queue[0];
+		//console.log("Queue top: %o", queueTop);
+
+		var queueZone = $(template, '[rm-id="water-queue-zone"]');
+		var queueTimer = $(template, '[rm-id="water-queue-timer"]');
+		var queueIsProgram = $(template, '[rm-id="water-queue-is-program"]');
+		var queueDetails = $(template, '[rm-id="water-queue-details"]');
+		var realZoneId = queueTop.zid - 1;
+
+		if (queueTop.zid == zoneType.masterValveStart || queueTop.zid == zoneType.masterValveStop) {
+			realZoneId = 0; //Master valve always first zone
+		}
+
+		//Show proper names for Master Valve, Soak, Delay
+		if (zoneTypeTitle.hasOwnProperty(queueTop.zid)) {
+			queueZone.textContent = zoneTypeTitle[queueTop.zid];
+		} else {
+			queueZone.textContent = zones[realZoneId].name;
+		}
+
+		if (queueTop.manual) {
+			queueIsProgram.textContent = "Z";
+		} else {
+			queueIsProgram.textContent = "P";
+		}
+
+		var programName;
+		if (queueTop.pid !== null) {
+			var tmp = getProgramById(queueTop.pid);
+			if (tmp !== null)
+				programName = tmp.name;
+			else
+				programName = queueTop.pid
+		} else {
+			programName = "Manual";
+		}
+
+		//Cycle information different for Soak delay
+		var cycleText = "";
+
+		if (queueTop.cycles > 1) {
+			cycleText = "cycle " + queueTop.cycle + "/" + queueTop.cycles;
+		}
+
+		if (queueTop.zid != zoneType.cycleDelay) {
+			queueDetails.textContent = cycleText;
+		} else {
+			queueZone.textContent += cycleText;
+		}
+
+		queueDetails.textContent += " program " + programName;
+
+		// No timing information for soak/zone delay
+		if (queueTop.zid == zoneType.cycleDelay || queueTop.zid == zoneType.zoneDelay) {
+			queueTimer.textContent = "R";
+			queueTimer.className = "right parserRefresh icon";
+		} else {
+			queueTimer.textContent = Util.secondsToMMSS(zones[realZoneId].remaining);
+		}
+
+		container.appendChild(template);
 	}
 
 	function showZoneSettings(zone)
@@ -168,7 +250,7 @@ window.ui = window.ui || {};
 		zoneHistoricalElem.checked = zone.history;
 
 		//Select the option in Vegetation select
-		var strType = zoneTypeToString(zone.type);
+		var strType = zoneVegetationTypeToString(zone.type);
 		setSelectOption(zoneVegetationElem, strType);
 
 		$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){ closeZoneSettings(); };
@@ -367,7 +449,7 @@ window.ui = window.ui || {};
 		showZones();
 	}
 
-	function zoneTypeToString(type)
+	function zoneVegetationTypeToString(type)
 	{
 		switch (type)
 		{
@@ -397,6 +479,7 @@ window.ui = window.ui || {};
 	_zones.showZoneSettings = showZoneSettings;
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
+	_zones.updateWateringQueue = updateWateringQueue;
 	_zones.uiElems = uiElems;
 
 } (window.ui.zones = window.ui.zones || {}));
