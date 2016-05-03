@@ -39,14 +39,17 @@ window.ui = window.ui || {};
 		var rs = Data.provision.location.rainSensitivity;
 		var ws = Data.provision.location.windSensitivity;
 		var fc = Data.provision.location.wsDays;
+		var correctionPast = Data.provision.system.useCorrectionForPast;
 
 		var rsElem = $("#rainSensitivity");
 		var wsElem = $("#windSensitivity");
 		var fcElem = $("#fieldCapacity");
+		var correctionPastElem = $("#weatherCorrectionPast");
 
 		var rsSaveElem = $("#rainSensitivitySave");
 		var wsSaveElem = $("#windSensitivitySave");
 		var fcSaveElem = $("#fieldCapacitySave");
+		var correctionPastSet = $("#weatherCorrectionPastSet");
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
@@ -61,6 +64,8 @@ window.ui = window.ui || {};
 
 		fcElem.value = parseInt(fc);
 		fcElem.oninput();
+
+		correctionPastElem.checked = correctionPast;
 
 		rsSaveElem.onclick = function() {
 			var rsNew = +rsElem.value/100.0;
@@ -92,6 +97,10 @@ window.ui = window.ui || {};
 			}
 		};
 
+		correctionPastSet.onclick = function() {
+			window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
+		};
+
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 		fcDefaultElem.onclick = function() { fcElem.value = fcDefaultElem.value; fcElem.oninput(); Data.provision = API.getProvision();};
@@ -104,7 +113,6 @@ window.ui = window.ui || {};
 
 		setupWeatherSourceUpload();
 		onWeatherServicesFetch();
-
 	}
 
 	function showParsers(onDashboard) {
