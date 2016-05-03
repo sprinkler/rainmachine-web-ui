@@ -206,8 +206,10 @@ window.ui = window.ui || {};
 						//Show STOP all button
 						makeVisible(window.ui.zones.uiElems.stopAll);
 					}
+					refreshProgramAndZones(true);
 
-					refreshProgramAndZones(true)
+					//Refresh queue information
+					window.ui.zones.updateWateringQueue(waterQueue);
 				}
 			);
 			//Refresh (without data download) parser box

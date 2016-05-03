@@ -152,7 +152,7 @@ function ChartData () {
 * Returns a program object. Requires Data.programs structure to be available
 * @param id
 */
-function getProgramById (id) {
+function getProgramById(id) {
 
 	if (Data.programs === null) {
 		return null;
