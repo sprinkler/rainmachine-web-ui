@@ -146,7 +146,7 @@ window.ui = window.ui || {};
 		}
 
 		var queueTop = queue[0];
-		console.log("Queue top: %o", queueTop);
+		//console.log("Queue top: %o", queueTop);
 
 		var queueZone = $(template, '[rm-id="water-queue-zone"]');
 		var queueTimer = $(template, '[rm-id="water-queue-timer"]');
