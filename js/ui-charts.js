@@ -143,6 +143,7 @@ function ChartData () {
 	this.rain = new ChartSeries(this.startDate);
 	this.dewPoint = new ChartSeries(this.startDate);
 	this.programs = [];
+	this.programsFlags = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
@@ -299,6 +300,7 @@ function processChartData() {
 			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
 			var wnfTotalDayProgramUserWater = 0;
 			var wnfTotalDayProgramScheduledWater = 0;
+			var programFlag = 0;
 
 			//Skip Manual run programs (id 0)
 			if (currentProgram.id == 0)
@@ -308,6 +310,9 @@ function processChartData() {
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				wnfTotalDayProgramUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
 				wnfTotalDayProgramScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
+				programFlag = currentProgram.zones[zoneIndex].wateringFlag;
+				if (programFlag > 0)
+					console.log("Program %s flag %s", currentProgram.id, programFlag);
 			}
 
 			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayProgramUserWater, wnfTotalDayProgramScheduledWater);
@@ -315,7 +320,7 @@ function processChartData() {
 			wnfTotalDayScheduledWater += wnfTotalDayProgramScheduledWater;
 
 			// Is program active/still available in current programs list (might be an old deleted program)?
-			var existingProgram = getProgramById(currentProgram.id)
+			var existingProgram = getProgramById(currentProgram.id);
 			if (existingProgram === null)
 				continue;
 
@@ -324,9 +329,11 @@ function processChartData() {
 				currentProgramIndex = chartsData.programsMap[currentProgram.id];
 			} else {
 				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+				chartsData.programsFlags.push(new ChartSeries(chartsData.startDate));
 				chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 			}
 			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
+			chartsData.programsFlags[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, programFlag);
 		}
 
 		var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
@@ -560,6 +567,7 @@ function loadWeeklyCharts () {
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
+		chartsData.programsFlags[programIndex].currentSeries = chartsData.programsFlags[programIndex].data.slice(sliceStart, sliceEnd);
 	}
 
 	// render all charts with the currentAxisCategories and currentSeries
@@ -1277,6 +1285,43 @@ function generateProgramChart (programUid, programIndex) {
 		}]
 	};
 
+	if (chartsCurrentLevel === chartsLevel.weekly) {
+		console.log("program weekly charts");
+		//programChartOptions.chart.marginTop = 20;
+
+		//programChartOptions.xAxis[0].lineWidth = 0;
+		//programChartOptions.xAxis[0].linkedTo =  0;
+		//programChartOptions.xAxis[0].offset = 50;
+		programChartOptions.xAxis[0].opposite = true;
+		//programChartOptions.xAxis[0].tickWidth = 0;
+
+		programChartOptions.xAxis[0].labels = {
+			enabled: true,
+			formatter: function () {
+				//Get the restriction for the day
+				console.log(this.value);
+				var flag = chartsData.programsFlags[programIndex].getAtDate(this.value);
+				console.log("RESTRICTION IS: %s", flag);
+
+				var flagText = "";
+
+				if (flag > 0) {
+					flagText = '<span style="font-family: RainMachine, sans-serif; font-size: 16px; color: red">/</span>';
+				}
+				return flagText;
+			},
+			useHTML: true,
+			x: -1,
+			y: 0
+		//lineWidth: 0,
+		//linkedTo: 0,
+		//offset: 50,
+		//opposite: true,
+		//tickWidth: 0
+		};
+	}
+
+	console.log(programChartOptions);
 	// Hide labels from monthly charts
 	if (chartsCurrentLevel === chartsLevel.monthly)  {
 		programChartOptions.series[0].dataLabels.enabled = false;
