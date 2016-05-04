@@ -94,7 +94,7 @@ ChartSeries.prototype.getDateAtIndex = function(index) {
 	var d = new Date(this.startDate);
 	d.setDate(d.getDate() + index);
 	return d;
-}
+};
 
 /**
  * Object that holds entire weather/programs watering data
@@ -143,6 +143,7 @@ function ChartData () {
 	this.rain = new ChartSeries(this.startDate);
 	this.dewPoint = new ChartSeries(this.startDate);
 	this.programs = [];
+	this.programsFlags = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
@@ -299,6 +300,7 @@ function processChartData() {
 			currentProgram = daily[dailyDetailsIndex].programs[programIndex];
 			var wnfTotalDayProgramUserWater = 0;
 			var wnfTotalDayProgramScheduledWater = 0;
+			var programFlag = 0;
 
 			//Skip Manual run programs (id 0)
 			if (currentProgram.id == 0)
@@ -308,6 +310,9 @@ function processChartData() {
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				wnfTotalDayProgramUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
 				wnfTotalDayProgramScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
+				programFlag = currentProgram.zones[zoneIndex].wateringFlag;
+				if (programFlag > 0)
+					console.log("Program %s flag %s", currentProgram.id, programFlag);
 			}
 
 			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayProgramUserWater, wnfTotalDayProgramScheduledWater);
@@ -315,7 +320,7 @@ function processChartData() {
 			wnfTotalDayScheduledWater += wnfTotalDayProgramScheduledWater;
 
 			// Is program active/still available in current programs list (might be an old deleted program)?
-			var existingProgram = getProgramById(currentProgram.id)
+			var existingProgram = getProgramById(currentProgram.id);
 			if (existingProgram === null)
 				continue;
 
@@ -324,9 +329,11 @@ function processChartData() {
 				currentProgramIndex = chartsData.programsMap[currentProgram.id];
 			} else {
 				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+				chartsData.programsFlags.push(new ChartSeries(chartsData.startDate));
 				chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 			}
 			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
+			chartsData.programsFlags[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, programFlag);
 		}
 
 		var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
@@ -560,6 +567,7 @@ function loadWeeklyCharts () {
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
+		chartsData.programsFlags[programIndex].currentSeries = chartsData.programsFlags[programIndex].data.slice(sliceStart, sliceEnd);
 	}
 
 	// render all charts with the currentAxisCategories and currentSeries
@@ -978,7 +986,7 @@ function generateTemperatureChart () {
 			animation: false,
 			formatter: function() {
 				var date = Highcharts.dateFormat(chartsDateFormat, new Date(this.point.category));
-				var s = '<span style="font-size: 12px;">' + date + '</span>:<span style="font-size: 14px;">';
+				var s = '<span style="font-size: 14px;">' + date + ':';
 
 				if (this.point.secondPoint) {
 					s += " Low:"+ Util.convert.uiTemp(this.point.secondPoint.y) + Util.convert.uiTempStr();
@@ -1075,7 +1083,7 @@ function generateQPFChart () {
 			hideDelay: 0,
 			animation: false,
 			formatter: function () {
-				var s = '<span style="font-size: 12px;">';
+				var s = '<span style="font-size: 14px;">';
 				s += "Forecast: " + Util.convert.uiQuantity(this.point.y) + Util.convert.uiQuantityStr();
 
 				if (this.point.secondPoint && this.point.secondPoint.y !== null) {
@@ -1220,7 +1228,14 @@ function generateProgramChart (programUid, programIndex) {
 				enabled: true,
 				//format: '{y}%',
 				formatter: function () {
-					return '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
+					var flag = chartsData.programsFlags[programIndex].getAtDate(this.x);
+					var flagText = "";
+
+					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
+						flagText = '<span style="font-family: RainMachine; font-size: 16px; color: red;">/</span><br>';
+					}
+
+					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
 				verticalAlign: 'bottom'
@@ -1230,17 +1245,20 @@ function generateProgramChart (programUid, programIndex) {
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+					var flag = chartsData.programsFlags[programIndex].getAtDate(this.category);
+					var flagText = "";
+
+					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
+						flagText = window.ui.settings.waterLogReason[flag] + '<br>';
+					}
+
+					return '<span style="font-size: 14px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
+						+ ": " + this.y + '%<br>' + flagText + '</span>';
 				}
 			},
 			type: 'column'
 		}],
 
-		//title: {
-		//	text: '<h1>' + programName + ' program water need (%)</h1>',
-		//	useHTML: true
-		//},
 		title: null,
 		xAxis: [{
 			lineWidth: 0,
@@ -1254,11 +1272,6 @@ function generateProgramChart (programUid, programIndex) {
 			labels: {
 				enabled: false
 			}
-//			labels: {
-//				formatter: function () {
-//					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
-//				}
-//			}
 		}],
 		yAxis: [{
 			min: 0,
@@ -1277,7 +1290,7 @@ function generateProgramChart (programUid, programIndex) {
 		}]
 	};
 
-	// Hide labels from monthly charts
+    // Hide labels from monthly charts
 	if (chartsCurrentLevel === chartsLevel.monthly)  {
 		programChartOptions.series[0].dataLabels.enabled = false;
 	}
@@ -1290,6 +1303,7 @@ function generateProgramChart (programUid, programIndex) {
 	console.log("Showing chart for program: ", programName);
 	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
 }
+
 
 /**
  * Gets executed after a chart has finished rendering

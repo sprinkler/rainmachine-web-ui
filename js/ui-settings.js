@@ -770,5 +770,7 @@ window.ui = window.ui || {};
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
 	_settings.getRainDelay = getRainDelay;
+	_settings.waterLogReason = waterLogReason;
+
 
 } (window.ui.settings = window.ui.settings || {}));
