@@ -1232,7 +1232,7 @@ function generateProgramChart (programUid, programIndex) {
 					var flagText = "";
 
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
-						flagText = '<span style="font-family: RainMachine; font-size: 16px; color: red;">/</span><br>';
+						flagText = '<span style="font-family: RainMachine; font-size: 20px; color: red;">/</span><br>';
 					}
 
 					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
