@@ -94,7 +94,7 @@ ChartSeries.prototype.getDateAtIndex = function(index) {
 	var d = new Date(this.startDate);
 	d.setDate(d.getDate() + index);
 	return d;
-}
+};
 
 /**
  * Object that holds entire weather/programs watering data
@@ -1228,7 +1228,16 @@ function generateProgramChart (programUid, programIndex) {
 				enabled: true,
 				//format: '{y}%',
 				formatter: function () {
-					return '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
+					var flag = chartsData.programsFlags[programIndex].getAtDate(this.x);
+					console.log("RESTRICTION IS: %s object: %o", flag, this);
+
+					var flagText = "";
+					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
+						flagText = '<span style="font-family: RainMachine; font-size: 16px; color: red;">/</span><br>';
+						this.series.color = 'red'; //"rgba(124, 181, 236, 0.50)";
+					}
+
+					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
 				verticalAlign: 'bottom'
@@ -1238,17 +1247,20 @@ function generateProgramChart (programUid, programIndex) {
 			tooltip: {
 				headerFormat: '',
 				pointFormatter: function () {
-					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
-						+ '</span>: <span style="font-size: 14px;">' + this.y + '%</span>';
+					var flag = chartsData.programsFlags[programIndex].getAtDate(this.category);
+
+					var flagText = "";
+					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
+						flagText = window.ui.settings.waterLogReason[flag] + '<br>';
+					}
+
+					return '<span style="font-size: 14px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
+						+ ": " + this.y + '%<br>' + flagText + '</span>';
 				}
 			},
 			type: 'column'
 		}],
 
-		//title: {
-		//	text: '<h1>' + programName + ' program water need (%)</h1>',
-		//	useHTML: true
-		//},
 		title: null,
 		xAxis: [{
 			lineWidth: 0,
@@ -1262,11 +1274,6 @@ function generateProgramChart (programUid, programIndex) {
 			labels: {
 				enabled: false
 			}
-//			labels: {
-//				formatter: function () {
-//					return '<span style="font-size: 12px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.value)) + '</span>';
-//				}
-//			}
 		}],
 		yAxis: [{
 			min: 0,
@@ -1285,44 +1292,32 @@ function generateProgramChart (programUid, programIndex) {
 		}]
 	};
 
+	/*
 	if (chartsCurrentLevel === chartsLevel.weekly) {
-		console.log("program weekly charts");
-		//programChartOptions.chart.marginTop = 20;
-		//programChartOptions.chart.marginBottom = 20;
-		//programChartOptions.xAxis[0].lineWidth = 0;
-		//programChartOptions.xAxis[0].linkedTo =  0;
-		//programChartOptions.xAxis[0].offset = 50;
-		//programChartOptions.xAxis[0].opposite = true;
-		//programChartOptions.xAxis[0].tickWidth = 0;
-
+		console.log(programChartOptions);
 		programChartOptions.xAxis[0].labels = {
 			enabled: true,
 			formatter: function () {
 				//Get the restriction for the day
-				console.log(this.value);
 				var flag = chartsData.programsFlags[programIndex].getAtDate(this.value);
-				console.log("RESTRICTION IS: %s", flag);
+				console.log("RESTRICTION IS: %s object: %o", flag, this);
 
 				var flagText = "";
 
 				if (flag > 0) {
-					flagText = '<div style="font-family: RainMachine, sans-serif; font-size: 16px; color: red; padding: 10px 0; z-index: 200">/</div>';
+					var index = Util.getDateIndex(this.value, chartsData.programs[programIndex].startDate);
+					console.log("Index: %d, Data: %o", index, programChartOptions.series[0].data[index]);
+					flagText = '<div style="font-family: RainMachine, sans-serif; font-size: 16px; color: red;">/</div>';
 				}
 				return flagText;
 			},
 			useHTML: true,
 			x: -1,
-			y: 0
-		//lineWidth: 0,
-		//linkedTo: 0,
-		//offset: 50,
-		//opposite: true,
-		//tickWidth: 0
+			y: -50
 		};
-	}
+	}*/
 
-	console.log(programChartOptions);
-	// Hide labels from monthly charts
+    	// Hide labels from monthly charts
 	if (chartsCurrentLevel === chartsLevel.monthly)  {
 		programChartOptions.series[0].dataLabels.enabled = false;
 	}
@@ -1335,6 +1330,7 @@ function generateProgramChart (programUid, programIndex) {
 	console.log("Showing chart for program: ", programName);
 	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
 }
+
 
 /**
  * Gets executed after a chart has finished rendering
