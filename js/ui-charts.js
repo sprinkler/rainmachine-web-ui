@@ -986,7 +986,7 @@ function generateTemperatureChart () {
 			animation: false,
 			formatter: function() {
 				var date = Highcharts.dateFormat(chartsDateFormat, new Date(this.point.category));
-				var s = '<span style="font-size: 12px;">' + date + '</span>:<span style="font-size: 14px;">';
+				var s = '<span style="font-size: 14px;">' + date + ':';
 
 				if (this.point.secondPoint) {
 					s += " Low:"+ Util.convert.uiTemp(this.point.secondPoint.y) + Util.convert.uiTempStr();
@@ -1083,7 +1083,7 @@ function generateQPFChart () {
 			hideDelay: 0,
 			animation: false,
 			formatter: function () {
-				var s = '<span style="font-size: 12px;">';
+				var s = '<span style="font-size: 14px;">';
 				s += "Forecast: " + Util.convert.uiQuantity(this.point.y) + Util.convert.uiQuantityStr();
 
 				if (this.point.secondPoint && this.point.secondPoint.y !== null) {
@@ -1229,12 +1229,10 @@ function generateProgramChart (programUid, programIndex) {
 				//format: '{y}%',
 				formatter: function () {
 					var flag = chartsData.programsFlags[programIndex].getAtDate(this.x);
-					console.log("RESTRICTION IS: %s object: %o", flag, this);
-
 					var flagText = "";
+
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
 						flagText = '<span style="font-family: RainMachine; font-size: 16px; color: red;">/</span><br>';
-						this.series.color = 'red'; //"rgba(124, 181, 236, 0.50)";
 					}
 
 					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
@@ -1248,8 +1246,8 @@ function generateProgramChart (programUid, programIndex) {
 				headerFormat: '',
 				pointFormatter: function () {
 					var flag = chartsData.programsFlags[programIndex].getAtDate(this.category);
-
 					var flagText = "";
+
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
 						flagText = window.ui.settings.waterLogReason[flag] + '<br>';
 					}
@@ -1292,32 +1290,7 @@ function generateProgramChart (programUid, programIndex) {
 		}]
 	};
 
-	/*
-	if (chartsCurrentLevel === chartsLevel.weekly) {
-		console.log(programChartOptions);
-		programChartOptions.xAxis[0].labels = {
-			enabled: true,
-			formatter: function () {
-				//Get the restriction for the day
-				var flag = chartsData.programsFlags[programIndex].getAtDate(this.value);
-				console.log("RESTRICTION IS: %s object: %o", flag, this);
-
-				var flagText = "";
-
-				if (flag > 0) {
-					var index = Util.getDateIndex(this.value, chartsData.programs[programIndex].startDate);
-					console.log("Index: %d, Data: %o", index, programChartOptions.series[0].data[index]);
-					flagText = '<div style="font-family: RainMachine, sans-serif; font-size: 16px; color: red;">/</div>';
-				}
-				return flagText;
-			},
-			useHTML: true,
-			x: -1,
-			y: -50
-		};
-	}*/
-
-    	// Hide labels from monthly charts
+    // Hide labels from monthly charts
 	if (chartsCurrentLevel === chartsLevel.monthly)  {
 		programChartOptions.series[0].dataLabels.enabled = false;
 	}
