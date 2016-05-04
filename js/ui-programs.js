@@ -425,9 +425,18 @@ window.ui = window.ui || {};
         templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
+
+		templateInfo.cyclesElem.oninput = onCycleAndSoakChange;
+		templateInfo.soakElem.oninput = onCycleAndSoakChange;
+
         templateInfo.delayZonesMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-min"]');
         templateInfo.delayZonesSecElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-sec"]');
         templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones"]');
+
+		templateInfo.delayZonesMinElem.oninput = onDelayBetweenZonesChange;
+		templateInfo.delayZonesSecElem.oninput = onDelayBetweenZonesChange;
+
+
 
         templateInfo.frequencyDailyElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-daily"]');
         templateInfo.frequencyOddElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-odd"]');
@@ -762,6 +771,34 @@ window.ui = window.ui || {};
 			zoneTemplateElem.activeElem.checked = true;
 		} else {
 			zoneTemplateElem.activeElem.checked = false;
+		}
+	}
+
+	function onCycleAndSoakChange() {
+		var soak = parseInt(uiElems.soakElem.value) || 0;
+		var cycles = parseInt(uiElems.cyclesElem.value) || 0;
+
+		if (soak > 0 && cycles > 1) {
+			uiElems.cyclesSoakElem.checked = true;
+		} else {
+			uiElems.cyclesSoakElem.checked = false;
+		}
+
+		console.log("Soak: %s", soak);
+		console.log("Cycles: %s", cycles);
+	}
+
+	function onDelayBetweenZonesChange() {
+		var min = parseInt(uiElems.delayZonesMinElem.value) || 0;
+		var sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
+
+		console.log("Delay Minutes: %d", min);
+		console.log("Delay Seconds: %d", sec);
+
+		if (min !== 0 || sec !== 0) {
+			uiElems.delayZonesElem.checked = true;
+		} else {
+			uiElems.delayZonesElem.checked = false;
 		}
 	}
 
