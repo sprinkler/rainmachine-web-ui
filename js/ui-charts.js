@@ -1288,11 +1288,11 @@ function generateProgramChart (programUid, programIndex) {
 	if (chartsCurrentLevel === chartsLevel.weekly) {
 		console.log("program weekly charts");
 		//programChartOptions.chart.marginTop = 20;
-
+		//programChartOptions.chart.marginBottom = 20;
 		//programChartOptions.xAxis[0].lineWidth = 0;
 		//programChartOptions.xAxis[0].linkedTo =  0;
 		//programChartOptions.xAxis[0].offset = 50;
-		programChartOptions.xAxis[0].opposite = true;
+		//programChartOptions.xAxis[0].opposite = true;
 		//programChartOptions.xAxis[0].tickWidth = 0;
 
 		programChartOptions.xAxis[0].labels = {
@@ -1306,7 +1306,7 @@ function generateProgramChart (programUid, programIndex) {
 				var flagText = "";
 
 				if (flag > 0) {
-					flagText = '<span style="font-family: RainMachine, sans-serif; font-size: 16px; color: red">/</span>';
+					flagText = '<div style="font-family: RainMachine, sans-serif; font-size: 16px; color: red; padding: 10px 0; z-index: 200">/</div>';
 				}
 				return flagText;
 			},
