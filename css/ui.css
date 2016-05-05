@@ -969,6 +969,7 @@ select, .selectSmall {
 .programEdit {
   background-color: #fff;
   width: 70%;
+  min-width:826px;
   margin: 25px auto;
   border-radius: 10px;
   z-index: 3;
@@ -1424,3 +1425,16 @@ td.right,
   overflow: overlay;
 }
 /* Weather services tabs end */
+/* Fixes for Firefox browser */
+﻿@-moz-document url-prefix() {
+   .icon{
+     font-size:29px;
+   }
+   .topButton{
+     padding-bottom:5px;
+   }
+   .playstopButton{
+     font-size:45px;
+   }
+ }
+/* End Fixes for Firefox browser */
