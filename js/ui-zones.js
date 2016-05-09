@@ -111,7 +111,7 @@ window.ui = window.ui || {};
 
 				if (!z.active) {
 					elem.template.className += " inactive";
-					elem.nameElem.textContent += " (inactive)"
+					elem.nameElem.textContent += " (inactive)";
 					makeHidden(elem.timerElem);
 				} else {
 					makeVisibleBlock(elem.timerElem);
@@ -230,13 +230,17 @@ window.ui = window.ui || {};
 			zoneMasterValveElem.checked = Data.provision.system.useMasterValve;
 
 			var masterValveBeforeElem = $(zoneTemplate, '[rm-id="zone-master-valve-before"]');
+			var masterValveBeforeSecElem = $(zoneTemplate, '[rm-id="zone-master-valve-before-sec"]');
             var masterValveAfterElem = $(zoneTemplate, '[rm-id="zone-master-valve-after"]');
+			var masterValveAfterSecElem = $(zoneTemplate, '[rm-id="zone-master-valve-after-sec"]');
 
-            var b = Data.provision.system.masterValveBefore/60;
-            var a = Data.provision.system.masterValveAfter/60;
+            var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+            var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
 
-            masterValveBeforeElem.value = b;
-            masterValveAfterElem.value = a;
+            masterValveBeforeElem.value = beforeTimer.minutes;
+			masterValveBeforeSecElem.value = beforeTimer.seconds;
+            masterValveAfterElem.value = afterTimer.minutes;
+			masterValveAfterSecElem.value = afterTimer.seconds;
 
 		} else {
 			makeHidden(zoneMasterValveContainerElem);
@@ -406,7 +410,7 @@ window.ui = window.ui || {};
 	function saveZone(uid)
 	{
 		var zoneSettingsDiv = $('#zone-settings-' + uid);
-		var zoneProperties = {}
+		var zoneProperties = {};
 		var shouldSetMasterValve = false;
 
 		if (zoneSettingsDiv === undefined || zoneSettingsDiv === null)
@@ -434,10 +438,21 @@ window.ui = window.ui || {};
 			zoneProperties.master = zoneMasterValveElem.checked;
 
 			var masterValveBeforeElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before"]');
+			var masterValveBeforeSecElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before-sec"]');
             var masterValveAfterElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after"]');
+			var masterValveAfterSecElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after-sec"]');
 
-            var b = parseInt(masterValveBeforeElem.value) * 60;
-            var a = parseInt(masterValveAfterElem.value) * 60;
+			var beforeTimer = { minutes: 0, seconds: 0};
+			var afterTimer = { minutes: 0, seconds:0};
+
+			beforeTimer.minutes = parseInt(masterValveBeforeElem.value) || 0;
+			beforeTimer.seconds = parseInt(masterValveBeforeSecElem.value) || 0;
+
+			afterTimer.minutes = parseInt(masterValveAfterElem.value) || 0;
+			afterTimer.seconds = parseInt(masterValveAfterSecElem.value) || 0;
+
+			var b =  beforeTimer.minutes * 60 + beforeTimer.seconds;
+			var a = afterTimer.minutes * 60 + afterTimer.seconds;
 
      		Util.saveMasterValve(zoneProperties.master, b, a);
 		}

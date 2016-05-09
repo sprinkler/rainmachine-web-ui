@@ -19,7 +19,9 @@ window.ui = window.ui || {};
 			CloudSet: $("#systemSettingsCloudSet"),
 
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
+			MasterValveBeforeSec: $("#systemSettingsMasterValveBeforeSec"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
+			MasterValveAfterSec: $("#systemSettingsMasterValveAfterSec"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
 			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
@@ -141,8 +143,14 @@ window.ui = window.ui || {};
 		systemSettingsView.PendingEmail.textContent = pendingEmailText;
 		systemSettingsView.Email.value = currentEmail;
 
-		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
-		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
+		var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+		var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
+
+		systemSettingsView.MasterValveBefore.value = beforeTimer.minutes;
+		systemSettingsView.MasterValveBeforeSec.value = beforeTimer.seconds;
+
+		systemSettingsView.MasterValveAfter.value = afterTimer.minutes;
+		systemSettingsView.MasterValveAfterSec.value = afterTimer.seconds;
 		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
@@ -314,8 +322,17 @@ window.ui = window.ui || {};
 	function systemSettingsChangeMasterValve()
 	{
 		var enabled = systemSettingsView.enableMasterValveInput.checked;
-		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
-        var a =  parseInt(systemSettingsView.MasterValveAfter.value) * 60;
+		var beforeTimer = { minutes: 0, seconds: 0};
+		var afterTimer = { minutes: 0, seconds:0};
+
+		beforeTimer.minutes = parseInt(systemSettingsView.MasterValveBefore.value) || 0;
+		beforeTimer.seconds = parseInt(systemSettingsView.MasterValveBeforeSec.value) || 0;
+
+		afterTimer.minutes = parseInt(systemSettingsView.MasterValveAfter.value) || 0;
+		afterTimer.seconds = parseInt(systemSettingsView.MasterValveAfterSec.value) || 0;
+
+		var b =  beforeTimer.minutes * 60 + beforeTimer.seconds;
+		var a = afterTimer.minutes * 60 + afterTimer.seconds;
 
 		return Util.saveMasterValve(enabled, b, a);
 	}
