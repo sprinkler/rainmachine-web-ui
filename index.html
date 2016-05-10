@@ -845,7 +845,7 @@
 									<td class="middle">
 										<button id="systemSettingsDeviceNameSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:40%;">
-											<span class="left top15">Change name:</span>
+											<span class="left top15"></span>
 											<input type="text" id="systemSettingsDeviceName" placeholder="" class="typeNumber" style="width:70%;">
 										</span>
 										<span class="cardTitle">Device name</span><br>
@@ -906,7 +906,7 @@
 											</span>
 											<span style="display:block;">
 												<span class="left top15">Time:</span>
-													<input type="number" id="systemSettingsHour" min="0" max="24" class="typeNumber" style="width:20.6%;text-align:center;">
+												<input type="number" id="systemSettingsHour" min="0" max="24" class="typeNumber" style="width:20.6%;text-align:center;">
 												: <input type="number" id="systemSettingsMinute" class="typeNumber" min="0" max="60" style="width:21.6%;text-align:center;">
 												: <input type="number" id="systemSettingsSeconds" class="typeNumber" min="0" max="60" style="width:21.6%;text-align:center;">
 											</span>
@@ -920,7 +920,7 @@
 										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Change</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
-												<span class="left top15">Timezone:</span>
+												<!--<span class="left top15"></span>-->
 													<select id="systemSettingsTimeZoneSelect" style="width:70%;">
 														&lt;!&ndash; Generated from Javascript &ndash;&gt;
 													</select>
@@ -971,17 +971,22 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
-													<span class="right mr" style="width:40%;">
-														<span style="display:block;">
-															<span class="left">Enable master valve (Zone 1):</span> <input type="checkbox" id="systemSettingsEnableMasterValve" />
-														</span>
-														<br>
-														<span style="display:block;">
-															<span class="left top15">Start</span> <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
-															<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
-														</span>
-													</span>
-										<span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).<br>Zone 1 will be used as Master Valve.</span>
+										<!--<span class="right mr" style="width:40%;">-->
+											<span style="display:block;">
+												<span class="left mr">Enable master valve (Zone 1):</span><input type="checkbox" id="systemSettingsEnableMasterValve" />
+											</span>
+											<br>
+											<span style="display:block;">
+												<span class="left top15">Start: </span>
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> minutes
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveBeforeSec" min="0"> seconds
+												before and
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> minutes
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfterSec" min="0"> seconds
+												after each cycle/program.
+											</span>
+										<!--</span>-->
+										<br><span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).Zone 1 will be used as Master Valve.</span>
 									</td>
 								</tr>
 							</table>
@@ -1331,8 +1336,10 @@
 					<tr rm-id="zone-master-valve-timer">
 						<td class="middle" width="15%">Master Valve:</td>
 						<td class="middle">
-							Start <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes before and
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes after each program.
+							Start <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0"> minutes
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0"> minutes
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds after each cycle/program.
 						</td>
 
 					</tr>

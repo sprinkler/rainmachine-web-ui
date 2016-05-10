@@ -66,7 +66,7 @@ Util.secondsToMMSS = function(seconds)
 	if (s < 10)
 		text += "0";
 
-	text += s
+	text += s;
 
 	return text;
 }
