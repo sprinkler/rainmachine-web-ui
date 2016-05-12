@@ -875,6 +875,10 @@ select, .selectSmall {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
+.zonecircle:hover {
+  background-color: #3399cc;
+  color:#fff;
+}
 /*small devices images*/
 
 .spks {
@@ -1469,3 +1473,59 @@ td.right,
    }
  }
 /* End Fixes for Firefox browser */
+/**
+ * Tooltip Styles
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[zones-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[zones-tooltip]:before,
+[zones-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[zones-tooltip]:before {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -70px;
+  padding: 7px;
+  width: 140px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color:  rgba(247,248,250,0.95);
+  border:1px solid #39c;
+  color: #333;
+  content: attr(zones-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+
+/* Show tooltip content on hover */
+[zones-tooltip]:hover:before,
+[zones-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/*[zones-tooltip]:hover:before {
+  -webkit-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+  -moz-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+  box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+}*/
