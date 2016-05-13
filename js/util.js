@@ -12,7 +12,7 @@ Util.secondsToHuman = function(seconds)
 	r.days = Math.floor(seconds / 86400);
 	r.hours = Math.floor((seconds % 86400) / 3600);
 	r.minutes = Math.floor(((seconds % 86400) % 3600) / 60);
-	r.seconds = ((seconds % 86400) % 3600) % 60;
+	r.seconds = Math.floor(seconds % 60);
 
 	return r;
 };

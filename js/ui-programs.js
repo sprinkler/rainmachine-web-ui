@@ -181,11 +181,23 @@ window.ui = window.ui || {};
 
 		// update small zones circles
 		clearTag(programElem.zonesElem);
+		var zoneDetails = getProgramZonesNextDetails(p);
 		for (var zi = 0; zi < p.wateringTimes.length; zi++) {
 			if (p.wateringTimes[zi].active) {
 				var div = addTag(programElem.zonesElem, 'div');
+				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
-				div.textContent = p.wateringTimes[zi].id;
+				div.textContent = zid;
+
+				if (zoneDetails) {
+					var zoneInfo = "Inactive";
+					if (zoneDetails[zid]) {
+						zoneInfo = "Will water " + Util.secondsToText(zoneDetails[zid].computedWateringTime);
+					}
+
+					div.setAttribute("zones-tooltip", zoneInfo);
+				}
+
 				//Check if zone is actually running now in this program and animate the small circle
 				if (p.status == ProgramStatus.Running && Data.zoneData && Data.zoneData.zones !== null) {
 				    var zones = Data.zoneData.zones;
@@ -264,13 +276,6 @@ window.ui = window.ui || {};
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
             var soakMins = 0;
-            var nextRun = Util.dateStringToLocalDate(program.nextRun);
-
-            if(isNaN(nextRun.getTime())) {
-                nextRun = "";
-            } else {
-                nextRun = nextRun.toDateString();
-            }
 
             try {
                 var chunks = program.startTime.split(":");
@@ -309,7 +314,7 @@ window.ui = window.ui || {};
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
 
-            uiElems.nextRun.innerText = nextRun;
+            uiElems.nextRun.innerText = getProgramNextRunAsString(program.nextRun);
 
             uiElems.cyclesSoakElem.checked = program.cs_on;
             uiElems.cyclesElem.value = program.cycles;
@@ -661,15 +666,7 @@ window.ui = window.ui || {};
 		}
 
 		infoText += " at " + program.startTime;
-
-        var nextRun = Util.dateStringToLocalDate(program.nextRun);
-
-        if(isNaN(nextRun.getTime())) {
-           nextRun = "";
-        } else {
-           nextRun = nextRun.toDateString();
-        }
-		infoText += "<br>Next run on " + nextRun + "";
+		infoText += "<br>Next run on " + getProgramNextRunAsString(program.nextRun) + "";
 		return infoText;
     }
 
@@ -800,6 +797,69 @@ window.ui = window.ui || {};
 		} else {
 			uiElems.delayZonesElem.checked = false;
 		}
+	}
+
+	//Converts program next run a a nicer string
+	function getProgramNextRunAsString(programNextRun) {
+		var nextRun = Util.dateStringToLocalDate(programNextRun);
+
+		if(isNaN(nextRun.getTime()))	 {
+			nextRun = "";
+		} else {
+			nextRun = nextRun.toDateString();
+		}
+
+		return nextRun;
+	}
+
+
+	//Returns the zone watering durations at the next run of the program. Requires Data.dailyDetails to be fetched
+	function getProgramZonesNextDetails(p) {
+		if (Data.dailyDetails == null || Data.dailyDetails.DailyStatsDetails === null){
+			console.error("Programs: No daily stats to show zones runtimes");
+			return null;
+		}
+
+		var daysStats = Data.dailyDetails.DailyStatsDetails;
+
+		if (p === null) {
+			console.error("Programs: Invalid program");
+			return null;
+		}
+
+		var dayPrograms = null;
+		for (i = 0; i < daysStats.length; i++) {
+			if (daysStats[i].day == p.nextRun) {
+				dayPrograms = daysStats[i].programs;
+				break;
+			}
+		}
+
+		if (dayPrograms === null) {
+			console.error("Programs: Cannot find nextRun day %s in days stats", p.nextRun);
+			return null;
+		}
+
+		var programZones = null;
+		for (i = 0; i < dayPrograms.length; i++) {
+		   if (dayPrograms[i].id == p.uid) {
+			   programZones = dayPrograms[i].zones;
+			   break;
+		   }
+		}
+
+		if (programZones === null) {
+			console.error("Programs: Can't find program %s zones", p.uid);
+			return null;
+		}
+
+		var zones = {};
+		for (i = 0; i < programZones.length; i++) {
+			var zid = programZones[i].id;
+			zones[zid] = programZones[i];
+		}
+
+		return zones;
 	}
 
 	//--------------------------------------------------------------------------------------------
