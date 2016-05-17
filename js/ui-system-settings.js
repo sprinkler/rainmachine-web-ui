@@ -105,7 +105,11 @@ window.ui = window.ui || {};
 			TouchPressTimeoutSet: $("#systemSettingsTouchPressTimeoutSet"),
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
-			TouchProg: $("#systemSettingsTouchProg")
+			TouchProg: $("#systemSettingsTouchProg"),
+			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
+			ShortDetection: $("#systemSettingsShortDetectionEnable"),
+			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
+			ShortDetectionLoad: $("#systemSettingsShortDetectionLoad")
 			};
     	}
 
@@ -239,6 +243,8 @@ window.ui = window.ui || {};
 
 
 	function showSettingsMini8() {
+		getShortDetectionStatus();
+
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
 		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
@@ -264,6 +270,10 @@ window.ui = window.ui || {};
 		systemSettingsView.TouchProgSet.onclick = function() {
 			changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked);
 		};
+		systemSettingsView.ShortDetectionSet.onclick = function() {
+			API.setShortDetection(systemSettingsView.ShortDetection.checked);
+		};
+
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
@@ -546,6 +556,28 @@ window.ui = window.ui || {};
 				showSettings();
 				window.ui.about.showDeviceInfo();
 			});
+	}
+
+	function getShortDetectionStatus() {
+		return APIAsync.getShortDetection().then(
+			function(o) {
+				console.log(o);
+				if (o.settings.watchforshort)
+					systemSettingsView.ShortDetection.checked = true;
+				else
+					systemSettingsView.ShortDetection.checked = false;
+
+				if (o.short > 0)
+					systemSettingsView.ShortDetectionStatus.textContent = "Short detected type:" + o.short;
+				else
+					systemSettingsView.ShortDetectionStatus.textContent = "No short detected";
+
+				if (o.load > 0)
+					systemSettingsView.ShortDetectionLoad.textContent = "Load of " + o.load + " detected";
+				else
+					systemSettingsView.ShortDetectionLoad.textContent = "No overload detected";
+			}
+		);
 	}
 
 	//--------------------------------------------------------------------------------------------

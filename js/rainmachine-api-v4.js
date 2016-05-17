@@ -701,6 +701,28 @@ _API.prototype.reboot = function()
 	return this.post(url, data, null);
 }
 
+_API.prototype.getShortDetection = function()
+{
+	var url = this.URL.machine + "/shortdetection";
+	return this.get(url, null);
+}
+
+_API.prototype.setShortDetection = function(enabled)
+{
+	var url = this.URL.machine + "/shortdetection";
+	var data = {
+		watchforshort: 0,
+		watchforload: 0
+	};
+
+	if (enabled) {
+		data.watchforshort = 1;
+		data.watchforload = 1;
+	}
+
+	return this.post(url, data, null);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 _API.prototype.getTimeZoneDB = function()
