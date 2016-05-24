@@ -1229,7 +1229,20 @@ td.right,
 }
 /* Settings - Weather (END) */
 /* MEDIA QUERIES */
-@media screen and (max-width: 1024px) { 
+@media screen and (max-width: 1280px) {
+  #homeScreenLeft {
+    width: 344px;
+  }
+  h1 {
+    font: 100% normal Arial, sans-serif;
+  }
+  h1.title, h1.titleHome {
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
   .pageLeftMenu {
     float: left;
     clear: none;
@@ -1241,8 +1254,51 @@ td.right,
     width: 100%;
     background-color: #f9f9f9;
   }
-  #name { display: none }
+  /*#name { display: none }*/
+  h1.title, h1.titleHome {
+    font-size: 100%;
+  }
+  #homeScreenLeft {
+    width:210px;
+  }
+  #homeScreenRight {
+    width: 765px;
+  }
+  .programGraph {
+    width: 64%;
+  }
+  .programNextRun {
+    font-size: 10px;
+  }
+  .program-title-next-run {
+    height: 164px;
+    width: 24%;
+  }
+  .pageHeader {
+    height: 80px;
+    width: 90% !important;
+  }
+  .topButton {
+    min-width: 88px;
+    margin-right: 16px;
+  }
+  .inputStepDown {
+    width: 492px;
+  }
+  .zoneListName {
+    overflow: visible;
+  }
+  .zone-line {
+    height:120px;
+  }
+  .master {
+    height:70px;
+  }
+  .wateringLogZoneItem {
+    width: 196px;
+  }
 }
+
 /* Material UI Button */
 .button {
   display: inline-block;
