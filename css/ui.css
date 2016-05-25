@@ -85,7 +85,7 @@ body.login {
 
 body.login .loginContainer { display: block; }
 body.login .logout { display: none; }
-body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;min-width: 1124px; }
+body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;}
 .left { float: left; }
 .top15 {padding-top: 15px;}
 .hidden { display: none; }
@@ -138,8 +138,9 @@ strong { font-weight: 700; }
 
 /* Home screen start */
 .homeScreenMain {
-  width: 1216px;
+  /*width: 1216px;*/
   margin: 0 auto;
+  text-align: center;
 }
 #homeScreenLeft {
   display: inline-block;
@@ -148,13 +149,15 @@ strong { font-weight: 700; }
   margin-right: 5px;
   vertical-align: top;
   border: 0;
+  text-align: left;
 }
 #homeScreenRight {
   display: inline-block;
-  width: 806px;
+  width: 805px;
   background-color: transparent;
   vertical-align: top;
   border: 0;
+  text-align: left;
 }
 #homeScreenZoneList,
 .homeScreenDeviceStatus,
@@ -1231,7 +1234,7 @@ td.right,
 /* MEDIA QUERIES */
 @media screen and (max-width: 1280px) {
   #homeScreenLeft {
-    width: 344px;
+    width: 339px;
   }
   h1 {
     font: 100% normal Arial, sans-serif;
@@ -1253,6 +1256,9 @@ td.right,
     clear: none;
     width: 100%;
     background-color: #f9f9f9;
+  }
+  .homeScreenMain {
+    text-align: left;
   }
   /*#name { display: none }*/
   h1.title, h1.titleHome {
@@ -1276,11 +1282,9 @@ td.right,
   }
   .pageHeader {
     height: 80px;
-    width: 90% !important;
   }
   .topButton {
     min-width: 88px;
-    margin-right: 16px;
   }
   .inputStepDown {
     width: 492px;
@@ -1298,7 +1302,55 @@ td.right,
     width: 196px;
   }
 }
-
+@media screen and (max-width: 980px) {
+  .inputStepDown {
+    width: 462px;
+  }
+  #homeScreenRight {
+    width: 724px;
+  }
+  .playstopButton {
+    padding: 10px 10px;
+  }
+  .block70 {
+    min-width: 875px;
+  }
+  input[type=range] {
+    width: 67%;
+  }
+}
+@media screen and (max-width: 768px) {
+  #homeScreenLeft, #homeScreenRight {
+    width: 735px;
+  }
+  .programGraph {
+    width: 65%;
+  }
+  .iconsMenu {
+    float:left;
+    margin-left:10em;
+  }
+  #name {
+    padding-top: 20px;
+    padding-left: 30px;
+    float: inherit;
+    width: 480px;
+    margin: 0 auto;
+    display: block;
+  }
+  input[type=range] {
+    width: 53%;
+  }
+  .block70 {
+    min-width: 671px;
+  }
+  #pageContent {
+    border-top: 1px solid #ddd;
+  }
+  h1.title, h1.titleHome {
+    font-size: 130%;
+  }
+}
 /* Material UI Button */
 .button {
   display: inline-block;
