@@ -501,7 +501,58 @@ Util.convert = {
 		} else {
 			return " mm";
 		}
+	},
+	withType: function(type, value) {
+		switch (type) {
+			case 'temperature':
+			case 'maxTemperature':
+			case 'minTemperature':
+			case 'maxt':
+			case 'mint':
+			case 'dewPoint':
+				return Util.convert.uiTemp(value);
+			case 'et0':
+			case 'qpf':
+			case 'rain':
+				return Util.convert.uiQuantity(value);
+			case 'pressure':
+			case 'rh':
+			case 'maxRh':
+			case 'minRh':
+			case 'solarRad':
+			case 'wind':
+			default:
+				return value;
+		}
+	},
+	getUnits: function(type) {
+		switch (type) {
+			case 'temperature':
+			case 'maxTemperature':
+			case 'minTemperature':
+			case 'maxt':
+			case 'mint':
+			case 'dewPoint':
+				return Util.convert.uiTempStr();
+			case 'et0':
+			case 'qpf':
+			case 'rain':
+				return Util.convert.uiQuantityStr();
+			case 'wind':
+				return 'm/s';
+			case 'rh':
+			case 'maxRh':
+			case 'minRh':
+				return '%';
+			case 'pressure':
+				return 'kPa';
+			case 'solarRad':
+			default:
+				return '';
+		}
 	}
+
+
 };
 
 Util.validateEmail = function(email){
