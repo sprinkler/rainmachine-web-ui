@@ -242,10 +242,26 @@ function generateSpecificParsersChart(key, startDate, days) {
 				text: 'Date'
 			}
 		},
-		yAxis: [{
+		yAxis: {
 			title: false
-		}]
+		}
 	};
+
+
+	//Add Summer ET0 Average for EvapoTranspiration graph
+	if (key == 'et0') {
+		var et0Avg = Util.convert.withType('et0', Data.provision.location.et0Average);
+		chartOptions.yAxis.minRange = et0Avg;
+		chartOptions.yAxis.plotLines = [{
+			value: et0Avg,
+			color: '#ff00ff',
+			width: 3,
+			zIndex:4,
+			label:{
+				text:'Summer Average (100% watering)'
+			}
+		}];
+	}
 
 	// before generating the chart we must destroy the old one if it exists
 	if (parserCharts[key].chart) {
