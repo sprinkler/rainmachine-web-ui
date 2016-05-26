@@ -252,7 +252,7 @@ window.ui = window.ui || {};
 			toggleZones(true);
 			makeHidden(uiElems.homeLeft);
 			makeHidden(uiElems.homeZones);
-			uiElems.homeRight.style.width = '1280px';
+			uiElems.homeRight.style.width = '805px';
 			uiElems.homePrograms.style.display = "inline-block";
 			programsExpanded = true;
 
@@ -277,7 +277,7 @@ window.ui = window.ui || {};
 			makeHidden(uiElems.chartsDays);
 
 			uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeZones.style.width = '1280px';
+			uiElems.homeZones.style.width = '805px';
 			zonesExpanded = true;
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
