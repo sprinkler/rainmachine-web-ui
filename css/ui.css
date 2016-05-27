@@ -998,7 +998,7 @@ select, .selectSmall {
   margin-bottom: 20px;
 }
 .block70{
-  min-width:932px;
+  min-width:917px;
   width:70%;
   margin:0 auto;
   margin-bottom:20px;
@@ -1186,6 +1186,13 @@ td.right,
   margin-right: 54px;
   border: 1px solid #ddd;
 }
+.wateringHistorySimpleLinesTitle {
+  display: block;
+  padding-bottom: 25px;
+  padding-top: 15px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
 /* DASHBOARD */
 /* Settings - Weather (START) */
 #weatherSourcesList {
@@ -1205,10 +1212,12 @@ td.right,
 .weatherSourceStatus[enabled] {
   width: 16px;
   height: 16px;
-  background: url('../images/selected.png') no-repeat center;
+  background: #3399cc url('../images/selected.png') no-repeat center;
   padding-top: 0;
   border: 0;
   margin: 0 auto;
+  border-radius: 100%;
+  padding:1px;
 }
 .weatherSourceStatus[circle] {
   width: 7px;
@@ -1231,126 +1240,6 @@ td.right,
   height: 18px;
 }
 /* Settings - Weather (END) */
-/* MEDIA QUERIES */
-@media screen and (max-width: 1280px) {
-  #homeScreenLeft {
-    width: 339px;
-  }
-  h1 {
-    font: 100% normal Arial, sans-serif;
-  }
-  h1.title, h1.titleHome {
-    padding-top: 8px;
-    padding-bottom: 12px;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .pageLeftMenu {
-    float: left;
-    clear: none;
-    width: 100%;
-  }
-  .pageContent {
-    float: left;
-    clear: none;
-    width: 100%;
-    background-color: #f9f9f9;
-  }
-  .homeScreenMain {
-    text-align: left;
-  }
-  /*#name { display: none }*/
-  h1.title, h1.titleHome {
-    font-size: 100%;
-  }
-  #homeScreenLeft {
-    width:210px;
-  }
-  #homeScreenRight {
-    width: 765px;
-  }
-  .programGraph {
-    width: 64%;
-  }
-  .programNextRun {
-    font-size: 10px;
-  }
-  .program-title-next-run {
-    height: 164px;
-    width: 24%;
-  }
-  .pageHeader {
-    height: 80px;
-  }
-  .topButton {
-    min-width: 88px;
-  }
-  .inputStepDown {
-    width: 492px;
-  }
-  .zoneListName {
-    overflow: visible;
-  }
-  .zone-line {
-    height:120px;
-  }
-  .master {
-    height:70px;
-  }
-  .wateringLogZoneItem {
-    width: 196px;
-  }
-}
-@media screen and (max-width: 980px) {
-  .inputStepDown {
-    width: 462px;
-  }
-  #homeScreenRight {
-    width: 724px;
-  }
-  .playstopButton {
-    padding: 10px 10px;
-  }
-  .block70 {
-    min-width: 875px;
-  }
-  input[type=range] {
-    width: 67%;
-  }
-}
-@media screen and (max-width: 768px) {
-  #homeScreenLeft, #homeScreenRight {
-    width: 735px;
-  }
-  .programGraph {
-    width: 65%;
-  }
-  .iconsMenu {
-    float:left;
-    margin-left:10em;
-  }
-  #name {
-    padding-top: 20px;
-    padding-left: 30px;
-    float: inherit;
-    width: 480px;
-    margin: 0 auto;
-    display: block;
-  }
-  input[type=range] {
-    width: 53%;
-  }
-  .block70 {
-    min-width: 671px;
-  }
-  #pageContent {
-    border-top: 1px solid #ddd;
-  }
-  h1.title, h1.titleHome {
-    font-size: 130%;
-  }
-}
 /* Material UI Button */
 .button {
   display: inline-block;
@@ -1637,3 +1526,161 @@ td.right,
   -moz-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
   box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
 }*/
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 1280px) {
+  #homeScreenLeft {
+    width: 339px;
+  }
+  h1 {
+    font: 100% normal Arial, sans-serif;
+  }
+  h1.title, h1.titleHome {
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pageLeftMenu {
+    float: left;
+    clear: none;
+    width: 100%;
+  }
+  .pageContent {
+    float: left;
+    clear: none;
+    width: 100%;
+    background-color: #f9f9f9;
+  }
+  .homeScreenMain {
+    text-align: left;
+  }
+  /*#name { display: none }*/
+  h1.title, h1.titleHome {
+    font-size: 130%;
+  }
+  #homeScreenLeft {
+    width:986px;
+  }
+  #homeScreenRight {
+    width: 986px;
+  }
+  .homeRightExpanded, .homeZonesExpanded {
+    margin-left:0;
+  }
+  .homeRightContracted, .homeZonesContracted {
+    margin-left:0;
+  }
+  .programGraph {
+    width: 64%;
+  }
+  .programNextRun {
+    font-size: 10px;
+  }
+  .program-title-next-run {
+    /*height: 164px;*/
+    width: 34%;
+  }
+  .pageHeader {
+    height: 80px;
+  }
+  .topButton {
+    min-width: 88px;
+  }
+  .inputStepDown {
+    width: 492px;
+    margin-left: 30px;
+  }
+/*  .zoneListName {
+    overflow: visible;
+  }*/
+ /* .zone-line {
+    height:120px;
+  }*/
+  .master {
+    height:70px;
+  }
+  .wateringLogZoneItem {
+    width: 196px;
+  }
+}
+@media screen and (max-width: 980px) {
+  .inputStepDown {
+    width: 440px;
+  }
+  #homeScreenRight {
+    width: 724px;
+  }
+  .playstopButton {
+    padding: 10px 10px;
+  }
+  .block70 {
+    min-width: 875px;
+  }
+  input[type=range] {
+    width: 67%;
+  }
+  .homeRightExpanded, .homeZonesExpanded {
+    margin-left:0;
+  }
+  .program-title-next-run {
+    /* height: 164px; */
+    width: 24%;
+  }
+}
+@media screen and (max-width: 768px) {
+  #homeScreenLeft, #homeScreenRight {
+    width: 735px;
+  }
+  .homeRightExpanded, .homeZonesExpanded {
+    margin-left:0;
+  }
+  .programGraph {
+    width: 65%;
+  }
+  .zoneListName {
+    overflow: hidden;
+  }
+  .iconsMenu {
+    float:left;
+    margin-left:10em;
+  }
+  #name {
+    padding-top: 20px;
+    padding-left: 30px;
+    float: inherit;
+    width: 480px;
+    margin: 0 auto;
+    display: block;
+  }
+  input[type=range] {
+    width: 53%;
+  }
+  .block70 {
+    min-width: 671px;
+  }
+  #pageContent {
+    border-top: 1px solid #ddd;
+  }
+  h1.title, h1.titleHome {
+    font-size: 130%;
+  }
+  .button {
+    min-width: 76px;
+  }
+  .program-start-stop {
+    height: inherit;
+  }
+  .programEdit {
+    min-width: 700px;
+  }
+  .program-title-next-run {
+    /* height: 164px; */
+    width: 24%;
+  }
+  .inputStepDown {
+    width: 440px;
+  }
+}
+/* MEDIA QUERIES END */

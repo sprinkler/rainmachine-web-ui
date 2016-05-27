@@ -252,13 +252,13 @@ window.ui = window.ui || {};
 			toggleZones(true);
 			makeHidden(uiElems.homeLeft);
 			makeHidden(uiElems.homeZones);
-			uiElems.homeRight.style.width = '805px';
+			uiElems.homeRight.className = 'homeRightExpanded';
 			uiElems.homePrograms.style.display = "inline-block";
 			programsExpanded = true;
 
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeRight.style.width = '';
+			uiElems.homeRight.className = 'homeRightContracted';
 			programsExpanded = false;
 		}
 	}
@@ -277,13 +277,13 @@ window.ui = window.ui || {};
 			makeHidden(uiElems.chartsDays);
 
 			uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeZones.style.width = '805px';
+			uiElems.homeZones.className = 'homeZonesExpanded';
 			zonesExpanded = true;
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
 			uiElems.chartsTime.style.display = uiElems.chartsDays.style.display = "inline-block";
 			uiElems.homePrograms.style.display = "inline-block";
-			uiElems.homeZones.style.width = '';
+			uiElems.homeZones.className = 'homeZonesContracted';
 			zonesExpanded = false;
 		}
 	}

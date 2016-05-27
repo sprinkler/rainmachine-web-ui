@@ -95,12 +95,14 @@
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
 									<h1 class="titleHome">7-Day Watering History</h1>
-									<div style="display:block;padding-bottom:25px;padding-top:15px;border-bottom:1px solid #ddd;color:#555;">
-										<span class="right mr10" style="width:70px;">Watered</span>
-										<span class="right center mr10" style="width:70px;">Scheduled</span>
-									</div>
-									<div id="wateringHistorySimpleContent">
-										<!--- waterlog-simple-template -->
+									<div class="wateringHistorySimpleLines">
+										<div class="wateringHistorySimpleLinesTitle">
+											<span class="right mr10" style="width:70px;">Watered</span>
+											<span class="right center mr10" style="width:70px;">Scheduled</span>
+										</div>
+										<div id="wateringHistorySimpleContent">
+											<!--- waterlog-simple-template -->
+										</div>
 									</div>
 								</div>
 								<div class="homeScreenDataSource">
@@ -986,7 +988,7 @@
 												after each cycle/program.
 											</span>
 										<!--</span>-->
-										<br><span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).Zone 1 will be used as Master Valve.</span>
+										<br><span class="subtitle">Use this option if the irrigation system has a Master Valve (pump). Zone 1 will be used as Master Valve.</span>
 									</td>
 								</tr>
 							</table>
@@ -1410,10 +1412,16 @@
 	                    <td class="programProperties">
 	                        <div class="center">
 	                            <button class="button grey left" rm-id="program-cancel">Cancel</button>
-	                            <button class="button red center" rm-id="program-delete">Delete</button>
-	                            <button class="button blue center right" rm-id="program-save">Save</button>
+	                            <button class="button blue center" rm-id="program-save">Save</button>
+								<button class="button red center right" rm-id="program-delete">Delete</button>
 	                        </div>
-	                        <table width="100%" cellpadding="0" cellspacing="0">
+						</td>
+					</tr>
+				</table>
+				<table cellspacing="0" cellpadding="0" class="programEdit">
+	                <tr>
+						<td class="programProperties">
+							<table width="100%" cellpadding="0" cellspacing="0">
 	                            <tbody>
 	                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
 	                            <tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
@@ -1496,7 +1504,7 @@
 	                                <td class="middle noborder">
 										<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
 									</td>
-									<td class="middle right noborder">
+									<td class="middle right">
 											<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
 	                                        :
 											<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
@@ -1551,10 +1559,13 @@
 	                        </tbody>
 	                    </table>
 	                    </td>
-	                    <td class="gapProrgEdit">&nbsp;</td>
+						</tr>
+					</table>
+				<table cellspacing="0" cellpadding="0" class="programEdit">
+					<tr>
 	                    <td class="wateringTimes">
 	                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-	                            <tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
+	                            <tr><td colspan="2" class="cardTitle">Watering times (mm:ss)</td></tr>
 	                        </table>
 	                    </td>
 	                </tr>
