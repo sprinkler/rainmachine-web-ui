@@ -254,7 +254,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 		chartOptions.yAxis.minRange = et0Avg;
 		chartOptions.yAxis.plotLines = [{
 			value: et0Avg,
-			color: '#ff00ff',
+			color: '#003399',
 			width: 3,
 			zIndex:4,
 			label:{
