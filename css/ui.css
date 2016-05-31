@@ -353,6 +353,9 @@ sup { font-size: 12px }
   font-size: 14px;
   color: #888;
 }
+.halfRight{
+  padding-left: 4%;
+}
 .zoneListName { width: 85%; }
 .overTop {
   position: fixed;
@@ -591,15 +594,6 @@ td.saved {
   height: 35px;
   text-align: center;
   line-height: 25px;
-}
-.half,
-.halfRight {
-  display: inline-block;
-  width: 47%;
-  vertical-align: top;
-}
-.halfRight {
-  margin-left: 4%;
 }
 .noborder {
   border: 0;
@@ -1681,6 +1675,11 @@ td.right,
   }
   .inputStepDown {
     width: 440px;
+  }
+  .halfLeft, .halfRight {
+    display:block;
+    width:100%;
+    padding-left: 0%;
   }
 }
 /* MEDIA QUERIES END */
