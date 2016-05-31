@@ -1023,10 +1023,15 @@ select, .selectSmall {
   width: 95%;
 }
 
+.programProperties {
+  width: 44.5%;
+  border-bottom: 0;
+}
 .gap {
   width: 1%;
   border-bottom: 0;
 }
+
 .zoneRow {
   display: block;
   height:60px;
