@@ -261,7 +261,7 @@ window.ui = window.ui || {};
         uiElems.weatherDataElem.checked = true;
         uiElems.nextRun.innerText = "";
 
-        uiElems.frequencyWeekdaysContainerElem.display = "none";
+        uiElems.frequencyWeekdaysContainerElem.style.display = "none";
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
             if(uiElems.frequencyWeekdaysElemCollection.hasOwnProperty(weekday)) {
                 var elem = uiElems.frequencyWeekdaysElemCollection[weekday];
