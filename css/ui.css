@@ -1022,20 +1022,9 @@ select, .selectSmall {
   height: 100%;
   width: 95%;
 }
-.wateringTimes {
-  width: 44.5%;
-  border-bottom: 0;
-}
-.programProperties {
-  width: 44.5%;
-  border-bottom: 0;
-}
+
 .gap {
   width: 1%;
-  border-bottom: 0;
-}
-.gapProrgEdit {
-  width: 2%;
   border-bottom: 0;
 }
 .zoneRow {
