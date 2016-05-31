@@ -1420,10 +1420,12 @@
 				</table>
 				<table cellspacing="0" cellpadding="0" class="programEdit">
 	                <tr>
-						<td class="programProperties">
+						<td class="programProperties noborder halfLeft">
 							<table width="100%" cellpadding="0" cellspacing="0">
 	                            <tbody>
-	                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
+	                            <tr>
+									<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
+								</tr>
 	                            <tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
 	                            <tr><td class="cardTitle">Weather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
 	                            <tr>
@@ -1452,7 +1454,6 @@
 	                                    </div><br>
 	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
 	                                        <div rm-id="program-frequency-weekdays-container">
-	                                            <div class="half">
 	                                                <div>
 	                                                    <span class="separator"></span>
 	                                                    <input type="checkbox" rm-id="weekday-sunday" class="right" />
@@ -1473,8 +1474,6 @@
 	                                                    <input type="checkbox" rm-id="weekday-wednesday" class="right"/>
 	                                                    <div>Wednesday</div>
 	                                                </div>
-	                                            </div>
-	                                            <div class="halfRight">
 	                                                <div>
 	                                                    <span class="separator"></span>
 	                                                    <input type="checkbox" rm-id="weekday-thursday" class="right"/>
@@ -1501,10 +1500,9 @@
 									</td>
 								</tr>
 								<tr>
-	                                <td class="middle noborder">
+	                                <td colspan="2" class="middle noborder">
 										<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
-									</td>
-									<td class="middle right">
+
 											<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
 	                                        :
 											<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
@@ -1513,8 +1511,8 @@
 								<tr>
 									<td class="middle" colspan="2">
 										<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> minutes </span>
-										<span class="right">
+										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
+										<span>
 											<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
 												<option value="-1" selected>before</option>
 												<option value="1">after</option>
@@ -1527,11 +1525,8 @@
 									</td>
 								</tr>
 	                            <tr>
-	                                <td class="middle program-td-next-run">
-	                                    <span class="cardTitle">Next run:</span>
-	                                </td>
-	                                <td class="middle program-td-next-run">
-	                                    <span rm-id="program-next-run" class="right"></span>
+	                                <td colspan="2" class="middle program-td-next-run">
+	                                    <span class="cardTitle">Next run:</span> <span rm-id="program-next-run"></span>
 	                                </td>
 	                            </tr>
 	                            <tr>
@@ -1558,18 +1553,16 @@
 	                            </tr>
 	                        </tbody>
 	                    </table>
-	                    </td>
+						</td>
+						<td class="noborder halfRight">
+							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
+								<tr>
+									<td colspan="2" class="cardTitle">Add zones and watering times (mm:ss)</td>
+								</tr>
+							</table>
+						</td>
 						</tr>
 					</table>
-				<table cellspacing="0" cellpadding="0" class="programEdit">
-					<tr>
-	                    <td class="wateringTimes">
-	                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-	                            <tr><td colspan="2" class="cardTitle">Watering times (mm:ss)</td></tr>
-	                        </table>
-	                    </td>
-	                </tr>
-	            </table>
         	</div>
 		</div>
 
