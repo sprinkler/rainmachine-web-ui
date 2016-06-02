@@ -567,7 +567,7 @@ window.ui = window.ui || {};
 				else
 					systemSettingsView.ShortDetection.checked = false;
 
-				if (o.short > 0)
+				if (o.short >= 1000)
 					systemSettingsView.ShortDetectionStatus.textContent = "Short detected type:" + o.short;
 				else
 					systemSettingsView.ShortDetectionStatus.textContent = "No short detected";
