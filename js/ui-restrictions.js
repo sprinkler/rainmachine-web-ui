@@ -259,7 +259,7 @@ window.ui = window.ui || {};
 				bitstrWeekDays += "0";
 		}
 
-		var hour = parseInt(uiElems.startHourElem.value) || 6;
+		var hour = parseInt(uiElems.startHourElem.value) || 0;
 		var minute = parseInt(uiElems.startMinuteElem.value) || 0;
 		var dayMinuteStart = hour * 60 + minute;
 
