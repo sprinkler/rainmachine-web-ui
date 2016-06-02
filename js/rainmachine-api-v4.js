@@ -717,7 +717,7 @@ _API.prototype.setShortDetection = function(enabled)
 
 	if (enabled) {
 		data.watchforshort = 1;
-		data.watchforload = 1;
+		data.watchforload = 2;
 	}
 
 	return this.post(url, data, null);
