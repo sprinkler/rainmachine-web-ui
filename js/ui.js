@@ -9,6 +9,7 @@ window.ui = window.ui || {};
 
  	var loop = null;
 	var loopSlowLastRun = Date.now();
+	var loopMediumLastRun = Date.now();
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
@@ -180,6 +181,13 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function refreshRestrictions(forced) {
+		if (forced || (Date.now() - loopMediumLastRun) > 9 * 1000) {
+			loopMediumLastRun = Date.now();
+			window.ui.restrictions.showCurrentRestrictions();
+		}
+	}
+
 	function uiLoop() {
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
 
@@ -214,9 +222,11 @@ window.ui = window.ui || {};
 			);
 			//Refresh (without data download) parser box
 			window.ui.settings.updateParsers(true);
-			//Refresh restrictions
-			window.ui.restrictions.showCurrentRestrictions();
-			//Refresh on a slower timer
+
+			//Refresh on medium timer
+			refreshRestrictions(false);
+
+			//Refresh on slower timer
 			refreshProgramAndZones(false);
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
@@ -365,7 +375,7 @@ window.ui = window.ui || {};
 			//TODO Show waterlog simple
 			window.ui.settings.showWaterLogSimple();
 
-			loop = setInterval(uiLoop, 2000);
+			loop = setInterval(uiLoop, 3000);
 		});
 	}
 
