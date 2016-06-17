@@ -801,10 +801,11 @@ window.ui = window.ui || {};
 
 	//Converts program next run a a nicer string
 	function getProgramNextRunAsString(programNextRun) {
+
 		var nextRun = Util.dateStringToLocalDate(programNextRun);
 
-		if(isNaN(nextRun.getTime()))	 {
-			nextRun = "";
+		if(nextRun === null || isNaN(nextRun.getTime()))	 {
+			nextRun = "Unknown";
 		} else {
 			nextRun = nextRun.toDateString();
 		}
