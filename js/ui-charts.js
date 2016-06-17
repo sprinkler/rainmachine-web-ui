@@ -310,9 +310,12 @@ function processChartData() {
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				wnfTotalDayProgramUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
 				wnfTotalDayProgramScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
-				programFlag = currentProgram.zones[zoneIndex].wateringFlag;
-				if (programFlag > 0)
+
+				var _programFlag = currentProgram.zones[zoneIndex].wateringFlag;
+				if (_programFlag > 0) {
+					programFlag = _programFlag;
 					console.log("Program %s flag %s", currentProgram.id, programFlag);
+				}
 			}
 
 			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayProgramUserWater, wnfTotalDayProgramScheduledWater);
@@ -327,9 +330,11 @@ function processChartData() {
 			// Program index not in our struct ?
 			if (currentProgram.id in chartsData.programsMap) {
 				currentProgramIndex = chartsData.programsMap[currentProgram.id];
+				console.log("Already existing id: %d", currentProgramIndex);
 			} else {
 				currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
 				chartsData.programsFlags.push(new ChartSeries(chartsData.startDate));
+				console.log("Non existent id: %d ProgramsFlags push len %d", currentProgramIndex, chartsData.programsFlags.length);
 				chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 			}
 			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
@@ -387,6 +392,7 @@ function processChartData() {
 			currentProgram = day.programs[programIndex];
 			var wnpTotalDayProgramUserWater = 0;
 			var wnpTotalDayProgramScheduledWater = 0;
+			var programFlag = 0;
 
 			//Skip Manual run programs (id 0)
 			if (currentProgram.id == 0)
@@ -394,6 +400,11 @@ function processChartData() {
 
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				var zone = currentProgram.zones[zoneIndex];
+				var _programFlag = zone.flag;
+				if (_programFlag > 0) {
+					programFlag = _programFlag;
+					//console.log("History Program %s flag %s", currentProgram.id, programFlag);
+				}
 
 				for (var c = 0; c < zone.cycles.length; c++) {
 					var cycle = zone.cycles[c];
@@ -407,7 +418,7 @@ function processChartData() {
 
 				//Add program used water
 				// Is program active/still available in current programs list (might be an old deleted program)?
-				var existingProgram = getProgramById(currentProgram.id)
+				var existingProgram = getProgramById(currentProgram.id);
 				if (existingProgram === null)
 					continue;
 
@@ -416,10 +427,12 @@ function processChartData() {
 					currentProgramIndex = chartsData.programsMap[currentProgram.id];
 				} else {
 					currentProgramIndex = chartsData.programs.push(new ChartSeries(chartsData.startDate)) - 1;
+					chartsData.programsFlags.push(new ChartSeries(chartsData.startDate));
 					chartsData.programsMap[currentProgram.id] = currentProgramIndex;
-				}
 
+				}
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
+				chartsData.programsFlags[currentProgramIndex].insertAtDate(day.date, programFlag);
 			}
 		}
 
@@ -615,6 +628,7 @@ function loadMonthlyCharts () {
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
+		chartsData.programsFlags[programIndex].currentSeries = chartsData.programsFlags[programIndex].data.slice(sliceStart, sliceEnd);
 	}
 
 	// render all charts with the currentAxisCategories and currentSeries
@@ -1231,10 +1245,10 @@ function generateProgramChart (programUid, programIndex) {
 					var flag = chartsData.programsFlags[programIndex].getAtDate(this.x);
 					var flagText = "";
 
+					//Icon only for weekly bars
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
 						flagText = '<span style="font-family: RainMachine; font-size: 20px; color: red;">/</span><br>';
 					}
-
 					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
@@ -1248,10 +1262,10 @@ function generateProgramChart (programUid, programIndex) {
 					var flag = chartsData.programsFlags[programIndex].getAtDate(this.category);
 					var flagText = "";
 
-					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
+					//Tooltip for both weekly and monthly
+					if (flag > 0 && chartsCurrentLevel !== chartsLevel.yearly) {
 						flagText = window.ui.settings.waterLogReason[flag] + '<br>';
 					}
-
 					return '<span style="font-size: 14px;">' + Highcharts.dateFormat(chartsDateFormat, new Date(this.category))
 						+ ": " + this.y + '%<br>' + flagText + '</span>';
 				}
