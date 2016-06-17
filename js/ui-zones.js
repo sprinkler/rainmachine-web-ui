@@ -197,12 +197,11 @@ window.ui = window.ui || {};
 
 		queueDetails.textContent += " program " + programName;
 
-		// No timing information for soak/zone delay
-		if (queueTop.zid == zoneType.cycleDelay || queueTop.zid == zoneType.zoneDelay) {
+		if (typeof queueTop.remaining === "undefined") {
 			queueTimer.textContent = "R";
 			queueTimer.className = "right parserRefresh icon";
 		} else {
-			queueTimer.textContent = Util.secondsToMMSS(zones[realZoneId].remaining);
+			queueTimer.textContent = Util.secondsToMMSS(queueTop.remaining);
 		}
 
 		container.appendChild(template);
