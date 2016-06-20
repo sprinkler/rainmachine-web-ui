@@ -278,11 +278,15 @@ Util.generateTagFromDataType = function(parent, data, label) {
 
 
 		if (typeof data == "boolean") {
-			input.type = "checkbox"
+			input.type = "checkbox";
 			if (data) {
 				input.checked = true;
 			}
-		} else {
+		} else if (data !== null && typeof data == "object") {
+			input = addTag(div, 'textarea');
+			input.value = JSON.stringify(data);
+			input.className = "typeText";
+		} else	{
 			input.value = data;
 			input.className = "typeText";
 		}
@@ -294,6 +298,8 @@ Util.generateTagFromDataType = function(parent, data, label) {
 			for (var d in data) {
 				input.innerHTML += data[d] + "<br>";
 			}
+		} else if (data !== null && typeof data == "object") {
+			input.textContent = JSON.stringify(data);
 		} else {
 			input.textContent = data;
 		}
