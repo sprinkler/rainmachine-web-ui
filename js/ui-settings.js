@@ -180,9 +180,12 @@ window.ui = window.ui || {};
 			template.parserid = p.uid;
 			template.parseridx = i;
 
+			var parserName =  p.name
+			var lw = parserName.lastIndexOf(" ");
 
-			var lw = p.name.lastIndexOf(" ");
-			var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
+			if (lw > 0) {
+				parserName = parserName.substring(0, lw); //Don't show "Parser" word in weather parsers
+			}
 
 			if (p.custom) {
 				parserName = "Custom:" + parserName;
