@@ -816,7 +816,7 @@
 														</div>
 														<div class="weatherServicesTab">
 															<input type="radio" id="weatherServicesTab-12" name="weatherServicesTab-group-2">
-															<label for="weatherServicesTab-12">EvapoTranspiration</label>
+															<label for="weatherServicesTab-12">ET</label>
 															<div class="weatherServicesTabContent">
 																<div id="etParsersChartContainer" class="charts"></div>
 															</div>
@@ -1341,41 +1341,142 @@
         <div id="zone-settings-template">
        		<div class="overTop">
 	            <table class="programEdit" cellpadding="0" cellspacing="0">
-	                <tbody>
+					<tbody>
 	                <tr rm-id="zone-master-valve-option">
-		                <td class="middle noborder" width="15%">Enable master valve:</td>
+		                <td class="middle noborder">Enable Zone 1 as master valve (pump):</td>
 		                <td class="middle noborder"><input type="checkbox" rm-id="zone-master-valve"/></td>
 	                </tr>
 
 					<tr rm-id="zone-master-valve-timer">
-						<td class="middle" width="15%">Start master valve:</td>
-						<td class="middle">
+						<td class="middle" colspan="2">Start master valve
 							<input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0"> minutes
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds <u>before</u> and
 							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0"> minutes
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds after each cycle/program.
+							<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds <u>after</u> each cycle/program.
 						</td>
 
 					</tr>
+					<!-- Start Zone Basic & Advanced Settings -->
+					<tr><td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Basic Zone Settings</td></tr>
 	                <tr>
 	                	<td class="middle">Name:</td>
 	                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
 	                </tr>
 	                <tr><td class="middle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
-	                <tr><td class="middle">Vegetation Type:</td>
-	                    <td class="middle">
-	                        <select rm-id="zone-vegetation-type">
-	                            <option value="1">Other</option>
-	                            <option value="2" selected>Lawn</option>
-	                            <option value="3">Fruit Trees</option>
-	                            <option value="4">Flowers</option>
-	                            <option value="5">Vegetables</option>
-	                            <option value="6">Citrus</option>
-	                            <option value="7">Trees and Bushes</option>
-	                        </select>
-	                </td></tr>
 	                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
 	                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
+					<tr><td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced Zone Settings</td></tr>
+					<tr>
+						<td class="middle" colspan="2"">Vegetation Type<br><br>
+							<select rm-id="zone-vegetation-type" style="width:100%;margin-bottom: 10px;color:#39c;">
+								<option value="2" selected>Lawn</option>
+								<option value="3">Fruit Trees</option>
+								<option value="4">Flowers</option>
+								<option value="5">Vegetables</option>
+								<option value="6">Citrus</option>
+								<option value="7">Trees and Bushes</option>
+								<option value="99">Other</option>
+							</select>
+							<!-- Vegetation Type "Other" options start -->
+							<div style="display:none;">
+								Crop Coefficient: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.80">&nbsp;/&nbsp;Allowed Depletion: <input rm-id="" type="number" class="typeNumber" placeholder="50">(%)&nbsp;/&nbsp;Root Depth: <input rm-id="" type="number" class="typeNumber" placeholder="6">(in)<br>
+								The vegetation is tall? <select rm-id="" style="width:80px;"><option value="1">Yes</option><option value="2">No</option></select>&nbsp;/&nbsp;Permanent Wilting Point (PWP): <input rm-id="" type="number" class="typeNumber" placeholder="0.03">
+							</div>
+							<!-- Vegetation Type "Other" options end -->
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" colspan="2"">Soil type<br><br>
+							<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
+								<option value="1">Clay</option>
+								<option value="2">Silty Clay</option>
+								<option value="3">Clay Loam</option>
+								<option value="4" selected>Loam</option>
+								<option value="5">Sandy Loam</option>
+								<option value="6">Loamy Sand</option>
+								<option value="7">Sand</option>
+								<option value="99">Other</option>
+							</select>
+							<!-- Soil type "Other" options start -->
+							<div style="display:none;">
+								Intake Rate: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="8.89">&nbsp;/&nbsp;Field Capacity: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.20">
+							</div>
+							<!-- Soil type "Other" options end -->
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" colspan="2"">Sprinkler head type<br><br>
+						<select rm-id="zone-sprinkler-head-type" style="width:100%;color:#39c;">
+							<option value="1" selected>Popup Spray</option>
+							<option value="2">Rotors</option>
+							<option value="3">Surface Drip</option>
+							<option value="4">Bubblers</option>
+							<option value="99">Other</option>
+						</select>
+						<!-- Sprinkler head "Other" options start -->
+						<div style="display:none;">
+							Precipitation Rate: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="35.56">&nbsp;/&nbsp;Application Efficiency: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.70">
+						</div>
+						<!-- Sprinkler head "Other" options end -->
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" colspan="2"">Exposure to the Sun<br><br>
+						<select rm-id="zone-exposure-to-the-sun" style="width:100%;color:#39c;">
+							<option value="1" selected>Full Sun</option>
+							<option value="2">Partial Shade</option>
+							<option value="3">Full Shade</option>
+							<option value="99">Other</option>
+						</select>
+						<!-- Exposure to the Sun "Other" options start -->
+						<div style="display:none;">
+							Exposure coefficient (from 0.10 to 1.00): <input rm-id="" type="number" class="typeNumber" max="1.00" placeholder="0.10">
+						</div>
+						<!-- Exposure to the Sun "Other" options end -->
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" colspan="2"">Slope<br><br>
+						<select rm-id="zone-exposure-to-the-sun" style="width:100%;color:#39c;">
+							<option value="1" selected>Flat</option>
+							<option value="2">Moderate</option>
+							<option value="3">High</option>
+							<option value="4">Very High</option>
+							<option value="99">Other</option>
+						</select>
+						<!-- Slope "Other" options start -->
+						<div style="display:none;">
+							<br>Click inside the input field and enter the slope value by corresponding soil type. The values shown by default are for Flat slope, but they are not active.<br><br>
+							Clay <input rm-id="" type="number" class="typeNumber" placeholder="5.08">&nbsp;/&nbsp;
+							Silty Clay <input rm-id="" type="number" class="typeNumber" placeholder="5.84">&nbsp;/&nbsp;
+							Clay Loam <input rm-id="" type="number" class="typeNumber" placeholder="6.60">&nbsp;/&nbsp;
+							Loam <input rm-id="" type="number" class="typeNumber" placeholder="7.62"><br>
+							Sandy Loam <input rm-id="" type="number" class="typeNumber" placeholder="8.38">&nbsp;/&nbsp;
+							Loamy Sand <input rm-id="" type="number" class="typeNumber" placeholder="9.14">&nbsp;/&nbsp;
+							Sand <input rm-id="" type="number" class="typeNumber" placeholder="10.16">
+						</div>
+						<!-- Slope "Other" options end -->
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" colspan="2"">Months Crop Coefficient (Kc)<br><br>
+
+						Jan <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Feb <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Mar <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Apr <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						May <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Jun <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Jul <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Aug <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Sep <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Oct <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Nov <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
+						Dec <input type="number" class="typeNumber" placeholder="1" />
+
+						</td>
+					</tr>
+					<!-- End Zone Basic & Advanced Settings -->
 	                <tr>
 	                	<td class="middle noborder" colspan="2"><button class="button blue center right" rm-id="zone-save">Save</button><button class="button grey center right" rm-id="zone-cancel">Cancel</button></td>
 	                </tr>
