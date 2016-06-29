@@ -1379,8 +1379,11 @@
 							</select>
 							<!-- Vegetation Type "Other" options start -->
 							<div style="display:none;">
-								Crop Coefficient: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.80">&nbsp;/&nbsp;Allowed Depletion: <input rm-id="" type="number" class="typeNumber" placeholder="50">(%)&nbsp;/&nbsp;Root Depth: <input rm-id="" type="number" class="typeNumber" placeholder="6">(in)<br>
-								The vegetation is tall? <select rm-id="" style="width:80px;"><option value="1">Yes</option><option value="2">No</option></select>&nbsp;/&nbsp;Permanent Wilting Point (PWP): <input rm-id="" type="number" class="typeNumber" placeholder="0.03">
+								Crop Coefficient: <input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.01" min="0.01"><br>
+								Allowed Depletion: <input rm-id="zone-vegetation-depletion" type="number" class="typeNumber">(%)<br>
+								Root Depth: <input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber"><br>
+								The vegetation is tall? <input rm-id="zone-vegetation-tall" type="checkbox"><br>
+								Permanent Wilting Point: <input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber"><br>
 							</div>
 							<!-- Vegetation Type "Other" options end -->
 						</td>
@@ -1398,15 +1401,16 @@
 								<option value="99">Other</option>
 							</select>
 							<!-- Soil type "Other" options start -->
-							<div style="display:none;">
-								Intake Rate: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="8.89">&nbsp;/&nbsp;Field Capacity: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.20">
+							<div style="display:none;" rm-id="zone-soil-advanced">
+								Intake Rate: <input rm-id="zone-soil-intakerate" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="8.89"><br>
+								Field Capacity: <input rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.20">
 							</div>
 							<!-- Soil type "Other" options end -->
 						</td>
 					</tr>
 					<tr>
 						<td class="middle" colspan="2"">Sprinkler head type<br><br>
-						<select rm-id="zone-sprinkler-head-type" style="width:100%;color:#39c;">
+						<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
 							<option value="1" selected>Popup Spray</option>
 							<option value="2">Rotors</option>
 							<option value="3">Surface Drip</option>
@@ -1414,30 +1418,31 @@
 							<option value="99">Other</option>
 						</select>
 						<!-- Sprinkler head "Other" options start -->
-						<div style="display:none;">
-							Precipitation Rate: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="35.56">&nbsp;/&nbsp;Application Efficiency: <input rm-id="" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.70">
+						<div style="display:none;" rm-id="zone-sprinkler-advanced">
+							Precipitation Rate: <input rm-id="zone-sprinkler-preciprate" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="35.56"><br>
+							Application Efficiency: <input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.70">
 						</div>
 						<!-- Sprinkler head "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Exposure to the Sun<br><br>
-						<select rm-id="zone-exposure-to-the-sun" style="width:100%;color:#39c;">
+						<td class="middle" colspan="2"">Sun Exposure<br><br>
+						<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
 							<option value="1" selected>Full Sun</option>
 							<option value="2">Partial Shade</option>
 							<option value="3">Full Shade</option>
 							<option value="99">Other</option>
 						</select>
 						<!-- Exposure to the Sun "Other" options start -->
-						<div style="display:none;">
-							Exposure coefficient (from 0.10 to 1.00): <input rm-id="" type="number" class="typeNumber" max="1.00" placeholder="0.10">
+						<div style="display:none;" rm-id="zone-exposure-advanced">
+							Exposure coefficient (from 0.10 to 1.00): <input rm-id="zone-exposure-coef" type="number" class="typeNumber" max="1.00" placeholder="0.10">
 						</div>
 						<!-- Exposure to the Sun "Other" options end -->
 						</td>
 					</tr>
 					<tr>
 						<td class="middle" colspan="2"">Slope<br><br>
-						<select rm-id="zone-exposure-to-the-sun" style="width:100%;color:#39c;">
+						<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
 							<option value="1" selected>Flat</option>
 							<option value="2">Moderate</option>
 							<option value="3">High</option>
@@ -1446,14 +1451,8 @@
 						</select>
 						<!-- Slope "Other" options start -->
 						<div style="display:none;">
-							<br>Click inside the input field and enter the slope value by corresponding soil type. The values shown by default are for Flat slope, but they are not active.<br><br>
-							Clay <input rm-id="" type="number" class="typeNumber" placeholder="5.08">&nbsp;/&nbsp;
-							Silty Clay <input rm-id="" type="number" class="typeNumber" placeholder="5.84">&nbsp;/&nbsp;
-							Clay Loam <input rm-id="" type="number" class="typeNumber" placeholder="6.60">&nbsp;/&nbsp;
-							Loam <input rm-id="" type="number" class="typeNumber" placeholder="7.62"><br>
-							Sandy Loam <input rm-id="" type="number" class="typeNumber" placeholder="8.38">&nbsp;/&nbsp;
-							Loamy Sand <input rm-id="" type="number" class="typeNumber" placeholder="9.14">&nbsp;/&nbsp;
-							Sand <input rm-id="" type="number" class="typeNumber" placeholder="10.16">
+							<br>Enter surface accumulation value<br><br>
+							<input rm-id="zone-surface-acc" type="number" class="typeNumber" placeholder="5.08">
 						</div>
 						<!-- Slope "Other" options end -->
 						</td>
