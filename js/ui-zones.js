@@ -27,7 +27,8 @@ window.ui = window.ui || {};
 		1004: "Soak time "
 	};
 
-	var uiElems = {};
+	var uiElems = {}; //Current editing zone settings elements
+	var uiElemsAll = {}; //All zones elements without settings elements
 	var maxZoneManualSeconds = 3600;
 	var startedFromPrograms = true; //set default to true so we can set sliders positions at page load/refresh
 
@@ -49,7 +50,7 @@ window.ui = window.ui || {};
 	function createZonesElems() {
 		var zonesContainer = $('#zonesList');
 		clearTag(zonesContainer);
-		uiElems.zones = {};
+		uiElemsAll.zones = {};
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
@@ -70,27 +71,27 @@ window.ui = window.ui || {};
 
 			zoneElem.timerElem.id = "zone-timer-" + z.uid;
 			zoneElem.timerElem.controller = new rangeSlider(zoneElem.timerElem, maxZoneManualSeconds, onZoneSlider.bind(null, z));
-			uiElems.zones[z.uid] = zoneElem;
+			uiElemsAll.zones[z.uid] = zoneElem;
 		}
 
-		uiElems.editAll = $('#home-zones-edit');
-		uiElems.editAll.onclick = function() { showZones(); onZonesEdit() };
-		uiElems.editAll.isEditing = false;
+		uiElemsAll.editAll = $('#home-zones-edit');
+		uiElemsAll.editAll.onclick = function() { showZones(); onZonesEdit() };
+		uiElemsAll.editAll.isEditing = false;
 
-		uiElems.stopAll = $('#home-zones-stopall');
-        uiElems.stopAll.onclick = stopAllWatering;
+		uiElemsAll.stopAll = $('#home-zones-stopall');
+        uiElemsAll.stopAll.onclick = stopAllWatering;
     }
 
 	function updateZones() {
 
-		if (!uiElems.hasOwnProperty("zones"))
+		if (!uiElemsAll.hasOwnProperty("zones"))
 			createZonesElems();
 
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
 			var za = Data.zoneAdvData.zones[i];
-			var elem = uiElems.zones[z.uid];
+			var elem = uiElemsAll.zones[z.uid];
 
             elem.template.className="zone-line";
 			elem.template.data = za;
@@ -207,80 +208,140 @@ window.ui = window.ui || {};
 		container.appendChild(template);
 	}
 
+	function loadZoneTemplate() {
+
+		var templateInfo = {};
+
+		templateInfo.zoneTemplateElem = loadTemplate("zone-settings-template");
+
+		// Master Valve elements
+		templateInfo.masterValveElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve"]');
+		templateInfo.masterValveContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-option"]');
+		templateInfo.masterTimerContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-timer"]');
+		templateInfo.masterValveBeforeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-before"]');
+		templateInfo.masterValveBeforeSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-before-sec"]');
+		templateInfo.masterValveAfterElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after"]');
+		templateInfo.masterValveAfterSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after-sec"]');
+
+		// Basic properties
+		templateInfo.nameElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-name"]');
+		templateInfo.activeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-active"]');
+		templateInfo.forecastElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-forecast-data"]');
+		templateInfo.historicalElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-historical-averages"]');
+
+		// Advanced properties
+		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
+		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
+		templateInfo.sprinklerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-type"]');
+		templateInfo.exposureElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-type"]');
+		templateInfo.slopeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-slope-type"]');
+
+		// Watersense properties
+		templateInfo.advVegElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-advanced"]');
+		templateInfo.advVegCropElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-cropcoef"]');
+		templateInfo.advDepletionElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-depletion"]');
+		templateInfo.advRootDepthElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-rootdepth"]');
+		templateInfo.advTallElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-tall"]');
+		templateInfo.advPermWiltingElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-permwilting"]');
+
+		templateInfo.advSoilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-advanced"]');
+		templateInfo.advIntakeRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-intakerate"]');
+		templateInfo.advFieldCapElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-fieldcapacity"]');
+
+		templateInfo.advSprinkerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-advanced"]');
+		templateInfo.advPrecipRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-preciprate"]');
+		templateInfo.advAppEffElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-appefficiency"]');
+
+		templateInfo.advExposureElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-advanced"]');
+		templateInfo.advExposureCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-coef"]');
+		templateInfo.advSurfAccElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-surface-acc"]');
+
+		templateInfo.advMonthCrop = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop"]');
+		templateInfo.advMonthCrop1 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop1"]');
+		templateInfo.advMonthCrop2 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop2"]');
+		templateInfo.advMonthCrop3 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop3"]');
+		templateInfo.advMonthCrop4 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop4"]');
+		templateInfo.advMonthCrop5 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop5"]');
+		templateInfo.advMonthCrop6 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop6"]');
+		templateInfo.advMonthCrop7 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop7"]');
+		templateInfo.advMonthCrop8 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop8"]');
+		templateInfo.advMonthCrop9 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop9"]');
+		templateInfo.advMonthCrop10 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop10"]');
+		templateInfo.advMonthCrop11 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop11"]');
+		templateInfo.advMonthCrop12 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop12"]');
+
+		// Buttons
+		templateInfo.cancel = $(templateInfo.zoneTemplateElem, '[rm-id="zone-cancel"]');
+		templateInfo.save = $(templateInfo.zoneTemplateElem, '[rm-id="zone-save"]');
+
+		return templateInfo;
+	}
+
 	function showZoneSettings(zone)
 	{
 		var zoneSettingsDiv = $("#zonesSettings");
 		clearTag(zoneSettingsDiv);
 		makeHidden('#zonesList');
 
-		var zoneTemplate = loadTemplate("zone-settings-template");
-
-		var zoneMasterValveElem = $(zoneTemplate, '[rm-id="zone-master-valve"]');
-		var zoneMasterValveContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-option"]');
-		var zoneMasterTimerContainerElem = $(zoneTemplate, '[rm-id="zone-master-valve-timer"]');
-		var zoneNameElem = $(zoneTemplate, '[rm-id="zone-name"]');
-		var zoneActiveElem = $(zoneTemplate, '[rm-id="zone-active"]');
-		var zoneVegetationElem = $(zoneTemplate, '[rm-id="zone-vegetation-type"]');
-		var zoneForecastElem = $(zoneTemplate, '[rm-id="zone-forecast-data"]');
-		var zoneHistoricalElem = $(zoneTemplate, '[rm-id="zone-historical-averages"]');
-
+		uiElems = loadZoneTemplate();
 
 		if (zone.uid == 1) {
-			zoneMasterValveElem.checked = Data.provision.system.useMasterValve;
+			uiElems.masterValveElem.checked = Data.provision.system.useMasterValve;
+			var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+			var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
 
-			var masterValveBeforeElem = $(zoneTemplate, '[rm-id="zone-master-valve-before"]');
-			var masterValveBeforeSecElem = $(zoneTemplate, '[rm-id="zone-master-valve-before-sec"]');
-            var masterValveAfterElem = $(zoneTemplate, '[rm-id="zone-master-valve-after"]');
-			var masterValveAfterSecElem = $(zoneTemplate, '[rm-id="zone-master-valve-after-sec"]');
-
-            var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
-            var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
-
-            masterValveBeforeElem.value = beforeTimer.minutes;
-			masterValveBeforeSecElem.value = beforeTimer.seconds;
-            masterValveAfterElem.value = afterTimer.minutes;
-			masterValveAfterSecElem.value = afterTimer.seconds;
+			uiElems.masterValveBeforeElem.value = beforeTimer.minutes;
+			uiElems.masterValveBeforeSecElem.value = beforeTimer.seconds;
+			uiElems.masterValveAfterElem.value = afterTimer.minutes;
+			uiElems.masterValveAfterSecElem.value = afterTimer.seconds;
 
 		} else {
-			makeHidden(zoneMasterValveContainerElem);
-        	makeHidden(zoneMasterTimerContainerElem);
+			makeHidden(uiElems.masterValveContainerElem);
+			makeHidden(uiElems.masterTimerContainerElem);
 		}
 
-		zoneTemplate.id = "zone-settings-" + zone.uid;
-		zoneNameElem.value = zone.name;
-		zoneActiveElem.checked = zone.active;
-		zoneForecastElem.checked = zone.internet;
-		zoneHistoricalElem.checked = zone.history;
+		uiElems.id = uiElems.zoneTemplateElem.id = "zone-settings-" + zone.uid;
+		uiElems.nameElem.value = zone.name;
+		uiElems.activeElem.checked = zone.active;
+		uiElems.forecastElem.checked = zone.internet;
+		uiElems.historicalElem.checked = zone.history;
 
 		//Select the option in Vegetation select
-		var strType = zoneVegetationTypeToString(zone.type);
-		setSelectOption(zoneVegetationElem, strType);
+		//var strType = zoneVegetationTypeToString(zone.type);
+		//setSelectOption(zoneVegetationElem, strType);
+		setSelectOption(uiElems.vegetationElem, zone.type, true);
+		setSelectOption(uiElems.soilElem, zone.soil, true);
+		setSelectOption(uiElems.sprinklerElem, zone.group_id, true);
+		setSelectOption(uiElems.exposureElem, zone.sun, true);
+		setSelectOption(uiElems.slopeElem, zone.slope, true);
 
-		$(zoneTemplate, '[rm-id="zone-cancel"]').onclick = function(){ closeZoneSettings(); };
-		$(zoneTemplate, '[rm-id="zone-save"]').onclick = function(){ saveZone(zone.uid); };
-		zoneSettingsDiv.appendChild(zoneTemplate);
+
+		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
+		uiElems.save.onclick = function(){ saveZone(zone.uid); };
+
+		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 	}
 
 	function onZonesEdit() {
 
-		if (uiElems.editAll.isEditing) {
-			for (var id in uiElems.zones) {
-				var elem = uiElems.zones[id];
+		if (uiElemsAll.editAll.isEditing) {
+			for (var id in uiElemsAll.zones) {
+				var elem = uiElemsAll.zones[id];
 				elem.editElem.style.display = "none";
                 elem.timerElem.style.opacity = "inherit";
 			}
-			uiElems.editAll.textContent = "Edit";
-			uiElems.editAll.isEditing = false;
+			uiElemsAll.editAll.textContent = "Edit";
+			uiElemsAll.editAll.isEditing = false;
 
 		} else {
-			for (var id in uiElems.zones) {
-				var elem = uiElems.zones[id];
+			for (var id in uiElemsAll.zones) {
+				var elem = uiElemsAll.zones[id];
 				elem.stopElem.style.display = "none";
 				elem.editElem.style.display = "inherit";
 				elem.timerElem.style.opacity = "0.3";
 			}
-			uiElems.editAll.textContent = "Done";
-			uiElems.editAll.isEditing = true;
+			uiElemsAll.editAll.textContent = "Done";
+			uiElemsAll.editAll.isEditing = true;
 		}
 	}
 
@@ -301,7 +362,7 @@ window.ui = window.ui || {};
 	// Set zone running/pending/idle status
 	function setZoneState(zone)
 	{
-		var elem = uiElems.zones[zone.uid];
+		var elem = uiElemsAll.zones[zone.uid];
 
 		if (elem === undefined || elem === null)	{
 			console.log("Zone State: Cannot find zone %d", zone.uid);
@@ -334,14 +395,14 @@ window.ui = window.ui || {};
 		}
 
 		//Don't show buttons for master or inactive zones or when editing zones
-		if (zone.master || !zone.active || uiElems.editAll.isEditing) {
+		if (zone.master || !zone.active || uiElemsAll.editAll.isEditing) {
 			makeHidden(elem.stopElem);
 		}
 	}
 
 	function updateZoneTimer(zone)
 	{
-		var elem = uiElems.zones[zone.uid];
+		var elem = uiElemsAll.zones[zone.uid];
 
 		if (elem === undefined || elem === null) {
 			console.log("Zone Timer: Cannot find zone %d", uid);
@@ -408,56 +469,48 @@ window.ui = window.ui || {};
 
 	function saveZone(uid)
 	{
-		var zoneSettingsDiv = $('#zone-settings-' + uid);
 		var zoneProperties = {};
+		var zoneAdvProperties = {};
 		var shouldSetMasterValve = false;
 
-		if (zoneSettingsDiv === undefined || zoneSettingsDiv === null)
-		{
-			console.log("Cannot find zone settings div for zone %d", uid);
+		if (!uiElems || !uiElems.hasOwnProperty("id") || !uiElems.id === uid) {
+			console.log("Cannot find uiElems for zone %d", uid);
 			return -2;
 		}
 
-		var zoneMasterValveElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve"]');
-		var zoneNameElem = $(zoneSettingsDiv, '[rm-id="zone-name"]');
-		var zoneActiveElem = $(zoneSettingsDiv, '[rm-id="zone-active"]');
-		var zoneVegetationElem = $(zoneSettingsDiv, '[rm-id="zone-vegetation-type"]');
-		var zoneForecastElem = $(zoneSettingsDiv, '[rm-id="zone-forecast-data"]');
-		var zoneHistoricalElem = $(zoneSettingsDiv, '[rm-id="zone-historical-averages"]');
-
 		zoneProperties.uid = uid;
-		zoneProperties.name = zoneNameElem.value;
-		zoneProperties.active = zoneActiveElem.checked;
-		zoneProperties.internet = zoneForecastElem.checked;
-		zoneProperties.history = zoneHistoricalElem.checked;
-		zoneProperties.type = parseInt(zoneVegetationElem.options[zoneVegetationElem.selectedIndex].value);
+		zoneProperties.name = uiElems.nameElem.value;
+		zoneProperties.active = uiElems.activeElem.checked;
+		zoneProperties.internet = uiElems.forecastElem.checked;
+		zoneProperties.history = uiElems.historicalElem.checked;
+		zoneProperties.type = parseInt(uiElems.vegetationElem.options[uiElems.vegetationElem.selectedIndex].value);
+		zoneProperties.soil = parseInt(uiElems.soilElem.options[uiElems.soilElem.selectedIndex].value);
+		zoneProperties.group_id = parseInt(uiElems.sprinklerElem.options[uiElems.sprinklerElem.selectedIndex].value);
+		zoneProperties.sun = parseInt(uiElems.exposureElem.options[uiElems.exposureElem.selectedIndex].value);
+		zoneProperties.slope = parseInt(uiElems.slopeElem.options[uiElems.slopeElem.selectedIndex].value);
 
 		if (uid == 1)
 		{
-			zoneProperties.master = zoneMasterValveElem.checked;
-
-			var masterValveBeforeElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before"]');
-			var masterValveBeforeSecElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-before-sec"]');
-            var masterValveAfterElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after"]');
-			var masterValveAfterSecElem = $(zoneSettingsDiv, '[rm-id="zone-master-valve-after-sec"]');
+			zoneProperties.master = uiElems.masterValveElem.checked;
 
 			var beforeTimer = { minutes: 0, seconds: 0};
 			var afterTimer = { minutes: 0, seconds:0};
 
-			beforeTimer.minutes = parseInt(masterValveBeforeElem.value) || 0;
-			beforeTimer.seconds = parseInt(masterValveBeforeSecElem.value) || 0;
+			beforeTimer.minutes = parseInt(uiElems.masterValveBeforeElem.value) || 0;
+			beforeTimer.seconds = parseInt(uiElems.masterValveBeforeSecElem.value) || 0;
 
-			afterTimer.minutes = parseInt(masterValveAfterElem.value) || 0;
-			afterTimer.seconds = parseInt(masterValveAfterSecElem.value) || 0;
+			afterTimer.minutes = parseInt(uiElems.masterValveAfterElem.value) || 0;
+			afterTimer.seconds = parseInt(uiElems.masterValveAfterSecElem.value) || 0;
 
 			var b =  beforeTimer.minutes * 60 + beforeTimer.seconds;
 			var a = afterTimer.minutes * 60 + afterTimer.seconds;
 
-     		Util.saveMasterValve(zoneProperties.master, b, a);
+			Util.saveMasterValve(zoneProperties.master, b, a);
 		}
 
 		console.log("Saving zone %d with properties: %o", uid, zoneProperties);
 		API.setZonesProperties(uid, zoneProperties, null);
+
 
 		closeZoneSettings();
 		showZones();
@@ -494,6 +547,6 @@ window.ui = window.ui || {};
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
 	_zones.updateWateringQueue = updateWateringQueue;
-	_zones.uiElems = uiElems;
+	_zones.uiElems = uiElemsAll;
 
 } (window.ui.zones = window.ui.zones || {}));
