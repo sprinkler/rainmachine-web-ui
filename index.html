@@ -1367,8 +1367,9 @@
 	                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
 					<tr><td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced Zone Settings</td></tr>
 					<tr>
-						<td class="middle" colspan="2"">Vegetation Type<br><br>
-							<select rm-id="zone-vegetation-type" style="width:100%;margin-bottom: 10px;color:#39c;">
+						<td class="middle" style="width:30%;">Vegetation Type</td>
+						<td class="middle">
+							<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
 								<option value="2" selected>Lawn</option>
 								<option value="3">Fruit Trees</option>
 								<option value="4">Flowers</option>
@@ -1379,17 +1380,35 @@
 							</select>
 							<!-- Vegetation Type "Other" options start -->
 							<div style="display:none;">
-								Crop Coefficient: <input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.01" min="0.01"><br>
-								Allowed Depletion: <input rm-id="zone-vegetation-depletion" type="number" class="typeNumber">(%)<br>
-								Root Depth: <input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber"><br>
-								The vegetation is tall? <input rm-id="zone-vegetation-tall" type="checkbox"><br>
-								Permanent Wilting Point: <input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber"><br>
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle" style="width:50%">Crop Coefficient:</td>
+										<td style="padding:0;"><input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle" style="width:50%">Allowed Depletion:</td>
+										<td style="padding:0;"><input rm-id="zone-vegetation-depletion" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle" style="width:50%">Root Depth:</td>
+										<td style="padding:0;"><input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle" style="width:50%">Permanent Wilting Point:</td>
+										<td style="padding:0;"><input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle noborder" style="width:50%">The vegetation is tall?</td>
+										<td class="middle noborder" style="padding:0;"><input rm-id="zone-vegetation-tall" type="checkbox"></td>
+									</tr>
+								</table>
 							</div>
 							<!-- Vegetation Type "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Soil type<br><br>
+						<td class="middle">Soil type</td>
+						<td class="middle">
 							<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
 								<option value="1">Clay</option>
 								<option value="2">Silty Clay</option>
@@ -1402,77 +1421,112 @@
 							</select>
 							<!-- Soil type "Other" options start -->
 							<div style="display:none;" rm-id="zone-soil-advanced">
-								Intake Rate: <input rm-id="zone-soil-intakerate" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="8.89"><br>
-								Field Capacity: <input rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.20">
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle" style="width:50%">Intake Rate:</td>
+										<td style="padding:0;"><input rm-id="zone-soil-intakerate" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle noborder" style="width:50%">Field Capacity:</td>
+										<td class="middle noborder" style="padding:0;"><input rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber"></td>
+									</tr>
+								</table>
 							</div>
 							<!-- Soil type "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Sprinkler head type<br><br>
-						<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
-							<option value="1" selected>Popup Spray</option>
-							<option value="2">Rotors</option>
-							<option value="3">Surface Drip</option>
-							<option value="4">Bubblers</option>
-							<option value="99">Other</option>
-						</select>
-						<!-- Sprinkler head "Other" options start -->
-						<div style="display:none;" rm-id="zone-sprinkler-advanced">
-							Precipitation Rate: <input rm-id="zone-sprinkler-preciprate" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="35.56"><br>
-							Application Efficiency: <input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.01" min="0.01" placeholder="0.70">
-						</div>
-						<!-- Sprinkler head "Other" options end -->
+						<td class="middle">Sprinkler head type</td>
+						<td class="middle">
+							<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
+								<option value="1" selected>Popup Spray</option>
+								<option value="2">Rotors</option>
+								<option value="3">Surface Drip</option>
+								<option value="4">Bubblers</option>
+								<option value="99">Other</option>
+							</select>
+							<!-- Sprinkler head "Other" options start -->
+							<div style="display:none;" rm-id="zone-sprinkler-advanced">
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle" style="width:50%">Precipitation Rate:</td>
+										<td style="padding:0;"><input rm-id="zone-sprinkler-preciprate" type="number" class="typeNumber"></td>
+									</tr>
+									<tr>
+										<td class="middle noborder" style="width:50%">Application Efficiency:</td>
+										<td class="middle noborder" style="padding:0;"><input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber"></td>
+									</tr>
+								</table>
+							</div>
+							<!-- Sprinkler head "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Sun Exposure<br><br>
-						<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
-							<option value="1" selected>Full Sun</option>
-							<option value="2">Partial Shade</option>
-							<option value="3">Full Shade</option>
-							<option value="99">Other</option>
-						</select>
-						<!-- Exposure to the Sun "Other" options start -->
-						<div style="display:none;" rm-id="zone-exposure-advanced">
-							Exposure coefficient (from 0.10 to 1.00): <input rm-id="zone-exposure-coef" type="number" class="typeNumber" max="1.00" placeholder="0.10">
-						</div>
-						<!-- Exposure to the Sun "Other" options end -->
+						<td class="middle">Sun Exposure</td>
+						<td class="middle">
+							<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
+								<option value="1" selected>Full Sun</option>
+								<option value="2">Partial Shade</option>
+								<option value="3">Full Shade</option>
+								<option value="99">Other</option>
+							</select>
+							<!-- Exposure to the Sun "Other" options start -->
+							<div style="display:none;" rm-id="zone-exposure-advanced">
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle noborder" style="width:50%">Exposure coefficient (from 0.10 to 1.00):</td>
+										<td class="middle noborder" style="padding:0;"><input rm-id="zone-exposure-coef" type="number" class="typeNumber"></td>
+									</tr>
+								</table>
+							</div>
+							<!-- Exposure to the Sun "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Slope<br><br>
-						<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
-							<option value="1" selected>Flat</option>
-							<option value="2">Moderate</option>
-							<option value="3">High</option>
-							<option value="4">Very High</option>
-							<option value="99">Other</option>
-						</select>
-						<!-- Slope "Other" options start -->
-						<div style="display:none;">
-							<br>Enter surface accumulation value<br><br>
-							<input rm-id="zone-surface-acc" type="number" class="typeNumber" placeholder="5.08">
-						</div>
-						<!-- Slope "Other" options end -->
+						<td class="middle">Slope</td>
+						<td class="middle">
+							<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
+								<option value="1" selected>Flat</option>
+								<option value="2">Moderate</option>
+								<option value="3">High</option>
+								<option value="4">Very High</option>
+								<option value="99">Other</option>
+							</select>
+							<!-- Slope "Other" options start -->
+							<div style="display:none;">
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle noborder" style="width:50%">Enter surface accumulation value:</td>
+										<td class="middle noborder" style="padding:0;"><input rm-id="zone-surface-acc" type="number" class="typeNumber"></td>
+									</tr>
+								</table>
+							</div>
+							<!-- Slope "Other" options end -->
 						</td>
 					</tr>
 					<tr>
-						<td class="middle" colspan="2"">Months Crop Coefficient (Kc)<br><br>
-
-						Jan <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Feb <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Mar <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Apr <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						May <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Jun <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Jul <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Aug <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Sep <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Oct <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Nov <input type="number" class="typeNumber" placeholder="1" />&nbsp;&nbsp;
-						Dec <input type="number" class="typeNumber" placeholder="1" />
-
+						<td class="middle">Advanced Crop Coefficient (Kc)</td>
+						<td class="middle"><input rm-id="zone-crop-coef-month" type="checkbox">
+							<div style="display:none;">
+								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+									<tr>
+										<td class="middle noborder center">Jan<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Feb<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Mar<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Apr<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">May<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Jun<br><input type="number" class="typeNumber" /></td>
+									</tr>
+									<tr>
+										<td class="middle noborder center">Jul<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Aug<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Sep<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Oct<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Nov<br><input type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Dec<br><input type="number" class="typeNumber" /></td>
+									</tr>
+								</table>
+							</div>
 						</td>
 					</tr>
 					<!-- End Zone Basic & Advanced Settings -->
