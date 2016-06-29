@@ -215,9 +215,10 @@ window.ui = window.ui || {};
 		templateInfo.zoneTemplateElem = loadTemplate("zone-settings-template");
 
 		// Master Valve elements
-		templateInfo.masterValveElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve"]');
+		templateInfo.masterValveTitleElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-title"]');
 		templateInfo.masterValveContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-option"]');
 		templateInfo.masterTimerContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-timer"]');
+		templateInfo.masterValveElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve"]');
 		templateInfo.masterValveBeforeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-before"]');
 		templateInfo.masterValveBeforeSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-before-sec"]');
 		templateInfo.masterValveAfterElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after"]');
@@ -287,15 +288,21 @@ window.ui = window.ui || {};
 
 		if (zone.uid == 1) {
 			uiElems.masterValveElem.checked = Data.provision.system.useMasterValve;
-			var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
-			var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
+			if (Data.provision.system.useMasterValve) {
+				var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+				var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
 
-			uiElems.masterValveBeforeElem.value = beforeTimer.minutes;
-			uiElems.masterValveBeforeSecElem.value = beforeTimer.seconds;
-			uiElems.masterValveAfterElem.value = afterTimer.minutes;
-			uiElems.masterValveAfterSecElem.value = afterTimer.seconds;
+				uiElems.masterValveBeforeElem.value = beforeTimer.minutes;
+				uiElems.masterValveBeforeSecElem.value = beforeTimer.seconds;
+				uiElems.masterValveAfterElem.value = afterTimer.minutes;
+				uiElems.masterValveAfterSecElem.value = afterTimer.seconds;
+			} else {
+				onMasterValveChange();
+			}
+
 
 		} else {
+			makeHidden(uiElems.masterValveTitleElem);
 			makeHidden(uiElems.masterValveContainerElem);
 			makeHidden(uiElems.masterTimerContainerElem);
 		}
@@ -318,6 +325,7 @@ window.ui = window.ui || {};
 
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
+		uiElems.masterValveElem.onclick = onMasterValveChange;
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 	}
@@ -514,6 +522,15 @@ window.ui = window.ui || {};
 
 		closeZoneSettings();
 		showZones();
+	}
+
+	function onMasterValveChange() {
+		if (!uiElems.masterValveElem.checked) {
+			makeHidden(uiElems.masterTimerContainerElem);
+		} else {
+
+			makeVisible(uiElems.masterTimerContainerElem);
+		}
 	}
 
 	function zoneVegetationTypeToString(type)
