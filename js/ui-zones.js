@@ -236,6 +236,7 @@ window.ui = window.ui || {};
 		templateInfo.sprinklerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-type"]');
 		templateInfo.exposureElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-type"]');
 		templateInfo.slopeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-slope-type"]');
+		templateInfo.monthsCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-months-coef-enable"]');
 
 		// Watersense properties
 		templateInfo.advVegElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-advanced"]');
@@ -249,27 +250,24 @@ window.ui = window.ui || {};
 		templateInfo.advIntakeRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-intakerate"]');
 		templateInfo.advFieldCapElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-fieldcapacity"]');
 
+		templateInfo.advSlopeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-slope-advanced"]');
+		templateInfo.advSurfAccElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-surface-acc"]');
+
 		templateInfo.advSprinkerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-advanced"]');
 		templateInfo.advPrecipRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-preciprate"]');
 		templateInfo.advAppEffElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-appefficiency"]');
 
 		templateInfo.advExposureElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-advanced"]');
 		templateInfo.advExposureCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-coef"]');
-		templateInfo.advSurfAccElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-surface-acc"]');
 
-		templateInfo.advMonthCrop = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop"]');
-		templateInfo.advMonthCrop1 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop1"]');
-		templateInfo.advMonthCrop2 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop2"]');
-		templateInfo.advMonthCrop3 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop3"]');
-		templateInfo.advMonthCrop4 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop4"]');
-		templateInfo.advMonthCrop5 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop5"]');
-		templateInfo.advMonthCrop6 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop6"]');
-		templateInfo.advMonthCrop7 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop7"]');
-		templateInfo.advMonthCrop8 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop8"]');
-		templateInfo.advMonthCrop9 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop9"]');
-		templateInfo.advMonthCrop10 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop10"]');
-		templateInfo.advMonthCrop11 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop11"]');
-		templateInfo.advMonthCrop12 = $(templateInfo.zoneTemplateElem, '[rm-id="zone-month-crop12"]');
+		// Watersense crop coef for each month
+		templateInfo.advMonthsCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-months-coef-advanced"]');
+		templateInfo.advMonthsCoef = [];
+		for (var z = 0; z < 12; z++) {
+			var rmid = '[rm-id="zone-months-coef' + z + '"]';
+			var elem = $(templateInfo.zoneTemplateElem, rmid);
+			templateInfo.advMonthsCoef.push(elem);
+		}
 
 		// Buttons
 		templateInfo.cancel = $(templateInfo.zoneTemplateElem, '[rm-id="zone-cancel"]');
@@ -280,6 +278,7 @@ window.ui = window.ui || {};
 
 	function showZoneSettings(zone)
 	{
+		console.log(zone);
 		var zoneSettingsDiv = $("#zonesSettings");
 		clearTag(zoneSettingsDiv);
 		makeHidden('#zonesList');
@@ -322,6 +321,37 @@ window.ui = window.ui || {};
 		setSelectOption(uiElems.exposureElem, zone.sun, true);
 		setSelectOption(uiElems.slopeElem, zone.slope, true);
 
+		// Change events
+		uiElems.vegetationElem.onchange = onVegetationChange;
+		uiElems.soilElem.onchange = onSoilChange;
+		uiElems.sprinklerElem.onchange = onSprinklerChange;
+		uiElems.exposureElem.onchange = onExposureChange;
+		uiElems.slopeElem.onchange = onSlopeChange;
+		uiElems.monthsCoefElem.onclick = onMonthsCoefChange;
+		onVegetationChange();
+		onSoilChange();
+		onSprinklerChange();
+		onExposureChange();
+		onSlopeChange();
+		onMonthsCoefChange();
+
+		// Advanced Custom values
+		uiElems.advAppEffElem.value = zone.waterSense.appEfficiency;
+		uiElems.advDepletionElem.value = zone.waterSense.maxAllowedDepletion;
+		uiElems.advExposureCoefElem.value = -1; //TODO not on API/DB
+		uiElems.advFieldCapElem.value = zone.waterSense.fieldCapacity;
+		uiElems.advIntakeRateElem.value = zone.waterSense.soilIntakeRate;
+		uiElems.advPermWiltingElem.value = zone.waterSense.permWilting;
+		uiElems.advPrecipRateElem.value = zone.waterSense.precipitationRate;
+		uiElems.advRootDepthElem.value = zone.waterSense.rootDepth;
+		uiElems.advSurfAccElem.value = zone.waterSense.allowedSurfaceAcc;
+		uiElems.advTallElem.checked = zone.waterSense.isTallPlant; //TODO redundant
+		uiElems.advVegCropElem.value = -1; //TODO not on API/DB
+
+		var monthsCoef = zone.waterSense.detailedMonthsKc;
+		for (z = 0; z < monthsCoef.length; z++) {
+			uiElems.advMonthsCoef[z].value = monthsCoef[z];
+		}
 
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
@@ -331,7 +361,6 @@ window.ui = window.ui || {};
 	}
 
 	function onZonesEdit() {
-
 		if (uiElemsAll.editAll.isEditing) {
 			for (var id in uiElemsAll.zones) {
 				var elem = uiElemsAll.zones[id];
@@ -491,11 +520,28 @@ window.ui = window.ui || {};
 		zoneProperties.active = uiElems.activeElem.checked;
 		zoneProperties.internet = uiElems.forecastElem.checked;
 		zoneProperties.history = uiElems.historicalElem.checked;
-		zoneProperties.type = parseInt(uiElems.vegetationElem.options[uiElems.vegetationElem.selectedIndex].value);
-		zoneProperties.soil = parseInt(uiElems.soilElem.options[uiElems.soilElem.selectedIndex].value);
-		zoneProperties.group_id = parseInt(uiElems.sprinklerElem.options[uiElems.sprinklerElem.selectedIndex].value);
-		zoneProperties.sun = parseInt(uiElems.exposureElem.options[uiElems.exposureElem.selectedIndex].value);
-		zoneProperties.slope = parseInt(uiElems.slopeElem.options[uiElems.slopeElem.selectedIndex].value);
+		zoneProperties.type = parseInt(getSelectValue(uiElems.vegetationElem));
+		zoneProperties.soil = parseInt(getSelectValue(uiElems.soilElem));
+		zoneProperties.group_id = parseInt(getSelectValue(uiElems.sprinklerElem));
+		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
+		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
+
+		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
+		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
+		//uiElems.advExposureCoefElem.value = -1; //TODO not on API/DB
+		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value;
+		zoneAdvProperties.soilIntakeRate = uiElems.advIntakeRateElem.value;
+		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value;
+		zoneAdvProperties.precipitationRate = uiElems.advPrecipRateElem.value
+		zoneAdvProperties.rootDepth = uiElems.advRootDepthElem.value;
+		zoneAdvProperties.allowedSurfaceAcc = uiElems.advSurfAccElem.value;
+		zoneAdvProperties.isTallPlant = uiElems.advTallElem.checked;
+		//uiElems.advVegCropElem.value = -1; //TODO not on API/DB
+		zoneAdvProperties.detailedMonthsKc = [];
+
+		for (var z = 0; z < 12; z++) {
+			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value);
+		}
 
 		if (uid == 1)
 		{
@@ -516,8 +562,8 @@ window.ui = window.ui || {};
 			Util.saveMasterValve(zoneProperties.master, b, a);
 		}
 
-		console.log("Saving zone %d with properties: %o", uid, zoneProperties);
-		API.setZonesProperties(uid, zoneProperties, null);
+		console.log("Saving zone %d with properties: %o and %o", uid, zoneProperties, zoneAdvProperties);
+		API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
 
 
 		closeZoneSettings();
@@ -528,8 +574,45 @@ window.ui = window.ui || {};
 		if (!uiElems.masterValveElem.checked) {
 			makeHidden(uiElems.masterTimerContainerElem);
 		} else {
-
 			makeVisible(uiElems.masterTimerContainerElem);
+		}
+	}
+
+	function onMonthsCoefChange() {
+		if (!uiElems.monthsCoefElem.checked) {
+			makeHidden(uiElems.advMonthsCoefElem);
+		} else {
+			makeVisible(uiElems.advMonthsCoefElem);
+		}
+	}
+
+	function onVegetationChange() {
+		toggleOtherOptions(uiElems.vegetationElem, uiElems.advVegElem);
+	}
+
+	function onSoilChange() {
+		toggleOtherOptions(uiElems.soilElem, uiElems.advSoilElem);
+	}
+
+	function onSprinklerChange() {
+		toggleOtherOptions(uiElems.sprinklerElem, uiElems.advSprinkerElem);
+	}
+
+	function onExposureChange() {
+		toggleOtherOptions(uiElems.exposureElem, uiElems.advExposureElem);
+	}
+
+	function onSlopeChange(){
+		toggleOtherOptions(uiElems.slopeElem, uiElems.advSlopeElem);
+	}
+
+	function toggleOtherOptions(selectElem, advContainer) {
+		var v = parseInt(getSelectValue(selectElem));
+		// API rule a type of 99 means Other/Custom settings
+		if (v == 99) {
+			makeVisible(advContainer);
+		} else {
+			makeHidden(advContainer);
 		}
 	}
 

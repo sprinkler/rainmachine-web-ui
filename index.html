@@ -328,7 +328,7 @@
 												<button id="restrictionsHotDaysSet" class="button label-blue center right">Set</button>
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
 												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
-													<span class="top15">Maximum percetage for over watering.</span>
+													<span class="top15">Maximum percentage for over watering.</span>
 													<input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %
 												</div>
 												<span class="cardTitle">Hot Days</span><br>
@@ -1495,7 +1495,7 @@
 								<option value="99">Other</option>
 							</select>
 							<!-- Slope "Other" options start -->
-							<div style="display:none;">
+							<div style="display:none;" rm-id="zone-slope-advanced">
 								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
 									<tr>
 										<td class="middle noborder" style="width:50%">Enter surface accumulation value:</td>
@@ -1508,24 +1508,24 @@
 					</tr>
 					<tr>
 						<td class="middle">Advanced Crop Coefficient (Kc)</td>
-						<td class="middle"><input rm-id="zone-month-crop" type="checkbox">
-							<div style="display:none;">
+						<td class="middle"><input rm-id="zone-months-coef-enable" type="checkbox">
+							<div style="display:none;" rm-id="zone-months-coef-advanced">
 								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
 									<tr>
-										<td class="middle noborder center">Jan<br><input rm-id="zone-month-crop1" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Feb<br><input rm-id="zone-month-crop2" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Mar<br><input rm-id="zone-month-crop3" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Apr<br><input rm-id="zone-month-crop4" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">May<br><input rm-id="zone-month-crop5" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Jun<br><input rm-id="zone-month-crop6" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Jan<br><input rm-id="zone-months-coef0" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Feb<br><input rm-id="zone-months-coef1" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Mar<br><input rm-id="zone-months-coef2" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Apr<br><input rm-id="zone-months-coef3" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">May<br><input rm-id="zone-months-coef4" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Jun<br><input rm-id="zone-months-coef5" type="number" class="typeNumber" /></td>
 									</tr>
 									<tr>
-										<td class="middle noborder center">Jul<br><input rm-id="zone-month-crop7" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Aug<br><input rm-id="zone-month-crop8" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Sep<br><input rm-id="zone-month-crop9" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Oct<br><input rm-id="zone-month-crop10" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Nov<br><input rm-id="zone-month-crop11" type="number" class="typeNumber" /></td>
-										<td class="middle noborder center">Dec<br><input rm-id="zone-month-crop12" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Jul<br><input rm-id="zone-months-coef6" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Aug<br><input rm-id="zone-months-coef7" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Sep<br><input rm-id="zone-months-coef8" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Oct<br><input rm-id="zone-months-coef9" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Nov<br><input rm-id="zone-months-coef10" type="number" class="typeNumber" /></td>
+										<td class="middle noborder center">Dec<br><input rm-id="zone-months-coef11" type="number" class="typeNumber" /></td>
 									</tr>
 								</table>
 							</div>

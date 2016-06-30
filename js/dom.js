@@ -120,6 +120,14 @@ function setSelectOption(e, str, matchValue)
 	return false;
 }
 
+function getSelectValue(e) {
+	if (e === null) {
+		return null;
+	}
+
+	return e.options[e.selectedIndex].value
+}
+
 function isVisible(tag)
 {
 	var e;
