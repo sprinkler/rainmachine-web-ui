@@ -328,7 +328,7 @@
 												<button id="restrictionsHotDaysSet" class="button label-blue center right">Set</button>
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
 												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
-													<span class="top15">Maximum percentage for over watering.</span>
+													<span class="top15">Maximum percentage for over watering:</span>
 													<input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %
 												</div>
 												<span class="cardTitle">Hot Days</span><br>
@@ -1349,14 +1349,15 @@
 						<td class="middle noborder">Enable Zone 1 as master valve (pump):</td>
 						<td class="middle noborder"><input type="checkbox" rm-id="zone-master-valve"/></td>
 					</tr>
-					<tr rm-id="zone-master-valve-timer">
-						<td class="middle" colspan="2">Start master valve
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0"> minutes
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds <u>before</u> and
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0"> minutes
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds <u>after</u> each cycle/program.
+					<tr>
+						<td class="middle" colspan="2">
+							<div rm-id="zone-master-valve-timer">
+								Start master valve <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0"> minutes
+								<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and
+								<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0"> minutes
+								<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds after each cycle/program.
+							</div>
 						</td>
-
 					</tr>
 					<!-- Start Zone Basic & Advanced Settings -->
 					<tr><td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Basic Zone Settings</td></tr>
@@ -1476,7 +1477,7 @@
 							<div style="display:none;" rm-id="zone-exposure-advanced">
 								<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
 									<tr>
-										<td class="middle noborder" style="width:50%">Exposure coefficient (from 0.10 to 1.00):</td>
+										<td class="middle noborder" style="width:50%">Exposure coefficient:</td>
 										<td class="middle noborder" style="padding:0;"><input rm-id="zone-exposure-coef" type="number" class="typeNumber"></td>
 									</tr>
 								</table>
