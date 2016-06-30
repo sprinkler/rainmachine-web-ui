@@ -455,7 +455,7 @@ _API.prototype.setZonesProperties = function(id, properties, advancedProperties)
 	var data = properties;
 
 	if (advancedProperties !== undefined && advancedProperties !== null)
-		data.advanced = advancedProperties;
+		data.waterSense = advancedProperties;
 
 	return this.post(url, data, null);
 }
