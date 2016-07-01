@@ -345,8 +345,8 @@ window.ui = window.ui || {};
 		uiElems.advPrecipRateElem.value = zone.waterSense.precipitationRate;
 		uiElems.advRootDepthElem.value = zone.waterSense.rootDepth;
 		uiElems.advSurfAccElem.value = zone.waterSense.allowedSurfaceAcc;
-		uiElems.advTallElem.checked = zone.waterSense.isTallPlant; //TODO redundant
-		uiElems.advVegCropElem.value = -1; //TODO not on API/DB
+		uiElems.advTallElem.checked = zone.waterSense.isTallPlant;
+		uiElems.advVegCropElem.value = zone.ETcoef;
 
 		var monthsCoef = zone.waterSense.detailedMonthsKc;
 		for (z = 0; z < monthsCoef.length; z++) {
@@ -526,6 +526,9 @@ window.ui = window.ui || {};
 		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
 		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
 
+		// The custom crop coef is not saved to advanced properties
+		zoneProperties.ETcoef = uiElems.advVegCropElem.value;
+
 		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
 		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
 		//uiElems.advExposureCoefElem.value = -1; //TODO not on API/DB
@@ -536,7 +539,6 @@ window.ui = window.ui || {};
 		zoneAdvProperties.rootDepth = uiElems.advRootDepthElem.value;
 		zoneAdvProperties.allowedSurfaceAcc = uiElems.advSurfAccElem.value;
 		zoneAdvProperties.isTallPlant = uiElems.advTallElem.checked;
-		//uiElems.advVegCropElem.value = -1; //TODO not on API/DB
 		zoneAdvProperties.detailedMonthsKc = [];
 
 		for (var z = 0; z < 12; z++) {
