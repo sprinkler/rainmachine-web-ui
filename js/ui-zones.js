@@ -257,9 +257,6 @@ window.ui = window.ui || {};
 		templateInfo.advPrecipRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-preciprate"]');
 		templateInfo.advAppEffElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-appefficiency"]');
 
-		templateInfo.advExposureElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-advanced"]');
-		templateInfo.advExposureCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-exposure-coef"]');
-
 		// Watersense crop coef for each month
 		templateInfo.advMonthsCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-months-coef-advanced"]');
 		templateInfo.advMonthsCoef = [];
@@ -325,20 +322,17 @@ window.ui = window.ui || {};
 		uiElems.vegetationElem.onchange = onVegetationChange;
 		uiElems.soilElem.onchange = onSoilChange;
 		uiElems.sprinklerElem.onchange = onSprinklerChange;
-		uiElems.exposureElem.onchange = onExposureChange;
 		uiElems.slopeElem.onchange = onSlopeChange;
 		uiElems.monthsCoefElem.onclick = onMonthsCoefChange;
 		onVegetationChange();
 		onSoilChange();
 		onSprinklerChange();
-		onExposureChange();
 		onSlopeChange();
 		onMonthsCoefChange();
 
 		// Advanced Custom values
 		uiElems.advAppEffElem.value = zone.waterSense.appEfficiency;
 		uiElems.advDepletionElem.value = zone.waterSense.maxAllowedDepletion;
-		uiElems.advExposureCoefElem.value = -1; //TODO not on API/DB
 		uiElems.advFieldCapElem.value = zone.waterSense.fieldCapacity;
 		uiElems.advIntakeRateElem.value = zone.waterSense.soilIntakeRate;
 		uiElems.advPermWiltingElem.value = zone.waterSense.permWilting;
@@ -525,13 +519,11 @@ window.ui = window.ui || {};
 		zoneProperties.group_id = parseInt(getSelectValue(uiElems.sprinklerElem));
 		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
 		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
-
 		// The custom crop coef is not saved to advanced properties
 		zoneProperties.ETcoef = uiElems.advVegCropElem.value;
 
 		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
 		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
-		//uiElems.advExposureCoefElem.value = -1; //TODO not on API/DB
 		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value;
 		zoneAdvProperties.soilIntakeRate = uiElems.advIntakeRateElem.value;
 		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value;
@@ -598,10 +590,6 @@ window.ui = window.ui || {};
 
 	function onSprinklerChange() {
 		toggleOtherOptions(uiElems.sprinklerElem, uiElems.advSprinkerElem);
-	}
-
-	function onExposureChange() {
-		toggleOtherOptions(uiElems.exposureElem, uiElems.advExposureElem);
 	}
 
 	function onSlopeChange(){
