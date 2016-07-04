@@ -1768,8 +1768,8 @@
 									<tr>
 										<td colspan="2">
 											<span class="middle cardTitle"><input type="checkbox" rm-id="program-cycle-soak"> Cycles &amp Soak</span>
+											<div rm-id="program-cycles-container">
 											<br><br>
-											<div rm-id="" style="display:;">
 												<div class="onoffswitch">
 													<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
 													<label class="onoffswitch-label" for="myonoffswitch">
@@ -1788,10 +1788,12 @@
 									<tr>
 										<td colspan="2">
 											<span class="middle cardTitle"><input type="checkbox" rm-id="program-delay-zones"> Delay between zones</span><br/><br/>
-											<div rm-id="" style="display: ;">
-												<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber"> min
-												:
-												<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber"> sec
+											<div rm-id="program-delay-container">
+												<div rm-id="" style="display: ;">
+													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber"> min
+													:
+													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber"> sec
+												</div>
 											</div>
 										</td>
 									</tr>

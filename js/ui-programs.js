@@ -261,7 +261,7 @@ window.ui = window.ui || {};
         uiElems.weatherDataElem.checked = true;
         uiElems.nextRun.innerText = "";
 
-        uiElems.frequencyWeekdaysContainerElem.style.display = "none";
+        makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
             if(uiElems.frequencyWeekdaysElemCollection.hasOwnProperty(weekday)) {
                 var elem = uiElems.frequencyWeekdaysElemCollection[weekday];
@@ -331,7 +331,7 @@ window.ui = window.ui || {};
             } else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
                 fillWeekdaysFromParam(program.frequency.param);
                 uiElems.frequencyWeekdaysElem.checked = true;
-                uiElems.frequencyWeekdaysContainerElem.style.display = "block";
+				makeVisibleBlock(uiElems.frequencyWeekdaysContainerElem);
             } else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
                 var param = parseInt(program.frequency.param);
                 if (param % 2 === FrequencyParam.Odd) { // Odd
@@ -394,6 +394,13 @@ window.ui = window.ui || {};
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
         uiElems.frequencyOddElem.onchange = onFrequencyChanged;
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
+		uiElems.cyclesSoakElem.onclick = onCycleAndSoakEnabled;
+		uiElems.delayZonesElem.onclick = onDelayBetweenZonesEnabled;
+
+		//---------------------------------------------------------------------------------------
+		// Set default state
+		onCycleAndSoakEnabled();
+		onDelayBetweenZonesEnabled();
 
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
@@ -427,6 +434,7 @@ window.ui = window.ui || {};
 		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
 
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
+		templateInfo.cyclesContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-container"]');
         templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
@@ -434,6 +442,7 @@ window.ui = window.ui || {};
 		templateInfo.cyclesElem.oninput = onCycleAndSoakChange;
 		templateInfo.soakElem.oninput = onCycleAndSoakChange;
 
+		templateInfo.delayContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-container"]');
         templateInfo.delayZonesMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-min"]');
         templateInfo.delayZonesSecElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-sec"]');
         templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones"]');
@@ -677,6 +686,7 @@ window.ui = window.ui || {};
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
     }
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -785,6 +795,15 @@ window.ui = window.ui || {};
 		console.log("Cycles: %s", cycles);
 	}
 
+
+	function onCycleAndSoakEnabled() {
+		if (uiElems.cyclesSoakElem.checked) {
+			makeVisible(uiElems.cyclesContainerElem);
+		} else {
+			makeHidden(uiElems.cyclesContainerElem);
+		}
+	}
+
 	function onDelayBetweenZonesChange() {
 		var min = parseInt(uiElems.delayZonesMinElem.value) || 0;
 		var sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
@@ -796,6 +815,14 @@ window.ui = window.ui || {};
 			uiElems.delayZonesElem.checked = true;
 		} else {
 			uiElems.delayZonesElem.checked = false;
+		}
+	}
+
+	function onDelayBetweenZonesEnabled() {
+		if (uiElems.delayZonesElem.checked) {
+			makeVisible(uiElems.delayContainerElem);
+		} else {
+			makeHidden(uiElems.delayContainerElem);
 		}
 	}
 
