@@ -809,11 +809,11 @@ input.typeRadio {
 input.typeNumber,
 input.typeTime {
   margin: 5px 0;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   width: 60px;
-  height: 32px;
+  height: 46px;
 }
 
 input.typeTime {
@@ -1629,6 +1629,11 @@ td.right,
   }
   .zoneListName {
     overflow: hidden;
+  }
+  .autoTime {
+    font-size: 18px;
+    padding: 2px;
+    color: #39c;
   }
   .iconsMenu {
     float:left;
