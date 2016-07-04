@@ -1771,13 +1771,14 @@
 											<div rm-id="program-cycles-container">
 											<br><br>
 												<div class="onoffswitch">
-													<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-													<label class="onoffswitch-label" for="myonoffswitch">
+													<input type="checkbox" class="onoffswitch-checkbox" rm-id="program-cycles-auto" id="onoffswitch">
+													<label class="onoffswitch-label" for="onoffswitch">
 														<span class="onoffswitch-inner"></span>
 														<span class="onoffswitch-switch"></span>
 													</label>
 												</div>
-												<div style="display: inline-block;vertical-align:text-bottom;margin-bottom: -2px;margin-left: 10px;">
+												<!--style="display: inline-block;vertical-align:text-bottom;margin-bottom: -2px;margin-left: 10px;"-->
+												<div rm-id="program-cycles-manual">
 													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
 													&nbsp;&nbsp;&nbsp;
 													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
