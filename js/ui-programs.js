@@ -365,8 +365,9 @@ window.ui = window.ui || {};
             if (wateringTimeList) {
                 for (var index = 0; index < wateringTimeList.length; index++) {
                     var wateringTime = wateringTimeList[index];
+					var zoneId = wateringTime.id;
 
-                    var zoneTemplateElem = uiElems.zoneElems[wateringTime.id];
+                    var zoneTemplateElem = uiElems.zoneElems[zoneId];
 
                     var duration = {min: 0, sec: 0};
 
@@ -380,10 +381,22 @@ window.ui = window.ui || {};
                         duration.min = duration.sec = "";
                     }
 
-                    zoneTemplateElem.nameElem.textContent = wateringTime.id + ". " + wateringTime.name;
+                    zoneTemplateElem.nameElem.textContent = zoneId + ". " + wateringTime.name;
                     zoneTemplateElem.durationMinElem.value = duration.min;
                     zoneTemplateElem.durationSecElem.value = duration.sec;
-                    zoneTemplateElem.activeElem.checked = wateringTime.active;
+
+					var durationType = 0; // Skip watering
+					if (wateringTime.active) {
+						if (wateringTime.duration > 0) {
+							durationType = 2; // Manual timer
+						} else {
+							durationType = 1; // Auto timer
+						}
+					}
+
+					setSelectOption(zoneTemplateElem.durationTypeElem, durationType, true);
+					onZoneDurationTypeChange(zoneId);
+
                 }
             }
         }
@@ -480,36 +493,47 @@ window.ui = window.ui || {};
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
+			var zoneData = Data.zoneData.zones[index];
 
             var zoneTemplate = loadTemplate("program-settings-zone-template");
 
             var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
-            var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
+			var zoneDurationTypeElem = $(zoneTemplate, '[rm-id="program-zone-duration-type"]');
+			var zoneDurationAutoElem = $(zoneTemplate, '[rm-id="program-zone-duration-auto"]');
+			var zoneDurationManualElem = $(zoneTemplate, '[rm-id="program-zone-duration-manual"]');
+			var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
             var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
-            var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
 
-			if (Data.zoneData.zones[index]) {
-				zoneNameElem.innerText = zoneId + ". " + Data.zoneData.zones[index].name;
+			if (zoneData) {
+				zoneNameElem.innerText = zoneId + ". " + zoneData.name;
 			} else {
 				zoneNameElem.innerText = "Zone " + zoneId;
 			}
 
             zoneTemplate.setAttribute("rm-zone-id", zoneId);
-			zoneDurationMinElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
-			zoneDurationSecElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
+			//zoneDurationMinElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
+			//zoneDurationSecElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
+			zoneDurationTypeElem.onchange = (function(id) { return function() { onZoneDurationTypeChange(id); } })(zoneId);
 
             templateInfo.zoneElems[zoneId] = {
                 templateElem: zoneTemplate,
                 nameElem: zoneNameElem,
+				durationTypeElem: zoneDurationTypeElem,
+				durationAutoElem: zoneDurationAutoElem,
+				durationManualElem: zoneDurationManualElem,
                 durationMinElem: zoneDurationMinElem,
-                durationSecElem: zoneDurationSecElem,
-                activeElem: zoneActiveElem
+                durationSecElem: zoneDurationSecElem
             };
 
             //Don't show zone 1 when master valve is enabled
             if (Data.provision.system.useMasterValve && index == 0) {
                 zoneTemplate.style.display = "none";
             }
+
+			//Don't show inactive zones
+			if (zoneData && !zoneData.active) {
+				zoneTemplate.style.display = "none";
+			}
 
             templateInfo.zoneTableElem.appendChild(zoneTemplate);
         }
@@ -536,7 +560,7 @@ window.ui = window.ui || {};
         }
 
         program.name = uiElems.nameElem.value;
-        program.active = uiElems.activeElem.checked;
+        program.active = uiElems.active;
         program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
 		if (uiElems.startTimeSunElem.checked) {
@@ -614,7 +638,7 @@ window.ui = window.ui || {};
             var wateringTime = {};
 
             wateringTime.id = parseInt(zoneId);
-            wateringTime.active = zoneTemplateElem.activeElem.checked;
+            wateringTime.active = getSelectValue(zoneTemplateElem.durationTypeElem) > 0 ? true:false;
             wateringTime.duration = duration.min * 60 + duration.sec;
 
             program.wateringTimes.push(wateringTime);
@@ -767,21 +791,33 @@ window.ui = window.ui || {};
         }
     }
 
-	function onZoneTimerChange(id) {
+	function onZoneDurationTypeChange(id) {
 		var zoneElems = uiElems.zoneElems;
 
-		if (!zoneElems.hasOwnProperty(id)) {
+		if (!zoneElems || !zoneElems.hasOwnProperty(id)) {
 			return;
 		}
 
 		var zoneTemplateElem = uiElems.zoneElems[id];
-		var min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
-		var sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
+		var durationType = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem));
 
-		if (min !== 0  || sec !== 0) {
-			zoneTemplateElem.activeElem.checked = true;
-		} else {
-			zoneTemplateElem.activeElem.checked = false;
+		zoneTemplateElem.nameElem.style.color = "#888";
+		switch (durationType) {
+			case 0:
+				makeHidden(zoneTemplateElem.durationManualElem);
+				makeHidden(zoneTemplateElem.durationAutoElem);
+				zoneTemplateElem.nameElem.style.color = "#ddd";
+				break;
+
+			case 1:
+				makeHidden(zoneTemplateElem.durationManualElem);
+				makeVisible(zoneTemplateElem.durationAutoElem);
+				break;
+
+			case 2:
+				makeVisible(zoneTemplateElem.durationManualElem);
+				makeHidden(zoneTemplateElem.durationAutoElem);
+				break;
 		}
 	}
 
