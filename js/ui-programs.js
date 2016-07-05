@@ -316,11 +316,22 @@ window.ui = window.ui || {};
 
             uiElems.nextRun.innerText = getProgramNextRunAsString(program.nextRun);
 
-            uiElems.cyclesSoakElem.checked = program.cs_on;
-			uiElems.cyclesAutoElem.checked = program.cycles < 0 ? true : false;
+			var cyclesType = 0;
+
+			if (program.cs_on) {
+				if (program.cycles < 0) {
+					cyclesType = 1;
+				} else {
+					cyclesType = 2;
+				}
+			}
+
+			setSelectOption(uiElems.cyclesTypeElem, cyclesType, true);
+
 			uiElems.cyclesElem.value = program.cycles;
             uiElems.soakElem.value = soakMins;
-            uiElems.delayZonesMinElem.value = delay.min;
+
+			uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
             uiElems.delayZonesElem.checked = program.delay_on;
 
@@ -408,15 +419,14 @@ window.ui = window.ui || {};
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
         uiElems.frequencyOddElem.onchange = onFrequencyChanged;
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
-		uiElems.cyclesSoakElem.onclick = onCycleAndSoakEnabled;
 		uiElems.delayZonesElem.onclick = onDelayBetweenZonesEnabled;
-		uiElems.cyclesAutoElem.onclick = onCycleAndSoakAutoEnabled;
+
 
 		//---------------------------------------------------------------------------------------
 		// Set default state
-		onCycleAndSoakEnabled();
+		//onCycleAndSoakEnabled();
 		onDelayBetweenZonesEnabled();
-		onCycleAndSoakAutoEnabled();
+		//onCycleAndSoakAutoEnabled();
 
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
@@ -451,15 +461,10 @@ window.ui = window.ui || {};
 
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
 
-		templateInfo.cyclesContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-container"]');
-		templateInfo.cyclesAutoElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-auto"]');
+		templateInfo.cyclesTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-type"]');
 		templateInfo.cyclesManualElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-manual"]');
-        templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
-
-		templateInfo.cyclesElem.oninput = onCycleAndSoakChange;
-		templateInfo.soakElem.oninput = onCycleAndSoakChange;
 
 		templateInfo.delayContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-container"]');
         templateInfo.delayZonesMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-min"]');
@@ -488,6 +493,8 @@ window.ui = window.ui || {};
             monday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-monday"]')
         };
 
+		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
+
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
 
@@ -511,8 +518,6 @@ window.ui = window.ui || {};
 			}
 
             zoneTemplate.setAttribute("rm-zone-id", zoneId);
-			//zoneDurationMinElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
-			//zoneDurationSecElem.oninput = (function(id) { return function() { onZoneTimerChange(id); } })(zoneId);
 			zoneDurationTypeElem.onchange = (function(id) { return function() { onZoneDurationTypeChange(id); } })(zoneId);
 
             templateInfo.zoneElems[zoneId] = {
@@ -580,8 +585,9 @@ window.ui = window.ui || {};
 			program.startTime = startTime.hour + ":" + startTime.min;
 		}
 
-        program.cs_on = uiElems.cyclesSoakElem.checked;
-		program.cycles = uiElems.cyclesAutoElem.checked ?  -1 : parseInt(uiElems.cyclesElem.value || 0);
+		var cyclesType = getSelectValue(uiElems.cyclesTypeElem);
+        program.cs_on = cyclesType > 0 ? true:false;
+		program.cycles = cyclesType == 1 ?  -1 : parseInt(uiElems.cyclesElem.value || 0);
         program.soak = soakMins * 60;
         program.delay_on = uiElems.delayZonesElem.checked;
         program.delay = delay.min * 60 + delay.sec;
@@ -821,36 +827,23 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function onCycleAndSoakChange() {
+	function onCycleAndSoakTypeChange() {
+		var cyclesType = parseInt(getSelectValue(uiElems.cyclesTypeElem) || 0);
 		var soak = parseInt(uiElems.soakElem.value) || 0;
 		var cycles = parseInt(uiElems.cyclesElem.value) || 0;
 
-		if (soak > 0 && cycles > 1) {
-			uiElems.cyclesSoakElem.checked = true;
-		} else {
-			uiElems.cyclesSoakElem.checked = false;
+		switch (cyclesType) {
+			case 0:
+			case 1:
+				makeHidden(uiElems.cyclesManualElem);
+				break;
+			case 2:
+				makeVisible(uiElems.cyclesManualElem);
+				break;
 		}
 
 		console.log("Soak: %s", soak);
 		console.log("Cycles: %s", cycles);
-	}
-
-	function onCycleAndSoakEnabled() {
-		if (uiElems.cyclesSoakElem.checked) {
-			makeVisible(uiElems.cyclesContainerElem);
-		} else {
-			makeHidden(uiElems.cyclesContainerElem);
-		}
-	}
-
-	function onCycleAndSoakAutoEnabled() {
-		if (uiElems.cyclesAutoElem.checked) {
-			makeHidden(uiElems.cyclesManualElem);
-		} else {
-			makeVisible(uiElems.cyclesManualElem);
-			uiElems.cyclesElem.value = 2;
-		}
-
 	}
 
 	function onDelayBetweenZonesChange() {

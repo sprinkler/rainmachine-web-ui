@@ -1769,25 +1769,16 @@
 										<td colspan="2">
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Cycles &amp Soak</div>
 											<div style="display: inline-block;float:right;text-align:right;">
-												<select class="selectSmall">
-													<option value="1" selected>OFF</option>
-													<option value="2">Auto</option>
-													<option value="3">Manual</option>
+												<select class="selectSmall" rm-id="program-cycles-type">
+													<option value="0" selected>OFF</option>
+													<option value="1">Auto</option>
+													<option value="2">Manual</option>
 												</select>
-												<div class="onoffswitch" rm-id="program-cycles-container">
-													<br>
-													<input type="checkbox" class="onoffswitch-checkbox" rm-id="program-cycles-auto" id="onoffswitch">
-													<label class="onoffswitch-label" for="onoffswitch">
-														<span class="onoffswitch-inner"></span>
-														<span class="onoffswitch-switch"></span>
-													</label>
-													<div rm-id="program-cycles-manual">
-														<br><br>
-														<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
-														&nbsp;&nbsp;&nbsp;
-														<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
-													</div>
-													<input type="checkbox" rm-id="program-cycle-soak">
+												<div style="display: none" rm-id="program-cycles-manual">
+													<br><br>
+													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
+													&nbsp;&nbsp;&nbsp;
+													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
 												</div>
 											</div>
 										</td>
@@ -1797,8 +1788,8 @@
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Delay between zones</div>
 											<div style="display:inline-block;float:right;text-align:right;">
 												<select class="selectSmall">
-													<option value="1" selected>OFF</option>
-													<option value="2">Manual</option>
+													<option value="0" selected>OFF</option>
+													<option value="1">Manual</option>
 												</select>
 												<span rm-id="program-delay-container">
 													<br>
