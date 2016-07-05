@@ -1361,7 +1361,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td class="noborder">
 							<div rm-id="zone-basic-advanced-settings">
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<!-- Start Zone Basic & Advanced Settings -->
@@ -1767,35 +1767,48 @@
 									</tr>
 									<tr>
 										<td colspan="2">
-											<span class="middle cardTitle"><input type="checkbox" rm-id="program-cycle-soak"> Cycles &amp Soak</span>
-											<div rm-id="program-cycles-container">
-											<br><br>
-												<div class="onoffswitch">
+											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Cycles &amp Soak</div>
+											<div style="display: inline-block;float:right;text-align:right;">
+												<select class="selectSmall">
+													<option value="1" selected>OFF</option>
+													<option value="2">Auto</option>
+													<option value="3">Manual</option>
+												</select>
+												<div class="onoffswitch" rm-id="program-cycles-container">
+													<br>
 													<input type="checkbox" class="onoffswitch-checkbox" rm-id="program-cycles-auto" id="onoffswitch">
 													<label class="onoffswitch-label" for="onoffswitch">
 														<span class="onoffswitch-inner"></span>
 														<span class="onoffswitch-switch"></span>
 													</label>
-												</div>
-												<!--style="display: inline-block;vertical-align:text-bottom;margin-bottom: -2px;margin-left: 10px;"-->
-												<div rm-id="program-cycles-manual">
-													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
-													&nbsp;&nbsp;&nbsp;
-													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
+													<div rm-id="program-cycles-manual">
+														<br><br>
+														<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
+														&nbsp;&nbsp;&nbsp;
+														<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
+													</div>
+													<input type="checkbox" rm-id="program-cycle-soak">
 												</div>
 											</div>
 										</td>
 									</tr>
 									<tr>
 										<td colspan="2">
-											<span class="middle cardTitle"><input type="checkbox" rm-id="program-delay-zones"> Delay between zones</span><br/><br/>
-											<div rm-id="program-delay-container">
-												<div rm-id="" style="display: ;">
+											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Delay between zones</div>
+											<div style="display:inline-block;float:right;text-align:right;">
+												<select class="selectSmall">
+													<option value="1" selected>OFF</option>
+													<option value="2">Manual</option>
+												</select>
+												<span rm-id="program-delay-container">
+													<br>
 													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber"> min
 													:
 													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber"> sec
-												</div>
+													<input type="checkbox" rm-id="program-delay-zones">
+												</span>
 											</div>
+
 										</td>
 									</tr>
 								</tbody>
@@ -1804,8 +1817,34 @@
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 								<tr>
-									<td colspan="2" class="cardTitle">Add zones and watering times (mm:ss)</td>
+									<td class="cardTitle">Add zones and watering times (mm:ss)</td>
 								</tr>
+								<!-- Start program settings zones template -->
+								<tr>
+									<td class="middle">
+										<div class="right">
+											<div style="display:block;">
+												<select class="selectSmall">
+													<option value="1" selected>No time</option>
+													<option value="2">Auto</option>
+													<option value="3">Manual</option>
+												</select>
+											</div>
+											<!-- Auto time start -->
+											<div style="display:none;font-size:18px;color: #3399cc;margin-top: 10px;">03:00 min</div>
+											<!-- Auto time end -->
+											<!-- Manual time start -->
+											<div style="display:none;margin-top: 10px;">
+												<input type="number" min="0" max="1439" class="typeNumber" placeholder="00">
+												:
+												<input type="number" min="0" max="59" class="typeNumber" placeholder="00">
+											</div>
+											<!-- Manual time end -->
+										</div>
+										<div class="zoneListName" style="padding:10px 0;width:70%;">My beautiful zone name custom long enough</div>
+									</td>
+								</tr>
+								<!-- End program settings zones template -->
 							</table>
 						</td>
 						</tr>
@@ -1817,18 +1856,18 @@
 
 		<!-- Template for Program Settings Zone Watering Times (Start) -->
 		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
-				<div id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
-						<span class="right" style="padding-top:10px;">
-							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
-								:
-							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-							<input type="checkbox" rm-id="program-zone-active"/>
-						</span>
-						<span rm-id="program-zone-name" class="zoneListName" style="width:60%;min-width:40%;padding-left:0;padding-top:22px;">Zone 1</span>
+			<div id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
+				<div rm-id="program-zone-name" class="zoneListName" style="width:60%;min-width:40%;padding-left:0;padding-top:22px;">Zone 1</div>
+				<div class="right" style="padding-top:8px;">
+					<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
+					:
+					<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
+					<input type="checkbox" rm-id="program-zone-active"/>
+
 				</div>
+			</div>
 		</div>
 		<!-- Template for Program Settings Zone Watering Times (End) -->
-
 
 		<!-- Template for New Hourly Restrictions (Start) -->
 		<div id="restrictions-hourly-new-teplate">

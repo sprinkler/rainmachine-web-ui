@@ -216,7 +216,7 @@ strong { font-weight: 700; }
 .program-td-next-run {
   background-color:#39c;
   color:#fff;
-  padding:30px;
+  padding:10px 30px;
 }
 .programUsedWeather {
   font-size: 12px;
@@ -809,11 +809,11 @@ input.typeRadio {
 input.typeNumber,
 input.typeTime {
   margin: 5px 0;
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   width: 60px;
-  height: 32px;
+  height: 46px;
 }
 
 input.typeTime {
@@ -1630,6 +1630,11 @@ td.right,
   .zoneListName {
     overflow: hidden;
   }
+  .autoTime {
+    font-size: 18px;
+    padding: 2px;
+    color: #39c;
+  }
   .iconsMenu {
     float:left;
     margin-left:10em;
@@ -1677,51 +1682,3 @@ td.right,
   }
 }
 /* MEDIA QUERIES END */
-/* Auto & Manual switch start */
-.onoffswitch {
-  display: inline-block;
-  position: relative; width: 100px;
-  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-  display: none;
-}
-.onoffswitch-label {
-  display: block; overflow: hidden; cursor: pointer;
-  border: 1px solid #dddddd;
-}
-.onoffswitch-inner {
-  display: block; width: 200%; margin-left: -100%;
-  transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-  display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-  font-size: 14px; color: white;
-  box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-  content: "AUTO";
-  text-align: center;
-  background-color: #3399cc; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-  content: "MANUAL";
-  background-color: #FFFFFF; color: #3399cc;
-  text-align: center;
-}
-.onoffswitch-switch {
-  display: none; width: 20px; margin: 5px;
-  background: #3399cc;
-  position: absolute; top: 0; bottom: 0;
-  right: 83px;
-  border: 0 solid #dddddd;
-  transition: all 0.3s ease-in 0s;
-  opacity: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-  margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-  right: 0px;
-}
-/* Auto & Manual switch end */
