@@ -356,7 +356,7 @@ sup { font-size: 12px }
 .halfRight{
   padding-left: 4%;
 }
-.zoneListName { width: 85%; }
+.zoneListName { width: 48%; }
 .overTop {
   position: fixed;
   top: 0;
@@ -808,12 +808,11 @@ input.typeRadio {
 }
 input.typeNumber,
 input.typeTime {
-  margin: 5px 0;
   border: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   width: 60px;
-  height: 46px;
+  height: 44px;
 }
 
 input.typeTime {
@@ -999,9 +998,9 @@ select, .selectSmall {
 }
 .programEdit {
   background-color: #fff;
-  width: 70%;
+  width: 90%;
   min-width:826px;
-  margin: 25px auto;
+  margin: 15px auto;
   border-radius: 10px;
   z-index: 3;
 }
@@ -1544,7 +1543,6 @@ td.right,
   .homeScreenMain {
     text-align: left;
   }
-  /*#name { display: none }*/
   h1.title, h1.titleHome {
     font-size: 130%;
   }
@@ -1567,8 +1565,7 @@ td.right,
     font-size: 10px;
   }
   .program-title-next-run {
-    /*height: 164px;*/
-    width: 34%;
+    width: 27%;
   }
   .pageHeader {
     height: 80px;
@@ -1580,12 +1577,6 @@ td.right,
     width: 492px;
     margin-left: 30px;
   }
-/*  .zoneListName {
-    overflow: visible;
-  }*/
- /* .zone-line {
-    height:120px;
-  }*/
   .master {
     height:70px;
   }
