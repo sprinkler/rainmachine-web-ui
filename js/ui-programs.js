@@ -32,6 +32,19 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
+	var CyclesType = {
+		Off: 0,
+		Auto: 1,
+		Manual: 2
+	};
+
+	var ZoneDurationType = CyclesType;
+
+	var DelayType = {
+		Off: 0,
+		Manual: 1
+	};
+
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -316,24 +329,22 @@ window.ui = window.ui || {};
 
             uiElems.nextRun.innerText = getProgramNextRunAsString(program.nextRun);
 
-			var cyclesType = 0;
-
+			var cyclesType = CyclesType.Off;
 			if (program.cs_on) {
 				if (program.cycles < 0) {
-					cyclesType = 1;
+					cyclesType = CyclesType.Auto;
 				} else {
-					cyclesType = 2;
+					cyclesType = CyclesType.Manual;
 				}
 			}
-
-			setSelectOption(uiElems.cyclesTypeElem, cyclesType, true);
-
 			uiElems.cyclesElem.value = program.cycles;
             uiElems.soakElem.value = soakMins;
+			setSelectOption(uiElems.cyclesTypeElem, cyclesType, true);
 
+			var delayType = program.delay_on ? DelayType.Manual:DelayType.Off;
 			uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
-            uiElems.delayZonesElem.checked = program.delay_on;
+			setSelectOption(uiElems.delayTypeElem, delayType, true);
 
             if (program.frequency.type === FrequencyType.Daily) { // Daily
                 uiElems.frequencyDailyElem.checked = true;
@@ -396,12 +407,12 @@ window.ui = window.ui || {};
                     zoneTemplateElem.durationMinElem.value = duration.min;
                     zoneTemplateElem.durationSecElem.value = duration.sec;
 
-					var durationType = 0; // Skip watering
+					var durationType = ZoneDurationType.Off; // Skip watering
 					if (wateringTime.active) {
 						if (wateringTime.duration > 0) {
-							durationType = 2; // Manual timer
+							durationType = ZoneDurationType.Manual; // Manual timer
 						} else {
-							durationType = 1; // Auto timer
+							durationType = ZoneDurationType.Auto; // Auto timer
 						}
 					}
 
@@ -419,14 +430,6 @@ window.ui = window.ui || {};
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
         uiElems.frequencyOddElem.onchange = onFrequencyChanged;
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
-		uiElems.delayZonesElem.onclick = onDelayBetweenZonesEnabled;
-
-
-		//---------------------------------------------------------------------------------------
-		// Set default state
-		//onCycleAndSoakEnabled();
-		onDelayBetweenZonesEnabled();
-		//onCycleAndSoakAutoEnabled();
 
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
@@ -466,13 +469,10 @@ window.ui = window.ui || {};
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
 
-		templateInfo.delayContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-container"]');
+		templateInfo.delayTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-type"]');
+		templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-manual"]');
         templateInfo.delayZonesMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-min"]');
         templateInfo.delayZonesSecElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-sec"]');
-        templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones"]');
-
-		templateInfo.delayZonesMinElem.oninput = onDelayBetweenZonesChange;
-		templateInfo.delayZonesSecElem.oninput = onDelayBetweenZonesChange;
 
         templateInfo.frequencyDailyElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-daily"]');
         templateInfo.frequencyOddElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-odd"]');
@@ -494,6 +494,7 @@ window.ui = window.ui || {};
         };
 
 		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
+		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
 
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
@@ -585,11 +586,13 @@ window.ui = window.ui || {};
 			program.startTime = startTime.hour + ":" + startTime.min;
 		}
 
-		var cyclesType = getSelectValue(uiElems.cyclesTypeElem);
-        program.cs_on = cyclesType > 0 ? true:false;
-		program.cycles = cyclesType == 1 ?  -1 : parseInt(uiElems.cyclesElem.value || 0);
+		var cyclesType = parseInt(getSelectValue(uiElems.cyclesTypeElem) || 0);
+        program.cs_on = cyclesType > CyclesType.Off ? true:false;
+		program.cycles = cyclesType == CyclesType.Auto ?  -1 : parseInt(uiElems.cyclesElem.value || 0);
         program.soak = soakMins * 60;
-        program.delay_on = uiElems.delayZonesElem.checked;
+
+		var delayType = parseInt(getSelectValue(uiElems.delayTypeElem) || 0);
+        program.delay_on = delayType == DelayType.Manual ? true:false;
         program.delay = delay.min * 60 + delay.sec;
 
         //---------------------------------------------------------------------------------------
@@ -644,7 +647,7 @@ window.ui = window.ui || {};
             var wateringTime = {};
 
             wateringTime.id = parseInt(zoneId);
-            wateringTime.active = getSelectValue(zoneTemplateElem.durationTypeElem) > 0 ? true:false;
+            wateringTime.active = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem)) > 0 ? true:false;
             wateringTime.duration = duration.min * 60 + duration.sec;
 
             program.wateringTimes.push(wateringTime);
@@ -807,22 +810,24 @@ window.ui = window.ui || {};
 		var zoneTemplateElem = uiElems.zoneElems[id];
 		var durationType = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem));
 
-		zoneTemplateElem.nameElem.style.color = "#888";
+
 		switch (durationType) {
-			case 0:
+			case ZoneDurationType.Off:
 				makeHidden(zoneTemplateElem.durationManualElem);
 				makeHidden(zoneTemplateElem.durationAutoElem);
-				zoneTemplateElem.nameElem.style.color = "#ddd";
+				zoneTemplateElem.nameElem.style.color = "#bbb";
 				break;
 
-			case 1:
+			case ZoneDurationType.Auto:
 				makeHidden(zoneTemplateElem.durationManualElem);
 				makeVisible(zoneTemplateElem.durationAutoElem);
+				zoneTemplateElem.nameElem.style.color = "#3399cc";
 				break;
 
-			case 2:
+			case ZoneDurationType.Manual:
 				makeVisible(zoneTemplateElem.durationManualElem);
 				makeHidden(zoneTemplateElem.durationAutoElem);
+				zoneTemplateElem.nameElem.style.color = "#888";
 				break;
 		}
 	}
@@ -833,12 +838,17 @@ window.ui = window.ui || {};
 		var cycles = parseInt(uiElems.cyclesElem.value) || 0;
 
 		switch (cyclesType) {
-			case 0:
-			case 1:
+			case CyclesType.Off:
+			case CyclesType.Auto:
 				makeHidden(uiElems.cyclesManualElem);
 				break;
-			case 2:
+			case CyclesType.Manual:
 				makeVisible(uiElems.cyclesManualElem);
+
+				// Put minimum manual cycles to 2 since Auto changes this to -1
+				if (uiElems.cyclesElem.value == -1) {
+					uiElems.cyclesElem.value = 2;
+				}
 				break;
 		}
 
@@ -846,25 +856,13 @@ window.ui = window.ui || {};
 		console.log("Cycles: %s", cycles);
 	}
 
-	function onDelayBetweenZonesChange() {
-		var min = parseInt(uiElems.delayZonesMinElem.value) || 0;
-		var sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
+	function onDelayZonesTypeChange() {
+		var delayType = parseInt(getSelectValue(uiElems.delayTypeElem) || 0);
 
-		console.log("Delay Minutes: %d", min);
-		console.log("Delay Seconds: %d", sec);
-
-		if (min !== 0 || sec !== 0) {
-			uiElems.delayZonesElem.checked = true;
+		if (delayType == DelayType.Manual) {
+			makeVisible(uiElems.delayZonesElem);
 		} else {
-			uiElems.delayZonesElem.checked = false;
-		}
-	}
-
-	function onDelayBetweenZonesEnabled() {
-		if (uiElems.delayZonesElem.checked) {
-			makeVisible(uiElems.delayContainerElem);
-		} else {
-			makeHidden(uiElems.delayContainerElem);
+			makeHidden(uiElems.delayZonesElem);
 		}
 	}
 
