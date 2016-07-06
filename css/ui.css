@@ -242,7 +242,7 @@ strong { font-weight: 700; }
   padding-top: 25px;
   padding-left: 10px;
   font-size: 18px;
-  color:#ddd;
+  color:#888;
 }
 .zoneListEdit, .programListEdit {
   display:none;
