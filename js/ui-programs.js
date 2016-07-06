@@ -340,11 +340,13 @@ window.ui = window.ui || {};
 			uiElems.cyclesElem.value = program.cycles;
             uiElems.soakElem.value = soakMins;
 			setSelectOption(uiElems.cyclesTypeElem, cyclesType, true);
+			onCycleAndSoakTypeChange();
 
 			var delayType = program.delay_on ? DelayType.Manual:DelayType.Off;
 			uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
 			setSelectOption(uiElems.delayTypeElem, delayType, true);
+			onDelayZonesTypeChange();
 
             if (program.frequency.type === FrequencyType.Daily) { // Daily
                 uiElems.frequencyDailyElem.checked = true;
