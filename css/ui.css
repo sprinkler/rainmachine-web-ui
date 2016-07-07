@@ -807,16 +807,16 @@ input.typeRadio {
   font-size: 16px;
 }
 input.typeNumber,
-input.typeTime {
+input.typeTime, input.typeNumberZone {
   border: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   width: 60px;
   height: 44px;
+  margin: 5px 0 5px 0;
 }
-
-input.typeTime {
-  width: 180px;
+input.typeNumberZone {
+  margin:0px;
 }
 input[type=file] {
   padding: 10px 10px 10px 0;
