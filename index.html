@@ -570,8 +570,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="rainSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="rainSensitivityDefault" class="button label-grey center right" value="80">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
 													<output for="rainSensitivity" id="outputRainSensitivity" class="weatherPercent">80</output>
@@ -587,8 +587,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="fieldCapacitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="fieldCapacityDefault" class="button label-grey center right" value="2" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="fieldCapacitySave" class="button label-blue center right">Save</button>
+												<button id="fieldCapacityDefault" class="button label-grey center right" value="2">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
 													<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
@@ -604,8 +604,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="windSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="windSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
 													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
@@ -1387,10 +1387,10 @@
 									</tr>
 									<tr>
 										<td class="middle">Water Budget:</td>
-										<td class="middle"><input type="range" min="0" max="100" value="50" id="waterBudget"
+										<td class="middle"><input type="range" min="0" max="200" value="50" id="waterBudget"
 																  step="1" oninput="outputUpdateWaterBudget(value)"
-																  width="100%">
-											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent">50
+																  width="100%" style="width:30%;margin: 0 5px 5px 0;">
+											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent" style="font-size: 22px;">50
 											</output>
 											<script>
 												function outputUpdateWaterBudget(waterbudget) {
@@ -1421,11 +1421,6 @@
 												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
 													   cellspacing="0">
 													<tr>
-														<td class="middle" style="width:50%">Crop Coefficient:</td>
-														<td style="padding:0;"><input rm-id="zone-vegetation-cropcoef"
-																					  type="number" class="typeNumber"></td>
-													</tr>
-													<tr>
 														<td class="middle" style="width:50%">Allowed Depletion:</td>
 														<td style="padding:0;"><input rm-id="zone-vegetation-depletion"
 																					  type="number" class="typeNumber"></td>
@@ -1441,11 +1436,66 @@
 																					  type="number" class="typeNumber"></td>
 													</tr>
 													<tr>
-														<td class="middle noborder" style="width:50%">The vegetation is
+														<td class="middle" style="width:50%">The vegetation is
 															tall?
 														</td>
-														<td class="middle noborder" style="padding:0;"><input
+														<td class="middle" style="padding:0;"><input
 																rm-id="zone-vegetation-tall" type="checkbox"></td>
+													</tr>
+													<tr>
+														<td class="middle noborder" style="width:50%">Crop Coefficient:</td>
+														<td class="noborder" style="padding:0 0 10px 0;">
+															<input rm-id="zone-vegetation-crop-coef-yearly" type="checkbox"> Yearly value: <input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber">
+															<div style="clear:both;">&nbsp;</div>
+															<input rm-id="zone-months-coef-enable" type="checkbox"> Monthly values:
+
+															<div style="display:none;" rm-id="zone-months-coef-advanced">
+																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
+																	   cellspacing="0">
+																	<tr>
+																		<td class="middle noborder center">Jan<br><input
+																				rm-id="zone-months-coef0" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Feb<br><input
+																				rm-id="zone-months-coef1" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Mar<br><input
+																				rm-id="zone-months-coef2" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Apr<br><input
+																				rm-id="zone-months-coef3" type="number" class="typeNumber"/>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="middle noborder center">May<br><input
+																				rm-id="zone-months-coef4" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Jun<br><input
+																				rm-id="zone-months-coef5" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Jul<br><input
+																				rm-id="zone-months-coef6" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Aug<br><input
+																				rm-id="zone-months-coef7" type="number" class="typeNumber"/>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="middle noborder center">Sep<br><input
+																				rm-id="zone-months-coef8" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Oct<br><input
+																				rm-id="zone-months-coef9" type="number" class="typeNumber"/>
+																		</td>
+																		<td class="middle noborder center">Nov<br><input
+																				rm-id="zone-months-coef10" type="number" class="typeNumber"/></td>
+																		<td class="middle noborder center">Dec<br><input
+																				rm-id="zone-months-coef11" type="number" class="typeNumber"/>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+														</td>
 													</tr>
 												</table>
 											</div>
@@ -1554,57 +1604,7 @@
 											<!-- Slope "Other" options end -->
 										</td>
 									</tr>
-									<tr>
-										<td class="middle">Advanced Crop Coefficient (Kc)</td>
-										<td class="middle"><input rm-id="zone-months-coef-enable" type="checkbox">
 
-											<div style="display:none;" rm-id="zone-months-coef-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
-													   cellspacing="0">
-													<tr>
-														<td class="middle noborder center">Jan<br><input
-																rm-id="zone-months-coef0" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Feb<br><input
-																rm-id="zone-months-coef1" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Mar<br><input
-																rm-id="zone-months-coef2" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Apr<br><input
-																rm-id="zone-months-coef3" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">May<br><input
-																rm-id="zone-months-coef4" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Jun<br><input
-																rm-id="zone-months-coef5" type="number" class="typeNumber"/>
-														</td>
-													</tr>
-													<tr>
-														<td class="middle noborder center">Jul<br><input
-																rm-id="zone-months-coef6" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Aug<br><input
-																rm-id="zone-months-coef7" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Sep<br><input
-																rm-id="zone-months-coef8" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Oct<br><input
-																rm-id="zone-months-coef9" type="number" class="typeNumber"/>
-														</td>
-														<td class="middle noborder center">Nov<br><input
-																rm-id="zone-months-coef10" type="number"
-																class="typeNumber"/></td>
-														<td class="middle noborder center">Dec<br><input
-																rm-id="zone-months-coef11" type="number"
-																class="typeNumber"/></td>
-													</tr>
-												</table>
-											</div>
-										</td>
-									</tr>
 									<!-- End Zone Basic & Advanced Settings -->
 								</table>
 							</div>
@@ -1769,16 +1769,16 @@
 										<td colspan="2">
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Cycles &amp Soak</div>
 											<div style="display: inline-block;float:right;text-align:right;">
+												<div style="display: none" rm-id="program-cycles-manual">
+													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumberZone"> cycles
+													&nbsp;&nbsp;&nbsp;
+													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumberZone"> min soak
+												</div>
 												<select class="selectSmall" rm-id="program-cycles-type">
 													<option value="0" selected>OFF</option>
 													<option value="1">Auto</option>
 													<option value="2">Manual</option>
 												</select>
-												<div style="display: none" rm-id="program-cycles-manual">
-													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
-													&nbsp;&nbsp;&nbsp;
-													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
-												</div>
 											</div>
 										</td>
 									</tr>
@@ -1786,17 +1786,16 @@
 										<td colspan="2">
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Delay between zones</div>
 											<div style="display:inline-block;float:right;text-align:right;">
+												<div rm-id="program-delay-zones-manual" style="display:none">
+													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumberZone" placeholder="00"> min
+													:
+													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumberZone" placeholder="00"> sec
+												</div>
 												<select class="selectSmall" rm-id="program-delay-zones-type">
 													<option value="0" selected>OFF</option>
 													<option value="1">Manual</option>
 												</select>
-												<div rm-id="program-delay-zones-manual" style="display:none">
-													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber"> min
-													:
-													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber"> sec
-												</div>
 											</div>
-
 										</td>
 									</tr>
 								</tbody>
@@ -1823,18 +1822,18 @@
 			<tr id="program-settings-zone-template">
 				<td class="middle">
 					<div class="right">
+						<div style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" rm-id="program-zone-duration-auto">03:00 min</div>
+						<div style="display: none;margin-top: 10px;" rm-id="program-zone-duration-manual">
+							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumberZone" placeholder="00">
+							:
+							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumberZone" placeholder="00">
+						</div>
 						<div style="display:inline-block;">
 							<select class="selectSmall" rm-id="program-zone-duration-type">
 								<option value="0" selected>Skip</option>
 								<option value="1">Auto</option>
 								<option value="2">Manual</option>
 							</select>
-						</div>
-						<div style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" rm-id="program-zone-duration-auto">03:00 min</div>
-						<div style="display: none;margin-top: 10px;" rm-id="program-zone-duration-manual">
-							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
-							:
-							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
 						</div>
 					</div>
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
