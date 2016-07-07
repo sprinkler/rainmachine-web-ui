@@ -570,8 +570,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="rainSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="rainSensitivityDefault" class="button label-grey center right" value="80">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
 													<output for="rainSensitivity" id="outputRainSensitivity" class="weatherPercent">80</output>
@@ -587,8 +587,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="fieldCapacitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="fieldCapacityDefault" class="button label-grey center right" value="2" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="fieldCapacitySave" class="button label-blue center right">Save</button>
+												<button id="fieldCapacityDefault" class="button label-grey center right" value="2">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
 													<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
@@ -604,8 +604,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="windSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="windSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
 													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
@@ -1387,10 +1387,10 @@
 									</tr>
 									<tr>
 										<td class="middle">Water Budget:</td>
-										<td class="middle"><input type="range" min="0" max="100" value="50" id="waterBudget"
+										<td class="middle"><input type="range" min="0" max="200" value="50" id="waterBudget"
 																  step="1" oninput="outputUpdateWaterBudget(value)"
-																  width="100%">
-											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent">50
+																  width="100%" style="width:30%;margin: 0 5px 5px 0;">
+											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent" style="font-size: 22px;">50
 											</output>
 											<script>
 												function outputUpdateWaterBudget(waterbudget) {
@@ -1769,16 +1769,16 @@
 										<td colspan="2">
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Cycles &amp Soak</div>
 											<div style="display: inline-block;float:right;text-align:right;">
+												<div style="display: none" rm-id="program-cycles-manual">
+													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
+													&nbsp;&nbsp;&nbsp;
+													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak
+												</div>
 												<select class="selectSmall" rm-id="program-cycles-type">
 													<option value="0" selected>OFF</option>
 													<option value="1">Auto</option>
 													<option value="2">Manual</option>
 												</select>
-												<div style="display: none" rm-id="program-cycles-manual">
-													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber"> cycles
-													&nbsp;&nbsp;&nbsp;
-													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber"> min soak.
-												</div>
 											</div>
 										</td>
 									</tr>
@@ -1786,17 +1786,16 @@
 										<td colspan="2">
 											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Delay between zones</div>
 											<div style="display:inline-block;float:right;text-align:right;">
-												<select class="selectSmall" rm-id="program-delay-zones-type">
-													<option value="0" selected>OFF</option>
-													<option value="1">Manual</option>
-												</select>
 												<div rm-id="program-delay-zones-manual" style="display:none">
 													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber"> min
 													:
 													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber"> sec
 												</div>
+												<select class="selectSmall" rm-id="program-delay-zones-type">
+													<option value="0" selected>OFF</option>
+													<option value="1">Manual</option>
+												</select>
 											</div>
-
 										</td>
 									</tr>
 								</tbody>
