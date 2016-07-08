@@ -1074,6 +1074,52 @@ td.right,
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
 }
+/* Help tooltip start */
+a.tooltips {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #3399cc;
+  border-radius: 100%;
+  color: #3399cc;
+  text-align: center;
+  margin: 5px;
+  margin-left: 0;
+  text-decoration: none;
+}
+a.tooltips span {
+  position: absolute;
+  width:360px;
+  color: #FFFFFF;
+  background: #3399cc;
+  height: 120px;
+  line-height: 24px;
+  text-align: left;
+  visibility: hidden;
+  border-radius: 6px;
+  padding: 10px;
+}
+a.tooltips span:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid #3399cc;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+a:hover.tooltips span {
+  visibility: visible;
+  opacity: 0.9;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -76px;
+  z-index: 999;
+}
+/* Help tooltip end */
 /* Watering History Custom Classes */
 .historyDateContainer,
 .wateringLogDayContainer {
