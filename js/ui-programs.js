@@ -282,6 +282,17 @@ window.ui = window.ui || {};
             }
         }
 
+		// Fill the Auto watering times even if it's a new program being created
+		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
+			var zones = Data.zoneAdvData.zones;
+			for (var z = 0; z < zones.length; z++ ) {
+				var zoneTemplateElem = uiElems.zoneElems[z + 1];
+				var timer = parseInt(zones[z].waterSense.referenceTime || 0);
+				zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
+
+			}
+		}
+
         if(program) {
             //---------------------------------------------------------------------------------------
             // Prepare some data.
@@ -408,11 +419,6 @@ window.ui = window.ui || {};
                     zoneTemplateElem.nameElem.textContent = zoneId + ". " + wateringTime.name;
                     zoneTemplateElem.durationMinElem.value = duration.min;
                     zoneTemplateElem.durationSecElem.value = duration.sec;
-
-					if (Data.zoneAdvData && Data.zoneAdvData.zones) {
-						var timer = parseInt(Data.zoneAdvData.zones[index].waterSense.referenceTime || 0);
-						zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
-					}
 
 					var durationType = ZoneDurationType.Off; // Skip watering
 					if (wateringTime.active) {
