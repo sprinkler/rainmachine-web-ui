@@ -1444,13 +1444,12 @@
 													<tr>
 														<td class="middle noborder" style="width:50%">Crop Coefficient:</td>
 														<td class="noborder" style="padding:0 0 10px 0;">
-															<select rm-id="zone-vegetation-kc" style="width:100px;">
-																<option value="2" selected>Yearly</option>
-																<option value="3">Monthly</option>
+															<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
+																<option value="0"" selected>Single yearly value</option>
+																<option value="1">Multiple monthly values</option>
 															</select>
-															<!--<input rm-id="zone-vegetation-crop-coef-yearly" type="checkbox"> Yearly value:--> <input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber">
-															<div style="display:none;" rm-id="zone-months-coef-advanced">
-																<input rm-id="zone-months-coef-enable" type="checkbox">
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber">
+															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
 																	   cellspacing="0">
 																	<tr>
@@ -1823,7 +1822,7 @@
 			<tr id="program-settings-zone-template">
 				<td class="middle">
 					<div class="right">
-						<div style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" rm-id="program-zone-duration-auto">03:00 min</div>
+						<div style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" rm-id="program-zone-duration-auto"></div>
 						<div style="display: none;margin-top: 10px;" rm-id="program-zone-duration-manual">
 							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumberZone" placeholder="00">
 							:

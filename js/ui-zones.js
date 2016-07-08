@@ -27,6 +27,11 @@ window.ui = window.ui || {};
 		1004: "Soak time "
 	};
 
+	var AdvVegCoefType = {
+		single: 0,
+		monthly: 1
+	};
+
 	var uiElems = {}; //Current editing zone settings elements
 	var uiElemsAll = {}; //All zones elements without settings elements
 	var maxZoneManualSeconds = 3600;
@@ -242,6 +247,7 @@ window.ui = window.ui || {};
 
 		// Watersense properties
 		templateInfo.advVegElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-advanced"]');
+		templateInfo.advVegCropTypeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-cropcoef-type"]');
 		templateInfo.advVegCropElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-cropcoef"]');
 		templateInfo.advDepletionElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-depletion"]');
 		templateInfo.advRootDepthElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-rootdepth"]');
@@ -324,12 +330,12 @@ window.ui = window.ui || {};
 		uiElems.soilElem.onchange = onSoilChange;
 		uiElems.sprinklerElem.onchange = onSprinklerChange;
 		uiElems.slopeElem.onchange = onSlopeChange;
-		uiElems.monthsCoefElem.onclick = onMonthsCoefChange;
+
 		onVegetationChange();
 		onSoilChange();
 		onSprinklerChange();
 		onSlopeChange();
-		onMonthsCoefChange();
+
 
 		// Advanced Custom values
 		uiElems.advAppEffElem.value = zone.waterSense.appEfficiency;
@@ -342,6 +348,13 @@ window.ui = window.ui || {};
 		uiElems.advSurfAccElem.value = zone.waterSense.allowedSurfaceAcc;
 		uiElems.advTallElem.checked = zone.waterSense.isTallPlant;
 		uiElems.advVegCropElem.value = zone.ETcoef;
+
+		var advVegCoefType = zone.ETcoef >= 0 ? AdvVegCoefType.single:AdvVegCoefType.monthly;
+		setSelectOption(uiElems.advVegCropTypeElem, advVegCoefType, true);
+
+		// Adv values change events
+		uiElems.advVegCropTypeElem.onchange = onVegetationCoefTypeChange;
+		onVegetationCoefTypeChange();
 
 		var monthsCoef = zone.waterSense.detailedMonthsKc;
 		for (z = 0; z < monthsCoef.length; z++) {
@@ -521,7 +534,12 @@ window.ui = window.ui || {};
 		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
 		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
 		// The custom crop coef is not saved to advanced properties
-		zoneProperties.ETcoef = uiElems.advVegCropElem.value;
+		var advVegCropType = parseInt(getSelectValue(uiElems.advVegCropTypeElem) || 0);
+		if (advVegCropType == AdvVegCoefType.monthly) {
+			zoneProperties.ETcoef = -1; // Flag that we use the multi values for each month instead of single value
+		} else {
+			zoneProperties.ETcoef = uiElems.advVegCropElem.value;
+		}
 
 		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
 		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
@@ -560,7 +578,6 @@ window.ui = window.ui || {};
 		console.log("Saving zone %d with properties: %o and %o", uid, zoneProperties, zoneAdvProperties);
 		API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
 
-
 		closeZoneSettings();
 		showZones();
 	}
@@ -597,6 +614,22 @@ window.ui = window.ui || {};
 
 	function onSlopeChange(){
 		toggleOtherOptions(uiElems.slopeElem, uiElems.advSlopeElem);
+	}
+
+	function onVegetationCoefTypeChange() {
+		var advVegCoefType = parseInt(getSelectValue(uiElems.advVegCropTypeElem) || 0);
+
+		if (advVegCoefType == AdvVegCoefType.single){
+			makeHidden(uiElems.advMonthsCoefElem);
+			makeVisible(uiElems.advVegCropElem);
+		} else {
+			makeVisible(uiElems.advMonthsCoefElem);
+			makeHidden(uiElems.advVegCropElem);
+
+			if (uiElems.advVegCropElem.value == -1) {
+				uiElems.advVegCropElem.value = 0.5;
+			}
+		}
 	}
 
 	function toggleOtherOptions(selectElem, advContainer) {
