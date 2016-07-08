@@ -283,15 +283,7 @@ window.ui = window.ui || {};
         }
 
 		// Fill the Auto watering times even if it's a new program being created
-		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
-			var zones = Data.zoneAdvData.zones;
-			for (var z = 0; z < zones.length; z++ ) {
-				var zoneTemplateElem = uiElems.zoneElems[z + 1];
-				var timer = parseInt(zones[z].waterSense.referenceTime || 0);
-				zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
-
-			}
-		}
+		fillProgramAutoTimers();
 
         if(program) {
             //---------------------------------------------------------------------------------------
@@ -377,6 +369,10 @@ window.ui = window.ui || {};
                 }
             }
 
+			// TODO This is done twice because on a already setup program that is being edited  timers must match selected freq
+			fillProgramAutoTimers();
+
+
 			//Fixed day or sunrise/sunset start time new in API 4.1
 			if (program.hasOwnProperty("startTimeParams")) {
 				if (program.startTimeParams.type == 0) {
@@ -443,6 +439,7 @@ window.ui = window.ui || {};
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
         uiElems.frequencyOddElem.onchange = onFrequencyChanged;
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
+		uiElems.frequencyEveryParamElem.onchange = onFrequencyChanged;
 
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
@@ -611,34 +608,8 @@ window.ui = window.ui || {};
         //---------------------------------------------------------------------------------------
         // Collect frequency.
         //
-        program.frequency = null;
-        if(uiElems.frequencyDailyElem.checked) {
-            program.frequency = {
-                type: FrequencyType.Daily,
-                param: "0"
-            };
-        } else if(uiElems.frequencyEveryElem.checked) {
-            program.frequency = {
-                type: FrequencyType.EveryN,
-                param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
-            };
-        } else if(uiElems.frequencyWeekdaysElem.checked) {
-            program.frequency = {
-                type: FrequencyType.Weekday,
-                param: weekdaysToParam()
-            };
-            console.log(program.frequency);
-        } else if(uiElems.frequencyOddElem.checked) {
-            program.frequency = {
-                type: FrequencyType.OddEven,
-                param: FrequencyParam.Odd.toString()
-            };
-        } else if(uiElems.frequencyEvenElem.checked) {
-            program.frequency = {
-                type: FrequencyType.OddEven,
-                param: FrequencyParam.Even.toString()
-            };
-        }
+        program.frequency = parseProgramFrequency();
+
 
         //---------------------------------------------------------------------------------------
         // Collect watering times.
@@ -740,6 +711,7 @@ window.ui = window.ui || {};
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
+		fillProgramAutoTimers(); // Timers will change with the program frequency
     }
 
 	//--------------------------------------------------------------------------------------------
@@ -898,6 +870,70 @@ window.ui = window.ui || {};
 		return nextRun;
 	}
 
+	function fillProgramAutoTimers() {
+		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
+			var programMultiplier = getProgramFutureMultiplier();
+			var zones = Data.zoneAdvData.zones;
+			for (var z = 0; z < zones.length; z++) {
+				var zoneTemplateElem = uiElems.zoneElems[z + 1];
+				var timer = parseInt(zones[z].waterSense.referenceTime || 0) * programMultiplier;
+				zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
+			}
+		}
+	}
+
+	function getProgramFutureMultiplier() {
+		var frequency = parseProgramFrequency();
+
+		if (frequency === null) {
+			return 1;
+		}
+
+		switch(frequency.type) {
+			case FrequencyType.Daily:
+				return 1;
+			case FrequencyType.OddEven:
+				return 2;
+			case FrequencyType.EveryN:
+				return frequency.param;
+			case FrequencyType.Weekday:
+				return 3; // TODO calculate weekdays freq average
+		}
+		return 1;
+	}
+
+	function parseProgramFrequency() {
+		var frequency = null;
+
+		if(uiElems.frequencyDailyElem.checked) {
+			frequency = {
+				type: FrequencyType.Daily,
+				param: "0"
+			};
+		} else if(uiElems.frequencyEveryElem.checked) {
+			frequency = {
+				type: FrequencyType.EveryN,
+				param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
+			};
+		} else if(uiElems.frequencyWeekdaysElem.checked) {
+			frequency = {
+				type: FrequencyType.Weekday,
+				param: weekdaysToParam()
+			};
+		} else if(uiElems.frequencyOddElem.checked) {
+			frequency = {
+				type: FrequencyType.OddEven,
+				param: FrequencyParam.Odd.toString()
+			};
+		} else if(uiElems.frequencyEvenElem.checked) {
+			frequency = {
+				type: FrequencyType.OddEven,
+				param: FrequencyParam.Even.toString()
+			};
+		}
+
+		return frequency;
+	}
 
 	//Returns the zone watering durations at the next run of the program. Requires Data.dailyDetails to be fetched
 	function getProgramZonesNextDetails(p) {
