@@ -409,6 +409,11 @@ window.ui = window.ui || {};
                     zoneTemplateElem.durationMinElem.value = duration.min;
                     zoneTemplateElem.durationSecElem.value = duration.sec;
 
+					if (Data.zoneAdvData && Data.zoneAdvData.zones) {
+						var timer = parseInt(Data.zoneAdvData.zones[index].waterSense.referenceTime || 0);
+						zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
+					}
+
 					var durationType = ZoneDurationType.Off; // Skip watering
 					if (wateringTime.active) {
 						if (wateringTime.duration > 0) {
@@ -642,15 +647,20 @@ window.ui = window.ui || {};
             }
 
             var zoneTemplateElem = uiElems.zoneElems[zoneId];
+			var durationType = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem) || 0);
             var duration = {min: 0, sec: 0};
-            duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
-            duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
 
             var wateringTime = {};
 
             wateringTime.id = parseInt(zoneId);
             wateringTime.active = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem)) > 0 ? true:false;
-            wateringTime.duration = duration.min * 60 + duration.sec;
+			if (durationType == ZoneDurationType.Auto) {
+				wateringTime.duration = 0;
+			} else {
+				duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
+				duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
+				wateringTime.duration = duration.min * 60 + duration.sec;
+			}
 
             program.wateringTimes.push(wateringTime);
         }
