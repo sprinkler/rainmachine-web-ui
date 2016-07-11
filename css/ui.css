@@ -1074,6 +1074,20 @@ td.right,
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
 }
+a.helpText {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #3399cc;
+  border-radius: 100%;
+  color: #3399cc;
+  text-align: center;
+  margin: 5px;
+  margin-left: 0;
+  text-decoration: none;
+  padding: 0;
+}
 /* Watering History Custom Classes */
 .historyDateContainer,
 .wateringLogDayContainer {

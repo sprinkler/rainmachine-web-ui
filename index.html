@@ -1387,9 +1387,8 @@
 									</tr>
 									<tr>
 										<td class="middle">Water Budget:</td>
-										<td class="middle"><input type="range" min="0" max="200" value="50" id="waterBudget"
-																  step="1" oninput="outputUpdateWaterBudget(value)"
-																  width="100%" style="width:30%;margin: 0 5px 5px 0;">
+										<td class="middle">
+											<input type="range" min="0" max="200" value="50" id="waterBudget" step="1" oninput="outputUpdateWaterBudget(value)" style="width:30%;margin: 0 5px 5px 0;">
 											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent" style="font-size: 22px;">50
 											</output>
 											<script>
@@ -1551,12 +1550,12 @@
 												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
 													   cellspacing="0">
 													<tr>
-														<td class="middle" style="width:50%">Precipitation Rate:</td>
+														<td class="middle" style="width:50%"><a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a> Precipitation Rate:</td>
 														<td style="padding:0;"><input rm-id="zone-sprinkler-preciprate"
 																					  type="number" class="typeNumber"></td>
 													</tr>
 													<tr>
-														<td class="middle noborder" style="width:50%">Application
+														<td class="middle noborder" style="width:50%"><a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a> Application
 															Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;"><input
