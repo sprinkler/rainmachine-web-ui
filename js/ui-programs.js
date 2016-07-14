@@ -404,7 +404,7 @@ window.ui = window.ui || {};
 
                     try {
                         duration.min = parseInt(wateringTime.duration / 60);
-                        duration.sec = duration.min ? (wateringTime.duration % duration.min) : wateringTime.duration;
+                        duration.sec = duration.min > 0 ? (wateringTime.duration % 60) : wateringTime.duration;
                     } catch (e) {
                     }
 
