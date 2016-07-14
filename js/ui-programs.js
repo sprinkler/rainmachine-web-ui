@@ -576,7 +576,7 @@ window.ui = window.ui || {};
         }
 
         program.name = uiElems.nameElem.value;
-        program.active = uiElems.active;
+        program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
 		if (uiElems.startTimeSunElem.checked) {
