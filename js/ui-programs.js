@@ -169,24 +169,22 @@ window.ui = window.ui || {};
 
 		if (p.active) {
 			programElem.template.className += " programActive";
-			if (p.status == ProgramStatus.Running) {
-				programElem.startElem.textContent = "W";
-				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "running");
-			} else if (p.status == ProgramStatus.Pending) {
-				programElem.startElem.textContent = "W";
-				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "pending");
-			} else if (p.status == ProgramStatus.NotRunning) {
-				programElem.startElem.textContent = "Q";
-				programElem.startElem.start = true;
-				programElem.startElem.setAttribute("state", "idle-programs");
-			}
 		} else {
 			programElem.template.className += " programInactive";
-			programElem.startElem.setAttribute("state", "idle-programs");
+		}
+
+		if (p.status == ProgramStatus.Running) {
+			programElem.startElem.textContent = "W";
+			programElem.startElem.start = false;
+			programElem.startElem.setAttribute("state", "running");
+		} else if (p.status == ProgramStatus.Pending) {
+			programElem.startElem.textContent = "W";
+			programElem.startElem.start = false;
+			programElem.startElem.setAttribute("state", "pending");
+		} else if (p.status == ProgramStatus.NotRunning) {
 			programElem.startElem.textContent = "Q";
 			programElem.startElem.start = true;
+			programElem.startElem.setAttribute("state", "idle-programs");
 		}
 
 		programElem.nameElem.innerHTML = p.name;
