@@ -242,7 +242,7 @@ strong { font-weight: 700; }
   padding-top: 25px;
   padding-left: 10px;
   font-size: 18px;
-  color:#888;
+  color:#555;
 }
 .zoneListEdit, .programListEdit {
   display:none;
@@ -357,7 +357,7 @@ sup { font-size: 12px }
   padding-left: 4%;
 }
 .zoneListName { width: 45%; }
-.overTop {
+.overTop, .overTopProgramZonesTime {
   position: fixed;
   top: 0;
   left: 0;
@@ -366,6 +366,9 @@ sup { font-size: 12px }
   background-color: rgba(0, 0, 0, 0.9);
   overflow: scroll;
   z-index: 3;
+}
+.overTopProgramZonesTime {
+  z-index: 4;
 }
 /* Home screen end */
 .icon, .playstopButton {
@@ -630,6 +633,7 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+
 input.typeText {
   border: 1px solid #eee;
   padding: 15px;
@@ -995,13 +999,17 @@ select, .selectSmall {
   margin:0 auto;
   margin-bottom:20px;
 }
-.programEdit {
+.programEdit, .programEditZonesTime {
   background-color: #fff;
   width: 90%;
   min-width:826px;
   margin: 15px auto;
   border-radius: 10px;
-  z-index: 3;
+}
+.programEditZonesTime {
+  margin-top: 15%;
+  width: 60%;
+  padding: 20px;
 }
 
 #restrictionsMaxWateringContainer, #restrictionsFreezeProtectContainer {
