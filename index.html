@@ -206,7 +206,7 @@
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
 										<span class="title"> Start Date
-											<input type="date" id="waterHistoryStartDate" class="typeTime">
+											<input type="date" id="waterHistoryStartDate" class="typeTime" style="width:168px;">
 											for
 											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
 											days.
@@ -742,7 +742,7 @@
 											<tr valign="top">
 												<th>
 													<h1 class="title">Weather Services - Comparison</h1>
-													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime"> for
+													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime" style="width:168px;"> for
 													<input type="number" id="weatherServicesDays" class="typeNumber" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>
 												</th>
@@ -1378,7 +1378,7 @@
 										<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Forecast Data:</td>
+										<td class="middle">Weather Data:</td>
 										<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
 									</tr>
 									<tr>
@@ -1663,7 +1663,6 @@
 										<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
 									</tr>
 									<tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
-									<tr><td class="cardTitle">Weather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
 									<tr>
 										<td colspan="2">
 											<span class="cardTitle">Frequency:</span><br><br>
@@ -1804,7 +1803,10 @@
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 								<tr>
-									<td class="cardTitle">Add zones and watering times (mm:ss)</td>
+									<td>
+										<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
+										<span class="cardTitle">Adjust watering times based on weather?</span>
+									</td>
 								</tr>
 								<!-- Start program settings zones template -->
 								<!-- End program settings zones template -->
@@ -1829,10 +1831,11 @@
 							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumberZone" placeholder="00">
 						</div>
 						<div style="display:inline-block;">
-							<select class="selectSmall" rm-id="program-zone-duration-type">
-								<option value="0" selected>Skip</option>
-								<option value="1">Auto</option>
-								<option value="2">Manual</option>
+							<select rm-id="program-zone-duration-type" style="padding-right: 30px;">
+								<option value="0" selected>00:00</option>
+								<option value="1">Summer maximum</option>
+								<option value="2">Fixed</option>
+								<option value="3">With weather adjusting</option>
 							</select>
 						</div>
 					</div>

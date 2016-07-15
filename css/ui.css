@@ -356,7 +356,7 @@ sup { font-size: 12px }
 .halfRight{
   padding-left: 4%;
 }
-.zoneListName { width: 48%; }
+.zoneListName { width: 45%; }
 .overTop {
   position: fixed;
   top: 0;
@@ -828,8 +828,7 @@ input[type=file] {
 select, .selectSmall {
   background: #fff url('../images/arrow.png') no-repeat right center;
   padding: 10px;
-  font-size: 15px;
-  line-height: 1;
+  font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 0;
   height: 44px;
@@ -980,7 +979,7 @@ select, .selectSmall {
 .programInactive { 
   opacity: 0.2;
   filter: alpha(opacity=40); /* For IE8 and earlier */ }
-.programInactive>.program-start-stop { display: none }
+.programInactive>.program-start-stop { opacity: 1 }
 .programEdit,
 .settingsBlock,
 .settingsBlockZones,
