@@ -1646,41 +1646,6 @@
 
 		<!-- Template for Program Settings (Begin) -->
 		<div id="program-settings-template">
-			<!-- Template for Program zones time set (Begin) -->
-			<!--<div class="overTopProgramZonesTime">
-				<table cellspacing="0" cellpadding="0" class="programEditZonesTime">
-					<tbody>
-					<tr>
-						<td>
-						<div rm-id="" style="color:#3399cc;float:right;">All times will be adjusted based on weather</div>
-						<div class="cardTitle">2. Zone name</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">
-							<input type="radio"></input> <span class="cardTitle">Determined from zone properties</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">
-							<input type="radio"></input> <span class="cardTitle">Custom</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle">
-							<input type="radio"></input> <span class="cardTitle">Do not add this zone to the program</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle noborder">
-							<button class="button blue center right" rm-id="zone-time-save">Save</button>
-							<button class="button grey center right" rm-id="zone-time-cancel">Cancel</button>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>-->
-			<!-- Template for Program zones time set (End) -->
 			<div class="overTop">
 				<table cellspacing="0" cellpadding="0" class="programEdit">
 					<tr>
@@ -1893,6 +1858,45 @@
 			</tr>
 		</table>
 		<!-- Template for Program Settings Zone Watering Times (End) -->
+
+		<!-- Template for Program zones time set (Begin) -->
+		<div class="overTopProgramZonesTime" id="program-settings-zone-timer-template">
+			<table cellspacing="0" cellpadding="0" class="programEditZonesTime">
+				<tbody>
+				<tr>
+					<td>
+						<div rm-id="program-settings-zone-timer-weather-info" style="color:#3399cc; font-size: 150%">Set the zone watering base duration.This duration will be adjusted based on weather.</div>
+						<div rm-id="program-settings-zone-timer-name" class="programListName">2. Zone name</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type"></input><span class="cardTitle">Determined from zone properties</span>
+						<br><span class="subtitle">It will automatically update if zone properties change.</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type"></input> <span class="cardTitle">Custom</span>
+						<br><span class="subtitle">Doesn't update when zone properties change</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type"></input> <span class="cardTitle">Do not water this zone</span>
+						<br><span class="subtitle">This zone will not be watered in this program</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle noborder">
+						<button class="button blue center right" rm-id="program-settings-zone-timer-save">Save</button>
+						<button class="button grey center right" rm-id="program-settings-zone-timer-cancel">Cancel</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- Template for Program zones time set (End) -->
 
 		<!-- Template for New Hourly Restrictions (Start) -->
 		<div id="restrictions-hourly-new-teplate">

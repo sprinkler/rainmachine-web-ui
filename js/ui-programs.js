@@ -527,6 +527,7 @@ window.ui = window.ui || {};
 			}
 
             zoneTemplate.setAttribute("rm-zone-id", zoneId);
+			zoneTemplate.onclick =  (function(id) { return function() { onZoneTimerTypeChange(id); } })(zoneId);
 			zoneDurationTypeElem.onchange = (function(id) { return function() { onZoneDurationTypeChange(id); } })(zoneId);
 
             templateInfo.zoneElems[zoneId] = {
@@ -785,6 +786,33 @@ window.ui = window.ui || {};
              //console.log(graphElem.getAttribute("state"));
         }
     }
+
+	function onZoneTimerTypeChange(id) {
+		var index = id - 1;
+		var zoneData = Data.zoneData.zones[index];
+
+		var zoneTemplate = loadTemplate("program-settings-zone-timer-template");
+
+		console.log(zoneTemplate);
+
+		var zoneNameElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-name"]');
+		var zoneSaveElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-save"]');
+		var zoneCancelElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-cancel"]');
+
+		zoneCancelElem.onclick = function() {
+			makeHidden(zoneTemplate);
+			delTag(zoneTemplate);
+		};
+
+		if (zoneData) {
+			zoneNameElem.innerText = id + ". " + zoneData.name;
+		} else {
+			zoneNameElem.innerText = "Zone " + id;
+		}
+
+		makeVisible(zoneTemplate);
+		document.body.appendChild(zoneTemplate)
+	}
 
 	function onZoneDurationTypeChange(id) {
 		var zoneElems = uiElems.zoneElems;

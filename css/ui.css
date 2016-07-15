@@ -369,6 +369,7 @@ sup { font-size: 12px }
 }
 .overTopProgramZonesTime {
   z-index: 4;
+  display: none;
 }
 /* Home screen end */
 .icon, .playstopButton {
