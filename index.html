@@ -1812,8 +1812,8 @@
 									</td>
 								</tr>
 								<tr>
-									<td>
-										<div style="text-align: center;font-size: 150%;padding: 10px;">Total program watering time: <span style="color: #3399cc;font-size: 130%;">01:25:33</span></div>
+									<td style="padding-right:0">
+										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span class="zoneTimesDetermined" style="margin-right:0;">00:00:00</span></div>
 									</td>
 								</tr>
 								<tr>
@@ -1840,15 +1840,15 @@
 			<tr id="program-settings-zone-template">
 				<td class="middle weatherSource">
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
-					<div>
-						No time set<br>
+					<div class="middle right" style="padding: 0px 30px 0 0;">
+						<span style="color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</span>
 						<div style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" rm-id="program-zone-duration-auto"></div>
 						<div style="display: none;margin-top: 10px;" rm-id="program-zone-duration-manual">
 							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumberZone" placeholder="00">
 							:
 							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumberZone" placeholder="00">
 						</div>
-						<div style="display:inline-block;">
+						<div style="display:none;">
 							<select rm-id="program-zone-duration-type" style="padding-right: 30px;">
 								<option value="0" selected>00:00</option>
 							</select>
@@ -1865,26 +1865,38 @@
 				<tbody>
 				<tr>
 					<td>
-						<div rm-id="program-settings-zone-timer-weather-info" style="color:#3399cc; font-size: 150%">Set the zone watering base duration.This duration will be adjusted based on weather.</div>
-						<div rm-id="program-settings-zone-timer-name" class="programListName">2. Zone name</div>
+						<div rm-id="program-settings-zone-timer-name" style="font-size:140%;">2. Zone name</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding: 25px 0;">
+						<div rm-id="program-settings-zone-timer-weather-info" class="zoneTimesWeatherMessage">Set the zone watering base time.</div> <div rm-id="" class="zoneTimesWeatherMessage">This duration will be adjusted based on weather.</div>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
-						<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type"></input><span class="cardTitle">Determined from zone properties</span>
-						<br><span class="subtitle">It will automatically update if zone properties change.</span>
+						<div class="right" style="font-size: 150%;margin-top:7px;">
+							<button class="zoneTimesCircleButton">-</button>100%<button class="zoneTimesCircleButton">+</button><span class="zoneTimesDetermined" rm-id="program-zone-duration-auto">00:25:33</span>
+						</div>
+						<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Determined from zone properties</span>
+						<br><span class="zoneTimesSubtitle">This time will automatically update if zone properties change.</span>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
-						<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type"></input> <span class="cardTitle">Custom</span>
-						<br><span class="subtitle">Doesn't update when zone properties change</span>
+						<div class="right">
+							<span><input rm-id="" type="number" class="typeNumber" placeholder="00"></span>
+							:
+							<span><input rm-id="" type="number" class="typeNumber" placeholder="00"></span>
+						</div>
+						<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Custom</span>
+						<br><span class="zoneTimesSubtitle">Doesn't update watering time when zone properties change.</span>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
-						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type"></input> <span class="cardTitle">Do not water this zone</span>
-						<br><span class="subtitle">This zone will not be watered in this program</span>
+						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type" checked class="zoneTimesInput" checked></input><span class="cardTitle">Do not water this zone</span>
+						<br><span class="zoneTimesSubtitle">This zone will not be watered in this program.</span>
 					</td>
 				</tr>
 				<tr>

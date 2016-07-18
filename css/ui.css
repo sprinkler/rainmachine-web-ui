@@ -403,12 +403,33 @@ h1 {
 .content h1 {
   margin-bottom: 10px;
 }
-.subtitle {
+.subtitle, .zoneTimesSubtitle {
   padding-left: 0;
   font: 12px normal Arial, sans-serif;
   color: #888;
   vertical-align: top;
 }
+.zoneTimesSubtitle {
+  margin-left: 30px;
+  margin-top: 3px;
+  display: block;
+}
+.zoneTimesInput {
+  display:inline-block;
+  height:0;
+  vertical-align: middle;
+}
+.zoneTimesDetermined {
+  color: #3399cc;
+  margin-left:10px;
+  font-size:130%;
+}
+.zoneTimesWeatherMessage{
+  color:#3399cc;
+  font-size: 130%;
+  display: inline;
+}
+
 #mainContainer {
   display: block;
   margin: 0 auto;
@@ -842,7 +863,7 @@ select, .selectSmall {
 .selectSmall {
   width: 90px;
 }
-.zonecircle {
+.zonecircle, .zoneTimesCircleButton {
   width: 20px;
   height: 20px;
   border: 1px solid #3399cc;
@@ -855,6 +876,11 @@ select, .selectSmall {
   text-align: center;
   vertical-align: middle;
   display: inline-block;
+}
+.zoneTimesCircleButton {
+  width: 25px;
+  height: 25px;
+  margin-left:5px;
 }
 @keyframes bullets {
   from { transform: scale(0.5); }
@@ -875,7 +901,7 @@ select, .selectSmall {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
-.zonecircle:hover {
+.zonecircle:hover, .zoneTimesCircleButton:hover {
   background-color: #3399cc;
   color:#fff;
 }
