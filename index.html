@@ -368,6 +368,23 @@
 										</tr>
 									</table>
 								</div>
+								<div id="restrictions">
+									<div class="settingsBlock center block70">
+										<h1 class="title center" style="margin-bottom: 0">Programs Restrictions<br><span class="subtitle">Required by some municipalities. This will overwrite RainMachine algorithm.</span></h1>										
+										<table cellspacing="0" cellpadding="0" class="full">
+											<tr>
+												<td class="middle weatherSource">
+													Do not run program "IFTTT-test"	if QPF is higher than <input rm-id="" type="number" class="typeNumberZone"> in.
+												</td>
+											</tr>
+											<tr>
+												<td class="middle weatherSource">
+													Do not run program "Flowers Back Yard"	if QPF is higher than <input rm-id="" type="number" class="typeNumberZone"> in.
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>		
 								<div id="restrictionsMini8" class="settingsBlock center block70" style="display: none">
 									<h1 class="title center">Rain Sensor</h1>
 									<table cellspacing="0" cellpadding="0" class="full">
@@ -1389,19 +1406,6 @@
 										<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Water Budget:</td>
-										<td class="middle">
-											<input type="range" min="0" max="200" value="50" id="waterBudget" step="1" oninput="outputUpdateWaterBudget(value)" style="width:30%;margin: 0 5px 5px 0;">
-											<output for="waterBudget" id="outputWaterBudget" class="weatherPercent" style="font-size: 22px;">50
-											</output>
-											<script>
-												function outputUpdateWaterBudget(waterbudget) {
-													document.querySelector('#outputWaterBudget').value = waterbudget;
-												}
-											</script>
-										</td>
-									</tr>
-									<tr>
 										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced
 											Zone Settings
 										</td>
@@ -1425,17 +1429,17 @@
 													<tr>
 														<td class="middle" style="width:50%">Allowed Depletion:</td>
 														<td style="padding:0;"><input rm-id="zone-vegetation-depletion"
-																					  type="number" class="typeNumber"></td>
+																					  type="number" class="typeNumber"> %</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Root Depth:</td>
 														<td style="padding:0;"><input rm-id="zone-vegetation-rootdepth"
-																					  type="number" class="typeNumber"></td>
+																					  type="number" class="typeNumber"> in</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Permanent Wilting Point:</td>
 														<td style="padding:0;"><input rm-id="zone-vegetation-permwilting"
-																					  type="number" class="typeNumber"></td>
+																					  type="number" class="typeNumber"> %</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">The vegetation is
@@ -1448,13 +1452,13 @@
 														<td class="middle noborder" style="width:50%">Crop Coefficient:</td>
 														<td class="noborder" style="padding:0 0 10px 0;">
 															<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
-																<option value="0"" selected>Single yearly value</option>
+																<option value="0" selected>Single yearly value</option>
 																<option value="1">Multiple monthly values</option>
 															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber">
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber"> kc
 															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
-																	   cellspacing="0">
+																	   cellspacing="0"> 
 																	<tr>
 																		<td class="middle noborder center">Jan<br><input
 																				rm-id="zone-months-coef0" type="number" class="typeNumber"/>
@@ -1491,7 +1495,8 @@
 																				rm-id="zone-months-coef9" type="number" class="typeNumber"/>
 																		</td>
 																		<td class="middle noborder center">Nov<br><input
-																				rm-id="zone-months-coef10" type="number" class="typeNumber"/></td>
+																				rm-id="zone-months-coef10" type="number" class="typeNumber"/>
+																				</td>
 																		<td class="middle noborder center">Dec<br><input
 																				rm-id="zone-months-coef11" type="number" class="typeNumber"/>
 																		</td>
@@ -1525,13 +1530,13 @@
 													<tr>
 														<td class="middle" style="width:50%">Intake Rate:</td>
 														<td style="padding:0;"><input rm-id="zone-soil-intakerate"
-																					  type="number" class="typeNumber"></td>
+																					  type="number" class="typeNumber"> in</td>
 													</tr>
-													<tr>
+													<tr style="padding: 0 15px;">
 														<td class="middle noborder" style="width:50%">Field Capacity:</td>
-														<td class="middle noborder" style="padding:0;"><input
+														<td class="middle noborder" style="padding: 12px 0;"><input
 																rm-id="zone-soil-fieldcapacity" type="number"
-																class="typeNumber"></td>
+																class="typeNumber" style="display: none;">0.12 in <button class="zoneTimesCircleButton">-</button><span style="margin-left: 0">20%</span><button class="zoneTimesCircleButton">+</button></td>
 													</tr>
 												</table>
 											</div>
@@ -1555,7 +1560,7 @@
 													<tr>
 														<td class="middle" style="width:50%"><a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a> Precipitation Rate:</td>
 														<td style="padding:0;"><input rm-id="zone-sprinkler-preciprate"
-																					  type="number" class="typeNumber"></td>
+																					  type="number" class="typeNumber"> in/h</td>
 													</tr>
 													<tr>
 														<td class="middle noborder" style="width:50%"><a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a> Application
@@ -1563,7 +1568,7 @@
 														</td>
 														<td class="middle noborder" style="padding:0;"><input
 																rm-id="zone-sprinkler-appefficiency" type="number"
-																class="typeNumber"></td>
+																class="typeNumber"> in/h</td>
 													</tr>
 												</table>
 											</div>
@@ -1599,7 +1604,7 @@
 															accumulation value:
 														</td>
 														<td class="middle noborder" style="padding:0;"><input
-																rm-id="zone-surface-acc" type="number" class="typeNumber">
+																rm-id="zone-surface-acc" type="number" class="typeNumber"> in
 														</td>
 													</tr>
 												</table>
@@ -1800,6 +1805,23 @@
 											</div>
 										</td>
 									</tr>
+									<tr>
+										<td colspan="2">
+											<div class="middle cardTitle" style="margin-top: 40px;">Program restrictions</div>
+										</td>
+									</tr>	
+									<tr>
+										<td colspan="2">
+											<div class="middle" style="float:left;padding-top: 14px;font-size: 16px;">
+											<input type="checkbox" id="" />
+											Do not run program if:<br>
+											<span class="zoneTimesSubtitle" style="margin-left: 23px;">Required by some municipalities.<br>This will overwrite RainMachine algorithm.</span></div>
+											<div style="display:inline-block;float:right;text-align:right;">
+												<div>QPF<sup>*</sup> > <input rm-id="" type="number" class="typeNumberZone"> in</div>
+												<div class="subtitle">* Quantitative Precipitation Forecast</div>
+											</div>
+										</td>
+									</tr>	 
 								</tbody>
 							</table>
 						</td>
@@ -1813,7 +1835,7 @@
 								</tr>
 								<tr>
 									<td style="padding-right:0">
-										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span class="zoneTimesDetermined" style="margin-right:0;">00:00:00</span></div>
+										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span class="zoneTimesDetermined" style="margin-right:0;">00h 00m 00s</span></div>
 									</td>
 								</tr>
 								<tr>
@@ -1870,16 +1892,16 @@
 				</tr>
 				<tr>
 					<td style="padding: 25px 0;">
-						<div rm-id="program-settings-zone-timer-weather-info" class="zoneTimesWeatherMessage">Set the zone watering base time.</div> <div rm-id="" class="zoneTimesWeatherMessage">This duration will be adjusted based on weather.</div>
+						<div rm-id="program-settings-zone-timer-weather-info" class="zoneTimesWeatherMessage">Set typical summer watering time.</div> <div rm-id="" class="zoneTimesWeatherMessage">Duration will be adjusted based on weather.</div>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
 						<div class="right" style="font-size: 150%;margin-top:7px;">
-							<button class="zoneTimesCircleButton">-</button>100%<button class="zoneTimesCircleButton">+</button><span class="zoneTimesDetermined" rm-id="program-zone-duration-auto">00:25:33</span>
+							<button class="zoneTimesCircleButton">-</button><span class="zoneTimesDetermined" style="margin-left: 0">100%</span><button class="zoneTimesCircleButton">+</button><span class="zoneTimesDetermined" rm-id="program-zone-duration-auto">00h 25m 33s</span>
 						</div>
 						<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Determined from zone properties</span>
-						<br><span class="zoneTimesSubtitle">This time will automatically update if zone properties change.</span>
+						<br><span class="zoneTimesSubtitle">This time will update if zone properties change.</span>
 					</td>
 				</tr>
 				<tr>
@@ -1890,12 +1912,12 @@
 							<span><input rm-id="" type="number" class="typeNumber" placeholder="00"></span>
 						</div>
 						<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Custom</span>
-						<br><span class="zoneTimesSubtitle">Doesn't update watering time when zone properties change.</span>
+						<br><span class="zoneTimesSubtitle"></span>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
-						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type" checked class="zoneTimesInput" checked></input><span class="cardTitle">Do not water this zone</span>
+						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type" class="zoneTimesInput" checked></input><span class="cardTitle">Do not water this zone</span>
 						<br><span class="zoneTimesSubtitle">This zone will not be watered in this program.</span>
 					</td>
 				</tr>
