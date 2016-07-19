@@ -1411,6 +1411,14 @@
 										</td>
 									</tr>
 									<tr>
+										<td class="middle" style="padding-right:30px;">
+											Current Field Capacity:<br>
+											<span class="subtitle">The amount of water content held in the soil after excess water has drained away and the rate of downward movement has decreased.</span>
+										</td>
+										<td class="middle">
+											<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:100px;">Updating...</div><button class="zoneTimesCircleButton">-</button><span style="color:#3399cc;font-size:18px;margin-left: 0">20%</span><button class="zoneTimesCircleButton">+</button></td>
+									</tr>
+									<tr>
 										<td class="middle" style="width:30%;">Vegetation Type</td>
 										<td class="middle">
 											<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
@@ -1450,12 +1458,12 @@
 													</tr>
 													<tr>
 														<td class="middle noborder" style="width:50%">Crop Coefficient:</td>
-														<td class="noborder" style="padding:0 0 10px 0;">
+														<td class="noborder" style="padding:10px 0 10px 0;">
 															<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
 																<option value="0" selected>Single yearly value</option>
 																<option value="1">Multiple monthly values</option>
 															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber"> kc
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber"> %
 															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
 																	   cellspacing="0"> 
@@ -1533,10 +1541,10 @@
 																					  type="number" class="typeNumber"> in</td>
 													</tr>
 													<tr style="padding: 0 15px;">
-														<td class="middle noborder" style="width:50%">Field Capacity:</td>
+														<td class="middle noborder" style="width:50%">Soil field capacity:</td>
 														<td class="middle noborder" style="padding: 12px 0;"><input
 																rm-id="zone-soil-fieldcapacity" type="number"
-																class="typeNumber" style="display: none;">0.12 in <button class="zoneTimesCircleButton">-</button><span style="margin-left: 0">20%</span><button class="zoneTimesCircleButton">+</button></td>
+																class="typeNumber"> %</td>
 													</tr>
 												</table>
 											</div>
