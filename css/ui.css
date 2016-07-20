@@ -422,11 +422,11 @@ h1 {
 .zoneTimesDetermined {
   color: #3399cc;
   margin-left:10px;
-  font-size:130%;
+  font-size:20px;
 }
 .zoneTimesWeatherMessage{
   color:#3399cc;
-  font-size: 130%;
+  font-size: 20px;
   display: inline;
 }
 
