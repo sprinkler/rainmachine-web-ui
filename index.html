@@ -368,23 +368,6 @@
 										</tr>
 									</table>
 								</div>
-								<div id="restrictions">
-									<div class="settingsBlock center block70">
-										<h1 class="title center" style="margin-bottom: 0">Programs Restrictions<br><span class="subtitle">Required by some municipalities. This will overwrite RainMachine algorithm.</span></h1>										
-										<table cellspacing="0" cellpadding="0" class="full">
-											<tr>
-												<td class="middle weatherSource">
-													Do not run program "IFTTT-test"	if QPF is higher than <input rm-id="" type="number" class="typeNumberZone"> in.
-												</td>
-											</tr>
-											<tr>
-												<td class="middle weatherSource">
-													Do not run program "Flowers Back Yard"	if QPF is higher than <input rm-id="" type="number" class="typeNumberZone"> in.
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>		
 								<div id="restrictionsMini8" class="settingsBlock center block70" style="display: none">
 									<h1 class="title center">Rain Sensor</h1>
 									<table cellspacing="0" cellpadding="0" class="full">
@@ -528,8 +511,26 @@
 										</div>
 									</div>
 									</div>
-
 							</div>
+
+							<div id="restrictions">
+								<div class="settingsBlock center block70">
+									<h1 class="title center" style="margin-bottom: 0">Programs Restrictions<br><span class="subtitle">Required by some municipalities. This will overwrite RainMachine algorithm.</span></h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle weatherSource">
+												Do not run program "IFTTT-test" if rain exceeds 4mm / 1/8 inch.
+											</td>
+										</tr>
+										<tr>
+											<td class="middle weatherSource">
+												Do not run program "Flowers Back Yard" if rain exceeds 3mm / 3/32 inch.
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Hourly Restrictions</h1>
 								<div id="restrictionsHourly">
@@ -1411,12 +1412,33 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle" style="padding-right:30px;">
-											Current Field Capacity:<br>
-											<span class="subtitle">The amount of water content held in the soil after excess water has drained away and the rate of downward movement has decreased.</span>
+										<td colspan="2" class="noborder">
+											<table width="100%" cellpadding="0" cellspacing="0">
+												<tr>
+													<td class="middle" style="width:50%;">
+														Field Capacity:<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">The amount of water content held in the soil after excess water has drained away.<br>Increase this value if the RainMachine starts too soon after a rain event.</span>
+														<br>
+														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:100px;">
+															0.14 in
+														</div>
+														<div style="display: inline-block;">
+															<button class="zoneTimesCircleButton">-</button>
+															<span style="color:#3399cc;font-size:18px;margin-left: 0">100%</span>
+															<button class="zoneTimesCircleButton">+</button>
+														</div>
+													</td>
+													<td style="width:50%;">
+														Typical summer watering time:<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Calculated based on advanced zone settings properties and can be scheduled to run for a typical summer day. This time will be adjusted automatically to any program that use this zone.</span>
+														<br>
+														<div class="zoneTimesDetermined" style="vertical-align: middle;margin:0">
+															00h 05m 38s
+														</div>
+													</td>
+												</tr>
+											</table>
 										</td>
-										<td class="middle">
-											<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:100px;">Updating...</div><button class="zoneTimesCircleButton">-</button><span style="color:#3399cc;font-size:18px;margin-left: 0">20%</span><button class="zoneTimesCircleButton">+</button></td>
 									</tr>
 									<tr>
 										<td class="middle" style="width:30%;">Vegetation Type</td>
@@ -1815,18 +1837,30 @@
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div class="middle cardTitle" style="margin-top: 40px;">Program restrictions</div>
+											<div class="middle cardTitle" style="margin-top: 40px;color:red;">Program restrictions</div>
 										</td>
 									</tr>	
 									<tr>
 										<td colspan="2">
 											<div class="middle" style="float:left;padding-top: 14px;font-size: 16px;">
-											<input type="checkbox" id="" />
-											Do not run program if:<br>
-											<span class="zoneTimesSubtitle" style="margin-left: 23px;">Required by some municipalities.<br>This will overwrite RainMachine algorithm.</span></div>
+												Do not run program if rain exceeds:<br>
+											<span class="zoneTimesSubtitle" style="margin:0">Required by some municipalities.<br>This will overwrite RainMachine algorithm.</span></div>
 											<div style="display:inline-block;float:right;text-align:right;">
-												<div>QPF<sup>*</sup> > <input rm-id="" type="number" class="typeNumberZone"> in</div>
-												<div class="subtitle">* Quantitative Precipitation Forecast</div>
+												<div>
+													<select style="padding-right: 25px;">
+														<option value="0" selected>Not set</option>
+														<option value="1">1mm / 1/32 inch</option>
+														<option value="1">2mm / 1/16 inch</option>
+														<option value="2">3mm / 3/32 inch</option>
+														<option value="3">4mm / 1/8 inch</option>
+														<option value="4">5mm / 3/16 inch</option>
+														<option value="5">8mm / 5/16 inch</option>
+														<option value="6">11mm / 7/16 inch</option>
+														<option value="7">14mm / 9/16 Inch</option>
+														<option value="8">16mm / 5/8 Inch</option>
+														<option value="10">24mm / 15/16 Inch</option>
+													</select>
+												</div>
 											</div>
 										</td>
 									</tr>	 
@@ -1894,13 +1928,14 @@
 			<table cellspacing="0" cellpadding="0" class="programEditZonesTime">
 				<tbody>
 				<tr>
-					<td>
-						<div rm-id="program-settings-zone-timer-name" style="font-size:140%;">2. Zone name</div>
+					<td class="noborder" style="text-align:center;padding: 0 0 25px 0;color:#3399cc;">
+						<span style="font-size:16px;" rm-id="program-settings-zone-timer-weather-info">Set typical summer watering time.</span> <span rm-id="" style="font-size:16px;">Duration will be adjusted based on weather.</span>
 					</td>
 				</tr>
 				<tr>
-					<td style="padding: 25px 0;">
-						<div rm-id="program-settings-zone-timer-weather-info" class="zoneTimesWeatherMessage">Set typical summer watering time.</div> <div rm-id="" class="zoneTimesWeatherMessage">Duration will be adjusted based on weather.</div>
+					<td>
+						<div rm-id="program-settings-zone-timer-name" style="font-size:170%;">2. Zone name</div>
+						<div rm-id="" style="color:#4CAF50;margin-top:0px;margin-left:28px;cursor:pointer;">Important: Advanced zone settings are set to default values. Please click here to verify.</div>
 					</td>
 				</tr>
 				<tr>
