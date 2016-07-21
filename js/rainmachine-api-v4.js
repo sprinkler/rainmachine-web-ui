@@ -460,6 +460,16 @@ _API.prototype.setZonesProperties = function(id, properties, advancedProperties)
 	return this.post(url, data, null);
 }
 
+_API.prototype.simulateZone = function(properties, advancedProperties) {
+	var url = this.URL.zone + "/simulate";
+	var data = properties;
+
+	if (advancedProperties !== undefined && advancedProperties !== null)
+		data.waterSense = advancedProperties;
+
+	return this.post(url, data, null);
+};
+
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
 _API.prototype.getWateringLog = function(simulated, details, startDate, days)
