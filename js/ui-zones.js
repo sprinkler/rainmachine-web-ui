@@ -36,6 +36,8 @@ window.ui = window.ui || {};
 	var uiElemsAll = {}; //All zones elements without settings elements
 	var maxZoneManualSeconds = 3600;
 	var startedFromPrograms = true; //set default to true so we can set sliders positions at page load/refresh
+	var allowSimulationUpdate = false; //used to guard against auto refresh for zone calculated capacity/timer when just displaying settings
+
 
 	function showZones() {
 		APIAsync.getZones().then(
@@ -238,6 +240,12 @@ window.ui = window.ui || {};
 		templateInfo.historicalElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-historical-averages"]');
 
 		// Advanced properties
+		templateInfo.simulatedTimerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-timer"]');
+		templateInfo.simulatedCapacityElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity"]');
+		templateInfo.simulatedCapacityPercentageElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-percent"]');
+		templateInfo.simulatedCapacityIncElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-inc"]');
+		templateInfo.simulatedCapacityDecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-dec"]');
+
 		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
 		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
 		templateInfo.sprinklerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-type"]');
@@ -284,6 +292,8 @@ window.ui = window.ui || {};
 	function showZoneSettings(zone)
 	{
 		console.log(zone);
+		allowSimulationUpdate = false;
+
 		var zoneSettingsDiv = $("#zonesSettings");
 		clearTag(zoneSettingsDiv);
 		makeHidden('#zonesList');
@@ -316,9 +326,10 @@ window.ui = window.ui || {};
 		uiElems.forecastElem.checked = zone.internet;
 		uiElems.historicalElem.checked = zone.history;
 
+		//Curent simulated values
+		showZoneSimulatedValues(zone.waterSense);
+
 		//Select the option in Vegetation select
-		//var strType = zoneVegetationTypeToString(zone.type);
-		//setSelectOption(zoneVegetationElem, strType);
 		setSelectOption(uiElems.vegetationElem, zone.type, true);
 		setSelectOption(uiElems.soilElem, zone.soil, true);
 		setSelectOption(uiElems.sprinklerElem, zone.group_id, true);
@@ -330,12 +341,13 @@ window.ui = window.ui || {};
 		uiElems.soilElem.onchange = onSoilChange;
 		uiElems.sprinklerElem.onchange = onSprinklerChange;
 		uiElems.slopeElem.onchange = onSlopeChange;
+		uiElems.exposureElem.onchange = onExposureChange;
 
 		onVegetationChange();
 		onSoilChange();
 		onSprinklerChange();
 		onSlopeChange();
-
+		//No need to call exposure change it doesn't have advanced options
 
 		// Advanced Custom values
 		uiElems.advAppEffElem.value = zone.waterSense.appEfficiency;
@@ -366,6 +378,7 @@ window.ui = window.ui || {};
 		uiElems.masterValveElem.onclick = onMasterValveChange;
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
+		allowSimulationUpdate = true;
 	}
 
 	function onZonesEdit() {
@@ -512,8 +525,8 @@ window.ui = window.ui || {};
 		makeVisible('#zonesList');
 	}
 
-	function saveZone(uid)
-	{
+	function collectData(uid) {
+
 		var zoneProperties = {};
 		var zoneAdvProperties = {};
 		var shouldSetMasterValve = false;
@@ -555,6 +568,20 @@ window.ui = window.ui || {};
 		for (var z = 0; z < 12; z++) {
 			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value);
 		}
+
+		var data = {
+			zoneProperties: zoneProperties,
+			zoneAdvProperties: zoneAdvProperties
+		};
+
+		return data;
+	}
+
+	function saveZone(uid)
+	{
+		var data = collectData(uid);
+		var zoneProperties = data.zoneProperties;
+		var zoneAdvProperties = data.zoneAdvProperties;
 
 		if (uid == 1)
 		{
@@ -616,6 +643,11 @@ window.ui = window.ui || {};
 		toggleOtherOptions(uiElems.slopeElem, uiElems.advSlopeElem);
 	}
 
+	//Exposure doesn't have a advanced field, call just to update simulated zone data
+	function onExposureChange() {
+		getZoneSimulatedValues();
+	}
+
 	function onVegetationCoefTypeChange() {
 		var advVegCoefType = parseInt(getSelectValue(uiElems.advVegCropTypeElem) || 0);
 
@@ -630,6 +662,7 @@ window.ui = window.ui || {};
 				uiElems.advVegCropElem.value = 0.5;
 			}
 		}
+		getZoneSimulatedValues();
 	}
 
 	function toggleOtherOptions(selectElem, advContainer) {
@@ -640,6 +673,40 @@ window.ui = window.ui || {};
 		} else {
 			makeHidden(advContainer);
 		}
+
+		getZoneSimulatedValues();
+	}
+
+	// Update reference timer and field capacity elements. Calling this function with null data will only show "updating"
+	function showZoneSimulatedValues(waterSense) {
+		var timer = "Updating...";
+		var capacity = "Updating...";
+
+		if (waterSense !== null) {
+			timer = Util.secondsToText(waterSense.referenceTime);
+			capacity = Util.convert.uiQuantity(waterSense.currentFieldCapacity) + " " + Util.convert.uiQuantityStr();
+		}
+
+		uiElems.simulatedTimerElem.textContent = timer;
+		uiElems.simulatedCapacityElem.textContent = capacity;
+	}
+
+	function getZoneSimulatedValues() {
+		if (!allowSimulationUpdate)	return;
+
+		//Show Updating... on those fields
+		showZoneSimulatedValues(null);
+
+		var data = collectData(-1);
+		var zoneProperties = data.zoneProperties;
+		var zoneAdvProperties = data.zoneAdvProperties;
+
+		APIAsync.simulateZone(zoneProperties, zoneAdvProperties).then(
+			function(o) {
+				console.log(o);
+				showZoneSimulatedValues(o);
+			}
+		);
 	}
 
 	function zoneVegetationTypeToString(type)
