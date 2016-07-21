@@ -1837,11 +1837,6 @@
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div class="middle cardTitle" style="margin-top: 40px;color:red;">Program restrictions</div>
-										</td>
-									</tr>	
-									<tr>
-										<td colspan="2">
 											<div class="middle" style="float:left;padding-top: 14px;font-size: 16px;">
 												Do not run program if rain exceeds:<br>
 											<span class="zoneTimesSubtitle" style="margin:0">Required by some municipalities.<br>This will overwrite RainMachine algorithm.</span></div>
@@ -1849,16 +1844,12 @@
 												<div>
 													<select style="padding-right: 25px;">
 														<option value="0" selected>Not set</option>
-														<option value="1">1mm / 1/32 inch</option>
-														<option value="1">2mm / 1/16 inch</option>
-														<option value="2">3mm / 3/32 inch</option>
-														<option value="3">4mm / 1/8 inch</option>
-														<option value="4">5mm / 3/16 inch</option>
-														<option value="5">8mm / 5/16 inch</option>
-														<option value="6">11mm / 7/16 inch</option>
-														<option value="7">14mm / 9/16 Inch</option>
-														<option value="8">16mm / 5/8 Inch</option>
-														<option value="10">24mm / 15/16 Inch</option>
+														<option value="1">1.5 mm / 1/16 inch</option>
+														<option value="1">3.2 mm / 1/8 inch</option>
+														<option value="2">6.35 mm / 1/4 inch</option>
+														<option value="3">13 mm / 1/2 inch</option>
+														<option value="4">19 mm / 3/4 inch</option>
+														<option value="5">25.5 mm / 1 inch</option>
 													</select>
 												</div>
 											</div>
@@ -1929,13 +1920,13 @@
 				<tbody>
 				<tr>
 					<td class="noborder" style="text-align:center;padding: 0 0 25px 0;color:#3399cc;">
-						<span style="font-size:16px;" rm-id="program-settings-zone-timer-weather-info">Set typical summer watering time.</span> <span rm-id="" style="font-size:16px;">Duration will be adjusted based on weather.</span>
+						<span style="font-size:18px;" rm-id="program-settings-zone-timer-weather-info">Set typical summer watering time.</span><br><span rm-id="" style="font-size:16px;">(Duration will be adjusted based on weather)</span>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div rm-id="program-settings-zone-timer-name" style="font-size:170%;">2. Zone name</div>
-						<div rm-id="" style="color:#4CAF50;margin-top:0px;margin-left:28px;cursor:pointer;">Important: Advanced zone settings are set to default values. Please click here to verify.</div>
+						<div rm-id="" style="color:#4CAF50;margin-top:0px;margin-left:28px;cursor:pointer;">Zone settings properties are set to default values. Set advanced zone properties.</div>
 					</td>
 				</tr>
 				<tr>
@@ -1943,8 +1934,9 @@
 						<div class="right" style="font-size: 150%;margin-top:7px;">
 							<button class="zoneTimesCircleButton">-</button><span class="zoneTimesDetermined" style="margin-left: 0">100%</span><button class="zoneTimesCircleButton">+</button><span class="zoneTimesDetermined" rm-id="program-zone-duration-auto">00h 25m 33s</span>
 						</div>
-						<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Determined from zone properties</span>
-						<br><span class="zoneTimesSubtitle">This time will update if zone properties change.</span>
+						<div style="display: inline-block;margin-top: 14px;">
+							<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type" class="zoneTimesInput" style="vertical-align: top;"></input><span class="cardTitle">Determined from zone properties</span>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -1954,8 +1946,9 @@
 							:
 							<span><input rm-id="" type="number" class="typeNumber" placeholder="00"></span>
 						</div>
-						<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Custom</span>
-						<br><span class="zoneTimesSubtitle"></span>
+						<div style="display: inline-block;margin-top: 18px;">
+							<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type" class="zoneTimesInput" style="vertical-align: top;"></input><span class="cardTitle">Custom</span>
+						</div>
 					</td>
 				</tr>
 				<tr>
