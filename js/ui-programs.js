@@ -426,6 +426,7 @@ window.ui = window.ui || {};
 		var zoneAutoDurationElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-autoduration"]');
 		var zoneDurationMinElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-min"]');
 		var zoneDurationSecElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-sec"]');
+
 		var zoneAutoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-auto"]');
 		var zoneCustomElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-custom"]');
 		var zoneSkipElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-skip"]');
@@ -440,9 +441,10 @@ window.ui = window.ui || {};
 		var zoneDurationElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration"]');
 		var zoneDurationPercentElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration-percent"]');
 
-		zoneElements = {
+		var zoneElements = {
 			templateSettingElem: zoneTemplateSettings,
 			templateDisplayElem: zoneTemplateDisplay,
+			zoneIsDefaultElem: zoneZoneIsDefaultElem,
 			nameElem: zoneNameElem,
 			nameDisplayElem: zoneNameDisplayElem,
 			durationElem: zoneDurationElem,
@@ -549,7 +551,11 @@ window.ui = window.ui || {};
 				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
 			}
 
+			//Make zone timer settings window radio input have same name groups
+			zoneElems.autoTypeElem.name = zoneElems.customTypeElem.name = zoneElems.skipTypeElem.name = "zone-timer-type" + zoneId;
+
 			templateInfo.zoneTableElem.appendChild(zoneElems.templateDisplayElem);
+			templateInfo.zoneTableElem.appendChild(zoneElems.templateSettingElem);
         }
 
         return templateInfo;
@@ -801,12 +807,12 @@ window.ui = window.ui || {};
 			sec: zoneElems.durationSecElem.value
 		};
 
+		console.log(oldValues);
 
 		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
 		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
 
 		makeVisible(zoneElems.templateSettingElem);
-		document.body.appendChild(zoneElems.templateSettingElem);
 	}
 
 	function onZoneTimerSettingsCancel(oldValues) {
@@ -822,23 +828,23 @@ window.ui = window.ui || {};
 		makeHidden(zoneElems.templateSettingElem);
 	}
 
-	// Automatically put checked on Custom if duration is changed by user
+	// Automatically put checked on Custom if duration is changed by user on input fields
 	function onZoneCustomDurationChange(id) {
-			var zoneElems = uiElems.zoneElems;
+		var zoneElems = uiElems.zoneElems;
 
-			if (!zoneElems.hasOwnProperty(id)) {
-				return;
-			}
+		if (!zoneElems.hasOwnProperty(id)) {
+			return;
+		}
 
-			zoneElems = uiElems.zoneElems[id];
-			var min = parseInt(zoneElems.durationMinElem.value) || 0;
-			var sec = parseInt(zoneElems.durationSecElem.value) || 0;
+		zoneElems = uiElems.zoneElems[id];
+		var min = parseInt(zoneElems.durationMinElem.value) || 0;
+		var sec = parseInt(zoneElems.durationSecElem.value) || 0;
 
-			if (min !== 0  || sec !== 0) {
-				zoneElems.customTypeElem.checked = true;
-			} else {
-				zoneElems.customTypeElem.checked = false;
-			}
+		if (min !== 0  || sec !== 0) {
+			zoneElems.customTypeElem.checked = true;
+		} else {
+			zoneElems.customTypeElem.checked = false;
+		}
 	}
 
 	function onZoneDurationTypeChange(id) {
@@ -980,10 +986,9 @@ window.ui = window.ui || {};
 						zoneElems.autoTypeElem.checked = true;
 					}
 				} else {
-					durationType = ZoneDurationType.Off;
+					durationType = ZoneDurationType.Off; // Don't water
 					zoneElems.skipTypeElem.checked = true;
 				}
-
 			} else {
 
 				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
@@ -1090,7 +1095,7 @@ window.ui = window.ui || {};
 		}
 
 		if (dayPrograms === null) {
-			console.error("Programs: Cannot find nextRun day %s in days stats", p.nextRun);
+			//console.error("Programs: Cannot find nextRun day %s in days stats", p.nextRun);
 			return null;
 		}
 
@@ -1103,7 +1108,7 @@ window.ui = window.ui || {};
 		}
 
 		if (programZones === null) {
-			console.error("Programs: Can't find program %s zones", p.uid);
+			//console.error("Programs: Can't find program %s zones", p.uid);
 			return null;
 		}
 
