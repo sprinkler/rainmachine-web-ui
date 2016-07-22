@@ -614,26 +614,33 @@ window.ui = window.ui || {};
         //
         program.wateringTimes = [];
 
-        var zoneElems = uiElems.zoneElems;
-        for(var zoneId in zoneElems) {
+        for(var zoneId in uiElems.zoneElems) {
+			var duration = {min: 0, sec: 0};
+			var durationType = ZoneDurationType.Off;
+			var wateringTime = {};
 
-            if (!zoneElems.hasOwnProperty(zoneId)) {
+            if (!uiElems.zoneElems.hasOwnProperty(zoneId)) {
                 continue;
             }
 
-            var zoneTemplateElem = uiElems.zoneElems[zoneId];
-			var durationType = parseInt(getSelectValue(zoneTemplateElem.durationElem.type) || 0);
-            var duration = {min: 0, sec: 0};
+			var zoneElems = uiElems.zoneElems[zoneId];
 
-            var wateringTime = {};
+			if (zoneElems.autoTypeElem.checked) {
+				durationType = ZoneDurationType.Auto;
+			} else if (zoneElems.customTypeElem.checked) {
+				durationType = ZoneDurationType.Manual;
+			}  else {
+				durationType = ZoneDurationType.Off;
+			}
+
 
             wateringTime.id = parseInt(zoneId);
-            wateringTime.active = parseInt(durationType) > 0 ? true:false;
+            wateringTime.active = durationType > 0 ? true:false;
 			if (durationType == ZoneDurationType.Auto) {
 				wateringTime.duration = 0;
 			} else {
-				duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
-				duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
+				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
+				duration.sec = parseInt(zoneElems.durationSecElem.value) || 0;
 				wateringTime.duration = duration.min * 60 + duration.sec;
 			}
 
@@ -704,17 +711,13 @@ window.ui = window.ui || {};
     }
 
 	//--------------------------------------------------------------------------------------------
-	//
+	// Even/Action handlers
 	//
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
 		fillProgramTimers(null); // Timers will change with the program frequency
     }
-
-	//--------------------------------------------------------------------------------------------
-	//
-	//
 
 	function closeProgramSettings()
 	{
@@ -903,6 +906,11 @@ window.ui = window.ui || {};
 			makeHidden(uiElems.delayZonesElem);
 		}
 	}
+
+
+	//--------------------------------------------------------------------------------------------
+	// Utility functions
+	//
 
 	//Converts program next run a a nicer string
 	function getProgramNextRunAsString(programNextRun) {
