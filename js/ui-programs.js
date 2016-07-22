@@ -281,7 +281,7 @@ window.ui = window.ui || {};
         }
 
 		// Fill the Auto watering times even if it's a new program being created
-		fillProgramAutoTimers();
+		fillProgramTimers(null);
 
         if(program) {
             //---------------------------------------------------------------------------------------
@@ -368,7 +368,7 @@ window.ui = window.ui || {};
             }
 
 			// TODO This is done twice because on a already setup program that is being edited  timers must match selected freq
-			fillProgramAutoTimers();
+			fillProgramTimers(null);
 
 
 			//Fixed day or sunrise/sunset start time new in API 4.1
@@ -391,43 +391,7 @@ window.ui = window.ui || {};
             //
             var wateringTimeList = program.wateringTimes;
             console.log(program);
-            if (wateringTimeList) {
-                for (var index = 0; index < wateringTimeList.length; index++) {
-                    var wateringTime = wateringTimeList[index];
-					var zoneId = wateringTime.id;
-
-                    var zoneTemplateElem = uiElems.zoneElems[zoneId];
-
-                    var duration = {min: 0, sec: 0};
-
-                    try {
-                        duration.min = parseInt(wateringTime.duration / 60);
-                        duration.sec = duration.min > 0 ? (wateringTime.duration % 60) : wateringTime.duration;
-                    } catch (e) {
-                    }
-
-                    if (duration.min == 0 && duration.sec == 0) {
-                        duration.min = duration.sec = "";
-                    }
-
-                    zoneTemplateElem.nameElem.textContent = zoneId + ". " + wateringTime.name;
-                    zoneTemplateElem.durationMinElem.value = duration.min;
-                    zoneTemplateElem.durationSecElem.value = duration.sec;
-
-					var durationType = ZoneDurationType.Off; // Skip watering
-					if (wateringTime.active) {
-						if (wateringTime.duration > 0) {
-							durationType = ZoneDurationType.Manual; // Manual timer
-						} else {
-							durationType = ZoneDurationType.Auto; // Auto timer
-						}
-					}
-
-					setSelectOption(zoneTemplateElem.durationTypeElem, durationType, true);
-					onZoneDurationTypeChange(zoneId);
-
-                }
-            }
+			fillProgramTimers(wateringTimeList);
         }
 
         //---------------------------------------------------------------------------------------
@@ -446,6 +410,55 @@ window.ui = window.ui || {};
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 	}
 
+
+	//--------------------------------------------------------------------------------------------
+	//
+	// Will load 2 templates, one for showing and one for setting
+
+	function loadZoneTemplates() {
+
+		//Elements for the zone settings popup
+		var zoneTemplateSettings = loadTemplate("program-settings-zone-timer-template");
+
+		var zoneNameElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-name"]');
+
+		var zoneZoneIsDefaultElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-isdefault"]');
+		var zoneAutoDurationElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-autoduration"]');
+		var zoneDurationMinElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-min"]');
+		var zoneDurationSecElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-sec"]');
+		var zoneAutoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-auto"]');
+		var zoneCustomElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-custom"]');
+		var zoneSkipElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-skip"]');
+
+		var zoneSaveElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-save"]');
+		var zoneCancelElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-cancel"]');
+
+		//Elements used to display zone on program settings
+		var zoneTemplateDisplay = loadTemplate("program-settings-zone-template");
+
+		var zoneNameDisplayElem = $(zoneTemplateDisplay, '[rm-id="program-zone-name"]');
+		var zoneDurationElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration"]');
+		var zoneDurationPercentElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration-percent"]');
+
+		zoneElements = {
+			templateSettingElem: zoneTemplateSettings,
+			templateDisplayElem: zoneTemplateDisplay,
+			nameElem: zoneNameElem,
+			nameDisplayElem: zoneNameDisplayElem,
+			durationElem: zoneDurationElem,
+			durationAutoElem: zoneAutoDurationElem,
+			durationPercentElem: zoneDurationPercentElem,
+			durationMinElem: zoneDurationMinElem,
+			durationSecElem: zoneDurationSecElem,
+			autoTypeElem: zoneAutoElem,
+			customTypeElem: zoneCustomElem,
+			skipTypeElem: zoneSkipElem,
+			saveElem: zoneSaveElem,
+			cancelElem: zoneCancelElem
+		};
+
+		return zoneElements;
+	}
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -511,46 +524,32 @@ window.ui = window.ui || {};
             var zoneId = index + 1;
 			var zoneData = Data.zoneData.zones[index];
 
-            var zoneTemplate = loadTemplate("program-settings-zone-template");
+			var zoneElems = loadZoneTemplates();
+			templateInfo.zoneElems[zoneId] = zoneElems;
 
-            var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
-			var zoneDurationTypeElem = $(zoneTemplate, '[rm-id="program-zone-duration-type"]');
-			var zoneDurationAutoElem = $(zoneTemplate, '[rm-id="program-zone-duration-auto"]');
-			var zoneDurationManualElem = $(zoneTemplate, '[rm-id="program-zone-duration-manual"]');
-			var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
-            var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
+			//Set Custom to checked if these fields change
+			zoneElems.durationMinElem.oninput = (function(id) { return function() { onZoneCustomDurationChange(id); } })(zoneId);
+			zoneElems.durationSecElem.oninput = (function(id) { return function() { onZoneCustomDurationChange(id); } })(zoneId);
+
+			//Show zone timer settings on click
+			zoneElems.templateDisplayElem.onclick =  (function(id) { return function() { onZoneTimerClick(id); } })(zoneId);
+
+			//Don't show zone 1 when master valve is enabled
+			if (Data.provision.system.useMasterValve && index == 0) {
+				zoneElems.templateDisplayElem.style.display = "none";
+			}
 
 			if (zoneData) {
-				zoneNameElem.innerText = zoneId + ". " + zoneData.name;
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = zoneId + ". " + zoneData.name;
+				//Don't show inactive zones
+				if (!zoneData.active) {
+					zoneElems.templateDisplayElem.style.display = "none";
+				}
 			} else {
-				zoneNameElem.innerText = "Zone " + zoneId;
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
 			}
 
-            zoneTemplate.setAttribute("rm-zone-id", zoneId);
-			zoneTemplate.onclick =  (function(id) { return function() { onZoneTimerTypeChange(id); } })(zoneId);
-			zoneDurationTypeElem.onchange = (function(id) { return function() { onZoneDurationTypeChange(id); } })(zoneId);
-
-            templateInfo.zoneElems[zoneId] = {
-                templateElem: zoneTemplate,
-                nameElem: zoneNameElem,
-				durationTypeElem: zoneDurationTypeElem,
-				durationAutoElem: zoneDurationAutoElem,
-				durationManualElem: zoneDurationManualElem,
-                durationMinElem: zoneDurationMinElem,
-                durationSecElem: zoneDurationSecElem
-            };
-
-            //Don't show zone 1 when master valve is enabled
-            if (Data.provision.system.useMasterValve && index == 0) {
-                zoneTemplate.style.display = "none";
-            }
-
-			//Don't show inactive zones
-			if (zoneData && !zoneData.active) {
-				zoneTemplate.style.display = "none";
-			}
-
-            templateInfo.zoneTableElem.appendChild(zoneTemplate);
+			templateInfo.zoneTableElem.appendChild(zoneElems.templateDisplayElem);
         }
 
         return templateInfo;
@@ -623,13 +622,13 @@ window.ui = window.ui || {};
             }
 
             var zoneTemplateElem = uiElems.zoneElems[zoneId];
-			var durationType = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem) || 0);
+			var durationType = parseInt(getSelectValue(zoneTemplateElem.durationElem.type) || 0);
             var duration = {min: 0, sec: 0};
 
             var wateringTime = {};
 
             wateringTime.id = parseInt(zoneId);
-            wateringTime.active = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem)) > 0 ? true:false;
+            wateringTime.active = parseInt(durationType) > 0 ? true:false;
 			if (durationType == ZoneDurationType.Auto) {
 				wateringTime.duration = 0;
 			} else {
@@ -710,7 +709,7 @@ window.ui = window.ui || {};
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
-		fillProgramAutoTimers(); // Timers will change with the program frequency
+		fillProgramTimers(null); // Timers will change with the program frequency
     }
 
 	//--------------------------------------------------------------------------------------------
@@ -787,31 +786,56 @@ window.ui = window.ui || {};
         }
     }
 
-	function onZoneTimerTypeChange(id) {
-		var index = id - 1;
-		var zoneData = Data.zoneData.zones[index];
-
-		var zoneTemplate = loadTemplate("program-settings-zone-timer-template");
-
-		console.log(zoneTemplate);
-
-		var zoneNameElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-name"]');
-		var zoneSaveElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-save"]');
-		var zoneCancelElem = $(zoneTemplate, '[rm-id="program-settings-zone-timer-cancel"]');
-
-		zoneCancelElem.onclick = function() {
-			makeHidden(zoneTemplate);
-			delTag(zoneTemplate);
+	//Show zone template for setting timers this function is used to save old values and restore on cancel
+	function onZoneTimerClick(id) {
+		var zoneElems = uiElems.zoneElems[id];
+		var oldValues = {
+			id: id,
+			isAuto: zoneElems.autoTypeElem.checked,
+			isCustom: zoneElems.customTypeElem.checked,
+			isSkip: zoneElems.skipTypeElem.checked,
+			min: zoneElems.durationMinElem.value,
+			sec: zoneElems.durationSecElem.value
 		};
 
-		if (zoneData) {
-			zoneNameElem.innerText = id + ". " + zoneData.name;
-		} else {
-			zoneNameElem.innerText = "Zone " + id;
-		}
 
-		makeVisible(zoneTemplate);
-		document.body.appendChild(zoneTemplate)
+		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
+		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
+
+		makeVisible(zoneElems.templateSettingElem);
+		document.body.appendChild(zoneElems.templateSettingElem);
+	}
+
+	function onZoneTimerSettingsCancel(oldValues) {
+		console.log(oldValues);
+		var zoneElems = uiElems.zoneElems[oldValues.id];
+
+		zoneElems.autoTypeElem.checked = oldValues.isAuto;
+		zoneElems.customTypeElem.checked = oldValues.isCustom;
+		zoneElems.skipTypeElem.checked = oldValues.isSkip;
+		zoneElems.durationMinElem.value = oldValues.min;
+		zoneElems.durationSecElem.value = oldValues.sec;
+
+		makeHidden(zoneElems.templateSettingElem);
+	}
+
+	// Automatically put checked on Custom if duration is changed by user
+	function onZoneCustomDurationChange(id) {
+			var zoneElems = uiElems.zoneElems;
+
+			if (!zoneElems.hasOwnProperty(id)) {
+				return;
+			}
+
+			zoneElems = uiElems.zoneElems[id];
+			var min = parseInt(zoneElems.durationMinElem.value) || 0;
+			var sec = parseInt(zoneElems.durationSecElem.value) || 0;
+
+			if (min !== 0  || sec !== 0) {
+				zoneElems.customTypeElem.checked = true;
+			} else {
+				zoneElems.customTypeElem.checked = false;
+			}
 	}
 
 	function onZoneDurationTypeChange(id) {
@@ -894,16 +918,92 @@ window.ui = window.ui || {};
 		return nextRun;
 	}
 
-	function fillProgramAutoTimers() {
+	function fillProgramTimers(wateringTimeList) {
+		var zones = null;
+
 		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
-			var programMultiplier = getProgramFutureMultiplier();
-			var zones = Data.zoneAdvData.zones;
-			for (var z = 0; z < zones.length; z++) {
-				var zoneTemplateElem = uiElems.zoneElems[z + 1];
-				var timer = parseInt(zones[z].waterSense.referenceTime || 0) * programMultiplier;
-				zoneTemplateElem.durationAutoElem.textContent = Util.secondsToText(timer);
-			}
+			zones = Data.zoneAdvData.zones;
 		}
+
+		var programMultiplier = getProgramFutureMultiplier();
+
+		var skipTimerText = "No time set";
+
+		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
+			var autoTimer = 0;
+			var customTimer = 0;
+			var timerText = "";
+			var zoneId = index + 1;
+			var zoneElems = uiElems.zoneElems[zoneId];
+			var durationType = ZoneDurationType.Off; // Skip watering
+			var duration = {min: 0, sec: 0};
+
+			//Fill the suggested auto timer
+			if (zones) {
+				autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier;
+				zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
+			}
+
+			//If called with wateringTimes fill from program data
+			if (wateringTimeList) {
+				var wateringTime = wateringTimeList[index];
+
+				customTimer = wateringTime.duration;
+
+				try {
+					duration.min = parseInt(wateringTime.duration / 60);
+					duration.sec = duration.min > 0 ? (wateringTime.duration % 60) : wateringTime.duration;
+				} catch (e) {
+				}
+
+				if (duration.min == 0 && duration.sec == 0) {
+					duration.min = duration.sec = "";
+				}
+
+				zoneElems.durationMinElem.value = duration.min;
+				zoneElems.durationSecElem.value = duration.sec;
+
+				if (wateringTime.active) {
+					if (wateringTime.duration > 0) {
+						durationType = ZoneDurationType.Manual; // Manual timer
+						zoneElems.customTypeElem.checked = true;
+					} else {
+						durationType = ZoneDurationType.Auto; // Auto timer
+						zoneElems.autoTypeElem.checked = true;
+					}
+				} else {
+					durationType = ZoneDurationType.Off;
+					zoneElems.skipTypeElem.checked = true;
+				}
+
+			} else {
+
+				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
+				duration.sec = parseInt(zoneElems.durationSecElem.value) || 0;
+				customTimer = duration.min * 60 + duration.sec;
+
+				if (zoneElems.autoTypeElem.checked) {
+					durationType = ZoneDurationType.Auto;
+				} else if (zoneElems.customTypeElem.checked) {
+					durationType = ZoneDurationType.Manual;
+				}  else {
+					durationType = ZoneDurationType.Off;
+				}
+			}
+
+			//Check what duration we should display on Program Zones List
+			if (durationType == ZoneDurationType.Auto) {
+				timerText = Util.secondsToText(autoTimer);
+			} else if (durationType == ZoneDurationType.Manual) {
+				timerText = Util.secondsToText(customTimer);
+			} else {
+				timerText = skipTimerText;
+			}
+
+			zoneElems.durationElem.textContent = timerText;
+		}
+
+		//onZoneDurationTypeChange(zoneId)
 	}
 
 	function getProgramFutureMultiplier() {
