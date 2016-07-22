@@ -519,6 +519,7 @@ window.ui = window.ui || {};
 		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
 		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
 
+		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
 
@@ -940,8 +941,8 @@ window.ui = window.ui || {};
 		}
 
 		var programMultiplier = getProgramFutureMultiplier();
-
 		var skipTimerText = "No time set";
+		var totalTimes = 0;
 
 		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
 			var autoTimer = 0;
@@ -1007,14 +1008,18 @@ window.ui = window.ui || {};
 			//Check what duration we should display on Program Zones List
 			if (durationType == ZoneDurationType.Auto) {
 				timerText = Util.secondsToText(autoTimer);
+				totalTimes += autoTimer;
 			} else if (durationType == ZoneDurationType.Manual) {
 				timerText = Util.secondsToText(customTimer);
+				totalTimes += customTimer;
 			} else {
 				timerText = skipTimerText;
 			}
 
 			zoneElems.durationElem.textContent = timerText;
 		}
+
+		uiElems.zonesTotalTime.textContent = Util.secondsToText(totalTimes);
 
 		//onZoneDurationTypeChange(zoneId)
 	}

@@ -1868,7 +1868,7 @@
 								</tr>
 								<tr>
 									<td style="padding-right:0">
-										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span class="zoneTimesDetermined" style="margin-right:0;">00h 00m 00s</span></div>
+										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span rm-id="program-settings-zone-totaltime" class="zoneTimesDetermined" style="margin-right:0;">00h 00m 00s</span></div>
 									</td>
 								</tr>
 								<tr>
@@ -1926,7 +1926,8 @@
 							<span class="zoneTimesDetermined" rm-id="program-settings-zone-timer-autoduration">00h 25m 33s</span>
 						</div>
 						<div style="display: inline-block;margin-top: 14px;">
-							<input rm-id="program-settings-zone-timer-auto" type="radio" name="zone-timer-type" class="zoneTimesInput" style="vertical-align: top;"></input><span class="cardTitle">Determined from zone properties</span>
+							<input rm-id="program-settings-zone-timer-auto" type="radio" class="zoneTimesInput" style="vertical-align: top;">
+							<span class="cardTitle">Determined from zone properties</span>
 						</div>
 					</td>
 				</tr>
@@ -1938,13 +1939,15 @@
 							<span><input rm-id="program-settings-zone-timer-sec" type="number" class="typeNumber" placeholder="00"></span>
 						</div>
 						<div style="display: inline-block;margin-top: 18px;">
-							<input rm-id="program-settings-zone-timer-custom" type="radio" name="zone-timer-type" class="zoneTimesInput" style="vertical-align: top;"></input><span class="cardTitle">Custom</span>
+							<input rm-id="program-settings-zone-timer-custom" type="radio" class="zoneTimesInput" style="vertical-align: top;">
+							<span class="cardTitle">Custom</span>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td class="middle">
-						<input rm-id="program-settings-zone-timer-skip" type="radio" name="zone-timer-type" class="zoneTimesInput"></input><span class="cardTitle">Do not water this zone</span>
+						<input rm-id="program-settings-zone-timer-skip" type="radio" class="zoneTimesInput">
+						<span class="cardTitle">Do not water this zone</span>
 						<br><span class="zoneTimesSubtitle">This zone will not be watered in this program.</span>
 					</td>
 				</tr>
