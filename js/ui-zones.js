@@ -683,8 +683,17 @@ window.ui = window.ui || {};
 		var capacity = "Updating...";
 
 		if (waterSense !== null) {
-			timer = Util.secondsToText(waterSense.referenceTime);
-			capacity = Util.convert.uiQuantity(waterSense.currentFieldCapacity) + " " + Util.convert.uiQuantityStr();
+			if (waterSense.referenceTime <= 0) {
+				timer = "Invalid values";
+			} else {
+				timer = Util.secondsToText(waterSense.referenceTime);
+			}
+
+			if (waterSense.currentFieldCapacity <= 0) {
+				capacity = "Invalid values";
+			} else {
+				capacity = Util.convert.uiQuantity(waterSense.currentFieldCapacity) + " " + Util.convert.uiQuantityStr();
+			}
 		}
 
 		uiElems.simulatedTimerElem.textContent = timer;
