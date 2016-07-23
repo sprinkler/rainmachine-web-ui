@@ -426,6 +426,7 @@ window.ui = window.ui || {};
 		var zoneAutoDurationElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-autoduration"]');
 		var zoneDurationMinElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-min"]');
 		var zoneDurationSecElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-sec"]');
+		var zonePercentageElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-percentage"]');
 
 		var zoneAutoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-auto"]');
 		var zoneCustomElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-custom"]');
@@ -445,6 +446,7 @@ window.ui = window.ui || {};
 			templateSettingElem: zoneTemplateSettings,
 			templateDisplayElem: zoneTemplateDisplay,
 			zoneIsDefaultElem: zoneZoneIsDefaultElem,
+			percentageElem: zonePercentageElem,
 			nameElem: zoneNameElem,
 			nameDisplayElem: zoneNameDisplayElem,
 			durationElem: zoneDurationElem,
@@ -551,6 +553,15 @@ window.ui = window.ui || {};
 			} else {
 				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
 			}
+
+			//Add Auto percentage chooser
+			//Create percentageChooser with current value, it will change zone.saving that holds the FC percent as int
+			zoneElems.zonePercentage = new percentageChooser(
+				zoneElems.percentageElem, 10, 200, 100, 5,
+				function(v) {
+					fillProgramTimers(null);
+				}
+			);
 
 			//Make zone timer settings window radio input have same name groups
 			zoneElems.autoTypeElem.name = zoneElems.customTypeElem.name = zoneElems.skipTypeElem.name = "zone-timer-type" + zoneId;
@@ -955,8 +966,17 @@ window.ui = window.ui || {};
 
 			//Fill the suggested auto timer
 			if (zones) {
-				autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier;
-				zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
+				var autoTimerText;
+				try {
+					//Apply percentage user setting
+					var coef = zoneElems.zonePercentage.value / 100.0;
+					autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier * coef;
+					autoTimerText = Util.secondsToText(autoTimer);
+				} catch(e) {
+					autoTimerText = "Error in percentage";
+					autoTimer = 0;
+				}
+				zoneElems.durationAutoElem.textContent = autoTimerText;
 			}
 
 			//If called with wateringTimes fill from program data
