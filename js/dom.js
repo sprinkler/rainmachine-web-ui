@@ -212,6 +212,47 @@ function loadTemplate(name) {
 	return template;
 }
 
+function percentageChooser(parent, min, max, start, step, onChange) {
+	var minusButton = addTag(parent, 'button');
+	var outputDiv = addTag(parent, 'span');
+	var plusButton = addTag(parent, 'button');
+
+	minusButton.className = "zoneTimesCircleButton";
+	minusButton.textContent = "-";
+
+	plusButton.className = "zoneTimesCircleButton";
+	plusButton.textContent = "+";
+
+	outputDiv.className = "zoneTimesDetermined"
+
+	this.value = start;
+
+	this.updateOutput = function() {
+		outputDiv.textContent = this.value + "%";
+	};
+
+	this.changeValue = function(step) {
+		if (this.value + step > max) {
+			this.value = max
+		} else if (this.value + step < min) {
+			this.value = min;
+		} else {
+			this.value += step;
+		}
+
+		this.updateOutput();
+
+		if (onChange !== null){
+			onChange(this.value);
+		}
+	};
+
+	minusButton.onclick =  this.changeValue.bind(this, -step);
+	plusButton.onclick = this.changeValue.bind(this, step);
+
+	this.updateOutput();
+}
+
 function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	var thumb = slider.children[0];

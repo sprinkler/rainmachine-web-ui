@@ -38,7 +38,9 @@ window.ui = window.ui || {};
 	var startedFromPrograms = true; //set default to true so we can set sliders positions at page load/refresh
 	var allowSimulationUpdate = false; //used to guard against auto refresh for zone calculated capacity/timer when just displaying settings
 
-
+	//---------------------------------------------------------------------------------------
+	// Functions to retrieve data (API calls) and call display functions.
+	//
 	function showZones() {
 		APIAsync.getZones().then(
 			function(o) {
@@ -54,6 +56,10 @@ window.ui = window.ui || {};
     }
 
 
+	//---------------------------------------------------------------------------------------
+	// Simple Zones and Watering Queue display on dashboard
+	// Functions to manipulate dom templates and elements
+	//
 	function createZonesElems() {
 		var zonesContainer = $('#zonesList');
 		clearTag(zonesContainer);
@@ -215,6 +221,10 @@ window.ui = window.ui || {};
 		container.appendChild(template);
 	}
 
+	//---------------------------------------------------------------------------------------
+	// Single Zone Settings
+	// Functions to manipulate dom templates and elements
+	//
 	function loadZoneTemplate() {
 
 		var templateInfo = {};
@@ -242,9 +252,7 @@ window.ui = window.ui || {};
 		// Advanced properties
 		templateInfo.simulatedTimerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-timer"]');
 		templateInfo.simulatedCapacityElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity"]');
-		templateInfo.simulatedCapacityPercentageElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-percent"]');
-		templateInfo.simulatedCapacityIncElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-inc"]');
-		templateInfo.simulatedCapacityDecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-dec"]');
+		templateInfo.simulatedCapacityChooserElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-chooser"]');
 
 		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
 		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
@@ -289,6 +297,60 @@ window.ui = window.ui || {};
 		return templateInfo;
 	}
 
+	function collectData(uid) {
+
+		var zoneProperties = {};
+		var zoneAdvProperties = {};
+		var shouldSetMasterValve = false;
+
+		if (!uiElems || !uiElems.hasOwnProperty("id") || !uiElems.id === uid) {
+			console.log("Cannot find uiElems for zone %d", uid);
+			return -2;
+		}
+
+		zoneProperties.uid = uid;
+		zoneProperties.name = uiElems.nameElem.value;
+		zoneProperties.active = uiElems.activeElem.checked;
+		zoneProperties.internet = uiElems.forecastElem.checked;
+		zoneProperties.history = uiElems.historicalElem.checked;
+		zoneProperties.type = parseInt(getSelectValue(uiElems.vegetationElem));
+		zoneProperties.soil = parseInt(getSelectValue(uiElems.soilElem));
+		zoneProperties.group_id = parseInt(getSelectValue(uiElems.sprinklerElem));
+		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
+		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
+		zoneProperties.savings = uiElems.fieldCapacityPercentage.value;
+
+		// The custom crop coef is not saved to advanced properties
+		var advVegCropType = parseInt(getSelectValue(uiElems.advVegCropTypeElem) || 0);
+		if (advVegCropType == AdvVegCoefType.monthly) {
+			zoneProperties.ETcoef = -1; // Flag that we use the multi values for each month instead of single value
+		} else {
+			zoneProperties.ETcoef = uiElems.advVegCropElem.value;
+		}
+
+		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
+		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
+		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value;
+		zoneAdvProperties.soilIntakeRate = uiElems.advIntakeRateElem.value;
+		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value;
+		zoneAdvProperties.precipitationRate = uiElems.advPrecipRateElem.value
+		zoneAdvProperties.rootDepth = uiElems.advRootDepthElem.value;
+		zoneAdvProperties.allowedSurfaceAcc = uiElems.advSurfAccElem.value;
+		zoneAdvProperties.isTallPlant = uiElems.advTallElem.checked;
+		zoneAdvProperties.detailedMonthsKc = [];
+
+		for (var z = 0; z < 12; z++) {
+			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value);
+		}
+
+		var data = {
+			zoneProperties: zoneProperties,
+			zoneAdvProperties: zoneAdvProperties
+		};
+
+		return data;
+	}
+
 	function showZoneSettings(zone)
 	{
 		console.log(zone);
@@ -325,6 +387,15 @@ window.ui = window.ui || {};
 		uiElems.activeElem.checked = zone.active;
 		uiElems.forecastElem.checked = zone.internet;
 		uiElems.historicalElem.checked = zone.history;
+
+		//Create percentageChooser with current value, it will change zone.saving that holds the FC percent as int
+		uiElems.fieldCapacityPercentage = new percentageChooser(
+			uiElems.simulatedCapacityChooserElem, 50, 200, zone.savings, 10,
+			function(v) {
+				zone.savings = v;
+				showZoneSimulatedValues(zone.waterSense);
+			}
+		);
 
 		//Curent simulated values
 		showZoneSimulatedValues(zone.waterSense);
@@ -381,6 +452,11 @@ window.ui = window.ui || {};
 		allowSimulationUpdate = true;
 	}
 
+
+	//---------------------------------------------------------------------------------------
+	// Dashboard Simple Zones
+	// Event and Action functions
+	//
 	function onZonesEdit() {
 		if (uiElemsAll.editAll.isEditing) {
 			for (var id in uiElemsAll.zones) {
@@ -517,64 +593,17 @@ window.ui = window.ui || {};
 		window.ui.programs.showPrograms(); //Also refresh programs state
 	}
 
+	//---------------------------------------------------------------------------------------
+	// Single Zone Settings
+	// Event and Action functions
+	//
+
 	function closeZoneSettings()
 	{
 		var zoneSettingsDiv = $('#zonesSettings');
 		console.log("Closing zone settings");
 		clearTag(zoneSettingsDiv);
 		makeVisible('#zonesList');
-	}
-
-	function collectData(uid) {
-
-		var zoneProperties = {};
-		var zoneAdvProperties = {};
-		var shouldSetMasterValve = false;
-
-		if (!uiElems || !uiElems.hasOwnProperty("id") || !uiElems.id === uid) {
-			console.log("Cannot find uiElems for zone %d", uid);
-			return -2;
-		}
-
-		zoneProperties.uid = uid;
-		zoneProperties.name = uiElems.nameElem.value;
-		zoneProperties.active = uiElems.activeElem.checked;
-		zoneProperties.internet = uiElems.forecastElem.checked;
-		zoneProperties.history = uiElems.historicalElem.checked;
-		zoneProperties.type = parseInt(getSelectValue(uiElems.vegetationElem));
-		zoneProperties.soil = parseInt(getSelectValue(uiElems.soilElem));
-		zoneProperties.group_id = parseInt(getSelectValue(uiElems.sprinklerElem));
-		zoneProperties.sun = parseInt(getSelectValue(uiElems.exposureElem));
-		zoneProperties.slope = parseInt(getSelectValue(uiElems.slopeElem));
-		// The custom crop coef is not saved to advanced properties
-		var advVegCropType = parseInt(getSelectValue(uiElems.advVegCropTypeElem) || 0);
-		if (advVegCropType == AdvVegCoefType.monthly) {
-			zoneProperties.ETcoef = -1; // Flag that we use the multi values for each month instead of single value
-		} else {
-			zoneProperties.ETcoef = uiElems.advVegCropElem.value;
-		}
-
-		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
-		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
-		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value;
-		zoneAdvProperties.soilIntakeRate = uiElems.advIntakeRateElem.value;
-		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value;
-		zoneAdvProperties.precipitationRate = uiElems.advPrecipRateElem.value
-		zoneAdvProperties.rootDepth = uiElems.advRootDepthElem.value;
-		zoneAdvProperties.allowedSurfaceAcc = uiElems.advSurfAccElem.value;
-		zoneAdvProperties.isTallPlant = uiElems.advTallElem.checked;
-		zoneAdvProperties.detailedMonthsKc = [];
-
-		for (var z = 0; z < 12; z++) {
-			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value);
-		}
-
-		var data = {
-			zoneProperties: zoneProperties,
-			zoneAdvProperties: zoneAdvProperties
-		};
-
-		return data;
 	}
 
 	function saveZone(uid)
@@ -692,7 +721,13 @@ window.ui = window.ui || {};
 			if (waterSense.currentFieldCapacity <= 0) {
 				capacity = "Invalid values";
 			} else {
-				capacity = Util.convert.uiQuantity(waterSense.currentFieldCapacity) + " " + Util.convert.uiQuantityStr();
+				try {
+					var coef = uiElems.fieldCapacityPercentage.value / 100.0;
+					var capacityValue = (waterSense.currentFieldCapacity * coef).toFixed(2);
+					capacity = Util.convert.uiQuantity(capacityValue) + " " + Util.convert.uiQuantityStr();
+				} catch (e) {
+					capacity = "Percentage error";
+				}
 			}
 		}
 
@@ -718,23 +753,21 @@ window.ui = window.ui || {};
 		);
 	}
 
-	function zoneVegetationTypeToString(type)
-	{
-		switch (type)
-		{
+	function zoneVegetationTypeToString(type) {
+		switch (type) {
 			case 2:
 				return "Lawn";
 			case 3:
 				return "Fruit Trees";
-			case 4:
+		   case 4:
 				return "Flowers";
-			case 5:
+		   case 5:
 				return "Vegetables";
-			case 6:
+		   case 6:
 				return "Citrus";
-			case 7:
+		   case 7:
 				return "Trees and Bushes";
-			default:
+		   default:
 				return "Other"
 		}
 	}
