@@ -247,6 +247,19 @@ function percentageChooser(parent, min, max, start, step, onChange) {
 		}
 	};
 
+	this.setValue = function(value) {
+		if (value > max) {
+			value = max;
+		}
+
+		if (value < min) {
+			value = min;
+		}
+
+		this.value = value;
+		this.updateOutput();
+	};
+
 	minusButton.onclick =  this.changeValue.bind(this, -step);
 	plusButton.onclick = this.changeValue.bind(this, step);
 

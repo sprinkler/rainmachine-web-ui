@@ -651,9 +651,10 @@ window.ui = window.ui || {};
 				durationType = ZoneDurationType.Off;
 			}
 
-
             wateringTime.id = parseInt(zoneId);
             wateringTime.active = durationType > 0 ? true:false;
+			wateringTime.userPercentage = zoneElems.zonePercentage.value / 100.0;
+
 			if (durationType == ZoneDurationType.Auto) {
 				wateringTime.duration = 0;
 			} else {
@@ -957,6 +958,7 @@ window.ui = window.ui || {};
 
 		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
 			var autoTimer = 0;
+			var autoCoef = 1;
 			var customTimer = 0;
 			var timerText = "";
 			var zoneId = index + 1;
@@ -966,17 +968,7 @@ window.ui = window.ui || {};
 
 			//Fill the suggested auto timer
 			if (zones) {
-				var autoTimerText;
-				try {
-					//Apply percentage user setting
-					var coef = zoneElems.zonePercentage.value / 100.0;
-					autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier * coef;
-					autoTimerText = Util.secondsToText(autoTimer);
-				} catch(e) {
-					autoTimerText = "Error in percentage";
-					autoTimer = 0;
-				}
-				zoneElems.durationAutoElem.textContent = autoTimerText;
+				autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier;
 			}
 
 			//If called with wateringTimes fill from program data
@@ -1010,6 +1002,9 @@ window.ui = window.ui || {};
 					durationType = ZoneDurationType.Off; // Don't water
 					zoneElems.skipTypeElem.checked = true;
 				}
+
+				//Specified auto timer user percentage
+				zoneElems.zonePercentage.setValue(parseInt(wateringTime.userPercentage * 100) || 1);
 			} else {
 
 				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
@@ -1025,6 +1020,10 @@ window.ui = window.ui || {};
 				}
 			}
 
+			//Add auto coef
+			autoCoef = zoneElems.zonePercentage.value / 100.0;
+			autoTimer *= autoCoef;
+
 			//Check what duration we should display on Program Zones List
 			if (durationType == ZoneDurationType.Auto) {
 				timerText = Util.secondsToText(autoTimer);
@@ -1036,6 +1035,7 @@ window.ui = window.ui || {};
 				timerText = skipTimerText;
 			}
 
+			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer * autoCoef);
 			zoneElems.durationElem.textContent = timerText;
 		}
 
