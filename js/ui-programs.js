@@ -816,11 +816,10 @@ window.ui = window.ui || {};
 			isAuto: zoneElems.autoTypeElem.checked,
 			isCustom: zoneElems.customTypeElem.checked,
 			isSkip: zoneElems.skipTypeElem.checked,
+			autoPercentage: zoneElems.zonePercentage.value,
 			min: zoneElems.durationMinElem.value,
 			sec: zoneElems.durationSecElem.value
 		};
-
-		console.log(oldValues);
 
 		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
 		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
@@ -837,6 +836,8 @@ window.ui = window.ui || {};
 		zoneElems.skipTypeElem.checked = oldValues.isSkip;
 		zoneElems.durationMinElem.value = oldValues.min;
 		zoneElems.durationSecElem.value = oldValues.sec;
+		zoneElems.zonePercentage.setValue(oldValues.autoPercentage);
+		fillProgramTimers(null);
 
 		makeHidden(zoneElems.templateSettingElem);
 	}
@@ -1035,7 +1036,7 @@ window.ui = window.ui || {};
 				timerText = skipTimerText;
 			}
 
-			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer * autoCoef);
+			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
 			zoneElems.durationElem.textContent = timerText;
 		}
 
