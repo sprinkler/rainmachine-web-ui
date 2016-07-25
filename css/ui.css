@@ -85,7 +85,7 @@ body.login {
 
 body.login .loginContainer { display: block; }
 body.login .logout { display: none; }
-body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;}
+body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-font-smoothing: antialiased;}
 .left { float: left; }
 .top15 {padding-top: 15px;}
 .hidden { display: none; }
@@ -377,6 +377,9 @@ sup { font-size: 12px }
   font-size: 25px;
   vertical-align: middle;
 }
+.iconZoneAdvSet {
+  font-size: 44px;
+}
 * {
   padding: 0;
   margin: 0;
@@ -419,10 +422,19 @@ h1 {
   height:0;
   vertical-align: middle;
 }
-.zoneTimesDetermined {
+.zoneTimesDeterminedFullTime, .zoneTimesDetermined {
+  display: inline-block;
   color: #3399cc;
   margin-left:10px;
   font-size:20px;
+  padding: 2px 15px;
+  padding-left: 0;
+}
+.zoneTimesDetermined {
+  width: 56px;
+  text-align: center;
+  margin:0;
+  padding: 0;
 }
 .zoneTimesWeatherMessage{
   color:#3399cc;
@@ -880,7 +892,7 @@ select, .selectSmall {
 .zoneTimesCircleButton {
   width: 30px;
   height: 30px;
-  margin-left:5px;
+  margin-top: -2px;
 }
 @keyframes bullets {
   from { transform: scale(0.5); }
