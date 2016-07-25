@@ -1002,7 +1002,7 @@ window.ui = window.ui || {};
 			} else if (durationType == ZoneDurationType.Manual) {
 				timerText = Util.secondsToText(customTimer);
 				totalTimes += customTimer;
-				timerColor = "#888";
+				timerColor = "#555";
 			} else {
 				timerText = skipTimerText;
 				timerColor = "#bbb";
