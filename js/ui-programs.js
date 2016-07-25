@@ -861,38 +861,6 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function onZoneDurationTypeChange(id) {
-		var zoneElems = uiElems.zoneElems;
-
-		if (!zoneElems || !zoneElems.hasOwnProperty(id)) {
-			return;
-		}
-
-		var zoneTemplateElem = uiElems.zoneElems[id];
-		var durationType = parseInt(getSelectValue(zoneTemplateElem.durationTypeElem));
-
-
-		switch (durationType) {
-			case ZoneDurationType.Off:
-				makeHidden(zoneTemplateElem.durationManualElem);
-				makeHidden(zoneTemplateElem.durationAutoElem);
-				zoneTemplateElem.nameElem.style.color = "#bbb";
-				break;
-
-			case ZoneDurationType.Auto:
-				makeHidden(zoneTemplateElem.durationManualElem);
-				makeVisible(zoneTemplateElem.durationAutoElem);
-				zoneTemplateElem.nameElem.style.color = "#3399cc";
-				break;
-
-			case ZoneDurationType.Manual:
-				makeVisible(zoneTemplateElem.durationManualElem);
-				makeHidden(zoneTemplateElem.durationAutoElem);
-				zoneTemplateElem.nameElem.style.color = "#888";
-				break;
-		}
-	}
-
 	function onCycleAndSoakTypeChange() {
 		var cyclesType = parseInt(getSelectValue(uiElems.cyclesTypeElem) || 0);
 		var soak = parseInt(uiElems.soakElem.value) || 0;
@@ -962,6 +930,7 @@ window.ui = window.ui || {};
 			var autoCoef = 1;
 			var customTimer = 0;
 			var timerText = "";
+			var timerColor;
 			var zoneId = index + 1;
 			var zoneElems = uiElems.zoneElems[zoneId];
 			var durationType = ZoneDurationType.Off; // Skip watering
@@ -1029,20 +998,22 @@ window.ui = window.ui || {};
 			if (durationType == ZoneDurationType.Auto) {
 				timerText = Util.secondsToText(autoTimer);
 				totalTimes += autoTimer;
+				timerColor = "#3399cc";
 			} else if (durationType == ZoneDurationType.Manual) {
 				timerText = Util.secondsToText(customTimer);
 				totalTimes += customTimer;
+				timerColor = "#888";
 			} else {
 				timerText = skipTimerText;
+				timerColor = "#bbb";
 			}
 
 			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
 			zoneElems.durationElem.textContent = timerText;
+			zoneElems.durationElem.style.color = timerColor;
 		}
 
 		uiElems.zonesTotalTime.textContent = Util.secondsToText(totalTimes);
-
-		//onZoneDurationTypeChange(zoneId)
 	}
 
 	function getProgramFutureMultiplier() {
