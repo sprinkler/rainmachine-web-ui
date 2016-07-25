@@ -608,23 +608,6 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="fieldCapacitySave" class="button label-blue center right">Save</button>
-												<button id="fieldCapacityDefault" class="button label-grey center right" value="2">Default</button>
-												<span class="right mr" style="width:30%;">
-													<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
-													<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
-													<script>
-														function outputUpdateCapacity(capacity) {
-															document.querySelector('#outputFieldCapacity').value = capacity;
-														}
-													</script>
-												</span>
-												<span class="cardTitle">Field Capacity</span><br>
-												<span class="subtitle">The maximum number of days your soil can store water in the summer.</span>
-											</td>
-										</tr>
-										<tr>
-											<td class="middle">
 												<button id="windSensitivitySave" class="button label-blue center right">Save</button>
 												<button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
 												<span class="right mr" style="width:30%;">

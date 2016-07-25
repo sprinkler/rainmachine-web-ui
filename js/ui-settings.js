@@ -38,22 +38,19 @@ window.ui = window.ui || {};
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
 		var ws = Data.provision.location.windSensitivity;
-		var fc = Data.provision.location.wsDays;
+		var fc = Data.provision.location.wsDays; //TODO global field capacity no longer used as Watersense is per zones
 		var correctionPast = Data.provision.system.useCorrectionForPast;
 
 		var rsElem = $("#rainSensitivity");
 		var wsElem = $("#windSensitivity");
-		var fcElem = $("#fieldCapacity");
 		var correctionPastElem = $("#weatherCorrectionPast");
 
 		var rsSaveElem = $("#rainSensitivitySave");
 		var wsSaveElem = $("#windSensitivitySave");
-		var fcSaveElem = $("#fieldCapacitySave");
 		var correctionPastSet = $("#weatherCorrectionPastSet");
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
-		var fcDefaultElem = $("#fieldCapacityDefault");
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
@@ -61,9 +58,6 @@ window.ui = window.ui || {};
 
 		wsElem.value = parseInt(ws * 100);
 		wsElem.oninput();
-
-		fcElem.value = parseInt(fc);
-		fcElem.oninput();
 
 		correctionPastElem.checked = correctionPast;
 
@@ -87,23 +81,12 @@ window.ui = window.ui || {};
 			}
 		};
 
-		fcSaveElem.onclick = function() {
-			var fcNew = +fcElem.value;
-			if (fcNew != rs)
-			{
-				var data = {wsDays: fcNew};
-				API.setProvision(null, data);
-				console.log("Set Field Capacity: %f",  fcNew);
-			}
-		};
-
 		correctionPastSet.onclick = function() {
 			window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
 		};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
-		fcDefaultElem.onclick = function() { fcElem.value = fcDefaultElem.value; fcElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
 		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
