@@ -349,6 +349,8 @@ window.ui = window.ui || {};
 			setSelectOption(uiElems.delayTypeElem, delayType, true);
 			onDelayZonesTypeChange();
 
+			setSelectOption(uiElems.restrictionQPF, program.futureField1, true);
+
             if (program.frequency.type === FrequencyType.Daily) { // Daily
                 uiElems.frequencyDailyElem.checked = true;
             } else if (program.frequency.type === FrequencyType.EveryN) { // Every N days
@@ -521,6 +523,8 @@ window.ui = window.ui || {};
 		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
 		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
 
+		templateInfo.restrictionQPF = $(templateInfo.programTemplateElem, '[rm-id="program-restriction-qpf"]');
+
 		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
@@ -620,6 +624,11 @@ window.ui = window.ui || {};
 		var delayType = parseInt(getSelectValue(uiElems.delayTypeElem) || 0);
         program.delay_on = delayType == DelayType.Manual ? true:false;
         program.delay = delay.min * 60 + delay.sec;
+
+		//---------------------------------------------------------------------------------------
+		// API 4.3 Program QPF restriction
+		//
+		program.futureField1 = getSelectValue(uiElems.restrictionQPF) || 0;
 
         //---------------------------------------------------------------------------------------
         // Collect frequency.
