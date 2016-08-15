@@ -226,11 +226,12 @@ function processDataWaterSaved() {
 	var waterLog = Data.waterLogSimple.waterLog.days;
 	for (var i = 0; i < waterLog.length; i++) {
 		var day = waterLog[i].date;
-		var saved = (100 - parseInt((waterLog[i].realDuration / waterLog[i].userDuration) * 100));
-        if (saved < 0) saved = 0;
-        if (saved > 100) saved = 100;
+		var data = {
+			real: waterLog[i].realDuration,
+			user: waterLog[i].userDuration
+		};
 
-		chartsData.waterSaved.insertAtDate(day, saved);
+		chartsData.waterSaved.insertAtDate(day, data);
 	}
 }
 
@@ -460,20 +461,25 @@ function setWaterSavedValueForDays(pastDays) {
 	var startDay = Util.getDateWithDaysDiff(pastDays);
 	var startDayIndex = Util.getDateIndex(startDay, chartsData.waterSaved.startDate);
 
-	var nrDays = 0;
-	var sum = 0;
+	var realSum = 0;
+	var userSum = 0;
+
 	for (var i = startDayIndex; i < startDayIndex + pastDays; i++) {
 		var v = chartsData.waterSaved.data[i];
 		if (typeof v !== "undefined" && v !== null) {
-			nrDays++;
-			sum += v;
+			realSum += v.real;
+			userSum += v.user;
 		}
 	}
 
-	if (nrDays > 0)
-		chartsData.waterSaved.currentSeries = [ Math.round(sum / nrDays) ];
-	else
-		chartsData.waterSaved.currentSeries = [ 0 ];
+	var saved = 0;
+	if (userSum > 0) {
+		saved = Math.round((1.0 - (realSum / userSum)) * 100);
+		if (saved < 0) saved = 0;
+		if (saved > 100) saved = 100;
+	}
+
+	chartsData.waterSaved.currentSeries = [ saved ];
 }
 
 /**
@@ -568,7 +574,7 @@ function loadMonthlyCharts () {
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
 	//For water gauge show only last month
-    setWaterSavedValueForDays(30)
+    setWaterSavedValueForDays(30);
     generateWaterSavedGauge();
 }
 
