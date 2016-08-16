@@ -667,6 +667,13 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+textarea {
+  border: 1px solid #eee;
+  width: 75%;
+  height: 200px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
 
 input.typeText {
   border: 1px solid #eee;
