@@ -20,7 +20,8 @@ window.ui = window.ui || {};
         7: "Rain detected",
 		8: "Software rain sensor restriction",
 		9: "Month Restricted",
-		10: "Rain Delay set by user"
+		10: "Rain Delay set by user",
+		11: "Program Rain Restriction"
 };
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
