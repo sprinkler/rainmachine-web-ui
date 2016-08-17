@@ -788,6 +788,7 @@ window.ui = window.ui || {};
 
         closeProgramSettings();
         showPrograms();
+		window.ui.main.refreshGraphs = true;
     }
 
     function onStart() {

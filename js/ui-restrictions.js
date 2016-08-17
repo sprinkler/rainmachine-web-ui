@@ -192,6 +192,7 @@ window.ui = window.ui || {};
 		if (isNaN(maxWaterValue) || maxWaterValue < 1.0) maxWaterValue = 1.0;
 
 		window.ui.system.changeSingleSystemProvisionValue("maxWateringCoef", maxWaterValue);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetFreezeProtect()
@@ -204,6 +205,7 @@ window.ui = window.ui || {};
 		};
 		console.log("FreezeProtect %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetMonths()
@@ -223,6 +225,7 @@ window.ui = window.ui || {};
 		var data = { noWaterInMonths: bitstrMonths };
 		console.log("Months restrictions: %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetWeekDays()
@@ -242,6 +245,7 @@ window.ui = window.ui || {};
 		var data = { noWaterInWeekDays: bitstrWeekDays };
 		console.log("WeekDays restrictions: %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 

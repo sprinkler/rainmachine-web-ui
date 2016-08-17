@@ -91,7 +91,7 @@ window.ui = window.ui || {};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
+		updateWeatherButton.onclick = onWeatherSourceRun;
 
 		var fetchWeatherServicesButton = $("#weatherServicesFetch");
 		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
@@ -270,6 +270,7 @@ window.ui = window.ui || {};
 		API.runParser(id, true, withMixer, false);
 		showParsers(false);
 		onWeatherSourceClose();
+		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 	}
 
 	function onWeatherSourceReset(id) {

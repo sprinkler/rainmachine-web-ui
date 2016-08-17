@@ -230,9 +230,11 @@ window.ui = window.ui || {};
 			refreshProgramAndZones(false);
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
-			if (_main.weatherRefreshed) {
+			if (_main.refreshGraphs) {
+				console.log("Refreshing Graphs");
+				chartsData = new ChartData();
 				loadCharts(true, 30);
-				_main.weatherRefreshed = false;
+				_main.refreshGraphs = false;
 			}
 		}
 
@@ -384,7 +386,7 @@ window.ui = window.ui || {};
 	//
 	_main.showError = showError;
 	_main.uiStart = uiStart;
-	_main.weatherRefreshed = false;
+	_main.refreshGraphs = false;
 
 } (window.ui.main = window.ui.main || {}));
 

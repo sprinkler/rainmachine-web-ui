@@ -449,7 +449,9 @@ function processChartData() {
 	makeHidden($('#pageLoadSpinner'));
     // make the dashboard visible before generating the charts so that the charts can take the correct size
     makeVisibleBlock($('#dashboard'));
-	if (downloadedYearlyData) {
+
+	// Check if we are called after a request to load yearly data
+	if (downloadedYearlyData && chartsCurrentLevel == chartsLevel.yearly) {
 		loadYearlyCharts();
 	} else {
 		loadWeeklyCharts();
