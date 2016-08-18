@@ -270,7 +270,8 @@ window.ui = window.ui || {};
 
         uiElems.activeElem.checked = true;
         uiElems.weatherDataElem.checked = true;
-        uiElems.nextRun.innerText = "";
+        uiElems.nextRun.textContent = "";
+		uiElems.nextRunSettable.value = null;
 
         makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
@@ -328,7 +329,8 @@ window.ui = window.ui || {};
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
 
-            uiElems.nextRun.innerText = getProgramNextRunAsString(program.nextRun);
+            uiElems.nextRun.textContent = getProgramNextRunAsString(program.nextRun);
+			uiElems.nextRunSettable.value = program.nextRun;
 
 			var cyclesType = CyclesType.Off;
 			if (program.cs_on) {
@@ -396,8 +398,12 @@ window.ui = window.ui || {};
 			fillProgramTimers(wateringTimeList);
         }
 
+		//Show settable or plain next run information
+		changeNextRunType();
+
         //---------------------------------------------------------------------------------------
         // Add listeners and elements.
+		uiElems.activeElem.onclick = changeNextRunType;
         uiElems.frequencyDailyElem.onchange = onFrequencyChanged;
         uiElems.frequencyEveryElem.onchange = onFrequencyChanged;
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
@@ -490,6 +496,7 @@ window.ui = window.ui || {};
 		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
 
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
+		templateInfo.nextRunSettable = $(templateInfo.programTemplateElem, '[rm-id="program-next-run-settable"]');
 
 		templateInfo.cyclesTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-type"]');
 		templateInfo.cyclesManualElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-manual"]');
@@ -636,6 +643,15 @@ window.ui = window.ui || {};
         program.frequency = parseProgramFrequency();
 
 
+		//---------------------------------------------------------------------------------------
+		// Collect settable next run
+		//
+		var customNextRun = uiElems.nextRunSettable.value;
+		if (settableNextRun() && customNextRun !== "") {
+			program.nextRun = customNextRun;
+			console.log("Setting program next run to: %s", customNextRun);
+		}
+
         //---------------------------------------------------------------------------------------
         // Collect watering times.
         //
@@ -744,6 +760,7 @@ window.ui = window.ui || {};
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
+		changeNextRunType();
 		fillProgramTimers(null); // Timers will change with the program frequency
     }
 
@@ -1126,6 +1143,23 @@ window.ui = window.ui || {};
 		}
 
 		return zones;
+	}
+
+
+	//If next run field is user settable or not
+	function settableNextRun() {
+		return uiElems.frequencyEveryElem.checked && uiElems.activeElem.checked;
+	}
+
+	//If we should display the simple next run text or a settable next run
+	function changeNextRunType() {
+		if (settableNextRun()) {
+			makeVisible(uiElems.nextRunSettable);
+			makeHidden(uiElems.nextRun);
+		} else {
+			makeHidden(uiElems.nextRunSettable);
+			makeVisible(uiElems.nextRun);
+		}
 	}
 
 	//--------------------------------------------------------------------------------------------
