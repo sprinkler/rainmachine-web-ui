@@ -430,6 +430,7 @@ window.ui = window.ui || {};
 
 		var zoneNameElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-name"]');
 
+		var zoneZoneWeatherInfoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-weatherinfo"]');
 		var zoneZoneIsDefaultElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-isdefault"]');
 		var zoneAutoDurationElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-autoduration"]');
 		var zoneDurationMinElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-min"]');
@@ -453,6 +454,7 @@ window.ui = window.ui || {};
 		var zoneElements = {
 			templateSettingElem: zoneTemplateSettings,
 			templateDisplayElem: zoneTemplateDisplay,
+			zoneWeatherInfoElem: zoneZoneWeatherInfoElem,
 			zoneIsDefaultElem: zoneZoneIsDefaultElem,
 			percentageElem: zonePercentageElem,
 			nameElem: zoneNameElem,
@@ -549,6 +551,12 @@ window.ui = window.ui || {};
 
 			//Show zone timer settings on click
 			zoneElems.templateDisplayElem.onclick =  (function(id) { return function() { onZoneTimerClick(id); } })(zoneId);
+
+			//Create the onclick action for helper text when zone settings are default
+			zoneElems.zoneIsDefaultElem.onclick = (function(id, elems) {
+				return function() {
+					makeHidden(elems.templateSettingElem);
+					window.ui.zones.showZoneSettingsById(id); } })(index, zoneElems);
 
 			//Don't show zone 1 when master valve is enabled
 			if (Data.provision.system.useMasterValve && index == 0) {
@@ -851,11 +859,25 @@ window.ui = window.ui || {};
 		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
 		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
 
+		//Show or hide the weather info text below title
+		if (uiElems.weatherDataElem.checked) {
+			makeVisible(zoneElems.zoneWeatherInfoElem);
+		} else {
+			makeHidden(zoneElems.zoneWeatherInfoElem);
+		}
+
+		//Show or hide "the zone has default properties" text
+		if (window.ui.zones.zoneHasDefaultSettings(id - 1)) {
+			makeVisible(zoneElems.zoneIsDefaultElem);
+		} else {
+			makeHidden(zoneElems.zoneIsDefaultElem);
+		}
+
 		makeVisible(zoneElems.templateSettingElem);
 	}
 
 	function onZoneTimerSettingsCancel(oldValues) {
-		console.log(oldValues);
+		//console.log(oldValues);
 		var zoneElems = uiElems.zoneElems[oldValues.id];
 
 		zoneElems.autoTypeElem.checked = oldValues.isAuto;
@@ -942,7 +964,13 @@ window.ui = window.ui || {};
 	}
 
 	function fillProgramTimers(wateringTimeList) {
+
 		var zones = null;
+
+		//We might get called from saveZone() check if a program setting window is opened
+		if (selectedProgram === null) {
+			return;
+		}
 
 		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
 			zones = Data.zoneAdvData.zones;
@@ -1168,4 +1196,5 @@ window.ui = window.ui || {};
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
 	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
+	_programs.fillProgramTimers = fillProgramTimers;
 } (window.ui.programs = window.ui.programs || {}));

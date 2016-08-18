@@ -138,6 +138,9 @@ window.ui = window.ui || {};
 			setZoneState(z);
 			updateZoneTimer(z);
 		}
+
+		//If the zone settings window has been opened from program zones refresh the timers
+		window.ui.programs.fillProgramTimers(null);
 	}
 
 	function updateWateringQueue(wateringQueue) {
@@ -349,6 +352,14 @@ window.ui = window.ui || {};
 		};
 
 		return data;
+	}
+
+	function showZoneSettingsById(id) {
+		if (!(id in Data.zoneAdvData.zones)) {
+			return;
+		}
+
+		return showZoneSettings(Data.zoneAdvData.zones[id]);
 	}
 
 	function showZoneSettings(zone)
@@ -772,6 +783,19 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function zoneHasDefaultSettings(id) {
+		if (!(id in Data.zoneAdvData.zones)) {
+			return true;
+		}
+
+		var data = Data.zoneAdvData.zones[id];
+		if (data.group_id == 1 && data.slope == 1 && data.soil == 1 && data.type == 2) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	//--------------------------------------------------------------------------------------------
 	//
@@ -779,9 +803,11 @@ window.ui = window.ui || {};
 	_zones.showZones = showZones;
 	_zones.showZonesSimple = showZonesSimple;
 	_zones.showZoneSettings = showZoneSettings;
+	_zones.showZoneSettingsById = showZoneSettingsById;
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
 	_zones.updateWateringQueue = updateWateringQueue;
+	_zones.zoneHasDefaultSettings = zoneHasDefaultSettings;
 	_zones.uiElems = uiElemsAll;
 
 } (window.ui.zones = window.ui.zones || {}));
