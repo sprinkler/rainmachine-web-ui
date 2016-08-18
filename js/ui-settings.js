@@ -20,7 +20,8 @@ window.ui = window.ui || {};
         7: "Rain detected",
 		8: "Software rain sensor restriction",
 		9: "Month Restricted",
-		10: "Rain Delay set by user"
+		10: "Rain Delay set by user",
+		11: "Program Rain Restriction"
 };
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
@@ -28,7 +29,8 @@ window.ui = window.ui || {};
 		"My Example Parser": 1,
 		"Fixed Parser": 1,
 		"PWS Parser": 1,
-		"Simulator Parser": 1
+		"Simulator Parser": 1,
+		"Weather Rules Parser": 1
 	};
 
 	function showWeather()
@@ -38,19 +40,19 @@ window.ui = window.ui || {};
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
 		var ws = Data.provision.location.windSensitivity;
-		var fc = Data.provision.location.wsDays;
+		var fc = Data.provision.location.wsDays; //TODO global field capacity no longer used as Watersense is per zones
+		var correctionPast = Data.provision.system.useCorrectionForPast;
 
 		var rsElem = $("#rainSensitivity");
 		var wsElem = $("#windSensitivity");
-		var fcElem = $("#fieldCapacity");
+		var correctionPastElem = $("#weatherCorrectionPast");
 
 		var rsSaveElem = $("#rainSensitivitySave");
 		var wsSaveElem = $("#windSensitivitySave");
-		var fcSaveElem = $("#fieldCapacitySave");
+		var correctionPastSet = $("#weatherCorrectionPastSet");
 
 		var rsDefaultElem = $("#rainSensitivityDefault");
 		var wsDefaultElem = $("#windSensitivityDefault");
-		var fcDefaultElem = $("#fieldCapacityDefault");
 
 		//Set the current values
 		rsElem.value = parseInt(rs * 100);
@@ -59,8 +61,7 @@ window.ui = window.ui || {};
 		wsElem.value = parseInt(ws * 100);
 		wsElem.oninput();
 
-		fcElem.value = parseInt(fc);
-		fcElem.oninput();
+		correctionPastElem.checked = correctionPast;
 
 		rsSaveElem.onclick = function() {
 			var rsNew = +rsElem.value/100.0;
@@ -82,29 +83,21 @@ window.ui = window.ui || {};
 			}
 		};
 
-		fcSaveElem.onclick = function() {
-			var fcNew = +fcElem.value;
-			if (fcNew != rs)
-			{
-				var data = {wsDays: fcNew};
-				API.setProvision(null, data);
-				console.log("Set Field Capacity: %f",  fcNew);
-			}
+		correctionPastSet.onclick = function() {
+			window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
 		};
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
-		fcDefaultElem.onclick = function() { fcElem.value = fcDefaultElem.value; fcElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = function() { onWeatherSourceRun(); window.ui.main.weatherRefreshed = true; };
+		updateWeatherButton.onclick = onWeatherSourceRun;
 
 		var fetchWeatherServicesButton = $("#weatherServicesFetch");
 		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
 
 		setupWeatherSourceUpload();
 		onWeatherServicesFetch();
-
 	}
 
 	function showParsers(onDashboard) {
@@ -172,9 +165,12 @@ window.ui = window.ui || {};
 			template.parserid = p.uid;
 			template.parseridx = i;
 
+			var parserName =  p.name
+			var lw = parserName.lastIndexOf(" ");
 
-			var lw = p.name.lastIndexOf(" ");
-			var parserName =  p.name.substring(0, lw); //Don't show "Parser" word in weather parsers
+			if (lw > 0) {
+				parserName = parserName.substring(0, lw); //Don't show "Parser" word in weather parsers
+			}
 
 			if (p.custom) {
 				parserName = "Custom:" + parserName;
@@ -274,6 +270,7 @@ window.ui = window.ui || {};
 		API.runParser(id, true, withMixer, false);
 		showParsers(false);
 		onWeatherSourceClose();
+		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 	}
 
 	function onWeatherSourceReset(id) {
@@ -762,5 +759,7 @@ window.ui = window.ui || {};
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
 	_settings.getRainDelay = getRainDelay;
+	_settings.waterLogReason = waterLogReason;
+
 
 } (window.ui.settings = window.ui.settings || {}));

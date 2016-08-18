@@ -120,6 +120,14 @@ function setSelectOption(e, str, matchValue)
 	return false;
 }
 
+function getSelectValue(e) {
+	if (e === null) {
+		return null;
+	}
+
+	return e.options[e.selectedIndex].value
+}
+
 function isVisible(tag)
 {
 	var e;
@@ -202,6 +210,60 @@ function loadTemplate(name) {
 	template = template.cloneNode(true);
 	template.removeAttribute("id");
 	return template;
+}
+
+function percentageChooser(parent, min, max, start, step, onChange) {
+	var minusButton = addTag(parent, 'button');
+	var outputDiv = addTag(parent, 'span');
+	var plusButton = addTag(parent, 'button');
+
+	minusButton.className = "zoneTimesCircleButton";
+	minusButton.textContent = "-";
+
+	plusButton.className = "zoneTimesCircleButton";
+	plusButton.textContent = "+";
+
+	outputDiv.className = "zoneTimesDetermined"
+
+	this.value = start;
+
+	this.updateOutput = function() {
+		outputDiv.textContent = this.value + "%";
+	};
+
+	this.changeValue = function(step) {
+		if (this.value + step > max) {
+			this.value = max
+		} else if (this.value + step < min) {
+			this.value = min;
+		} else {
+			this.value += step;
+		}
+
+		this.updateOutput();
+
+		if (onChange !== null){
+			onChange(this.value);
+		}
+	};
+
+	this.setValue = function(value) {
+		if (value > max) {
+			value = max;
+		}
+
+		if (value < min) {
+			value = min;
+		}
+
+		this.value = value;
+		this.updateOutput();
+	};
+
+	minusButton.onclick =  this.changeValue.bind(this, -step);
+	plusButton.onclick = this.changeValue.bind(this, step);
+
+	this.updateOutput();
 }
 
 function rangeSlider(slider, virtualMaxValue, onDragEnd) {

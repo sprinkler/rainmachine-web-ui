@@ -3,16 +3,16 @@
  *	All rights reserved.
  */
 var parserCharts = {
-	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature (&deg;C)" },
-	maxTemperature:	{ chart: null, container: "maxTemperatureParsersChartContainer",	title: "Maximum Temperature (&deg;C)" },
-	minTemperature:	{ chart: null, container: "minTemperatureParsersChartContainer",	title: "Minimum Temperature (&deg;C)" },
-	qpf: 			{ chart: null, container: "qpfParsersChartContainer", 			title: "Precipitation Forecast(mm)" },
-	wind:			{ chart: null, container: "windParsersChartContainer",			title: "Wind (m/s)" },
-	dewPoint: 		{ chart: null, container: "dewParsersChartContainer",			title: "Dew Point (&deg;C)" },
-	rh:				{ chart: null, container: "rhParsersChartContainer",			title: "Relative Humidity (%)" },
+	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature" },
+	maxTemperature:	{ chart: null, container: "maxTemperatureParsersChartContainer",title: "Maximum Temperature" },
+	minTemperature:	{ chart: null, container: "minTemperatureParsersChartContainer",title: "Minimum Temperature" },
+	qpf: 			{ chart: null, container: "qpfParsersChartContainer", 			title: "Precipitation Forecast" },
+	wind:			{ chart: null, container: "windParsersChartContainer",			title: "Wind" },
+	dewPoint: 		{ chart: null, container: "dewParsersChartContainer",			title: "Dew Point" },
+	rh:				{ chart: null, container: "rhParsersChartContainer",			title: "Relative Humidity" },
     pressure:		{ chart: null, container: "pressureParsersChartContainer",		title: "Atmospheric Pressure" },
-	et0:			{ chart: null, container: "etParsersChartContainer",			title: "EvapoTranspiration(mm)"},
-	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain(mm)"}
+	et0:			{ chart: null, container: "etParsersChartContainer",			title: "EvapoTranspiration" },
+	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain" }
 };
 
 /*
@@ -133,7 +133,8 @@ function processParserChartData(id, startDate, days) {
 
 function addDataPoint(id, data, key) {
 	if (data[key] !== null) {
-        parsersHourlyChartData[key][id].push([Date.parse(data.hour.replace(' ', 'T')), data[key]]);
+		var value = Util.convert.withType(key, data[key]);
+        parsersHourlyChartData[key][id].push([Date.parse(data.hour.replace(' ', 'T')), value]);
 	}
 }
 
@@ -201,7 +202,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 		console.log("Sliced from %d to %d", index, index+days);
         var mixerChartData = [];
         for (var i = 0; i < mixerData.length; i++) {
-			mixerChartData.push([Date.parse(mixerDates[i]), mixerData[i]]);
+			mixerChartData.push([Date.parse(mixerDates[i]), Util.convert.withType(key, mixerData[i])]);
 		}
 
 		chartSeries.push({
@@ -224,9 +225,10 @@ function generateSpecificParsersChart(key, startDate, days) {
 		tooltip: {
 			shared: true
 		},
+
 		series: chartSeries,
 		title: {
-			text: '<h1>' +  parserCharts[key].title + '</h1>',
+			text: '<h1>' +  parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')</h1>',
 			useHTML: true
 		},
 		plotOptions: {
@@ -240,10 +242,26 @@ function generateSpecificParsersChart(key, startDate, days) {
 				text: 'Date'
 			}
 		},
-		yAxis: [{
+		yAxis: {
 			title: false
-		}]
+		}
 	};
+
+
+	//Add Summer ET0 Average for EvapoTranspiration graph
+	if (key == 'et0') {
+		var et0Avg = Util.convert.withType('et0', Data.provision.location.et0Average);
+		chartOptions.yAxis.minRange = et0Avg;
+		chartOptions.yAxis.plotLines = [{
+			value: et0Avg,
+			color: '#003399',
+			width: 3,
+			zIndex:4,
+			label:{
+				text:'Summer Average (100% watering)'
+			}
+		}];
+	}
 
 	// before generating the chart we must destroy the old one if it exists
 	if (parserCharts[key].chart) {

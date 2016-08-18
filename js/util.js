@@ -12,7 +12,7 @@ Util.secondsToHuman = function(seconds)
 	r.days = Math.floor(seconds / 86400);
 	r.hours = Math.floor((seconds % 86400) / 3600);
 	r.minutes = Math.floor(((seconds % 86400) % 3600) / 60);
-	r.seconds = ((seconds % 86400) % 3600) % 60;
+	r.seconds = Math.floor(seconds % 60);
 
 	return r;
 };
@@ -66,16 +66,23 @@ Util.secondsToMMSS = function(seconds)
 	if (s < 10)
 		text += "0";
 
-	text += s
+	text += s;
 
 	return text;
 }
 
 //Convert date in format "YYYY-MM-DD" to a date object that takes local timezone in account
 Util.dateStringToLocalDate = function(dateStr) {
-	var d = new Date(dateStr);
-	return new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-}
+
+	var dateObj = null;
+
+	if (dateStr !== null) {
+		var d = new Date(dateStr);
+		dateObj = new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+	}
+
+	return dateObj;
+};
 
 Util.sinceDateAsText = function(dateString)
 {
@@ -257,50 +264,71 @@ Util.isFloat = function(value) {
  * @param label - label for the data
  * @returns the newly created div
  */
+
 Util.generateTagFromDataType = function(parent, data, label) {
-	var div = addTag(parent, 'div');
-	div.className = "generatedTag";
+	var divElem = addTag(parent, 'div');
+	var labelElem = addTag(divElem, 'label');
+	var inputElem;
 
+	var id = "generated-" + label;
 	var isReadOnly = label.startsWith("_");
+	var dataFromJSON = null;
 
-	if (! isReadOnly) {
-		div.textContent = label;
-		var input = addTag(div, 'input');
-		input.id = "generated-" + label;
-		input.type = "text"; //default type for null, object, number or string types
+	divElem.className = "generatedTag";
 
+	//Check if we got a string with json data
+	try {
+		dataFromJSON = JSON.parse(data);
+	} catch(e) {}
 
-		if (typeof data == "boolean") {
-			input.type = "checkbox"
-			if (data) {
-				input.checked = true;
+	if (!isReadOnly) {
+		labelElem.htmlFor = id;
+		labelElem.textContent = label;
+
+		if (data === null || (typeof data == "string" && dataFromJSON === null) || typeof data == "number" || typeof data == "boolean") {
+			inputElem = addTag(divElem, 'input');
+			inputElem.id = id;
+			inputElem.type = "text"; //default type for null, object, number or string types
+			if (typeof data == "boolean") {
+				inputElem.type = "checkbox";
+				if (data) {
+					inputElem.checked = true;
+				}
+			} else {
+				inputElem.value = data;
+				inputElem.className = "typeText";
 			}
 		} else {
-			input.value = data;
-			input.className = "typeText";
+			inputElem = addTag(divElem, 'textarea');
+			if (typeof data == "object") {
+				inputElem.value = JSON.stringify(data, null, 4);
+				console.log("%s: JS Object detected", label);
+			} else if (dataFromJSON !== null) { // Check if we received JSON data as string
+				inputElem.value = JSON.stringify(dataFromJSON, null, 4);
+				console.log("%s: JSON data as string detected", label);
+			}
 		}
 	} else {
-		div.textContent = label.substr(1);
-		var input = addTag(div, 'div');
+		divElem.textContent = label.substr(1);
+		var inputElem = addTag(divElem, 'div');
 
 		if (data instanceof Array) {
 			for (var d in data) {
-				input.innerHTML += data[d] + "<br>";
+				inputElem.innerHTML += data[d] + "<br>";
 			}
+		} else if (data !== null && typeof data == "object") {
+			inputElem.textContent = JSON.stringify(data, null, 4);
 		} else {
-			input.textContent = data;
+			inputElem.textContent = data;
 		}
 	}
 
-    return div;
-}
+    return divElem;
+};
 
 /**
- * Generates a div with a label and an input tag depending on data type
- * @param parent - parent element for the newly created div
- * @param data - data
- * @param label - label for the data
- * @returns {array} - in form [label, value]
+ * Reads the value of a generated tag with Util.generateTagFromDataType
+ * @param label - the label string of the tag which is used to construct the tag id
  */
 
 Util.readGeneratedTagValue = function(label) {
@@ -501,7 +529,58 @@ Util.convert = {
 		} else {
 			return " mm";
 		}
+	},
+	withType: function(type, value) {
+		switch (type) {
+			case 'temperature':
+			case 'maxTemperature':
+			case 'minTemperature':
+			case 'maxt':
+			case 'mint':
+			case 'dewPoint':
+				return Util.convert.uiTemp(value);
+			case 'et0':
+			case 'qpf':
+			case 'rain':
+				return Util.convert.uiQuantity(value);
+			case 'pressure':
+			case 'rh':
+			case 'maxRh':
+			case 'minRh':
+			case 'solarRad':
+			case 'wind':
+			default:
+				return value;
+		}
+	},
+	getUnits: function(type) {
+		switch (type) {
+			case 'temperature':
+			case 'maxTemperature':
+			case 'minTemperature':
+			case 'maxt':
+			case 'mint':
+			case 'dewPoint':
+				return Util.convert.uiTempStr();
+			case 'et0':
+			case 'qpf':
+			case 'rain':
+				return Util.convert.uiQuantityStr();
+			case 'wind':
+				return 'm/s';
+			case 'rh':
+			case 'maxRh':
+			case 'minRh':
+				return '%';
+			case 'pressure':
+				return 'kPa';
+			case 'solarRad':
+			default:
+				return '';
+		}
 	}
+
+
 };
 
 Util.validateEmail = function(email){

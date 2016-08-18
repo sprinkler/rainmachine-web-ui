@@ -455,10 +455,20 @@ _API.prototype.setZonesProperties = function(id, properties, advancedProperties)
 	var data = properties;
 
 	if (advancedProperties !== undefined && advancedProperties !== null)
-		data.advanced = advancedProperties;
+		data.waterSense = advancedProperties;
 
 	return this.post(url, data, null);
 }
+
+_API.prototype.simulateZone = function(properties, advancedProperties) {
+	var url = this.URL.zone + "/simulate";
+	var data = properties;
+
+	if (advancedProperties !== undefined && advancedProperties !== null)
+		data.waterSense = advancedProperties;
+
+	return this.post(url, data, null);
+};
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
@@ -697,6 +707,28 @@ _API.prototype.reboot = function()
 {
 	var url = this.URL.machine + "/reboot";
 	var data = {};
+
+	return this.post(url, data, null);
+}
+
+_API.prototype.getShortDetection = function()
+{
+	var url = this.URL.machine + "/shortdetection";
+	return this.get(url, null);
+}
+
+_API.prototype.setShortDetection = function(enabled)
+{
+	var url = this.URL.machine + "/shortdetection";
+	var data = {
+		watchforshort: 0,
+		watchforload: 0
+	};
+
+	if (enabled) {
+		data.watchforshort = 1;
+		data.watchforload = 2;
+	}
 
 	return this.post(url, data, null);
 }

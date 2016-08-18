@@ -19,7 +19,9 @@ window.ui = window.ui || {};
 			CloudSet: $("#systemSettingsCloudSet"),
 
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
+			MasterValveBeforeSec: $("#systemSettingsMasterValveBeforeSec"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
+			MasterValveAfterSec: $("#systemSettingsMasterValveAfterSec"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
 			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
@@ -57,10 +59,6 @@ window.ui = window.ui || {};
 			AlexaSet: $("#systemSettingsAlexaSet"),
 			Alexa: $("#systemSettingsAlexa"),
 
-			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
-			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
-			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
-
 			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
 			BetaUpdates: $("#systemSettingsBetaUpdates"),
 
@@ -80,9 +78,10 @@ window.ui = window.ui || {};
 			ParserHistory: $("#systemSettingsParserHistory"),
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
+			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
+			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
+			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
 			*/
-			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
-			CorrectionPast: $("#systemSettingsCorrectionPast"),
 
 			//Advanced Settings Mini-8 SPK2
 			//TODO Developer mode commented out atm
@@ -106,7 +105,11 @@ window.ui = window.ui || {};
 			TouchPressTimeoutSet: $("#systemSettingsTouchPressTimeoutSet"),
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
-			TouchProg: $("#systemSettingsTouchProg")
+			TouchProg: $("#systemSettingsTouchProg"),
+			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
+			ShortDetection: $("#systemSettingsShortDetectionEnable"),
+			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
+			ShortDetectionLoad: $("#systemSettingsShortDetectionLoad")
 			};
     	}
 
@@ -144,8 +147,14 @@ window.ui = window.ui || {};
 		systemSettingsView.PendingEmail.textContent = pendingEmailText;
 		systemSettingsView.Email.value = currentEmail;
 
-		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
-		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
+		var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+		var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
+
+		systemSettingsView.MasterValveBefore.value = beforeTimer.minutes;
+		systemSettingsView.MasterValveBeforeSec.value = beforeTimer.seconds;
+
+		systemSettingsView.MasterValveAfter.value = afterTimer.minutes;
+		systemSettingsView.MasterValveAfterSec.value = afterTimer.seconds;
 		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
@@ -186,10 +195,12 @@ window.ui = window.ui || {};
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
-		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
-		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+
+
 		//TODO Developer mode commented out atm
 		/*
+		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
+		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
@@ -197,7 +208,6 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
 
-		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
 		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
 		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
 		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
@@ -206,7 +216,7 @@ window.ui = window.ui || {};
 			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
 		};
 
-		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
+
 		systemSettingsView.BetaUpdatesSet.onclick = function() { systemSettingsSetBetaUpdates() };
 
 		//TODO Developer mode commented out atm
@@ -226,15 +236,15 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDaysSet.onclick = function() {
 			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
 		};
-		*/
 
-		systemSettingsView.CorrectionPastSet.onclick = function() {
-			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
-		};
+		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
+		*/
 	}
 
 
 	function showSettingsMini8() {
+		getShortDetectionStatus();
+
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
 		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
@@ -260,6 +270,10 @@ window.ui = window.ui || {};
 		systemSettingsView.TouchProgSet.onclick = function() {
 			changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked);
 		};
+		systemSettingsView.ShortDetectionSet.onclick = function() {
+			API.setShortDetection(systemSettingsView.ShortDetection.checked);
+		};
+
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
@@ -291,6 +305,8 @@ window.ui = window.ui || {};
 		getBetaUpdatesStatus();
 	}
 
+	//TODO: Developer Mode
+	/*
 	function systemSettingsSetSoftwareRainSensor()
 	{
 		var enable =  systemSettingsView.SoftwareRainSensorEnable.checked;
@@ -311,12 +327,22 @@ window.ui = window.ui || {};
 		Data.provision.system.useSoftwareRainSensor = enable;
 		Data.provision.system.softwareRainSensorMinQPF = threshold;
 	}
+	*/
 
 	function systemSettingsChangeMasterValve()
 	{
 		var enabled = systemSettingsView.enableMasterValveInput.checked;
-		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
-        var a =  parseInt(systemSettingsView.MasterValveAfter.value) * 60;
+		var beforeTimer = { minutes: 0, seconds: 0};
+		var afterTimer = { minutes: 0, seconds:0};
+
+		beforeTimer.minutes = parseInt(systemSettingsView.MasterValveBefore.value) || 0;
+		beforeTimer.seconds = parseInt(systemSettingsView.MasterValveBeforeSec.value) || 0;
+
+		afterTimer.minutes = parseInt(systemSettingsView.MasterValveAfter.value) || 0;
+		afterTimer.seconds = parseInt(systemSettingsView.MasterValveAfterSec.value) || 0;
+
+		var b =  beforeTimer.minutes * 60 + beforeTimer.seconds;
+		var a = afterTimer.minutes * 60 + afterTimer.seconds;
 
 		return Util.saveMasterValve(enabled, b, a);
 	}
@@ -530,6 +556,28 @@ window.ui = window.ui || {};
 				showSettings();
 				window.ui.about.showDeviceInfo();
 			});
+	}
+
+	function getShortDetectionStatus() {
+		return APIAsync.getShortDetection().then(
+			function(o) {
+				console.log(o);
+				if (o.settings.watchforshort)
+					systemSettingsView.ShortDetection.checked = true;
+				else
+					systemSettingsView.ShortDetection.checked = false;
+
+				if (o.short >= 1000)
+					systemSettingsView.ShortDetectionStatus.textContent = "Short detected type:" + o.short;
+				else
+					systemSettingsView.ShortDetectionStatus.textContent = "No short detected";
+
+				if (o.load > 0)
+					systemSettingsView.ShortDetectionLoad.textContent = "Load of " + o.load + " detected";
+				else
+					systemSettingsView.ShortDetectionLoad.textContent = "No overload detected";
+			}
+		);
 	}
 
 	//--------------------------------------------------------------------------------------------

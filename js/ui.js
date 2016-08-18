@@ -9,6 +9,7 @@ window.ui = window.ui || {};
 
  	var loop = null;
 	var loopSlowLastRun = Date.now();
+	var loopMediumLastRun = Date.now();
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
@@ -180,6 +181,13 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function refreshRestrictions(forced) {
+		if (forced || (Date.now() - loopMediumLastRun) > 9 * 1000) {
+			loopMediumLastRun = Date.now();
+			window.ui.restrictions.showCurrentRestrictions();
+		}
+	}
+
 	function uiLoop() {
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
 
@@ -206,21 +214,27 @@ window.ui = window.ui || {};
 						//Show STOP all button
 						makeVisible(window.ui.zones.uiElems.stopAll);
 					}
+					refreshProgramAndZones(true);
 
-					refreshProgramAndZones(true)
+					//Refresh queue information
+					window.ui.zones.updateWateringQueue(waterQueue);
 				}
 			);
 			//Refresh (without data download) parser box
 			window.ui.settings.updateParsers(true);
-			//Refresh restrictions
-			window.ui.restrictions.showCurrentRestrictions();
-			//Refresh on a slower timer
+
+			//Refresh on medium timer
+			refreshRestrictions(false);
+
+			//Refresh on slower timer
 			refreshProgramAndZones(false);
 
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
-			if (_main.weatherRefreshed) {
+			if (_main.refreshGraphs) {
+				console.log("Refreshing Graphs");
+				chartsData = new ChartData();
 				loadCharts(true, 30);
-				_main.weatherRefreshed = false;
+				_main.refreshGraphs = false;
 			}
 		}
 
@@ -250,13 +264,13 @@ window.ui = window.ui || {};
 			toggleZones(true);
 			makeHidden(uiElems.homeLeft);
 			makeHidden(uiElems.homeZones);
-			uiElems.homeRight.style.width = '1280px';
+			uiElems.homeRight.className = 'homeRightExpanded';
 			uiElems.homePrograms.style.display = "inline-block";
 			programsExpanded = true;
 
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeRight.style.width = '';
+			uiElems.homeRight.className = 'homeRightContracted';
 			programsExpanded = false;
 		}
 	}
@@ -275,13 +289,13 @@ window.ui = window.ui || {};
 			makeHidden(uiElems.chartsDays);
 
 			uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeZones.style.width = '1280px';
+			uiElems.homeZones.className = 'homeZonesExpanded';
 			zonesExpanded = true;
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
 			uiElems.chartsTime.style.display = uiElems.chartsDays.style.display = "inline-block";
 			uiElems.homePrograms.style.display = "inline-block";
-			uiElems.homeZones.style.width = '';
+			uiElems.homeZones.className = 'homeZonesContracted';
 			zonesExpanded = false;
 		}
 	}
@@ -363,7 +377,7 @@ window.ui = window.ui || {};
 			//TODO Show waterlog simple
 			window.ui.settings.showWaterLogSimple();
 
-			loop = setInterval(uiLoop, 2000);
+			loop = setInterval(uiLoop, 3000);
 		});
 	}
 
@@ -372,7 +386,7 @@ window.ui = window.ui || {};
 	//
 	_main.showError = showError;
 	_main.uiStart = uiStart;
-	_main.weatherRefreshed = false;
+	_main.refreshGraphs = false;
 
 } (window.ui.main = window.ui.main || {}));
 
