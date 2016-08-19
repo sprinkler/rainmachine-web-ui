@@ -560,17 +560,53 @@ window.ui = window.ui || {};
 				programNameElem.textContent = name;
 
 				//console.log("\t%s", name);
+				//Convert between program/zones/cycles to program/cycles/zones
+				cycles = {};
+				var maxCycles = 0;
 
 				for (var k = 0; k < program.zones.length; k++)
 				{
 					var zone = program.zones[k];
 					var zoneDurations = { machine: 0, user: 0, real: 0 };
+
+					if (zone.cycles.length > maxCycles) {
+						maxCycles = zone.cycles.length;
+					}
+
 					for (var c = 0; c < zone.cycles.length; c++)
 					{
-						 var cycle = zone.cycles[c];
-						 zoneDurations.machine += cycle.machineDuration;
-						 zoneDurations.real += cycle.realDuration;
-						 zoneDurations.user += cycle.userDuration;
+						var cycle = zone.cycles[c];
+						if (! (c in cycles)) {
+							cycles[c] = { machine: 0, user: 0, real: 0, id: c};
+							cycles[c].zones = {};
+							cycles[c].start = cycle.startTime.split(" ")[1];
+						}
+
+						cycles[c].machine += cycle.machineDuration;
+						cycles[c].real += cycle.realDuration;
+						cycles[c].user += cycle.userDuration;
+
+						cycles[c].zones[k] = {};
+
+						cycles[c].zones[k].machine = cycle.machineDuration;
+						cycles[c].zones[k].real = cycle.realDuration;
+						cycles[c].zones[k].user = cycle.userDuration;
+						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
+
+						zoneDurations.machine += cycle.machineDuration;
+						zoneDurations.real += cycle.realDuration;
+						zoneDurations.user += cycle.userDuration;
+
+						var zoneid = zone.uid - 1;
+
+						if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						}
+						else {
+							cycles[c].zones[k].name  = "Zone " + zone.uid;
+						}
+
+						cycles[c].zones[k].flag = zone.flag;
 					}
 
 					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
@@ -581,7 +617,6 @@ window.ui = window.ui || {};
 					var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
 					var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
 					var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
-
 
 					var zoneid = zone.uid - 1;
 
@@ -609,12 +644,94 @@ window.ui = window.ui || {};
 					var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 					if (saved < 0) saved = 0;
 					if (saved > 100) saved = 100;
+
 					zoneSavedElem.textContent =  saved + " %";
 
 					programContainerElem.appendChild(zoneListTemplate);
 
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
+				if (maxCycles > 1) {
+					var cycleExpander = insertTag(programContainerElem, "div", null);
+
+					cycleExpander.textContent = "Toggle detailed cycle information";
+					cycleExpander.onclick = function() {
+						var targetElem = this.lastChild;
+						console.log(targetElem);
+						if (isVisible(targetElem)) {
+							makeHidden(targetElem);
+						} else {
+							makeVisible(targetElem);						}
+					};
+
+					var cycleDetailsContainer = addTag(cycleExpander, "div");
+					makeHidden(cycleDetailsContainer);
+
+					//Append detailed per cycle information
+					for (c in cycles) {
+						zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
+
+						zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
+						zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
+						zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
+						zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
+						zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
+						zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
+
+						zoneNameElem.textContent = "Cycle " + (+c + 1) + " / " + maxCycles ;
+						zoneNameElem.style.fontWeight = "bold";
+						zoneSchedElem.textContent = Util.secondsToText(cycles[c].user);
+						zoneSchedElem.style.fontWeight = "bold";
+
+						zoneWateredElem.textContent = Util.secondsToText(cycles[c].real);
+						zoneWateredElem.style.fontWeight = "bold";
+						zoneReasonElem.textContent = "";
+
+						zoneStartTimeElem.textContent = cycles[c].start;
+						zoneStartTimeElem.style.fontWeight = "bold";
+
+						saved = (100 - parseInt((cycles[c].real/cycles[c].user) * 100));
+						if (saved < 0) saved = 0;
+						if (saved > 100) saved = 100;
+
+						zoneSavedElem.textContent =  saved + " %";
+						zoneSavedElem.style.fontWeight = "bold";
+
+						//programContainerElem.appendChild(zoneListTemplate);
+						cycleDetailsContainer.appendChild(zoneListTemplate);
+						zoneListTemplate.style.borderBottom = "1px solid #39c";
+
+						for (k in cycles[c].zones) {
+
+							zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
+
+							zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
+							zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
+							zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
+							zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
+							zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
+							zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
+
+							zoneNameElem.textContent = cycles[c].zones[k].name;
+							zoneNameElem.style.marginLeft = "20px";
+							zoneSchedElem.textContent = Util.secondsToText(cycles[c].zones[k].user);
+							zoneWateredElem.textContent = Util.secondsToText(cycles[c].zones[k].real);
+							zoneReasonElem.textContent = waterLogReason[cycles[c].zones[k].flag];
+							zoneStartTimeElem.textContent = cycles[c].zones[k].start;
+
+							saved = (100 - parseInt((cycles[c].zones[k].real/cycles[c].zones[k].user) * 100));
+							if (saved < 0) saved = 0;
+							if (saved > 100) saved = 100;
+							zoneSavedElem.textContent =  saved + " %";
+
+							//programContainerElem.appendChild(zoneListTemplate);
+							cycleDetailsContainer.appendChild(zoneListTemplate);
+
+						}
+					}
+				}
+
+				//console.log(JSON.stringify(cycles, null, 4));
 				dayContainerElem.appendChild(programTemplate);
 			}
 			container.appendChild(dayTemplate);

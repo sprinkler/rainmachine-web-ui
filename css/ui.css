@@ -1176,7 +1176,6 @@ a.helpText {
 .historyZoneItem:nth-child(5), .historyZoneItem:last-child {
   text-align: left;
   color: #3399cc;
-  font-weight: bold;
 }
 .historyZoneItem:last-child {
   text-align: right;
