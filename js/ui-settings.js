@@ -573,7 +573,7 @@ window.ui = window.ui || {};
 						 zoneDurations.user += cycle.userDuration;
 					}
 
-					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template")
+					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
 
 					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
 					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
