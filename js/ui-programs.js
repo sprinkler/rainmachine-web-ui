@@ -269,8 +269,8 @@ window.ui = window.ui || {};
 
         uiElems.activeElem.checked = true;
         uiElems.weatherDataElem.checked = true;
-        uiElems.nextRun.textContent = "";
-		uiElems.nextRunSettable.value = null;
+        uiElems.nextRun.textContent = getProgramNextRunAsString(Util.getTodayDateStr());
+		uiElems.nextRunSettable.value = Util.getTodayDateStr();
 
         makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
