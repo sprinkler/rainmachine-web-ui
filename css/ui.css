@@ -1180,7 +1180,7 @@ a.helpText {
   text-align: left;
   width: 135px;
   padding: 10px 0;
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
 }
 .historyZoneItem:nth-child(5), .historyZoneItem:last-child {
   text-align: left;
@@ -1211,6 +1211,26 @@ a.helpText {
   margin-bottom: 15px;
   margin-left: 60px;
 }
+.displayCyclesExpand, .displayCyclesContract {
+  text-transform: uppercase;
+  padding: 10px;
+  display: block;
+  background-color: #FAFAFA;
+  color: #39c;
+  cursor: pointer;
+}
+.displayCyclesExpand:before {
+  content: "Hide";
+  margin-right:5px;
+}
+.displayCyclesContract:before {
+  content: "Show";
+  margin-right:5px;
+}
+.cyclesExpanded {
+  background-color: #FAFAFA;
+}
+
 /* DASHBOARD */
 .dashboardMenu {
   position: relative;
