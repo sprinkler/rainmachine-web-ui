@@ -642,21 +642,25 @@ window.ui = window.ui || {};
 
 				//Show cycles detailed information if more than 1 cycle
 				if (maxCycles > 1) {
-					var cycleExpander = insertTag(programContainerElem, "div", null);
+					var cycleParentContainer = insertTag(programContainerElem, "div", null);
+					var cycleExpanderButton = addTag(cycleParentContainer, "span");
 
-					cycleExpander.textContent = "Detailed cycle information";
-					cycleExpander.onclick = function() {
-						var targetElem = this.lastChild;
+					cycleParentContainer.className = "cyclesExpanded";
+
+					cycleExpanderButton.textContent = "watering cycles";
+					cycleExpanderButton.className = "displayCyclesContract";
+					cycleExpanderButton.onclick = function() {
+						var targetElem = this.parentNode.lastChild;
 						if (isVisible(targetElem)) {
 							makeHidden(targetElem);
-							this.className = "";
+							this.className = "displayCyclesContract";
 						} else {
 							makeVisible(targetElem);
-							this.className = "";
+							this.className = "displayCyclesExpand";
 						}
 					};
 
-					var cycleDetailsContainer = addTag(cycleExpander, "div");
+					var cycleDetailsContainer = addTag(cycleParentContainer, "div");
 					makeHidden(cycleDetailsContainer);
 
 					//Append detailed per cycle information
