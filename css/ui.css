@@ -1165,6 +1165,15 @@ a.helpText {
   width: 100%;
   display: table;
 }
+
+.historyZoneCycles {
+  width: 100%;
+  display: table;
+  font-weight: bold;
+  color: #3399cc;
+  border-bottom: 1px solid #3399cc;
+}
+
 .historyZone:hover { background-color: #f0f0f0 }
 .historyZoneItem {
   display: table-cell;
@@ -1176,7 +1185,6 @@ a.helpText {
 .historyZoneItem:nth-child(5), .historyZoneItem:last-child {
   text-align: left;
   color: #3399cc;
-  font-weight: bold;
 }
 .historyZoneItem:last-child {
   text-align: right;

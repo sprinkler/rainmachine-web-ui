@@ -174,7 +174,7 @@ window.ui = window.ui || {};
 	}
 
 	function refreshProgramAndZones(forced) {
-		if (forced || (Date.now() - loopSlowLastRun) > 30 * 1000) {
+		if (forced || (Date.now() - loopSlowLastRun) > 20 * 1000) {
 			loopSlowLastRun = Date.now();
 			window.ui.programs.showPrograms();
 			window.ui.zones.showZonesSimple();

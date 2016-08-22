@@ -69,7 +69,7 @@ window.ui = window.ui || {};
 
 		uiElemsAll.add = $('#home-programs-add');
 		uiElemsAll.edit = $('#home-programs-edit');
-		uiElemsAll.add.onclick = function() { showProgramSettings(null); };
+		uiElemsAll.add.onclick = function() { showProgramSettings({}); };
 		uiElemsAll.edit.onclick = function() { showPrograms(); onProgramsEdit(); }
 	}
 
@@ -259,10 +259,9 @@ window.ui = window.ui || {};
     //
 	function showProgramSettings(program)
 	{
-        selectedProgram = program;
-        //console.log(JSON.stringify(program, null, "  "));
+		selectedProgram = program;
 
-        var programSettingsDiv = $('#programsSettings');
+		var programSettingsDiv = $('#programsSettings');
         clearTag(programSettingsDiv);
         makeHidden('#programsList');
 
@@ -270,8 +269,8 @@ window.ui = window.ui || {};
 
         uiElems.activeElem.checked = true;
         uiElems.weatherDataElem.checked = true;
-        uiElems.nextRun.textContent = "";
-		uiElems.nextRunSettable.value = null;
+        uiElems.nextRun.textContent = getProgramNextRunAsString(Util.getTodayDateStr());
+		uiElems.nextRunSettable.value = Util.getTodayDateStr();
 
         makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
@@ -281,10 +280,7 @@ window.ui = window.ui || {};
             }
         }
 
-		// Fill the Auto watering times even if it's a new program being created
-		fillProgramTimers(null);
-
-        if(program) {
+        if(program.uid) { // Existing program
             //---------------------------------------------------------------------------------------
             // Prepare some data.
             //
@@ -371,10 +367,6 @@ window.ui = window.ui || {};
                 }
             }
 
-			// TODO This is done twice because on a already setup program that is being edited  timers must match selected freq
-			fillProgramTimers(null);
-
-
 			//Fixed day or sunrise/sunset start time new in API 4.1
 			if (program.hasOwnProperty("startTimeParams")) {
 				if (program.startTimeParams.type == 0) {
@@ -394,11 +386,13 @@ window.ui = window.ui || {};
             // Show zones and watering times.
             //
             var wateringTimeList = program.wateringTimes;
-            console.log(program);
 			fillProgramTimers(wateringTimeList);
         }
 
-		//Show settable or plain next run information
+		// Fill the Auto watering times even if it's a new program being created
+		fillProgramTimers(null);
+
+        //Show settable or plain next run information
 		changeNextRunType();
 
         //---------------------------------------------------------------------------------------
@@ -606,7 +600,7 @@ window.ui = window.ui || {};
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
         soakMins =  parseInt(uiElems.soakElem.value)  || 0;
 
-        if (selectedProgram) {
+        if (selectedProgram && selectedProgram.uid) {
             program.uid = selectedProgram.uid;
         }
 
@@ -1042,6 +1036,7 @@ window.ui = window.ui || {};
 					durationType = ZoneDurationType.Manual;
 				}  else {
 					durationType = ZoneDurationType.Off;
+					zoneElems.skipTypeElem.checked = true;
 				}
 			}
 
