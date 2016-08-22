@@ -560,9 +560,12 @@ window.ui = window.ui || {};
 				programNameElem.textContent = name;
 
 				//console.log("\t%s", name);
+
 				//Convert between program/zones/cycles to program/cycles/zones
 				cycles = {};
 				var maxCycles = 0;
+				var zoneid;
+				var zoneName;
 
 				for (var k = 0; k < program.zones.length; k++)
 				{
@@ -573,6 +576,7 @@ window.ui = window.ui || {};
 						maxCycles = zone.cycles.length;
 					}
 
+					//Calculate cycles total per zones and also create per cycle structure
 					for (var c = 0; c < zone.cycles.length; c++)
 					{
 						var cycle = zone.cycles[c];
@@ -597,7 +601,7 @@ window.ui = window.ui || {};
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
 
-						var zoneid = zone.uid - 1;
+						zoneid = zone.uid - 1;
 
 						if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
 							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
@@ -609,59 +613,47 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].flag = zone.flag;
 					}
 
-					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
-
-					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
-					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
-					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
-					var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
-					var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
-					var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
-
-					var zoneid = zone.uid - 1;
+					zoneid = zone.uid - 1;
 
 					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 					}
 					else {
-						zoneNameElem.textContent = "Zone " + zone.uid;
+						zoneName = "Zone " + zone.uid;
 					}
 
-					zoneSchedElem.textContent = Util.secondsToText(zoneDurations.user);
-					zoneWateredElem.textContent = Util.secondsToText(zoneDurations.real);
-					zoneReasonElem.textContent = waterLogReason[zone.flag];
-
-					if (zone.flag != 0 && zone.flag != 6) {
-						zoneReasonElem.style.color = "red";
-					}
-
+					var zoneStartTime = "";
 					try {
-						zoneStartTimeElem.textContent = zone.cycles[0].startTime.split(" ")[1];
+						zoneStartTime = zone.cycles[0].startTime.split(" ")[1];
 					} catch(e) {}
 
-
-
-					var saved = (100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
-					if (saved < 0) saved = 0;
-					if (saved > 100) saved = 100;
-
-					zoneSavedElem.textContent =  saved + " %";
+					//Show default view without cycles detailed information
+					var zoneListTemplate = createZoneWateringHistoryElems(
+						zoneName,
+						zoneDurations.user,
+						zoneDurations.real,
+						zone.flag,
+						zoneStartTime
+					);
 
 					programContainerElem.appendChild(zoneListTemplate);
-
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
+
+				//Show cycles detailed information if more than 1 cycle
 				if (maxCycles > 1) {
 					var cycleExpander = insertTag(programContainerElem, "div", null);
 
-					cycleExpander.textContent = "Toggle detailed cycle information";
+					cycleExpander.textContent = "Detailed cycle information";
 					cycleExpander.onclick = function() {
 						var targetElem = this.lastChild;
-						console.log(targetElem);
 						if (isVisible(targetElem)) {
 							makeHidden(targetElem);
+							this.className = "";
 						} else {
-							makeVisible(targetElem);						}
+							makeVisible(targetElem);
+							this.className = "";
+						}
 					};
 
 					var cycleDetailsContainer = addTag(cycleExpander, "div");
@@ -669,64 +661,27 @@ window.ui = window.ui || {};
 
 					//Append detailed per cycle information
 					for (c in cycles) {
-						zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
-
-						zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
-						zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
-						zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
-						zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
-						zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
-						zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
-
-						zoneNameElem.textContent = "Cycle " + (+c + 1) + " / " + maxCycles ;
-						zoneNameElem.style.fontWeight = "bold";
-						zoneSchedElem.textContent = Util.secondsToText(cycles[c].user);
-						zoneSchedElem.style.fontWeight = "bold";
-
-						zoneWateredElem.textContent = Util.secondsToText(cycles[c].real);
-						zoneWateredElem.style.fontWeight = "bold";
-						zoneReasonElem.textContent = "";
-
-						zoneStartTimeElem.textContent = cycles[c].start;
-						zoneStartTimeElem.style.fontWeight = "bold";
-
-						saved = (100 - parseInt((cycles[c].real/cycles[c].user) * 100));
-						if (saved < 0) saved = 0;
-						if (saved > 100) saved = 100;
-
-						zoneSavedElem.textContent =  saved + " %";
-						zoneSavedElem.style.fontWeight = "bold";
-
-						//programContainerElem.appendChild(zoneListTemplate);
+						var cycleTitle = "Totals Cycle " + (+c + 1) + " / " + maxCycles ;
+						zoneListTemplate = createZoneWateringHistoryElems(
+							cycleTitle,
+							cycles[c].user,
+							cycles[c].real,
+							0,
+							cycles[c].start,
+							"historyZoneCycles"
+						);
 						cycleDetailsContainer.appendChild(zoneListTemplate);
-						zoneListTemplate.style.borderBottom = "1px solid #39c";
 
 						for (k in cycles[c].zones) {
+							zoneListTemplate = createZoneWateringHistoryElems(
+								cycles[c].zones[k].name,
+								cycles[c].zones[k].user,
+								cycles[c].zones[k].real,
+								cycles[c].zones[k].flag,
+								cycles[c].zones[k].start
+							);
 
-							zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
-
-							zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
-							zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
-							zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
-							zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
-							zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
-							zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
-
-							zoneNameElem.textContent = cycles[c].zones[k].name;
-							zoneNameElem.style.marginLeft = "20px";
-							zoneSchedElem.textContent = Util.secondsToText(cycles[c].zones[k].user);
-							zoneWateredElem.textContent = Util.secondsToText(cycles[c].zones[k].real);
-							zoneReasonElem.textContent = waterLogReason[cycles[c].zones[k].flag];
-							zoneStartTimeElem.textContent = cycles[c].zones[k].start;
-
-							saved = (100 - parseInt((cycles[c].zones[k].real/cycles[c].zones[k].user) * 100));
-							if (saved < 0) saved = 0;
-							if (saved > 100) saved = 100;
-							zoneSavedElem.textContent =  saved + " %";
-
-							//programContainerElem.appendChild(zoneListTemplate);
 							cycleDetailsContainer.appendChild(zoneListTemplate);
-
 						}
 					}
 				}
@@ -852,7 +807,7 @@ window.ui = window.ui || {};
 						makeVisible(tag);
 						this.setAttribute("selected", true);
 					}
-				}
+				};
 
     			container.appendChild(dayTemplate);
     		}
@@ -865,6 +820,38 @@ window.ui = window.ui || {};
 		}
 
 		return null;
+	}
+
+	function createZoneWateringHistoryElems(name, sched, watered,  flag, startTime, cssClass) {
+		var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
+
+		var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
+		var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
+		var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
+		var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
+		var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
+		var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
+
+		zoneNameElem.textContent = name;
+		zoneSchedElem.textContent = Util.secondsToText(sched);
+		zoneWateredElem.textContent = Util.secondsToText(watered);
+		zoneReasonElem.textContent = waterLogReason[flag];
+		zoneStartTimeElem.textContent = startTime;
+
+		if (flag != 0 && flag != 6) {
+			zoneReasonElem.style.color = "red";
+		}
+
+		var saved = (100 - parseInt((watered/sched) * 100));
+		if (saved < 0) saved = 0;
+		if (saved > 100) saved = 100;
+		zoneSavedElem.textContent =  saved + " %";
+
+		if (typeof cssClass !== "undefined") {
+			zoneListTemplate.className = cssClass;
+		}
+
+		return zoneListTemplate
 	}
 
 	//--------------------------------------------------------------------------------------------

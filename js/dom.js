@@ -223,7 +223,7 @@ function percentageChooser(parent, min, max, start, step, onChange) {
 	plusButton.className = "zoneTimesCircleButton";
 	plusButton.textContent = "+";
 
-	outputDiv.className = "zoneTimesDetermined"
+	outputDiv.className = "zoneTimesDetermined";
 
 	this.value = start;
 
