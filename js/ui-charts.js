@@ -1010,7 +1010,7 @@ function generateProgramChart (programUid, programIndex) {
 		},
 		tooltip: {
 			hideDelay: 0,
-			animation: false,
+			animation: false
 		},
 		legend: {
 			enabled: false
@@ -1037,9 +1037,11 @@ function generateProgramChart (programUid, programIndex) {
 
 					//Icon only for weekly bars
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
-						flagText = '<span style="font-family: RainMachine; font-size: 20px; color: red;">/</span><br>';
+						flagText = '<span style="font-family: RainMachine; font-size: 22px; color: red;">/</span><br>';
+					} else {
+						flagText = '<span style="font-family: RainMachine; font-size: 22px;">.</span><br>'; // for spacing
 					}
-					return flagText + '<span style="font-size: 10px;">' + Math.round(this.y) + '%</span>';
+					return flagText + '<span style="font-size: 12px;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
 				verticalAlign: 'bottom'
