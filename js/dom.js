@@ -5,6 +5,10 @@
 
 /* Generic DOM functions */
 
+function defined(v) {
+	return (typeof v !== "undefined" && v !== null)
+}
+
 function $(elem, selector)
 {
 	if(arguments.length == 1) {

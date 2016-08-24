@@ -27,7 +27,6 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsData = new ChartData(), // this will hold all the data for the charts
 	charts = { // array that holds the currently generated charts (used for destroying charts when other charts are rendered in the same container - memory optimization)
 		waterSaved: null,
-		waterNeed: null,
 		temperature: null,
 		qpf: null,
 		programs: []
@@ -41,14 +40,21 @@ var downloadedYearlyData = false; //TODO: Temporary until we design this better.
  * @param startDate
  * @constructor
  */
-function ChartSeries (startDate) {
+function ChartSeries (startDate, defaultValue) {
 	this.startDate = startDate;
 	this.data = new Array(chartsMaximumDataRange);
 	this.monthsData = [];
 	this.currentSeries = [];
 
+	if (!defined(defaultValue)) {
+		this.defaultValue = null;
+	} else {
+		this.defaultValue = defaultValue
+	}
+
 	// initialize each position of the data array with null
-	for (var i = 0; i < this.data.length; this.data[i] = null, i++);
+	for (var i = 0; i < this.data.length; this.data[i] = this.defaultValue, i++);
+
 }
 
 /**
@@ -63,6 +69,10 @@ ChartSeries.prototype.insertAtDate = function (dateStr, value) {
 	if (index < 0 || index >= chartsMaximumDataRange) {
 		//console.log('Index %d for date %s outside needed range', index, dateStr);
 		return false;
+	}
+
+	if (!defined(value)) {
+		value = this.defaultValue;
 	}
 
 	this.data[index] = value;
@@ -132,15 +142,13 @@ function ChartData () {
 	this.maxt = new ChartSeries(this.startDate);
 	this.mint = new ChartSeries(this.startDate);
 	this.temperature = new ChartSeries(this.startDate);
-//	this.waterNeedReal = new ChartSeries(this.startDate);
-//	this.waterNeedSimulated = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.et0 = new ChartSeries(this.startDate);
 	this.pressure = new ChartSeries(this.startDate);
 	this.rh = new ChartSeries(this.startDate);
 	this.wind = new ChartSeries(this.startDate);
-	this.rain = new ChartSeries(this.startDate);
+	this.rain = new ChartSeries(this.startDate, -1); //Set default value to -1 instead of null as highcharts will show last non null value
 	this.dewPoint = new ChartSeries(this.startDate);
 	this.programs = [];
 	this.programsFlags = [];
@@ -392,8 +400,6 @@ function processChartData() {
 		if (wnpDailyWN > chartsData.maxWN) {
 			chartsData.maxWN = wnpDailyWN;
 		}
-
-		//chartsData.waterNeedReal.insertAtDate(day.date, wnpDailyWN);
 	}
 
 	// calculate months data
@@ -402,8 +408,6 @@ function processChartData() {
 			monthPrefix = chartsData.months[monthsIndex].split('-')[0] + '-' + chartsData.months[monthsIndex].split('-')[1];
 
 		// initialize the months data for each chart with 0
-		//chartsData.waterNeedReal.monthsData[monthsIndex] = 0;
-		//chartsData.waterNeedSimulated.monthsData[monthsIndex] = 0;
 		chartsData.maxt.monthsData[monthsIndex] = 0;
 		chartsData.mint.monthsData[monthsIndex] = 0;
 		chartsData.temperature.monthsData[monthsIndex] = 0;
@@ -418,8 +422,6 @@ function processChartData() {
 			if (chartsData.days[daysIndex].indexOf(monthPrefix) >= 0) {
 				daysInMonth++;
 
-				//chartsData.waterNeedReal.monthsData[monthsIndex] += chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedReal.getAtDate(chartsData.days[daysIndex]);
-				//chartsData.waterNeedSimulated.monthsData[monthsIndex] += chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.waterNeedSimulated.getAtDate(chartsData.days[daysIndex]);
 				chartsData.maxt.monthsData[monthsIndex] += chartsData.maxt.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.maxt.getAtDate(chartsData.days[daysIndex]);
 				chartsData.mint.monthsData[monthsIndex] += chartsData.mint.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.mint.getAtDate(chartsData.days[daysIndex]);
 				chartsData.temperature.monthsData[monthsIndex] += chartsData.temperature.getAtDate(chartsData.days[daysIndex]) === null ? 0 : chartsData.temperature.getAtDate(chartsData.days[daysIndex]);
@@ -433,8 +435,6 @@ function processChartData() {
 		}
 
 		// for all the charts except QPF we need to aggregate with an AVG (and round to max two decimals)
-		//chartsData.waterNeedReal.monthsData[monthsIndex] = Math.round((chartsData.waterNeedReal.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
-		//chartsData.waterNeedSimulated.monthsData[monthsIndex] = Math.round((chartsData.waterNeedSimulated.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		chartsData.maxt.monthsData[monthsIndex] = Math.round((chartsData.maxt.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		chartsData.mint.monthsData[monthsIndex] = Math.round((chartsData.mint.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
 		chartsData.temperature.monthsData[monthsIndex] = Math.round((chartsData.temperature.monthsData[monthsIndex] / daysInMonth) * 100) / 100;
@@ -442,8 +442,6 @@ function processChartData() {
 			chartsData.programs[programIndex].monthsData[monthsIndex] = Math.round((chartsData.programs[programIndex].monthsData[monthsIndex]) / daysInMonth * 100) / 100;
 		}
 	}
-
-	//generateProgramsChartsContainers();
 
 	// hide the spinner
 	makeHidden($('#pageLoadSpinner'));
@@ -624,7 +622,6 @@ function loadYearlyCharts () {
  * Generates all the charts: Water Need, Temperature, QPF and Programs
  */
 function generateCharts () {
-	//generateWaterNeedChart();
 	generateTemperatureChart();
 	generateQPFChart();
 	generateDailyWeatherChart();
@@ -774,7 +771,6 @@ function generateWaterSavedGauge() {
     // generate the chart
     charts.waterSaved = new Highcharts.Chart(waterSavedGaugeOptions);
 
-
 	var div = $('#waterSavedGaugeContainer');
 	var svg = div.getElementsByTagName('svg');
 	if (svg.length > 0) {
@@ -880,7 +876,7 @@ function generateQPFChart () {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
 						highlightCurrentDayInChart(this);
-					};
+					}
 				}
 			}
 		},
@@ -899,11 +895,13 @@ function generateQPFChart () {
 			formatter: function () {
 				var s = '<span style="font-size: 14px;">';
 				s += "Forecast: " + Util.convert.uiQuantity(this.point.y) + Util.convert.uiQuantityStr();
+				s += "<br>Measured:";
 
-				if (this.point.secondPoint && this.point.secondPoint.y !== null) {
-					s += "<br>Measured:" + Util.convert.uiQuantity(this.point.secondPoint.y) + Util.convert.uiQuantityStr();
+				if (this.point.secondPoint && this.point.secondPoint.y > -1) {
+					s += Util.convert.uiQuantity(this.point.secondPoint.y) + Util.convert.uiQuantityStr();
+				} else {
+					s += "No data";
 				}
-
 				s += '</span>';
 				return s;
 			}
@@ -950,9 +948,10 @@ function generateQPFChart () {
 			minorGridLineWidth: 0,
 			labels: {
 				enabled: false,
-				format: '{value} ' + Util.convert.uiQuantityStr(),
+				format: '{value} ' + Util.convert.uiQuantityStr()
 			},
-			title: false
+			title: false,
+			min: 0
 		}],
 		credits: {
 			enabled: false
