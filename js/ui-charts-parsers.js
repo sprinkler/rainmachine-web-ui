@@ -202,6 +202,11 @@ function generateSpecificParsersChart(key, startDate, days) {
 		console.log("Sliced from %d to %d", index, index+days);
         var mixerChartData = [];
         for (var i = 0; i < mixerData.length; i++) {
+			// Fix for the rain workaround in ui-charts where null is being replaced with -1
+			if (key == 'rain' && mixerData[i] == -1) {
+				mixerData[i] = null;
+			}
+
 			mixerChartData.push([Date.parse(mixerDates[i]), Util.convert.withType(key, mixerData[i])]);
 		}
 
@@ -220,7 +225,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 	var chartOptions = {
 		chart: {
 			renderTo: parserCharts[key].container,
-			spacingTop: 20,
+			spacingTop: 20
 		},
 		tooltip: {
 			shared: true
