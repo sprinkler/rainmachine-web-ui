@@ -362,7 +362,7 @@ sup { font-size: 12px }
 .halfRight{
   padding-left: 4%;
 }
-.zoneListName { width: 80%; }
+.zoneListName { width: 75%; }
 .overTop, .overTopProgramZonesTime {
   position: fixed;
   top: 0;
