@@ -173,6 +173,12 @@ strong { font-weight: 700; }
   margin-bottom: 10px;
   width: 100%;
 }
+.graphUnit {
+  float: right;
+  margin-top: -45px;
+  margin-right: 10px;
+  line-height: 20px;
+}
 
 /* Don't allow selection as moving zone sliders might select text around */
 #homeScreenZoneList {
@@ -356,7 +362,7 @@ sup { font-size: 12px }
 .halfRight{
   padding-left: 4%;
 }
-.zoneListName { width: 45%; }
+.zoneListName { width: 75%; }
 .overTop, .overTopProgramZonesTime {
   position: fixed;
   top: 0;
@@ -1621,6 +1627,7 @@ a.helpText {
     padding-top: 8px;
     padding-bottom: 12px;
   }
+
 }
 
 @media screen and (max-width: 1024px) {

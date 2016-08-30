@@ -94,6 +94,7 @@
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
 									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
 									</div>
+									<div class="graphUnit"><input type="radio" style="margin-right: 0" name="graphUnit"> gallons<br><input type="radio" style="margin-right: 0" name="graphUnit" checked> percent</div>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -1371,20 +1372,21 @@
 										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:20px;">Basic Zone Settings</td>
 									</tr>
 									<tr>
-										<td class="middle">Name:</td>
-										<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name"
-																  class="typeText"/></td>
+										<td class="middle">Name</td>
+										<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Enabled:</td>
+										<td class="middle">Enabled</td>
 										<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Weather Data:</td>
+										<td class="middle">Weather Data</td>
 										<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Historical Averages:</td>
+										<td class="middle">Historical Averages<br>
+										<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
+										</td>
 										<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 									</tr>
 									<tr>
@@ -1397,7 +1399,7 @@
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
 													<td class="middle" style="width:50%;">
-														Field Capacity:<br>
+														Field Capacity<br>
 														<span class="subtitle" style="display:block;padding-right:20px;">The amount of water content held in the soil after excess water has drained away. Increase this value if the RainMachine starts too soon after a rain event.</span>
 														<br>
 														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
@@ -1406,12 +1408,12 @@
 														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
 													</td>
 													<td style="width:50%;">
-														Suggested typical summer watering time:<br>
+														EPA Watersense daily suggested typical summer watering time<br>
 														<span class="subtitle" style="display:block;padding-right:20px;">Scheduled to run for a typical summer day and calculated based on advanced zone settings properties.This time will be adjusted automatically to any program that use this zone.</span>
 														<br>
 														<div class="zoneTimesDeterminedFullTime" style="color:#555;vertical-align: middle;margin:0" rm-id="zone-simulated-timer">
 															00h 05m 38s
-														</div> <span style="color:#888;vertical-align: middle;">(not used, this is just a suggestion)</span>
+														</div> <span style="color:#888;vertical-align: middle;">(not scheduled, this is just a suggestion)</span>
 													</td>
 												</tr>
 											</table>
