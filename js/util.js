@@ -606,4 +606,17 @@ Util.validateEmail = function(email){
 	return re.test(email);
 };
 
+// Show a number in binary representation
+Util.showBin = function(n) {
+	var octets = 1;
+
+	if (n != 0) {
+		octets =  Math.ceil((Math.floor(Math.log2(n) + 1)) / 8); // Multiple of 8 bits
+	}
+
+	var padding = new Array(octets * 8).join(0);
+	var s = n.toString(2);
+	return padding.substr(s.length) + s;
+};
+
 return Util; } ( Util || {}));

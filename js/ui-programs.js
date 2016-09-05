@@ -405,6 +405,11 @@ window.ui = window.ui || {};
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
 		uiElems.frequencyEveryParamElem.onchange = onFrequencyChanged;
 
+		// Add onFrequencyChange for all week days (to calculate auto value)
+		for (var elem in uiElems.frequencyWeekdaysElemCollection) {
+			uiElems.frequencyWeekdaysElemCollection[elem].onclick = onFrequencyChanged;
+		}
+
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
@@ -1081,9 +1086,53 @@ window.ui = window.ui || {};
 			case FrequencyType.EveryN:
 				return frequency.param;
 			case FrequencyType.Weekday:
-				return 3; // TODO calculate weekdays freq average
+				return getWeekdaysFrequencyMultiplier(frequency.param).future;
 		}
 		return 1;
+	}
+
+	function getWeekdaysFrequencyMultiplier(param) {
+
+		var param = parseInt(param, 2); // param is as a binary string
+
+		//console.log("Weekdays param: %s", Util.showBin(param));
+
+		// two cycles (weeks) worth of days to count bits easily in the format SSFTWTMSSFTWTM0
+		// remove the extra 0 between the two weeks
+		var firstWeekDay = 1;
+		var twoCyclesFuture;
+		var twoCyclesPast;
+
+		twoCyclesFuture = twoCyclesPast = param | (((param & 254) >> 1) << 8);
+
+		var futureStart = firstWeekDay + 1;  // Start on next day
+		var pastStart = firstWeekDay + 7 - 1;  // Add a week as we're going backward in time starting on prev day
+
+		var future = 1;
+		var past = 1;
+
+		//console.log("* getMultipliers: param=%s, futureStart=%d, pastStart=%d, twoCyclesFuture=%s firstWeekDay=%d",
+		//	Util.showBin(param), futureStart, pastStart, Util.showBin(twoCyclesFuture), firstWeekDay);
+
+		while (((twoCyclesFuture & (1 << futureStart)) == 0) && (future < 8)) {
+			future += 1;
+			futureStart += 1;
+		}
+
+		if (future >= 8) {
+			future = 1;
+		}
+
+		while (((twoCyclesPast & (1 << pastStart)) == 0) && (past < 8)) {
+			past += 1;
+			pastStart -= 1;
+		}
+
+		if (past >= 8) {
+			past = 1;
+		}
+
+		return { future: future, past: past };
 	}
 
 	function parseProgramFrequency() {
@@ -1192,4 +1241,5 @@ window.ui = window.ui || {};
 	_programs.showProgramSettings = showProgramSettings;
 	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
 	_programs.fillProgramTimers = fillProgramTimers;
+	_programs.getWeekdaysFrequencyMultiplier = getWeekdaysFrequencyMultiplier;
 } (window.ui.programs = window.ui.programs || {}));
