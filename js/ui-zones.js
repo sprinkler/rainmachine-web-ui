@@ -264,6 +264,13 @@ window.ui = window.ui || {};
 		templateInfo.slopeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-slope-type"]');
 		templateInfo.monthsCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-months-coef-enable"]');
 
+		// Advanced properties icons
+		templateInfo.vegetationIconElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-icon"]');
+		templateInfo.soilIconElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-icon"]');
+		templateInfo.sprinklerIconElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-icon"]');
+		templateInfo.sunIconElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sun-icon"]');
+		templateInfo.slopeIconElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-slope-icon"]');
+
 		// Watersense properties
 		templateInfo.advVegElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-advanced"]');
 		templateInfo.advVegCropTypeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-cropcoef-type"]');
@@ -694,22 +701,27 @@ window.ui = window.ui || {};
 
 	function onVegetationChange() {
 		toggleOtherOptions(uiElems.vegetationElem, uiElems.advVegElem);
+		uiElems.vegetationIconElem.innerHTML = "&#xe" + (+300 + parseInt(getSelectValue(uiElems.vegetationElem))) + ";";
 	}
 
 	function onSoilChange() {
 		toggleOtherOptions(uiElems.soilElem, uiElems.advSoilElem);
+		uiElems.soilIconElem.innerHTML = "&#xe" + (+400 + parseInt(getSelectValue(uiElems.soilElem))) + ";";
 	}
 
 	function onSprinklerChange() {
 		toggleOtherOptions(uiElems.sprinklerElem, uiElems.advSprinkerElem);
+		uiElems.sprinklerIconElem.innerHTML = "&#xe" + (+500 + parseInt(getSelectValue(uiElems.sprinklerElem))) + ";";
 	}
 
 	function onSlopeChange(){
 		toggleOtherOptions(uiElems.slopeElem, uiElems.advSlopeElem);
+		uiElems.slopeIconElem.innerHTML = "&#xe" + (+700 + parseInt(getSelectValue(uiElems.slopeElem))) + ";";
 	}
 
 	//Exposure doesn't have a advanced field, call just to update simulated zone data
 	function onExposureChange() {
+		uiElems.sunIconElem.innerHTML = "&#xe" + (+600 + parseInt(getSelectValue(uiElems.exposureElem))) + ";";
 		getZoneSimulatedValues();
 	}
 
