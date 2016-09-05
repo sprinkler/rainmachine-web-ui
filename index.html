@@ -94,7 +94,11 @@
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
 									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
 									</div>
-									<div class="graphUnit"><input type="radio" style="margin-right: 0" name="graphUnit"> gallons<br><input type="radio" style="margin-right: 0" name="graphUnit" checked> percent</div>
+									<!--<div class="graphUnit">
+										<input type="radio" style="margin-right: 0" name="graphUnit"> gallons
+										<br>
+										<input type="radio" style="margin-right: 0" name="graphUnit" checked> percent
+									</div>-->
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -1522,7 +1526,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet">_</span> Soil Type</td>
+										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-soil-icon">_</span> Soil Type</td>
 										<td class="middle">
 											<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
 												<option value="1">Clay Loam</option>
@@ -1556,7 +1560,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet">#</span> Sprinkler Head Type</td>
+										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-sprinkler-icon">#</span> Sprinkler Head Type</td>
 										<td class="middle">
 											<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Popup Spray</option>
@@ -1592,7 +1596,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet">$</span> Sun Exposure</td>
+										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-sun-icon">$</span> Sun Exposure</td>
 										<td class="middle">
 											<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Full Sun</option>
@@ -1602,7 +1606,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet">\</span> Slope</td>
+										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-slope-icon">\</span> Slope</td>
 										<td class="middle">
 											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Flat</option>
