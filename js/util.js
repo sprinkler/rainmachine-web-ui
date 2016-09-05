@@ -516,11 +516,11 @@ Util.convert = {
 		}
 	},
 
-	uiQuantity: function(q) {
+	uiQuantity: function(v) {
 		if (!Data.localSettings.units) {
-			return Util.convert.mmToInches(q);
+			return Util.convert.mmToInches(v);
 		} else {
-			return q;
+			return v;
 		}
 	},
 	uiQuantityStr: function() {
@@ -530,6 +530,24 @@ Util.convert = {
 			return " mm";
 		}
 	},
+	uiQuantityToMM: function(v) {
+		if (!Data.localSettings.units) {
+			return Util.convert.inchesToMM(v);
+		} else {
+			return v;
+		}
+	},
+	uiRate: function(v) { // Flow rate mm/h
+		return Util.convert.uiQuantity(v);
+	},
+	uiRateStr:
+		function() {
+			if (!Data.localSettings.units) {
+				return " in/h";
+			} else {
+				return " mm/h";
+			}
+		},
 	withType: function(type, value) {
 		switch (type) {
 			case 'temperature':

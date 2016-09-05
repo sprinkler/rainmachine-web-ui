@@ -284,6 +284,12 @@ window.ui = window.ui || {};
 		templateInfo.advPrecipRateElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-preciprate"]');
 		templateInfo.advAppEffElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-appefficiency"]');
 
+		// Watersense measurement unit fields
+		templateInfo.advRootDepthUnitElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-rootdepth-unit"]');
+		templateInfo.advIntakeRateUnitElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-intakerate-unit"]');
+		templateInfo.advPrecipRateUnitElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-sprinkler-preciprate-unit"]');
+		templateInfo.advSurfAccUnitElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-surface-acc-unit"]');
+
 		// Watersense crop coef for each month
 		templateInfo.advMonthsCoefElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-months-coef-advanced"]');
 		templateInfo.advMonthsCoef = [];
@@ -331,19 +337,19 @@ window.ui = window.ui || {};
 			zoneProperties.ETcoef = uiElems.advVegCropElem.value;
 		}
 
-		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value;
-		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value;
-		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value;
-		zoneAdvProperties.soilIntakeRate = uiElems.advIntakeRateElem.value;
-		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value;
-		zoneAdvProperties.precipitationRate = uiElems.advPrecipRateElem.value
-		zoneAdvProperties.rootDepth = uiElems.advRootDepthElem.value;
-		zoneAdvProperties.allowedSurfaceAcc = uiElems.advSurfAccElem.value;
+		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value; // percentage
+		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value; // percentage
+		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value; // percentage
+		zoneAdvProperties.soilIntakeRate = Util.convert.uiQuantityToMM(uiElems.advIntakeRateElem.value); // mm/h
+		zoneAdvProperties.permWilting = uiElems.advPermWiltingElem.value; // percentage
+		zoneAdvProperties.precipitationRate = Util.convert.uiQuantityToMM(uiElems.advPrecipRateElem.value); // mm/h
+		zoneAdvProperties.rootDepth = Util.convert.uiQuantityToMM(uiElems.advRootDepthElem.value); // mm
+		zoneAdvProperties.allowedSurfaceAcc = Util.convert.uiQuantityToMM(uiElems.advSurfAccElem.value); // mm
 		zoneAdvProperties.isTallPlant = uiElems.advTallElem.checked;
 		zoneAdvProperties.detailedMonthsKc = [];
 
 		for (var z = 0; z < 12; z++) {
-			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value);
+			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value); // percentage
 		}
 
 		var data = {
@@ -435,13 +441,31 @@ window.ui = window.ui || {};
 		uiElems.advAppEffElem.value = zone.waterSense.appEfficiency;
 		uiElems.advDepletionElem.value = zone.waterSense.maxAllowedDepletion;
 		uiElems.advFieldCapElem.value = zone.waterSense.fieldCapacity;
-		uiElems.advIntakeRateElem.value = zone.waterSense.soilIntakeRate;
+		uiElems.advIntakeRateElem.value = Util.convert.uiRate(zone.waterSense.soilIntakeRate);
 		uiElems.advPermWiltingElem.value = zone.waterSense.permWilting;
-		uiElems.advPrecipRateElem.value = zone.waterSense.precipitationRate;
-		uiElems.advRootDepthElem.value = zone.waterSense.rootDepth;
-		uiElems.advSurfAccElem.value = zone.waterSense.allowedSurfaceAcc;
+		uiElems.advPrecipRateElem.value = Util.convert.uiRate(zone.waterSense.precipitationRate);
+		uiElems.advRootDepthElem.value = Util.convert.uiQuantity(zone.waterSense.rootDepth);
+		uiElems.advSurfAccElem.value = Util.convert.uiQuantity(zone.waterSense.allowedSurfaceAcc);
 		uiElems.advTallElem.checked = zone.waterSense.isTallPlant;
 		uiElems.advVegCropElem.value = zone.ETcoef;
+
+		// Advanced Custom values on input (to recalculate values)
+		uiElems.advAppEffElem.oninput = getZoneSimulatedValues;
+		uiElems.advDepletionElem.oninput = getZoneSimulatedValues;
+		uiElems.advFieldCapElem.oninput = getZoneSimulatedValues;
+		uiElems.advIntakeRateElem.oninput = getZoneSimulatedValues;
+		uiElems.advPermWiltingElem.oninput = getZoneSimulatedValues;
+		uiElems.advPrecipRateElem.oninput = getZoneSimulatedValues;
+		uiElems.advRootDepthElem.oninput = getZoneSimulatedValues;
+		uiElems.advSurfAccElem.oninput = getZoneSimulatedValues;
+		uiElems.advTallElem.onchange = getZoneSimulatedValues;
+		uiElems.advVegCropElem.oninput = getZoneSimulatedValues;
+
+		// Advanced Custom values measurement units labels
+		uiElems.advRootDepthUnitElem.textContent = Util.convert.uiQuantityStr();
+		uiElems.advIntakeRateUnitElem.textContent = Util.convert.uiRateStr();
+		uiElems.advPrecipRateUnitElem.textContent = Util.convert.uiRateStr();
+		uiElems.advSurfAccUnitElem.textContent = Util.convert.uiQuantityStr();
 
 		var advVegCoefType = zone.ETcoef >= 0 ? AdvVegCoefType.single:AdvVegCoefType.monthly;
 		setSelectOption(uiElems.advVegCropTypeElem, advVegCoefType, true);
@@ -453,6 +477,7 @@ window.ui = window.ui || {};
 		var monthsCoef = zone.waterSense.detailedMonthsKc;
 		for (z = 0; z < monthsCoef.length; z++) {
 			uiElems.advMonthsCoef[z].value = monthsCoef[z];
+			uiElems.advMonthsCoef[z].oninput = getZoneSimulatedValues;
 		}
 
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
@@ -795,7 +820,6 @@ window.ui = window.ui || {};
 
 		return false;
 	}
-
 
 	//--------------------------------------------------------------------------------------------
 	//
