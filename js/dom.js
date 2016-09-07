@@ -216,7 +216,7 @@ function loadTemplate(name) {
 	return template;
 }
 
-function percentageChooser(parent, min, max, start, step, onChange) {
+function percentageChooser(parent, min, max, start, step, onChange, relative) {
 	var minusButton = addTag(parent, 'button');
 	var outputDiv = addTag(parent, 'span');
 	var plusButton = addTag(parent, 'button');
@@ -232,7 +232,13 @@ function percentageChooser(parent, min, max, start, step, onChange) {
 	this.value = start;
 
 	this.updateOutput = function() {
-		outputDiv.textContent = this.value + "%";
+
+		if (typeof relative !== "undefined" && relative) {
+			outputDiv.textContent = (+this.value - 100) + "%";
+		} else {
+			outputDiv.textContent = this.value + "%";
+		}
+
 	};
 
 	this.changeValue = function(step) {

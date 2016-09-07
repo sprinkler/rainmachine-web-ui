@@ -418,7 +418,7 @@ window.ui = window.ui || {};
 			function(v) {
 				zone.savings = v;
 				showZoneSimulatedValues(zone.waterSense);
-			}
+			}, true
 		);
 
 		//Curent simulated values
