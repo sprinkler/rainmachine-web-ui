@@ -1446,19 +1446,19 @@
 													<tr>
 														<td class="middle" style="width:50%">Allowed Depletion:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1"> decimal %</td>
+															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1" min="0"> decimal %</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Root Depth:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1">
+															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1" min="0">
 															<span rm-id="zone-vegetation-rootdepth-unit">mm</span>
 															</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Permanent Wilting Point:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.1">decimal %
+															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0">decimal %
 														</td>
 													</tr>
 													<tr>
@@ -1473,7 +1473,7 @@
 																<option value="0" selected>Single yearly value</option>
 																<option value="1">Multiple monthly values</option>
 															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1"> decimal %
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0"> decimal %
 															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
 																	   cellspacing="0"> 
@@ -1554,7 +1554,7 @@
 													<tr style="padding: 0 15px;">
 														<td class="middle noborder" style="width:50%">Soil field capacity:</td>
 														<td class="middle noborder" style="padding: 12px 0;">
-															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1"> decimal %
+															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0"> decimal %
 														</td>
 													</tr>
 												</table>
@@ -1591,7 +1591,7 @@
 															Application	Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1"> decimal % </td>
+															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0"> decimal % </td>
 													</tr>
 												</table>
 											</div>
