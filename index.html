@@ -1458,7 +1458,7 @@
 													<tr>
 														<td class="middle" style="width:50%">Permanent Wilting Point:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0">decimal %
+															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0.01" max="0.23">decimal %
 														</td>
 													</tr>
 													<tr>
@@ -1473,50 +1473,50 @@
 																<option value="0" selected>Single yearly value</option>
 																<option value="1">Multiple monthly values</option>
 															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0"> decimal %
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0.01" max="2"> decimal %
 															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
 																	   cellspacing="0"> 
 																	<tr>
 																		<td class="middle noborder center">Jan<br>
-																			<input rm-id="zone-months-coef0" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef0" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Feb<br>
-																			<input rm-id="zone-months-coef1" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef1" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Mar<br>
-																			<input rm-id="zone-months-coef2" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef2" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Apr<br>
-																			<input rm-id="zone-months-coef3" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef3" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																	<tr>
 																		<td class="middle noborder center">May<br>
-																			<input rm-id="zone-months-coef4" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef4" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Jun<br>
-																			<input rm-id="zone-months-coef5" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef5" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Jul<br>
-																			<input rm-id="zone-months-coef6" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef6" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Aug<br>
-																			<input rm-id="zone-months-coef7" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef7" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																	<tr>
 																		<td class="middle noborder center">Sep<br>
-																			<input rm-id="zone-months-coef8" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef8" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Oct<br>
-																			<input rm-id="zone-months-coef9" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef9" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Nov<br>
-																			<input rm-id="zone-months-coef10" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef10" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																				</td>
 																		<td class="middle noborder center">Dec<br>
-																			<input rm-id="zone-months-coef11" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef11" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																</table>
@@ -1554,7 +1554,7 @@
 													<tr style="padding: 0 15px;">
 														<td class="middle noborder" style="width:50%">Soil field capacity:</td>
 														<td class="middle noborder" style="padding: 12px 0;">
-															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0"> decimal %
+															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0.01"> decimal %
 														</td>
 													</tr>
 												</table>
@@ -1591,7 +1591,7 @@
 															Application	Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0"> decimal % </td>
+															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0.1" max="1"> decimal % </td>
 													</tr>
 												</table>
 											</div>
