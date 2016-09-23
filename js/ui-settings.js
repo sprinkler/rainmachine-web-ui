@@ -384,7 +384,7 @@ window.ui = window.ui || {};
 			o.textContent = "Uploading file " + status.file.name;
 			var r = API.uploadParser(status.file.name, status.file.type, status.data);
 			if (r === undefined || !r || r.statusCode != 0) {
-				o.textContent = "Error uploading" + status.file.name;
+				o.textContent = "Error uploading " + status.file.name;
 				if (r.message) {
 					o.textContent += ": " + r.message;
 				}
