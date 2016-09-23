@@ -306,6 +306,12 @@ window.ui = window.ui || {};
 			templateInfo.advMonthsCoef.push(elem);
 		}
 
+		//Zone flow rate reporting
+		templateInfo.area =  $(templateInfo.zoneTemplateElem, '[rm-id="zone-area"]');
+		templateInfo.areaUnits =  $(templateInfo.zoneTemplateElem, '[rm-id="zone-area-units"]');
+		templateInfo.flow =  $(templateInfo.zoneTemplateElem, '[rm-id="zone-flow"]');
+		templateInfo.flowUnits =  $(templateInfo.zoneTemplateElem, '[rm-id="zone-flow-units"]');
+
 		// Buttons
 		templateInfo.cancel = $(templateInfo.zoneTemplateElem, '[rm-id="zone-cancel"]');
 		templateInfo.save = $(templateInfo.zoneTemplateElem, '[rm-id="zone-save"]');
@@ -358,6 +364,9 @@ window.ui = window.ui || {};
 		for (var z = 0; z < 12; z++) {
 			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value); // percentage
 		}
+
+		zoneAdvProperties.area = uiElems.area.value; //Area
+		zoneAdvProperties.flow = uiElems.flow.value; //Volume
 
 		var data = {
 			zoneProperties: zoneProperties,
@@ -486,6 +495,12 @@ window.ui = window.ui || {};
 			uiElems.advMonthsCoef[z].value = monthsCoef[z];
 			uiElems.advMonthsCoef[z].oninput = getZoneSimulatedValues;
 		}
+
+		// Zone flow reporting
+		uiElems.area.value = zone.waterSense.area || null;
+		uiElems.flow.value = zone.waterSense.flow || null;
+		uiElems.areaUnits.textContent = "dummy area";
+		uiElems.flowUnits.textContent = "dummy flow";
 
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };

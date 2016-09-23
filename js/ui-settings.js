@@ -789,7 +789,6 @@ window.ui = window.ui || {};
     					dayDurations.scheduled += zoneDurations.user;
     					dayDurations.watered += zoneDurations.real;
 
-
 						programStartElem.textContent = "start time: " + programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
     					programContainerElem.appendChild(zoneListTemplate);
 
