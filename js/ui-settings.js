@@ -570,7 +570,7 @@ window.ui = window.ui || {};
 				for (var k = 0; k < program.zones.length; k++)
 				{
 					var zone = program.zones[k];
-					var zoneDurations = { machine: 0, user: 0, real: 0 };
+					var zoneDurations = { machine: 0, user: 0, real: 0, flowrate: 0 };
 
 					if (zone.cycles.length > maxCycles) {
 						maxCycles = zone.cycles.length;
@@ -617,6 +617,8 @@ window.ui = window.ui || {};
 
 					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
 						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						zoneDurations.flowrate = (((Data.zoneAdvData.zones[zoneid].waterSense.precipitationRate * Data.zoneAdvData.zones[zoneid].waterSense.area) / 60 / 60) * +zoneDurations.real) / 1000;
+						zoneDurations.flowrate = zoneDurations.flowrate.toFixed(3)
 					}
 					else {
 						zoneName = "Zone " + zone.uid;
@@ -632,6 +634,7 @@ window.ui = window.ui || {};
 						zoneName,
 						zoneDurations.user,
 						zoneDurations.real,
+						zoneDurations.flowrate,
 						zone.flag,
 						zoneStartTime
 					);
@@ -671,6 +674,7 @@ window.ui = window.ui || {};
 							cycles[c].user,
 							cycles[c].real,
 							0,
+							0,
 							cycles[c].start,
 							"historyZoneCycles"
 						);
@@ -681,6 +685,7 @@ window.ui = window.ui || {};
 								cycles[c].zones[k].name,
 								cycles[c].zones[k].user,
 								cycles[c].zones[k].real,
+								0,
 								cycles[c].zones[k].flag,
 								cycles[c].zones[k].start
 							);
@@ -825,7 +830,7 @@ window.ui = window.ui || {};
 		return null;
 	}
 
-	function createZoneWateringHistoryElems(name, sched, watered,  flag, startTime, cssClass) {
+	function createZoneWateringHistoryElems(name, sched, watered, flowRate, flag, startTime, cssClass) {
 		var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
 
 		var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
@@ -837,7 +842,8 @@ window.ui = window.ui || {};
 
 		zoneNameElem.textContent = name;
 		zoneSchedElem.textContent = Util.secondsToText(sched);
-		zoneWateredElem.textContent = Util.secondsToText(watered);
+		zoneWateredElem.textContent = Util.secondsToText(watered) + " " + flowRate + " m3";
+
 		zoneReasonElem.textContent = waterLogReason[flag];
 		zoneStartTimeElem.textContent = startTime;
 
@@ -850,7 +856,7 @@ window.ui = window.ui || {};
 		if (saved > 100) saved = 100;
 		zoneSavedElem.textContent =  saved + " %";
 
-		if (typeof cssClass !== "undefined") {
+		if (typeof cssClass !== "undefined" && cssClass != null) {
 			zoneListTemplate.className = cssClass;
 		}
 
