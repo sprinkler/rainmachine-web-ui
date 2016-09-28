@@ -1188,13 +1188,17 @@ a.helpText {
   padding: 10px 0;
   /*background-color: #ffffff;*/
 }
+.historyZoneItem:nth-child(5) {
+  width:11%;
+}
 .historyZoneItem:nth-child(6), .historyZoneItem:last-child {
-  text-align: left;
+  text-align: center;
   color: #3399cc;
+  width:7%;
 }
 .historyZoneItem:last-child {
   text-align: right;
-  width:10%;
+  width:16%;
 }
 .historyZoneItemName {
   white-space: nowrap;
@@ -1202,6 +1206,7 @@ a.helpText {
   width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-right: 15px;
 }
 .historyDate,
 .historyProgName {
