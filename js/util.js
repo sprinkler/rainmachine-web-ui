@@ -498,7 +498,23 @@ Util.convert = {
 	mmToInches: function(mm) {
 		return Math.round((+mm / 25.4) * 100) / 100;
 	},
-
+	rateToCubicMeters: function(rate, area, seconds) { // converts from mm/h rate on a m^2 are for n seconds to m^3
+		return Math.round((((rate * area)  * +seconds/3600) / 1000.0) * 1000) / 1000;
+	},
+	rateToGPM: function(rate, area, seconds) {
+		inchRate = Util.convert.mmToInches(rate);
+		feetArea = Util.convert.areaMetersToFeet(area);
+		return Math.round(((((inchRate * feetArea) / 96.25) * +seconds/60) * 1000) / 1000);  // 96.25 Converts GPM to inches per hour
+	},
+	areaMetersToFeet: function(m) {
+		return Math.round((m * 10.7639) * 100) / 100;
+	},
+	areaFeetToMeters: function(f) {
+		return Math.round((f * 0.092903) * 100) / 100;
+	},
+	volumeMetersHourToGPM: function(v) {
+		return Math.round((v * 4.40287) * 100) / 100;
+	},
 	// functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
 	uiTemp: function(temp) {
 		if (!Data.localSettings.units) {
@@ -537,17 +553,58 @@ Util.convert = {
 			return v;
 		}
 	},
+	uiFlowVolume: function(volume) {
+		if (!Data.localSettings.units) {
+			return Util.convert.volumeMetersHourToGPM(volume);
+		} else {
+			return volume;
+		}
+	},
+	uiFlowCompute: function(rate, area, seconds) {
+		if (!Data.localSettings.units) {
+			return Util.convert.rateToGPM(rate, area, seconds);
+		} else {
+			return Util.convert.rateToCubicMeters(rate, area, seconds);
+		}
+	},
+	uiFlowVolumeStr: function() {
+		if (!Data.localSettings.units) {
+			return " gpm";
+		} else {
+			return " m\xB3/h";
+		}
+	},
+	uiWaterVolumeStr: function() {
+		if (!Data.localSettings.units) {
+			return " gal";
+		} else {
+			return " m\xB3";
+		}
+	},
+	uiArea: function(area) {
+		if (!Data.localSettings.units) {
+			return Util.convert.areaMetersToFeet(area);
+		} else {
+			return area;
+		}
+	},
+	uiAreaStr: function() {
+		if (!Data.localSettings.units) {
+			return " ft\xB2";
+		} else {
+			return " m\xB2";
+		}
+	},
 	uiRate: function(v) { // Flow rate mm/h
 		return Util.convert.uiQuantity(v);
 	},
-	uiRateStr:
-		function() {
-			if (!Data.localSettings.units) {
-				return " in/h";
-			} else {
-				return " mm/h";
-			}
-		},
+	uiRateStr:function() {
+		if (!Data.localSettings.units) {
+			return " in/h";
+		} else {
+			return " mm/h";
+		}
+	},
 	withType: function(type, value) {
 		switch (type) {
 			case 'temperature':

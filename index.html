@@ -231,6 +231,7 @@
 												<div class="historyZoneItem">Start Time</div>
 												<div class="historyZoneItem">Scheduled Time</div>
 												<div class="historyZoneItem">Watered Time</div>
+												<div class="historyZoneItem">Water Used</div>
 												<div class="historyZoneItem">Water Saved</div>
 												<div class="historyZoneItem">Special Condition</div>
 											</div>
@@ -1820,7 +1821,7 @@
 												<select class="selectSmall" rm-id="program-cycles-type">
 													<option value="0" selected>OFF</option>
 													<option value="1">Auto</option>
-													<option value="2">Manual</option>
+													<option value="2">Custom</option>
 												</select>
 											</div>
 										</td>
@@ -1836,7 +1837,7 @@
 												</div>
 												<select class="selectSmall" rm-id="program-delay-zones-type">
 													<option value="0" selected>OFF</option>
-													<option value="1">Manual</option>
+													<option value="1">Custom</option>
 												</select>
 											</div>
 										</td>
@@ -2069,6 +2070,15 @@
 					<br>
 					<div>Precipitation:</div>
 					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+					<br>
+					<div>Total Scheduled</div>
+					<div rm-id="wateringLogDayUser"></div>
+					<br>
+					<div>Total Watering</div>
+					<div rm-id="wateringLogDayReal"></div>
+					<br>
+					<div>Water Used</div>
+					<div rm-id="wateringLogDayWaterUsed"></div>
 				</div>
 			</div>
 			<div rm-id="wateringLogProgramsContainer"></div>
@@ -2080,6 +2090,7 @@
 			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon">P</span></div>
 			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
+			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>
 		</div>
 		<!-- Template for Watering History Day per Program (End) -->
 
@@ -2089,6 +2100,7 @@
 			<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneRealTime" class="historyZoneItem"></div>
+			<div rm-id="wateringLogZoneFlowRate" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSavedReason" class="historyZoneItem"></div>
 		</div>
