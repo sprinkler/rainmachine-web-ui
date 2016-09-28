@@ -30,24 +30,24 @@ Util.secondsToText = function(seconds, rounded)
 		text = r.days + " days ";
 
 	if (r.hours > 0)
-		text += r.hours + " hours ";
+		text += r.hours + "h ";
 
 	if (rounded && text.length > 0) {
 		return text;
 	}
 
 	if (r.minutes > 0)
-		text += r.minutes + " min ";
+		text += r.minutes + "m ";
 
 	if (rounded && text.length > 0) {
 		return text;
 	}
 
 	if (r.seconds > 0)
-		text += r.seconds + " sec ";
+		text += r.seconds + "s ";
 
 	if (text.length == 0)
-		text = "0 min";
+		text = "0m";
 
 	return text;
 };
