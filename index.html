@@ -231,6 +231,7 @@
 												<div class="historyZoneItem">Start Time</div>
 												<div class="historyZoneItem">Scheduled Time</div>
 												<div class="historyZoneItem">Watered Time</div>
+												<div class="historyZoneItem">Water Used</div>
 												<div class="historyZoneItem">Water Saved</div>
 												<div class="historyZoneItem">Special Condition</div>
 											</div>
@@ -1394,9 +1395,7 @@
 										<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 									</tr>
 									<tr>
-										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced
-											Zone Settings
-										</td>
+										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced Zone Settings</td>
 									</tr>
 									<tr>
 										<td colspan="2" class="noborder">
@@ -1436,7 +1435,7 @@
 												<option value="5">Vegetables</option>
 												<option value="6">Citrus</option>
 												<option value="7">Trees and Bushes</option>
-												<option value="9">Xeriscape</option>
+												<option value="9">Drought Tolerant Plants</option>
 												<option value="99">Custom</option>
 											</select>
 											<!-- Vegetation Type "Custom" options start -->
@@ -1446,19 +1445,19 @@
 													<tr>
 														<td class="middle" style="width:50%">Allowed Depletion:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1"> decimal %</td>
+															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1" min="0"> decimal %</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Root Depth:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1">
+															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1" min="0">
 															<span rm-id="zone-vegetation-rootdepth-unit">mm</span>
 															</td>
 													</tr>
 													<tr>
 														<td class="middle" style="width:50%">Permanent Wilting Point:</td>
 														<td style="padding:0;">
-															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.1">decimal %
+															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0.01" max="0.23">decimal %
 														</td>
 													</tr>
 													<tr>
@@ -1473,50 +1472,50 @@
 																<option value="0" selected>Single yearly value</option>
 																<option value="1">Multiple monthly values</option>
 															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1"> decimal %
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0.01" max="2"> decimal %
 															<div rm-id="zone-months-coef-advanced">
 																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
 																	   cellspacing="0"> 
 																	<tr>
 																		<td class="middle noborder center">Jan<br>
-																			<input rm-id="zone-months-coef0" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef0" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Feb<br>
-																			<input rm-id="zone-months-coef1" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef1" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Mar<br>
-																			<input rm-id="zone-months-coef2" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef2" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Apr<br>
-																			<input rm-id="zone-months-coef3" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef3" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																	<tr>
 																		<td class="middle noborder center">May<br>
-																			<input rm-id="zone-months-coef4" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef4" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Jun<br>
-																			<input rm-id="zone-months-coef5" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef5" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Jul<br>
-																			<input rm-id="zone-months-coef6" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef6" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Aug<br>
-																			<input rm-id="zone-months-coef7" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef7" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																	<tr>
 																		<td class="middle noborder center">Sep<br>
-																			<input rm-id="zone-months-coef8" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef8" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Oct<br>
-																			<input rm-id="zone-months-coef9" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef9" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																		<td class="middle noborder center">Nov<br>
-																			<input rm-id="zone-months-coef10" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef10" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																				</td>
 																		<td class="middle noborder center">Dec<br>
-																			<input rm-id="zone-months-coef11" type="number" class="typeNumber"/>
+																			<input rm-id="zone-months-coef11" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
 																		</td>
 																	</tr>
 																</table>
@@ -1532,7 +1531,7 @@
 										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-soil-icon">_</span> Soil Type</td>
 										<td class="middle">
 											<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
-												<option value="1">Clay Loam</option>
+												<option value="1" selected>Clay Loam</option>
 												<option value="2">Silty Clay</option>
 												<option value="3">Clay</option>
 												<option value="4" selected>Loam</option>
@@ -1554,7 +1553,7 @@
 													<tr style="padding: 0 15px;">
 														<td class="middle noborder" style="width:50%">Soil field capacity:</td>
 														<td class="middle noborder" style="padding: 12px 0;">
-															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1"> decimal %
+															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0.01"> decimal %
 														</td>
 													</tr>
 												</table>
@@ -1591,7 +1590,7 @@
 															Application	Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1"> decimal % </td>
+															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0.1" max="1"> decimal % </td>
 													</tr>
 												</table>
 											</div>
@@ -1635,7 +1634,20 @@
 											<!-- Slope "Custom" options end -->
 										</td>
 									</tr>
-
+									<tr>
+										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">
+											Zone Flow Rate Reporting
+											<span class="subtitle" style="display:block;padding-right:20px;">Use this options if you want watering history to also show water consumed</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">Area (optional)<br><span class="subtitle" rm-id="zone-area-units"></span></td>
+										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText"/></td>
+									</tr>
+									<tr>
+										<td class="middle">Total Flow (optional)<br><span class="subtitle" rm-id="zone-flow-units"></span></td>
+										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText"/></td>
+									</tr>
 									<!-- End Zone Basic & Advanced Settings -->
 								</table>
 							</div>
@@ -1809,7 +1821,7 @@
 												<select class="selectSmall" rm-id="program-cycles-type">
 													<option value="0" selected>OFF</option>
 													<option value="1">Auto</option>
-													<option value="2">Manual</option>
+													<option value="2">Custom</option>
 												</select>
 											</div>
 										</td>
@@ -1825,7 +1837,7 @@
 												</div>
 												<select class="selectSmall" rm-id="program-delay-zones-type">
 													<option value="0" selected>OFF</option>
-													<option value="1">Manual</option>
+													<option value="1">Custom</option>
 												</select>
 											</div>
 										</td>
@@ -2058,6 +2070,15 @@
 					<br>
 					<div>Precipitation:</div>
 					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+					<br>
+					<div>Total Scheduled</div>
+					<div rm-id="wateringLogDayUser"></div>
+					<br>
+					<div>Total Watering</div>
+					<div rm-id="wateringLogDayReal"></div>
+					<br>
+					<div>Water Used</div>
+					<div rm-id="wateringLogDayWaterUsed"></div>
 				</div>
 			</div>
 			<div rm-id="wateringLogProgramsContainer"></div>
@@ -2069,6 +2090,7 @@
 			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon">P</span></div>
 			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
+			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>
 		</div>
 		<!-- Template for Watering History Day per Program (End) -->
 
@@ -2078,6 +2100,7 @@
 			<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneRealTime" class="historyZoneItem"></div>
+			<div rm-id="wateringLogZoneFlowRate" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
 			<div rm-id="wateringLogZoneSavedReason" class="historyZoneItem"></div>
 		</div>

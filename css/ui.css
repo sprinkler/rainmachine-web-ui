@@ -1188,7 +1188,7 @@ a.helpText {
   padding: 10px 0;
   /*background-color: #ffffff;*/
 }
-.historyZoneItem:nth-child(5), .historyZoneItem:last-child {
+.historyZoneItem:nth-child(5), .historyZoneItem:nth-child(6), .historyZoneItem:last-child {
   text-align: left;
   color: #3399cc;
 }

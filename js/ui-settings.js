@@ -384,7 +384,7 @@ window.ui = window.ui || {};
 			o.textContent = "Uploading file " + status.file.name;
 			var r = API.uploadParser(status.file.name, status.file.type, status.data);
 			if (r === undefined || !r || r.statusCode != 0) {
-				o.textContent = "Error uploading" + status.file.name;
+				o.textContent = "Error uploading " + status.file.name;
 				if (r.message) {
 					o.textContent += ": " + r.message;
 				}
@@ -491,12 +491,16 @@ window.ui = window.ui || {};
 		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 		{
 			var day =  waterLog.waterLog.days[i];
+			var dayDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
+
 			var dayTemplate = loadTemplate("watering-history-day-template");
 			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
 			var dayConditionElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherIcon"]');
 			var dayTempElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherTemp"]');
 			var dayQpfElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherQpf"]');
-
+			var dayUserDurationElem = $(dayTemplate, '[rm-id="wateringLogDayUser"]');
+			var dayRealDurationElem = $(dayTemplate, '[rm-id="wateringLogDayReal"]');
+			var dayWaterUsedElem = $(dayTemplate, '[rm-id="wateringLogDayWaterUsed"]');
 			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
 			var dayCondition;
@@ -541,6 +545,7 @@ window.ui = window.ui || {};
 			for (var j = 0; j < day.programs.length; j++)
 			{
 				var program = day.programs[j];
+				var programDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
 
 				if (program.id == 0) {
 					var name = "Manual Watering";
@@ -557,6 +562,7 @@ window.ui = window.ui || {};
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
 				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
+
 				programNameElem.textContent = name;
 
 				//console.log("\t%s", name);
@@ -570,7 +576,7 @@ window.ui = window.ui || {};
 				for (var k = 0; k < program.zones.length; k++)
 				{
 					var zone = program.zones[k];
-					var zoneDurations = { machine: 0, user: 0, real: 0 };
+					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
 
 					if (zone.cycles.length > maxCycles) {
 						maxCycles = zone.cycles.length;
@@ -592,11 +598,14 @@ window.ui = window.ui || {};
 
 						cycles[c].zones[k] = {};
 
+						//Per cycle durations
 						cycles[c].zones[k].machine = cycle.machineDuration;
 						cycles[c].zones[k].real = cycle.realDuration;
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
 
+
+						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
@@ -614,12 +623,21 @@ window.ui = window.ui || {};
 					}
 
 					zoneid = zone.uid - 1;
-
 					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
 						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 					}
 					else {
 						zoneName = "Zone " + zone.uid;
+					}
+
+					if (Data.zoneAdvData.zones && Data.zoneAdvData.zones[zoneid]) {
+						var waterSenseData =  Data.zoneAdvData.zones[zoneid].waterSense;
+						zoneDurations.usedVolume = Util.convert.uiFlowCompute(waterSenseData.precipitationRate, waterSenseData.area, zoneDurations.real);
+						zoneDurations.volume = Util.convert.uiFlowCompute(waterSenseData.precipitationRate, waterSenseData.area, zoneDurations.user);
+					} else {
+						zoneDurations.usedVolume = null;
+						zoneDurations.volume = null;
+						console.log("No Zone Advanced Data to compute flow");
 					}
 
 					var zoneStartTime = "";
@@ -632,13 +650,42 @@ window.ui = window.ui || {};
 						zoneName,
 						zoneDurations.user,
 						zoneDurations.real,
+						zoneDurations.usedVolume,
+						zoneDurations.volume,
 						zone.flag,
 						zoneStartTime
 					);
 
+					//Program Totals
+					programDurations.machine += zoneDurations.machine;
+					programDurations.real += zoneDurations.real;
+					programDurations.user += zoneDurations.user;
+					programDurations.volume += zoneDurations.volume;
+					programDurations.usedVolume += zoneDurations.usedVolume;
+
 					programContainerElem.appendChild(zoneListTemplate);
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
+
+				//Create Program totals elements
+				var programTotalsTemplate = createZoneWateringHistoryElems(
+					"Total: ",
+					programDurations.user,
+					programDurations.real,
+					programDurations.usedVolume,
+					programDurations.volume,
+					0,
+					"",
+					"historyZoneCycles"
+				);
+
+				//Day totals
+				dayDurations.machine += programDurations.machine;
+				dayDurations.real += programDurations.real;
+				dayDurations.user += programDurations.user;
+				dayDurations.volume += programDurations.volume;
+				dayDurations.usedVolume += programDurations.usedVolume;
+
 
 				//Show cycles detailed information if more than 1 cycle
 				if (maxCycles > 1) {
@@ -671,6 +718,8 @@ window.ui = window.ui || {};
 							cycles[c].user,
 							cycles[c].real,
 							0,
+							0,
+							0,
 							cycles[c].start,
 							"historyZoneCycles"
 						);
@@ -681,6 +730,8 @@ window.ui = window.ui || {};
 								cycles[c].zones[k].name,
 								cycles[c].zones[k].user,
 								cycles[c].zones[k].real,
+								0,
+								0,
 								cycles[c].zones[k].flag,
 								cycles[c].zones[k].start
 							);
@@ -692,7 +743,19 @@ window.ui = window.ui || {};
 
 				//console.log(JSON.stringify(cycles, null, 4));
 				dayContainerElem.appendChild(programTemplate);
+				//Program Totals
+				programContainerElem.appendChild(programTotalsTemplate);
 			}
+
+			//Show day totals
+			dayUserDurationElem.textContent = Util.secondsToText(dayDurations.user);
+			dayRealDurationElem.textContent = Util.secondsToText(dayDurations.real);
+			if (dayDurations.usedVolume !== null && dayDurations.usedVolume > 0) {
+				dayWaterUsedElem.textContent = dayDurations.usedVolume + " / " + dayDurations.volume + Util.convert.uiWaterVolumeStr();
+			} else {
+				dayWaterUsedElem.textContent = "No water used";
+			}
+
 			container.appendChild(dayTemplate);
 		}
 	}
@@ -742,7 +805,7 @@ window.ui = window.ui || {};
     					if (p !== null)
     						var name = p.name;
     					else
-    						var name = "Program " + program.id
+    						var name = "Program " + program.id;
     				}
 
     				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
@@ -789,7 +852,6 @@ window.ui = window.ui || {};
     					dayDurations.scheduled += zoneDurations.user;
     					dayDurations.watered += zoneDurations.real;
 
-
 						programStartElem.textContent = "start time: " + programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
     					programContainerElem.appendChild(zoneListTemplate);
 
@@ -826,12 +888,13 @@ window.ui = window.ui || {};
 		return null;
 	}
 
-	function createZoneWateringHistoryElems(name, sched, watered,  flag, startTime, cssClass) {
+	function createZoneWateringHistoryElems(name, sched, watered, usedVolume, volume, flag, startTime, cssClass) {
 		var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-template");
 
 		var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
 		var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
 		var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
+		var zoneFlowRateElem = $(zoneListTemplate, '[rm-id="wateringLogZoneFlowRate"]');
 		var zoneSavedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSaved"]');
 		var zoneReasonElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSavedReason"]');
 		var zoneStartTimeElem = $(zoneListTemplate, '[rm-id="wateringLogZoneStartTime"]');
@@ -839,8 +902,15 @@ window.ui = window.ui || {};
 		zoneNameElem.textContent = name;
 		zoneSchedElem.textContent = Util.secondsToText(sched);
 		zoneWateredElem.textContent = Util.secondsToText(watered);
+
+		if (usedVolume !== null && usedVolume > 0)
+			zoneFlowRateElem.textContent = usedVolume + " / " + volume + Util.convert.uiWaterVolumeStr();
+
 		zoneReasonElem.textContent = waterLogReason[flag];
-		zoneStartTimeElem.textContent = startTime;
+
+		if (startTime !== "") {
+			zoneStartTimeElem.textContent = startTime;
+		}
 
 		if (flag != 0 && flag != 6) {
 			zoneReasonElem.style.color = "red";
@@ -851,7 +921,7 @@ window.ui = window.ui || {};
 		if (saved > 100) saved = 100;
 		zoneSavedElem.textContent =  saved + " %";
 
-		if (typeof cssClass !== "undefined") {
+		if (typeof cssClass !== "undefined" && cssClass != null) {
 			zoneListTemplate.className = cssClass;
 		}
 
