@@ -365,8 +365,8 @@ window.ui = window.ui || {};
 			zoneAdvProperties.detailedMonthsKc.push(uiElems.advMonthsCoef[z].value); // percentage
 		}
 
-		zoneAdvProperties.area = uiElems.area.value; //Area
-		zoneAdvProperties.flow = uiElems.flow.value; //Volume
+		zoneAdvProperties.area = Util.convert.uiAreaToMeters(uiElems.area.value); //Area
+		zoneAdvProperties.flow = Util.convert.uiFlowVolumeToMeters(uiElems.flow.value); //Volume
 
 		var data = {
 			zoneProperties: zoneProperties,
@@ -497,10 +497,10 @@ window.ui = window.ui || {};
 		}
 
 		// Zone flow reporting
-		uiElems.area.value = zone.waterSense.area || null;
-		uiElems.flow.value = zone.waterSense.flow || null;
-		uiElems.areaUnits.textContent = "dummy area";
-		uiElems.flowUnits.textContent = "dummy flow";
+		uiElems.area.value = Util.convert.uiArea(zone.waterSense.area) || null;
+		uiElems.flow.value = Util.convert.uiFlowVolume(zone.waterSense.flow) || null;
+		uiElems.areaUnits.textContent = Util.convert.uiAreaStr();
+		uiElems.flowUnits.textContent = Util.convert.uiFlowVolumeStr();
 
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };

@@ -515,6 +515,9 @@ Util.convert = {
 	volumeMetersHourToGPM: function(v) {
 		return Math.round((v * 4.40287) * 100) / 100;
 	},
+	volumeGPMToMetersHour: function(v) {
+		return Math.round((v * 0.227125) * 100) /100;
+	},
 	// functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
 	uiTemp: function(temp) {
 		if (!Data.localSettings.units) {
@@ -560,6 +563,13 @@ Util.convert = {
 			return volume;
 		}
 	},
+	uiFlowVolumeToMeters: function(volume) {
+		if (!Data.localSettings.units) {
+			return Util.convert.volumeGPMToMetersHour(volume);
+		} else {
+			return volume;
+		}
+	},
 	uiFlowCompute: function(rate, area, seconds) {
 		if (!Data.localSettings.units) {
 			return Util.convert.rateToGPM(rate, area, seconds);
@@ -593,6 +603,13 @@ Util.convert = {
 			return " ft\xB2";
 		} else {
 			return " m\xB2";
+		}
+	},
+	uiAreaToMeters: function(a) {
+		if (!Data.localSettings.units) {
+			return Util.convert.areaFeetToMeters(a);
+		} else {
+			return a;
 		}
 	},
 	uiRate: function(v) { // Flow rate mm/h
