@@ -45,12 +45,17 @@ window.ui = window.ui || {};
 		APIAsync.getZones().then(
 			function(o) {
 				Data.zoneData = o;
-				APIAsync.getZonesProperties().then(function(o) { Data.zoneAdvData = o; updateZones();})
+				APIAsync.getZonesProperties().then(function(o) {
+					Data.zoneAdvData = o;
+					Data.counters.zoneAdv++;
+					updateZones();
+					processChartData(); //TODO dependency
+				})
 			}
 		)
     }
 
-	//Only uses API.getZones() as advanced properties doesn't change often
+	//Only uses API.getZones() as advanced properties don't change often
     function showZonesSimple() {
     	APIAsync.getZones().then(function(o) { Data.zoneData = o; updateZones();} );
     }
@@ -851,7 +856,7 @@ window.ui = window.ui || {};
 	//Calculates the volume of water that was applied on a zone for specified seconds (in metric system)
 	//It uses zone.area (m^2) if defined or zone.flow if not. If both defined and zone uses drip it uses .flow (m^3/h)
 	function zoneComputeWaterVolume(id, seconds) {
-		if (!Data.zoneAdvData.zones || !(id in Data.zoneAdvData.zones)) {
+		if (! Data.zoneAdvData || !Data.zoneAdvData.zones || !(id in Data.zoneAdvData.zones)) {
 			console.log("No Zone Advanced Data to compute flow");
 			return null;
 		}

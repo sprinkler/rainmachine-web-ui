@@ -39,6 +39,12 @@ Data.localSettings =  {
 	units: false // Default to US units
 };
 
+//TODO Reference counting
+Data.counters = {
+	charts: 0,
+	zoneAdv: 0
+};
+
 _timeZoneDB = new DataProperty();
 _timeZoneDB.refreshInterval = -1;
 _timeZoneDB.apiCall = function() { return API.getTimeZoneDB(); }

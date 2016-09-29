@@ -5,7 +5,6 @@
 
 /* global Highcharts */
 var YEARDAYS = Util.getYearDays((new Date()).getFullYear());
-var chartsDataCounter = 0;
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,
 		monthly: 1,
@@ -143,6 +142,7 @@ function ChartData () {
 	this.mint = new ChartSeries(this.startDate);
 	this.temperature = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
+	this.volumeSaved = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.et0 = new ChartSeries(this.startDate);
 	this.pressure = new ChartSeries(this.startDate);
@@ -186,7 +186,7 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 		APIAsync.getDailyStats(null, true)
         	.then(function(o) {
 				makeHidden("#error");
-				Data.dailyDetails = o; chartsDataCounter++; processChartData();}) //for water need in the future
+				Data.dailyDetails = o; Data.counters.charts++; processChartData();}) //for water need in the future
         	.error(function(o) {
 				window.ui.main.showError("Please wait while new graphs are generated");
         	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay)})
@@ -205,18 +205,18 @@ function getChartData(pastDays) {
 	console.log("Getting all dashboard data for %d past days...", pastDays);
 	//for programs name and status
 	APIAsync.getPrograms()
-	.then(function(o) { Data.programs = o; chartsDataCounter++; processChartData(); });
+	.then(function(o) { Data.programs = o; Data.counters.charts++; processChartData(); });
 
 	//for weather data in the  past + 7 future
 	APIAsync.getMixer(Util.getDateWithDaysDiff(pastDays), pastDays + 7)
-	.then(function(o) { Data.mixerData = o.mixerDataByDate; chartsDataCounter++; processChartData(); });
+	.then(function(o) { Data.mixerData = o.mixerDataByDate; Data.counters.charts++; processChartData(); });
 
 	//for used water
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-	.then(function(o) { Data.waterLog = o; chartsDataCounter++; processChartData();});
+	.then(function(o) { Data.waterLog = o; Data.counters.charts++; processChartData();});
 
 //	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-//	.then(function(o) { Data.waterLogSimulated = o; chartsDataCounter++; processChartData();}) //for simulated used water
+//	.then(function(o) { Data.waterLogSimulated = o; Data.counters.charts++; processChartData();}) //for simulated used water
 
 	//for future watering/program runs
 	getDailyStatsWithRetry(20, 6000);
@@ -257,12 +257,14 @@ function processChartData() {
 		currentProgram,
 		currentProgramIndex;
 
-	if (chartsDataCounter < 4) {
+	if (Data.counters.charts < 4 || Data.counters.zoneAdv < 1) {
+		console.log(Data.counters.charts + "," + Data.counters.zoneAdv);
 		return;
 	} else {
-		chartsDataCounter = 0;
+		Data.counters.charts = 0;
+		//Data.counters.zoneAdv = 0;
 	}
-
+	console.log("Processing chart data" + Data.counters.charts + "," + Data.counters.zoneAdv);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -347,6 +349,7 @@ function processChartData() {
 		var day =  Data.waterLog.waterLog.days[i];
 		var wnpTotalDayUserWater = 0;
 		var wnpTotalDayScheduledWater = 0;
+		var volumeUsedDay = 0;
 
 		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
 			currentProgram = day.programs[programIndex];
@@ -366,11 +369,17 @@ function processChartData() {
 					//console.log("History Program %s flag %s", currentProgram.id, programFlag);
 				}
 
+				var zoneScheduledWater = 0;
+				var zoneUserWater = 0;
 				for (var c = 0; c < zone.cycles.length; c++) {
 					var cycle = zone.cycles[c];
-					wnpTotalDayProgramScheduledWater += cycle.realDuration;
-					wnpTotalDayProgramUserWater += cycle.userDuration;
+					zoneScheduledWater += cycle.realDuration;
+					zoneUserWater += cycle.userDuration;
 				}
+				wnpTotalDayProgramScheduledWater += zoneScheduledWater;
+				wnpTotalDayProgramUserWater += zoneUserWater;
+
+				volumeUsedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid, zoneScheduledWater);
 
 				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayProgramUserWater, wnpTotalDayProgramScheduledWater);
 				wnpTotalDayUserWater += wnpTotalDayProgramUserWater;
@@ -393,6 +402,7 @@ function processChartData() {
 				}
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
 				chartsData.programsFlags[currentProgramIndex].insertAtDate(day.date, programFlag);
+				chartsData.volumeSaved.insertAtDate(day.date, volumeUsedDay);
 			}
 		}
 
@@ -463,6 +473,7 @@ function setWaterSavedValueForDays(pastDays) {
 
 	var realSum = 0;
 	var userSum = 0;
+	var volumeSum = 0;
 
 	for (var i = startDayIndex; i < startDayIndex + pastDays; i++) {
 		var v = chartsData.waterSaved.data[i];
@@ -470,6 +481,8 @@ function setWaterSavedValueForDays(pastDays) {
 			realSum += v.real;
 			userSum += v.user;
 		}
+		v = chartsData.volumeSaved.data[i];
+		volumeSum += v;
 	}
 
 	var saved = 0;
@@ -480,6 +493,7 @@ function setWaterSavedValueForDays(pastDays) {
 	}
 
 	chartsData.waterSaved.currentSeries = [ saved ];
+	chartsData.volumeSaved.currentSeries = [ volumeSum ];
 }
 
 /**
@@ -782,6 +796,10 @@ function generateWaterSavedGauge() {
 			path[1].setAttributeNS(null, 'stroke-linejoin', 'round');
 		}
 	}
+
+	//Write gallons text
+	$('#waterSavedGaugeVolume').textContent = Util.convert.uiWaterVolume(chartsData.volumeSaved.currentSeries) +
+			" " + Util.convert.uiWaterVolumeStr();
 }
 
 /**
@@ -796,7 +814,7 @@ function generateTemperatureChart () {
 				redraw: function () {
 					if (chartsWeeklyPeriod === 0) {
 						highlightCurrentDayInChart(this);
-					};
+					}
 				}
 			}
 		},
