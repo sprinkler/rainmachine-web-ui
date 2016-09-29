@@ -360,17 +360,17 @@ window.ui = window.ui || {};
 		uiElems.weatherSources.Add.onclick = function() {
 			makeHidden("#weatherSourcesList");
 			makeVisible("#weatherSourcesUpload");
-        }
+        };
 
         uiElems.weatherSources.Upload.Close.onclick = function() {
         	makeVisibleBlock("#weatherSourcesList");
         	makeHidden("#weatherSourcesUpload");
         	uiElems.weatherSources.Upload.Status.textContent = "Please select a python source file (.py extension).";
-        }
+        };
 
 		uiElems.weatherSources.Upload.Upload.onclick = function() {
 			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
-		}
+		};
 	}
 
 	function onParserLoad(status) {
@@ -630,6 +630,9 @@ window.ui = window.ui || {};
 						zoneName = "Zone " + zone.uid;
 					}
 
+					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.real);
+					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.user);
+					/*
 					if (Data.zoneAdvData.zones && Data.zoneAdvData.zones[zoneid]) {
 						var waterSenseData =  Data.zoneAdvData.zones[zoneid].waterSense;
 						zoneDurations.usedVolume = Util.convert.uiFlowCompute(waterSenseData.precipitationRate, waterSenseData.area, zoneDurations.real);
@@ -639,6 +642,7 @@ window.ui = window.ui || {};
 						zoneDurations.volume = null;
 						console.log("No Zone Advanced Data to compute flow");
 					}
+					*/
 
 					var zoneStartTime = "";
 					try {
@@ -751,7 +755,8 @@ window.ui = window.ui || {};
 			dayUserDurationElem.textContent = Util.secondsToText(dayDurations.user);
 			dayRealDurationElem.textContent = Util.secondsToText(dayDurations.real);
 			if (dayDurations.usedVolume !== null && dayDurations.usedVolume > 0) {
-				dayWaterUsedElem.textContent = dayDurations.usedVolume + " / " + dayDurations.volume + Util.convert.uiWaterVolumeStr();
+				dayWaterUsedElem.textContent = Util.convert.uiWaterVolume(dayDurations.usedVolume) + " / " +
+					Util.convert.uiWaterVolume(dayDurations.volume) + Util.convert.uiWaterVolumeStr();
 			} else {
 				dayWaterUsedElem.textContent = "No water used";
 			}
@@ -903,8 +908,10 @@ window.ui = window.ui || {};
 		zoneSchedElem.textContent = Util.secondsToText(sched);
 		zoneWateredElem.textContent = Util.secondsToText(watered);
 
-		if (usedVolume !== null && usedVolume > 0)
-			zoneFlowRateElem.textContent = usedVolume + " / " + volume + Util.convert.uiWaterVolumeStr();
+		if (usedVolume !== null && usedVolume > 0) {
+			zoneFlowRateElem.textContent = Util.convert.uiWaterVolume(usedVolume) + " / " +
+				Util.convert.uiWaterVolume(volume) + Util.convert.uiWaterVolumeStr();
+		}
 
 		zoneReasonElem.textContent = waterLogReason[flag];
 
