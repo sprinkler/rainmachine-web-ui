@@ -92,13 +92,8 @@
 							<div id="homeScreenLeft">
 								<div class="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
-									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
-									</div>
-									<!--<div class="graphUnit">
-										<input type="radio" style="margin-right: 0" name="graphUnit"> gallons
-										<br>
-										<input type="radio" style="margin-right: 0" name="graphUnit" checked> percent
-									</div>-->
+									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;"></div>
+									<div id="waterSavedGaugeVolume"></div>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -228,7 +223,7 @@
 										<div class="historyZoneItem">Start Time</div>
 										<div class="historyZoneItem">Scheduled</div>
 										<div class="historyZoneItem">Watered</div>
-										<div class="historyZoneItem center">Used</div>
+										<div class="historyZoneItem center">Used/Scheduled</div>
 										<div class="historyZoneItem">Saved</div>
 										<div class="historyZoneItem">Special Conditions</div>
 									</div>
@@ -1636,12 +1631,12 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle">Area (optional)<br><span class="subtitle" rm-id="zone-area-units"></span></td>
-										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText"/></td>
+										<td class="middle">Area <br><span class="subtitle">(optional)</span></td>
+										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText"/><span rm-id="zone-area-units"></span></td>
 									</tr>
 									<tr>
-										<td class="middle">Total Flow (optional)<br><span class="subtitle" rm-id="zone-flow-units"></span></td>
-										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText"/></td>
+										<td class="middle">Total Flow <br><span class="subtitle"> (optional, used instead of area for drip irrigation)</span></td>
+										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText"/><span rm-id="zone-flow-units"></span></td>
 									</tr>
 									<!-- End Zone Basic & Advanced Settings -->
 								</table>

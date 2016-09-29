@@ -366,7 +366,7 @@ window.ui = window.ui || {};
 		}
 
 		zoneAdvProperties.area = Util.convert.uiAreaToMeters(uiElems.area.value); //Area
-		zoneAdvProperties.flow = Util.convert.uiFlowVolumeToMeters(uiElems.flow.value); //Volume
+		zoneAdvProperties.flowrate = Util.convert.uiFlowVolumeToMeters(uiElems.flow.value); //Volume
 
 		var data = {
 			zoneProperties: zoneProperties,
@@ -498,7 +498,7 @@ window.ui = window.ui || {};
 
 		// Zone flow reporting
 		uiElems.area.value = Util.convert.uiArea(zone.waterSense.area) || null;
-		uiElems.flow.value = Util.convert.uiFlowVolume(zone.waterSense.flow) || null;
+		uiElems.flow.value = Util.convert.uiFlowVolume(zone.waterSense.flowrate) || null;
 		uiElems.areaUnits.textContent = Util.convert.uiAreaStr();
 		uiElems.flowUnits.textContent = Util.convert.uiFlowVolumeStr();
 
@@ -848,6 +848,51 @@ window.ui = window.ui || {};
 		return false;
 	}
 
+	//Calculates the volume of water that was applied on a zone for specified seconds (in metric system)
+	//It uses zone.area (m^2) if defined or zone.flow if not. If both defined and zone uses drip it uses .flow (m^3/h)
+	function zoneComputeWaterVolume(id, seconds) {
+		if (!Data.zoneAdvData.zones || !(id in Data.zoneAdvData.zones)) {
+			console.log("No Zone Advanced Data to compute flow");
+			return null;
+		}
+
+		var waterSenseData =  Data.zoneAdvData.zones[id].waterSense;
+		var area = waterSenseData.area || null;
+		var flow = waterSenseData.flowrate || null;
+		var isDrip = false;
+
+		if (Data.zoneData.zones && (id in Data.zoneData.zones)) {
+			var sprinklerHead = Data.zoneData.zones[id].group_id;
+			if (sprinklerHead == 3 || sprinklerHead == 4) {
+				isDrip = true;
+			}
+		}
+
+		var hasArea = (area !== null && area > 1);
+		var hasFlow = (flow !== null && flow > 0);
+
+		var areaVolume = null;
+		var flowVolume = null;
+
+		if (hasArea) {
+			areaVolume = Util.convert.rateToCubicMeters(waterSenseData.precipitationRate, area, seconds);
+		}
+
+		if (hasFlow) {
+			flowVolume = Math.round(((flow * +seconds/3600)) * 1000) / 1000;
+		}
+
+		if (isDrip && hasFlow) {
+			return flowVolume
+		}
+
+		if (!hasArea) {
+			return flowVolume;
+		}
+
+		return areaVolume;
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -859,6 +904,7 @@ window.ui = window.ui || {};
 	_zones.onProgramStart = onProgramStart;
 	_zones.updateWateringQueue = updateWateringQueue;
 	_zones.zoneHasDefaultSettings = zoneHasDefaultSettings;
+	_zones.zoneComputeWaterVolume = zoneComputeWaterVolume;
 	_zones.uiElems = uiElemsAll;
 
 } (window.ui.zones = window.ui.zones || {}));

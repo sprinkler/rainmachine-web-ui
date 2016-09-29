@@ -62,6 +62,7 @@ function getAllEnabledParsersData(startDate, days) {
 			getParserData(startDate, days, Data.parsers.parsers[i].uid);
 		}
 	}
+	//TODO Also get the mixerData for the period
 }
 
 function processParserChartData(id, startDate, days) {
