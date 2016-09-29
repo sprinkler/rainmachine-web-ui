@@ -209,7 +209,7 @@
 
 				<div id="settings">
 					<h1 id="settingsTitle"></h1>
-					<div id="settingsContent" class="content">
+					<div id="settingsContent" class="content" style="overflow: auto;">
 						<div id="wateringHistory">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
@@ -364,7 +364,7 @@
 													<input type="number" id="restrictionsMinWatering" class="typeNumber">
 												</div>
 												<span class="cardTitle">Minimum Watering Time</span><br>
-												<span class="subtitle">This feature allows users to set a minimum time for their sprinklers to run.<br>Any time below that threshold will rollover to the next watering cycle.</span>
+												<span class="subtitle">This feature allows users to set a minimum time for their sprinklers to run. Any time below that threshold will rollover to the next watering cycle.</span>
 											</td>
 										</tr>
 									</table>
@@ -982,10 +982,10 @@
 											</span>
 											<br>
 											<span style="display:block;">
-												<span class="left top15">Start: </span>
+												Open for
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> minutes
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveBeforeSec" min="0"> seconds
-												before and
+												before and keep it on for 
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> minutes
 												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfterSec" min="0"> seconds
 												after each cycle/program.
@@ -1356,9 +1356,9 @@
 					<tr>
 						<td class="middle noborder" colspan="2">
 							<div rm-id="zone-master-valve-timer">
-								Start master valve <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0"> minutes
-								<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and
-								<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0"> minutes
+								Open for <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes
+								<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and keep it on for 
+								<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes
 								<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds after each cycle/program.
 							</div>
 						</td>

@@ -859,13 +859,19 @@ input.typeRadio {
 }
 input.typeNumber,
 input.typeTime, input.typeNumberZone {
-  border: 1px solid #ddd;
+  border: 0;
+  border-bottom: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   width: 60px;
   height: 44px;
   margin: 5px 0 5px 0;
+  vertical-align: middle;
 }
+input:focus {
+  border-bottom: 1px solid #3399cc;
+  background: #F8F8F8;
+  }
 input.typeNumberZone {
   margin:0px;
 }
