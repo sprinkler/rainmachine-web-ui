@@ -221,21 +221,16 @@
 										</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
 								</h1>
-								<div class="historyDateContainer" style="margin-top: -40px;border:0;">
+								<div class="historyDateContainer" style="margin-top:0;border:0;">
 									<div class="historyDate"></div>
-									<div>
-										<div class="historyProgName"></div>
-										<div class="historyAllZones" style="border:0;">
-											<div class="historyZone">
-												<div class="historyZoneItem"></div>
-												<div class="historyZoneItem">Start Time</div>
-												<div class="historyZoneItem">Scheduled Time</div>
-												<div class="historyZoneItem">Watered Time</div>
-												<div class="historyZoneItem">Water Used</div>
-												<div class="historyZoneItem">Water Saved</div>
-												<div class="historyZoneItem">Special Condition</div>
-											</div>
-										</div>
+									<div class="historyZone">
+										<div class="historyZoneItem"><span class="historyZoneItemName" style="padding-left:64px;">&nbsp;</span></div>
+										<div class="historyZoneItem">Start Time</div>
+										<div class="historyZoneItem">Scheduled</div>
+										<div class="historyZoneItem">Watered</div>
+										<div class="historyZoneItem center">Used</div>
+										<div class="historyZoneItem">Saved</div>
+										<div class="historyZoneItem">Special Conditions</div>
 									</div>
 								</div>
 
@@ -1389,7 +1384,7 @@
 										<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
 									</tr>
 									<tr>
-										<td class="middle">Historical Averages<br>
+										<td class="middle">Offline Seasonal Adjustments<br>
 										<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
 										</td>
 										<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
@@ -2070,15 +2065,17 @@
 					<br>
 					<div>Precipitation:</div>
 					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+					<hr><br>
+					<div class="bold">Day Totals</div>
 					<br>
-					<div>Total Scheduled</div>
-					<div rm-id="wateringLogDayUser"></div>
+					<div>Scheduled</div>
+					<div rm-id="wateringLogDayUser" class="dayTemp"></div>
 					<br>
-					<div>Total Watering</div>
-					<div rm-id="wateringLogDayReal"></div>
+					<div>Watered</div>
+					<div rm-id="wateringLogDayReal" class="dayTemp"></div>
 					<br>
 					<div>Water Used</div>
-					<div rm-id="wateringLogDayWaterUsed"></div>
+					<div rm-id="wateringLogDayWaterUsed" class="dayTemp"></div>
 				</div>
 			</div>
 			<div rm-id="wateringLogProgramsContainer"></div>

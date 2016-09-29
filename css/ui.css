@@ -1128,7 +1128,7 @@ td.middle,
 .middle { vertical-align: middle }
 td.right,
 .right { text-align: right }
-.listItem hr {
+.listItem hr, hr {
   height: 1px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
@@ -1184,24 +1184,29 @@ a.helpText {
 .historyZoneItem {
   display: table-cell;
   text-align: left;
-  width: 135px;
+  width: 10%;
   padding: 10px 0;
   /*background-color: #ffffff;*/
 }
-.historyZoneItem:nth-child(5), .historyZoneItem:nth-child(6), .historyZoneItem:last-child {
-  text-align: left;
+.historyZoneItem:nth-child(5) {
+  width:11%;
+}
+.historyZoneItem:nth-child(6), .historyZoneItem:last-child {
+  text-align: center;
   color: #3399cc;
+  width:7%;
 }
 .historyZoneItem:last-child {
   text-align: right;
-  width:20%;
+  width:16%;
 }
 .historyZoneItemName {
   white-space: nowrap;
   display: inline-block;
-  width: 128px;
+  width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-right: 15px;
 }
 .historyDate,
 .historyProgName {
