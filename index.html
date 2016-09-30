@@ -223,7 +223,7 @@
 										<div class="historyZoneItem">Start Time</div>
 										<div class="historyZoneItem">Scheduled</div>
 										<div class="historyZoneItem">Watered</div>
-										<div class="historyZoneItem center">Used/Scheduled</div>
+										<div class="historyZoneItem">Used / Scheduled</div>
 										<div class="historyZoneItem">Saved</div>
 										<div class="historyZoneItem">Special Conditions</div>
 									</div>
@@ -965,7 +965,7 @@
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<th>
-										<h1 class="title">Master Valve (Pump)</h1>
+										<h1 class="title">Master Valve (Pump) on Zone 1</h1>
 									</th>
 								</tr>
 								<tr>
@@ -973,20 +973,22 @@
 										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
 										<!--<span class="right mr" style="width:40%;">-->
 											<span style="display:block;">
-												<span class="left mr">Enable master valve (Zone 1):</span><input type="checkbox" id="systemSettingsEnableMasterValve" />
+												<span class="left mr">Enable:</span><input type="checkbox" id="systemSettingsEnableMasterValve" />
+												<br><br><span class="subtitle">Use this option if the irrigation system has a Master Valve (Pump).</span>
 											</span>
 											<br>
 											<span style="display:block;">
-												Open for
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0"> minutes
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveBeforeSec" min="0"> seconds
-												before and keep it on for 
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0"> minutes
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfterSec" min="0"> seconds
-												after each cycle/program.
+												Starts:
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveBeforeSec" min="0" placeholder="0"> seconds
+												<strong>before</strong> each cycle/program.<br>
+												Stops:
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes
+												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfterSec" min="0" placeholder="0"> seconds
+												<strong>after</strong> each cycle/program.
 											</span>
 										<!--</span>-->
-										<br><span class="subtitle">Use this option if the irrigation system has a Master Valve (pump). Zone 1 will be used as Master Valve.</span>
+
 									</td>
 								</tr>
 							</table>
@@ -1345,16 +1347,20 @@
 					</tr>
 					<tr rm-id="zone-master-valve-option">
 						<td class="middle noborder">
-							Enable Zone 1 as master valve (pump): <input type="checkbox" rm-id="zone-master-valve"/>
+							Enable Zone 1 as Master Valve (Pump): <input type="checkbox" rm-id="zone-master-valve"/>
 						</td>
 					</tr>
 					<tr>
 						<td class="middle noborder" colspan="2">
 							<div rm-id="zone-master-valve-timer">
-								Open for <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes
-								<input type="number" class="typeNumber" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds before and keep it on for 
-								<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes
-								<input type="number" class="typeNumber" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds after each cycle/program.
+								Starts:
+								<input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes
+								<input type="number" class="typeNumber" id="systemSettingsMasterValveBeforeSec" min="0" placeholder="0"> seconds
+								<strong>before</strong> each cycle/program.<br>
+								Stops:
+								<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes
+								<input type="number" class="typeNumber" id="systemSettingsMasterValveAfterSec" min="0" placeholder="0"> seconds
+								<strong>after</strong> each cycle/program.
 							</div>
 						</td>
 					</tr>
@@ -1632,11 +1638,11 @@
 									</tr>
 									<tr>
 										<td class="middle">Area <br><span class="subtitle">(optional)</span></td>
-										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText"/><span rm-id="zone-area-units"></span></td>
+										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText" style="width:25%;"/><span rm-id="zone-area-units"></span></td>
 									</tr>
 									<tr>
 										<td class="middle">Total Flow <br><span class="subtitle"> (optional, used instead of area for drip irrigation)</span></td>
-										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText"/><span rm-id="zone-flow-units"></span></td>
+										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText" style="width:25%;"/><span rm-id="zone-flow-units"></span></td>
 									</tr>
 									<!-- End Zone Basic & Advanced Settings -->
 								</table>
