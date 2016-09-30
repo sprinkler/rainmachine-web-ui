@@ -493,6 +493,34 @@ _API.prototype.getWateringQueue = function()
 	return this.get(url, null);
 }
 
+_API.prototype.getWateringPast = function(startDate, days)
+{
+	var url = this.URL.watering + "/past";
+
+	//start date format YYYY-DD-MM
+	if (startDate !== null && startDate.length > 9)
+		url += "/" + startDate;
+
+	if (days !== null && days > 0)
+		url += "/" + days;
+
+	return this.get(url, null);
+}
+
+_API.prototype.getWateringAvailable = function(startDate, days)
+{
+	var url = this.URL.watering + "/available";
+
+	//start date format YYYY-DD-MM
+	if (startDate !== null && startDate.length > 9)
+		url += "/" + startDate;
+
+	if (days !== null && days > 0)
+		url += "/" + days;
+
+	return this.get(url, null);
+}
+
 _API.prototype.stopAll = function()
 {
 	var url = this.URL.watering + "/stopall";
@@ -765,5 +793,4 @@ _API.prototype.setBeta = function(enabled)
 	var data = { enabled: enabled };
 	return this.post(url, data, null);
 }
-
 
