@@ -439,11 +439,21 @@ window.ui = window.ui || {};
 
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
-		var days = parseInt($("#waterHistoryDays").value) || 7;
+		var days = parseInt($("#waterHistoryDays").value) || 30;
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
 
 		APIAsync.getWateringLog(false, true, startDate, days).then(
 			function(o) {Data.waterLogCustom = o; showWaterLog();}
+		);
+	}
+
+	function onPastProgramValuesFetch() {
+		var startDate = $("#waterHistoryStartDate").value;
+		var days = parseInt($("#waterHistoryDays").value) || 30;
+		console.log("Getting programs past values starting from %s for %d days...", startDate, days);
+
+		APIAsync.getWateringPast(startDate, days).then(
+			function(o) {Data.programsPastValues = o; showWaterLog();}
 		);
 	}
 
@@ -463,7 +473,7 @@ window.ui = window.ui || {};
 
 	function showWaterLog() {
 
-		var days = 7;
+		var days = 30;
 		var startDate = Util.getDateWithDaysDiff(days-1); // We want including today
 
 		var container = $("#wateringHistoryContent");
@@ -471,7 +481,7 @@ window.ui = window.ui || {};
 		var daysElem = $("#waterHistoryDays");
 		var buttonElem = $("#waterHistoryFetch");
 
-		buttonElem.onclick = function() { onWaterLogFetch() };
+		buttonElem.onclick = function() { onWaterLogFetch(); onPastProgramValuesFetch()};
 		clearTag(container);
 
 		//First time on this page view 7 past days
@@ -479,14 +489,37 @@ window.ui = window.ui || {};
 			startDateElem.value = startDate;
 			daysElem.value = days;
 		}
+
 		if (Data.waterLogCustom === null) {
 			onWaterLogFetch();
 			return;
 		}
 
-		var waterLog = Data.waterLogCustom;
+		if (Data.programsPastValues === null) {
+			onPastProgramValuesFetch();
+			return;
+		}
 
-		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
+		var waterLog = Data.waterLogCustom;
+		var pastValues = Data.programsPastValues.pastValues;
+
+		//Process past values for programs that contain used ET and QPF at the time of program run
+		pastValuesByDay = {};
+		for (var i = 0; i < pastValues.length; i++)
+		{
+			var key = pastValues[i].dateTime.split(" ")[0];
+			var pid = pastValues[i].pid;
+
+			if (! (key in pastValuesByDay)) {
+				pastValuesByDay[key] = {};
+			}
+			pastValuesByDay[key][pid] = {
+				et:  Math.round(+pastValues[i].et0 * 100) / 100,
+				qpf: Math.round(+pastValues[i].qpf * 100) / 100
+			};
+		}
+
+		for (i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 		{
 			var day =  waterLog.waterLog.days[i];
 			var dayDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
@@ -559,9 +592,20 @@ window.ui = window.ui || {};
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
+				var programPastValueElem = $(programTemplate, '[rm-id="wateringLogProgramPastValue"]');
 				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
 
 				programNameElem.textContent = name;
+
+				try {
+					programPastValueElem.textContent = "Used EvapoTranspiration: " +
+						Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].et) + Util.convert.uiQuantityStr() +
+						" and " + Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].qpf) +
+						Util.convert.uiQuantityStr() + " precipitation";
+
+				} catch(e) {
+					//console.log("No past values for day %s program %s", day.date, name);
+				}
 
 				//console.log("\t%s", name);
 
