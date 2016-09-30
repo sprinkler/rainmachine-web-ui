@@ -332,7 +332,7 @@ window.ui = window.ui || {};
 		};
 
 		//More button for water log details
-		$("#waterlog-more").onclick = function() {
+		$("#waterlog-more").onclick = $('#homeScreenWaterSaved').onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings0').onclick();
 		};

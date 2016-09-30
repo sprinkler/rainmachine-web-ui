@@ -601,6 +601,13 @@ Util.convert = {
 			return " m\xB3";
 		}
 	},
+	uiWaterVolumeStrLong: function() {
+		if (!Data.localSettings.units) {
+			return " gallons";
+		} else {
+			return " m\xB3";
+		}
+	},
 	uiArea: function(area) {
 		if (!Data.localSettings.units) {
 			return Util.convert.areaMetersToFeet(area);
