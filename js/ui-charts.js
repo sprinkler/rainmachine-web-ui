@@ -203,6 +203,7 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
  */
 function getChartData(pastDays) {
 	console.log("Getting all dashboard data for %d past days...", pastDays);
+
 	//for programs name and status
 	APIAsync.getPrograms()
 	.then(function(o) { Data.programs = o; Data.counters.charts++; processChartData(); });
@@ -215,33 +216,10 @@ function getChartData(pastDays) {
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
 	.then(function(o) { Data.waterLog = o; Data.counters.charts++; processChartData();});
 
-//	APIAsync.getWateringLog(true, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-//	.then(function(o) { Data.waterLogSimulated = o; Data.counters.charts++; processChartData();}) //for simulated used water
-
 	//for future watering/program runs
 	getDailyStatsWithRetry(20, 6000);
-
-	// for water saved gauge (entire year)
-	APIAsync.getWateringLog(false, false, Util.getDateWithDaysDiff(YEARDAYS + 7), YEARDAYS + 7)
-	.then(function(o) { Data.waterLogSimple = o; processDataWaterSaved(); });
 }
 
-/**
- * Parses and processes the yearly water log without details into chartsData.waterSaved
- */
-function processDataWaterSaved() {
-
-	var waterLog = Data.waterLogSimple.waterLog.days;
-	for (var i = 0; i < waterLog.length; i++) {
-		var day = waterLog[i].date;
-		var data = {
-			real: waterLog[i].realDuration,
-			user: waterLog[i].userDuration
-		};
-
-		chartsData.waterSaved.insertAtDate(day, data);
-	}
-}
 
 /**
  * Parses and processes the data into the correct holders
@@ -379,6 +357,8 @@ function processChartData() {
 				wnpTotalDayProgramScheduledWater += zoneScheduledWater;
 				wnpTotalDayProgramUserWater += zoneUserWater;
 
+
+				//Total Water Volume Used for this zone (we need it per zone as savings depend on zone properties)
 				volumeUsedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid, zoneScheduledWater);
 
 				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayProgramUserWater, wnpTotalDayProgramScheduledWater);
@@ -410,6 +390,9 @@ function processChartData() {
 		if (wnpDailyWN > chartsData.maxWN) {
 			chartsData.maxWN = wnpDailyWN;
 		}
+
+		//Total running times for this day for water saved gauge
+		chartsData.waterSaved.insertAtDate(day.date, {real: wnpTotalDayScheduledWater, user: wnpTotalDayUserWater});
 	}
 
 	// calculate months data
@@ -465,7 +448,6 @@ function processChartData() {
 		loadWeeklyCharts();
 	}
 }
-
 
 function setWaterSavedValueForDays(pastDays) {
 	var startDay = Util.getDateWithDaysDiff(pastDays);
