@@ -213,8 +213,19 @@ function getChartData(pastDays) {
 	.then(function(o) { Data.mixerData = o.mixerDataByDate; Data.counters.charts++; processChartData(); });
 
 	//for used water
-	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays)
-	.then(function(o) { Data.waterLog = o; Data.counters.charts++; processChartData();});
+	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays + 1)
+	.then(function(o) {
+		Data.waterLog = o;
+		Data.counters.charts++;
+		processChartData();
+		window.ui.settings.showWaterLogSimple();
+
+		//On first run it's ok to share data with Watering History UI
+		if (!Data.waterLogCustom) {
+			Data.waterLogCustom = o;
+		}
+
+	});
 
 	//for future watering/program runs
 	getDailyStatsWithRetry(20, 6000);
@@ -240,8 +251,8 @@ function processChartData() {
 		return;
 	} else {
 		Data.counters.charts = 0;
-		//Data.counters.zoneAdv = 0;
 	}
+
 	console.log("Processing chart data" + Data.counters.charts + "," + Data.counters.zoneAdv);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
