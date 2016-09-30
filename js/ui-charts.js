@@ -781,7 +781,8 @@ function generateWaterSavedGauge() {
 
 	//Write gallons text
 	$('#waterSavedGaugeVolume').textContent = Util.convert.uiWaterVolume(chartsData.volumeSaved.currentSeries) +
-			" " + Util.convert.uiWaterVolumeStr();
+			" " + Util.convert.uiWaterVolumeStrLong() + " of water saved";
+
 }
 
 /**

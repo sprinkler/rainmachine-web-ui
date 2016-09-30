@@ -160,8 +160,8 @@ strong { font-weight: 700; }
   text-align: left;
 }
 #homeScreenZoneList,
+#homeScreenWaterSaved,
 .homeScreenDeviceStatus,
-.homeScreenWaterSaved,
 .homeScreenDataSource,
 .homeScreenWaterLog,
 .homeScreenProgramList
@@ -186,7 +186,7 @@ strong { font-weight: 700; }
   padding:15px 0;
   margin:0 auto;
   color:#3399cc;
-  font-size: 120%;
+  font-size: 135%;
   text-align:center;
   border-top:1px solid #dddddd;
 }
