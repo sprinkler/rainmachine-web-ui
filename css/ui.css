@@ -173,6 +173,9 @@ strong { font-weight: 700; }
   margin-bottom: 10px;
   width: 100%;
 }
+#homeScreenWaterSaved {
+  cursor: pointer;
+}
 #waterSavedGaugeContainer {
   display: block;
   width:180px;
@@ -1206,7 +1209,7 @@ a.helpText {
 .historyZone:hover { background-color: #f0f0f0 }
 .historyZoneItem {
   display: table-cell;
-  text-align: left;
+  text-align: right;
   width: 10%;
   padding: 10px 0;
   /*background-color: #ffffff;*/
@@ -1226,10 +1229,10 @@ a.helpText {
 .historyZoneItemName {
   white-space: nowrap;
   display: inline-block;
-  width: 200px;
+  width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-right: 15px;
+  text-align: left;
 }
 .historyDate,
 .historyProgName {
