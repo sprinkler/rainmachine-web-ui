@@ -374,9 +374,6 @@ window.ui = window.ui || {};
 
 			loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
 
-			//TODO Show waterlog simple
-			window.ui.settings.showWaterLogSimple();
-
 			loop = setInterval(uiLoop, 3000);
 		});
 	}

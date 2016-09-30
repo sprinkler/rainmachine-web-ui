@@ -439,11 +439,21 @@ window.ui = window.ui || {};
 
 	function onWaterLogFetch() {
 		var startDate = $("#waterHistoryStartDate").value;
-		var days = parseInt($("#waterHistoryDays").value) || 7;
+		var days = parseInt($("#waterHistoryDays").value) || 30;
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
 
 		APIAsync.getWateringLog(false, true, startDate, days).then(
 			function(o) {Data.waterLogCustom = o; showWaterLog();}
+		);
+	}
+
+	function onPastProgramValuesFetch() {
+		var startDate = $("#waterHistoryStartDate").value;
+		var days = parseInt($("#waterHistoryDays").value) || 30;
+		console.log("Getting programs past values starting from %s for %d days...", startDate, days);
+
+		APIAsync.getWateringPast(startDate, days).then(
+			function(o) {Data.programsPastValues = o; showWaterLog();}
 		);
 	}
 
@@ -463,15 +473,15 @@ window.ui = window.ui || {};
 
 	function showWaterLog() {
 
-		var days = 7;
-		var startDate = Util.getDateWithDaysDiff(days);
+		var days = 30;
+		var startDate = Util.getDateWithDaysDiff(days-1); // We want including today
 
 		var container = $("#wateringHistoryContent");
 		var startDateElem = $("#waterHistoryStartDate");
 		var daysElem = $("#waterHistoryDays");
 		var buttonElem = $("#waterHistoryFetch");
 
-		buttonElem.onclick = function() { onWaterLogFetch() };
+		buttonElem.onclick = function() { onWaterLogFetch(); onPastProgramValuesFetch()};
 		clearTag(container);
 
 		//First time on this page view 7 past days
@@ -479,16 +489,37 @@ window.ui = window.ui || {};
 			startDateElem.value = startDate;
 			daysElem.value = days;
 		}
+
 		if (Data.waterLogCustom === null) {
-			APIAsync.getWateringLog(false, true, startDate, days).then(
-            	function(o) {Data.waterLogCustom = o; showWaterLog();}
-            );
+			onWaterLogFetch();
+			return;
+		}
+
+		if (Data.programsPastValues === null) {
+			onPastProgramValuesFetch();
 			return;
 		}
 
 		var waterLog = Data.waterLogCustom;
+		var pastValues = Data.programsPastValues.pastValues;
 
-		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
+		//Process past values for programs that contain used ET and QPF at the time of program run
+		var pastValuesByDay = {};
+		for (var i = 0; i < pastValues.length; i++)
+		{
+			var key = pastValues[i].dateTime.split(" ")[0];
+			var pid = pastValues[i].pid;
+
+			if (! (key in pastValuesByDay)) {
+				pastValuesByDay[key] = {};
+			}
+			pastValuesByDay[key][pid] = {
+				et:  Math.round(+pastValues[i].et0 * 100) / 100,
+				qpf: Math.round(+pastValues[i].qpf * 100) / 100
+			};
+		}
+
+		for (i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 		{
 			var day =  waterLog.waterLog.days[i];
 			var dayDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
@@ -561,9 +592,20 @@ window.ui = window.ui || {};
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
+				var programPastValueElem = $(programTemplate, '[rm-id="wateringLogProgramPastValue"]');
 				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
 
 				programNameElem.textContent = name;
+
+				try {
+					programPastValueElem.textContent = "Used EvapoTranspiration: " +
+						Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].et) + Util.convert.uiQuantityStr() +
+						" and " + Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].qpf) +
+						Util.convert.uiQuantityStr() + " precipitation";
+
+				} catch(e) {
+					//console.log("No past values for day %s program %s", day.date, name);
+				}
 
 				//console.log("\t%s", name);
 
@@ -632,17 +674,6 @@ window.ui = window.ui || {};
 
 					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.real);
 					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.user);
-					/*
-					if (Data.zoneAdvData.zones && Data.zoneAdvData.zones[zoneid]) {
-						var waterSenseData =  Data.zoneAdvData.zones[zoneid].waterSense;
-						zoneDurations.usedVolume = Util.convert.uiFlowCompute(waterSenseData.precipitationRate, waterSenseData.area, zoneDurations.real);
-						zoneDurations.volume = Util.convert.uiFlowCompute(waterSenseData.precipitationRate, waterSenseData.area, zoneDurations.user);
-					} else {
-						zoneDurations.usedVolume = null;
-						zoneDurations.volume = null;
-						console.log("No Zone Advanced Data to compute flow");
-					}
-					*/
 
 					var zoneStartTime = "";
 					try {
@@ -765,124 +796,119 @@ window.ui = window.ui || {};
 		}
 	}
 
-		function showWaterLogSimple() {
+	// This is rendered on Home Page
+	function showWaterLogSimple() {
+		var container = $("#wateringHistorySimpleContent");
+		var waterLog = Data.waterLog;
+		var daysToShow = 7;
 
-    		var container = $("#wateringHistorySimpleContent");
-    		var waterLog = Data.waterLogCustom;
+		clearTag(container);
 
-			if (Data.waterLogCustom === null) {
-				var days = 6;
-				var startDate = Util.getDateWithDaysDiff(days);
-				APIAsync.getWateringLog(false, true, startDate, days + 1).then(
-					function(o) {Data.waterLogCustom = o; showWaterLogSimple();}
-				);
-				return;
-			}
+		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
+		{
+			var day =  waterLog.waterLog.days[i];
+			var dayDurations = { scheduled: 0, watered: 0 };
 
-			var waterLog = Data.waterLogCustom;
+			var dayTemplate = loadTemplate("watering-history-day-simple-template");
+			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
+			var dayScheduledElem = $(dayTemplate, '[rm-id="wateringLogDayScheduled"]');
+			var dayWateredElem = $(dayTemplate, '[rm-id="wateringLogDayWatered"]');
+			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
-            clearTag(container);
+			//console.log("Day: %s", day.date);
+			var d = Util.dateStringToLocalDate(day.date);
+			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
 
-    		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
-    		{
-    			var day =  waterLog.waterLog.days[i];
-    			var dayDurations = { scheduled: 0, watered: 0 };
+			for (var j = 0; j < day.programs.length; j++)
+			{
+				var program = day.programs[j];
 
-    			var dayTemplate = loadTemplate("watering-history-day-simple-template");
-    			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
-    			var dayScheduledElem = $(dayTemplate, '[rm-id="wateringLogDayScheduled"]');
-    			var dayWateredElem = $(dayTemplate, '[rm-id="wateringLogDayWatered"]');
-    			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
+				if (program.id == 0) {
+					var name = "Manual Watering";
+				} else {
+					//TODO make sure we have Data.programs
+					var p = getProgramById(program.id);
+					if (p !== null)
+						var name = p.name;
+					else
+						var name = "Program " + program.id;
+				}
 
-    			//console.log("Day: %s", day.date);
-    			var d = Util.dateStringToLocalDate(day.date);
-    			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
+				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
+				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
+				var programStartElem = $(programTemplate, '[rm-id="wateringLogProgramStart"]');
+				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
+				var programStart = null;
 
-    			for (var j = 0; j < day.programs.length; j++)
-    			{
-    				var program = day.programs[j];
+				programNameElem.textContent = name;
 
-    				if (program.id == 0) {
-    				    var name = "Manual Watering";
-    				} else {
-    					//TODO make sure we have Data.programs
-    					var p = getProgramById(program.id);
-    					if (p !== null)
-    						var name = p.name;
-    					else
-    						var name = "Program " + program.id;
-    				}
+				//console.log("\t%s", name);
 
-    				var programTemplate = loadTemplate("watering-history-day-programs-simple-template");
-    				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
-					var programStartElem = $(programTemplate, '[rm-id="wateringLogProgramStart"]');
-    				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
-					var programStart = null;
+				for (var k = 0; k < program.zones.length; k++)
+				{
+					var zone = program.zones[k];
+					var zoneDurations = { machine: 0, user: 0, real: 0 };
+					for (var c = 0; c < zone.cycles.length; c++)
+					{
+						var cycle = zone.cycles[c];
+						zoneDurations.machine += cycle.machineDuration;
+						zoneDurations.real += cycle.realDuration;
+						zoneDurations.user += cycle.userDuration;
+						if (programStart === null)
+							programStart = cycle.startTime;
 
-    				programNameElem.textContent = name;
+					}
 
-    				//console.log("\t%s", name);
+					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template");
 
-    				for (var k = 0; k < program.zones.length; k++)
-    				{
-    					var zone = program.zones[k];
-    					var zoneDurations = { machine: 0, user: 0, real: 0 };
-    					for (var c = 0; c < zone.cycles.length; c++)
-    					{
-							var cycle = zone.cycles[c];
-    						zoneDurations.machine += cycle.machineDuration;
-    						zoneDurations.real += cycle.realDuration;
-    						zoneDurations.user += cycle.userDuration;
-							if (programStart === null)
-								programStart = cycle.startTime;
+					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
+					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
+					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
-    					}
-
-    					var zoneListTemplate = loadTemplate("watering-history-day-programs-zone-simple-template");
-
-    					var zoneNameElem = $(zoneListTemplate, '[rm-id="wateringLogZoneName"]');
-    					var zoneSchedElem = $(zoneListTemplate, '[rm-id="wateringLogZoneSchedTime"]');
-    					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
-
-						var zoneid = zone.uid - 1;
-						if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-							zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
-						}
-						else {
-							zoneNameElem.textContent = "Zone " + zone.uid;
-						}
-    					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
-    					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);
-
-    					dayDurations.scheduled += zoneDurations.user;
-    					dayDurations.watered += zoneDurations.real;
-
-						programStartElem.textContent = "start time: " + programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
-    					programContainerElem.appendChild(zoneListTemplate);
-
-    					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
-    				}
-    				dayContainerElem.appendChild(programTemplate);
-    			}
-
-    			dayScheduledElem.textContent = ((dayDurations.scheduled / 60) >> 0) + " min";
-                dayWateredElem.textContent = ((dayDurations.watered / 60) >> 0) + " min";
-
-				dayTemplate.onclick = function() {
-					var tag = this.children[1];
-					if (isVisible(tag)) {
-						makeHidden(tag);
-						this.removeAttribute("selected");
+					var zoneid = zone.uid - 1;
+					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 					}
 					else {
-						makeVisible(tag);
-						this.setAttribute("selected", true);
+						zoneNameElem.textContent = "Zone " + zone.uid;
 					}
-				};
+					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
+					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);
 
-    			container.appendChild(dayTemplate);
-    		}
-    	}
+					dayDurations.scheduled += zoneDurations.user;
+					dayDurations.watered += zoneDurations.real;
+
+					programStartElem.textContent = "start time: " + programStart.split(" ")[1].substr(0, 5); //Get only HH:MM
+					programContainerElem.appendChild(zoneListTemplate);
+
+					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
+				}
+				dayContainerElem.appendChild(programTemplate);
+			}
+
+			dayScheduledElem.textContent = ((dayDurations.scheduled / 60) >> 0) + " min";
+			dayWateredElem.textContent = ((dayDurations.watered / 60) >> 0) + " min";
+
+			dayTemplate.onclick = function() {
+				var tag = this.children[1];
+				if (isVisible(tag)) {
+					makeHidden(tag);
+					this.removeAttribute("selected");
+				}
+				else {
+					makeVisible(tag);
+					this.setAttribute("selected", true);
+				}
+			};
+
+			container.appendChild(dayTemplate);
+
+			// Stop if more than daysToShow
+			if (--daysToShow <= 0) {
+				break;
+			}
+		}
+	}
 
 	function getParserById(id) {
 		for (var i = 0; i < Data.parsers.parsers.length; i++) {
