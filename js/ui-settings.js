@@ -600,8 +600,8 @@ window.ui = window.ui || {};
 				try {
 					programPastValueElem.textContent = "Used EvapoTranspiration: " +
 						Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].et) + Util.convert.uiQuantityStr() +
-						" and " + Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].qpf) +
-						Util.convert.uiQuantityStr() + " precipitation";
+						" and Precipitation: " + Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].qpf) +
+						Util.convert.uiQuantityStr() + " ";
 
 				} catch(e) {
 					//console.log("No past values for day %s program %s", day.date, name);

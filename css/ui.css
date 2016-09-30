@@ -88,11 +88,12 @@ body.login .logout { display: none; }
 body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-font-smoothing: antialiased;}
 .left { float: left; }
 .top15 {padding-top: 15px;}
-.hidden { display: none; }
-.right { float: right; }
-.center { text-align: center; }
-.full { width: 100%; }
-.bold { font-weight: bold; }
+.hidden { display: none;}
+.right {float: right;}
+.center {text-align: center;}
+.full {width: 100%; }
+.bold {font-weight: bold;}
+.inlineblock {display:inline-block;}
 
 .clear30 {
   clear: both;
@@ -247,6 +248,9 @@ strong { font-weight: 700; }
 .programUsedWeather {
   font-size: 12px;
   color: #888888;
+  text-align: left;
+  margin-top:-10px;
+  margin-bottom: 10px;
 }
 .geoPin {
   font-family: 'RainMachine', Arial, sans-serif;
@@ -1153,7 +1157,7 @@ td {
 td.middle,
 .middle { vertical-align: middle }
 td.right,
-.right { text-align: right }
+.right, .txtright { text-align: right }
 .listItem hr, hr {
   height: 1px;
   border-bottom: 1px solid #ddd;
