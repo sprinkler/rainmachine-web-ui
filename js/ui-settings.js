@@ -504,7 +504,7 @@ window.ui = window.ui || {};
 		var pastValues = Data.programsPastValues.pastValues;
 
 		//Process past values for programs that contain used ET and QPF at the time of program run
-		pastValuesByDay = {};
+		var pastValuesByDay = {};
 		for (var i = 0; i < pastValues.length; i++)
 		{
 			var key = pastValues[i].dateTime.split(" ")[0];
