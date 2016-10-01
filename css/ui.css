@@ -1214,13 +1214,17 @@ a.helpText {
 .historyZoneItem {
   display: table-cell;
   text-align: right;
-  width: 10%;
+  width: 13%;
   padding: 10px 0;
   /*background-color: #ffffff;*/
 }
-.historyZoneItem:nth-child(5) {
-  width:11%;
+.historyZoneItem:nth-child(3), .historyZoneItem:nth-child(4)  {
+  width:8%;
 }
+.historyZoneItem:nth-child(5) {
+  width:12%;
+}
+
 .historyZoneItem:nth-child(6), .historyZoneItem:last-child {
   text-align: center;
   color: #3399cc;
@@ -1229,11 +1233,12 @@ a.helpText {
 .historyZoneItem:last-child {
   text-align: right;
   width:16%;
+  padding-right: 10px;
 }
 .historyZoneItemName {
   white-space: nowrap;
   display: inline-block;
-  width: 180px;
+  width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
@@ -1250,7 +1255,7 @@ a.helpText {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   margin-bottom: 15px;
-  margin-left: 60px;
+  /*margin-left: 60px;*/
 }
 .displayCyclesExpand, .displayCyclesContract {
   text-transform: uppercase;

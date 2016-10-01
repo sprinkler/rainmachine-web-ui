@@ -206,12 +206,12 @@
 					<h1 id="settingsTitle"></h1>
 					<div id="settingsContent" class="content" style="overflow: auto;">
 						<div id="wateringHistory">
-							<div class="settingsBlock center block70">
+							<div class="settingsBlock center block70" style="width:90%;padding: 20px 0;">
 								<h1 class="title center">Watering History<br>
 										<span class="title"> Start Date
-											<input type="date" id="waterHistoryStartDate" class="typeTime" style="width:168px;">
+											<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
 											for
-											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
+											<input type="number" id="waterHistoryDays" class="typeNumber center" placeholder="7">
 											days.
 										</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
@@ -219,7 +219,7 @@
 								<div class="historyDateContainer" style="margin-top:0;border:0;">
 									<div class="historyDate"></div>
 									<div class="historyZone">
-										<div class="historyZoneItem"><span class="historyZoneItemName" style="padding-left:64px;">&nbsp;</span></div>
+										<div class="historyZoneItem"><span class="historyZoneItemName" style="padding-left:36px;">&nbsp;</span></div>
 										<div class="historyZoneItem">Start Time</div>
 										<div class="historyZoneItem">Scheduled</div>
 										<div class="historyZoneItem">Watered</div>
@@ -249,7 +249,7 @@
 													<td class="middle center" style="border-bottom:0;">
 														<span class="cardTitle bold">Days:</span>
 														<br><br>
-														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
+														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber center" placeholder="0">
 													</td>
 												</tr>
 												<tr>
@@ -328,7 +328,7 @@
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
 												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
 													<span class="top15">Maximum percentage for over watering:</span>
-													<input type="number" id="restrictionsMaxWatering" class="typeNumber" min="100" max="200"> %
+													<input type="number" id="restrictionsMaxWatering" class="typeNumber txtright" min="100" max="200"> %
 												</div>
 												<span class="cardTitle">Hot Days</span><br>
 												<span class="subtitle">Allow extra watering</span>
@@ -541,14 +541,14 @@
 												<strong>Restriction start time</strong>
 												<br><br>
 												Hour:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartHour"  placeholder="14">
+												<input type="number" min="0" max="24" class="typeNumber center" id="restrictionHourlyStartHour"  placeholder="14">
 												Minute:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartMinute"  placeholder="30">
+												<input type="number" min="0" max="24" class="typeNumber center" id="restrictionHourlyStartMinute"  placeholder="30">
 											</td>
 											<td class="middle noborder">
 												<strong>Restriction duration</strong>
 												<br><br>
-												<input type="number" min="0" max="1440" class="typeNumber" id="restrictionHourlyDuration" placeholder="60">
+												<input type="number" min="0" max="1440" class="typeNumber center" id="restrictionHourlyDuration" placeholder="60">
 												minutes
 											</td>
 											<td class="middle noborder">
@@ -740,8 +740,8 @@
 											<tr valign="top">
 												<th>
 													<h1 class="title">Weather Services - Comparison</h1>
-													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime" style="width:168px;"> for
-													<input type="number" id="weatherServicesDays" class="typeNumber" placeholder="7"> days
+													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime center" style="width:168px;"> for
+													<input type="number" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>
 												</th>
 											</tr>
@@ -2055,7 +2055,7 @@
 
 		<!-- Template for Watering History per Day (Start) -->
 		<div id="watering-history-day-template" class="historyDateContainer">
-			<div class="historyDate" style="text-align:center;border-right: 1px solid #eee;padding-right: 10px;">
+			<div class="historyDate" style="text-align:center;border-right: 1px solid #eee;width:13%;">
 				<div rm-id="wateringLogDayName" style="font-size: 16px; font-weight: bold;"></div>
 				<br>
 				<div id="day-weather-template-history">
@@ -2085,7 +2085,7 @@
 
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
-			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon">P</span></div>
+			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon" alt="RainMachine watering program" title="RainMachine watering program">P</span></div>
 			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
 			<div rm-id="wateringLogProgramPastValue" class="programUsedWeather"></div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
