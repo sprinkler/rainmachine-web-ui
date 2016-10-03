@@ -11,7 +11,7 @@
 	<script src="js/async.js"></script>
     <script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/data.js"></script>
-
+	<script src="js/help.js"></script>
 
 	<script src="js/ui-charts.js"></script>
 	<script src="js/ui-charts-parsers.js"></script>
@@ -93,7 +93,7 @@
 								<div id="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
 									<div id="waterSavedGaugeContainer"></div>
-									<div id="waterSavedGaugeVolume"></div>
+									<div id="waterSavedGaugeVolume"></div><a class="helpText" title="learn more" href="#" help="waterSavedVolume">?</a>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -1579,7 +1579,7 @@
 													   cellspacing="0">
 													<tr>
 														<td class="middle" style="width:50%">
-															<!--<a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a>-->
+															<a class="helpText" href="#" help="zonePrecipRate" zones-tooltip="">?</a>
 															Precipitation Rate:</td>
 														<td style="padding:0;">
 															<input rm-id="zone-sprinkler-preciprate"  type="number" class="typeNumber">
@@ -1588,7 +1588,7 @@
 													</tr>
 													<tr>
 														<td class="middle noborder" style="width:50%">
-															<!--<a class="helpText" title="learn more" href="#" onclick="showHelpTooltip();return false;">?</a>-->
+															<a class="helpText" title="learn more" href="#" help="zoneAppEfficiency">?</a>
 															Application	Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;">
