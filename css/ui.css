@@ -184,14 +184,16 @@ strong { font-weight: 700; }
   margin:0 auto;
   margin-bottom:10px;
 }
-#waterSavedGaugeVolume {
+#waterSavedVolume {
   display:block;
   padding:15px 0;
   margin:0 auto;
   color:#3399cc;
-  font-size: 135%;
   text-align:center;
   border-top:1px solid #dddddd;
+}
+#waterSavedGaugeVolume {
+  font-size: 135%;
 }
 .graphUnit {
   float: right;
@@ -924,6 +926,13 @@ select, .selectSmall {
   vertical-align: middle;
   display: inline-block;
 }
+.helpText {
+  width: 15px;
+  height: 15px;
+  line-height: 16px;
+  color:rgba(84,110,122 ,1);
+  border: 1px solid rgba(84,110,122 ,1);
+}
 .zoneTimesCircleButton {
   width: 30px;
   height: 30px;
@@ -1605,13 +1614,13 @@ td.right,
   left: 50%;
   margin-bottom: 5px;
   margin-left: -70px;
-  padding: 7px;
-  width: 140px;
+  padding: 10px;
+  width: 240px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background-color:  rgba(247,248,250,0.95);
-  border:1px solid #39c;
+  background-color:  rgba(249,251,231 ,0.90);
+  border:1px solid #555;
   color: #333;
   content: attr(zones-tooltip);
   text-align: center;

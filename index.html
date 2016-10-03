@@ -93,7 +93,10 @@
 								<div id="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
 									<div id="waterSavedGaugeContainer"></div>
-									<div id="waterSavedGaugeVolume"></div><div class="helpText" help="waterSavedVolume">?</div>
+									<div id="waterSavedVolume">
+										<div class="inlineblock" id="waterSavedGaugeVolume"></div>
+										<div class="helpText inlineblock" help="waterSavedVolume">?</div>
+									</div>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -2072,8 +2075,8 @@
 					<br>
 					<div>Precipitation:</div>
 					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
-					<div>EvapoTranspiration:</div>
-					<div rm-id="wateringLogDayWeatherET" class="dayTemp" style="display:inline;">0.0</div>
+					<div style="margin-top:10px;">EvapoTranspiration:</div>
+					<div rm-id="wateringLogDayWeatherET" class="dayTemp" style="display:inline;">0.0</div><span class="dayTemp icon middle" style="display:inline;font-size:16px;vertical-align:baseline;padding-left:3px;">&#xe900;</span>
 					<hr><br>
 					<div class="bold">Day Totals</div>
 					<br>
@@ -2100,7 +2103,7 @@
 				<span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon middle" style="display:none;font-size:14px;margin-right:10px;">&#xe900;</span>
 				<span rm-id="wateringLogProgramPastQPF" style="vertical-align: sub;"></span>
 				<span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon middle" style="display:none;font-size:8px;">V</span>
-				<div rm-id="wateringLogProgramPastHelp" class="helpText" help="programPastValues" style="display: none">?</div>
+				<div rm-id="wateringLogProgramPastHelp" class="helpText" help="programPastValues" style="display: none;margin-bottom: 0">?</div>
 			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>
