@@ -2093,12 +2093,14 @@
 
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
-			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon" alt="RainMachine watering program" title="RainMachine watering program">P</span></div>
-			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
-			<span rm-id="wateringLogProgramPastET" class="programUsedWeather"></span>
-			<span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon" style="display:none;font-size:12px;vertical-align:top;">&#9832;</span>
-			<span rm-id="wateringLogProgramPastQPF" class="programUsedWeather"></span>
-			<span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon" style="display:none;font-size:8px;vertical-align:top;">V</span>
+			<div style="text-align:left;padding:12px 8px;color:#39c;">
+				<span class="icon" alt="RainMachine watering program" title="RainMachine watering program">P</span>
+				<span rm-id="wateringLogProgramName" class="inlineblock bluerm middle" style="font-size:18px;padding-right:20px;"></span>
+				<span rm-id="wateringLogProgramPastET" style="vertical-align: sub;"></span>
+				<span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon middle" style="display:none;font-size:14px;margin-right:10px;">&#xe900;</span>
+				<span rm-id="wateringLogProgramPastQPF" style="vertical-align: sub;"></span>
+				<span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon middle" style="display:none;font-size:8px;">V</span>
+			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>
 		</div>
