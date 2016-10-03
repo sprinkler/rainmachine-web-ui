@@ -529,49 +529,64 @@ window.ui = window.ui || {};
 			var dayConditionElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherIcon"]');
 			var dayTempElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherTemp"]');
 			var dayQpfElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherQpf"]');
+			var dayETElem =  $(dayTemplate, '[rm-id="wateringLogDayWeatherET"]');
 			var dayUserDurationElem = $(dayTemplate, '[rm-id="wateringLogDayUser"]');
 			var dayRealDurationElem = $(dayTemplate, '[rm-id="wateringLogDayReal"]');
 			var dayWaterUsedElem = $(dayTemplate, '[rm-id="wateringLogDayWaterUsed"]');
 			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
-			var dayCondition;
-			var dayMinTemp;
-			var dayMaxTemp;
+			var dayConditionStr;
+			var dayMinTempStr;
+			var dayMaxTempStr;
+			var dayQpfStr;
+			var dayETStr;
+			//Actual values will be used for past program values differences below
 			var dayQpf;
+			var dayET;
 
 			try {
-				dayCondition =  Util.conditionAsIcon(chartsData.condition.getAtDate(day.date));
+				dayConditionStr =  Util.conditionAsIcon(chartsData.condition.getAtDate(day.date));
 
-				dayMinTemp = Util.convert.uiTemp(chartsData.mint.getAtDate(day.date));
-				if (dayMinTemp !== null) {
-					dayMinTemp += Util.convert.uiTempStr();
+				dayMinTempStr = Util.convert.uiTemp(chartsData.mint.getAtDate(day.date));
+				if (dayMinTempStr !== null) {
+					dayMinTempStr += Util.convert.uiTempStr();
 				} else {
-					dayMinTemp = "--";
+					dayMinTempStr = "--";
 				}
 
-				dayMaxTemp = Util.convert.uiTemp(chartsData.maxt.getAtDate(day.date));
-				if (dayMaxTemp !== null) {
-					dayMaxTemp += Util.convert.uiTempStr();
+				dayMaxTempStr = Util.convert.uiTemp(chartsData.maxt.getAtDate(day.date));
+				if (dayMaxTempStr !== null) {
+					dayMaxTempStr += Util.convert.uiTempStr();
 				} else {
-					dayMaxTemp = "--";
+					dayMaxTempStr = "--";
 				}
 
-				dayQpf =  Util.convert.uiQuantity(chartsData.qpf.getAtDate(day.date));
-				if (dayQpf !== null) {
-					dayQpf +=  Util.convert.uiQuantityStr()
+				dayQpf = chartsData.qpf.getAtDate(day.date);
+				dayQpfStr =  Util.convert.uiQuantity(dayQpf);
+				if (dayQpfStr !== null) {
+					dayQpfStr +=  Util.convert.uiQuantityStr();
 				} else {
-					dayQpf = "--";
+					dayQpfStr = "--";
+				}
+
+				dayET = chartsData.et0.getAtDate(day.date);
+				dayETStr = Util.convert.uiQuantity(dayET);
+				if (dayETStr !== null) {
+					dayETStr +=  Util.convert.uiQuantityStr();
+				} else {
+					dayETStr = "--";
 				}
 			} catch(e) {
 				console.error("Missing mixer data for day %s", day.date);
 			}
 
-			//console.log("Day: %s Condition: %s Temp: %s/%s QPF: %s", day.date, dayCondition, dayMinTemp, dayMaxTemp, dayQpf);
+			//console.log("Day: %s Condition: %s Temp: %s/%s QPF: %s", day.date, dayCondition, dayMinTempStr, dayMaxTempStr, dayQpfStr);
 
 			dayNameElem.textContent = day.date;
-			dayConditionElem.textContent = dayCondition;
-			dayTempElem.textContent = dayMinTemp + " / " + dayMaxTemp;
-			dayQpfElem.textContent = dayQpf;
+			dayConditionElem.textContent = dayConditionStr;
+			dayTempElem.textContent = dayMinTempStr + " / " + dayMaxTempStr;
+			dayQpfElem.textContent = dayQpfStr;
+			dayETElem.textContent = dayETStr;
 
 			for (var j = 0; j < day.programs.length; j++)
 			{
@@ -592,16 +607,29 @@ window.ui = window.ui || {};
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
-				var programPastValueElem = $(programTemplate, '[rm-id="wateringLogProgramPastValue"]');
+				var programPastETElem = $(programTemplate, '[rm-id="wateringLogProgramPastET"]');
+				var programPastQPFElem = $(programTemplate, '[rm-id="wateringLogProgramPastQPF"]');
+				var programPastETIconElem = $(programTemplate, '[rm-id="wateringLogProgramPastETIcon"]');
+				var programPastQPIconElem = $(programTemplate, '[rm-id="wateringLogProgramPastQPFIcon"]');
 				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
 
 				programNameElem.textContent = name;
 
 				try {
-					programPastValueElem.textContent = "Used EvapoTranspiration: " +
-						Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].et) + Util.convert.uiQuantityStr() +
-						" and Precipitation: " + Util.convert.uiQuantity(pastValuesByDay[day.date][program.id].qpf) +
-						Util.convert.uiQuantityStr() + " ";
+					var diffET = dayET - pastValuesByDay[day.date][program.id].et;
+					var diffQpf = dayQpf - pastValuesByDay[day.date][program.id].qpf;
+
+					var diffMax = 0.1;
+
+					if (Math.abs(diffET) > diffMax) {
+						programPastETElem.textContent += (diffET > 0 ? "+":"") + Util.convert.uiQuantity(diffET) +  Util.convert.uiQuantityStr() + " ";
+						makeVisible(programPastETIconElem);
+					}
+
+					if (Math.abs(diffQpf) > diffMax) {
+						programPastQPFElem.textContent += (diffQpf > 0 ? "+":"") + Util.convert.uiQuantity(diffQpf) + Util.convert.uiQuantityStr() + " ";
+						makeVisible(programPastQPIconElem);
+					}
 
 				} catch(e) {
 					//console.log("No past values for day %s program %s", day.date, name);

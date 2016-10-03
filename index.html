@@ -1230,6 +1230,12 @@
 								</tr>
 								<tr>
 									<td class="middle">
+										<span class="cardTitle">Web UI Version</span><br>
+										<span class="cardSubtitle" id="aboutWebUI"></span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
 										<span class="cardTitle">Hardware revision</span><br>
 										<span class="cardSubtitle" id="aboutHardware"></span>
 									</td>
@@ -2066,6 +2072,8 @@
 					<br>
 					<div>Precipitation:</div>
 					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+					<div>EvapoTranspiration:</div>
+					<div rm-id="wateringLogDayWeatherET" class="dayTemp" style="display:inline;">0.0</div>
 					<hr><br>
 					<div class="bold">Day Totals</div>
 					<br>
@@ -2087,7 +2095,10 @@
 		<div id="watering-history-day-programs-template">
 			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon" alt="RainMachine watering program" title="RainMachine watering program">P</span></div>
 			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
-			<div rm-id="wateringLogProgramPastValue" class="programUsedWeather"></div>
+			<span rm-id="wateringLogProgramPastET" class="programUsedWeather"></span>
+			<span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon" style="display:none;font-size:12px;vertical-align:top;">&#9832;</span>
+			<span rm-id="wateringLogProgramPastQPF" class="programUsedWeather"></span>
+			<span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon" style="display:none;font-size:8px;vertical-align:top;">V</span>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>
 		</div>

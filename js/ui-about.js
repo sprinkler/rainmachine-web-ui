@@ -33,6 +33,7 @@ window.ui = window.ui || {};
 	{
 		$("#aboutName").textContent = Data.provision.system.netName;
 		$("#aboutVersion").textContent = Data.provision.api.swVer;
+		$("#aboutWebUI").textContent = Data.uiVer;
 		$("#aboutHardware").textContent = Data.provision.api.hwVer;
 		$("#aboutAPI").textContent = Data.provision.api.apiVer;
 		$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
@@ -103,7 +104,6 @@ window.ui = window.ui || {};
 
 		deviceNameDiv.textContent = Data.provision.system.netName;
 		deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
-		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
 
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
