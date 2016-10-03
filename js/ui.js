@@ -320,6 +320,7 @@ window.ui = window.ui || {};
 		buildMenu();
 		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 		buildNavigation(dashboardNavigation);
+		Help.bindAll();
 
 		//Set default button selections
 		$('#dashboardBtn').setAttribute("selected", true);
