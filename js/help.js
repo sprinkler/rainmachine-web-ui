@@ -13,10 +13,13 @@ var Help = (function(Help) {
 	};
 
 	Help.strings = {
-		"programPastValues": "This is program past values help",
-		"zonePrecipRate": "This is zone precipitation rate help",
-		"zoneAppEfficiency": "Zone Application efficiency",
-		"waterSavedVolume": "The volume of water saved. For accurate results make sure you enter the correct precipitation rate, zone area or zone total flow in advanced zone settings."
+		"programPastValues": "The differences of EvapoTranspiration and Precipitation between the day best forecast " +
+							"(seen on the left) and known forecast at the time of program run. " +
+							"Big differences (more than 2mm) can be solved by enabling Correction for the Past in Settings.",
+		"zonePrecipRate": "The quantitative precipitation that the sprinkler head can deposit per hour. This value can be " +
+							"calculated either by a catch cup test or by zone water meter flow and area",
+		"zoneAppEfficiency": "The ratio of the average water depth applied and the target water depth during an irrigation event.",
+		"waterSavedVolume": "For accurate results make sure you enter the correct precipitation rate, zone area or zone total flow in advanced zone settings."
 	};
 
 return Help; } ( Help || {}));
