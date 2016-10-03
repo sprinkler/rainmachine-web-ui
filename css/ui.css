@@ -93,7 +93,6 @@ body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-font-smo
 .center {text-align: center;}
 .full {width: 100%; }
 .bold {font-weight: bold;}
-.inlineblock {display:inline-block;}
 
 .clear30 {
   clear: both;
@@ -246,7 +245,7 @@ strong { font-weight: 700; }
   padding:10px 30px;
 }
 .programUsedWeather {
-  font-size: 12px;
+  font-size: 18px;
   color: #888888;
   text-align: left;
   margin-top:-10px;
@@ -1815,3 +1814,4 @@ a.helpText {
   }
 }
 /* MEDIA QUERIES END */
+.inlineblock {display:inline-block;}
