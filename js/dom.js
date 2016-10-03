@@ -158,15 +158,18 @@ function makeVisible(tag)
 	//e.focus();
 }
 
-function makeVisibleBlock(tag)
+function makeVisibleBlock(tag, inline)
 {
 	var e;
 
 	if (typeof(tag) === 'string') { e = $(tag); }
 	else { e = tag; }
 
-	e.style.display = "block";
-	//e.focus();
+	if (typeof inline === "undefined" || inline == false) {
+		e.style.display = "block";
+	} else {
+		e.style.display = "inline-block";
+	}
 }
 
 function makeHidden(tag)

@@ -93,7 +93,7 @@
 								<div id="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
 									<div id="waterSavedGaugeContainer"></div>
-									<div id="waterSavedGaugeVolume"></div><a class="helpText" title="learn more" href="#" help="waterSavedVolume">?</a>
+									<div id="waterSavedGaugeVolume"></div><div class="helpText" help="waterSavedVolume">?</div>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
@@ -1579,7 +1579,7 @@
 													   cellspacing="0">
 													<tr>
 														<td class="middle" style="width:50%">
-															<a class="helpText" href="#" help="zonePrecipRate" zones-tooltip="">?</a>
+															<div class="helpText" help="zonePrecipRate" zones-tooltip="">?</div>
 															Precipitation Rate:</td>
 														<td style="padding:0;">
 															<input rm-id="zone-sprinkler-preciprate"  type="number" class="typeNumber">
@@ -1588,7 +1588,7 @@
 													</tr>
 													<tr>
 														<td class="middle noborder" style="width:50%">
-															<a class="helpText" title="learn more" href="#" help="zoneAppEfficiency">?</a>
+															<div class="helpText" href="#" help="zoneAppEfficiency">?</div>
 															Application	Efficiency:
 														</td>
 														<td class="middle noborder" style="padding:0;">
@@ -2100,6 +2100,7 @@
 				<span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon middle" style="display:none;font-size:14px;margin-right:10px;">&#xe900;</span>
 				<span rm-id="wateringLogProgramPastQPF" style="vertical-align: sub;"></span>
 				<span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon middle" style="display:none;font-size:8px;">V</span>
+				<div rm-id="wateringLogProgramPastHelp" class="helpText" help="programPastValues" style="display: none">?</div>
 			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName bluerm"></div>

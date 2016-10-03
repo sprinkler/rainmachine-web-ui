@@ -610,7 +610,8 @@ window.ui = window.ui || {};
 				var programPastETElem = $(programTemplate, '[rm-id="wateringLogProgramPastET"]');
 				var programPastQPFElem = $(programTemplate, '[rm-id="wateringLogProgramPastQPF"]');
 				var programPastETIconElem = $(programTemplate, '[rm-id="wateringLogProgramPastETIcon"]');
-				var programPastQPIconElem = $(programTemplate, '[rm-id="wateringLogProgramPastQPFIcon"]');
+				var programPastQPFIconElem = $(programTemplate, '[rm-id="wateringLogProgramPastQPFIcon"]');
+				var programPastHelpElem = $(programTemplate, '[rm-id="wateringLogProgramPastHelp"]');
 				var programContainerElem = $(programTemplate, '[rm-id="wateringLogZonesContainer"]');
 
 				programNameElem.textContent = name;
@@ -619,16 +620,18 @@ window.ui = window.ui || {};
 					var diffET = dayET - pastValuesByDay[day.date][program.id].et;
 					var diffQpf = dayQpf - pastValuesByDay[day.date][program.id].qpf;
 
-					var diffMax = 0.1;
+					var diffMax = 0.5;
 
 					if (Math.abs(diffET) > diffMax) {
 						programPastETElem.textContent += (diffET > 0 ? "+":"") + Util.convert.uiQuantity(diffET) +  Util.convert.uiQuantityStr() + " ";
 						makeVisible(programPastETIconElem);
+						makeVisibleBlock(programPastHelpElem, true);
 					}
 
 					if (Math.abs(diffQpf) > diffMax) {
 						programPastQPFElem.textContent += (diffQpf > 0 ? "+":"") + Util.convert.uiQuantity(diffQpf) + Util.convert.uiQuantityStr() + " ";
-						makeVisible(programPastQPIconElem);
+						makeVisible(programPastQPFIconElem);
+						makeVisibleBlock(programPastHelpElem, true);
 					}
 
 				} catch(e) {
