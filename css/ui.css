@@ -263,14 +263,15 @@ strong { font-weight: 700; }
   margin-left: 10px;
 }
 .zoneListLine {
-  height: 70px;
-  width: 44%;
+  height: 34px;
+  width: 34%;
+  padding-right: 44px;
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
 }
 .zoneListName {
-  padding-top: 25px;
+  /*padding-top: 25px;*/
   padding-left: 10px;
   font-size: 18px;
   color:#555;
@@ -315,7 +316,7 @@ strong { font-weight: 700; }
   height: 142px;
   width: 478px;
 }
-.inputStepDown { width: 362px }
+.inputStepDown { width: 320px }
 .program-start-stop,
 .zone-start-stop {
   display: inline-block;
@@ -364,11 +365,11 @@ sup { font-size: 12px }
 .zoneListName {
   padding-left: 10px;
   display: inline-block;
-  white-space: nowrap;
+  /*white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;*/
   /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
-  -o-text-overflow: ellipsis;
+  /*-o-text-overflow: ellipsis;*/
   /** Opera 9 & 10 **/
 }
 #deviceName{
@@ -387,7 +388,7 @@ sup { font-size: 12px }
 .halfRight{
   padding-left: 4%;
 }
-.zoneListName { width: 75%; }
+
 .overTop, .overTopProgramZonesTime {
   position: fixed;
   top: 0;
@@ -473,6 +474,42 @@ h1 {
   display: inline;
 }
 
+.zoneListImage, .zoneListImageEdit {
+  webkit-background-size: cover;
+  moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: inline-block;
+  width: 65px;
+  height: 65px;
+  margin-top: 6px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #f9f9f9;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+.zoneListImageEdit {
+  width: 195px;
+  height: 195px;
+  border-radius: 100%;
+  border: 2px solid #f1f1f1;
+}
+
+.zoneListImageNone, .zoneListImageNoneEdit {
+  font-family: Rainmachine;
+  font-size: 48px;
+  padding: 8px 0px 0px 8px;
+  color:#f1f1f1;
+}
+.zoneListImageNoneEdit {
+  font-size: 100px;
+  color: #eee;
+  padding: 42px;
+}
+.zoneListImage:hover, .zoneListImageEdit:hover {
+  border: 2px solid #dddddd;
+}
 #mainContainer {
   display: block;
   margin: 0 auto;
@@ -1704,7 +1741,7 @@ td.right,
     min-width: 88px;
   }
   .inputStepDown {
-    width: 492px;
+    width: 320px;
     margin-left: 30px;
   }
   .master {
@@ -1794,7 +1831,7 @@ td.right,
     width: 24%;
   }
   .inputStepDown {
-    width: 440px;
+    width: 300px;
   }
   .halfLeft, .halfRight {
     display:block;
