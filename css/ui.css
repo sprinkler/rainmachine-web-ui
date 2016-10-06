@@ -930,8 +930,8 @@ select, .selectSmall {
   width: 15px;
   height: 15px;
   line-height: 16px;
-  color:rgba(84,110,122 ,1);
-  border: 1px solid rgba(84,110,122 ,1);
+  color:rgba(84,110,122, 1.0);
+  border: 1px solid rgba(84,110,122, 1.0);
 }
 .zoneTimesCircleButton {
   width: 30px;
@@ -1619,11 +1619,11 @@ td.right,
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background-color:  rgba(249,251,231 ,0.90);
+  background-color:  rgba(249,251,231,1.0);
   border:1px solid #555;
   color: #333;
   content: attr(zones-tooltip);
-  text-align: center;
+  text-align: left;
   font-size: 14px;
   line-height: 1.2;
 }
