@@ -97,6 +97,11 @@ window.ui = window.ui || {};
 			Data.provision.api === undefined || Data.diag === null) {
 			return false;
 		}
+
+		//TODO Remove Dependency
+
+		window.ui.main.firebaseInit();
+
 		var deviceImgDiv = $('#deviceImage');
 		var deviceNameDiv = $('#deviceName');
 		var deviceNetDiv = $('#deviceNetwork');
