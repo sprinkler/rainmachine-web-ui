@@ -1327,11 +1327,15 @@
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
-        <!-- Template for Zone Card (Begin) -->
-        <div id="zone-entry" class="zone-line">
-        	<div>
+		<!-- Template for Zone Card (Begin) -->
+		<div id="zone-entry" class="zone-line">
+			<div>
 				<div rm-id="zone-edit" class="zoneListEdit" id="zone-edit" style="float:right;"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
 			</div>
+			<div rm-id="zone-image" class="zoneListImage">
+				<div class="zoneListImageNone">&#xe800;</div>
+			</div>
+
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
@@ -1344,7 +1348,7 @@
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
 		</div>
-        <!-- Template for Zone Card (End) -->
+		<!-- Template for Zone Card (End) -->
 
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template">
@@ -1381,23 +1385,34 @@
 									<tr>
 										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:20px;">Basic Zone Settings</td>
 									</tr>
-									<tr>
-										<td class="middle">Name</td>
-										<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
-									</tr>
-									<tr>
-										<td class="middle">Enabled</td>
-										<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
-									</tr>
-									<tr>
-										<td class="middle">Weather Data</td>
-										<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
-									</tr>
-									<tr>
-										<td class="middle">Offline Seasonal Adjustments<br>
-										<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
+									<tr style="background-color: #f9f9f9;">
+										<td class="center">
+											<div rm-id="zone-image" class="zoneListImageEdit center">
+												<div class="zoneListImageNoneEdit">&#xe800;</div>
+											</div>
 										</td>
-										<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
+										<td>
+											<table width="100%" cellpadding="0" cellspacing="0">
+												<tr>
+													<td class="middle">Name</td>
+													<td class="middle" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
+												</tr>
+												<tr>
+													<td class="middle">Enabled</td>
+													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
+												</tr>
+												<tr>
+													<td class="middle">Weather Data</td>
+													<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
+												</tr>
+												<tr>
+													<td class="middle">Offline Seasonal Adjustments<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
+													</td>
+													<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
+												</tr>
+											</table>
+										</td>
 									</tr>
 									<tr>
 										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced Zone Settings</td>
