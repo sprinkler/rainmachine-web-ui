@@ -526,7 +526,7 @@ Util.convert = {
 		if (!Data.localSettings.units) {
 			return Util.convert.celsiusToFahrenheit(temp);
 		} else {
-			return temp;
+			return  Math.round(temp * 100) /100;
 		}
 	},
 
@@ -542,7 +542,7 @@ Util.convert = {
 		if (!Data.localSettings.units) {
 			return Util.convert.mmToInches(v);
 		} else {
-			return v;
+			return  Math.round(v * 100) /100;
 		}
 	},
 	uiQuantityStr: function() {
@@ -556,21 +556,21 @@ Util.convert = {
 		if (!Data.localSettings.units) {
 			return Util.convert.inchesToMM(v);
 		} else {
-			return v;
+			return  Math.round(v * 100) /100;
 		}
 	},
 	uiFlowVolume: function(flow) {
 		if (!Data.localSettings.units) {
 			return Util.convert.volumeMetersHourToGPM(flow);
 		} else {
-			return flow;
+			return Math.round(flow * 100) /100;
 		}
 	},
 	uiFlowVolumeToMeters: function(flow) {
 		if (!Data.localSettings.units) {
 			return Util.convert.volumeGPMToMetersHour(flow);
 		} else {
-			return +flow;
+			return Math.round(flow * 100) /100
 		}
 	},
 	uiFlowCompute: function(rate, area, seconds) {

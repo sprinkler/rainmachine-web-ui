@@ -314,6 +314,76 @@ window.ui = window.ui || {};
         uiElems.zones = $('#zonesList');
 	}
 
+	function firebaseInit() {
+		_main.firebase = {};
+		_main.firebase.isLogged = false;
+
+		try {
+			var config = {
+				apiKey: "AIzaSyDLzlRQUuOBV5p9xqsMN4HJu5dKRfJeylo",
+				authDomain: "rainmachine-aa702.firebaseapp.com",
+				databaseURL: "https://rainmachine-aa702.firebaseio.com",
+				storageBucket: "rainmachine-aa702.appspot.com",
+				messagingSenderId: "906819096221"
+			};
+			firebase.initializeApp(config);
+
+			_main.firebase.auth = firebase.auth();
+			_main.firebase.storageRef = firebase.storage().ref();
+
+			firebaseAuth();
+		} catch (e) {
+			console.error("Firebase cannot be loaded. Zone images unavailable")
+		}
+	}
+
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+
+	function firebaseAuth() {
+		_main.firebase.auth.onAuthStateChanged(function(user) {
+			if (user) {
+				console.log('Anonymous user signed-in.', user);
+				_main.firebase.isLogged = true;
+				firebaseGetZoneImages();
+			} else {
+				console.log('There was no anonymous session. Creating a new anonymous user.');
+				// Sign the user in anonymously since accessing Storage requires the user to be authorized.
+				auth.signInAnonymously();
+			}
+		});
+	}
+
+	function firebaseGetZoneImages() {
+		if (window.ui.main.firebase.isLogged) {
+			try {
+				var mac = Data.provision.wifi.macAddress;
+				var valves = Data.provision.system.localValveCount;
+				var storagePath = "devices/" + mac + "/images/";
+				Data.zonesImages = {};
+
+				for (var i = 1; i <= valves; i++) {
+					var name = "zone" + i + ".jpg";
+					var currentImage = storagePath + name;
+					var imageRef = _main.firebase.storageRef.child(currentImage);
+					imageRef.getDownloadURL().then(
+						function(index, url) { Data.zonesImages[index] = url;}.bind(null, i)
+					);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		} else {
+			console.log("No auth to retrieve zone images");
+		}
+	}
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+
 	function uiStart()
 	{
 		buildUIElems();
@@ -362,6 +432,8 @@ window.ui = window.ui || {};
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
 		ui.login.login(function() {
+			firebaseInit();
+
 			window.ui.about.getDeviceInfo();
 
 			//TODO Show Programs
@@ -385,6 +457,7 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiStart = uiStart;
 	_main.refreshGraphs = false;
+	_main.getZonesImages = firebaseGetZoneImages;
 
 } (window.ui.main = window.ui.main || {}));
 

@@ -256,15 +256,15 @@ function generateSpecificParsersChart(key, startDate, days) {
 
 	//Add Summer ET0 Average for EvapoTranspiration graph
 	if (key == 'et0') {
-		var et0Avg = Util.convert.withType('et0', Data.provision.location.et0Average);
-		chartOptions.yAxis.minRange = et0Avg;
+		var et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
+		chartOptions.yAxis.minRange = et0Avg * 1.20;
 		chartOptions.yAxis.plotLines = [{
 			value: et0Avg,
 			color: '#003399',
 			width: 3,
 			zIndex:4,
 			label:{
-				text:'Summer Average (100% watering)'
+				text:'Summer Average: ' + et0Avg + ' (100% watering)'
 			}
 		}];
 	}
