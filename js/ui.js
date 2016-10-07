@@ -430,7 +430,6 @@ window.ui = window.ui || {};
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
 		ui.login.login(function() {
-			firebaseInit();
 
 			window.ui.about.getDeviceInfo();
 
@@ -455,7 +454,7 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiStart = uiStart;
 	_main.refreshGraphs = false;
-	_main.getZonesImages = firebaseGetZoneImages;
+	_main.firebaseInit = firebaseInit;
 
 } (window.ui.main = window.ui.main || {}));
 
