@@ -19,6 +19,7 @@ var Help = (function(Help) {
 		/* Zones edit help texts */
 		"zoneDailySummerEPA": "Scheduled to run for a typical summer day and calculated based on Advanced Zone Settings properties. This time will be adjusted automatically to any program that use this zone.",
 		"zoneFieldCapacityMain": "The amount of water content held in the soil after excess water has drained away. Increase this value if the RainMachine starts too soon after a rain event.",
+		"zoneListImageHelp": "Use the RainMachine mobile app (iPhone or Android) to upload a picture of this zone. Uploading images through web app is not allowed.",
 		"zoneAllowedDepletion": "The maximum percentage of the soil moisture/water that is allowed to be consume before " +
 		"					being replenished by irrigation.",
 		"zoneRootDepth": "The root depth of the plant from which it extracts the most of the needed water.",

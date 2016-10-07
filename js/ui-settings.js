@@ -778,7 +778,7 @@ window.ui = window.ui || {};
 
 					//Append detailed per cycle information
 					for (c in cycles) {
-						var cycleTitle = "Totals Cycle " + (+c + 1) + " / " + maxCycles ;
+						var cycleTitle = "Cycle " + (+c + 1) + " / " + maxCycles ;
 						zoneListTemplate = createZoneWateringHistoryElems(
 							cycleTitle,
 							cycles[c].user,
