@@ -36,9 +36,11 @@ Data.dateTime = null;
 Data.rainDelay = null;
 Data.uiVer = "1.5";
 Data.restrictionsCurrent = null;
+Data.zonesImages = null;
 Data.localSettings =  {
 	units: false // Default to US units
 };
+
 
 //TODO Reference counting
 Data.counters = {

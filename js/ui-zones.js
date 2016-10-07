@@ -82,6 +82,7 @@ window.ui = window.ui || {};
 			zoneElem.typeElem = $(zoneElem.template,'[rm-id="zone-info"]');
 			zoneElem.statusElem = $(zoneElem.template,'[rm-id="zone-status"]');
 			zoneElem.timerElem = $(zoneElem.template, '[rm-id="zone-timer"]');
+			zoneElem.imageElem = $(zoneElem.template, '[rm-id="zone-image"]');
 
 			zoneElem.template.id = "zone-" + z.uid;
 
@@ -135,6 +136,11 @@ window.ui = window.ui || {};
 				} else {
 					makeVisibleBlock(elem.timerElem);
 				}
+			}
+
+			if (Data.zonesImages && z.uid in Data.zonesImages) {
+				elem.imageElem.style.backgroundImage = "url('" + Data.zonesImages[z.uid] + "')";
+				elem.imageElem.textContent = "";
 			}
 
 			elem.stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
@@ -256,6 +262,7 @@ window.ui = window.ui || {};
 		templateInfo.activeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-active"]');
 		templateInfo.forecastElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-forecast-data"]');
 		templateInfo.historicalElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-historical-averages"]');
+		templateInfo.imageElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-image"]');
 
 		// Advanced properties
 		templateInfo.simulatedTimerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-timer"]');
@@ -425,6 +432,11 @@ window.ui = window.ui || {};
 		uiElems.activeElem.checked = zone.active;
 		uiElems.forecastElem.checked = zone.internet;
 		uiElems.historicalElem.checked = zone.history;
+
+		if (Data.zonesImages && zone.uid in Data.zonesImages) {
+			uiElems.imageElem.style.backgroundImage = "url('" + Data.zonesImages[zone.uid] + "')";
+			uiElems.imageElem.textContent = "";
+		}
 
 		//Create percentageChooser with current value, it will change zone.saving that holds the FC percent as int
 		uiElems.fieldCapacityPercentage = new percentageChooser(
