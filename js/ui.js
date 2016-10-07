@@ -345,13 +345,11 @@ window.ui = window.ui || {};
 	function firebaseAuth() {
 		_main.firebase.auth.onAuthStateChanged(function(user) {
 			if (user) {
-				console.log('Anonymous user signed-in.', user);
 				_main.firebase.isLogged = true;
 				firebaseGetZoneImages();
 			} else {
-				console.log('There was no anonymous session. Creating a new anonymous user.');
-				// Sign the user in anonymously since accessing Storage requires the user to be authorized.
-				auth.signInAnonymously();
+
+				_main.firebase.auth.signInAnonymously();
 			}
 		});
 	}
