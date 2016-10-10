@@ -184,17 +184,21 @@ strong { font-weight: 700; }
   margin:0 auto;
   margin-bottom:10px;
 }
-#waterSavedVolume {
+.waterSavedInfo {
   display:block;
-  padding:15px 0;
+  padding:10px 0;
   margin:0 auto;
   color:#3399cc;
   text-align:center;
   border-top:1px solid #dddddd;
-}
-#waterSavedGaugeVolume {
   font-size: 135%;
+  height: 18px;
+  overflow: hidden;
 }
+.waterSavedInfoInner {
+  animation: verticalscroll 10s infinite;
+}
+
 .graphUnit {
   float: right;
   margin-top: -45px;
@@ -373,6 +377,11 @@ sup { font-size: 12px }
   /*-o-text-overflow: ellipsis;*/
   /** Opera 9 & 10 **/
 }
+
+.zoneListName:hover,.programListName:hover {
+  text-decoration: underline;
+}
+
 #deviceName{
   width:380px;
   padding-left:0px;
@@ -973,7 +982,7 @@ select, .selectSmall {
   height: 15px;
   line-height: 16px;
   color:rgba(84,110,122, 1.0);
-  border: 1px solid rgba(84,110,122, 1.0);
+  /*border: 1px solid rgba(84,110,122, 1.0);*/
 }
 .zoneTimesCircleButton {
   width: 30px;
@@ -1540,6 +1549,18 @@ td.right,
   to {-webkit-transform: rotate(360deg);}
 }
 
+@keyframes verticalscroll {
+  0%, 20%, 80%, 100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  26%, 74% {
+    -webkit-transform: translateY(-70%);
+    transform: translateY(-70%);
+  }
+}
+
 .spinner:before {
   content: '';
   display: inline-block;
@@ -1793,6 +1814,7 @@ td.right,
   .zoneListName {
     overflow: hidden;
   }
+
   .autoTime {
     font-size: 18px;
     padding: 2px;
