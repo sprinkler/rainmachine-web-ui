@@ -23,7 +23,13 @@ Data.zoneAdvData = null;
 Data.parsers = null;
 Data.parserData = null;
 Data.programs = null;
-Data.provision = {};
+Data.provision = {
+	api: null,
+	system: null,
+	location: null,
+	wifi: null,
+	cloud: null
+};
 Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
@@ -34,7 +40,7 @@ Data.programsPastValues = null;
 Data.zonesAvailableWater = null;
 Data.dateTime = null;
 Data.rainDelay = null;
-Data.uiVer = "1.5";
+Data.uiVer = "1.6";
 Data.restrictionsCurrent = null;
 Data.zonesImages = null;
 Data.localSettings =  {

@@ -317,6 +317,7 @@ window.ui = window.ui || {};
 	function firebaseInit() {
 		_main.firebase = {};
 		_main.firebase.isLogged = false;
+		_main.firebase.loaded = false;
 
 		try {
 			var config = {
@@ -330,7 +331,8 @@ window.ui = window.ui || {};
 
 			_main.firebase.auth = firebase.auth();
 			_main.firebase.storageRef = firebase.storage().ref();
-
+			_main.firebase.loaded = true;
+			_main.firebase.interval =
 			firebaseAuth();
 		} catch (e) {
 			console.error("Firebase cannot be loaded. Zone images unavailable")
@@ -343,19 +345,24 @@ window.ui = window.ui || {};
 	//
 
 	function firebaseAuth() {
-		_main.firebase.auth.onAuthStateChanged(function(user) {
-			if (user) {
-				_main.firebase.isLogged = true;
-				firebaseGetZoneImages();
-			} else {
-
-				_main.firebase.auth.signInAnonymously();
-			}
-		});
+		if (window.ui.main.firebase.loaded) {
+			_main.firebase.auth.onAuthStateChanged(function(user) {
+				if (user) {
+					_main.firebase.isLogged = true;
+					firebaseGetZonesImages();
+				} else {
+					_main.firebase.auth.signInAnonymously();
+				}
+			});
+		}
 	}
 
-	function firebaseGetZoneImages() {
+	function firebaseGetZonesImages() {
 		if (window.ui.main.firebase.isLogged) {
+			if (Data.provision.wifi === null || Data.provision.system === null) {
+				setTimeout(window.ui.main.firebaseGetZonesImages, 2000);
+				return;
+			}
 			try {
 				var mac = Data.provision.wifi.macAddress;
 				var valves = Data.provision.system.localValveCount;
@@ -365,7 +372,7 @@ window.ui = window.ui || {};
 				for (var i = 1; i <= valves; i++) {
 					var name = "zone" + i + ".jpg";
 					var currentImage = storagePath + name;
-					var imageRef = _main.firebase.storageRef.child(currentImage);
+					var imageRef = window.ui.main.firebase.storageRef.child(currentImage);
 					imageRef.getDownloadURL().then(
 						function(index, url) { Data.zonesImages[index] = url;}.bind(null, i)
 					);
@@ -389,6 +396,7 @@ window.ui = window.ui || {};
 		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 		buildNavigation(dashboardNavigation);
 		Help.bindAll();
+		firebaseInit();
 
 		//Set default button selections
 		$('#dashboardBtn').setAttribute("selected", true);
@@ -454,7 +462,7 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiStart = uiStart;
 	_main.refreshGraphs = false;
-	_main.firebaseInit = firebaseInit;
+	_main.firebaseGetZonesImages = firebaseGetZonesImages;
 
 } (window.ui.main = window.ui.main || {}));
 

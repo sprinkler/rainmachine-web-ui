@@ -93,14 +93,10 @@ window.ui = window.ui || {};
 	}
 
 	function showDeviceInfo() {
-		if (Data.provision.wifi === undefined || Data.provision.system === undefined ||
-			Data.provision.api === undefined || Data.diag === null) {
+		if (Data.provision.wifi === null || Data.provision.system === null ||
+			Data.provision.api === null || Data.diag === null) {
 			return false;
 		}
-
-		//TODO Remove Dependency
-
-		window.ui.main.firebaseInit();
 
 		var deviceImgDiv = $('#deviceImage');
 		var deviceNameDiv = $('#deviceName');
