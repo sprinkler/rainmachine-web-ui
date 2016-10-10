@@ -569,6 +569,12 @@ h1 {
   text-align: center;
   color: #39c;
 }
+#waterSavedGaugeVolume {
+  margin-top:-5px;
+}
+#waterSavedGaugeMinutes {
+  margin-top:20px;
+}
 /*topMenu starts*/
 
 .topButton {
@@ -962,27 +968,6 @@ select, .selectSmall {
 }
 .selectSmall {
   width: 90px;
-}
-.helpText, .zonecircle, .zoneTimesCircleButton {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #3399cc;
-  border-radius: 100%;
-  line-height: 20px;
-  color: #3399cc;
-  font-size: 12px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  text-align: center;
-  vertical-align: middle;
-  display: inline-block;
-}
-.helpText {
-  width: 15px;
-  height: 15px;
-  line-height: 16px;
-  color:rgba(84,110,122, 1.0);
-  /*border: 1px solid rgba(84,110,122, 1.0);*/
 }
 .zoneTimesCircleButton {
   width: 30px;
@@ -1705,6 +1690,35 @@ td.right,
   -moz-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
   box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
 }*/
+
+/* Help text tooltips START */
+.helpText, .helpTextWaterSaved, .zonecircle, .zoneTimesCircleButton {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #3399cc;
+  border-radius: 100%;
+  line-height: 20px;
+  color: #3399cc;
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+}
+.helpText, .helpTextWaterSaved {
+  width: 15px;
+  height: 15px;
+  line-height: 16px;
+  color:rgba(84,110,122, 1.0);
+  /*border: 1px solid rgba(84,110,122, 1.0);*/
+}
+.helpTextWaterSaved {
+   position: absolute;
+   margin-left: 32px;
+   margin-top: 10px;
+}
+/* Help text tooltips END */
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 1280px) {
