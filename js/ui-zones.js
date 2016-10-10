@@ -144,7 +144,7 @@ window.ui = window.ui || {};
 			}
 
 			elem.stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
-			elem.editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
+			elem.nameElem.onclick = elem.editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 
 			setZoneState(z);
 			updateZoneTimer(z);

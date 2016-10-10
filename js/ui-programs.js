@@ -124,7 +124,7 @@ window.ui = window.ui || {};
 		programElem.startElem.start = true;
 		programElem.startElem.onclick = onStart;
 		programElem.graphElem.id = "programChartContainer-" + p.uid;
-		programElem.editElem.onclick = function() { showProgramSettings(this.data); };
+		programElem.nameElem.onclick = programElem.editElem.onclick = function() { showProgramSettings(this.data); };
 
 		programListDiv.appendChild(programElem.template);
 		uiElemsAll.programs[p.uid] = programElem;
@@ -160,6 +160,7 @@ window.ui = window.ui || {};
 		}
 
 		programElem.template.data = p;
+		programElem.nameElem.data = p;
 		programElem.editElem.data = p;
 		programElem.startElem.data = p;
 
