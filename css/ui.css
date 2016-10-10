@@ -365,6 +365,7 @@ sup { font-size: 12px }
 .zoneListName {
   padding-left: 10px;
   display: inline-block;
+  cursor: pointer;
   /*white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;*/
@@ -734,6 +735,7 @@ textarea {
   height: 200px;
   margin-left: 10px;
   vertical-align: middle;
+  font-family: 'Roboto', Arial, Helvetica;
 }
 
 input.typeText {
@@ -741,6 +743,7 @@ input.typeText {
   padding: 15px;
   font-size: 16px;
   width: 100%;
+  font-family: 'Roboto', Arial, Helvetica;
 }
 #systemSettingsLocationLat,
 #systemSettingsLocationLon,
@@ -942,6 +945,7 @@ select, .selectSmall {
   background: #fff url('../images/arrow.png') no-repeat right center;
   padding: 10px;
   font-size: 16px;
+  font-family: 'Roboto', Arial, Helvetica;
   border: 1px solid #ddd;
   border-radius: 0;
   height: 44px;
@@ -1403,6 +1407,7 @@ td.right,
   line-height: 32px;
   border-radius: 2px;
   font-size: 1.1em;
+  font-family: 'Roboto', Arial, Helvetica;
   color: #646464;
   text-transform: uppercase;
 }
