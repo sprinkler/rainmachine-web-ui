@@ -189,7 +189,8 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 				Data.dailyDetails = o; Data.counters.charts++; processChartData();}) //for water need in the future
         	.error(function(o) {
 				window.ui.main.showError("Please wait while new graphs are generated");
-        	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay)})
+        	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay);
+			})
 	} else {
 		// hide the spinner
         makeHidden($('#pageLoadSpinner'));
@@ -247,13 +248,12 @@ function processChartData() {
 		currentProgramIndex;
 
 	if (Data.counters.charts < 4 || Data.counters.zoneAdv < 1) {
-		console.log(Data.counters.charts + "," + Data.counters.zoneAdv);
+		//console.log(Data.counters.charts + "," + Data.counters.zoneAdv);
 		return;
 	} else {
 		Data.counters.charts = 0;
 	}
 
-	console.log("Processing chart data" + Data.counters.charts + "," + Data.counters.zoneAdv);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -810,6 +810,10 @@ function generateTemperatureChart () {
 						highlightCurrentDayInChart(this);
 					}
 				}
+			},
+			style: {
+				fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+				fontSize: "14px"
 			}
 		},
 		tooltip: {
@@ -890,6 +894,10 @@ function generateQPFChart () {
 						highlightCurrentDayInChart(this);
 					}
 				}
+			},
+			style: {
+				fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+				fontSize: "14px"
 			}
 		},
 		plotOptions:{
@@ -904,8 +912,11 @@ function generateQPFChart () {
 		tooltip: {
 			hideDelay: 0,
 			animation: false,
+			style: {
+				fontSize: "14px"
+			},
 			formatter: function () {
-				var s = '<span style="font-size: 14px;">';
+				var s = '<span>';
 				s += "Forecast: " + Util.convert.uiQuantity(this.point.y) + Util.convert.uiQuantityStr();
 				s += "<br>Measured:";
 
@@ -1018,6 +1029,10 @@ function generateProgramChart (programUid, programIndex) {
                     	highlightCurrentDayInChart(this);
                     }
 				}
+			},
+			style: {
+				fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+				fontSize: "14px"
 			}
 		},
 		tooltip: {
@@ -1053,7 +1068,8 @@ function generateProgramChart (programUid, programIndex) {
 					} else {
 						flagText = '<span style="font-family: RainMachine; font-size: 22px;">.</span><br>'; // for spacing
 					}
-					return flagText + '<span style="font-size: 12px;">' + Math.round(this.y) + '%</span>';
+					return flagText +
+						'<span style="font-weight: normal;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
 				verticalAlign: 'bottom'
