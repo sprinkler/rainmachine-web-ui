@@ -53,7 +53,6 @@ function ChartSeries (startDate, defaultValue) {
 
 	// initialize each position of the data array with null
 	for (var i = 0; i < this.data.length; this.data[i] = this.defaultValue, i++);
-
 }
 
 /**
@@ -153,6 +152,7 @@ function ChartData () {
 	this.programs = [];
 	this.programsFlags = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
+	this.totalMinutesReduced = 0 //Holds the total real watering minutes
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
 }
@@ -487,6 +487,7 @@ function setWaterSavedValueForDays(pastDays) {
 
 	chartsData.waterSaved.currentSeries = [ saved ];
 	chartsData.volumeSaved.currentSeries = [ volumeSum ];
+	chartsData.totalMinutesReduced = realSum;
 }
 
 /**
@@ -793,6 +794,9 @@ function generateWaterSavedGauge() {
 	//Write gallons text
 	$('#waterSavedGaugeVolume').textContent = Util.convert.uiWaterVolume(chartsData.volumeSaved.currentSeries) +
 			" " + Util.convert.uiWaterVolumeStrLong() + " of water saved";
+
+	//Write minutes reduced
+	$('#waterSavedGaugeMinutes').textContent = Util.secondsToText(chartsData.totalMinutesReduced, true) + " less time watered";
 
 }
 
