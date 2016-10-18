@@ -495,15 +495,16 @@ h1 {
   margin-top: 6px;
   margin-left: 10px;
   margin-bottom: 10px;
-  border: 2px solid #f9f9f9;
+  border: 1px solid #f9f9f9;
   border-radius: 100%;
   vertical-align: middle;
+  z-index: 9999;
 }
 .zoneListImageEdit {
   width: 195px;
   height: 195px;
   border-radius: 100%;
-  border: 2px solid #f1f1f1;
+  border: 1px solid #f1f1f1;
 }
 
 .zoneListImageNone, .zoneListImageNoneEdit {
@@ -519,14 +520,14 @@ h1 {
 }
 .zoneListImage:hover, .zoneListImageEdit:hover {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  z-index: 512;
   transition: all 200ms ease-in;
   transform: scale(4);
-  border: 1px solid #f9f9f9;;
+  border: 1px solid #f9f9f9;
 }
 
 .zoneListImageEdit:hover {
   transform: scale(2);
+  z-index: 9999;
 }
 
 #mainContainer {
@@ -624,7 +625,6 @@ h1 {
 .submenu:hover {
   color: #3399cc;
   /*blue color*/
-  
   background-color: #f9f9f9;
 }
 /*buttons*/
@@ -1730,9 +1730,12 @@ td.right,
 /* Help text tooltips END */
 
 /* MEDIA QUERIES */
-@media screen and (max-width: 1280px) {
-  #homeScreenLeft {
-    width: 339px;
+
+@media screen and (min-width: 1050px) and (max-width: 1280px)  {
+  #homeScreenLeft, #homeScreenRight {
+    width: 1000px;
+    display: block;
+    margin: 0 auto;
   }
   h1 {
     font-size: 100%;
@@ -1741,10 +1744,26 @@ td.right,
     padding-top: 8px;
     padding-bottom: 12px;
   }
-
+  .iconsMenu {
+    float: left;
+    margin: 0 -98px;
+    margin-top: 14px;
+  }
+  #name {
+    padding-top: 20px;
+    padding-left: 30px;
+    float: inherit;
+    width: 480px;
+    margin: 0 auto;
+    display: block;
+  }
+  #wateringHistory, .historyDate, .dayTemp  {
+    font-size: 12px;
+  }
 }
 
-@media screen and (max-width: 1024px) {
+
+/*@media screen and (min-width: 981px) and (max-width: 1024px) {
   .pageLeftMenu {
     float: left;
     clear: none;
@@ -1799,34 +1818,35 @@ td.right,
   .wateringLogZoneItem {
     width: 196px;
   }
-}
-@media screen and (max-width: 980px) {
-  .inputStepDown {
-    width: 440px;
-  }
-  #homeScreenRight {
-    width: 724px;
-  }
-  .playstopButton {
-    padding: 10px 10px;
-  }
-  .block70 {
-    min-width: 875px;
-  }
-  input[type=range] {
-    width: 67%;
-  }
-  .homeRightExpanded, .homeZonesExpanded {
-    margin-left:0;
-  }
-  .program-title-next-run {
-    /* height: 164px; */
-    width: 24%;
-  }
-}
-@media screen and (max-width: 768px) {
+}*/
+/*@media screen and (min-width: 768px) and (max-width: 980px) {*/
+  /*.inputStepDown {*/
+    /*width: 440px;*/
+  /*}*/
+  /*#homeScreenRight {*/
+    /*width: 724px;*/
+  /*}*/
+  /*.playstopButton {*/
+    /*padding: 10px 10px;*/
+  /*}*/
+  /*.block70 {*/
+    /*min-width: 875px;*/
+  /*}*/
+  /*input[type=range] {*/
+    /*width: 67%;*/
+  /*}*/
+  /*.homeRightExpanded, .homeZonesExpanded {*/
+    /*margin-left:0;*/
+  /*}*/
+  /*.program-title-next-run {*/
+    /*/!* height: 164px; *!/*/
+    /*width: 24%;*/
+  /*}
+}*/
+@media screen and (min-width: 300px) and (max-width: 1050px) {
   #homeScreenLeft, #homeScreenRight {
     width: 735px;
+    margin: 0 auto;
   }
   .homeRightExpanded, .homeZonesExpanded {
     margin-left:0;
@@ -1844,8 +1864,9 @@ td.right,
     color: #39c;
   }
   .iconsMenu {
-    float:left;
-    margin-left:10em;
+    float: left;
+    margin: 0 -98px;
+    margin-top: 14px;
   }
   #name {
     padding-top: 20px;
@@ -1865,7 +1886,7 @@ td.right,
     border-top: 1px solid #ddd;
   }
   h1.title, h1.titleHome {
-    font-size: 130%;
+    font-size: 100%;
   }
   .button {
     min-width: 76px;
@@ -1887,6 +1908,9 @@ td.right,
     display:block;
     width:100%;
     padding-left: 0%;
+  }
+  #wateringHistory, .historyDate, .dayTemp  {
+    font-size: 12px;
   }
 }
 /* MEDIA QUERIES END */
