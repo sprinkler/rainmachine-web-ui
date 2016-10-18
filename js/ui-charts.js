@@ -763,7 +763,7 @@ function generateWaterSavedGauge() {
 			name: 'waterSaved',
 			data: chartsData.waterSaved.currentSeries,
 			dataLabels: {
-				format: '<div style="margin-top:-30px;height:50px;vertical-align:middle;width: 170px;text-align:center"><span style="font-size:36px;color:#555;font-weight:normal;font-family: Arial, sans-serif;">{y} %</span></div>'
+				format: '<div style="margin-top:-30px;height:50px;vertical-align:middle;width: 170px;text-align:center"><span style="font-size:36px;color:#555;font-weight:normal;">{y} %</span></div>'
 			}
 		}],
 		credits: {
