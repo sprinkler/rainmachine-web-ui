@@ -495,7 +495,7 @@ h1 {
   margin-top: 6px;
   margin-left: 10px;
   margin-bottom: 10px;
-  border: 2px solid #f9f9f9;
+  border: 1px solid #f9f9f9;
   border-radius: 100%;
   vertical-align: middle;
 }
@@ -503,7 +503,7 @@ h1 {
   width: 195px;
   height: 195px;
   border-radius: 100%;
-  border: 2px solid #f1f1f1;
+  border: 1px solid #f1f1f1;
 }
 
 .zoneListImageNone, .zoneListImageNoneEdit {
