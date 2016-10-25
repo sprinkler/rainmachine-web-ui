@@ -1576,7 +1576,7 @@ td.right,
 /* Weather services tabs start */
 .weatherServices {
   position: relative;
-  min-height: 430px;
+  min-height: 445px;
   clear: both;
   background: white;
 }
