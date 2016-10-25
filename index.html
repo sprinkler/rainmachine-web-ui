@@ -1399,19 +1399,19 @@
 										<td>
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
-													<td class="middle">Name</td>
-													<td class="middle" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
+													<td class="middle noborder">Name</td>
+													<td class="middle noborder" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
 												</tr>
 												<tr>
-													<td class="middle">Enabled</td>
+													<td class="middle">Zone is Active</td>
 													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
 												</tr>
 												<tr>
-													<td class="middle">Weather Data</td>
-													<td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td>
+													<td class="middle noborder">Use Weather Data</td>
+													<td class="middle noborder"><input type="checkbox" rm-id="zone-forecast-data"/></td>
 												</tr>
 												<tr>
-													<td class="middle">Offline Seasonal Adjustments<br>
+													<td class="middle">Use Daily Seasonal Adjustments<br>
 														<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
 													</td>
 													<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
@@ -1602,6 +1602,34 @@
 										</td>
 									</tr>
 									<tr>
+										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-slope-icon">\</span> Slope</td>
+										<td class="middle">
+											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
+												<option value="1" selected>Flat</option>
+												<option value="2">Moderate</option>
+												<option value="3">High</option>
+												<option value="4">Very High</option>
+												<option value="99">Custom</option>
+											</select>
+											<!-- Slope "Custom" options start -->
+											<div style="display:none;" rm-id="zone-slope-advanced">
+												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+													<tr>
+														<td class="middle noborder" style="width:50%">
+															<div class="helpText" help="zoneSurfaceAccumulation">?</div>
+															Enter surface accumulation value:
+														</td>
+														<td class="middle noborder" style="padding:0;">
+															<input rm-id="zone-surface-acc" type="number" class="typeNumber">
+															<span rm-id="zone-surface-acc-unit">mm</span>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<!-- Slope "Custom" options end -->
+										</td>
+									</tr>
+									<tr>
 										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-sprinkler-icon">#</span> Sprinkler Head Type</td>
 										<td class="middle">
 											<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
@@ -1645,34 +1673,6 @@
 												<option value="2">Partial Shade</option>
 												<option value="3">Full Shade</option>
 											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-slope-icon">\</span> Slope</td>
-										<td class="middle">
-											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
-												<option value="1" selected>Flat</option>
-												<option value="2">Moderate</option>
-												<option value="3">High</option>
-												<option value="4">Very High</option>
-												<option value="99">Custom</option>
-											</select>
-											<!-- Slope "Custom" options start -->
-											<div style="display:none;" rm-id="zone-slope-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
-													<tr>
-														<td class="middle noborder" style="width:50%">
-															<div class="helpText" help="zoneSurfaceAccumulation">?</div>
-															Enter surface accumulation value:
-														</td>
-														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-surface-acc" type="number" class="typeNumber">
-															<span rm-id="zone-surface-acc-unit">mm</span>
-														</td>
-													</tr>
-												</table>
-											</div>
-											<!-- Slope "Custom" options end -->
 										</td>
 									</tr>
 									<tr>
