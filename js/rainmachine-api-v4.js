@@ -191,6 +191,12 @@ _API.prototype.getProvisionCloud = function()
 	return this.get(url, null);
 }
 
+_API.prototype.getProvisionDOY = function()
+{
+	var url = this.URL.provision + "/doy";
+	return this.get(url, null);
+}
+
 _API.prototype.setProvision = function(systemObj, locationObj)
 {
 	var url = this.URL.provision;
