@@ -16,6 +16,7 @@ var parserCharts = {
 };
 
 var doyET0Chart = null;
+var et0AvgGraphed = false;
 
 /*
  *	Holds parsed data from weather parsers, each possible observation has multiple id (for each parser) and
@@ -152,6 +153,7 @@ function sortDataPoint(key) {
 
 
 function generateAllKnownCharts(id, startDate, days) {
+	et0AvgGraphed = false;
 	var keys = Object.keys(parserCharts);
 	for (var i = 0; i < keys.length; i++) {
 		var keyName = keys[i];
@@ -308,9 +310,25 @@ function generateSpecificParsersChart(key, startDate, days) {
 
 
 	//Add Summer ET0 Average for EvapoTranspiration graph
-	if (key == 'et0') {
+	if (key == 'et0' && ! et0AvgGraphed) {
+		var et0AvgLine = [];
 		var et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
-		chartOptions.yAxis.minRange = et0Avg * 1.20;
+
+		//We generate this line as plotLinex minRange is not reliable to show the line when
+		//other data is much lower
+		for (i = 0; i < days; i++) {
+			var date = new Date(startDate);
+			et0AvgLine.push([date.setDate(date.getDate() + i), Util.convert.uiQuantity(et0Avg)])
+		}
+
+		chartSeries.push({
+			data: et0AvgLine,
+			name: "Summer Average",
+			color: "#003399",
+			lineWidth: 3,
+			zoneAxis: 'x',
+		});
+
 		chartOptions.yAxis.plotLines = [{
 			value: et0Avg,
 			color: '#003399',
@@ -320,6 +338,8 @@ function generateSpecificParsersChart(key, startDate, days) {
 				text:'Summer Average: ' + et0Avg + ' (100% watering)'
 			}
 		}];
+
+		et0AvgGraphed = true;
 	}
 
 	// before generating the chart we must destroy the old one if it exists
