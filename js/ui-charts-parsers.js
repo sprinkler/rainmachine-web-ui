@@ -15,6 +15,8 @@ var parserCharts = {
 	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain" }
 };
 
+var doyET0Chart = null;
+
 /*
  *	Holds parsed data from weather parsers, each possible observation has multiple id (for each parser) and
  * an array containing [timestamp, data] (eg: parsersHourlyChartData.temp[id] has [timestamp, data] as value
@@ -156,6 +158,54 @@ function generateAllKnownCharts(id, startDate, days) {
 		//console.log("Generating chart for parser %d key: %s", id, keyName);
 		generateSpecificParsersChart(keyName, startDate, days);
 	}
+}
+
+
+function generateDOYET0Chart() {
+
+	var chartOptions = {
+		chart: {
+			renderTo: $('#doyChart')
+		},
+		title: {
+			text: 'RainMachine DOY ET data'
+		},
+		xAxis: {
+			type: 'datetime',
+			dateTimeLabelFormats: { // don't display the dummy year
+				month: '%e. %b',
+				year: '%b'
+			},
+			title: {
+				text: 'Date'
+			}
+		},
+		yAxis: {
+			title: {
+				text: 'ET (mm)'
+			},
+			min: 0
+		},
+		tooltip: {
+			headerFormat: '<b>{series.name}</b><br>',
+			pointFormat: '{point.x:%e. %b}: {point.y:.2f} mm'
+		},
+
+		plotOptions: {
+			spline: {
+				marker: {
+					enabled: true
+				}
+			}
+		},
+
+		series: [{
+			name: 'DOY ET data',
+			data: Data.doyET0
+		}]
+	};
+
+	doyET0Chart = new Highcharts.Chart(chartOptions, null);
 }
 
 /**

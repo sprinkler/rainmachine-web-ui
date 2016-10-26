@@ -98,6 +98,7 @@ window.ui = window.ui || {};
 
 		setupWeatherSourceUpload();
 		onWeatherServicesFetch();
+		onDOYET0Fetch();
 	}
 
 	function showParsers(onDashboard) {
@@ -469,6 +470,17 @@ window.ui = window.ui || {};
 
 		console.log("Getting weather services data starting from %s for %d days...", startDateElem.value, parseInt(daysElem.value));
 		getAllEnabledParsersData(startDateElem.value, parseInt(daysElem.value));
+	}
+
+	function onDOYET0Fetch() {
+		APIAsync.getProvisionDOY().then( function (o) {
+			Data.doyET0 = [];
+			for (var i = 0; i < o.length; i++) {
+				var date = new Date(2016, 0); // initialize a date in `year-01-01`
+				Data.doyET0[i] = [date.setDate(date.getDate() + i), +o[i]];
+			}
+			generateDOYET0Chart();
+		});
 	}
 
 	function showWaterLog() {

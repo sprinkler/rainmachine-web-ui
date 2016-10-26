@@ -22,6 +22,7 @@ Data.zoneData = null;
 Data.zoneAdvData = null;
 Data.parsers = null;
 Data.parserData = null;
+Data.doyET0 = null;
 Data.programs = null;
 Data.provision = {
 	api: null,
