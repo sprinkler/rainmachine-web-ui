@@ -167,9 +167,7 @@ function generateDOYET0Chart() {
 		chart: {
 			renderTo: $('#doyChart')
 		},
-		title: {
-			text: 'RainMachine DOY ET data'
-		},
+		title: null,
 		xAxis: {
 			type: 'datetime',
 			dateTimeLabelFormats: { // don't display the dummy year
@@ -177,18 +175,18 @@ function generateDOYET0Chart() {
 				year: '%b'
 			},
 			title: {
-				text: 'Date'
+				text: 'Day of Year'
 			}
 		},
 		yAxis: {
 			title: {
-				text: 'ET (mm)'
+				text: 'EvapoTranspiration (' + Util.convert.uiQuantityStr() + ')'
 			},
 			min: 0
 		},
 		tooltip: {
-			headerFormat: '<b>{series.name}</b><br>',
-			pointFormat: '{point.x:%e. %b}: {point.y:.2f} mm'
+			headerFormat: '<b>EvapoTranspiration</b><br>',
+			pointFormat: '{point.x:%e. %b}: {point.y:.2f} (' + Util.convert.uiQuantityStr() + ')'
 		},
 
 		plotOptions: {
@@ -200,11 +198,16 @@ function generateDOYET0Chart() {
 		},
 
 		series: [{
-			name: 'DOY ET data',
+			name: 'Historical EvapoTranspiration',
 			data: Data.doyET0
 		}]
 	};
 
+
+	// before generating the chart we must destroy the old one if it exists
+	if (doyET0Chart) {
+		doyET0Chart.destroy();
+	}
 	doyET0Chart = new Highcharts.Chart(chartOptions, null);
 }
 

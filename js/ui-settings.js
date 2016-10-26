@@ -477,7 +477,7 @@ window.ui = window.ui || {};
 			Data.doyET0 = [];
 			for (var i = 0; i < o.length; i++) {
 				var date = new Date(2016, 0); // initialize a date in `year-01-01`
-				Data.doyET0[i] = [date.setDate(date.getDate() + i), +o[i]];
+				Data.doyET0[i] = [date.setDate(date.getDate() + i), Util.convert.uiQuantity(+o[i])];
 			}
 			generateDOYET0Chart();
 		});
