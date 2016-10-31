@@ -13,9 +13,9 @@ var Help = (function(Help) {
 	};
 
 	Help.strings = {
-		"programPastValues": "The differences of EvapoTranspiration and Precipitation between the day best forecast " +
-							"(seen on the left) and known forecast at the time of program run. " +
-							"Big differences (more than 2mm) can be solved by enabling Correction for the Past in Settings.",
+		"programPastValues": "EvapoTranspiration and Precipitation known at the Program run time." +
+							"For programs that don't run daily this is a sum since last day that the program ran (multiple days). " +
+							"Using Correction For Past will automatically take this differences into account for next watering.",
 		/* Zones edit help texts */
 		"zoneDailySummerEPA": "Scheduled to run for a typical summer day and calculated based on Advanced Zone Settings properties. This time will be adjusted automatically to any program that use this zone.",
 		"zoneFieldCapacityMain": "The amount of water content held in the soil after excess water has drained away. Increase this value if the RainMachine starts too soon after a rain event.",
