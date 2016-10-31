@@ -166,7 +166,7 @@ window.ui = window.ui || {};
 			template.parserid = p.uid;
 			template.parseridx = i;
 
-			var parserName =  p.name
+			var parserName =  p.name;
 			var lw = parserName.lastIndexOf(" ");
 
 			if (lw > 0) {
@@ -629,8 +629,13 @@ window.ui = window.ui || {};
 				programNameElem.textContent = name;
 
 				try {
-					var diffET = dayET - pastValuesByDay[day.date][program.id].et;
-					var diffQpf = dayQpf - pastValuesByDay[day.date][program.id].qpf;
+					var pastET =  pastValuesByDay[day.date][program.id].et;
+					var pastQPF = pastValuesByDay[day.date][program.id].qpf;
+
+					// Only show big differences
+					/*
+					var diffET = dayET - pastET;
+					var diffQpf = dayQpf - pastQPF;
 
 					var diffMax = 0.5;
 
@@ -645,9 +650,18 @@ window.ui = window.ui || {};
 						makeVisible(programPastQPFIconElem);
 						makeVisibleBlock(programPastHelpElem, true);
 					}
+					*/
+					//Show actual values
+
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " ";
+
+					makeVisible(programPastQPFIconElem);
+					makeVisible(programPastETIconElem);
+					makeVisibleBlock(programPastHelpElem, true);
 
 				} catch(e) {
-					//console.log("No past values for day %s program %s", day.date, name);
+					//console.log("No past values for day %s program %s (%s)", day.date, name, e);
 				}
 
 				//console.log("\t%s", name);
@@ -689,7 +703,6 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
 
-
 						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
@@ -697,7 +710,7 @@ window.ui = window.ui || {};
 
 						zoneid = zone.uid - 1;
 
-						if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+						if (Data.zoneData !== null && Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
 							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 						}
 						else {
@@ -909,7 +922,7 @@ window.ui = window.ui || {};
 					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
 					var zoneid = zone.uid - 1;
-					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
+					if (Data.zoneData !== null && Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
 						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
 					}
 					else {
