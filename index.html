@@ -40,6 +40,9 @@
 	<!-- Program Settings Start -->
 	<div id="programsSettings"></div>
 	<!-- Program Settings End -->
+	<!-- Zones Available Water Start -->
+	<div id="zonesAvailableWater"></div>
+	<!-- Zones Available Water End -->
 	<!-- Zones Settings Start -->
 	<div id="zonesSettings"></div>
 	<!-- Zones Settings End -->
@@ -756,7 +759,7 @@
 											<!-- Data Sources info buttons (Begin) -->
 											<tr>
 												<td style="border-bottom: 0">
-													<div class="weatherServices" style="height:540px;margin-top:30px;">
+													<div class="weatherServices" style="height:500px;margin-top:30px;">
 														<div class="weatherServicesTab">
 															<input type="radio" id="weatherServicesTab-7" name="weatherServicesTab-group-2" checked>
 															<label for="weatherServicesTab-7">Rain (QPF)</label>
@@ -842,8 +845,8 @@
 										<table cellspacing="10" cellpadding="0" class="full">
 											<tr valign="top">
 												<th>
-													<h1 class="title"> Daily EvapoTranspiration Seasonal Adjustments</h1>
-													<span class="subtitle"> Used when weather data could not be fetched from internet.</span>
+													<h1 class="title">Daily EvapoTranspiration Seasonal Adjustments</h1>
+													<span class="subtitle">Used when weather data could not be fetched from internet.</span>
 												</th>
 											</tr>
 											<tr>
@@ -1376,7 +1379,25 @@
 			</div>
 		</div>
 		<!-- Template for Zone Card (End) -->
-
+		<!-- Template for Zone Available Water Card (Begin) -->
+		<div id="zone-available-water-template">
+			<div class="overTop">
+				<table class="programEdit center" style="margin-top:5em;" cellpadding="0" cellspacing="0">
+					<tr valign="top">
+						<td>
+							<button class="button red center right" rm-id="zone-available-water-cancel">Close</button>
+							<span style="font-size:130%;">Zone Available Water</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="noborder">
+							<div id="doyChart" class="charts"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- Template for Zone Available Water Card (End) -->
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template">
        		<div class="overTop">
@@ -1410,10 +1431,10 @@
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<!-- Start Zone Basic & Advanced Settings -->
 									<tr>
-										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:20px;">Basic Zone Settings</td>
+										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:130%;">Basic Zone Settings</td>
 									</tr>
 									<tr style="background-color: #f9f9f9;">
-										<td class="center">
+										<td class="center middle">
 											<div class="helpText inlineblock" help="zoneListImageHelp">?</div> <div rm-id="zone-settings-image" class="zoneListImageEdit center">
 												<div class="zoneListImageNoneEdit">&#xe800;</div>
 											</div>
@@ -1429,34 +1450,45 @@
 													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
 												</tr>
 												<tr>
-													<td class="middle noborder">Use Weather Data</td>
+													<td class="middle noborder">
+														<div class="helpText" help="zoneWeatherSeasonalAdjustments">?</div> Weather & Seasonal Adjustments
+													</td>
+												</tr>
+												<tr>
+													<td class="middle noborder">Use Weather Data<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on live weather data.<br>(Needs Internet connection)</span>
+													</td>
 													<td class="middle noborder"><input type="checkbox" rm-id="zone-forecast-data"/></td>
 												</tr>
 												<tr>
-													<td class="middle">Use Daily Seasonal Adjustments<br>
-														<span class="subtitle" style="display:block;padding-right:20px;">Used when weather data is not available.</span>
+													<td class="middle noborder">Use Seasonal Adjustments<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on locally stored daily averages<br>based on 10 year weather history for your location.<br>(No Internet connection needed)</span>
 													</td>
-													<td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td>
+													<td class="middle noborder"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 												</tr>
 											</table>
 										</td>
 									</tr>
 									<tr>
-										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">Advanced Zone Settings</td>
+										<td class="middle center" colspan="2" style="padding: 20px;font-size:130%;">Advanced Zone Settings</td>
 									</tr>
 									<tr>
 										<td colspan="2" class="noborder">
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
-													<td class="middle" style="width:50%;">
+													<td class="middle" style="width:33%;">
 														<div class="helpText" help="zoneFieldCapacityMain">?</div> <span style="font-size:130%;">Field Capacity</span>
 														<br>&nbsp;<br>
 														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
 															0.14 in
 														</div>
-														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
 													</td>
-													<td style="width:50%;">
+													<td class="middle" style="width:33%;">
+														<div class="helpText" help="zoneZoneAvailableWater">?</div> <span style="font-size:130%;">Zone Available Water</span>
+														<br>&nbsp;<br>
+														<div style="color:#555;margin:0;padding-left:27px;"><span class="icon">&#xe901;</span> show graph</div>
+													</td>
+													<td style="width:33%;">
 														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
 														<br>
 														<div class="zoneTimesDeterminedFullTime" style="color:#555;margin:0;padding-left:27px;" rm-id="zone-simulated-timer">
