@@ -1724,7 +1724,7 @@ td.right,
 }
 .helpTextWaterSaved {
    position: absolute;
-   margin-left: 32px;
+   margin-left: 10px;
    margin-top: 10px;
 }
 /* Help text tooltips END */
