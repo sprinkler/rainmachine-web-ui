@@ -268,6 +268,7 @@ window.ui = window.ui || {};
 		templateInfo.simulatedTimerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-timer"]');
 		templateInfo.simulatedCapacityElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity"]');
 		templateInfo.simulatedCapacityChooserElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-chooser"]');
+		templateInfo.showAvailableWaterElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-available-water"]');
 
 		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
 		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
@@ -522,6 +523,7 @@ window.ui = window.ui || {};
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
+		uiElems.showAvailableWaterElem.onclick = function() { onAvailableWaterFetch(14, 14, zone.uid); };
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 		allowSimulationUpdate = true;
@@ -723,6 +725,127 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function onAvailableWaterFetch(past, days, id) {
+		var startDate = Util.getDateWithDaysDiff(past);
+		console.log("Getting available water values starting from %s for %d days...", startDate, days);
+
+		//TODO reload if startData differs
+		if (Data.availableWater === null) {
+			APIAsync.getWateringAvailable(startDate, days).then(
+				function(o) {Data.availableWater = o; onAvailableWaterShow(past, days, id);}
+			);
+		} else {
+			onAvailableWaterShow(past, days, id)
+		}
+	}
+
+
+	function onAvailableWaterShow(past, days, id) {
+		var template = loadTemplate('zone-available-water-template');
+		var close = $(template, '[rm-id="zone-available-water-cancel"]');
+		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
+		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
+
+		close.onclick = function() { delTag(template);};
+		document.body.appendChild(template);
+		//Top row icons
+		generateDailyWeatherChart(containerTop, past, days);
+		var startDate = Util.getDateWithDaysDiff(past);
+		var capacity = uiElems.simulatedCapacityElem.data;
+
+		var aw = {};
+
+		var data = Data.availableWater.availableWaterValues;
+
+		for (var i = 0; i < data.length; i++) {
+			var zid = data[i].zid;
+
+			if (zid !== id) {
+				continue;
+			}
+
+			var date = Date.parse(data[i].dateTime.split(" ")[0]);
+			var pid = data[i].pid;
+			var value = +data[i].aw;
+
+			if (! (pid in aw)) {
+				aw[pid] = [];
+			}
+
+			aw[pid].push([date, Util.convert.uiQuantity(value)]);
+		}
+
+		var chartSeries = [];
+		for (i in aw) {
+			var p = getProgramById(i);
+			var name = "Program " + i;
+			if (p !== null) {
+				name = "Program " + p.name + " @ " + p.startTime;
+			}
+
+			chartSeries.push({
+				name: name,
+				data: aw[i]
+			});
+		}
+
+		var chartOptions = {
+			chart: {
+				type: 'line',
+				renderTo: containerChart,
+			},
+			credits: {
+				enabled: false
+			},
+			title: null,
+			xAxis: {
+				type: 'datetime',
+				minorTickLength: 0,
+				tickPixelInterval: 64,
+				labels: {
+					enabled: false
+				},
+				tickInterval:24 * 3600 * 1000,
+				title: null
+			},
+			yAxis: [
+				 {
+					gridLineWidth: 0,
+					title: {
+						text: null,
+						style: {
+							color: Highcharts.getOptions().colors[1]
+						}
+					},
+					labels: {
+						enabled: false
+					},
+					plotLines: [{
+						color: 'green',
+						value: capacity,
+						width: 2,
+						label: {
+							text: 'Zone Max Field Capacity: ' + capacity +  " " + Util.convert.uiQuantityStr()
+						}
+					}],
+					max: 36,
+					opposite: true
+				}],
+			tooltip: {
+				formatter: function () {
+					return '<b>' + Highcharts.dateFormat('%e - %b - %Y', new Date(this.x))+ '</b><br/>' + this.y;
+				},
+				shared: true
+			},
+
+			series: chartSeries
+		};
+
+		awChart = new Highcharts.Chart(chartOptions, null);
+
+		//data: generateMixerData("et0", startDate, days),
+	}
+
 	function onMonthsCoefChange() {
 		if (!uiElems.monthsCoefElem.checked) {
 			makeHidden(uiElems.advMonthsCoefElem);
@@ -813,6 +936,7 @@ window.ui = window.ui || {};
 
 		uiElems.simulatedTimerElem.textContent = timer;
 		uiElems.simulatedCapacityElem.textContent = capacity;
+		uiElems.simulatedCapacityElem.data = capacityValue;
 	}
 
 	function getZoneSimulatedValues() {
