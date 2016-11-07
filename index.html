@@ -1376,7 +1376,7 @@
 		<!-- Template for Zone Available Water Card (Begin) -->
 		<div id="zone-available-water-template">
 			<div class="overTop">
-				<table class="programEdit center" style="margin-top:5em;" cellpadding="0" cellspacing="0">
+				<table class="programEdit center" style="margin: 0 auto; min-width:740px; width:1028px;!important;margin-top:5em;" cellpadding="0" cellspacing="0">
 					<tr valign="top">
 						<td>
 							<button class="button red center right" rm-id="zone-available-water-cancel">Close</button>
@@ -1386,8 +1386,8 @@
 					<tr>
 						<td class="noborder">
 							<div class="charts">
-								<div rm-id="zone-available-water-top-row"></div>
-								<div rm-id="zone-available-water-chart-row" style="height: 300px; width:958px; margin: 0 auto;"></div>
+								<div rm-id="zone-available-water-top-row" style="overflow: hidden;background:#f6f6f6;"></div>
+								<div rm-id="zone-available-water-chart-row" style="height: 300px;"></div>
 								<div rm-id="zone-available-water-bottom-row"></div>
 							</div>
 						</td>
@@ -1485,7 +1485,7 @@
 													<td class="middle" style="width:33%;">
 														<div class="helpText" help="zoneAvailableWater">?</div> <span style="font-size:130%;">Zone Available Water</span>
 														<br>&nbsp;<br>
-														<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;"><span class="icon">&#xe901;</span> show graph</div>
+														<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer;"><span class="icon">&#xe901;</span> show graph</div>
 													</td>
 													<td style="width:33%;">
 														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
