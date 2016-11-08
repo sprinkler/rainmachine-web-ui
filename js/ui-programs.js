@@ -648,7 +648,7 @@ window.ui = window.ui || {};
         //---------------------------------------------------------------------------------------
         // Collect frequency.
         //
-        program.frequency = parseProgramFrequency();
+        program.frequency = parseCurrentProgramFrequency();
 
 
 		//---------------------------------------------------------------------------------------
@@ -976,7 +976,7 @@ window.ui = window.ui || {};
 			zones = Data.zoneAdvData.zones;
 		}
 
-		var programMultiplier = getProgramFutureMultiplier();
+		var programMultiplier = getProgramMultiplier();
 		var skipTimerText = "No time set";
 		var totalTimes = 0;
 
@@ -1072,8 +1072,15 @@ window.ui = window.ui || {};
 		uiElems.zonesTotalTime.textContent = Util.secondsToText(totalTimes);
 	}
 
-	function getProgramFutureMultiplier() {
-		var frequency = parseProgramFrequency();
+	function getProgramMultiplier(frequency, forPast) {
+
+		if (typeof frequency === "undefined") {
+			frequency = parseCurrentProgramFrequency(); //get for current program being setup
+		}
+
+		if (typeof forPast === "undefined"){
+			forPast = false;
+		}
 
 		if (frequency === null) {
 			return 1;
@@ -1087,7 +1094,12 @@ window.ui = window.ui || {};
 			case FrequencyType.EveryN:
 				return frequency.param;
 			case FrequencyType.Weekday:
-				return getWeekdaysFrequencyMultiplier(frequency.param).future;
+				if (forPast) {
+					return getWeekdaysFrequencyMultiplier(frequency.param).past;
+				} else {
+					return getWeekdaysFrequencyMultiplier(frequency.param).future;
+				}
+
 		}
 		return 1;
 	}
@@ -1100,7 +1112,14 @@ window.ui = window.ui || {};
 
 		// two cycles (weeks) worth of days to count bits easily in the format SSFTWTMSSFTWTM0
 		// remove the extra 0 between the two weeks
+		/*
+		if (typeof firstWeekDay === "undefined" || firstWeekDay === null) {
+			firstWeekDay = new Date().getDay();
+		}
+		*/
+
 		var firstWeekDay = 1;
+
 		var twoCyclesFuture;
 		var twoCyclesPast;
 
@@ -1136,7 +1155,7 @@ window.ui = window.ui || {};
 		return { future: future, past: past };
 	}
 
-	function parseProgramFrequency() {
+	function parseCurrentProgramFrequency() {
 		var frequency = null;
 
 		if(uiElems.frequencyDailyElem.checked) {
@@ -1242,5 +1261,5 @@ window.ui = window.ui || {};
 	_programs.showProgramSettings = showProgramSettings;
 	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
 	_programs.fillProgramTimers = fillProgramTimers;
-	_programs.getWeekdaysFrequencyMultiplier = getWeekdaysFrequencyMultiplier;
+	_programs.getProgramMultiplier = getProgramMultiplier;
 } (window.ui.programs = window.ui.programs || {}));

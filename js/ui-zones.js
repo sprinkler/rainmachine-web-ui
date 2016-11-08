@@ -268,6 +268,7 @@ window.ui = window.ui || {};
 		templateInfo.simulatedTimerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-timer"]');
 		templateInfo.simulatedCapacityElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity"]');
 		templateInfo.simulatedCapacityChooserElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-chooser"]');
+		templateInfo.showAvailableWaterElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-available-water"]');
 
 		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
 		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
@@ -398,7 +399,6 @@ window.ui = window.ui || {};
 
 	function showZoneSettings(zone)
 	{
-		console.log(zone);
 		allowSimulationUpdate = false;
 
 		var zoneSettingsDiv = $("#zonesSettings");
@@ -522,6 +522,7 @@ window.ui = window.ui || {};
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
+		uiElems.showAvailableWaterElem.onclick = function() { onAvailableWaterFetch(14, 14, zone.uid); };
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 		allowSimulationUpdate = true;
@@ -723,6 +724,40 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function onAvailableWaterFetch(past, days, id) {
+		var startDate = Util.getDateWithDaysDiff(past);
+		console.log("Getting available water values starting from %s for %d days...", startDate, days);
+
+		//TODO reload if startData differs
+		if (Data.availableWater === null) {
+			APIAsync.getWateringAvailable(startDate, days).then(
+				function(o) {Data.availableWater = o; onAvailableWaterShow(past, days, id);}
+			);
+		} else {
+			onAvailableWaterShow(past, days, id)
+		}
+	}
+
+
+	function onAvailableWaterShow(past, days, id) {
+		var template = loadTemplate('zone-available-water-template');
+
+		var close = $(template, '[rm-id="zone-available-water-cancel"]');
+		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
+		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
+
+		close.onclick = function() { delTag(template);};
+		document.body.appendChild(template);
+
+		var capacity = uiElems.simulatedCapacityElem.data;
+
+		//Top row icons
+		generateDailyWeatherChart(containerTop, past, days);
+
+		//AW Chart
+		generateAWChart(containerChart, id, capacity, past, days);
+	}
+
 	function onMonthsCoefChange() {
 		if (!uiElems.monthsCoefElem.checked) {
 			makeHidden(uiElems.advMonthsCoefElem);
@@ -813,6 +848,7 @@ window.ui = window.ui || {};
 
 		uiElems.simulatedTimerElem.textContent = timer;
 		uiElems.simulatedCapacityElem.textContent = capacity;
+		uiElems.simulatedCapacityElem.data = capacityValue; // used by AW chart
 	}
 
 	function getZoneSimulatedValues() {

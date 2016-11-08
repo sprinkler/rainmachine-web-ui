@@ -632,7 +632,7 @@ function loadYearlyCharts () {
 function generateCharts () {
 	generateTemperatureChart();
 	generateQPFChart();
-	generateDailyWeatherChart();
+	generateDailyWeatherChart($('#weatherChartDays'), 1, 7); //Also reused by zone available water
 	generateProgramsChart();
 	bindChartsSyncToolTipEvents();
 }
@@ -641,15 +641,17 @@ function generateCharts () {
  * Generates the daily weather top row that will replace water need graph
  */
 
-function generateDailyWeatherChart() {
-	var containerDiv = $('#weatherChartDays');
+function generateDailyWeatherChart(container, past, days) {
+
+	var containerDiv = container;
+
 	clearTag(containerDiv);
 
-	var startDay = Util.getDateWithDaysDiff(1); //Top days weather chart show 1 day in the past total 7 days
+	var startDay = Util.getDateWithDaysDiff(past); //Top days weather chart show 1 day in the past total 7 days
 
 	var startDayIndex = Util.getDateIndex(startDay, chartsData.condition.startDate);
 
-	for (var i = startDayIndex; i < startDayIndex + 7; i ++) {
+	for (var i = startDayIndex; i < startDayIndex + days; i ++) {
 		var condition = chartsData.condition.data[i];
 		var maxtemp = Util.convert.uiTemp(chartsData.maxt.data[i]);
 		var mintemp = Util.convert.uiTemp(chartsData.mint.data[i]);

@@ -83,7 +83,7 @@ function processParserChartData(id, startDate, days) {
 		var key = keys[i];
 		parsersHourlyChartData[key][id] = [];
 	}
-	console.log("initialised id: %d %o", id, parsersHourlyChartData);
+//	console.log("initialised id: %d %o", id, parsersHourlyChartData);
 
 	for (var parserDataIndex = 0; parserDataIndex < parserData.length; parserDataIndex++) {
 		var d = parserData[parserDataIndex].dailyValues;
@@ -162,57 +162,6 @@ function generateAllKnownCharts(id, startDate, days) {
 	}
 }
 
-
-function generateDOYET0Chart() {
-
-	var chartOptions = {
-		chart: {
-			renderTo: $('#doyChart')
-		},
-		title: null,
-		xAxis: {
-			type: 'datetime',
-			dateTimeLabelFormats: { // don't display the dummy year
-				month: '%e. %b',
-				year: '%b'
-			},
-			title: {
-				text: 'Day of Year'
-			}
-		},
-		yAxis: {
-			title: {
-				text: 'EvapoTranspiration (' + Util.convert.uiQuantityStr() + ')'
-			},
-			min: 0
-		},
-		tooltip: {
-			headerFormat: '<b>EvapoTranspiration</b><br>',
-			pointFormat: '{point.x:%e. %b}: {point.y:.2f} (' + Util.convert.uiQuantityStr() + ')'
-		},
-
-		plotOptions: {
-			spline: {
-				marker: {
-					enabled: true
-				}
-			}
-		},
-
-		series: [{
-			name: 'Historical EvapoTranspiration',
-			data: Data.doyET0
-		}]
-	};
-
-
-	// before generating the chart we must destroy the old one if it exists
-	if (doyET0Chart) {
-		doyET0Chart.destroy();
-	}
-	doyET0Chart = new Highcharts.Chart(chartOptions, null);
-}
-
 /**
  * Generates chart for a specific data point for all available parsers
  */
@@ -239,33 +188,10 @@ function generateSpecificParsersChart(key, startDate, days) {
 		}
 	}
 
-	//Translation from parser keys to mixer keys
-	mixerKey = key;
-
-	if (key === "maxTemperature") {
-		mixerKey = "maxt";
-	}
-
-	if (key === "minTemperature") {
-		mixerKey = "mint";
-	}
-
 	//Add mixer entry
-	if (chartsData.hasOwnProperty(mixerKey)) {
-		var index = Util.getDateIndex(startDate, chartsData.startDate);
-		var mixerData = chartsData[mixerKey].data.slice(index, index + days);
-        var mixerDates =  chartsData.days.slice(index, index + days);
-		console.log("Sliced from %d to %d", index, index+days);
-        var mixerChartData = [];
-        for (var i = 0; i < mixerData.length; i++) {
-			// Fix for the rain workaround in ui-charts where null is being replaced with -1
-			if (key == 'rain' && mixerData[i] == -1) {
-				mixerData[i] = null;
-			}
+	var mixerChartData = generateMixerData(key, startDate, days);
 
-			mixerChartData.push([Date.parse(mixerDates[i]), Util.convert.withType(key, mixerData[i])]);
-		}
-
+	if (mixerChartData) {
 		chartSeries.push({
 			data: mixerChartData,
 			name: "RainMachine Mixer",
@@ -281,7 +207,8 @@ function generateSpecificParsersChart(key, startDate, days) {
 	var chartOptions = {
 		chart: {
 			renderTo: parserCharts[key].container,
-			spacingTop: 20
+			spacingTop: 20,
+			zoomType: 'x'
 		},
 		tooltip: {
 			shared: true
@@ -350,6 +277,230 @@ function generateSpecificParsersChart(key, startDate, days) {
 	parserCharts[key].chart = new Highcharts.Chart(chartOptions, null);
 }
 
+
+function generateDOYET0Chart() {
+
+	var chartOptions = {
+		chart: {
+			renderTo: $('#doyChart'),
+			zoomType: 'x'
+		},
+		title: null,
+		xAxis: {
+			type: 'datetime',
+			dateTimeLabelFormats: { // don't display the dummy year
+				month: '%e. %b',
+				year: '%b'
+			},
+			title: {
+				text: 'Day of Year'
+			}
+		},
+		yAxis: {
+			title: {
+				text: 'EvapoTranspiration (' + Util.convert.uiQuantityStr() + ')'
+			},
+			min: 0
+		},
+		tooltip: {
+			headerFormat: '<b>EvapoTranspiration</b><br>',
+			pointFormat: '{point.x:%e. %b}: {point.y:.2f} (' + Util.convert.uiQuantityStr() + ')'
+		},
+
+		series: [{
+			name: 'Historical EvapoTranspiration',
+			data: Data.doyET0
+		}]
+	};
+
+
+	// before generating the chart we must destroy the old one if it exists
+	if (doyET0Chart) {
+		doyET0Chart.destroy();
+	}
+	doyET0Chart = new Highcharts.Chart(chartOptions, null);
+}
+
+function generateAWChart(container, id, capacity,  past, days) {
+	var startDateStr = Util.getDateWithDaysDiff(past);
+	var startDate = Date.parse(startDateStr);
+
+	capacity = Util.convert.uiQuantity(capacity);
+	var aw = {};
+
+	//Code below consider this sorted ascending by date (as returned by REST API)
+	var data = Data.availableWater.availableWaterValues;
+
+	for (var i = 0; i < data.length; i++) {
+		var value = 0;
+		var zid = data[i].zid;
+
+		if (zid !== id) {
+			continue;
+		}
+
+		var pid = data[i].pid;
+		if (! (pid in aw)) {
+			//Init array with same length as days
+			aw[pid] = [];
+			for (var j = 0; j < days; j++) {
+				aw[pid][j] = [startDate + j * 86400, null];
+			}
+		}
+
+		var dateStr = data[i].dateTime.split(" ")[0];
+		var date = Date.parse(dateStr);
+		value = +data[i].aw;
+
+		//Find corresponding day index in the array (so we have missing data with 0 to sync with top row)
+		var dateIndex = Util.getDateIndex(dateStr, startDate);
+		aw[pid][dateIndex] = [date, Util.convert.uiQuantity(value)];
+	}
+
+
+	var chartSeries = [];
+
+	chartSeries.push({
+		name: "EvapoTranspiration",
+		type: "area",
+		color: "rgba(220, 118, 51, 0.2)",
+		yAxis: 1,
+		data: generateMixerData("et0", startDateStr, days),
+		marker: {
+			enabled: false
+		},
+		connectNulls: true
+	});
+
+	for (i in aw) {
+		var p = getProgramById(i);
+		var name = "Program " + i;
+		if (p !== null) {
+			name = "Program " + p.name + " @ " + p.startTime;
+		}
+
+		chartSeries.push({
+			name: name,
+			data: aw[i],
+			yAxis: 0,
+			marker: {
+				enabled: true,
+				radius: 5
+			},
+			connectNulls: true
+		});
+	}
+
+	var chartOptions = {
+		chart: {
+			type: 'line',
+			backgroundColor: '#f6f6f6',
+			alignTicks: false,
+			height: 300,
+			renderTo: container
+		},
+		credits: {
+			enabled: false
+		},
+		title: null,
+		xAxis: {
+			type: 'datetime',
+			minorTickLength: 0,
+			tickPixelInterval: 64,
+			labels: {
+				enabled: false
+			},
+			tickInterval:24 * 3600 * 1000,
+			title: null
+		},
+		yAxis: [
+			{
+				gridLineWidth: 0,
+				title: {
+					text: null,
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				labels: {
+					enabled: false
+				},
+				plotLines: [{
+					color: '#00A300',
+					value: capacity,
+					width: 8,
+					label: {
+						y: -15,
+						text: '<span style="font-size: 14px">Zone Max Field Capacity: ' + capacity +  " " + Util.convert.uiQuantityStr() + '</span>'
+					}
+				}],
+				max: capacity * 1.2,
+				min: 0,
+				opposite: true
+			},
+			{
+				gridLineWidth: 0,
+				title: {
+					text: null,
+					style: {
+						color: "rgba(255,152,0, 0.5)"
+					}
+				},
+				labels: {
+					enabled: false
+				}
+			}
+		],
+		tooltip: {
+			shared: true
+		},
+		plotOptions: {
+			series: {
+				fillOpacity: 0.2
+			}
+		},
+		series: chartSeries
+	};
+
+	//This is destroyed along with parent node from calling function
+	var awChart = new Highcharts.Chart(chartOptions, null);
+}
+
+function generateMixerData(key, startDate, days) {
+
+	var mixerChartData = [];
+
+	//Translation from received parser keys to mixer keys
+	mixerKey = key;
+
+	if (key === "maxTemperature") {
+		mixerKey = "maxt";
+	}
+
+	if (key === "minTemperature") {
+		mixerKey = "mint";
+	}
+
+	if (!chartsData.hasOwnProperty(mixerKey)) {
+		return null;
+	}
+
+	var index = Util.getDateIndex(startDate, chartsData.startDate);
+	var mixerData = chartsData[mixerKey].data.slice(index, index + days);
+	var mixerDates =  chartsData.days.slice(index, index + days);
+//	console.log("Sliced from %d to %d", index, index+days);
+
+	for (var i = 0; i < mixerData.length; i++) {
+		// Fix for the rain workaround in ui-charts where null is being replaced with -1
+		if (key == 'rain' && mixerData[i] == -1) {
+			mixerData[i] = null;
+		}
+
+		mixerChartData.push([Date.parse(mixerDates[i]), Util.convert.withType(key, mixerData[i])]);
+	}
+
+	return mixerChartData;
+}
 
 function getParserName(id) {
 	for (var i = 0; i < Data.parsers.parsers.length; i++) {

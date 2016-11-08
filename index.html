@@ -35,14 +35,8 @@
 	<div id="error"></div>
 	<!-- Error End -->
 	<!-- Program Settings Start -->
-	<div id="programsSettingsZoneTimes"></div>
-	<!-- Program Settings End -->
-	<!-- Program Settings Start -->
 	<div id="programsSettings"></div>
 	<!-- Program Settings End -->
-	<!-- Zones Available Water Start -->
-	<div id="zonesAvailableWater"></div>
-	<!-- Zones Available Water End -->
 	<!-- Zones Settings Start -->
 	<div id="zonesSettings"></div>
 	<!-- Zones Settings End -->
@@ -1352,8 +1346,9 @@
 		<div id="day-weather-template" class="graphDay">
 			<div rm-id="day-weather-date" class="dateno">SEP 13</div>
 			<div rm-id="day-weather-icon" class="weatherIcon">s</div>
-			<div rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></div>
-			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
+			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1382,16 +1377,27 @@
 		<!-- Template for Zone Available Water Card (Begin) -->
 		<div id="zone-available-water-template">
 			<div class="overTop">
-				<table class="programEdit center" style="margin-top:5em;" cellpadding="0" cellspacing="0">
+				<table class="programEdit center" style="margin: 0 auto; min-width:740px; width:1028px;!important;margin-top:5em;" cellpadding="0" cellspacing="0">
 					<tr valign="top">
 						<td>
 							<button class="button red center right" rm-id="zone-available-water-cancel">Close</button>
-							<span style="font-size:130%;">Zone Available Water</span>
+							<span style="font-size:130%;">Zone Available Water</span><br>
 						</td>
 					</tr>
 					<tr>
 						<td class="noborder">
-							<div id="doyChart" class="charts"></div>
+							<div class="bg-grey border-thin-grey">
+								<div rm-id="zone-available-water-top-row" style="overflow: hidden;background:#f6f6f6;"></div>
+								<div rm-id="zone-available-water-chart-row" style="height: 300px;"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<span class="subtitle"> RainMachine treats each program independently, each program zone has it's own available water.
+								The program graphs might differ because of the weather data known at the time of each program run.
+								Enabling <i>Correction for the past</i>  from settings will automatically correct differences at next run with the
+								last known day weather information</span>
 						</td>
 					</tr>
 				</table>
@@ -1482,11 +1488,12 @@
 														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
 															0.14 in
 														</div>
+														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
 													</td>
 													<td class="middle" style="width:33%;">
-														<div class="helpText" help="zoneZoneAvailableWater">?</div> <span style="font-size:130%;">Zone Available Water</span>
+														<div class="helpText" help="zoneAvailableWater">?</div> <span style="font-size:130%;">Zone Available Water</span>
 														<br>&nbsp;<br>
-														<div style="color:#555;margin:0;padding-left:27px;"><span class="icon">&#xe901;</span> show graph</div>
+														<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer;"><span class="icon">&#xe901;</span> show graph</div>
 													</td>
 													<td style="width:33%;">
 														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>

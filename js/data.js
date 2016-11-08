@@ -38,6 +38,7 @@ Data.waterLog = null;
 Data.waterLogCustom = null;
 Data.waterLogSimulated = null;
 Data.programsPastValues = null;
+Data.availableWater = null;
 Data.zonesAvailableWater = null;
 Data.dateTime = null;
 Data.rainDelay = null;

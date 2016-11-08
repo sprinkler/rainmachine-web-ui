@@ -365,7 +365,11 @@ window.ui = window.ui || {};
 			}
 			try {
 				var mac = Data.provision.wifi.macAddress;
-				var valves = Data.provision.system.localValveCount;
+				if (mac === null || mac.split(":").length != 6) {
+					console.error("Invalid device MAC address");
+					return;
+				}
+				var valves = +Data.provision.system.localValveCount;
 				var storagePath = "devices/" + mac + "/images/";
 				Data.zonesImages = {};
 

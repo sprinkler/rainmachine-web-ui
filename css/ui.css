@@ -1627,7 +1627,7 @@ td.right,
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
   z-index: 1;
   opacity: 1;
-  overflow: overlay;
+  overflow: initial;
 }
 /* Weather services tabs end */
 /* Fixes for Firefox browser */
@@ -1714,6 +1714,7 @@ td.right,
   text-align: center;
   vertical-align: middle;
   display: inline-block;
+  z-index: 0;
 }
 .helpText, .helpTextWaterSaved {
   width: 15px;
@@ -1729,10 +1730,20 @@ td.right,
 }
 /* Help text tooltips END */
 
+.bg-grey {
+  background-color: #f9f9f9;
+}
+
+.border-thin-grey {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 1280px) {
   #homeScreenLeft {
-    width: 339px;
+    width: 805px;
+    margin-left: 5px;
   }
   h1 {
     font-size: 100%;
@@ -1757,16 +1768,16 @@ td.right,
     background-color: #f9f9f9;
   }
   .homeScreenMain {
-    text-align: left;
+    text-align: center;
   }
   h1.title, h1.titleHome {
     font-size: 130%;
   }
   #homeScreenLeft {
-    width:986px;
+    width:805px;
   }
   #homeScreenRight {
-    width: 986px;
+    width: 805px;
   }
   .homeRightExpanded, .homeZonesExpanded {
     margin-left:0;
@@ -1800,7 +1811,7 @@ td.right,
     width: 196px;
   }
 }
-@media screen and (max-width: 980px) {
+/*@media screen and (max-width: 980px) {
   .inputStepDown {
     width: 440px;
   }
@@ -1820,13 +1831,14 @@ td.right,
     margin-left:0;
   }
   .program-title-next-run {
-    /* height: 164px; */
+    /!* height: 164px; *!/
     width: 24%;
   }
-}
-@media screen and (max-width: 768px) {
+}*/
+@media screen and (max-width: 980px) {
   #homeScreenLeft, #homeScreenRight {
-    width: 735px;
+    width: 734px;
+    margin-left: 0;
   }
   .homeRightExpanded, .homeZonesExpanded {
     margin-left:0;
