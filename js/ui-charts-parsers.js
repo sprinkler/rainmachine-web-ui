@@ -325,6 +325,7 @@ function generateAWChart(container, id, capacity,  past, days) {
 	var startDateStr = Util.getDateWithDaysDiff(past);
 	var startDate = Date.parse(startDateStr);
 
+	capacity = Util.convert.uiQuantity(capacity);
 	var aw = {};
 
 	//Code below consider this sorted ascending by date (as returned by REST API)
