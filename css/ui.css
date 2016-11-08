@@ -1730,6 +1730,15 @@ td.right,
 }
 /* Help text tooltips END */
 
+.bg-grey {
+  background-color: #f9f9f9;
+}
+
+.border-thin-grey {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 1280px) {
   #homeScreenLeft {

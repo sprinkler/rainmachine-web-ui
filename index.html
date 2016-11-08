@@ -1346,8 +1346,9 @@
 		<div id="day-weather-template" class="graphDay">
 			<div rm-id="day-weather-date" class="dateno">SEP 13</div>
 			<div rm-id="day-weather-icon" class="weatherIcon">s</div>
-			<div rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></div>
-			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
+			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1380,16 +1381,23 @@
 					<tr valign="top">
 						<td>
 							<button class="button red center right" rm-id="zone-available-water-cancel">Close</button>
-							<span style="font-size:130%;">Zone Available Water</span>
+							<span style="font-size:130%;">Zone Available Water</span><br>
 						</td>
 					</tr>
 					<tr>
 						<td class="noborder">
-							<div class="charts">
+							<div class="bg-grey border-thin-grey">
 								<div rm-id="zone-available-water-top-row" style="overflow: hidden;background:#f6f6f6;"></div>
 								<div rm-id="zone-available-water-chart-row" style="height: 300px;"></div>
-								<div rm-id="zone-available-water-bottom-row"></div>
 							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<span class="subtitle"> RainMachine treats each program independently, each program zone has it's own available water.
+								The program graphs might differ because of the weather data known at the time of each program run.
+								Enabling <i>Correction for the past</i>  from settings will automatically correct differences at next run with the
+								last known day weather information</span>
 						</td>
 					</tr>
 				</table>

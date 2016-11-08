@@ -321,6 +321,149 @@ function generateDOYET0Chart() {
 	doyET0Chart = new Highcharts.Chart(chartOptions, null);
 }
 
+function generateAWChart(container, id, capacity,  past, days) {
+	var startDateStr = Util.getDateWithDaysDiff(past);
+	var startDate = Date.parse(startDateStr);
+
+	var aw = {};
+
+	//Code below consider this sorted ascending by date (as returned by REST API)
+	var data = Data.availableWater.availableWaterValues;
+
+	for (var i = 0; i < data.length; i++) {
+		var value = 0;
+		var zid = data[i].zid;
+
+		if (zid !== id) {
+			continue;
+		}
+
+		var pid = data[i].pid;
+		if (! (pid in aw)) {
+			//Init array with same length as days
+			aw[pid] = [];
+			for (var j = 0; j < days; j++) {
+				aw[pid][j] = [startDate + j * 86400, null];
+			}
+		}
+
+		var dateStr = data[i].dateTime.split(" ")[0];
+		var date = Date.parse(dateStr);
+		value = +data[i].aw;
+
+		//Find corresponding day index in the array (so we have missing data with 0 to sync with top row)
+		var dateIndex = Util.getDateIndex(dateStr, startDate);
+		aw[pid][dateIndex] = [date, Util.convert.uiQuantity(value)];
+	}
+
+
+	var chartSeries = [];
+
+	chartSeries.push({
+		name: "EvapoTranspiration",
+		type: "area",
+		color: "rgba(220, 118, 51, 0.2)",
+		yAxis: 1,
+		data: generateMixerData("et0", startDateStr, days),
+		marker: {
+			enabled: false
+		},
+		connectNulls: true
+	});
+
+	for (i in aw) {
+		var p = getProgramById(i);
+		var name = "Program " + i;
+		if (p !== null) {
+			name = "Program " + p.name + " @ " + p.startTime;
+		}
+
+		chartSeries.push({
+			name: name,
+			data: aw[i],
+			yAxis: 0,
+			marker: {
+				enabled: true,
+				radius: 5
+			},
+			connectNulls: true
+		});
+	}
+
+	var chartOptions = {
+		chart: {
+			type: 'line',
+			backgroundColor: '#f6f6f6',
+			alignTicks: false,
+			height: 300,
+			renderTo: container
+		},
+		credits: {
+			enabled: false
+		},
+		title: null,
+		xAxis: {
+			type: 'datetime',
+			minorTickLength: 0,
+			tickPixelInterval: 64,
+			labels: {
+				enabled: false
+			},
+			tickInterval:24 * 3600 * 1000,
+			title: null
+		},
+		yAxis: [
+			{
+				gridLineWidth: 0,
+				title: {
+					text: null,
+					style: {
+						color: Highcharts.getOptions().colors[1]
+					}
+				},
+				labels: {
+					enabled: false
+				},
+				plotLines: [{
+					color: '#00A300',
+					value: capacity,
+					width: 8,
+					label: {
+						y: -15,
+						text: '<span style="font-size: 14px">Zone Max Field Capacity: ' + capacity +  " " + Util.convert.uiQuantityStr() + '</span>'
+					}
+				}],
+				max: capacity * 1.2,
+				min: 0,
+				opposite: true
+			},
+			{
+				gridLineWidth: 0,
+				title: {
+					text: null,
+					style: {
+						color: "rgba(255,152,0, 0.5)"
+					}
+				},
+				labels: {
+					enabled: false
+				}
+			}
+		],
+		tooltip: {
+			shared: true
+		},
+		plotOptions: {
+			series: {
+				fillOpacity: 0.2
+			}
+		},
+		series: chartSeries
+	};
+
+	//This is destroyed along with parent node from calling function
+	var awChart = new Highcharts.Chart(chartOptions, null);
+}
 
 function generateMixerData(key, startDate, days) {
 
