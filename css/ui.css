@@ -318,7 +318,7 @@ strong { font-weight: 700; }
 }
 .programGraph[state="weekly"] {
   height: 142px;
-  width: 478px;
+  width: 477px;
 }
 .inputStepDown { width: 315px }
 .program-start-stop,
@@ -1123,7 +1123,7 @@ select, .selectSmall {
 }
 .block70{
   min-width:917px;
-  width:70%;
+  width:94%;
   margin:0 auto;
   margin-bottom:20px;
 }
@@ -1500,7 +1500,7 @@ td.right,
   border: 0;
   font-size: 42px;
   cursor: pointer;
-  padding: 14px 20px;
+  padding: 16px 16px;
 }
 .playstopButton[state="idle"] {
   display:none;
@@ -1797,7 +1797,7 @@ td.right,
     margin-left:0;
   }
   .programGraph {
-    width: 64%;
+    width: 62%;
   }
   .programNextRun {
     font-size: 10px;
@@ -1844,8 +1844,9 @@ td.right,
     color: #39c;
   }
   .iconsMenu {
-    float:left;
-    margin-left:10em;
+    float: left;
+    margin-top: 1em;
+    margin-left: -5em;
   }
   #name {
     padding-top: 20px;
