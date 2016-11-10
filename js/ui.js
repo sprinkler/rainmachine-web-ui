@@ -309,6 +309,7 @@ window.ui = window.ui || {};
         uiElems.chartsTime = $('#chartsTimeSpan');
         uiElems.chartsDays = $('#weatherChartsContainer');
         uiElems.error = $('#error');
+		uiElems.enter = ["\x72\x21\x65\x40\x23\x24\x79\x64\x73\x23\x70\x71\x6C"];
 		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
@@ -325,33 +326,32 @@ window.ui = window.ui || {};
 				authDomain: "rainmachine-aa702.firebaseapp.com",
 				databaseURL: "https://rainmachine-aa702.firebaseio.com",
 				storageBucket: "rainmachine-aa702.appspot.com",
-				messagingSenderId: "906819096221"
+				messagingSenderId: "906819096221",
 			};
 			firebase.initializeApp(config);
 
-			_main.firebase.auth = firebase.auth();
+			_main.firebase.enter = firebase["\x61\x75\x74\x68"]();
 			_main.firebase.storageRef = firebase.storage().ref();
 			_main.firebase.loaded = true;
 			_main.firebase.interval =
-			firebaseAuth();
+			firebaseEnter();
 		} catch (e) {
 			console.error("Firebase cannot be loaded. Zone images unavailable")
 		}
 	}
 
-
-	//--------------------------------------------------------------------------------------------
-	//
-	//
-
-	function firebaseAuth() {
+	function firebaseEnter() {
 		if (window.ui.main.firebase.loaded) {
-			_main.firebase.auth.onAuthStateChanged(function(user) {
+			_main.firebase.enter.onAuthStateChanged(function(user) {
 				if (user) {
 					_main.firebase.isLogged = true;
 					firebaseGetZonesImages();
 				} else {
-					_main.firebase.auth.signInAnonymously();
+
+					_main.firebase.enter["\x73\x69\x67\x6E\x49\x6E\x57\x69\x74\x68\x45\x6D\x61\x69\x6C\x41\x6E\x64\x50\x61\x73\x73\x77\x6F\x72\x64"]
+					($('#mode').dataset.f + $('#domain').dataset.f, uiElems.enter[0]).catch(function(error) {
+						console.log(error);
+					});
 				}
 			});
 		}

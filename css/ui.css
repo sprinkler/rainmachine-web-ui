@@ -1720,13 +1720,14 @@ td.right,
   width: 15px;
   height: 15px;
   line-height: 16px;
-  color:rgba(84,110,122, 1.0);
-  /*border: 1px solid rgba(84,110,122, 1.0);*/
+  color: rgba(84, 110, 122, 1.0);
 }
+
 .helpTextWaterSaved {
    position: absolute;
    margin-left: 10px;
    margin-top: 10px;
+   z-index: 1;
 }
 /* Help text tooltips END */
 
@@ -1740,9 +1741,10 @@ td.right,
 }
 
 /* MEDIA QUERIES */
-@media screen and (max-width: 1280px) {
+/* Bigger or equal to 1240px works without modifications. Less or equal to 1239 reduce some dimensions to fit 2 column mode */
+@media screen and (max-width: 1239px) {
   #homeScreenLeft {
-    width: 805px;
+    width: 330px;
     margin-left: 5px;
   }
   h1 {
@@ -1752,10 +1754,19 @@ td.right,
     padding-top: 8px;
     padding-bottom: 12px;
   }
-
+  .historyDateContainer, .historyDate {
+    font-size:13px;
+  }
+  #waterSavedGaugeVolume, #waterSavedGaugeMinutes {
+    font-size: 14px;
+  }
+  #waterSavedGaugeVolume {
+    margin-top: 0
+  }
 }
 
-@media screen and (max-width: 1024px) {
+/* Smaller or equal to 1177px switch to single vertical column */
+@media screen and (max-width: 1177px) {
   .pageLeftMenu {
     float: left;
     clear: none;
@@ -1811,30 +1822,7 @@ td.right,
     width: 196px;
   }
 }
-/*@media screen and (max-width: 980px) {
-  .inputStepDown {
-    width: 440px;
-  }
-  #homeScreenRight {
-    width: 724px;
-  }
-  .playstopButton {
-    padding: 10px 10px;
-  }
-  .block70 {
-    min-width: 875px;
-  }
-  input[type=range] {
-    width: 67%;
-  }
-  .homeRightExpanded, .homeZonesExpanded {
-    margin-left:0;
-  }
-  .program-title-next-run {
-    /!* height: 164px; *!/
-    width: 24%;
-  }
-}*/
+/* Smaller or equal to 980px reduce font size and div width on single vertical column */
 @media screen and (max-width: 980px) {
   #homeScreenLeft, #homeScreenRight {
     width: 734px;
@@ -1889,7 +1877,6 @@ td.right,
     min-width: 700px;
   }
   .program-title-next-run {
-    /* height: 164px; */
     width: 24%;
   }
   .inputStepDown {
@@ -1901,5 +1888,6 @@ td.right,
     padding-left: 0%;
   }
 }
+
 /* MEDIA QUERIES END */
 .inlineblock {display:inline-block;}

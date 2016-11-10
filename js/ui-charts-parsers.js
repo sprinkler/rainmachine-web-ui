@@ -177,6 +177,9 @@ function generateSpecificParsersChart(key, startDate, days) {
 			data: data[id],
 			name: getParserName(id),
 			zoneAxis: 'x',
+			tooltip: {
+				valueSuffix: Util.convert.getUnits(key)
+			}
 			/*
 			zones: [{
 				value: todayTimestamp,
@@ -194,6 +197,9 @@ function generateSpecificParsersChart(key, startDate, days) {
 	if (mixerChartData) {
 		chartSeries.push({
 			data: mixerChartData,
+			tooltip: {
+				valueSuffix: Util.convert.getUnits(key)
+			},
 			name: "RainMachine Mixer",
 			color: "#f44336",
 			lineWidth: 3,
@@ -213,7 +219,16 @@ function generateSpecificParsersChart(key, startDate, days) {
 		tooltip: {
 			shared: true
 		},
-
+		tooltip: {
+			shared: true,
+			useHTML: true,
+			xDateFormat: '%b %d',
+			headerFormat: '<h1>{point.key}</h1><table>',
+			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
+			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
+			footerFormat: '</table>',
+			valueDecimals: 2
+		},
 		series: chartSeries,
 		title: {
 			text: '<h1>' +  parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')</h1>',
@@ -241,11 +256,11 @@ function generateSpecificParsersChart(key, startDate, days) {
 		var et0AvgLine = [];
 		var et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
 
-		//We generate this line as plotLinex minRange is not reliable to show the line when
+		//We generate this line as plotLines minRange is not reliable to show the line when
 		//other data is much lower
 		for (i = 0; i < days; i++) {
 			var date = new Date(startDate);
-			et0AvgLine.push([date.setDate(date.getDate() + i), Util.convert.uiQuantity(et0Avg)])
+			et0AvgLine.push([date.setDate(date.getDate() + i), et0Avg])
 		}
 
 		chartSeries.push({
@@ -253,7 +268,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 			name: "Summer Average",
 			color: "#003399",
 			lineWidth: 3,
-			zoneAxis: 'x',
+			zoneAxis: 'x'
 		});
 
 		chartOptions.yAxis.plotLines = [{
@@ -262,7 +277,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 			width: 3,
 			zIndex:4,
 			label:{
-				text:'Summer Average: ' + et0Avg + ' (100% watering)'
+				text:'Summer Average: ' + et0Avg + Util.convert.uiQuantityStr() + ' (100% watering)'
 			}
 		}];
 
@@ -369,6 +384,9 @@ function generateAWChart(container, id, capacity,  past, days) {
 		marker: {
 			enabled: false
 		},
+		tooltip: {
+			valueSuffix: Util.convert.uiQuantityStr()
+		},
 		connectNulls: true
 	});
 
@@ -376,8 +394,10 @@ function generateAWChart(container, id, capacity,  past, days) {
 		var p = getProgramById(i);
 		var name = "Program " + i;
 		if (p !== null) {
-			name = "Program " + p.name + " @ " + p.startTime;
+			name = "Program " + p.name; // " @ " + p.startTime;
 		}
+
+		name += " available water";
 
 		chartSeries.push({
 			name: name,
@@ -386,6 +406,9 @@ function generateAWChart(container, id, capacity,  past, days) {
 			marker: {
 				enabled: true,
 				radius: 5
+			},
+			tooltip: {
+				valueSuffix: Util.convert.uiQuantityStr()
 			},
 			connectNulls: true
 		});
@@ -448,7 +471,8 @@ function generateAWChart(container, id, capacity,  past, days) {
 				},
 				labels: {
 					enabled: false
-				}
+				},
+				reversed: true
 			}
 		],
 		tooltip: {
@@ -458,6 +482,16 @@ function generateAWChart(container, id, capacity,  past, days) {
 			series: {
 				fillOpacity: 0.2
 			}
+		},
+		tooltip: {
+			shared: true,
+			useHTML: true,
+			xDateFormat: '%b %d',
+			headerFormat: '<h1>{point.key}</h1><table>',
+			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
+			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
+			footerFormat: '</table>',
+			valueDecimals: 2
 		},
 		series: chartSeries
 	};
