@@ -1720,13 +1720,14 @@ td.right,
   width: 15px;
   height: 15px;
   line-height: 16px;
-  color:rgba(84,110,122, 1.0);
-  /*border: 1px solid rgba(84,110,122, 1.0);*/
+  color: rgba(84, 110, 122, 1.0);
 }
+
 .helpTextWaterSaved {
    position: absolute;
    margin-left: 10px;
    margin-top: 10px;
+   z-index: 1;
 }
 /* Help text tooltips END */
 
