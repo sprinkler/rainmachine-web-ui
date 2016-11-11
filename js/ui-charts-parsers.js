@@ -426,6 +426,17 @@ function generateAWChart(container, id, capacity,  past, days) {
 		credits: {
 			enabled: false
 		},
+		colors: [
+			"#00BFFF",
+			"#1E90FF",
+			"#7B68EE",
+			"#87CEFA",
+			"#483D8B",
+			"#0000FF",
+			"#000080",
+			"#4B0082",
+			"#8A2BE2"
+		],
 		title: null,
 		xAxis: {
 			type: 'datetime',
@@ -453,7 +464,7 @@ function generateAWChart(container, id, capacity,  past, days) {
 				},
 
 				plotBands: [{
-					color: '#000000',
+					color: "#f6f6f6",
 					from: capacity,
 					to: 0,
 					zIndex: 0
@@ -469,16 +480,24 @@ function generateAWChart(container, id, capacity,  past, days) {
 						text: '<span style="font-size: 14px">Maximum Field Capacity: ' + capacity + " " + Util.convert.uiQuantityStr() + '</span>'
 					}
 				},
+					//Optimal level band
 					{
-					color: 'rgba(50,205,50 , 1)',
+					color: '#00e500',
+					value: 0,
+					width: 15,
+					zIndex: 1,
+				},  //Optimal level text
+					{
+					color: 'transparent',
 					value: 0,
 					width: 15,
 					zIndex: 5,
 					label: {
 						y: 3,
-						text: '<span style="font-size: 14px; font-weight: bold;">Optimal level</span>'
+						text: '<span style="font-size: 14px; color: #003300; font-weight: bold;">Optimal level</span>'
 					}
-				}],
+					}
+				],
 				max: capacity * 1.2,
 				opposite: true
 			},
