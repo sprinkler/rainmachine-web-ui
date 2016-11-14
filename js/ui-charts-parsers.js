@@ -375,6 +375,7 @@ function generateAWChart(container, id, capacity,  past, days) {
 
 	var chartSeries = [];
 
+	/*
 	chartSeries.push({
 		name: "EvapoTranspiration",
 		type: "area",
@@ -389,7 +390,7 @@ function generateAWChart(container, id, capacity,  past, days) {
 		},
 		connectNulls: true
 	});
-
+*/
 	for (i in aw) {
 		var p = getProgramById(i);
 		var name = "Program " + i;
@@ -416,7 +417,7 @@ function generateAWChart(container, id, capacity,  past, days) {
 
 	var chartOptions = {
 		chart: {
-			type: 'line',
+			type: 'area',
 			backgroundColor: '#f6f6f6',
 			alignTicks: false,
 			height: 300,
@@ -425,16 +426,29 @@ function generateAWChart(container, id, capacity,  past, days) {
 		credits: {
 			enabled: false
 		},
+		colors: [
+			"#00BFFF",
+			"#1E90FF",
+			"#7B68EE",
+			"#87CEFA",
+			"#483D8B",
+			"#0000FF",
+			"#000080",
+			"#4B0082",
+			"#8A2BE2"
+		],
 		title: null,
 		xAxis: {
 			type: 'datetime',
 			minorTickLength: 0,
-			tickPixelInterval: 64,
+			//tickPixelInterval: 64,
 			labels: {
 				enabled: false
 			},
-			tickInterval:24 * 3600 * 1000,
-			title: null
+			//tickInterval:24 * 3600 * 1000,
+			lineColor: 'transparent',
+			title: null,
+			tickLength: 0
 		},
 		yAxis: [
 			{
@@ -448,17 +462,43 @@ function generateAWChart(container, id, capacity,  past, days) {
 				labels: {
 					enabled: false
 				},
+
+				plotBands: [{
+					color: "#f6f6f6",
+					from: capacity,
+					to: 0,
+					zIndex: 0
+				}],
+
 				plotLines: [{
-					color: '#00A300',
+					color: 'rgba(220, 118, 51, 1)',
 					value: capacity,
-					width: 8,
+					width: 2,
+					zIndex: 1,
 					label: {
 						y: -15,
-						text: '<span style="font-size: 14px">Zone Max Field Capacity: ' + capacity +  " " + Util.convert.uiQuantityStr() + '</span>'
+						text: '<span style="font-size: 14px">Maximum Field Capacity: ' + capacity + " " + Util.convert.uiQuantityStr() + '</span>'
 					}
-				}],
+				},
+					//Optimal level band
+					{
+					color: '#00e500',
+					value: 0,
+					width: 15,
+					zIndex: 1,
+				},  //Optimal level text
+					{
+					color: 'transparent',
+					value: 0,
+					width: 15,
+					zIndex: 5,
+					label: {
+						y: 3,
+						text: '<span style="font-size: 14px; color: #003300; font-weight: bold;">Optimal level</span>'
+					}
+					}
+				],
 				max: capacity * 1.2,
-				min: 0,
 				opposite: true
 			},
 			{
@@ -478,11 +518,13 @@ function generateAWChart(container, id, capacity,  past, days) {
 		tooltip: {
 			shared: true
 		},
+		/*
 		plotOptions: {
 			series: {
 				fillOpacity: 0.2
 			}
-		},
+		},*/
+
 		tooltip: {
 			shared: true,
 			useHTML: true,
