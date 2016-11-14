@@ -798,7 +798,7 @@ function generateWaterSavedGauge() {
 			" " + Util.convert.uiWaterVolumeStrLong() + " of water saved";
 
 	//Write minutes reduced
-	$('#waterSavedGaugeMinutes').textContent = Util.secondsToText(chartsData.totalMinutesReduced, true) + " less time watered";
+	$('#waterSavedGaugeMinutes').textContent = Util.secondsToText(chartsData.totalMinutesReduced, true) + " less watering time";
 
 }
 
