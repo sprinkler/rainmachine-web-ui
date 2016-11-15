@@ -489,6 +489,7 @@ h1 {
   moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-position-x: 45%;
   display: inline-block;
   width: 65px;
   height: 65px;
