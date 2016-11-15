@@ -1944,7 +1944,7 @@
 									<tr>
 										<td colspan="2">
 											<div class="middle" style="float:left;padding-top: 14px;font-size: 16px;">
-												Do not run program if rain exceeds:<br>
+												Rain Restriction:<br>
 											<span class="zoneTimesSubtitle" style="margin:0">Required by some municipalities.<br>This will overwrite RainMachine algorithm.</span></div>
 											<div style="display:inline-block;float:right;text-align:right;">
 												<div>
@@ -1969,18 +1969,18 @@
 								<tr>
 									<td>
 										<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
-										<span class="cardTitle">Adjust watering times based on weather?</span>
+										<span class="cardTitle">Weather-Adaptive Watering</span>
 									</td>
 								</tr>
 								<tr>
 									<td style="padding-right:0">
-										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span rm-id="program-settings-zone-totaltime" class="zoneTimesDeterminedFullTime" style="margin-right:0;">00h 00m 00s</span></div>
+										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span rm-id="program-settings-zone-totaltime" class="right" style="margin-right:0;">00h 00m 00s</span></div>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
 										<div class="right">
-											Typical summer watering time
+											Duration
 										</div>
 										Zone name
 									</td>
@@ -2016,8 +2016,7 @@
 				<tbody>
 				<tr>
 					<td class="noborder" style="text-align:center;padding: 0 0 25px 0;color:#3399cc;">
-						<span style="font-size:18px;" rm-id="program-settings-zone-timer-weather-info">Set typical summer watering time.</span>
-						<br><span rm-id="program-settings-zone-timer-weatherinfo" style="font-size:16px;">(Duration will be adjusted based on weather)</span>
+						<span style="font-size:24px;" rm-id="program-settings-zone-timer-weather-info">Duration</span>
 					</td>
 				</tr>
 				<tr>
@@ -2034,7 +2033,7 @@
 						</div>
 						<div style="display: inline-block;margin-top: 14px;">
 							<input rm-id="program-settings-zone-timer-auto" type="radio" class="zoneTimesInput" style="vertical-align: top;">
-							<span class="cardTitle">Determined from zone properties</span>
+							<span class="cardTitle">Suggested</span>
 						</div>
 					</td>
 				</tr>
@@ -2054,8 +2053,13 @@
 				<tr>
 					<td class="middle">
 						<input rm-id="program-settings-zone-timer-skip" type="radio" class="zoneTimesInput">
-						<span class="cardTitle">Do not water this zone</span>
+						<span class="cardTitle">Not set</span>
 						<br><span class="zoneTimesSubtitle">This zone will not be watered in this program.</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="center middle noborder" style="padding: 30px;padding-top:15px;font-size: 14px; color: #555;">
+					<span rm-id="program-settings-zone-timer-weatherinfo">Weather-Adaptive Watering is ON<br>Suggested Duration is determined from your plant type, soil and location properties for a typical summer day.</span>
 					</td>
 				</tr>
 				<tr>

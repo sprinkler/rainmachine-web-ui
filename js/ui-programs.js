@@ -977,7 +977,7 @@ window.ui = window.ui || {};
 		}
 
 		var programMultiplier = getProgramMultiplier();
-		var skipTimerText = "No time set";
+		var skipTimerText = "Not set";
 		var totalTimes = 0;
 
 		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
