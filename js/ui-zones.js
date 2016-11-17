@@ -888,12 +888,12 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function zoneHasDefaultSettings(id) {
-		if (!(id in Data.zoneAdvData.zones)) {
+	function zoneHasDefaultSettings(index) {
+		if (!(index in Data.zoneAdvData.zones)) {
 			return true;
 		}
 
-		var data = Data.zoneAdvData.zones[id];
+		var data = Data.zoneAdvData.zones[index];
 		if (data.group_id == 1 && data.slope == 1 && data.soil == 1 && data.type == 2) {
 			return true;
 		}
@@ -903,19 +903,19 @@ window.ui = window.ui || {};
 
 	//Calculates the volume of water that was applied on a zone for specified seconds (in metric system)
 	//It uses zone.area (m^2) if defined or zone.flow if not. If both defined and zone uses drip it uses .flow (m^3/h)
-	function zoneComputeWaterVolume(id, seconds) {
-		if (! Data.zoneAdvData || !Data.zoneAdvData.zones || !(id in Data.zoneAdvData.zones)) {
+	function zoneComputeWaterVolume(index, seconds) {
+		if (! Data.zoneAdvData || !Data.zoneAdvData.zones || !(index in Data.zoneAdvData.zones)) {
 			console.log("No Zone Advanced Data to compute flow");
 			return null;
 		}
 
-		var waterSenseData =  Data.zoneAdvData.zones[id].waterSense;
+		var waterSenseData =  Data.zoneAdvData.zones[index].waterSense;
 		var area = waterSenseData.area || null;
 		var flow = waterSenseData.flowrate || null;
 		var isDrip = false;
 
-		if (Data.zoneData.zones && (id in Data.zoneData.zones)) {
-			var sprinklerHead = Data.zoneData.zones[id].group_id;
+		if (Data.zoneData.zones && (index in Data.zoneData.zones)) {
+			var sprinklerHead = Data.zoneData.zones[index].group_id;
 			if (sprinklerHead == 3 || sprinklerHead == 4) {
 				isDrip = true;
 			}

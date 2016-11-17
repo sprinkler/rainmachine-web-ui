@@ -338,7 +338,7 @@ function processChartData() {
 		var day =  Data.waterLog.waterLog.days[i];
 		var wnpTotalDayUserWater = 0;
 		var wnpTotalDayScheduledWater = 0;
-		var volumeUsedDay = 0;
+		var volumeSavedDay = 0;
 
 		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
 			currentProgram = day.programs[programIndex];
@@ -370,7 +370,7 @@ function processChartData() {
 
 
 				//Total Water Volume Used for this zone (we need it per zone as savings depend on zone properties)
-				volumeUsedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid, zoneScheduledWater);
+				volumeSavedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid - 1, (zoneUserWater - zoneScheduledWater));
 
 				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayProgramUserWater, wnpTotalDayProgramScheduledWater);
 				wnpTotalDayUserWater += wnpTotalDayProgramUserWater;
@@ -393,7 +393,8 @@ function processChartData() {
 				}
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
 				chartsData.programsFlags[currentProgramIndex].insertAtDate(day.date, programFlag);
-				chartsData.volumeSaved.insertAtDate(day.date, volumeUsedDay);
+				chartsData.volumeSaved.insertAtDate(day.date, volumeSavedDay);
+
 			}
 		}
 

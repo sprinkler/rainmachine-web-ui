@@ -669,7 +669,7 @@ window.ui = window.ui || {};
 				//Convert between program/zones/cycles to program/cycles/zones
 				cycles = {};
 				var maxCycles = 0;
-				var zoneid;
+				var zoneidx;
 				var zoneName;
 
 				for (var k = 0; k < program.zones.length; k++)
@@ -708,10 +708,10 @@ window.ui = window.ui || {};
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
 
-						zoneid = zone.uid - 1;
+						zoneidx = zone.uid - 1;
 
-						if (Data.zoneData !== null && Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						if (Data.zoneData !== null && Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
+							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
 						}
 						else {
 							cycles[c].zones[k].name  = "Zone " + zone.uid;
@@ -720,16 +720,16 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].flag = zone.flag;
 					}
 
-					zoneid = zone.uid - 1;
-					if (Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+					zoneidx = zone.uid - 1;
+					if (Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
+						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
 					}
 					else {
 						zoneName = "Zone " + zone.uid;
 					}
 
-					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.real);
-					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneid, zoneDurations.user);
+					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
+					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.user);
 
 					var zoneStartTime = "";
 					try {
