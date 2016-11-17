@@ -455,7 +455,7 @@ h1 {
   vertical-align: top;
 }
 .zoneTimesSubtitle {
-  margin-left: 30px;
+  margin-left: 34px;
   margin-top: 3px;
   display: block;
 }
@@ -489,6 +489,7 @@ h1 {
   moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-position-x: 45%;
   display: inline-block;
   width: 65px;
   height: 65px;
