@@ -52,7 +52,7 @@ function ChartSeries (startDate, defaultValue) {
 	}
 
 	// initialize each position of the data array with null
-	for (var i = 0; i < this.data.length; this.data[i] = this.defaultValue, i++);
+	for (var i = 0; i < this.data.length; this.data[i] = this.defaultValue, i++){};
 }
 
 /**
