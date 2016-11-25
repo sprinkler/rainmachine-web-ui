@@ -8,7 +8,7 @@
 function Async() {
 	this.queue = [];
 	this.ready = false;
-	this.result;
+	this.result = null;
 	this.debug = false;
 	this.onError = null;
 };
