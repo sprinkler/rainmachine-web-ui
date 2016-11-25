@@ -378,7 +378,10 @@ window.ui = window.ui || {};
 					var currentImage = storagePath + name;
 					var imageRef = window.ui.main.firebase.storageRef.child(currentImage);
 					imageRef.getDownloadURL().then(
-						function(index, url) { Data.zonesImages[index] = url;}.bind(null, i)
+						function(id, url) {
+							Data.zonesImages[id] = url;
+							window.ui.zones.updateZoneImage(id); //Force a zone image refresh
+						}.bind(null, i)
 					);
 				}
 			} catch (e) {
