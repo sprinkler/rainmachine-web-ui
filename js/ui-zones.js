@@ -138,16 +138,12 @@ window.ui = window.ui || {};
 				}
 			}
 
-			if (Data.zonesImages && z.uid in Data.zonesImages) {
-				elem.imageElem.style.backgroundImage = "url('" + Data.zonesImages[z.uid] + "')";
-				elem.imageElem.textContent = "";
-			}
-
 			elem.stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
 			elem.nameElem.onclick = elem.editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 
 			setZoneState(z);
 			updateZoneTimer(z);
+			updateZoneImage(z.uid);
 		}
 
 		//If the zone settings window has been opened from program zones refresh the timers
@@ -654,6 +650,15 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function updateZoneImage(uid) {
+		var elem = uiElemsAll.zones[uid];
+
+		if (Data.zonesImages && uid in Data.zonesImages) {
+			elem.imageElem.style.backgroundImage = "url('" + Data.zonesImages[uid] + "')";
+			elem.imageElem.textContent = "";
+		}
+	}
+
 	function stopZone(uid)
 	{
 		console.log("Stop zone %d", uid);
@@ -956,6 +961,7 @@ window.ui = window.ui || {};
 	_zones.stopAllWatering = stopAllWatering;
 	_zones.onProgramStart = onProgramStart;
 	_zones.updateWateringQueue = updateWateringQueue;
+	_zones.updateZoneImage = updateZoneImage;
 	_zones.zoneHasDefaultSettings = zoneHasDefaultSettings;
 	_zones.zoneComputeWaterVolume = zoneComputeWaterVolume;
 	_zones.uiElems = uiElemsAll;
