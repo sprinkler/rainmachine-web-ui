@@ -15,7 +15,7 @@ var Help = (function(Help) {
 	Help.strings = {
 		"programPastValues": "EvapoTranspiration and Precipitation known at the Program run time." +
 							"For programs that don't run daily this is a sum since last day that the program ran (multiple days). " +
-							"Using Correction For Past will automatically take this differences into account for next watering.",
+							"Enabling Forecast Correction feature will automatically take this differences into account for next watering.",
 		/* Zones edit help texts */
 		"zoneWeatherSeasonalAdjustments": "If weather data is temporarily unreachable RainMachine will automatically fall back on Seasonal Adjustments until connectivity is restored. If both Weather and Seasonal Adjustments are turned off their data will be ignored when watering times are calculated for this zone.",
 		"zoneDailySummerEPA": "Scheduled to run for a typical summer day and calculated based on Advanced Zone Settings properties. This time will be adjusted automatically to any program that use this zone.",
