@@ -21,6 +21,7 @@ JS_FILES = js/dom.js \
 	js/rainmachine-api-v4.js \
 	js/data.js \
 	js/help.js \
+	js/ui-firebase.js \
 	js/ui-charts.js \
 	js/ui-charts-parsers.js \
 	js/ui-login.js \

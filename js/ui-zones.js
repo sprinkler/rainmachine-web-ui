@@ -99,7 +99,9 @@ window.ui = window.ui || {};
 
 		uiElemsAll.stopAll = $('#home-zones-stopall');
         uiElemsAll.stopAll.onclick = stopAllWatering;
-    }
+
+		window.ui.firebase.enter();
+	}
 
 	function updateZones() {
 
@@ -651,6 +653,10 @@ window.ui = window.ui || {};
 	}
 
 	function updateZoneImage(uid) {
+		if (! (uid in uiElemsAll.zones)) {
+			console.error("%s not in zones.uiElemsAll !", uid);
+			return;
+		}
 		var elem = uiElemsAll.zones[uid];
 
 		if (Data.zonesImages && uid in Data.zonesImages) {

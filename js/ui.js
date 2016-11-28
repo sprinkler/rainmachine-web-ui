@@ -315,83 +315,6 @@ window.ui = window.ui || {};
         uiElems.zones = $('#zonesList');
 	}
 
-	function firebaseInit() {
-		_main.firebase = {};
-		_main.firebase.isLogged = false;
-		_main.firebase.loaded = false;
-
-		try {
-			var config = {
-				apiKey: "AIzaSyDLzlRQUuOBV5p9xqsMN4HJu5dKRfJeylo",
-				authDomain: "rainmachine-aa702.firebaseapp.com",
-				databaseURL: "https://rainmachine-aa702.firebaseio.com",
-				storageBucket: "rainmachine-aa702.appspot.com",
-				messagingSenderId: "906819096221",
-			};
-			firebase.initializeApp(config);
-
-			_main.firebase.enter = firebase["\x61\x75\x74\x68"]();
-			_main.firebase.storageRef = firebase.storage().ref();
-			_main.firebase.loaded = true;
-			_main.firebase.interval =
-			firebaseEnter();
-		} catch (e) {
-			console.error("Firebase cannot be loaded. Zone images unavailable")
-		}
-	}
-
-	function firebaseEnter() {
-		if (window.ui.main.firebase.loaded) {
-			_main.firebase.enter.onAuthStateChanged(function(user) {
-				if (user) {
-					_main.firebase.isLogged = true;
-					firebaseGetZonesImages();
-				} else {
-
-					_main.firebase.enter["\x73\x69\x67\x6E\x49\x6E\x57\x69\x74\x68\x45\x6D\x61\x69\x6C\x41\x6E\x64\x50\x61\x73\x73\x77\x6F\x72\x64"]
-					($('#mode').dataset.f + $('#domain').dataset.f, uiElems.enter[0]).catch(function(error) {
-						console.log(error);
-					});
-				}
-			});
-		}
-	}
-
-	function firebaseGetZonesImages() {
-		if (window.ui.main.firebase.isLogged) {
-			if (Data.provision.wifi === null || Data.provision.system === null) {
-				setTimeout(window.ui.main.firebaseGetZonesImages, 2000);
-				return;
-			}
-			try {
-				var mac = Data.provision.wifi.macAddress;
-				if (mac === null || mac.split(":").length != 6) {
-					console.error("Invalid device MAC address");
-					return;
-				}
-				var valves = +Data.provision.system.localValveCount;
-				var storagePath = "devices/" + mac + "/images/";
-				Data.zonesImages = {};
-
-				for (var i = 1; i <= valves; i++) {
-					var name = "zone" + i + ".jpg";
-					var currentImage = storagePath + name;
-					var imageRef = window.ui.main.firebase.storageRef.child(currentImage);
-					imageRef.getDownloadURL().then(
-						function(id, url) {
-							Data.zonesImages[id] = url;
-							window.ui.zones.updateZoneImage(id); //Force a zone image refresh
-						}.bind(null, i)
-					);
-				}
-			} catch (e) {
-				console.error(e);
-			}
-		} else {
-			console.log("No auth to retrieve zone images");
-		}
-	}
-
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -403,7 +326,7 @@ window.ui = window.ui || {};
 		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 		buildNavigation(dashboardNavigation);
 		Help.bindAll();
-		firebaseInit();
+		window.ui.firebase.init();
 
 		//Set default button selections
 		$('#dashboardBtn').setAttribute("selected", true);
@@ -469,7 +392,6 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiStart = uiStart;
 	_main.refreshGraphs = false;
-	_main.firebaseGetZonesImages = firebaseGetZonesImages;
 
 } (window.ui.main = window.ui.main || {}));
 
