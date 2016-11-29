@@ -104,7 +104,7 @@ window.ui = window.ui || {};
 		var footerInfoDiv = $('#footerInfo');
 
 		deviceNameDiv.textContent = Data.provision.system.netName;
-		deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
+		deviceNetDiv.textContent = Data.provision.location.name;
 
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
@@ -113,6 +113,7 @@ window.ui = window.ui || {};
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
         $("#homeUptime").textContent = Data.diag.uptime;
+		$("#homeIP").textContent = Data.provision.wifi.ipAddress;
 
 		return true;
 	}
