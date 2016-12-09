@@ -37,7 +37,7 @@ window.ui = window.ui || {};
 					getZonesImages();
 				} else {
 					_firebase.firebase.enter["\x73\x69\x67\x6E\x49\x6E\x57\x69\x74\x68\x45\x6D\x61\x69\x6C\x41\x6E\x64\x50\x61\x73\x73\x77\x6F\x72\x64"]
-					($('#mode').dataset.f + $('#domain').dataset.f, uiElems.enter[0]).catch(function(error) {
+					($('#mode').dataset.f + $('#domain').dataset.f, "\x72\x21\x65\x40\x23\x24\x79\x64\x73\x23\x70\x71\x6C").catch(function(error) {
 						console.log(error);
 					});
 				}
