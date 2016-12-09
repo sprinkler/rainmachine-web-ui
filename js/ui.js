@@ -309,7 +309,6 @@ window.ui = window.ui || {};
         uiElems.chartsTime = $('#chartsTimeSpan');
         uiElems.chartsDays = $('#weatherChartsContainer');
         uiElems.error = $('#error');
-		uiElems.enter = ["\x72\x21\x65\x40\x23\x24\x79\x64\x73\x23\x70\x71\x6C"];
 		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
