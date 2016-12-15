@@ -981,7 +981,7 @@ function generateQPFChart () {
 				format: '{value} ' + Util.convert.uiQuantityStr()
 			},
 			title: false,
-			min: 0
+			min: 0.0000000001
 		}],
 		credits: {
 			enabled: false
