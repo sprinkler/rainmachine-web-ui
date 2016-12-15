@@ -229,6 +229,20 @@ strong { font-weight: 700; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.weatherChartDaysMonth {
+  display: block;
+  text-align: right;
+  padding-top: 0.3em;
+  color: #999;
+  height: 5.9em;
+}
+.weatherChartDaysTempRain {
+  display: block;
+  text-align: right;
+  color: #39c;
+  line-height: 21px;
+  font-size: 14px;
+}
 .program-line,
 .weather-program-line {
   display: inline-block;
