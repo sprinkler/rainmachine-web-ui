@@ -33,6 +33,19 @@ window.ui = window.ui || {};
             errorContainerElem = $("#loginError");
         }
 
+        //Added for demo
+        var host = window.location.hostname;
+        if (host == "192.168.12.174" || host == "demo.labs.rainmachine.com") {
+            accessToken = API.auth("", true);
+            if(accessToken) {
+                document.body.className = "";
+                Storage.saveItem("access_token", accessToken);
+                API.setAccessToken(accessToken);
+                APIAsync.setAccessToken(accessToken);
+                return callback();
+            }
+        }
+
         loginButtonElem.onclick = function() {
 
             makeHidden(errorContainerElem);
