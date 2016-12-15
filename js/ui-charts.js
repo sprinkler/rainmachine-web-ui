@@ -668,7 +668,7 @@ function generateDailyWeatherChart(container, past, days) {
 		if (i == startDayIndex) {
 			weatherDateElem.textContent = Util.monthNamesShort[date.getMonth()] + " " + date.getDate();
 		} else {
-			weatherDateElem.textContent = date.getDate();
+			weatherDateElem.textContent = Util.weekDaysNamesShort[(date.getDay() + 6) % 7] + " " + date.getDate(); //Our array starts with Monday
 		}
 
 		if (i == startDayIndex + 1) { //today
