@@ -292,7 +292,17 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	calculateSizes();
 
-	slider.addEventListener("mousedown", function(e) {
+	slider.addEventListener("mousedown", startMove);
+	slider.addEventListener("touchstart", startMove);
+
+	document.addEventListener("mousemove", updateSlider);
+	document.addEventListener("touchmove", updateSlider);
+
+	document.addEventListener("mouseup", endMove);
+	document.addEventListener("touchend", endMove);
+
+
+	function startMove(e) {
 		//These are recalculated as they aren't ready on DOM creation
 		sliderWidth = this.offsetWidth;
 		sliderLeft = this.offsetLeft;
@@ -300,23 +310,26 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		mouseDown = true;
 		updateSlider(e);
 		return false;
-	});
+	}
 
-	document.addEventListener("mousemove", function(e) {
-		updateSlider(e);
-	});
-
-	document.addEventListener("mouseup", function(e) {
+	function endMove(e) {
 		if (mouseDown && typeof onDragEnd == "function") {
 			var value = updateSlider(e);
 			onDragEnd(value);
 		}
 		mouseDown = false;
-	});
+	}
 
 	function updateSlider(e) {
 		var value = null;
 		if (mouseDown) {
+			if ("targetTouches" in e) {
+				if (e.targetTouches.length > 0) {
+					e.pageX = e.targetTouches[0].pageX; //touchmove
+				} else {
+					e.pageX = e.changedTouches[0].pageX; //touchend
+				}
+			}
 			if (e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
         		thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
         		value = (e.pageX - sliderLeft) * ratio;
@@ -346,16 +359,16 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		thumb.style.left = v + 'px';
 		setThumbInfo(value);
 		calculateSizes();
-	}
+	};
 
 	this.setPositionWithOffset = function(value) {
 		var current = this.getPosition();
 		this.setPosition(current + value * ratio);
-	}
+	};
 
 	this.getPosition = function() {
 		return (thumb.offsetLeft - slider.offsetLeft + thumbWidth) * ratio;
-	}
+	};
 
 	this.setMaxValue = function(value) {
 		var current = this.getPosition() / ratio;
@@ -364,11 +377,11 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		calculateSizes();
 		//console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
 		this.setPosition(current * ratio);
-	}
+	};
 
 	this.getMaxValue = function() {
 		return maxValue;
-	}
+	};
 
 	this.isDragging = function() {
 		return mouseDown;
