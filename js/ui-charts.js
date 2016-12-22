@@ -666,10 +666,10 @@ function generateDailyWeatherChart(container, past, days) {
 		var weatherQPFElem =  $(weatherTemplate, '[rm-id="day-weather-qpf"]');
 
 		if (i == startDayIndex) {
-			weatherDateElem.textContent = Util.monthNamesShort[date.getMonth()] + " " + date.getDate();
-		} else {
-			weatherDateElem.textContent = date.getDate();
+			$('#weatherChartDaysMonth').textContent = Util.monthNames[date.getMonth()];
 		}
+
+		weatherDateElem.textContent = Util.weekDaysNamesShort[(date.getDay() + 6) % 7] + " " + date.getDate(); //Our array starts with Monday
 
 		if (i == startDayIndex + 1) { //today
 			weatherTemplate.className += " today";
@@ -981,7 +981,7 @@ function generateQPFChart () {
 				format: '{value} ' + Util.convert.uiQuantityStr()
 			},
 			title: false,
-			min: 0
+			min: 0.0000000001
 		}],
 		credits: {
 			enabled: false
