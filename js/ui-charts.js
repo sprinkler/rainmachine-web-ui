@@ -4,7 +4,7 @@
  */
 
 /* global Highcharts */
-var YEARDAYS = Util.getYearDays((new Date()).getFullYear());
+var YEARDAYS = Util.getYearDays((new Date()).getFullYear() - 1); //Get the number of days of last year not current one
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,
 		monthly: 1,
@@ -85,7 +85,7 @@ ChartSeries.prototype.insertAtDate = function (dateStr, value) {
 ChartSeries.prototype.getAtDate = function (dateStr) {
 	var index = Util.getDateIndex(dateStr, this.startDate);
 	if (index < 0 || index >= chartsMaximumDataRange) {
-    	//console.log('Index %d for date %s outside needed range', index, dateStr);
+    	//console.log('GetAtDate: Index %d for date %s outside needed range', index, dateStr);
 		return null;
 	}
 
