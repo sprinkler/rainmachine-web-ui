@@ -677,16 +677,16 @@ function generateDailyWeatherChart(container, past, days) {
 
 		weatherIconElem.textContent = Util.conditionAsIcon(condition);
 
-		if (mintemp !== null) {
-			weatherTempElem.textContent = Math.round(mintemp);
+		if (maxtemp !== null) {
+			weatherTempElem.textContent = Math.round(maxtemp);
 		} else {
 			weatherTempElem.textContent = "--";
 		}
 		weatherTempElem.textContent += "/";
 
 
-		if (maxtemp !== null) {
-			weatherTempElem.textContent += Math.round(maxtemp);
+		if (mintemp !== null) {
+			weatherTempElem.textContent += Math.round(mintemp);
 		} else {
 			weatherTempElem.textContent += "--";
 		}
