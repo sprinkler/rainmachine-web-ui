@@ -596,7 +596,7 @@ window.ui = window.ui || {};
 
 			dayNameElem.textContent = day.date;
 			dayConditionElem.textContent = dayConditionStr;
-			dayTempElem.textContent = dayMinTempStr + " / " + dayMaxTempStr;
+			dayTempElem.textContent = dayMaxTempStr + " / " + dayMinTempStr;
 			dayQpfElem.textContent = dayQpfStr;
 			dayETElem.textContent = dayETStr;
 
@@ -653,8 +653,8 @@ window.ui = window.ui || {};
 					*/
 					//Show actual values
 
-					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ";
-					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " ";
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " of EvapoTranspiration and ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " of Rain since the last program run.";
 
 					makeVisible(programPastQPFIconElem);
 					makeVisible(programPastETIconElem);
@@ -760,7 +760,7 @@ window.ui = window.ui || {};
 
 				//Create Program totals elements
 				var programTotalsTemplate = createZoneWateringHistoryElems(
-					"Total: ",
+					"Program total: ",
 					programDurations.user,
 					programDurations.real,
 					programDurations.usedVolume,

@@ -1245,6 +1245,48 @@ td.right,
   margin-left: 10px;
   margin-right: 10px;
 }
+.wateringLogDayHeader {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3399cc+0,000000+100&0.65+0,0+100 */
+background: -moz-linear-gradient(top,  rgba(51,153,204,0.15) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(51,153,204,0.15) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(51,153,204,0.15) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a63399cc', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
+ padding:1em;
+ padding-bottom: 0.4em;
+ border-top: 1px solid #8fbfd7;
+ margin-top: -0.7em;
+}
+.wateringLogDayFooter {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,eeeeee+100&0+0,0.65+100 */
+background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(238,238,238,0.65) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(238,238,238,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(238,238,238,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6eeeeee',GradientType=0 ); /* IE6-9 */
+
+ padding:1em;
+ padding-bottom: 2em;
+ border-bottom: 1px solid #ddd;
+ margin-bottom: 4em;
+ font-weight: 800;
+}
+
+.wateringLogDayWeatherIcon {
+  display: inline-block;
+  font: normal 5em 'RainMachine', Arial, sans-serif;
+  color: #39c;
+  margin: 0 0.5em;
+  margin-top: -0.2em;
+  vertical-align: middle;
+}
+.wateringLogDayGrandTotals {
+  display: inline-block;
+  margin: 0 1em;
+}
+.wateringLogDayDate {
+  font-size: 1.5em;
+  font-weight: 400;
+}
 .historyZone {
   width: 100%;
   display: table;
@@ -1255,7 +1297,7 @@ td.right,
   display: table;
   font-weight: bold;
   color: #3399cc;
-  border-bottom: 1px solid #3399cc;
+  /*border-bottom: 1px solid #3399cc;*/
 }
 
 .historyZone:hover { background-color: #f0f0f0 }
