@@ -539,7 +539,8 @@ window.ui = window.ui || {};
 			var dayTemplate = loadTemplate("watering-history-day-template");
 			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
 			var dayConditionElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherIcon"]');
-			var dayTempElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherTemp"]');
+			var dayTempMaxElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherMaxTemp"]');
+			var dayTempMinElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherMinTemp"]');
 			var dayQpfElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherQpf"]');
 			var dayETElem =  $(dayTemplate, '[rm-id="wateringLogDayWeatherET"]');
 			var dayUserDurationElem = $(dayTemplate, '[rm-id="wateringLogDayUser"]');
@@ -596,7 +597,8 @@ window.ui = window.ui || {};
 
 			dayNameElem.textContent = day.date;
 			dayConditionElem.textContent = dayConditionStr;
-			dayTempElem.textContent = dayMaxTempStr + " / " + dayMinTempStr;
+			dayTempMaxElem.textContent = dayMaxTempStr;
+			dayTempMinElem.textContent = dayMinTempStr;
 			dayQpfElem.textContent = dayQpfStr;
 			dayETElem.textContent = dayETStr;
 
@@ -653,8 +655,8 @@ window.ui = window.ui || {};
 					*/
 					//Show actual values
 
-					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " of EvapoTranspiration and ";
-					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " of Rain since the last program run.";
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ET ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " Rain since last run.";
 
 					makeVisible(programPastQPFIconElem);
 					makeVisible(programPastETIconElem);

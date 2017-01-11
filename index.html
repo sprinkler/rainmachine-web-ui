@@ -2165,49 +2165,56 @@
 			<div class="wateringLogDayHeader" >
 				<div id="day-weather-template-history">
 					<div class="wateringLogDayGrandTotals">
-						<div>Date</div>
-						<div rm-id="wateringLogDayName" class="wateringLogDayDate dayTemp"></div>
+						<div rm-id="wateringLogDayName" class="wateringLogDayDate dayTemp">Tue, Jan 11 2017</div>
 					</div>
 					<div rm-id="wateringLogDayWeatherIcon" class="wateringLogDayWeatherIcon">s</div>
 
 					<div class="wateringLogDayGrandTotals">
-						<div>Max/Min Temp</div>
-						<div rm-id="wateringLogDayWeatherTemp" class="dayTemp">79<sup>o</sup></div>
+						<div style="display:inline-block;">Max:</div>
+						<div rm-id="wateringLogDayWeatherMaxTemp" class="dayTemp" style="display:inline;">79<sup>o</sup></div>
+						<br>
+						<div style="display:inline-block;">Min:</div>
+						<div rm-id="wateringLogDayWeatherMinTemp" class="dayTemp" style="display:inline;">29<sup>o</sup></div>
 					</div>
 					<div class="wateringLogDayGrandTotals">
-						<div>Precipitation</div>
-						<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+						<div style="display:inline-block;">Rain:</div>
+						<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div>
+						<br>
+						<div style="display:inline-block;">ET:</div>
+						<div rm-id="wateringLogDayWeatherET" class="dayTemp" style="display:inline;">0.0</div>
 					</div>
 					<div class="wateringLogDayGrandTotals">
-						<div style="margin-top:10px;">EvapoTranspiration</div>
-						<div rm-id="wateringLogDayWeatherET" class="dayTemp" style="display:inline;">0.0</div><span class="dayTemp icon middle" style="display:inline;font-size:16px;vertical-align:baseline;padding-left:3px;">&#xe900;</span>
+						<div style="display:inline-block;">Scheduled:</div>
+						<div rm-id="wateringLogDayUser" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
+						<br>
+						<div style="display:inline-block;">Watered:</div>
+						<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
+						<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>
 					</div>
 				</div>
 			</div>
-			<div rm-id="wateringLogProgramsContainer"></div>
-			<div class="wateringLogDayFooter">
-				<div class="dayTemp" style="width:40%;border-bottom:1px solid #eee;text-align:center;margin:0 auto;margin-bottom:10px;">GRAND TOTAL</div>
-				<div style="display:inline-block;">Scheduled time:</div>
-				<div rm-id="wateringLogDayUser" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
-				<div style="display:inline-block;">Watered time:</div>
-				<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
-				<div style="display:inline-block;">Water used:</div>
-				<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>
+			<div class="historyZone">
+				<div class="historyZoneItem">&nbsp;</div>
+				<div class="historyZoneItem" style="width:22%;">Start Time</div>
+				<div class="historyZoneItem" style="width:10%;">Scheduled</div>
+				<div class="historyZoneItem">Watered</div>
+				<div class="historyZoneItem">&nbsp;</div>
+				<div class="historyZoneItem">Saved</div>
+				<div class="historyZoneItem">Special Reason</div>
 			</div>
-
+			<div rm-id="wateringLogProgramsContainer"></div>
+			<div class="wateringLogDayFooter"></div>
 		</div>
 		<!-- Template for Watering History per Day (End) -->
 
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
-			<div style="text-align:left;padding:1em 0.8em;color:#555;font-size:0.8em;">
-				<!-- <span class="icon" alt="RainMachine watering program" title="RainMachine watering program">P</span> -->
-				<span rm-id="wateringLogProgramName" class="inlineblock bluerm middle" style="font-size:1.5em;padding-right: 20px;vertical-align: baseline;"></span>
-				<span rm-id="wateringLogProgramPastET"></span>
-				<!-- <span rm-id="wateringLogProgramPastETIcon" class="dayTemp icon middle" style="display:none;font-size:14px;margin-right:10px;">&#xe900;</span> -->
-				<span rm-id="wateringLogProgramPastQPF"></span>
-				<!-- <span rm-id="wateringLogProgramPastQPFIcon" class="dayTemp icon middle" style="display:none;font-size:8px;">V</span> -->
-				<!-- <div rm-id="wateringLogProgramPastHelp" class="helpText" help="programPastValues" style="display: none;margin-bottom: 0">?</div> -->
+			<div style="text-align:left;padding:1em 1.5em;color:#555;font-size:0.8em;">
+				<span rm-id="wateringLogZoneName" class="historyZoneItemName">
+					<span rm-id="wateringLogProgramName" class="wateringLogProgramName"></span><br>
+					<span rm-id="wateringLogProgramPastET"></span>
+					<span rm-id="wateringLogProgramPastQPF"></span>
+				</span>
 			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName"></div>
