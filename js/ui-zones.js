@@ -925,11 +925,9 @@ window.ui = window.ui || {};
 		var flow = waterSenseData.flowrate || null;
 		var isDrip = false;
 
-		if (Data.zoneData.zones && (index in Data.zoneData.zones)) {
-			var sprinklerHead = Data.zoneData.zones[index].group_id;
-			if (sprinklerHead == 3 || sprinklerHead == 4) {
-				isDrip = true;
-			}
+		var sprinklerHead = Data.zoneAdvData.zones[index].group_id;
+		if (sprinklerHead == 3 || sprinklerHead == 4) {
+			isDrip = true;
 		}
 
 		var hasArea = (area !== null && area > 1);
