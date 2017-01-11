@@ -332,10 +332,7 @@ window.ui = window.ui || {};
 		$('#settings0').setAttribute("selected", true);
 		$('#'+ dashboardNavigation[0].id).setAttribute("selected", "on");
 
-		$("#logoutBtn").onclick = function() {
-			Storage.deleteItem("access_token");
-			Util.redirectHome(location);
-		};
+		$("#logoutBtn").onclick = ui.login.logout;
 
 		//More button for water log details
 		$("#waterlog-more").onclick = $('#homeScreenWaterSaved').onclick = function() {

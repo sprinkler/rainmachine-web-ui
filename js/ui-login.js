@@ -17,6 +17,7 @@ window.ui = window.ui || {};
         var accessToken = Storage.restoreItem("access_token");
 
         if(accessToken && accessToken !== "") {
+            console.log("Login: Using saved access token.");
             API.setAccessToken(accessToken);
             APIAsync.setAccessToken(accessToken);
         }
@@ -76,5 +77,16 @@ window.ui = window.ui || {};
 
         document.body.className = "login";
     };
+
+    _login.logout = function() {
+        // The logout function should delete access_token from Storage and set it to null in API
+        // but to work around the httponly cookie sent by server we save an invalid access_token so
+        // we force a login
+        var accessToken = "invalid";
+        Storage.saveItem("access_token", accessToken);
+        API.setAccessToken(accessToken);
+        APIAsync.setAccessToken(accessToken);
+        Util.redirectHome(location);
+    }
 
 } (window.ui.login = window.ui.login || {}));
