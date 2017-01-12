@@ -2163,7 +2163,7 @@
 		<!-- Template for Watering History per Day (Start) -->
 		<div id="watering-history-day-template">
 		      <div class="row wateringLogDayHeader" style="text-align:left;">
-		        <div class="col-4" style="background-color:#39c;color:#fff;">
+		        <div class="col-4" class="wateringLogDay">
 		          <div rm-id="wateringLogDayName" class="wateringLogDayDate dayTemp" style="display:none;">Tue, Jan 11 2017</div>
 		          <div class="wateringLogWeatherDay">
 		          	<div class="wateringLogDayDate">Tue, Jan 11 2017</div>
@@ -2181,23 +2181,19 @@
 		          </div>
 		          <div rm-id="wateringLogDayWeatherIcon" class="wateringLogDayWeatherIcon">s</div>
 			    </div>
-		        <div class="col-2" style="width:9%;text-align: center;">
-		          	<div>Start time</div>
+			    <div class="col-2" style="width:9%;">
+		          	&nbsp;
 				</div>
-		        <div class="col-2">
-		          	<div>Scheduled</div>
+		        <div class="col-3">
+		        	<div style="height:2em;"></div>
+		          	<div>Toral Scheduled</div>
 					<div rm-id="wateringLogDayUser" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
 				</div>
-				<div class="col-2">
-					<div style="display:inline-block;">Watered</div>
-					<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
+				<div class="col-3">
+					<div style="height:2em;"></div>
+					<div>Total Watered</div>
+					<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;"></div>
 					<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>
-		        </div>
-		        <div class="col-1" style="text-align:center;">
-		          <div>Saved</div>
-		        </div>
-		        <div class="col-2" style="width:30%;text-align:right;">
-		          <div>Special condition</div>
 		        </div>
 		      </div>
 			<div rm-id="wateringLogProgramsContainer"></div>
@@ -2208,15 +2204,31 @@
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
 			<div class="row" style="text-align:left;">
-		        <div class="col-12">
+		        <div class="col-4">
 					<div style="color:#555;font-size:0.8em;padding-bottom:5px;">
 						<span rm-id="wateringLogZoneName" class="historyZoneItemName">
 							<span rm-id="wateringLogProgramName" class="wateringLogProgramName"></span><br>
 							<span rm-id="wateringLogProgramPastET"></span>
+							<br>
 							<span rm-id="wateringLogProgramPastQPF"></span>
 						</span>
 					</div>
 				</div>
+				<div class="col-2" style="width:9%;">
+		          	<div class="padTop">Start time</div>
+				</div>
+		        <div class="col-3">
+		          	<div class="padTop">Scheduled</div>
+				</div>
+				<div class="col-3">
+					<div class="padTop">Watered</div>
+		        </div>
+		        <div class="col-1" style="text-align:center;">
+		          <div class="padTop">Saved</div>
+		        </div>
+		        <div class="col-1" style="width:14%;text-align:right;">
+		          <div class="padTop">Special condition</div>
+		        </div>
 			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
 			<div rm-id="wateringLogProgramTotal" class="historyProgName"></div>
@@ -2229,19 +2241,19 @@
 		        <div class="col-4">
 		          <span rm-id="wateringLogZoneName" class="historyZoneItemName"></span>
 			    </div>
-		        <div class="col-2" style="width:9%;text-align: center;">
+		        <div class="col-2" style="width:9%;">
 		          	<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
 				</div>
-		        <div class="col-2">
+		        <div class="col-3">
 		          	<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 					<span rm-id="wateringLogZoneRealTime" class="historyZoneItem"></span> <span rm-id="wateringLogZoneFlowRate" class="historyZoneItem"></span>
 		        </div>
 		        <div class="col-1" style="text-align:center;">
 		          <div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
 		        </div>
-		        <div class="col-2" style="width:30%;text-align:right;">
+		        <div class="col-1" style="width:14%;text-align:right;">
 		          <div rm-id="wateringLogZoneSavedReason" class="historyZoneItem"></div>
 		        </div>
 		    </div>
@@ -2266,7 +2278,7 @@
 		<div id="watering-history-day-programs-simple-template" style="border-bottom:1px solid #ddd;margin-bottom:10px;">
 			<div style="padding-bottom:10px;padding-left:10px;">
 				<div rm-id="wateringLogProgramName"></div>
-				<div rm-id="wateringLogProgramStart"></div>
+				<div rm-id="wateringLogProgramStart" style="color:#888;"></div>
 			</div>
 			<div rm-id="wateringLogZonesContainer" class="wateringLogAllZones"></div>
 		</div>

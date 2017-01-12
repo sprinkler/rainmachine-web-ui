@@ -1404,6 +1404,10 @@ td.right,
   margin-left: 10px;
   margin-right: 10px;
 }
+.wateringLogDay {
+  background-color:#fff;
+  color:#39c;
+}
 .wateringLogDayHeader {
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3399cc+0,000000+100&0.65+0,0+100 */
 background: -moz-linear-gradient(top,  rgba(238,238,238,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
@@ -1445,7 +1449,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
   border-radius: 100%;
   padding: 10px;
   color: #39c;
-  background-color: #ffffff;
+  background-color: transparent;
 }
 .wateringLogDayGrandTotals {
   display: inline-block;
@@ -1454,21 +1458,28 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .wateringLogDayDate {
   font-size: 1.5em;
   font-weight: 400;
-  background-color: #39c;
-  color: #ffffff;
+  background-color: transparent;
+  color: #39c;
 }
 .wateringLogDayWeatherData {
   vertical-align:middle;
   padding-top:5px;
   border-top:1px solid #57a4cb;
-  color:#c5dce8;
+  /*color:#c5dce8;*/
+  color:#555;
   font-size:0.9em;
 }
 .wateringLogWeatherDay{
   display: inline-block;
   vertical-align: middle;
-  margin: 1em;
-  margin-right: 4em;
+  border-left: 10px solid #39c;
+  padding-left: 0.8em;
+  margin-right: 3em;
+}
+.padTop {
+  padding-top: 2.5em;
+  color:#ccc;
+  font-size: 0.9em;
 }
 .historyZone {
   width: 100%;

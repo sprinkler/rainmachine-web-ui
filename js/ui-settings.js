@@ -655,8 +655,8 @@ window.ui = window.ui || {};
 					*/
 					//Show actual values
 
-					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " of EvapoTranspiration and ";
-					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " of Rain since last run.";
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ET since last run. ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " Rain since last run.";
 
 					makeVisible(programPastQPFIconElem);
 					makeVisible(programPastETIconElem);
@@ -844,10 +844,10 @@ window.ui = window.ui || {};
 			dayUserDurationElem.textContent = Util.secondsToText(dayDurations.user);
 			dayRealDurationElem.textContent = Util.secondsToText(dayDurations.real);
 			if (dayDurations.usedVolume !== null && dayDurations.usedVolume > 0) {
-				dayWaterUsedElem.textContent = Util.convert.uiWaterVolume(dayDurations.usedVolume) + " / " +
-					Util.convert.uiWaterVolume(dayDurations.volume) + Util.convert.uiWaterVolumeStr();
+				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) + 
+					Util.convert.uiWaterVolumeStr() + ")";
 			} else {
-				dayWaterUsedElem.textContent = "No water used";
+				dayWaterUsedElem.textContent = "(0gal)";
 			}
 
 			container.appendChild(dayTemplate);
@@ -993,8 +993,8 @@ window.ui = window.ui || {};
 		zoneWateredElem.textContent = Util.secondsToText(watered);
 
 		if (usedVolume !== null && usedVolume > 0) {
-			zoneFlowRateElem.textContent = Util.convert.uiWaterVolume(usedVolume) + " / " +
-				Util.convert.uiWaterVolume(volume) + Util.convert.uiWaterVolumeStr();
+			zoneFlowRateElem.textContent = "(" + Util.convert.uiWaterVolume(usedVolume) + 
+				Util.convert.uiWaterVolumeStr() + ")";
 		}
 
 		zoneReasonElem.textContent = waterLogReason[flag];
