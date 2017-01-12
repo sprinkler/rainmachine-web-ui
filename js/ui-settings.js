@@ -655,8 +655,8 @@ window.ui = window.ui || {};
 					*/
 					//Show actual values
 
-					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ET ";
-					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " Rain since last run.";
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " of EvapoTranspiration and ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " of Rain since last run.";
 
 					makeVisible(programPastQPFIconElem);
 					makeVisible(programPastETIconElem);
