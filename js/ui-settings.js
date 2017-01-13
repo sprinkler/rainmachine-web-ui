@@ -539,7 +539,8 @@ window.ui = window.ui || {};
 			var dayTemplate = loadTemplate("watering-history-day-template");
 			var dayNameElem = $(dayTemplate, '[rm-id="wateringLogDayName"]');
 			var dayConditionElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherIcon"]');
-			var dayTempElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherTemp"]');
+			var dayTempMaxElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherMaxTemp"]');
+			var dayTempMinElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherMinTemp"]');
 			var dayQpfElem = $(dayTemplate, '[rm-id="wateringLogDayWeatherQpf"]');
 			var dayETElem =  $(dayTemplate, '[rm-id="wateringLogDayWeatherET"]');
 			var dayUserDurationElem = $(dayTemplate, '[rm-id="wateringLogDayUser"]');
@@ -596,7 +597,8 @@ window.ui = window.ui || {};
 
 			dayNameElem.textContent = day.date;
 			dayConditionElem.textContent = dayConditionStr;
-			dayTempElem.textContent = dayMinTempStr + " / " + dayMaxTempStr;
+			dayTempMaxElem.textContent = dayMaxTempStr;
+			dayTempMinElem.textContent = dayMinTempStr;
 			dayQpfElem.textContent = dayQpfStr;
 			dayETElem.textContent = dayETStr;
 
@@ -653,8 +655,8 @@ window.ui = window.ui || {};
 					*/
 					//Show actual values
 
-					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ";
-					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " ";
+					programPastETElem.textContent += Util.convert.uiQuantity(pastET) +  Util.convert.uiQuantityStr() + " ET since last run. ";
+					programPastQPFElem.textContent +=  Util.convert.uiQuantity(pastQPF) + Util.convert.uiQuantityStr() + " Rain since last run.";
 
 					makeVisible(programPastQPFIconElem);
 					makeVisible(programPastETIconElem);
@@ -760,7 +762,7 @@ window.ui = window.ui || {};
 
 				//Create Program totals elements
 				var programTotalsTemplate = createZoneWateringHistoryElems(
-					"Total: ",
+					"Program total: ",
 					programDurations.user,
 					programDurations.real,
 					programDurations.usedVolume,
@@ -842,10 +844,10 @@ window.ui = window.ui || {};
 			dayUserDurationElem.textContent = Util.secondsToText(dayDurations.user);
 			dayRealDurationElem.textContent = Util.secondsToText(dayDurations.real);
 			if (dayDurations.usedVolume !== null && dayDurations.usedVolume > 0) {
-				dayWaterUsedElem.textContent = Util.convert.uiWaterVolume(dayDurations.usedVolume) + " / " +
-					Util.convert.uiWaterVolume(dayDurations.volume) + Util.convert.uiWaterVolumeStr();
+				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) + 
+					Util.convert.uiWaterVolumeStr() + ")";
 			} else {
-				dayWaterUsedElem.textContent = "No water used";
+				dayWaterUsedElem.textContent = "(0gal)";
 			}
 
 			container.appendChild(dayTemplate);
@@ -991,8 +993,8 @@ window.ui = window.ui || {};
 		zoneWateredElem.textContent = Util.secondsToText(watered);
 
 		if (usedVolume !== null && usedVolume > 0) {
-			zoneFlowRateElem.textContent = Util.convert.uiWaterVolume(usedVolume) + " / " +
-				Util.convert.uiWaterVolume(volume) + Util.convert.uiWaterVolumeStr();
+			zoneFlowRateElem.textContent = "(" + Util.convert.uiWaterVolume(usedVolume) + 
+				Util.convert.uiWaterVolumeStr() + ")";
 		}
 
 		zoneReasonElem.textContent = waterLogReason[flag];

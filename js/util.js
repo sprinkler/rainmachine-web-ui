@@ -30,24 +30,24 @@ Util.secondsToText = function(seconds, rounded)
 		text = r.days + " days ";
 
 	if (r.hours > 0)
-		text += r.hours + "h ";
+		text += r.hours + "hrs ";
 
 	if (rounded && text.length > 0) {
 		return text;
 	}
 
 	if (r.minutes > 0)
-		text += r.minutes + "m ";
+		text += r.minutes + "min ";
 
 	if (rounded && text.length > 0) {
 		return text;
 	}
 
 	if (r.seconds > 0)
-		text += r.seconds + "s ";
+		text += r.seconds + "sec ";
 
 	if (text.length == 0)
-		text = "0m";
+		text = "0min";
 
 	return text;
 };
@@ -548,7 +548,7 @@ Util.convert = {
 	},
 	uiQuantityStr: function() {
 		if (!Data.localSettings.units) {
-			return " in";
+			return " inch";
 		} else {
 			return " mm";
 		}

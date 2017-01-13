@@ -11,6 +11,165 @@ body.login {
   src: url('../font/rainmachine.woff');
 }
 /* Declare RainMachine custom font END */
+/* ==== GRID SYSTEM ==== */
+
+.container {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+}
+
+.row [class^="col"] {
+  float: left;
+  margin: 0.01rem 0.1%;
+  min-height: 0.125rem;
+}
+
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  width: 99%;
+}
+
+.col-1-sm {
+  width: 4.33%;
+}
+
+.col-2-sm {
+  width: 12.66%;
+}
+
+.col-3-sm {
+  width: 21%;
+}
+
+.col-4-sm {
+  width: 29.33%;
+}
+
+.col-5-sm {
+  width: 37.66%;
+}
+
+.col-6-sm {
+  width: 46%;
+}
+
+.col-7-sm {
+  width: 54.33%;
+}
+
+.col-8-sm {
+  width: 62.66%;
+}
+
+.col-9-sm {
+  width: 71%;
+}
+
+.col-10-sm {
+  width: 79.33%;
+}
+
+.col-11-sm {
+  width: 87.66%;
+}
+
+.col-12-sm {
+  width: 96%;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.hidden-sm {
+  display: none;
+}
+
+@media only screen and (min-width: 33.75em) {  /* 540px */
+  .container {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 45em) {  /* 720px */
+  .col-1 {
+    width: 4.33%;
+  }
+
+  .col-2 {
+    width: 12.66%;
+  }
+
+  .col-3 {
+    width: 21%;
+  }
+
+  .col-4 {
+    width: 29.33%;
+  }
+
+  .col-5 {
+    width: 37.66%;
+  }
+
+  .col-6 {
+    width: 46%;
+  }
+
+  .col-7 {
+    width: 54.33%;
+  }
+
+  .col-8 {
+    width: 62.66%;
+  }
+
+  .col-9 {
+    width: 71%;
+  }
+
+  .col-10 {
+    width: 79.33%;
+  }
+
+  .col-11 {
+    width: 87.66%;
+  }
+
+  .col-12 {
+    width: 96%;
+  }
+
+  .hidden-sm {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 60em) { /* 960px */
+  .container {
+    width: 75%;
+    max-width: 60rem;
+  }
+}
+/*END GRID SYSTEM */
 
 .loginContainer {
   display: none;
@@ -1245,6 +1404,83 @@ td.right,
   margin-left: 10px;
   margin-right: 10px;
 }
+.wateringLogDay {
+  background-color:#fff;
+  color:#39c;
+}
+.wateringLogDayHeader {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3399cc+0,000000+100&0.65+0,0+100 */
+background: -moz-linear-gradient(top,  rgba(238,238,238,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(238,238,238,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(238,238,238,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6eeeeee', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
+ padding: 1em 0 2.4em 0;
+ border-top: 2px solid #eee;
+ margin-top: -0.7em;
+ text-align: left;
+}
+.wateringLogDayFooter {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,eeeeee+100&0+0,0.65+100 */
+background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(238,238,238,0.65) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(238,238,238,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(238,238,238,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6eeeeee',GradientType=0 ); /* IE6-9 */
+
+ padding:1em;
+ padding-bottom: 0.5em;
+ padding-left:0.5em;
+ border-bottom: 1px solid #ddd;
+ margin-bottom: 4em;
+ font-weight: 800;
+}
+.wateringLogProgramName {
+ font-size:1.5em;
+ color: #39c;
+ vertical-align: baseline;
+}
+
+.wateringLogDayWeatherIcon {
+  display: inline;
+  font: normal 4.6em 'RainMachine', Arial, sans-serif;
+  margin: 0 0.1em;
+  margin-top: -0.1em;
+  vertical-align: middle;
+  border-radius: 100%;
+  padding: 10px;
+  color: #39c;
+  background-color: transparent;
+}
+.wateringLogDayGrandTotals {
+  display: inline-block;
+  margin: 0 1em;
+}
+.wateringLogDayDate {
+  font-size: 1.5em;
+  font-weight: 400;
+  background-color: transparent;
+  color: #39c;
+}
+.wateringLogDayWeatherData {
+  vertical-align:middle;
+  padding-top:5px;
+  border-top:1px solid #57a4cb;
+  /*color:#c5dce8;*/
+  color:#555;
+  font-size:0.9em;
+}
+.wateringLogWeatherDay{
+  display: inline-block;
+  vertical-align: middle;
+  border-left: 10px solid #39c;
+  padding-left: 0.8em;
+  margin-right: 3em;
+}
+.padTop {
+  padding-top: 2.5em;
+  color:#ccc;
+  font-size: 0.9em;
+}
 .historyZone {
   width: 100%;
   display: table;
@@ -1253,43 +1489,16 @@ td.right,
 .historyZoneCycles {
   width: 100%;
   display: table;
-  font-weight: bold;
+  font-weight: normal;
   color: #3399cc;
-  border-bottom: 1px solid #3399cc;
+  padding-top: 15px;
+  /*border-bottom: 1px solid #3399cc;*/
 }
 
 .historyZone:hover { background-color: #f0f0f0 }
 .historyZoneItem {
-  display: table-cell;
-  text-align: right;
-  width: 13%;
-  padding: 10px 0;
-  /*background-color: #ffffff;*/
-}
-.historyZoneItem:nth-child(3), .historyZoneItem:nth-child(4)  {
-  width:8%;
-}
-.historyZoneItem:nth-child(5) {
-  width:12%;
-}
-
-.historyZoneItem:nth-child(6), .historyZoneItem:last-child {
-  text-align: center;
-  color: #3399cc;
-  width:7%;
-}
-.historyZoneItem:last-child {
-  text-align: right;
-  width:16%;
-  padding-right: 10px;
-}
-.historyZoneItemName {
-  white-space: nowrap;
-  display: inline-block;
-  width: 280px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
+  padding: 5px 0;
+  font-size: 0.9em;
 }
 .historyDate,
 .historyProgName {
@@ -1302,8 +1511,8 @@ td.right,
 .historyAllZones {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 15px;
-  /*margin-left: 60px;*/
+  padding-top: 10px;
+  margin-bottom: 0;
 }
 .displayCyclesExpand, .displayCyclesContract {
   text-transform: uppercase;
