@@ -595,7 +595,7 @@ window.ui = window.ui || {};
 
 			//console.log("Day: %s Condition: %s Temp: %s/%s QPF: %s", day.date, dayCondition, dayMinTempStr, dayMaxTempStr, dayQpfStr);
 
-			dayNameElem.textContent = day.date;
+			dayNameElem.textContent = (new Date(day.date)).toDateString();
 			dayConditionElem.textContent = dayConditionStr;
 			dayTempMaxElem.textContent = dayMaxTempStr;
 			dayTempMinElem.textContent = dayMinTempStr;
