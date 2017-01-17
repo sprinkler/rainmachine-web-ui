@@ -1485,6 +1485,9 @@ td.right,
   padding-bottom: 12px;
   font-size: 0.9em;
 }
+.watersurplus {
+  color:#39c;
+}
 .historyDate,
 .historyProgName {
   display: table-cell;
