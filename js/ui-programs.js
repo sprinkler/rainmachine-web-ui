@@ -414,6 +414,7 @@ window.ui = window.ui || {};
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
+		document.body.onkeydown = function(event) { event.keyCode == 27 ? onCancel():false };
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 	}
@@ -775,6 +776,8 @@ window.ui = window.ui || {};
 	function closeProgramSettings()
 	{
 		var programSettingsDiv = $('#programsSettings');
+
+		document.body.onkeydown = null;
 		clearTag(programSettingsDiv);
 		makeVisible('#programsList');
 		selectedProgram = null;
@@ -856,6 +859,7 @@ window.ui = window.ui || {};
 			sec: zoneElems.durationSecElem.value
 		};
 
+		document.body.onkeydown = function(event) { event.keyCode == 27 ? onZoneTimerSettingsCancel(oldValues):false };
 		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
 		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
 
@@ -879,6 +883,8 @@ window.ui = window.ui || {};
 	function onZoneTimerSettingsCancel(oldValues) {
 		//console.log(oldValues);
 		var zoneElems = uiElems.zoneElems[oldValues.id];
+
+		document.body.onkeydown = function(event) { event.keyCode == 27 ? onCancel():false };
 
 		zoneElems.autoTypeElem.checked = oldValues.isAuto;
 		zoneElems.customTypeElem.checked = oldValues.isCustom;
