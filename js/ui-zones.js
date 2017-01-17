@@ -517,6 +517,8 @@ window.ui = window.ui || {};
 		uiElems.areaUnits.textContent = Util.convert.uiAreaStr();
 		uiElems.flowUnits.textContent = Util.convert.uiFlowVolumeStr();
 
+		//uiElems.zoneTemplateElem.
+		document.body.onkeydown = function(event) { event.keyCode == 27 ? closeZoneSettings():false };
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
@@ -689,6 +691,7 @@ window.ui = window.ui || {};
 	{
 		var zoneSettingsDiv = $('#zonesSettings');
 		console.log("Closing zone settings");
+		document.body.onkeydown = null;
 		clearTag(zoneSettingsDiv);
 		makeVisible('#zonesList');
 	}
@@ -753,10 +756,12 @@ window.ui = window.ui || {};
 	function onAvailableWaterShow(past, days, id) {
 		var template = loadTemplate('zone-available-water-template');
 
+		var title = $(template, '[rm-id="zone-available-water-title"]');
 		var close = $(template, '[rm-id="zone-available-water-cancel"]');
 		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
 		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
 
+		title.textContent = "Surplus water for \"" + Data.zoneData.zones[id].name + "\" zone";
 		close.onclick = function() { delTag(template);};
 		document.body.appendChild(template);
 
