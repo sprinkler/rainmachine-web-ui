@@ -843,13 +843,10 @@ window.ui = window.ui || {};
 			//Show day totals
 			dayUserDurationElem.textContent = Util.secondsToText(dayDurations.user);
 			dayRealDurationElem.textContent = Util.secondsToText(dayDurations.real);
-			if (dayDurations.usedVolume !== null && dayDurations.usedVolume > 0) {
-				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) + 
+			if (dayDurations.usedVolume !== null) {
+				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
 					Util.convert.uiWaterVolumeStr() + ")";
-			} else {
-				dayWaterUsedElem.textContent = "(0gal)";
 			}
-
 			container.appendChild(dayTemplate);
 		}
 	}
