@@ -518,7 +518,7 @@ window.ui = window.ui || {};
 		uiElems.flowUnits.textContent = Util.convert.uiFlowVolumeStr();
 
 		//uiElems.zoneTemplateElem.
-		document.body.onkeydown = function(event) { event.keyCode == 27 ? closeZoneSettings():false };
+		document.body.onkeydown = function(event) { if (event.keyCode == 27) closeZoneSettings() };
 		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
 		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
