@@ -207,7 +207,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 		});
 	}
 
-	var todayTimestamp = new Date();
+	var todayTimestamp = Util.today();
 	todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
 
 	var chartOptions = {

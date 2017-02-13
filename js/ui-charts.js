@@ -23,7 +23,7 @@ var chartsLevel = { // available viewing levels for the charts
 	chartsMonthlyPeriod = 0, // the current period of the charts (0 includes the current date, larger than 0 is in the past)
 	chartsMinMonthlyPeriod = 0, // the minimum value that the chartsMonthlyPeriod can take
 	chartsMaxMonthlyPeriod = Math.floor(chartsMaximumDataRange / chartsMonthlySlice), // the maximum value that the chartsMonthlyPeriod can take
-	chartsData = new ChartData(), // this will hold all the data for the charts
+	chartsData = null, // this will hold all the data for the charts
 	charts = { // array that holds the currently generated charts (used for destroying charts when other charts are rendered in the same container - memory optimization)
 		waterSaved: null,
 		temperature: null,
@@ -114,7 +114,7 @@ function ChartData () {
 	this.maxWN = 100; //maximum percentage of water need/used
 	this.currentAxisCategories = [];
 
-	var end = new Date();
+	var end = Util.today();
 	end.setDate(end.getDate() + 7); //Forecast for 7 days in the future
 
 	this.startDate = new Date(end);  //The start date in the past for this chart data

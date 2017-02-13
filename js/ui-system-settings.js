@@ -8,8 +8,8 @@ window.ui = window.ui || {};
 (function(_system) {
 
 	var systemSettingsView = null;
-	var deviceDateTime = null;
-	var deviceDateTimeTimer = null;
+	var dateRefreshValue = null; //Local value of device date to simulate passing of time
+	var dateRefreshTimer = null; //Handler to setTimeout()
 
 	function loadView() {
 		systemSettingsView = {
@@ -128,6 +128,7 @@ window.ui = window.ui || {};
 		}
 
 		getBetaUpdatesStatus();
+		getDeviceDateTime();
 
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 
@@ -168,11 +169,8 @@ window.ui = window.ui || {};
 		systemSettingsView.LocationLon.value = Data.provision.location.longitude;
 		systemSettingsView.LocationElev.value = Data.provision.location.elevation;
 
-
-		Data.timeDate = API.getDateTime();
-		deviceDateTime = new Date(Data.timeDate.appDate.replace(/-/g, "/"));
-		clearInterval(deviceDateTimeTimer);
-		deviceDateTimeTimer = setInterval(showDeviceDateTime, 1000);
+		clearInterval(dateRefreshTimer);
+		dateRefreshTimer = setInterval(showDeviceDateTime, 1000);
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
@@ -481,15 +479,15 @@ window.ui = window.ui || {};
 	function systemSettingsChangeLog()
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
-		API.setLogLevel(level);
+		var r = API.setLogLevel(level);
 	}
 
 	function showDeviceDateTime()
 	{
 		//Month/Day should have a leading 0
-		var dateString = deviceDateTime.getFullYear() + "-" +
-		 				('0' + (deviceDateTime.getMonth() + 1)).slice(-2) + '-' +
-						('0' + deviceDateTime.getDate()).slice(-2);
+		var dateString = dateRefreshValue.getFullYear() + "-" +
+		 				('0' + (dateRefreshValue.getMonth() + 1)).slice(-2) + '-' +
+						('0' + dateRefreshValue.getDate()).slice(-2);
 
 		//Don't update if focused by user
 		if (document.activeElement !== systemSettingsView.Seconds &&
@@ -497,13 +495,13 @@ window.ui = window.ui || {};
 			document.activeElement !== systemSettingsView.Hour &&
 			document.activeElement !== systemSettingsView.Date) {
 
-			systemSettingsView.Hour.value = deviceDateTime.getHours();
-			systemSettingsView.Minute.value = deviceDateTime.getMinutes();
-			systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+			systemSettingsView.Hour.value = dateRefreshValue.getHours();
+			systemSettingsView.Minute.value = dateRefreshValue.getMinutes();
+			systemSettingsView.Seconds.value = dateRefreshValue.getSeconds();
 			systemSettingsView.Date.value = dateString;
 		}
 
-		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
+		dateRefreshValue.setSeconds(dateRefreshValue.getSeconds() + 1);
 	}
 
 	function getLoginPIN()
@@ -580,10 +578,19 @@ window.ui = window.ui || {};
 		);
 	}
 
+	function getDeviceDateTime() {
+		return APIAsync.getDateTime().then(
+			function(o) {
+				Util.parseDeviceDateTime(o);
+				dateRefreshValue = Util.today();
+			});
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_system.showSettings = showSettings;
 	_system.changeSingleSystemProvisionValue = changeSingleSystemProvisionValue;
+	_system.getDeviceDateTime = getDeviceDateTime;
 
 } (window.ui.system = window.ui.system || {}));
