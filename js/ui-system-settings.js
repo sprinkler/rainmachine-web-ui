@@ -206,8 +206,8 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
 
-		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
-		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
+		systemSettingsView.SSHSet.onclick = function() {systemSettingsChangeSSH(); };
+		uiClickFeedback(systemSettingsView.LogSet, systemSettingsChangeLog, null);
 		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
 
 		systemSettingsView.AlexaSet.onclick = function() {
@@ -285,10 +285,12 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't set %s", provisionKey);
-			return;
+			value = Data.provision.system[provisionKey];
+			return null;
 		}
 
 		Data.provision.system[provisionKey] = value;
+		return r;
 
 	}
 
@@ -479,7 +481,7 @@ window.ui = window.ui || {};
 	function systemSettingsChangeLog()
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
-		var r = API.setLogLevel(level);
+		return API.setLogLevel(level);
 	}
 
 	function showDeviceDateTime()

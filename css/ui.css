@@ -288,7 +288,7 @@ h1.titleHome {
   border-top: 3px solid red;
 }
 #success {
-  border-top: 3px solid darkgreen;
+  border-top: 3px solid green;
 }
 b,
 strong { font-weight: 700; }

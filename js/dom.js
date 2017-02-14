@@ -387,3 +387,32 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		return mouseDown;
 	}
 }
+
+
+function uiClickFeedback(elem, func, paramsArray) {
+
+	if (paramsArray === undefined || paramsArray === null)
+		paramsArray = [];
+
+	elem.onclick = function() {
+		console.log("Requesting: %o", elem);
+		delTag($("#feedback"));
+		var n  = addTag(elem, "span");
+		n.id = "feedback";
+		n.className = "icon parserRefresh";
+		n.textContent = "R";
+
+		var r = func.apply(paramsArray);
+		r =  null;
+		if (r) {
+			n.textContent = "\u2714";
+			n.className += " green";
+			console.log("Success ! %o", elem);
+		} else {
+			n.textContent = "\u2718";
+			n.className = " red";
+			console.log("Error ! %o", elem);
+		}
+	}
+
+}
