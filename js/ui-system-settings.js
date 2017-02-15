@@ -206,8 +206,8 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
 
-		systemSettingsView.SSHSet.onclick = function() {systemSettingsChangeSSH(); };
-		uiClickFeedback(systemSettingsView.LogSet, systemSettingsChangeLog, null);
+		uiClickFeedback(systemSettingsView.SSHSet, systemSettingsChangeSSH);
+		uiClickFeedback(systemSettingsView.LogSet, systemSettingsChangeLog);
 		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
 
 		systemSettingsView.AlexaSet.onclick = function() {
@@ -351,6 +351,7 @@ window.ui = window.ui || {};
 	{
 		Data.localSettings.units = systemSettingsView.UnitsMetric.checked;
 		Storage.saveItem("localSettings", Data.localSettings);
+		return true;
 	}
 
 	function systemSettingsChangePassword()
@@ -362,27 +363,27 @@ window.ui = window.ui || {};
 
 		console.log(r);
 		if (r === undefined || !r || r.statusCode != 0)
-		{
 			console.log("Can't change password");
-			return;
-		}
+
+		return r;
 	}
 
 	function systemSettingsReset()
 	{
-		API.setProvisionReset(true);
+		var r = API.setProvisionReset(true);
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsReboot()
 	{
-		API.reboot();
+		return API.reboot();
 	}
 
 	function systemSettingsChangeSSH()
 	{
 		var isEnabled = systemSettingsView.SSH.checked;
-		API.setSSH(isEnabled);
+		return API.setSSH(isEnabled);
 	}
 
 	function systemSettingsChangeCloud()

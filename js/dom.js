@@ -395,23 +395,24 @@ function uiClickFeedback(elem, func, paramsArray) {
 		paramsArray = [];
 
 	elem.onclick = function() {
-		console.log("Requesting: %o", elem);
-		delTag($("#feedback"));
+		console.log("Requesting: %s", elem.id);
+		delTag($("#feedback-" + elem.id));
 		var n  = addTag(elem, "span");
-		n.id = "feedback";
-		n.className = "icon parserRefresh";
+		n.id = "feedback-" + elem.id;
 		n.textContent = "R";
+		n.className = "loading icon";
+		n.style.display = "inline-block";
 
 		var r = func.apply(paramsArray);
-		r =  null;
 		if (r) {
 			n.textContent = "\u2714";
-			n.className += " green";
-			console.log("Success ! %o", elem);
+			n.className = "green";
+			console.log("Success ! %s", elem.id);
+			setTimeout(function(){ delTag(n);}, 2000 )
 		} else {
-			n.textContent = "\u2718";
-			n.className = " red";
-			console.log("Error ! %o", elem);
+			n.textContent = "\u2717";
+			n.className = "red";
+			console.log("Error ! %s", elem.id);
 		}
 	}
 

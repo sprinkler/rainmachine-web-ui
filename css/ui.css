@@ -1678,12 +1678,12 @@ td.right,
   bottom: 10px;
   right: 10px;
 }
-.parserRefresh {
+.loading {
   animation: refresh 1.5s infinite linear;
   font-size: 14px;
   margin: 10px;
 }
-.parserRefresh[state="running"] {
+.loading[state="running"] {
   display: inline;
 }
 @-webkit-keyframes refresh {
@@ -1706,6 +1706,7 @@ td.right,
     transform: rotate(360deg);
   }
 }
+/*
 .button:active,
 .button:focus { animation: flash 1.5s ease-in }
 @keyframes flash { 
@@ -1718,6 +1719,7 @@ td.right,
   25%,
   75% { opacity: 0 }
 }
+*/
 /* Icon Button */
 .playstopButton {
   border: 0;
