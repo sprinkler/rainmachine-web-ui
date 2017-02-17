@@ -7,25 +7,57 @@ window.ui = window.ui || {};
 
 (function(_restrictions) {
 
+	var uiElems = null;
+
+	function createRestrictionsElems() {
+		uiElems = {};
+		uiElems.extraWateringElem = $("#restrictionsExtraWatering");
+		uiElems.maxWateringElem = $("#restrictionsMaxWatering");
+		uiElems.maxWateringContainer = $("#restrictionsMaxWateringContainer");
+
+		uiElems.freezeProtectElem = $("#restrictionsFreezeProtect");
+		uiElems.freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
+		uiElems.freezeProtectContainer = $("#restrictionsFreezeProtectContainer");
+
+		uiElems.minWateringElem = $("#restrictionsMinWatering");
+
+		uiElems.startHourElem = $("#restrictionHourlyStartHour");
+		uiElems.startMinuteElem = $("#restrictionHourlyStartMinute");
+		uiElems.durationElem = $("#restrictionHourlyDuration");
+		uiElems.rainSensorElem = $("#restrictionsRainSensor");
+		uiElems.rainSensorTypeElem = $("#restrictionsRainSensorType");
+
+		uiElems.buttonExtraSet = $("#restrictionsHotDaysSet");
+		uiElems.buttonFreezeSet = $("#restrictionFreezeSet");
+		uiElems.buttonMonthsSet = $("#restrictionsMonthsSet");
+		uiElems.buttonWeekDaysSet = $("#restrictionWeekDaysSet");
+		uiElems.buttonHourlySet = $("#restrictionHourlyAdd");
+		uiElems.buttonRainSensorSet = $("#restrictionsRainSensorSet");
+		uiElems.buttonMinWateringSet = $("#restrictionsMinWateringSet");
+	}
+
 	function showRestrictions()
 	{
+		if (uiElems === null)
+			createRestrictionsElems();
+
 		var rh = API.getRestrictionsHourly();
 		var rg = API.getRestrictionsGlobal();
 		rh = rh.hourlyRestrictions;
 
-		var extraWateringElem = $("#restrictionsExtraWatering");
-		var freezeProtectElem = $("#restrictionsFreezeProtect");
-		var freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
+		uiElems.extraWateringElem.checked = rg.hotDaysExtraWatering;
+		uiElems.freezeProtectElem.checked = rg.freezeProtectEnabled;
+		uiElems.rainSensorElem.checked = Data.provision.system.useRainSensor;
+		uiElems.rainSensorTypeElem.checked = Data.provision.system.rainSensorIsNormallyClosed;
 
-		var buttonExtraSet = $("#restrictionsHotDaysSet");
-		var buttonFreezeSet = $("#restrictionFreezeSet");
-		var buttonMonthsSet = $("#restrictionsMonthsSet");
-		var buttonWeekDaysSet = $("#restrictionWeekDaysSet");
-		var buttonHourlySet = $("#restrictionHourlyAdd");
+		uiElems.maxWateringElem.value = Data.provision.system.maxWateringCoef * 100;
+		uiElems.minWateringElem.value = Data.provision.system.minWateringDurationThreshold;
 
-		extraWateringElem.checked = rg.hotDaysExtraWatering;
-		freezeProtectElem.checked = rg.freezeProtectEnabled;
-		setSelectOption(freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
+		setSelectOption(uiElems.freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
+
+		if (Data.provision.api.hwVer == 2 || Data.provision.api.hwVer === "simulator") {
+			makeVisibleBlock("#restrictionsMini8");
+		}
 
 		//Set the months restrictions
 		for (var i = 0; i < Util.monthNames.length; i++)
@@ -40,10 +72,10 @@ window.ui = window.ui || {};
 		}
 
 		//Set the WeekDays restrictions
-		for (var i = 0; i < Util.weekDaysNames.length; i++)
+		for (i = 0; i < Util.weekDaysNames.length; i++)
 		{
-			var id = "#restrictions" + Util.weekDaysNames[i];
-			var e = $(id);
+			id = "#restrictions" + Util.weekDaysNames[i];
+			e = $(id);
 
 			if (rg.noWaterInWeekDays[i] == "1")
 				e.checked = true;
@@ -75,36 +107,105 @@ window.ui = window.ui || {};
 		}
 
 		//Button actions
-		buttonExtraSet.onclick = onSetExtraWatering;
-		buttonFreezeSet.onclick =  onSetFreezeProtect;
-		buttonMonthsSet.onclick =  onSetMonths;
-		buttonWeekDaysSet.onclick = onSetWeekDays;
-		buttonHourlySet.onclick =  onSetHourly;
+		uiElems.buttonExtraSet.onclick = onSetExtraWatering;
+		uiElems.buttonFreezeSet.onclick = onSetFreezeProtect;
+		uiElems.buttonMonthsSet.onclick = onSetMonths;
+		uiElems.buttonWeekDaysSet.onclick = onSetWeekDays;
+		uiElems.buttonHourlySet.onclick = onSetHourly;
+		uiElems.buttonMinWateringSet.onclick = onSetMinWatering;
+		uiElems.buttonRainSensorSet.onclick = onSetRainSensor;
+
+		uiElems.extraWateringElem.onclick = showMaxWatering;
+		uiElems.freezeProtectElem.onclick = showFreezeProtect;
+
+		//Set current state
+		showMaxWatering();
+		showFreezeProtect();
 	}
 
+	function showCurrentRestrictions() {
+		APIAsync.getRestrictionsCurrently().then(function(o) { Data.restrictionsCurrent = o; updateCurrentRestrictions()})
+	}
+
+	function updateCurrentRestrictions() {
+		var container = $("#currentRestrictionsList");
+		var hasRestrictions = false;
+
+		clearTag(container);
+
+		function addCurrentRestriction(name, active) {
+			var template = loadTemplate("current-restrictions-template");
+			var nameElem = $(template, '[rm-id="current-restriction-name"]');
+			var statusElem = $(template, '[rm-id="current-restriction-status"]');
+
+			if (typeof active === "undefined") active = true;
+
+			nameElem.textContent = name;
+			if (active) {
+				if (name == "Rain Sensor")
+					statusElem.textContent = "Rain Detected";
+				else
+					statusElem.textContent = "Active";
+			}
+
+			container.appendChild(template);
+			hasRestrictions = true;
+		}
+
+		if (Data.restrictionsCurrent.hourly) {
+			addCurrentRestriction("Hourly");
+		}
+
+		if (Data.restrictionsCurrent.freeze) {
+			addCurrentRestriction("Freeze Protect");
+		}
+
+		if (Data.restrictionsCurrent.month) {
+			addCurrentRestriction("Monthly");
+		}
+
+		if (Data.restrictionsCurrent.weekDay) {
+			addCurrentRestriction("Week Day");
+		}
+
+		if (Data.restrictionsCurrent.rainDelay) {
+			addCurrentRestriction("Snooze");
+		}
+
+		if (Data.restrictionsCurrent.rainSensor) {
+			addCurrentRestriction("Rain Sensor");
+		}
+
+		if (!hasRestrictions) {
+			addCurrentRestriction("No current active restrictions", false);
+		}
+	}
+
+	//Sets both extra watering restriction and max watering coef
 	function onSetExtraWatering()
 	{
-		var extraWateringElem = $("#restrictionsExtraWatering");
-		var data = { hotDaysExtraWatering: extraWateringElem.checked };
-
+		var data = { hotDaysExtraWatering: uiElems.extraWateringElem.checked };
 		console.log("Extra Watering %o", data);
-
 		API.setRestrictionsGlobal(data);
+
+		var maxWaterValue = parseInt(uiElems.maxWateringElem.value) / 100;
+		if (isNaN(maxWaterValue) || maxWaterValue < 1.0) maxWaterValue = 1.0;
+
+		window.ui.system.changeSingleSystemProvisionValue("maxWateringCoef", maxWaterValue);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetFreezeProtect()
 	{
-		var freezeProtectElem = $("#restrictionsFreezeProtect");
-		var freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
-
-		var temp = parseInt(freezeProtectTempElem.options[freezeProtectTempElem.selectedIndex].value);
+		var temp = parseInt(uiElems.freezeProtectTempElem.options[uiElems.freezeProtectTempElem.selectedIndex].value);
 
 		var data = {
-			freezeProtectEnabled: freezeProtectElem.checked,
+			freezeProtectEnabled: uiElems.freezeProtectElem.checked,
 			freezeProtectTemp: temp
 		};
 		console.log("FreezeProtect %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetMonths()
@@ -124,6 +225,7 @@ window.ui = window.ui || {};
 		var data = { noWaterInMonths: bitstrMonths };
 		console.log("Months restrictions: %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 	function onSetWeekDays()
@@ -143,15 +245,12 @@ window.ui = window.ui || {};
 		var data = { noWaterInWeekDays: bitstrWeekDays };
 		console.log("WeekDays restrictions: %o", data);
 		API.setRestrictionsGlobal(data);
+		window.ui.main.refreshGraphs = true;
 	}
 
 
 	function onSetHourly()
 	{
-		var startHourElem = $("#restrictionHourlyStartHour");
-		var startMinuteElem = $("#restrictionHourlyStartMinute");
-		var durationElem = $("#restrictionHourlyDuration");
-
 		//Read the WeekDays restrictions
 		var bitstrWeekDays = "";
 		for (var i = 0; i < Util.weekDaysNames.length; i++)
@@ -164,24 +263,44 @@ window.ui = window.ui || {};
 				bitstrWeekDays += "0";
 		}
 
-		var hour = parseInt(startHourElem.value) || 6;
-		var minute = parseInt(startMinuteElem.value) || 0;
+		var hour = parseInt(uiElems.startHourElem.value) || 0;
+		var minute = parseInt(uiElems.startMinuteElem.value) || 0;
 		var dayMinuteStart = hour * 60 + minute;
 
 		var data = {
 			start: dayMinuteStart,
-			duration: durationElem.value,
+			duration: uiElems.durationElem.value,
 			weekDays: bitstrWeekDays
-		}
+		};
 
 		console.log("Hourly Restriction %o", data);
 		API.setRestrictionsHourly(data);
 		showRestrictions(); //refresh
 	}
 
+	function onSetMinWatering() {
+		window.ui.system.changeSingleSystemProvisionValue("minWateringDurationThreshold", uiElems.minWateringElem.value);
+	}
+
+	function onSetRainSensor() {
+		window.ui.system.changeSingleSystemProvisionValue("useRainSensor", uiElems.rainSensorElem.checked);
+		window.ui.system.changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", uiElems.rainSensorTypeElem.checked);
+	}
+
+	function showMaxWatering() {
+		toggleAttr(uiElems.maxWateringContainer, uiElems.extraWateringElem.checked);
+	}
+
+	function showFreezeProtect() {
+		toggleAttr(uiElems.freezeProtectContainer, uiElems.freezeProtectElem.checked);
+	}
+
+
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_restrictions.showRestrictions = showRestrictions;
+	_restrictions.showCurrentRestrictions = showCurrentRestrictions;
 
 } (window.ui.restrictions = window.ui.restrictions || {}));

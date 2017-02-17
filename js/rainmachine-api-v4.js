@@ -4,21 +4,22 @@
  */
 
 var APIAsync = new _API(true);
-var APISync = new _API(false)
+var APISync = new _API(false);
 
 var API = APISync;
 
 function _API(async) {
 
+var host = window.location.hostname;
 //var host = "private-bd9e-rainmachine.apiary-mock.com";
 //var host = "127.0.0.1";
-var host = window.location.hostname;
 //var host = "5.2.191.144";
+//var host = "192.168.12.129";
 
+var port = window.location.port;
 //var port = "443";
 //var port = "18080";
 //var port = "8080";
-var port = window.location.port;
 //var port = "8888";
 
 var apiUrl = "https://" + host + ":" + port + "/api/4";
@@ -38,13 +39,13 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 	else
 		url = apiUrl + apiCall;
 
-	console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
+	//console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
 
 	if (async) {
 		r.onload = function() {
 			if (r.readyState === 4) {
 				if (r.status === 200) {
-					console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
+					//console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
 					a.resolve(JSON.parse(r.responseText));
 				} else {
 					console.error("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
@@ -152,6 +153,12 @@ _API.prototype.auth = function(password, remember)
 	return token;
 };
 
+_API.prototype.totp = function()
+{
+	var url = this.URL.auth + "/totp";
+	return this.get(url, null);
+};
+
 _API.prototype.authChange = function(oldPass, newPass)
 {
     var url = this.URL.auth + "/change";
@@ -181,6 +188,12 @@ _API.prototype.getProvisionWifi = function()
 _API.prototype.getProvisionCloud = function()
 {
 	var url = this.URL.provision + "/cloud";
+	return this.get(url, null);
+}
+
+_API.prototype.getProvisionDOY = function()
+{
+	var url = this.URL.provision + "/doy";
 	return this.get(url, null);
 }
 
@@ -214,7 +227,15 @@ _API.prototype.setProvisionCloud = function(cloudObj)
 	var url = this.URL.provision +  "/cloud";
 	var data = cloudObj;
 
-	return(url, data, null);
+	return this.post(url, data, null);
+}
+
+_API.prototype.setProvisionCloudEmail = function(email)
+{
+	var url = this.URL.provision +  "/cloud/mail";
+	var data = { email: email };
+
+	return this.post(url, data, null);
 }
 
 _API.prototype.setProvisionCloudEnable = function(isEnabled)
@@ -276,6 +297,12 @@ _API.prototype.getRestrictionsGlobal = function()
 _API.prototype.getRestrictionsHourly = function()
 {
 	var url = this.URL.restrictions + "/hourly";
+	return this.get(url, null);
+}
+
+_API.prototype.getRestrictionsCurrently = function()
+{
+	var url = this.URL.restrictions + "/currently";
 	return this.get(url, null);
 }
 
@@ -434,10 +461,20 @@ _API.prototype.setZonesProperties = function(id, properties, advancedProperties)
 	var data = properties;
 
 	if (advancedProperties !== undefined && advancedProperties !== null)
-		data.advanced = advancedProperties;
+		data.waterSense = advancedProperties;
 
 	return this.post(url, data, null);
 }
+
+_API.prototype.simulateZone = function(properties, advancedProperties) {
+	var url = this.URL.zone + "/simulate";
+	var data = properties;
+
+	if (advancedProperties !== undefined && advancedProperties !== null)
+		data.waterSense = advancedProperties;
+
+	return this.post(url, data, null);
+};
 
 /* ----------------------------------------- WATERING API CALLS -------------------------------------------*/
 
@@ -458,6 +495,34 @@ _API.prototype.getWateringLog = function(simulated, details, startDate, days)
 _API.prototype.getWateringQueue = function()
 {
 	var url = this.URL.watering + "/queue";
+
+	return this.get(url, null);
+}
+
+_API.prototype.getWateringPast = function(startDate, days)
+{
+	var url = this.URL.watering + "/past";
+
+	//start date format YYYY-DD-MM
+	if (startDate !== null && startDate.length > 9)
+		url += "/" + startDate;
+
+	if (days !== null && days > 0)
+		url += "/" + days;
+
+	return this.get(url, null);
+}
+
+_API.prototype.getWateringAvailable = function(startDate, days)
+{
+	var url = this.URL.watering + "/available";
+
+	//start date format YYYY-DD-MM
+	if (startDate !== null && startDate.length > 9)
+		url += "/" + startDate;
+
+	if (days !== null && days > 0)
+		url += "/" + days;
 
 	return this.get(url, null);
 }
@@ -507,6 +572,18 @@ _API.prototype.setParserParams = function(id, params)
     return this.post(url, params, null);
 }
 
+_API.prototype.resetParserParams = function(id)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/defaults";
+
+	return this.post(url, {}, null)
+}
+
 _API.prototype.getParserData = function(id, startDate, days)
 {
 	var url = this.URL.parser;
@@ -543,6 +620,19 @@ _API.prototype.runParser = function(id, withParser, withMixer, withSimulator)
 
     return this.post(url, data, null);
 }
+
+_API.prototype.deleteParser = function(id)
+{
+	var url = this.URL.parser;
+
+	if (id === undefined || id === null)
+		return this.ERROR.InvalidRequest;
+
+	url += "/" + id + "/delete";
+
+	return this.post(url, {}, null)
+}
+
 
 /* ------------------------------------------ MIXER API CALLS ---------------------------------------------*/
 _API.prototype.getMixer = function(startDate, days)
@@ -655,6 +745,28 @@ _API.prototype.reboot = function()
 	return this.post(url, data, null);
 }
 
+_API.prototype.getShortDetection = function()
+{
+	var url = this.URL.machine + "/shortdetection";
+	return this.get(url, null);
+}
+
+_API.prototype.setShortDetection = function(enabled)
+{
+	var url = this.URL.machine + "/shortdetection";
+	var data = {
+		watchforshort: 0,
+		watchforload: 0
+	};
+
+	if (enabled) {
+		data.watchforshort = 1;
+		data.watchforload = 2;
+	}
+
+	return this.post(url, data, null);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 _API.prototype.getTimeZoneDB = function()
@@ -673,5 +785,18 @@ _API.prototype.uploadParser = function(fileName, fileType, binData)
 	extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
 
 	return this.uploadFile(url, binData, extraHeaders);
+}
+
+_API.prototype.getBeta = function()
+{
+	var url = this.URL.dev + "/beta";
+	return this.get(url, null);
+}
+
+_API.prototype.setBeta = function(enabled)
+{
+	var url = this.URL.dev + "/beta";
+	var data = { enabled: enabled };
+	return this.post(url, data, null);
 }
 

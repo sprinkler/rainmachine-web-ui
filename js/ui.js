@@ -7,16 +7,24 @@ window.ui = window.ui || {};
 
 (function(_main) {
 
-/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
- * container/menu. It's actually like a submenu but it's important enough to have its button placed on main menu.
-*/
-
  	var loop = null;
+	var loopSlowLastRun = Date.now();
+	var loopMediumLastRun = Date.now();
+	var loopHourlyLastRun = Date.now();
+
+	var loopSeconds = 3 * 1000;
+	var loopSlowSeconds = 20 * 1000;
+	var loopMediumSeconds = 9 * 1000;
+	var loopHourlySeconds = 60 * 60 * 1000;
+
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
     var uiElems = {};
 
+	/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
+	 * container/menu. It's actually like a submenu but it's important enough to have its button placed on main menu.
+	 */
 	var mainMenus = [
 		{ prefix: "dashboard",	parent: null, 			func: showDashboard, 							visibilityFunc: makeVisibleBlock },
 		{ prefix: "programs",	parent: "dashboard",	func: function() { togglePrograms(false); },	visibilityFunc: makeVisibleBlock },
@@ -26,7 +34,7 @@ window.ui = window.ui || {};
 
 	var settingsSubmenus = [
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
-		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
+		{ name: "Snooze",  			func: window.ui.settings.getRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
@@ -36,7 +44,7 @@ window.ui = window.ui || {};
 	var dashboardNavigation = [
 		{ id: "chartsWeek",	idText: "waterSavedTitle",	text: "Water saved past 7 days", 	func: loadWeeklyCharts },
 		{ id: "chartsMonth",idText: "waterSavedTitle",	text: "Water saved past 30 days", func: loadMonthlyCharts },
-		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past 365 days",	func: loadYearlyCharts }
+		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past year",	func: loadYearlyCharts }
 	];
 
 
@@ -172,8 +180,36 @@ window.ui = window.ui || {};
 		}
 	}
 
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+	function uiStart() {
+		if (Data.today === null) {
+			APIAsync.getDateTime().then(
+				function(o) {
+					Util.parseDeviceDateTime(o);
+					uiInitialDownload();
+				});
+		} else {
+			uiInitialDownload();
+		}
+	}
+
+	function uiInitialDownload() {
+		chartsData = new ChartData();
+		window.ui.about.getDeviceInfo();
+		window.ui.programs.showPrograms();
+		window.ui.zones.showZones();
+		window.ui.settings.showParsers(true);
+		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
+		loop = setInterval(uiLoop, loopSeconds);
+	}
+
 	function uiLoop() {
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
+
+			//Check if watering and update programs/zones status
 			APIAsync.getWateringQueue()
 			.then(
 				function(waterQueue) {
@@ -196,19 +232,66 @@ window.ui = window.ui || {};
 						//Show STOP all button
 						makeVisible(window.ui.zones.uiElems.stopAll);
 					}
+					refreshProgramAndZones(true);
 
-					window.ui.zones.showZonesSimple();
-					window.ui.programs.showPrograms();
+					//Refresh queue information
+					window.ui.zones.updateWateringQueue(waterQueue);
 				}
 			);
+			//Refresh (without data download) parser box
+			window.ui.settings.updateParsers(true);
+
+			//Refresh on medium timer
+			refreshRestrictions(false);
+
+			//Refresh on slower timer
+			refreshProgramAndZones(false);
+
+			// Refresh on hourly timer
+			refreshHourly(false);
+
+			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
+			if (_main.refreshGraphs) {
+				console.log("Refreshing Graphs");
+				chartsData = new ChartData();
+				loadCharts(true, 30);
+				_main.refreshGraphs = false;
+			}
 		}
 
-		if (isVisible($("#snoozeCurrentContent"))) {
-			window.ui.settings.updateSnoozeTimer();
+		if (isVisible($("#settings")) && isVisible($("#snooze"))) {
+			window.ui.settings.getRainDelay();
 		}
 	}
 
+	function refreshProgramAndZones(forced) {
+		if (forced || (Date.now() - loopSlowLastRun) > loopSlowSeconds) {
+			loopSlowLastRun = Date.now();
+			window.ui.programs.showPrograms();
+			window.ui.zones.showZonesSimple();
+		}
+	}
+
+	function refreshRestrictions(forced) {
+		if (forced || (Date.now() - loopMediumLastRun) > loopMediumSeconds) {
+			loopMediumLastRun = Date.now();
+			window.ui.restrictions.showCurrentRestrictions();
+		}
+	}
+
+	function refreshHourly(forced) {
+		if (forced || (Date.now() - loopHourlyLastRun) > loopHourlySeconds) {
+			loopHourlyLastRun = Date.now();
+			window.ui.system.getDeviceDateTime();
+		}
+	}
+
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
 	function showDashboard() {
+		makeVisibleBlock('#dashboard');
 		window.ui.programs.onProgramsChartTypeChange(true);
 		$('#weatherChartQPFMonthsContainer').style.display = "none";
 		$('#weatherChartTempMonthsContainer').style.display = "none";
@@ -228,13 +311,13 @@ window.ui = window.ui || {};
 			toggleZones(true);
 			makeHidden(uiElems.homeLeft);
 			makeHidden(uiElems.homeZones);
-			uiElems.homeRight.style.width = '1280px';
+			uiElems.homeRight.className = 'homeRightExpanded';
 			uiElems.homePrograms.style.display = "inline-block";
 			programsExpanded = true;
 
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeRight.style.width = '';
+			uiElems.homeRight.className = 'homeRightContracted';
 			programsExpanded = false;
 		}
 	}
@@ -253,13 +336,13 @@ window.ui = window.ui || {};
 			makeHidden(uiElems.chartsDays);
 
 			uiElems.homeZones.style.display = "inline-block";
-			uiElems.homeZones.style.width = '1280px';
+			uiElems.homeZones.className = 'homeZonesExpanded';
 			zonesExpanded = true;
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
 			uiElems.chartsTime.style.display = uiElems.chartsDays.style.display = "inline-block";
 			uiElems.homePrograms.style.display = "inline-block";
-			uiElems.homeZones.style.width = '';
+			uiElems.homeZones.className = 'homeZonesContracted';
 			zonesExpanded = false;
 		}
 	}
@@ -273,25 +356,24 @@ window.ui = window.ui || {};
         uiElems.chartsTime = $('#chartsTimeSpan');
         uiElems.chartsDays = $('#weatherChartsContainer');
         uiElems.error = $('#error');
+		uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
 	}
 
-	function uiStart()
-	{
-		buildUIElems();
-		buildMenu();
-		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
-		buildNavigation(dashboardNavigation);
-
-		//Set default button selections
+	function setDefaultButtonActions() {
+		//Dashboard / Home
 		$('#dashboardBtn').setAttribute("selected", true);
 		$('#settings0').setAttribute("selected", true);
 		$('#'+ dashboardNavigation[0].id).setAttribute("selected", "on");
 
-		$("#logoutBtn").onclick = function() {
-			Storage.deleteItem("access_token");
-			Util.redirectHome(location);
+		//Logout
+		$("#logoutBtn").onclick = ui.login.logout;
+
+		//More button for water log details
+		$("#waterlog-more").onclick = $('#homeScreenWaterSaved').onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings0').onclick();
 		};
 
 		//Edit button for dashboard weather data
@@ -300,45 +382,48 @@ window.ui = window.ui || {};
 			$('#settings3').onclick();
 		};
 
+		//Edit button for dashboard current restrictions
+		$("#current-restrictions-edit").onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings2').onclick();
+		};
+
 		//More button for dashboard device status
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings5').onclick();
-        };
+		};
 
-		//Load local settings
-		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
 
-		ui.login.login(function() {
-			window.ui.about.getDeviceInfo();
-
-			//TODO Show Programs
-			window.ui.programs.showPrograms();
-
-			//TODO Show zones
-			window.ui.zones.showZones();
-
-			//TODO Show parsers simple
-			window.ui.settings.showParsers(true);
-
-			loadCharts(true, 60); //generate charts forcing data refresh for 60 days in the past
-
-			//TODO Show waterlog simple
-			var days = 7;
-			var startDate = Util.getDateWithDaysDiff(days);
-			APIAsync.getWateringLog(false, true, startDate, days).then(function(o) {Data.waterLogCustom = o; window.ui.settings.showWaterLogSimple();});
-
-			loop = setInterval(uiLoop, 2000);
-		});
 	}
 
 	//--------------------------------------------------------------------------------------------
 	//
 	//
-	_main.uiStart = uiStart;
+	function uiMain()
+	{
+		buildUIElems();
+		buildMenu();
+		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
+		buildNavigation(dashboardNavigation);
+		Help.bindAll();
+		window.ui.firebase.init();
+		setDefaultButtonActions();
+
+		//Load local settings
+		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+
+		ui.login.login(uiStart);
+	}
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
 	_main.showError = showError;
-	_main.uiStart = uiStart;
+	_main.uiMain = uiMain;
+	_main.refreshGraphs = false;
 
 } (window.ui.main = window.ui.main || {}));
 
-window.addEventListener("load", window.ui.main.uiStart);
+window.addEventListener("load", window.ui.main.uiMain);

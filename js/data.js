@@ -15,26 +15,43 @@ function DataProperty()
 
 var Data  = (function(Data) {
 
-Data.now = Date.now() / 1000 >> 0;
-
 //Properties
 Data.zoneData = null;
 Data.zoneAdvData = null;
 Data.parsers = null;
 Data.parserData = null;
+Data.doyET0 = null;
 Data.programs = null;
-Data.provision = {};
+Data.provision = {
+	api: null,
+	system: null,
+	location: null,
+	wifi: null,
+	cloud: null
+};
 Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
 Data.waterLogSimulated = null;
-Data.waterLogSimple = null;
-Data.dateTime = null;
-Data.uiVer = "1.0-beta";
+Data.programsPastValues = null;
+Data.availableWater = null;
+Data.zonesAvailableWater = null;
+Data.today = null;
+Data.rainDelay = null;
+Data.uiVer = "1.6";
+Data.restrictionsCurrent = null;
+Data.zonesImages = null;
 Data.localSettings =  {
 	units: false // Default to US units
+};
+
+
+//TODO Reference counting
+Data.counters = {
+	charts: 0,
+	zoneAdv: 0
 };
 
 _timeZoneDB = new DataProperty();
@@ -60,20 +77,22 @@ function genericPropertyGetter(p)
 	if (p.data === null && p.apiCall !== null)
 		p.data = p.apiCall();
 
-	console.log("Get property: %o", p);
+	//console.log("Get property: %o", p);
 	return p.data;
 }
 
 function genericPropertySetter(p, d)
 {
 	p.data = d;
-	console.log("Set property data %o", p.data);
+	//console.log("Set property data %o", p.data);
 }
 
 
 return Data; } (Data || {} ));
 
+/*
 console.log(Data.dummy);
 Data.dummy = { test: " Setter " };
 console.log(Data.dummy);
 console.log(Data.dummy.test);
+*/

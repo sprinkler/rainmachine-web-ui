@@ -32,6 +32,19 @@ window.ui = window.ui || {};
         Pending: 2
     };
 
+	var CyclesType = {
+		Off: 0,
+		Auto: 1,
+		Manual: 2
+	};
+
+	var ZoneDurationType = CyclesType;
+
+	var DelayType = {
+		Off: 0,
+		Manual: 1
+	};
+
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -56,8 +69,8 @@ window.ui = window.ui || {};
 
 		uiElemsAll.add = $('#home-programs-add');
 		uiElemsAll.edit = $('#home-programs-edit');
-		uiElemsAll.add.onclick = function() { showProgramSettings(null); };
-		uiElemsAll.edit.onclick = function() { onProgramsEdit(); }
+		uiElemsAll.add.onclick = function() { showProgramSettings({}); };
+		uiElemsAll.edit.onclick = function() { showPrograms(); onProgramsEdit(); }
 	}
 
 	function updatePrograms() {
@@ -83,7 +96,7 @@ window.ui = window.ui || {};
 		//remove programs that no longer exists
 		for (var id in uiElemsAll.programs) {
 			if (typeof foundPrograms[id] === "undefined" || foundPrograms[id] === null) {
-				console.info("Cannot find program id %d in uiElemsAll list will remove from DOM", p.uid);
+				console.info("Cannot find program id %s in uiElemsAll list will remove from DOM", id);
 				removeProgramElems(id);
 			}
 		}
@@ -111,7 +124,7 @@ window.ui = window.ui || {};
 		programElem.startElem.start = true;
 		programElem.startElem.onclick = onStart;
 		programElem.graphElem.id = "programChartContainer-" + p.uid;
-		programElem.editElem.onclick = function() { showProgramSettings(this.data); };
+		programElem.nameElem.onclick = programElem.editElem.onclick = function() { showProgramSettings(this.data); };
 
 		programListDiv.appendChild(programElem.template);
 		uiElemsAll.programs[p.uid] = programElem;
@@ -147,6 +160,7 @@ window.ui = window.ui || {};
 		}
 
 		programElem.template.data = p;
+		programElem.nameElem.data = p;
 		programElem.editElem.data = p;
 		programElem.startElem.data = p;
 
@@ -156,24 +170,22 @@ window.ui = window.ui || {};
 
 		if (p.active) {
 			programElem.template.className += " programActive";
-			if (p.status == ProgramStatus.Running) {
-				programElem.startElem.textContent = "W";
-				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "running");
-			} else if (p.status == ProgramStatus.Pending) {
-				programElem.startElem.textContent = "W";
-				programElem.startElem.start = false;
-				programElem.startElem.setAttribute("state", "pending");
-			} else if (p.status == ProgramStatus.NotRunning) {
-				programElem.startElem.textContent = "Q";
-				programElem.startElem.start = true;
-				programElem.startElem.setAttribute("state", "idle-programs");
-			}
 		} else {
 			programElem.template.className += " programInactive";
-			programElem.startElem.setAttribute("state", "idle-programs");
+		}
+
+		if (p.status == ProgramStatus.Running) {
+			programElem.startElem.textContent = "W";
+			programElem.startElem.start = false;
+			programElem.startElem.setAttribute("state", "running");
+		} else if (p.status == ProgramStatus.Pending) {
+			programElem.startElem.textContent = "W";
+			programElem.startElem.start = false;
+			programElem.startElem.setAttribute("state", "pending");
+		} else if (p.status == ProgramStatus.NotRunning) {
 			programElem.startElem.textContent = "Q";
 			programElem.startElem.start = true;
+			programElem.startElem.setAttribute("state", "idle-programs");
 		}
 
 		programElem.nameElem.innerHTML = p.name;
@@ -181,11 +193,23 @@ window.ui = window.ui || {};
 
 		// update small zones circles
 		clearTag(programElem.zonesElem);
+		var zoneDetails = getProgramZonesNextDetails(p);
 		for (var zi = 0; zi < p.wateringTimes.length; zi++) {
 			if (p.wateringTimes[zi].active) {
 				var div = addTag(programElem.zonesElem, 'div');
+				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
-				div.textContent = p.wateringTimes[zi].id;
+				div.textContent = zid;
+
+				if (zoneDetails) {
+					var zoneInfo = "Inactive";
+					if (zoneDetails[zid]) {
+						zoneInfo = "Will water " + Util.secondsToText(zoneDetails[zid].computedWateringTime);
+					}
+
+					div.setAttribute("zones-tooltip", zoneInfo);
+				}
+
 				//Check if zone is actually running now in this program and animate the small circle
 				if (p.status == ProgramStatus.Running && Data.zoneData && Data.zoneData.zones !== null) {
 				    var zones = Data.zoneData.zones;
@@ -236,10 +260,9 @@ window.ui = window.ui || {};
     //
 	function showProgramSettings(program)
 	{
-        selectedProgram = program;
-        //console.log(JSON.stringify(program, null, "  "));
+		selectedProgram = program;
 
-        var programSettingsDiv = $('#programsSettings');
+		var programSettingsDiv = $('#programsSettings');
         clearTag(programSettingsDiv);
         makeHidden('#programsList');
 
@@ -247,9 +270,10 @@ window.ui = window.ui || {};
 
         uiElems.activeElem.checked = true;
         uiElems.weatherDataElem.checked = true;
-        uiElems.nextRun.innerText = "";
+        uiElems.nextRun.textContent = getProgramNextRunAsString(Util.getTodayDateStr());
+		uiElems.nextRunSettable.value = Util.getTodayDateStr();
 
-        uiElems.frequencyWeekdaysContainerElem.display = "none";
+        makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
             if(uiElems.frequencyWeekdaysElemCollection.hasOwnProperty(weekday)) {
                 var elem = uiElems.frequencyWeekdaysElemCollection[weekday];
@@ -257,20 +281,13 @@ window.ui = window.ui || {};
             }
         }
 
-        if(program) {
+        if(program.uid) { // Existing program
             //---------------------------------------------------------------------------------------
             // Prepare some data.
             //
             var startTime = {hour: 0, min: 0};
             var delay = {min: 0, sec: 0};
             var soakMins = 0;
-            var nextRun = new Date(program.nextRun);
-
-            if(isNaN(nextRun.getTime())) {
-                nextRun = "";
-            } else {
-                nextRun = nextRun.toDateString();
-            }
 
             try {
                 var chunks = program.startTime.split(":");
@@ -309,14 +326,29 @@ window.ui = window.ui || {};
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
 
-            uiElems.nextRun.innerText = nextRun;
+            uiElems.nextRun.textContent = getProgramNextRunAsString(program.nextRun);
+			uiElems.nextRunSettable.value = program.nextRun;
 
-            uiElems.cyclesSoakElem.checked = program.cs_on;
-            uiElems.cyclesElem.value = program.cycles;
+			var cyclesType = CyclesType.Off;
+			if (program.cs_on) {
+				if (program.cycles < 0) {
+					cyclesType = CyclesType.Auto;
+				} else {
+					cyclesType = CyclesType.Manual;
+				}
+			}
+			uiElems.cyclesElem.value = program.cycles;
             uiElems.soakElem.value = soakMins;
-            uiElems.delayZonesMinElem.value = delay.min;
+			setSelectOption(uiElems.cyclesTypeElem, cyclesType, true);
+			onCycleAndSoakTypeChange();
+
+			var delayType = program.delay_on ? DelayType.Manual:DelayType.Off;
+			uiElems.delayZonesMinElem.value = delay.min;
             uiElems.delayZonesSecElem.value = delay.sec;
-            uiElems.delayZonesElem.checked = program.delay_on;
+			setSelectOption(uiElems.delayTypeElem, delayType, true);
+			onDelayZonesTypeChange();
+
+			setSelectOption(uiElems.restrictionQPF, program.futureField1, true);
 
             if (program.frequency.type === FrequencyType.Daily) { // Daily
                 uiElems.frequencyDailyElem.checked = true;
@@ -326,7 +358,7 @@ window.ui = window.ui || {};
             } else if (program.frequency.type === FrequencyType.Weekday) { // Weekday
                 fillWeekdaysFromParam(program.frequency.param);
                 uiElems.frequencyWeekdaysElem.checked = true;
-                uiElems.frequencyWeekdaysContainerElem.style.display = "block";
+				makeVisibleBlock(uiElems.frequencyWeekdaysContainerElem);
             } else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
                 var param = parseInt(program.frequency.param);
                 if (param % 2 === FrequencyParam.Odd) { // Odd
@@ -336,52 +368,112 @@ window.ui = window.ui || {};
                 }
             }
 
+			//Fixed day or sunrise/sunset start time new in API 4.1
+			if (program.hasOwnProperty("startTimeParams")) {
+				if (program.startTimeParams.type == 0) {
+					uiElems.startTimeFixedElem.checked = true;
+				} else {
+					uiElems.startTimeSunElem.checked = true;
+					var minutes = program.startTimeParams.offsetMinutes;
+
+					//uiElems.startTimeSunHourElem.value = parseInt(minutes / 60);
+					uiElems.startTimeSunMinElem.value = minutes;
+					uiElems.startTimeSunOptionElem.value = program.startTimeParams.type;
+					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
+				}
+			}
+
             //---------------------------------------------------------------------------------------
             // Show zones and watering times.
             //
             var wateringTimeList = program.wateringTimes;
-            console.log(program);
-            if (wateringTimeList) {
-                for (var index = 0; index < wateringTimeList.length; index++) {
-                    var wateringTime = wateringTimeList[index];
-
-                    var zoneTemplateElem = uiElems.zoneElems[wateringTime.id];
-
-                    var duration = {min: 0, sec: 0};
-
-                    try {
-                        duration.min = parseInt(wateringTime.duration / 60);
-                        duration.sec = duration.min ? (wateringTime.duration % duration.min) : wateringTime.duration;
-                    } catch (e) {
-                    }
-
-                    if (duration.min == 0 && duration.sec == 0) {
-                        duration.min = duration.sec = "";
-                    }
-
-                    zoneTemplateElem.nameElem.textContent = wateringTime.name;
-                    zoneTemplateElem.durationMinElem.value = duration.min;
-                    zoneTemplateElem.durationSecElem.value = duration.sec;
-                    zoneTemplateElem.activeElem.checked = wateringTime.active;
-                }
-            }
+			fillProgramTimers(wateringTimeList);
         }
+
+		// Fill the Auto watering times even if it's a new program being created
+		fillProgramTimers(null);
+
+        //Show settable or plain next run information
+		changeNextRunType();
 
         //---------------------------------------------------------------------------------------
         // Add listeners and elements.
+		uiElems.activeElem.onclick = changeNextRunType;
         uiElems.frequencyDailyElem.onchange = onFrequencyChanged;
         uiElems.frequencyEveryElem.onchange = onFrequencyChanged;
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
         uiElems.frequencyOddElem.onchange = onFrequencyChanged;
         uiElems.frequencyEvenElem.onchange = onFrequencyChanged;
+		uiElems.frequencyEveryParamElem.onchange = onFrequencyChanged;
+
+		// Add onFrequencyChange for all week days (to calculate auto value)
+		for (var elem in uiElems.frequencyWeekdaysElemCollection) {
+			uiElems.frequencyWeekdaysElemCollection[elem].onclick = onFrequencyChanged;
+		}
 
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
+		document.body.onkeydown = function(event) { if (event.keyCode == 27) onCancel() };
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 	}
 
+
+	//--------------------------------------------------------------------------------------------
+	//
+	// Will load 2 templates, one for showing and one for setting
+
+	function loadZoneTemplates() {
+
+		//Elements for the zone settings popup
+		var zoneTemplateSettings = loadTemplate("program-settings-zone-timer-template");
+
+		var zoneNameElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-name"]');
+
+		var zoneZoneWeatherInfoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-weatherinfo"]');
+		var zoneZoneIsDefaultElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-isdefault"]');
+		var zoneAutoDurationElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-autoduration"]');
+		var zoneDurationMinElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-min"]');
+		var zoneDurationSecElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-sec"]');
+		var zonePercentageElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-percentage"]');
+
+		var zoneAutoElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-auto"]');
+		var zoneCustomElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-custom"]');
+		var zoneSkipElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-skip"]');
+
+		var zoneSaveElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-save"]');
+		var zoneCancelElem = $(zoneTemplateSettings, '[rm-id="program-settings-zone-timer-cancel"]');
+
+		//Elements used to display zone on program settings
+		var zoneTemplateDisplay = loadTemplate("program-settings-zone-template");
+
+		var zoneNameDisplayElem = $(zoneTemplateDisplay, '[rm-id="program-zone-name"]');
+		var zoneDurationElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration"]');
+		var zoneDurationPercentElem = $(zoneTemplateDisplay, '[rm-id="program-zone-duration-percent"]');
+
+		var zoneElements = {
+			templateSettingElem: zoneTemplateSettings,
+			templateDisplayElem: zoneTemplateDisplay,
+			zoneWeatherInfoElem: zoneZoneWeatherInfoElem,
+			zoneIsDefaultElem: zoneZoneIsDefaultElem,
+			percentageElem: zonePercentageElem,
+			nameElem: zoneNameElem,
+			nameDisplayElem: zoneNameDisplayElem,
+			durationElem: zoneDurationElem,
+			durationAutoElem: zoneAutoDurationElem,
+			durationPercentElem: zoneDurationPercentElem,
+			durationMinElem: zoneDurationMinElem,
+			durationSecElem: zoneDurationSecElem,
+			autoTypeElem: zoneAutoElem,
+			customTypeElem: zoneCustomElem,
+			skipTypeElem: zoneSkipElem,
+			saveElem: zoneSaveElem,
+			cancelElem: zoneCancelElem
+		};
+
+		return zoneElements;
+	}
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -393,15 +485,31 @@ window.ui = window.ui || {};
         templateInfo.nameElem = $(templateInfo.programTemplateElem, '[rm-id="program-name"]');
         templateInfo.activeElem = $(templateInfo.programTemplateElem, '[rm-id="program-active"]');
         templateInfo.weatherDataElem = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data"]');
-        templateInfo.startTimeHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-hour"]');
-        templateInfo.startTimeMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-program-start-time-min"]');
+
+		//fixed start time (hh:mm)
+		templateInfo.startTimeFixedElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-fixed"]');
+		templateInfo.startTimeHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-hour"]');
+		templateInfo.startTimeMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-min"]');
+
+		//dynamic start time (sunset/sunrise +/- offset)
+		templateInfo.startTimeSunElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun"]');
+		templateInfo.startTimeSunOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-option"]');
+		//templateInfo.startTimeSunHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-hour"]');
+		templateInfo.startTimeSunMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-min"]');
+		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
+
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
-        templateInfo.cyclesSoakElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycle-soak"]');
+		templateInfo.nextRunSettable = $(templateInfo.programTemplateElem, '[rm-id="program-next-run-settable"]');
+
+		templateInfo.cyclesTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-type"]');
+		templateInfo.cyclesManualElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-manual"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
         templateInfo.soakElem = $(templateInfo.programTemplateElem, '[rm-id="program-soak-duration"]');
+
+		templateInfo.delayTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-type"]');
+		templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-manual"]');
         templateInfo.delayZonesMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-min"]');
         templateInfo.delayZonesSecElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones-sec"]');
-        templateInfo.delayZonesElem = $(templateInfo.programTemplateElem, '[rm-id="program-delay-zones"]');
 
         templateInfo.frequencyDailyElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-daily"]');
         templateInfo.frequencyOddElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-odd"]');
@@ -422,36 +530,64 @@ window.ui = window.ui || {};
             monday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-monday"]')
         };
 
+		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
+		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
+
+		templateInfo.restrictionQPF = $(templateInfo.programTemplateElem, '[rm-id="program-restriction-qpf"]');
+
+		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
         templateInfo.zoneElems = {};
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
+			var zoneData = Data.zoneData.zones[index];
 
-            var zoneTemplate = loadTemplate("program-settings-zone-template");
+			var zoneElems = loadZoneTemplates();
+			templateInfo.zoneElems[zoneId] = zoneElems;
 
-            var zoneNameElem = $(zoneTemplate, '[rm-id="program-zone-name"]');
-            var zoneDurationMinElem = $(zoneTemplate, '[rm-id="program-zone-duration-min"]');
-            var zoneDurationSecElem = $(zoneTemplate, '[rm-id="program-zone-duration-sec"]');
-            var zoneActiveElem = $(zoneTemplate, '[rm-id="program-zone-active"]');
+			//Set Custom to checked if these fields change
+			zoneElems.durationMinElem.oninput = (function(id) { return function() { onZoneCustomDurationChange(id); } })(zoneId);
+			zoneElems.durationSecElem.oninput = (function(id) { return function() { onZoneCustomDurationChange(id); } })(zoneId);
 
-            zoneNameElem.innerText = "Zone " + zoneId;
-            zoneTemplate.setAttribute("rm-zone-id", zoneId);
+			//Show zone timer settings on click
+			zoneElems.templateDisplayElem.onclick =  (function(id) { return function() { onZoneTimerClick(id); } })(zoneId);
 
-            templateInfo.zoneElems[zoneId] = {
-                templateElem: zoneTemplate,
-                nameElem: zoneNameElem,
-                durationMinElem: zoneDurationMinElem,
-                durationSecElem: zoneDurationSecElem,
-                activeElem: zoneActiveElem
-            };
+			//Create the onclick action for helper text when zone settings are default
+			zoneElems.zoneIsDefaultElem.onclick = (function(id, elems) {
+				return function() {
+					makeHidden(elems.templateSettingElem);
+					window.ui.zones.showZoneSettingsById(id); } })(index, zoneElems);
 
-            //Don't show zone 1 when master valve is enabled
-            if (Data.provision.system.useMasterValve && index == 0) {
-                zoneTemplate.style.display = "none";
-            }
+			//Don't show zone 1 when master valve is enabled
+			if (Data.provision.system.useMasterValve && index == 0) {
+				zoneElems.templateDisplayElem.style.display = "none";
+			}
 
-            templateInfo.zoneTableElem.appendChild(zoneTemplate);
+			if (zoneData) {
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = zoneId + ". " + zoneData.name;
+				//Don't show inactive zones
+				if (!zoneData.active) {
+					zoneElems.templateDisplayElem.style.display = "none";
+				}
+			} else {
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
+			}
+
+			//Add Auto percentage chooser
+			//Create percentageChooser with current value, it will change zone.saving that holds the FC percent as int
+			zoneElems.zonePercentage = new percentageChooser(
+				zoneElems.percentageElem, 10, 200, 100, 5,
+				function(v) {
+					fillProgramTimers(null);
+				}
+			);
+
+			//Make zone timer settings window radio input have same name groups
+			zoneElems.autoTypeElem.name = zoneElems.customTypeElem.name = zoneElems.skipTypeElem.name = "zone-timer-type" + zoneId;
+
+			templateInfo.zoneTableElem.appendChild(zoneElems.templateDisplayElem);
+			templateInfo.zoneTableElem.appendChild(zoneElems.templateSettingElem);
         }
 
         return templateInfo;
@@ -463,16 +599,15 @@ window.ui = window.ui || {};
     function collectData () {
         var program = {};
 
-        var startTime = {hour: 0, min: 0};
+        var startTime = {hour: 0, min: 0}; //start time with fixed hh:mm
+		var startTimeParams = {type: 1, offsetSign: 1, offsetMinutes: 0 }; //start time params needed for sunrise/sunset
         var delay = {min: 0, sec: 0};
 
-        startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
-        startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
         delay.min = parseInt(uiElems.delayZonesMinElem.value) || 0;
         delay.sec = parseInt(uiElems.delayZonesSecElem.value) || 0;
-        soakMins =   parseInt(uiElems.soakElem.value)  || 0;
+        soakMins =  parseInt(uiElems.soakElem.value)  || 0;
 
-        if(selectedProgram) {
+        if (selectedProgram && selectedProgram.uid) {
             program.uid = selectedProgram.uid;
         }
 
@@ -480,71 +615,87 @@ window.ui = window.ui || {};
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
 
-        program.startTime = startTime.hour + ":" + startTime.min;
+		if (uiElems.startTimeSunElem.checked) {
+			console.log("Sunset/Sunrise time selected");
 
-        program.cs_on = uiElems.cyclesSoakElem.checked;
-        program.cycles = parseInt(uiElems.cyclesElem.value || 0);
+			var minutes = parseInt(uiElems.startTimeSunMinElem.value) || 0;
+
+			startTimeParams.type = uiElems.startTimeSunOptionElem.value;
+			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
+			startTimeParams.offsetMinutes = minutes;
+			program.startTimeParams = startTimeParams;
+			console.log(program.startTimeParams);
+		} else { // default to fixed start of day
+			console.log("Default fixed start time with selections: %s", uiElems.startTimeFixedElem.checked);
+			startTime.hour = parseInt(uiElems.startTimeHourElem.value) || 0;
+			startTime.min = parseInt(uiElems.startTimeMinElem.value) || 0;
+			program.startTime = startTime.hour + ":" + startTime.min;
+		}
+
+		var cyclesType = parseInt(getSelectValue(uiElems.cyclesTypeElem) || 0);
+        program.cs_on = cyclesType > CyclesType.Off ? true:false;
+		program.cycles = cyclesType == CyclesType.Auto ?  -1 : parseInt(uiElems.cyclesElem.value || 0);
         program.soak = soakMins * 60;
-        program.delay_on = uiElems.delayZonesElem.checked;
+
+		var delayType = parseInt(getSelectValue(uiElems.delayTypeElem) || 0);
+        program.delay_on = delayType == DelayType.Manual ? true:false;
         program.delay = delay.min * 60 + delay.sec;
+
+		//---------------------------------------------------------------------------------------
+		// API 4.3 Program QPF restriction
+		//
+		program.futureField1 = getSelectValue(uiElems.restrictionQPF) || 0;
 
         //---------------------------------------------------------------------------------------
         // Collect frequency.
         //
-        program.frequency = null;
-        if(uiElems.frequencyDailyElem.checked) {
-            program.frequency = {
-                type: FrequencyType.Daily,
-                param: "0"
-            };
-        } else if(uiElems.frequencyEveryElem.checked) {
-            program.frequency = {
-                type: FrequencyType.EveryN,
-                param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
-            };
-        } else if(uiElems.frequencyWeekdaysElem.checked) {
-            program.frequency = {
-                type: FrequencyType.Weekday,
-                param: weekdaysToParam()
-            };
+        program.frequency = parseCurrentProgramFrequency();
 
-            console.log(program.frequency);
-        } else if(uiElems.frequencyOddElem.checked) {
-            program.frequency = {
-                type: FrequencyType.OddEven,
-                param: FrequencyParam.Odd.toString()
-            };
-        } else if(uiElems.frequencyEvenElem.checked) {
-            program.frequency = {
-                type: FrequencyType.OddEven,
-                param: FrequencyParam.Even.toString()
-            };
-        }
+
+		//---------------------------------------------------------------------------------------
+		// Collect settable next run
+		//
+		var customNextRun = uiElems.nextRunSettable.value;
+		if (settableNextRun() && customNextRun !== "") {
+			program.nextRun = customNextRun;
+			console.log("Setting program next run to: %s", customNextRun);
+		}
 
         //---------------------------------------------------------------------------------------
         // Collect watering times.
         //
         program.wateringTimes = [];
 
-        var zoneElems = uiElems.zoneElems;
-        for(var zoneId in zoneElems) {
+        for(var zoneId in uiElems.zoneElems) {
+			var duration = {min: 0, sec: 0};
+			var durationType = ZoneDurationType.Off;
+			var wateringTime = {};
 
-            if(!zoneElems.hasOwnProperty(zoneId)) {
+            if (!uiElems.zoneElems.hasOwnProperty(zoneId)) {
                 continue;
             }
 
-            var zoneTemplateElem = uiElems.zoneElems[zoneId];
+			var zoneElems = uiElems.zoneElems[zoneId];
 
-            var duration = {min: 0, sec: 0};
-            duration.min = parseInt(zoneTemplateElem.durationMinElem.value) || 0;
-            duration.sec = parseInt(zoneTemplateElem.durationSecElem.value) || 0;
-
-            var wateringTime = {};
-
+			if (zoneElems.autoTypeElem.checked) {
+				durationType = ZoneDurationType.Auto;
+			} else if (zoneElems.customTypeElem.checked) {
+				durationType = ZoneDurationType.Manual;
+			}  else {
+				durationType = ZoneDurationType.Off;
+			}
 
             wateringTime.id = parseInt(zoneId);
-            wateringTime.active = zoneTemplateElem.activeElem.checked;
-            wateringTime.duration = duration.min * 60 + duration.sec;
+            wateringTime.active = durationType > 0 ? true:false;
+			wateringTime.userPercentage = zoneElems.zonePercentage.value / 100.0;
+
+			if (durationType == ZoneDurationType.Auto) {
+				wateringTime.duration = 0;
+			} else {
+				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
+				duration.sec = parseInt(zoneElems.durationSecElem.value) || 0;
+				wateringTime.duration = duration.min * 60 + duration.sec;
+			}
 
             program.wateringTimes.push(wateringTime);
         }
@@ -608,32 +759,25 @@ window.ui = window.ui || {};
 		}
 
 		infoText += " at " + program.startTime;
-
-        var nextRun = new Date(program.nextRun);
-
-        if(isNaN(nextRun.getTime())) {
-           nextRun = "";
-        } else {
-           nextRun = nextRun.toDateString();
-        }
-		infoText += "<br>Next run on " + nextRun + "";
+		infoText += "<br>Next run on " + getProgramNextRunAsString(program.nextRun) + "";
 		return infoText;
     }
 
 	//--------------------------------------------------------------------------------------------
-	//
+	// Even/Action handlers
 	//
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
+		changeNextRunType();
+		fillProgramTimers(null); // Timers will change with the program frequency
     }
-	//--------------------------------------------------------------------------------------------
-	//
-	//
 
 	function closeProgramSettings()
 	{
 		var programSettingsDiv = $('#programsSettings');
+
+		document.body.onkeydown = null;
 		clearTag(programSettingsDiv);
 		makeVisible('#programsList');
 		selectedProgram = null;
@@ -645,7 +789,7 @@ window.ui = window.ui || {};
     }
 
     function onDelete() {
-        if(selectedProgram) {
+        if (selectedProgram) {
             console.log("delete program ", selectedProgram.uid);
             API.deleteProgram(selectedProgram.uid);
         }
@@ -655,32 +799,39 @@ window.ui = window.ui || {};
 
     function onSave() {
         var data = collectData();
+		console.log(data);
+		var r;
 
-        if(data.uid) {
-            API.setProgram(data.uid, data);
+        if (data.uid) {
+            r = API.setProgram(data.uid, data);
         } else {
-            API.newProgram(data);
+            r = API.newProgram(data);
         }
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.error("Can't save program %s", r);
+			return;
+		}
 
         closeProgramSettings();
         showPrograms();
+		window.ui.main.refreshGraphs = true;
     }
 
     function onStart() {
         var program = this.data;
 
-        if(program.active) {
-            if (this.start) {
-                API.startProgram(program.uid);
-                window.ui.zones.onProgramStart();
-            } else {
-                API.stopProgram(program.uid);
-            }
-            showPrograms();
+		if (this.start) {
+			API.startProgram(program.uid);
+			window.ui.zones.onProgramStart();
+		} else {
+			API.stopProgram(program.uid);
+		}
+		showPrograms();
 
-            //TODO now we have to refresh zones too (dashboard), as the ui loop won't see the change (as the queue could be empty)
-            window.ui.zones.showZonesSimple();
-        }
+		//TODO now we have to refresh zones too (dashboard), as the ui loop won't see the change (as the queue could be empty)
+		window.ui.zones.showZonesSimple();
     }
 
     function onProgramsChartTypeChange(isWeekly) {
@@ -695,6 +846,419 @@ window.ui = window.ui || {};
         }
     }
 
+	//Show zone template for setting timers this function is used to save old values and restore on cancel
+	function onZoneTimerClick(id) {
+		var zoneElems = uiElems.zoneElems[id];
+		var oldValues = {
+			id: id,
+			isAuto: zoneElems.autoTypeElem.checked,
+			isCustom: zoneElems.customTypeElem.checked,
+			isSkip: zoneElems.skipTypeElem.checked,
+			autoPercentage: zoneElems.zonePercentage.value,
+			min: zoneElems.durationMinElem.value,
+			sec: zoneElems.durationSecElem.value
+		};
+
+		document.body.onkeydown = function(event) { if (event.keyCode == 27) onZoneTimerSettingsCancel(oldValues); };
+		zoneElems.cancelElem.onclick = function() { onZoneTimerSettingsCancel(oldValues) };
+		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
+
+		//Show or hide the weather info text below title
+		if (uiElems.weatherDataElem.checked) {
+			makeVisible(zoneElems.zoneWeatherInfoElem);
+		} else {
+			makeHidden(zoneElems.zoneWeatherInfoElem);
+		}
+
+		//Show or hide "the zone has default properties" text
+		if (window.ui.zones.zoneHasDefaultSettings(id - 1)) {
+			makeVisible(zoneElems.zoneIsDefaultElem);
+		} else {
+			makeHidden(zoneElems.zoneIsDefaultElem);
+		}
+
+		makeVisible(zoneElems.templateSettingElem);
+	}
+
+	function onZoneTimerSettingsCancel(oldValues) {
+		//console.log(oldValues);
+		var zoneElems = uiElems.zoneElems[oldValues.id];
+
+		document.body.onkeydown = function(event) { if (event.keyCode == 27) onCancel() };
+
+		zoneElems.autoTypeElem.checked = oldValues.isAuto;
+		zoneElems.customTypeElem.checked = oldValues.isCustom;
+		zoneElems.skipTypeElem.checked = oldValues.isSkip;
+		zoneElems.durationMinElem.value = oldValues.min;
+		zoneElems.durationSecElem.value = oldValues.sec;
+		zoneElems.zonePercentage.setValue(oldValues.autoPercentage);
+		fillProgramTimers(null);
+
+		makeHidden(zoneElems.templateSettingElem);
+	}
+
+	// Automatically put checked on Custom if duration is changed by user on input fields
+	function onZoneCustomDurationChange(id) {
+		var zoneElems = uiElems.zoneElems;
+
+		if (!zoneElems.hasOwnProperty(id)) {
+			return;
+		}
+
+		zoneElems = uiElems.zoneElems[id];
+		var min = parseInt(zoneElems.durationMinElem.value) || 0;
+		var sec = parseInt(zoneElems.durationSecElem.value) || 0;
+
+		if (min !== 0  || sec !== 0) {
+			zoneElems.customTypeElem.checked = true;
+		} else {
+			zoneElems.customTypeElem.checked = false;
+		}
+	}
+
+	function onCycleAndSoakTypeChange() {
+		var cyclesType = parseInt(getSelectValue(uiElems.cyclesTypeElem) || 0);
+		var soak = parseInt(uiElems.soakElem.value) || 0;
+		var cycles = parseInt(uiElems.cyclesElem.value) || 0;
+
+		switch (cyclesType) {
+			case CyclesType.Off:
+			case CyclesType.Auto:
+				makeHidden(uiElems.cyclesManualElem);
+				break;
+			case CyclesType.Manual:
+				makeVisible(uiElems.cyclesManualElem);
+
+				// Put minimum manual cycles to 2 since Auto changes this to -1
+				if (uiElems.cyclesElem.value == -1) {
+					uiElems.cyclesElem.value = 2;
+				}
+				break;
+		}
+
+		console.log("Soak: %s", soak);
+		console.log("Cycles: %s", cycles);
+	}
+
+	function onDelayZonesTypeChange() {
+		var delayType = parseInt(getSelectValue(uiElems.delayTypeElem) || 0);
+
+		if (delayType == DelayType.Manual) {
+			makeVisible(uiElems.delayZonesElem);
+		} else {
+			makeHidden(uiElems.delayZonesElem);
+		}
+	}
+
+
+	//--------------------------------------------------------------------------------------------
+	// Utility functions
+	//
+
+	//Converts program next run a a nicer string
+	function getProgramNextRunAsString(programNextRun) {
+
+		var nextRun = Util.dateStringToLocalDate(programNextRun);
+
+		if(nextRun === null || isNaN(nextRun.getTime()))	 {
+			nextRun = "Unknown";
+		} else {
+			nextRun = nextRun.toDateString();
+		}
+
+		return nextRun;
+	}
+
+	function fillProgramTimers(wateringTimeList) {
+
+		var zones = null;
+
+		//We might get called from saveZone() check if a program setting window is opened
+		if (selectedProgram === null) {
+			return;
+		}
+
+		if (Data.zoneAdvData && Data.zoneAdvData.zones) {
+			zones = Data.zoneAdvData.zones;
+		}
+
+		var programMultiplier = getProgramMultiplier();
+		var skipTimerText = "Not set";
+		var totalTimes = 0;
+
+		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
+			var autoTimer = 0;
+			var autoCoef = 1;
+			var customTimer = 0;
+			var timerText = "";
+			var timerColor;
+			var zoneId = index + 1;
+			var zoneElems = uiElems.zoneElems[zoneId];
+			var durationType = ZoneDurationType.Off; // Skip watering
+			var duration = {min: 0, sec: 0};
+
+			//Fill the suggested auto timer
+			if (zones) {
+				autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier;
+			}
+
+			//If called with wateringTimes fill from program data
+			if (wateringTimeList) {
+				var wateringTime = wateringTimeList[index];
+
+				customTimer = wateringTime.duration;
+
+				try {
+					duration.min = parseInt(wateringTime.duration / 60);
+					duration.sec = duration.min > 0 ? (wateringTime.duration % 60) : wateringTime.duration;
+				} catch (e) {
+				}
+
+				if (duration.min == 0 && duration.sec == 0) {
+					duration.min = duration.sec = "";
+				}
+
+				zoneElems.durationMinElem.value = duration.min;
+				zoneElems.durationSecElem.value = duration.sec;
+
+				if (wateringTime.active) {
+					if (wateringTime.duration > 0) {
+						durationType = ZoneDurationType.Manual; // Manual timer
+						zoneElems.customTypeElem.checked = true;
+					} else {
+						durationType = ZoneDurationType.Auto; // Auto timer
+						zoneElems.autoTypeElem.checked = true;
+					}
+				} else {
+					durationType = ZoneDurationType.Off; // Don't water
+					zoneElems.skipTypeElem.checked = true;
+				}
+
+				//Specified auto timer user percentage
+				zoneElems.zonePercentage.setValue(parseInt(wateringTime.userPercentage * 100) || 1);
+			} else {
+
+				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
+				duration.sec = parseInt(zoneElems.durationSecElem.value) || 0;
+				customTimer = duration.min * 60 + duration.sec;
+
+				if (zoneElems.autoTypeElem.checked) {
+					durationType = ZoneDurationType.Auto;
+				} else if (zoneElems.customTypeElem.checked) {
+					durationType = ZoneDurationType.Manual;
+				}  else {
+					durationType = ZoneDurationType.Off;
+					zoneElems.skipTypeElem.checked = true;
+				}
+			}
+
+			//Add auto coef
+			autoCoef = zoneElems.zonePercentage.value / 100.0;
+			autoTimer *= autoCoef;
+
+			//Check what duration we should display on Program Zones List
+			if (durationType == ZoneDurationType.Auto) {
+				timerText = Util.secondsToText(autoTimer);
+				totalTimes += autoTimer;
+				timerColor = "#3399cc";
+			} else if (durationType == ZoneDurationType.Manual) {
+				timerText = Util.secondsToText(customTimer);
+				totalTimes += customTimer;
+				timerColor = "#555";
+			} else {
+				timerText = skipTimerText;
+				timerColor = "#bbb";
+			}
+
+			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
+			zoneElems.durationElem.textContent = timerText;
+			zoneElems.durationElem.style.color = timerColor;
+		}
+
+		uiElems.zonesTotalTime.textContent = Util.secondsToText(totalTimes);
+	}
+
+	function getProgramMultiplier(frequency, forPast) {
+
+		if (typeof frequency === "undefined") {
+			frequency = parseCurrentProgramFrequency(); //get for current program being setup
+		}
+
+		if (typeof forPast === "undefined"){
+			forPast = false;
+		}
+
+		if (frequency === null) {
+			return 1;
+		}
+
+		switch(frequency.type) {
+			case FrequencyType.Daily:
+				return 1;
+			case FrequencyType.OddEven:
+				return 2;
+			case FrequencyType.EveryN:
+				return frequency.param;
+			case FrequencyType.Weekday:
+				if (forPast) {
+					return getWeekdaysFrequencyMultiplier(frequency.param).past;
+				} else {
+					return getWeekdaysFrequencyMultiplier(frequency.param).future;
+				}
+
+		}
+		return 1;
+	}
+
+	function getWeekdaysFrequencyMultiplier(param) {
+
+		var param = parseInt(param, 2); // param is as a binary string
+
+		//console.log("Weekdays param: %s", Util.showBin(param));
+
+		// two cycles (weeks) worth of days to count bits easily in the format SSFTWTMSSFTWTM0
+		// remove the extra 0 between the two weeks
+		/*
+		if (typeof firstWeekDay === "undefined" || firstWeekDay === null) {
+			firstWeekDay = new Date().getDay();
+		}
+		*/
+
+		var firstWeekDay = 1;
+
+		var twoCyclesFuture;
+		var twoCyclesPast;
+
+		twoCyclesFuture = twoCyclesPast = param | (((param & 254) >> 1) << 8);
+
+		var futureStart = firstWeekDay + 1;  // Start on next day
+		var pastStart = firstWeekDay + 7 - 1;  // Add a week as we're going backward in time starting on prev day
+
+		var future = 1;
+		var past = 1;
+
+		//console.log("* getMultipliers: param=%s, futureStart=%d, pastStart=%d, twoCyclesFuture=%s firstWeekDay=%d",
+		//	Util.showBin(param), futureStart, pastStart, Util.showBin(twoCyclesFuture), firstWeekDay);
+
+		while (((twoCyclesFuture & (1 << futureStart)) == 0) && (future < 8)) {
+			future += 1;
+			futureStart += 1;
+		}
+
+		if (future >= 8) {
+			future = 1;
+		}
+
+		while (((twoCyclesPast & (1 << pastStart)) == 0) && (past < 8)) {
+			past += 1;
+			pastStart -= 1;
+		}
+
+		if (past >= 8) {
+			past = 1;
+		}
+
+		return { future: future, past: past };
+	}
+
+	function parseCurrentProgramFrequency() {
+		var frequency = null;
+
+		if(uiElems.frequencyDailyElem.checked) {
+			frequency = {
+				type: FrequencyType.Daily,
+				param: "0"
+			};
+		} else if(uiElems.frequencyEveryElem.checked) {
+			frequency = {
+				type: FrequencyType.EveryN,
+				param: (parseInt(uiElems.frequencyEveryParamElem.value) || 0).toString()
+			};
+		} else if(uiElems.frequencyWeekdaysElem.checked) {
+			frequency = {
+				type: FrequencyType.Weekday,
+				param: weekdaysToParam()
+			};
+		} else if(uiElems.frequencyOddElem.checked) {
+			frequency = {
+				type: FrequencyType.OddEven,
+				param: FrequencyParam.Odd.toString()
+			};
+		} else if(uiElems.frequencyEvenElem.checked) {
+			frequency = {
+				type: FrequencyType.OddEven,
+				param: FrequencyParam.Even.toString()
+			};
+		}
+
+		return frequency;
+	}
+
+	//Returns the zone watering durations at the next run of the program. Requires Data.dailyDetails to be fetched
+	function getProgramZonesNextDetails(p) {
+		if (Data.dailyDetails == null || Data.dailyDetails.DailyStatsDetails === null){
+			console.error("Programs: No daily stats to show zones runtimes");
+			return null;
+		}
+
+		var daysStats = Data.dailyDetails.DailyStatsDetails;
+
+		if (p === null) {
+			console.error("Programs: Invalid program");
+			return null;
+		}
+
+		var dayPrograms = null;
+		for (i = 0; i < daysStats.length; i++) {
+			if (daysStats[i].day == p.nextRun) {
+				dayPrograms = daysStats[i].programs;
+				break;
+			}
+		}
+
+		if (dayPrograms === null) {
+			//console.error("Programs: Cannot find nextRun day %s in days stats", p.nextRun);
+			return null;
+		}
+
+		var programZones = null;
+		for (i = 0; i < dayPrograms.length; i++) {
+		   if (dayPrograms[i].id == p.uid) {
+			   programZones = dayPrograms[i].zones;
+			   break;
+		   }
+		}
+
+		if (programZones === null) {
+			//console.error("Programs: Can't find program %s zones", p.uid);
+			return null;
+		}
+
+		var zones = {};
+		for (i = 0; i < programZones.length; i++) {
+			var zid = programZones[i].id;
+			zones[zid] = programZones[i];
+		}
+
+		return zones;
+	}
+
+
+	//If next run field is user settable or not
+	function settableNextRun() {
+		return uiElems.frequencyEveryElem.checked && uiElems.activeElem.checked;
+	}
+
+	//If we should display the simple next run text or a settable next run
+	function changeNextRunType() {
+		if (settableNextRun()) {
+			makeVisible(uiElems.nextRunSettable);
+			makeHidden(uiElems.nextRun);
+		} else {
+			makeHidden(uiElems.nextRunSettable);
+			makeVisible(uiElems.nextRun);
+		}
+	}
 
 	//--------------------------------------------------------------------------------------------
 	//
@@ -702,4 +1266,6 @@ window.ui = window.ui || {};
 	_programs.showPrograms = showPrograms;
 	_programs.showProgramSettings = showProgramSettings;
 	_programs.onProgramsChartTypeChange = onProgramsChartTypeChange;
+	_programs.fillProgramTimers = fillProgramTimers;
+	_programs.getProgramMultiplier = getProgramMultiplier;
 } (window.ui.programs = window.ui.programs || {}));
