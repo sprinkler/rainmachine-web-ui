@@ -15,8 +15,6 @@ function DataProperty()
 
 var Data  = (function(Data) {
 
-Data.now = Date.now() / 1000 >> 0;
-
 //Properties
 Data.zoneData = null;
 Data.zoneAdvData = null;
@@ -40,7 +38,7 @@ Data.waterLogSimulated = null;
 Data.programsPastValues = null;
 Data.availableWater = null;
 Data.zonesAvailableWater = null;
-Data.dateTime = null;
+Data.today = null;
 Data.rainDelay = null;
 Data.uiVer = "1.6";
 Data.restrictionsCurrent = null;

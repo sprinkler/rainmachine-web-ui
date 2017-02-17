@@ -5,6 +5,16 @@
 
 var Util = (function(Util) {
 
+
+Util.parseDeviceDateTime = function(json) {
+	try {
+		Data.today = new Date(json.appDate.replace(/-/g, "/"));
+		console.log("DEVICE DATE: %o", Data.today);
+	} catch(e) {
+		console.log("DEVICE DATE: Invalid !")
+	}
+};
+
 Util.secondsToHuman = function(seconds)
 {
 
@@ -69,24 +79,10 @@ Util.secondsToMMSS = function(seconds)
 	text += s;
 
 	return text;
-}
-
-//Convert date in format "YYYY-MM-DD" to a date object that takes local timezone in account
-Util.dateStringToLocalDate = function(dateStr) {
-
-	var dateObj = null;
-
-	if (dateStr !== null) {
-		var d = new Date(dateStr);
-		dateObj = new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
-	}
-
-	return dateObj;
 };
 
 Util.sinceDateAsText = function(dateString)
 {
-	console.log(dateString);
 	var text;
 	var today = new Date();
 	var d = new Date(dateString.split(" ")[0]);
@@ -133,19 +129,61 @@ Util.getDateIndex = function(dateStr, startDate)
 Util.getDateWithDaysDiff = function(days, fromDate)
 {
 	if (fromDate === undefined || fromDate == null)
-		fromDate = new Date();
+		fromDate = Util.today();
+
 
 	fromDate.setDate(fromDate.getDate() - days);
 
-	return fromDate.toISOString().split("T")[0];
-}
+	return Util.getDateStr(fromDate);
+};
 
+
+Util.today = function() {
+
+	if (Data.today !== null) {
+		return new Date(Data.today)
+	}
+
+	return new Date(null);
+};
+
+//Returns today date in YYYY-MM-DD in current TZ offset (toISOString sets 0 UTC offset)
+Util.getDateStr = function(d)
+{
+	var year = 1900 + +d.getYear();
+	var month = +d.getMonth() + 1;
+	var day = d.getDate();
+
+	if (month < 10) month = "0" + month;
+	if (day < 10) day = "0" + day;
+
+	return year + "-" + month + "-" + day
+};
 
 Util.getTodayDateStr = function()
 {
-   var today = new Date();
-   return today.toISOString().split("T")[0]
-}
+	return Util.getDateStr(Util.today());
+};
+
+//Adds timezone offset to a Date object
+Util.dateWithTimezone = function(d) {
+
+	if (d === undefined) {
+		d = new Date();
+	}
+
+	return new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
+};
+
+//Convert date in format "YYYY-MM-DD" to a date object that takes local timezone in account
+Util.dateStringToLocalDate = function(dateStr) {
+	if (dateStr !== null) {
+		return new Date(dateStr);
+	}
+
+	return null;
+};
+
 
 Util.isToday = function(dateStr)
 {

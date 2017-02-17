@@ -225,7 +225,7 @@ window.ui = window.ui || {};
 
 		if (typeof queueTop.remaining === "undefined") {
 			queueTimer.textContent = "R";
-			queueTimer.className = "right parserRefresh icon";
+			queueTimer.className = "right loading icon";
 		} else {
 			queueTimer.textContent = Util.secondsToMMSS(queueTop.remaining);
 		}

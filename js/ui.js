@@ -10,6 +10,13 @@ window.ui = window.ui || {};
  	var loop = null;
 	var loopSlowLastRun = Date.now();
 	var loopMediumLastRun = Date.now();
+	var loopHourlyLastRun = Date.now();
+
+	var loopSeconds = 3 * 1000;
+	var loopSlowSeconds = 20 * 1000;
+	var loopMediumSeconds = 9 * 1000;
+	var loopHourlySeconds = 60 * 60 * 1000;
+
     var uiLastWateringState = false;
     var programsExpanded = false;
     var zonesExpanded = false;
@@ -173,19 +180,30 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function refreshProgramAndZones(forced) {
-		if (forced || (Date.now() - loopSlowLastRun) > 20 * 1000) {
-			loopSlowLastRun = Date.now();
-			window.ui.programs.showPrograms();
-			window.ui.zones.showZonesSimple();
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+	function uiStart() {
+		if (Data.today === null) {
+			APIAsync.getDateTime().then(
+				function(o) {
+					Util.parseDeviceDateTime(o);
+					uiInitialDownload();
+				});
+		} else {
+			uiInitialDownload();
 		}
 	}
 
-	function refreshRestrictions(forced) {
-		if (forced || (Date.now() - loopMediumLastRun) > 9 * 1000) {
-			loopMediumLastRun = Date.now();
-			window.ui.restrictions.showCurrentRestrictions();
-		}
+	function uiInitialDownload() {
+		chartsData = new ChartData();
+		window.ui.about.getDeviceInfo();
+		window.ui.programs.showPrograms();
+		window.ui.zones.showZones();
+		window.ui.settings.showParsers(true);
+		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
+		loop = setInterval(uiLoop, loopSeconds);
 	}
 
 	function uiLoop() {
@@ -229,6 +247,9 @@ window.ui = window.ui || {};
 			//Refresh on slower timer
 			refreshProgramAndZones(false);
 
+			// Refresh on hourly timer
+			refreshHourly(false);
+
 			//Refresh all data if there was a forced parser/mixer run from Settings->Weather
 			if (_main.refreshGraphs) {
 				console.log("Refreshing Graphs");
@@ -243,6 +264,32 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function refreshProgramAndZones(forced) {
+		if (forced || (Date.now() - loopSlowLastRun) > loopSlowSeconds) {
+			loopSlowLastRun = Date.now();
+			window.ui.programs.showPrograms();
+			window.ui.zones.showZonesSimple();
+		}
+	}
+
+	function refreshRestrictions(forced) {
+		if (forced || (Date.now() - loopMediumLastRun) > loopMediumSeconds) {
+			loopMediumLastRun = Date.now();
+			window.ui.restrictions.showCurrentRestrictions();
+		}
+	}
+
+	function refreshHourly(forced) {
+		if (forced || (Date.now() - loopHourlyLastRun) > loopHourlySeconds) {
+			loopHourlyLastRun = Date.now();
+			window.ui.system.getDeviceDateTime();
+		}
+	}
+
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
 	function showDashboard() {
 		makeVisibleBlock('#dashboard');
 		window.ui.programs.onProgramsChartTypeChange(true);
@@ -314,24 +361,13 @@ window.ui = window.ui || {};
         uiElems.zones = $('#zonesList');
 	}
 
-	//--------------------------------------------------------------------------------------------
-	//
-	//
-
-	function uiStart()
-	{
-		buildUIElems();
-		buildMenu();
-		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
-		buildNavigation(dashboardNavigation);
-		Help.bindAll();
-		window.ui.firebase.init();
-
-		//Set default button selections
+	function setDefaultButtonActions() {
+		//Dashboard / Home
 		$('#dashboardBtn').setAttribute("selected", true);
 		$('#settings0').setAttribute("selected", true);
 		$('#'+ dashboardNavigation[0].id).setAttribute("selected", "on");
 
+		//Logout
 		$("#logoutBtn").onclick = ui.login.logout;
 
 		//More button for water log details
@@ -356,39 +392,38 @@ window.ui = window.ui || {};
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings5').onclick();
-        };
+		};
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
+
+	}
+
+	//--------------------------------------------------------------------------------------------
+	//
+	//
+	function uiMain()
+	{
+		buildUIElems();
+		buildMenu();
+		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
+		buildNavigation(dashboardNavigation);
+		Help.bindAll();
+		window.ui.firebase.init();
+		setDefaultButtonActions();
 
 		//Load local settings
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
-		ui.login.login(function() {
-
-			window.ui.about.getDeviceInfo();
-
-			//TODO Show Programs
-			window.ui.programs.showPrograms();
-
-			//TODO Show zones
-			window.ui.zones.showZones();
-
-			//TODO Show parsers simple
-			window.ui.settings.showParsers(true);
-
-			loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
-
-			loop = setInterval(uiLoop, 3000);
-		});
+		ui.login.login(uiStart);
 	}
 
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_main.showError = showError;
-	_main.uiStart = uiStart;
+	_main.uiMain = uiMain;
 	_main.refreshGraphs = false;
 
 } (window.ui.main = window.ui.main || {}));
 
-window.addEventListener("load", window.ui.main.uiStart);
+window.addEventListener("load", window.ui.main.uiMain);

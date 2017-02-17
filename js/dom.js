@@ -387,3 +387,33 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		return mouseDown;
 	}
 }
+
+
+function uiClickFeedback(elem, func, paramsArray) {
+
+	if (paramsArray === undefined || paramsArray === null)
+		paramsArray = [];
+
+	elem.onclick = function() {
+		console.log("Requesting: %s", elem.id);
+		delTag($("#feedback-" + elem.id));
+		var n  = addTag(elem, "span");
+		n.id = "feedback-" + elem.id;
+		n.textContent = "R";
+		n.className = "loading icon";
+		n.style.display = "inline-block";
+
+		var r = func.apply(paramsArray);
+		if (r) {
+			n.textContent = "\u2714";
+			n.className = "green";
+			console.log("Success ! %s", elem.id);
+			setTimeout(function(){ delTag(n);}, 2000 )
+		} else {
+			n.textContent = "\u2717";
+			n.className = "red";
+			console.log("Error ! %s", elem.id);
+		}
+	}
+
+}

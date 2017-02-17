@@ -22,8 +22,9 @@ window.ui = window.ui || {};
             APIAsync.setAccessToken(accessToken);
         }
 
-        var provision = API.getProvision();
-        if(provision && !provision.statusCode) {
+        var deviceDate = API.getDateTime();
+        if(deviceDate && !deviceDate.statusCode) {
+            Util.parseDeviceDateTime(deviceDate);
             return callback();
         }
 
