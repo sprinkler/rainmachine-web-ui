@@ -48,12 +48,12 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 					//console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
 					a.resolve(JSON.parse(r.responseText));
 				} else {
-					console.error("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
 					a.reject(r.status);
+					console.log("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
 				}
 			}
 		};
-	};
+	}
 
 	try {
 		r.open(type, url, async);
@@ -81,7 +81,12 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 		else
 			return JSON.parse(r.responseText);
 
-	} catch(e) { console.log(e);}
+	} catch(e) {
+		console.log("REST: Error: %s", e);
+		if (async) {
+			a.reject(e);
+		}
+	}
 
 	console.log("REST: NULL return");
 	return null;
@@ -144,12 +149,18 @@ _API.prototype.auth = function(password, remember)
 		pwd: password,
 		remember: remember
 	};
-	
-	var reply = this.post(url, data, null);
-	console.log(JSON.stringify(reply, null, "  "));
 
-	var token = reply.access_token;
-	this.setAccessToken(token);
+	var reply = this.post(url, data, null);
+	var token = null;
+
+	console.log(JSON.stringify(reply, null, "  "));
+	try {
+		token = reply.access_token;
+		this.setAccessToken(token);
+	} catch(e) {
+		console.log("Error authenticating !");
+	}
+
 	return token;
 };
 
