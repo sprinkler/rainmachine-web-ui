@@ -390,7 +390,7 @@ window.ui = window.ui || {};
 					o.textContent += ": " + r.message;
 				}
 			} else {
-				o.textContent = "Successful uploaded " + status.file.name
+				o.textContent = "Successful uploaded " + status.file.name;
 				showParsers(false);
 			}
 		}
@@ -443,9 +443,14 @@ window.ui = window.ui || {};
 		var days = parseInt($("#waterHistoryDays").value) || 30;
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
 
-		APIAsync.getWateringLog(false, true, startDate, days).then(
-			function(o) {Data.waterLogCustom = o; showWaterLog();}
-		);
+		APIAsync.getWateringLog(false, true, startDate, days)
+			.start(uiFeedback.start, $("#waterHistoryFetch"))
+			.then(function(o) {
+				Data.waterLogCustom = o;
+				showWaterLog();
+				uiFeedback.success($("#waterHistoryFetch"));
+			})
+			.error(uiFeedback.error, $("#waterHistoryFetch"));
 	}
 
 	function onPastProgramValuesFetch() {
@@ -454,7 +459,10 @@ window.ui = window.ui || {};
 		console.log("Getting programs past values starting from %s for %d days...", startDate, days);
 
 		APIAsync.getWateringPast(startDate, days).then(
-			function(o) {Data.programsPastValues = o; showWaterLog();}
+			function(o) {
+				Data.programsPastValues = o;
+				showWaterLog();
+			}
 		);
 	}
 
