@@ -1688,9 +1688,6 @@ td.right,
   position:absolute;
   margin-left: 0.1em;
 }
-.error {
-  font-size:1.2em;
-}
 
 @-webkit-keyframes spinnerRotate
 {
