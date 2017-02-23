@@ -417,7 +417,7 @@ uiFeedback =  {
 	success: function(elem) {
 		var e = $("#feedback-" + elem.id);
 		e.textContent = "\ue116";
-		e.className = "successful icon";
+		e.className = "success icon";
 		console.log("Success ! %s", elem.id);
 		setTimeout(function(){ delTag(e);}, 3600 )
 	},
@@ -425,7 +425,7 @@ uiFeedback =  {
 	error: function(elem) {
 		var e = $("#feedback-" + elem.id);
 		e.textContent = "\ue629";
-		e.className = "notsuccessful icon red";
+		e.className = "error icon red";
 		console.log("Error ! %s", elem.id);
 		elem.style.color = "red";
 		elem.style.background = "white";

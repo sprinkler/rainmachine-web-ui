@@ -1682,13 +1682,13 @@ td.right,
   bottom: 10px;
   right: 10px;
 }
-.loading, .successful, .notsuccessful {
+.loading, .success, .error {
   font-size: 1.2em;
   font-weight: 300;
   position:absolute;
   margin-left: 0.1em;
 }
-.notsuccessful {
+.error {
   font-size:1.2em;
 }
 
@@ -1723,7 +1723,7 @@ td.right,
     -ms-animation-timing-function: linear;
 }
 
-.notsuccessful { animation: flash 1s ease-in infinite}
+.error { animation: flash 1s ease-in infinite}
 @keyframes flash { 
   0%,
   50%,
