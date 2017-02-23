@@ -1682,48 +1682,55 @@ td.right,
   bottom: 10px;
   right: 10px;
 }
+.loading, .success, .error {
+  font-size: 1.2em;
+  font-weight: 300;
+  position:absolute;
+  margin-left: 0.1em;
+}
+
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+@-moz-keyframes spinnerRotate
+{
+    from{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(360deg);}
+}
+@-ms-keyframes spinnerRotate
+{
+    from{-ms-transform:rotate(0deg);}
+    to{-ms-transform:rotate(360deg);}
+}
+
 .loading {
-  animation: refresh 1.5s infinite linear;
-  font-size: 14px;
-  margin: 10px;
+  -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spinnerRotate;
+    -moz-animation-duration: 0.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spinnerRotate;
+    -ms-animation-duration: 0.5s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
 }
-.loading[state="running"] {
-  display: inline;
-}
-@-webkit-keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-/*
-.button:active,
-.button:focus { animation: flash 1.5s ease-in }
+
+.error { animation: flash 1s ease-in infinite}
 @keyframes flash { 
   0%,
   50%,
   100% {
     opacity: 1;
-    background-color: #f6f6f6;
   }
   25%,
   75% { opacity: 0 }
 }
-*/
+
 /* Icon Button */
 .playstopButton {
   border: 0;
