@@ -205,6 +205,10 @@ body.login {
   border: 1px solid #eee;
   padding: 10px 10px;
 }
+#loginError {
+  color: red;
+}
+
 .loader {
   margin: 60px auto;
   font-size: 10px;

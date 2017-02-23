@@ -389,31 +389,45 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 }
 
 
-function uiClickFeedback(elem, func, paramsArray) {
+uiFeedback =  {
+	sync: function(elem, func) {
+		var params = [].slice.call(arguments, 2);
 
-	if (paramsArray === undefined || paramsArray === null)
-		paramsArray = [];
+		elem.onclick = function() {
+			uiFeedback.start(elem);
+			var r = func.apply(null, params);
+			if (r) {
+				uiFeedback.success(elem);
+			} else {
+				uiFeedback.error(elem);
+			}
+		}
+	},
 
-	elem.onclick = function() {
+	start: function(elem) {
+		console.log(elem);
 		console.log("Requesting: %s", elem.id);
 		delTag($("#feedback-" + elem.id));
 		var n  = addTag(elem, "span");
 		n.id = "feedback-" + elem.id;
 		n.textContent = "R";
 		n.className = "loading icon";
+		n.style.backgroundColor = "grey";
 		n.style.display = "inline-block";
+	},
 
-		var r = func.apply(paramsArray);
-		if (r) {
-			n.textContent = "\u2714";
-			n.className = "green";
-			console.log("Success ! %s", elem.id);
-			setTimeout(function(){ delTag(n);}, 2000 )
-		} else {
-			n.textContent = "\u2717";
-			n.className = "red";
-			console.log("Error ! %s", elem.id);
-		}
+	success: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		e.textContent = "\u2714";
+		e.className = "green";
+		console.log("Success ! %s", elem.id);
+		setTimeout(function(){ delTag(e);}, 2000 )
+	},
+
+	error: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		e.textContent = "\u2717";
+		e.className = "red";
+		console.log("Error ! %s", elem.id);
 	}
-
-}
+};

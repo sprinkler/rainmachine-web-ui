@@ -47,15 +47,21 @@ function clearParserHourlyData() {
 	}
 }
 
-function getParserData(startDate, days, id) {
-	APIAsync.getParserData(id, startDate, days).then(function(o) {
-	 	if (Data.parserData === null) {
-	 		Data.parserData = {};
-	 	}
 
-		Data.parserData[id] = o;
-		processParserChartData(id, startDate, days);
-	})
+function getParserData(startDate, days, id) {
+	APIAsync.getParserData(id, startDate, days)
+		.start(uiFeedback.start, $("#weatherServicesFetch"))
+		.then(function(o) {
+			if (Data.parserData === null) {
+				Data.parserData = {};
+			}
+
+			Data.parserData[id] = o;
+			processParserChartData(id, startDate, days);
+			uiFeedback.success($("#weatherServicesFetch"));
+		})
+		.error(uiFeedback.error, $("#weatherServicesFetch"))
+
 }
 
 function getAllEnabledParsersData(startDate, days) {

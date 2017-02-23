@@ -177,19 +177,19 @@ window.ui = window.ui || {};
 		systemSettingsView.UnitsUS.checked = !Data.localSettings.units;
 		systemSettingsView.UnitsMetric.checked = Data.localSettings.units;
 
-		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
-		systemSettingsView.DeviceNameSet.onclick = function() {
-			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
-			getProvision(); //refresh
-		};
-		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
-		systemSettingsView.DateTimeSet.onclick = function() { systemSettingsChangeDateTime(); };
-		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
-		systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
-		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
-		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
-		systemSettingsView.RebootSet.onclick = function() { systemSettingsReboot(); };
-		systemSettingsView.PINGenerate.onclick = function() { getLoginPIN(); };
+		uiFeedback.sync(systemSettingsView.MasterValveSet, systemSettingsChangeMasterValve);
+
+		uiFeedback.sync(systemSettingsView.DeviceNameSet, changeSingleSystemProvisionValue,
+			"netName", systemSettingsView.DeviceName.value); //TODO: getProvision(); //refresh
+
+		uiFeedback.sync(systemSettingsView.LocationSet, systemSettingsChangeLocation);
+		uiFeedback.sync(systemSettingsView.DateTimeSet, systemSettingsChangeDateTime);
+		uiFeedback.sync(systemSettingsView.TimeZoneSet, systemSettingsChangeTimeZone);
+		uiFeedback.sync(systemSettingsView.UnitsSet, systemSettingsChangeUnits);
+		uiFeedback.sync(systemSettingsView.PasswordSet, systemSettingsChangePassword);
+		uiFeedback.sync(systemSettingsView.ResetDefaultSet, systemSettingsReset);
+		uiFeedback.sync(systemSettingsView.RebootSet, systemSettingsReboot);
+		uiFeedback.sync(systemSettingsView.PINGenerate, getLoginPIN);
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
@@ -206,16 +206,15 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
 
-		uiClickFeedback(systemSettingsView.SSHSet, systemSettingsChangeSSH);
-		uiClickFeedback(systemSettingsView.LogSet, systemSettingsChangeLog);
-		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
+		uiFeedback.sync(systemSettingsView.SSHSet, systemSettingsChangeSSH);
+		uiFeedback.sync(systemSettingsView.LogSet, systemSettingsChangeLog);
+		uiFeedback.sync(systemSettingsView.CloudSet, systemSettingsChangeCloud);
 
-		systemSettingsView.AlexaSet.onclick = function() {
-			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
-		};
+		uiFeedback.sync(systemSettingsView.AlexaSet, changeSingleSystemProvisionValue,
+			"allowAlexaDiscovery",  systemSettingsView.Alexa.checked);
 
 
-		systemSettingsView.BetaUpdatesSet.onclick = function() { systemSettingsSetBetaUpdates() };
+		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
 		//TODO Developer mode commented out atm
 		/*
@@ -250,28 +249,25 @@ window.ui = window.ui || {};
 		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
 		systemSettingsView.TouchProg.checked = Data.provision.system.touchCyclePrograms;
 
-		systemSettingsView.MaxLedSet.onclick = function() {
-			changeSingleSystemProvisionValue("maxLEDBrightness", systemSettingsView.MaxLed.value);
-		};
-		systemSettingsView.MinLedSet.onclick = function() {
-			changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value);
-		};
-		systemSettingsView.TouchTimeoutSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value);
-		};
-		systemSettingsView.TouchAdvSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchAdvanced", systemSettingsView.TouchAdv.checked);
-		};
-		systemSettingsView.TouchPressTimeoutSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value);
-		};
-		systemSettingsView.TouchProgSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked);
-		};
-		systemSettingsView.ShortDetectionSet.onclick = function() {
-			API.setShortDetection(systemSettingsView.ShortDetection.checked);
-		};
+		uiFeedback.sync(systemSettingsView.MaxLedSet, changeSingleSystemProvisionValue,
+			"maxLEDBrightness", systemSettingsView.MaxLed.value);
 
+		uiFeedback.sync(systemSettingsView.MinLedSet, changeSingleSystemProvisionValue,
+			"minLEDBrightness", systemSettingsView.MinLed.value);
+
+		uiFeedback.sync(systemSettingsView.TouchTimeoutSet, changeSingleSystemProvisionValue,
+			"touchSleepTimeout", systemSettingsView.TouchTimeout.value);
+
+		uiFeedback.sync(systemSettingsView.TouchAdvSet, changeSingleSystemProvisionValue,
+			"touchAdvanced", systemSettingsView.TouchAdv.checked);
+
+		uiFeedback.sync(systemSettingsView.TouchPressTimeoutSet, changeSingleSystemProvisionValue,
+			"touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value);
+
+		uiFeedback.sync(systemSettingsView.TouchProgSet, changeSingleSystemProvisionValue,
+			"touchCyclePrograms", systemSettingsView.TouchProg.checked);
+
+		uiFeedback.sync(systemSettingsView.ShortDetectionSet, API.setShortDetection, systemSettingsView.ShortDetection.checked);
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
@@ -291,7 +287,6 @@ window.ui = window.ui || {};
 
 		Data.provision.system[provisionKey] = value;
 		return r;
-
 	}
 
 	function systemSettingsSetBetaUpdates() {
@@ -303,6 +298,8 @@ window.ui = window.ui || {};
 			console.log("Can't set beta updates");
 		}
 		getBetaUpdatesStatus();
+
+		return r;
 	}
 
 	//TODO: Developer Mode
@@ -401,11 +398,14 @@ window.ui = window.ui || {};
 		}
 
 		if (data) {
-			API.setProvisionCloud(data);
+			var r = API.setProvisionCloud(data);
 			getProvisionCloud();
+			return r;
 		} else {
 			console.error("Invalid or unchanged email for remote access");
 		}
+
+		return null;
 	}
 
 	function systemSettingsChangeLocation()
@@ -434,10 +434,11 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't change location settings.");
-			return;
+			return null;
 		}
 
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsChangeDateTime()
@@ -473,7 +474,7 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't change timezone.");
-			return;
+			return null;
 		}
 
 		getProvision();
