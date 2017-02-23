@@ -1710,32 +1710,30 @@ td.right,
 
 .loading {
   -webkit-animation-name: spinnerRotate;
-    -webkit-animation-duration: 1.5s;
+    -webkit-animation-duration: 0.5s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
     -moz-animation-name: spinnerRotate;
-    -moz-animation-duration: 1.5s;
+    -moz-animation-duration: 0.5s;
     -moz-animation-iteration-count: infinite;
     -moz-animation-timing-function: linear;
     -ms-animation-name: spinnerRotate;
-    -ms-animation-duration: 1.5s;
+    -ms-animation-duration: 0.5s;
     -ms-animation-iteration-count: infinite;
     -ms-animation-timing-function: linear;
 }
-/*
-.button:active,
-.button:focus { animation: flash 1.5s ease-in }
+
+.notsuccessful, .successful { animation: flash 1s ease-in infinite}
 @keyframes flash { 
   0%,
   50%,
   100% {
     opacity: 1;
-    background-color: #f6f6f6;
   }
   25%,
   75% { opacity: 0 }
 }
-*/
+
 /* Icon Button */
 .playstopButton {
   border: 0;
