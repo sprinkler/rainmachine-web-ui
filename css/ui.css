@@ -1723,7 +1723,7 @@ td.right,
     -ms-animation-timing-function: linear;
 }
 
-.notsuccessful, .successful { animation: flash 1s ease-in infinite}
+.notsuccessful { animation: flash 1s ease-in infinite}
 @keyframes flash { 
   0%,
   50%,
