@@ -410,24 +410,25 @@ uiFeedback =  {
 		delTag($("#feedback-" + elem.id));
 		var n  = addTag(elem, "span");
 		n.id = "feedback-" + elem.id;
-		n.textContent = "R";
+		n.textContent = "\ue97b";
 		n.className = "loading icon";
-		n.style.backgroundColor = "grey";
-		n.style.display = "inline-block";
 	},
 
 	success: function(elem) {
 		var e = $("#feedback-" + elem.id);
-		e.textContent = "\u2714";
-		e.className = "green";
+		e.textContent = "\ue116";
+		e.className = "successful icon";
 		console.log("Success ! %s", elem.id);
-		setTimeout(function(){ delTag(e);}, 2000 )
+		setTimeout(function(){ delTag(e);}, 3600 )
 	},
 
 	error: function(elem) {
 		var e = $("#feedback-" + elem.id);
-		e.textContent = "\u2717";
-		e.className = "red";
+		e.textContent = "\ue629";
+		e.className = "notsuccessful icon red";
 		console.log("Error ! %s", elem.id);
+		elem.style.color = "red";
+		elem.style.background = "white";
+		setTimeout(function(){ delTag(e);}, 4200 )
 	}
 };
