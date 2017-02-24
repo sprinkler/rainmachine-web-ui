@@ -1720,17 +1720,6 @@ td.right,
     -ms-animation-timing-function: linear;
 }
 
-.error { animation: flash 1s ease-in infinite}
-@keyframes flash { 
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
-  25%,
-  75% { opacity: 0 }
-}
-
 /* Icon Button */
 .playstopButton {
   border: 0;
