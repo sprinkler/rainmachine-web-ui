@@ -1939,7 +1939,7 @@ td.right,
   text-align: center;
   vertical-align: middle;
   display: inline-block;
-  z-index: 0;
+  z-index: 1;
 }
 .helpText, .helpTextWaterSaved {
   width: 15px;
