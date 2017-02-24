@@ -429,6 +429,5 @@ uiFeedback =  {
 		console.log("Error ! %s", elem.id);
 		elem.style.color = "red";
 		elem.style.background = "white";
-		setTimeout(function(){ delTag(e);}, 4200 )
 	}
 };
