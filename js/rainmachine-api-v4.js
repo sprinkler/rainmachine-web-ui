@@ -76,19 +76,24 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 			r.send();
 		}
 
-		if (async)
+		//console.log("REST STATUS: %s : %s", r.readyState, r.status);
+
+		if (async) {
 			return a;
-		else
-			return JSON.parse(r.responseText);
+		} else {
+			if (r.readyState === 4 && r.status === 200) {
+				return JSON.parse(r.responseText);
+			}
+		}
 
 	} catch(e) {
-		console.log("REST: Error: %s", e);
+		console.log("REST: Exception: %s", e);
 		if (async) {
 			a.reject(e);
 		}
 	}
 
-	console.log("REST: NULL return");
+	console.log("REST: Error !");
 	return null;
 }
 
