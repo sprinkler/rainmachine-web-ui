@@ -418,8 +418,13 @@ uiFeedback =  {
 		var e = $("#feedback-" + elem.id);
 		e.textContent = "\ue116";
 		e.className = "success icon";
-		console.log("Success ! %s", elem.id);
 		setTimeout(function(){ delTag(e);}, 3600 )
+	},
+
+	// Like success but without feedback
+	done: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		delTag(e);
 	},
 
 	error: function(elem) {
