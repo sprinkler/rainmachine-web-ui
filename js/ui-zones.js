@@ -884,7 +884,6 @@ window.ui = window.ui || {};
 
 		APIAsync.simulateZone(zoneProperties, zoneAdvProperties).then(
 			function(o) {
-				console.log(o);
 				showZoneSimulatedValues(o);
 			}
 		);

@@ -405,8 +405,6 @@ uiFeedback =  {
 	},
 
 	start: function(elem) {
-		console.log(elem);
-		console.log("Requesting: %s", elem.id);
 		delTag($("#feedback-" + elem.id));
 		var n  = addTag(elem, "span");
 		n.id = "feedback-" + elem.id;
