@@ -11,18 +11,14 @@ var API = APISync;
 function _API(async) {
 
 var host = window.location.hostname;
-//var host = "demo.labs.rainmachine.com";
-
 //var host = "127.0.0.1";
-//var host = "5.2.191.144";
-var host = "192.168.12.174";
+//var host = "192.168.12.174";             //Example: A local networked RainMachine
+//var host = "demo.labs.rainmachine.com";  //Example: API Mock server
 
 var port = window.location.port;
-//var port = "443";
-var port = "8080";
-//var port = "18080";
-//var port = "19090";
-
+//var port = "18080";  //Example: Port for localhost connection on RainMachine
+//var port = "8080";   //Example: Port for local network connection to a RainMachine
+//var port = "19090";  //Example: Port for demo.labs.rainmachine.com mock server
 
 //var protocol = window.location.protocol;
 
