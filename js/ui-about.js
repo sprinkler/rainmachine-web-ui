@@ -54,7 +54,7 @@ window.ui = window.ui || {};
 
 	function showLog(log) {
 		var logWin = window.open();
-		logWin.document.write("<h2>Retriving log from device ...</h2>");
+		logWin.document.write("<h2>Retrieving log from device ...</h2>");
 		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
 	}
 
