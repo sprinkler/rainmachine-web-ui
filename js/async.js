@@ -16,7 +16,6 @@ function Async() {
 
 Async.prototype.start = function(callback, param) {
 	if (callback) {
-		console.log("Calling %s with %s", callback, param);
 		callback.call(this, param);
 	}
 

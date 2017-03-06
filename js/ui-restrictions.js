@@ -55,10 +55,6 @@ window.ui = window.ui || {};
 
 		setSelectOption(uiElems.freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
 
-		if (Data.provision.api.hwVer == 2 || Data.provision.api.hwVer === "simulator") {
-			makeVisibleBlock("#restrictionsMini8");
-		}
-
 		//Set the months restrictions
 		for (var i = 0; i < Util.monthNames.length; i++)
 		{

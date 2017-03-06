@@ -11,19 +11,20 @@ var API = APISync;
 function _API(async) {
 
 var host = window.location.hostname;
-//var host = "private-bd9e-rainmachine.apiary-mock.com";
 //var host = "127.0.0.1";
-//var host = "5.2.191.144";
-//var host = "192.168.12.129";
+//var host = "192.168.12.174";             //Example: A local networked RainMachine
+//var host = "demo.labs.rainmachine.com";  //Example: API Mock server
 
 var port = window.location.port;
-//var port = "443";
-//var port = "18080";
-//var port = "8080";
-//var port = "8888";
+//var port = "18080";  //Example: Port for localhost connection on RainMachine
+//var port = "8080";   //Example: Port for local network connection to a RainMachine
+//var port = "19090";  //Example: Port for demo.labs.rainmachine.com mock server
+
+//var protocol = window.location.protocol;
 
 var apiUrl = "https://" + host + ":" + port + "/api/4";
 //var apiUrl = "http://" + host + ":" + port + "/api/4";
+
 
 var token = null;
 var async = async;
@@ -76,19 +77,24 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 			r.send();
 		}
 
-		if (async)
+		//console.log("REST STATUS: %s : %s", r.readyState, r.status);
+
+		if (async) {
 			return a;
-		else
-			return JSON.parse(r.responseText);
+		} else {
+			if (r.readyState === 4 && r.status === 200) {
+				return JSON.parse(r.responseText);
+			}
+		}
 
 	} catch(e) {
-		console.log("REST: Error: %s", e);
+		console.log("REST: Exception: %s", e);
 		if (async) {
 			a.reject(e);
 		}
 	}
 
-	console.log("REST: NULL return");
+	console.log("REST: Error !");
 	return null;
 }
 

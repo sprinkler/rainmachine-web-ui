@@ -179,9 +179,7 @@ window.ui = window.ui || {};
 
 		uiFeedback.sync(systemSettingsView.MasterValveSet, systemSettingsChangeMasterValve);
 
-		uiFeedback.sync(systemSettingsView.DeviceNameSet, changeSingleSystemProvisionValue,
-			"netName", systemSettingsView.DeviceName.value); //TODO: getProvision(); //refresh
-
+		uiFeedback.sync(systemSettingsView.DeviceNameSet, systemSettingsSetName);
 		uiFeedback.sync(systemSettingsView.LocationSet, systemSettingsChangeLocation);
 		uiFeedback.sync(systemSettingsView.DateTimeSet, systemSettingsChangeDateTime);
 		uiFeedback.sync(systemSettingsView.TimeZoneSet, systemSettingsChangeTimeZone);
@@ -212,7 +210,6 @@ window.ui = window.ui || {};
 
 		uiFeedback.sync(systemSettingsView.AlexaSet, changeSingleSystemProvisionValue,
 			"allowAlexaDiscovery",  systemSettingsView.Alexa.checked);
-
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
@@ -267,7 +264,7 @@ window.ui = window.ui || {};
 		uiFeedback.sync(systemSettingsView.TouchProgSet, changeSingleSystemProvisionValue,
 			"touchCyclePrograms", systemSettingsView.TouchProg.checked);
 
-		uiFeedback.sync(systemSettingsView.ShortDetectionSet, API.setShortDetection, systemSettingsView.ShortDetection.checked);
+		uiFeedback.sync(systemSettingsView.ShortDetectionSet, systemSettingsChangeShortDetection);
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
@@ -289,14 +286,27 @@ window.ui = window.ui || {};
 		return r;
 	}
 
+
+	function systemSettingsSetName() {
+		var r = changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
+
+		if (r === undefined || !r || r.statusCode != 0) {
+			console.log("Can't set device name");
+			return null;
+		}
+
+		getProvision();
+		return r;
+	}
+
 	function systemSettingsSetBetaUpdates() {
 		var enable =  systemSettingsView.BetaUpdates.checked;
 		var r = API.setBeta(enable);
 
-		if (r === undefined || !r || r.statusCode != 0)
-		{
+		if (r === undefined || !r || r.statusCode != 0) {
 			console.log("Can't set beta updates");
 		}
+
 		getBetaUpdatesStatus();
 
 		return r;
@@ -390,11 +400,14 @@ window.ui = window.ui || {};
 		var currentEmail = Data.provision.cloud.email;
 		var data = null;
 
-		if (email && Util.validateEmail(email) && email != currentEmail) {
+		if (email && Util.validateEmail(email)) {
 			data = {};
-			data.email = "";
-			data.pendingEmail = email;
 			data.enable = isEnabled;
+
+			if (email != currentEmail) {
+				data.email = "";
+				data.pendingEmail = email;
+			}
 		}
 
 		if (data) {
@@ -402,7 +415,7 @@ window.ui = window.ui || {};
 			getProvisionCloud();
 			return r;
 		} else {
-			console.error("Invalid or unchanged email for remote access");
+			console.error("Invalid email for remote access");
 		}
 
 		return null;
@@ -455,10 +468,11 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			window.ui.main.showError("Can't change date/time settings: " + r.message);
-			return;
+			return null;
 		}
 
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsChangeTimeZone()
@@ -478,12 +492,19 @@ window.ui = window.ui || {};
 		}
 
 		getProvision();
+
+		return r;
 	}
 
 	function systemSettingsChangeLog()
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
 		return API.setLogLevel(level);
+	}
+
+	function systemSettingsChangeShortDetection() {
+		var enabled = systemSettingsView.ShortDetection.checked;
+		return API.setShortDetection(enabled);
 	}
 
 	function showDeviceDateTime()
@@ -513,6 +534,8 @@ window.ui = window.ui || {};
 		APIAsync.totp().then(function(o) {
 			systemSettingsView.PINOutput.value = o.totp;
 		});
+
+		return true;
 	}
 
 	function buildTimeZoneSelect(container)

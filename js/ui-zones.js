@@ -744,9 +744,14 @@ window.ui = window.ui || {};
 
 		//TODO reload if startData differs
 		if (Data.availableWater === null) {
-			APIAsync.getWateringAvailable(startDate, days).then(
-				function(o) {Data.availableWater = o; onAvailableWaterShow(past, days, id);}
-			);
+			APIAsync.getWateringAvailable(startDate, days)
+				.start(uiFeedback.start, uiElems.showAvailableWaterElem)
+				.then(function(o) {
+						Data.availableWater = o;
+						onAvailableWaterShow(past, days, id);
+						uiFeedback.done(uiElems.showAvailableWaterElem);
+				})
+				.error(uiFeedback.error, uiElems.showAvailableWaterElem);
 		} else {
 			onAvailableWaterShow(past, days, id)
 		}
@@ -879,7 +884,6 @@ window.ui = window.ui || {};
 
 		APIAsync.simulateZone(zoneProperties, zoneAdvProperties).then(
 			function(o) {
-				console.log(o);
 				showZoneSimulatedValues(o);
 			}
 		);
