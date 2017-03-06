@@ -1583,7 +1583,7 @@ td.right,
 }
 /* DASHBOARD */
 /* Settings - Weather (START) */
-#weatherSourcesList {
+#weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
 .weatherSource {
@@ -1640,6 +1640,7 @@ td.right,
   font-family: 'Roboto', Arial, Helvetica;
   color: #646464;
   text-transform: uppercase;
+  text-align: center;
 }
 .button.narrow { width: 60px }
 .button.grey {
@@ -1652,19 +1653,19 @@ td.right,
   background-color: #39c;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.red {
   background-color: red;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
