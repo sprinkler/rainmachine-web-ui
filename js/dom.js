@@ -395,7 +395,7 @@ uiFeedback =  {
 
 		elem.onclick = function() {
 			uiFeedback.start(elem);
-			var r = func.apply(null, params);
+			var r = func.apply(elem, params);
 			if (r) {
 				uiFeedback.success(elem);
 			} else {
@@ -414,9 +414,11 @@ uiFeedback =  {
 
 	success: function(elem) {
 		var e = $("#feedback-" + elem.id);
-		e.textContent = "\ue116";
-		e.className = "success icon";
-		setTimeout(function(){ delTag(e);}, 3600 )
+		if (e) {
+			e.textContent = "\ue116";
+			e.className = "success icon";
+			setTimeout(function(){ delTag(e);}, 3600 )
+		}
 	},
 
 	// Like success but without feedback
@@ -427,8 +429,11 @@ uiFeedback =  {
 
 	error: function(elem) {
 		var e = $("#feedback-" + elem.id);
-		e.textContent = "\ue629";
-		e.className = "error icon red";
+		if (e) {
+			e.textContent = "\ue629";
+			e.className = "error icon red";
+		}
+
 		console.log("Error ! %s", elem.id);
 		elem.style.color = "red";
 		elem.style.background = "white";
