@@ -390,52 +390,63 @@ window.ui = window.ui || {};
 					o.textContent += ": " + r.message;
 				}
 			} else {
-				o.textContent = "Successful uploaded " + status.file.name
+				o.textContent = "Successful uploaded " + status.file.name;
 				showParsers(false);
 			}
 		}
 	}
 
-	function getRainDelay() {
+	function showRainDelay() {
+
+		if (!uiElems.hasOwnProperty("snooze")) {
+			uiElems.snooze = {};
+			uiElems.snooze.enabledContainer = $("#snoozeCurrentContent");
+			uiElems.snooze.disabledContainer = $("#snoozeSetContent");
+
+			uiElems.snooze.enabledContent = $("#snoozeCurrentValue");
+			uiElems.snooze.daysInput = $('#snoozeDays')
+
+			uiElems.snooze.stop = $("#snoozeStop");
+			uiElems.snooze.set = $("#snoozeSet");
+
+			uiFeedback.sync(uiElems.snooze.stop, onSetSnooze, 0);
+			uiFeedback.sync(uiElems.snooze.set, function() {
+				return onSetSnooze(+uiElems.snooze.daysInput.value);
+			});
+		}
+
 		APIAsync.getRestrictionsRainDelay().then(function(o) {
 				Data.rainDelay = o;
-				showRainDelay();
+				updateRainDelay();
 		});
 	}
 
-	function showRainDelay()
+	function updateRainDelay()
 	{
+
 		var rd = +Data.rainDelay.delayCounter;
-
-		var onDiv = $("#snoozeCurrentContent");
-		var offDiv = $("#snoozeSetContent");
-
-		var stopButton = $("#snoozeStop");
-		var setButton = $("#snoozeSet");
 
 		//Are we already in Snooze
 		if (rd > 0)
 		{
-			makeHidden(offDiv);
-			makeVisible(onDiv);
+			makeHidden(uiElems.snooze.disabledContainer);
+			makeVisible(uiElems.snooze.enabledContainer);
 			var v = Util.secondsToHuman(rd);
-			var vdiv = $("#snoozeCurrentValue");
-			vdiv.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
+			uiElems.snooze.enabledContent.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
 			console.log("Device is snoozing for %d seconds", rd);
 		}
 		else
 		{
-			makeHidden(onDiv);
-			makeVisible(offDiv);
+			makeHidden(uiElems.snooze.enabledContainer);
+			makeVisible(uiElems.snooze.disabledContainer);
 			console.log("Device is not snoozing");
 		}
+	}
 
-		stopButton.onclick = function() { console.log(API.setRestrictionsRainDelay(0)); showRainDelay(); };
-		setButton.onclick = function() {
-			var snoozeDays = $('#snoozeDays').value;
-			console.log(API.setRestrictionsRainDelay(parseInt(snoozeDays)));
-			showRainDelay();
-		};
+	function onSetSnooze(duration) {
+		var r = API.setRestrictionsRainDelay(duration);
+		showRainDelay();
+		return r;
 	}
 
 	function onWaterLogFetch() {
@@ -443,9 +454,14 @@ window.ui = window.ui || {};
 		var days = parseInt($("#waterHistoryDays").value) || 30;
 		console.log("Getting water log starting from %s for %d days...", startDate, days);
 
-		APIAsync.getWateringLog(false, true, startDate, days).then(
-			function(o) {Data.waterLogCustom = o; showWaterLog();}
-		);
+		APIAsync.getWateringLog(false, true, startDate, days)
+			.start(uiFeedback.start, $("#waterHistoryFetch"))
+			.then(function(o) {
+				Data.waterLogCustom = o;
+				showWaterLog();
+				uiFeedback.success($("#waterHistoryFetch"));
+			})
+			.error(uiFeedback.error, $("#waterHistoryFetch"));
 	}
 
 	function onPastProgramValuesFetch() {
@@ -454,7 +470,10 @@ window.ui = window.ui || {};
 		console.log("Getting programs past values starting from %s for %d days...", startDate, days);
 
 		APIAsync.getWateringPast(startDate, days).then(
-			function(o) {Data.programsPastValues = o; showWaterLog();}
+			function(o) {
+				Data.programsPastValues = o;
+				showWaterLog();
+			}
 		);
 	}
 
@@ -1024,7 +1043,7 @@ window.ui = window.ui || {};
 	_settings.updateParsers = updateParsers;
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
-	_settings.getRainDelay = getRainDelay;
+	_settings.showRainDelay = showRainDelay;
 	_settings.waterLogReason = waterLogReason;
 
 

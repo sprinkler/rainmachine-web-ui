@@ -205,6 +205,10 @@ body.login {
   border: 1px solid #eee;
   padding: 10px 10px;
 }
+#loginError {
+  color: red;
+}
+
 .loader {
   margin: 60px auto;
   font-size: 10px;
@@ -288,7 +292,7 @@ h1.titleHome {
   border-top: 3px solid red;
 }
 #success {
-  border-top: 3px solid darkgreen;
+  border-top: 3px solid green;
 }
 b,
 strong { font-weight: 700; }
@@ -1557,6 +1561,16 @@ td.right,
   border: 1px solid #dddddd;
   border-radius: 5px;
 }
+.programNotSimulated {
+  text-align: center;
+  width:100%;
+  display: block;
+  vertical-align: middle;
+  margin-top: 4.5em;
+}
+.programNotSimulated a {
+  color:#888;
+}
 .bgred {
   background-color: #ff0000;
 }
@@ -1579,9 +1593,10 @@ td.right,
 }
 /* DASHBOARD */
 /* Settings - Weather (START) */
-#weatherSourcesList {
+#weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
+
 .weatherSource {
   border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
@@ -1636,6 +1651,7 @@ td.right,
   font-family: 'Roboto', Arial, Helvetica;
   color: #646464;
   text-transform: uppercase;
+  text-align: center;
 }
 .button.narrow { width: 60px }
 .button.grey {
@@ -1648,19 +1664,19 @@ td.right,
   background-color: #39c;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.red {
   background-color: red;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1678,46 +1694,44 @@ td.right,
   bottom: 10px;
   right: 10px;
 }
-.parserRefresh {
-  animation: refresh 1.5s infinite linear;
-  font-size: 14px;
-  margin: 10px;
+.loading, .success, .error {
+  font-size: 1.2em;
+  font-weight: 300;
+  position:absolute;
+  margin-left: 0.1em;
 }
-.parserRefresh[state="running"] {
-  display: inline;
+
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
 }
-@-webkit-keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+@-moz-keyframes spinnerRotate
+{
+    from{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(360deg);}
 }
-@keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+@-ms-keyframes spinnerRotate
+{
+    from{-ms-transform:rotate(0deg);}
+    to{-ms-transform:rotate(360deg);}
 }
-.button:active,
-.button:focus { animation: flash 1.5s ease-in }
-@keyframes flash { 
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-    background-color: #f6f6f6;
-  }
-  25%,
-  75% { opacity: 0 }
+
+.loading {
+  -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spinnerRotate;
+    -moz-animation-duration: 0.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spinnerRotate;
+    -ms-animation-duration: 0.5s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
 }
+
 /* Icon Button */
 .playstopButton {
   border: 0;
@@ -1937,7 +1951,7 @@ td.right,
   text-align: center;
   vertical-align: middle;
   display: inline-block;
-  z-index: 0;
+  z-index: 1;
 }
 .helpText, .helpTextWaterSaved {
   width: 15px;

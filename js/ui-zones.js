@@ -225,7 +225,7 @@ window.ui = window.ui || {};
 
 		if (typeof queueTop.remaining === "undefined") {
 			queueTimer.textContent = "R";
-			queueTimer.className = "right parserRefresh icon";
+			queueTimer.className = "right loading icon";
 		} else {
 			queueTimer.textContent = Util.secondsToMMSS(queueTop.remaining);
 		}
@@ -519,10 +519,10 @@ window.ui = window.ui || {};
 
 		//uiElems.zoneTemplateElem.
 		document.body.onkeydown = function(event) { if (event.keyCode == 27) closeZoneSettings() };
-		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
-		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
 		uiElems.showAvailableWaterElem.onclick = function() { onAvailableWaterFetch(14, 14, zone.uid); };
+		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
+		uiFeedback.sync(uiElems.save, saveZone, zone.uid);
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 		allowSimulationUpdate = true;
@@ -722,10 +722,14 @@ window.ui = window.ui || {};
 		}
 
 		console.log("Saving zone %d with properties: %o and %o", uid, zoneProperties, zoneAdvProperties);
-		API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
+		var r = API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
 
-		closeZoneSettings();
-		showZones();
+		if (r) {
+			closeZoneSettings();
+			showZones();
+		}
+
+		return r;
 	}
 
 	function onMasterValveChange() {
@@ -744,9 +748,14 @@ window.ui = window.ui || {};
 
 		//TODO reload if startData differs
 		if (Data.availableWater === null) {
-			APIAsync.getWateringAvailable(startDate, days).then(
-				function(o) {Data.availableWater = o; onAvailableWaterShow(past, days, id);}
-			);
+			APIAsync.getWateringAvailable(startDate, days)
+				.start(uiFeedback.start, uiElems.showAvailableWaterElem)
+				.then(function(o) {
+						Data.availableWater = o;
+						onAvailableWaterShow(past, days, id);
+						uiFeedback.done(uiElems.showAvailableWaterElem);
+				})
+				.error(uiFeedback.error, uiElems.showAvailableWaterElem);
 		} else {
 			onAvailableWaterShow(past, days, id)
 		}
@@ -879,7 +888,6 @@ window.ui = window.ui || {};
 
 		APIAsync.simulateZone(zoneProperties, zoneAdvProperties).then(
 			function(o) {
-				console.log(o);
 				showZoneSimulatedValues(o);
 			}
 		);

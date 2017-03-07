@@ -387,3 +387,55 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		return mouseDown;
 	}
 }
+
+
+uiFeedback =  {
+	sync: function(elem, func) {
+		var params = [].slice.call(arguments, 2);
+
+		elem.onclick = function() {
+			uiFeedback.start(elem);
+			var r = func.apply(elem, params);
+			if (r) {
+				uiFeedback.success(elem);
+			} else {
+				uiFeedback.error(elem);
+			}
+		}
+	},
+
+	start: function(elem) {
+		delTag($("#feedback-" + elem.id));
+		var n  = addTag(elem, "span");
+		n.id = "feedback-" + elem.id;
+		n.textContent = "\ue97b";
+		n.className = "loading icon";
+	},
+
+	success: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		if (e) {
+			e.textContent = "\ue116";
+			e.className = "success icon";
+			setTimeout(function(){ delTag(e);}, 3600 )
+		}
+	},
+
+	// Like success but without feedback
+	done: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		delTag(e);
+	},
+
+	error: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		if (e) {
+			e.textContent = "\ue629";
+			e.className = "error icon red";
+		}
+
+		console.log("Error ! %s", elem.id);
+		elem.style.color = "red";
+		elem.style.background = "white";
+	}
+};

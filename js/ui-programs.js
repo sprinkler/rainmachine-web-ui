@@ -9,7 +9,7 @@ window.ui = window.ui || {};
 
     var selectedProgram = null;
     var uiElems = {}; //current program UI elements
-	var uiElemsAll = {}; //all program UI elements
+	var uiElemsAll = {}; //all programs UI elements
     var isEditing = false;
 
     var FrequencyType = {
@@ -102,6 +102,10 @@ window.ui = window.ui || {};
 		}
 	}
 
+	//--------------------------------------------------------------------------------------------
+	// Elements for program list on dashboard/programs
+	//
+	//
 	function createProgramElems(p) {
 
 		var programListDiv = $('#programsList');
@@ -256,6 +260,7 @@ window.ui = window.ui || {};
     }
 
     //--------------------------------------------------------------------------------------------
+	// Elements for a single program settings
     //
     //
 	function showProgramSettings(program)
@@ -411,9 +416,14 @@ window.ui = window.ui || {};
 			uiElems.frequencyWeekdaysElemCollection[elem].onclick = onFrequencyChanged;
 		}
 
+		uiElems.cancelElem.onclick = onCancel;
+		uiFeedback.sync(uiElems.deleteElem, onDelete);
+		uiFeedback.sync(uiElems.saveElem, onSave);
+		/*
         $(uiElems.programTemplateElem, '[rm-id="program-cancel"]').addEventListener("click", onCancel);
         $(uiElems.programTemplateElem, '[rm-id="program-delete"]').addEventListener("click", onDelete);
         $(uiElems.programTemplateElem, '[rm-id="program-save"]').addEventListener("click", onSave);
+        */
 		document.body.onkeydown = function(event) { if (event.keyCode == 27) onCancel() };
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
@@ -474,7 +484,9 @@ window.ui = window.ui || {};
 
 		return zoneElements;
 	}
+
 	//--------------------------------------------------------------------------------------------
+	// A single program settings template
 	//
 	//
     function loadProgramTemplate () {
@@ -534,6 +546,10 @@ window.ui = window.ui || {};
 		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
 
 		templateInfo.restrictionQPF = $(templateInfo.programTemplateElem, '[rm-id="program-restriction-qpf"]');
+
+		templateInfo.cancelElem = $(templateInfo.programTemplateElem, '[rm-id="program-cancel"]');
+		templateInfo.deleteElem = $(templateInfo.programTemplateElem, '[rm-id="program-delete"]');
+		templateInfo.saveElem = $(templateInfo.programTemplateElem, '[rm-id="program-save"]');
 
 		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
@@ -789,12 +805,18 @@ window.ui = window.ui || {};
     }
 
     function onDelete() {
+		var r = null;
+
         if (selectedProgram) {
             console.log("delete program ", selectedProgram.uid);
-            API.deleteProgram(selectedProgram.uid);
-        }
-        closeProgramSettings();
-        showPrograms();
+            r = API.deleteProgram(selectedProgram.uid);
+			if (r) {
+				closeProgramSettings();
+				showPrograms();
+			}
+		}
+
+		return r;
     }
 
     function onSave() {
@@ -808,15 +830,12 @@ window.ui = window.ui || {};
             r = API.newProgram(data);
         }
 
-		if (r === undefined || !r || r.statusCode != 0)
-		{
-			console.error("Can't save program %s", r);
-			return;
+		if (r) {
+			closeProgramSettings();
+			showPrograms();
+			window.ui.main.refreshGraphs = true;
 		}
-
-        closeProgramSettings();
-        showPrograms();
-		window.ui.main.refreshGraphs = true;
+        return r;
     }
 
     function onStart() {
