@@ -1583,9 +1583,20 @@ td.right,
 }
 /* DASHBOARD */
 /* Settings - Weather (START) */
+.programNotSimulated {
+  text-align: center;
+  width:100%;
+  display: block;
+  vertical-align: middle;
+  margin-top: 4.5em;
+}
+.programNotSimulated a {
+  color:#888;
+}
 #weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
+
 .weatherSource {
   border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
