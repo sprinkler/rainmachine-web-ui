@@ -519,10 +519,10 @@ window.ui = window.ui || {};
 
 		//uiElems.zoneTemplateElem.
 		document.body.onkeydown = function(event) { if (event.keyCode == 27) closeZoneSettings() };
-		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
-		uiElems.save.onclick = function(){ saveZone(zone.uid); };
 		uiElems.masterValveElem.onclick = onMasterValveChange;
 		uiElems.showAvailableWaterElem.onclick = function() { onAvailableWaterFetch(14, 14, zone.uid); };
+		uiElems.cancel.onclick = function(){ closeZoneSettings(); };
+		uiFeedback.sync(uiElems.save, saveZone, zone.uid);
 
 		zoneSettingsDiv.appendChild(uiElems.zoneTemplateElem);
 		allowSimulationUpdate = true;
@@ -722,10 +722,14 @@ window.ui = window.ui || {};
 		}
 
 		console.log("Saving zone %d with properties: %o and %o", uid, zoneProperties, zoneAdvProperties);
-		API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
+		var r = API.setZonesProperties(uid, zoneProperties, zoneAdvProperties);
 
-		closeZoneSettings();
-		showZones();
+		if (r) {
+			closeZoneSettings();
+			showZones();
+		}
+
+		return r;
 	}
 
 	function onMasterValveChange() {
