@@ -1502,7 +1502,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle" style="width:30%;"><span class="icon iconZoneAdvSet" rm-id="zone-vegetation-icon">&#xe302;</span> Vegetation Type</td>
+										<td class="middle" style="width:30%;">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-vegetation-icon">&#xe302;</div>
+											<div class="inlineblock">Vegetation Type</div>
+										</td>
 										<td class="middle">
 											<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
 												<option value="2" selected>Lawn</option>
@@ -1618,7 +1621,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-soil-icon">_</span> Soil Type</td>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-soil-icon">_</div>
+											<div class="inlineblock">Soil Type</div>
+										</td>
 										<td class="middle">
 											<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Clay Loam</option>
@@ -1658,7 +1664,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-slope-icon">\</span> Slope</td>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-slope-icon">\</div>
+											<div class="inlineblock">Slope</div>
+										</td>
 										<td class="middle">
 											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Flat</option>
@@ -1686,7 +1695,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-sprinkler-icon">#</span> Sprinkler Head Type</td>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sprinkler-icon">#</div>
+											<div class="inlineblock">Sprinkler Head Type</div>
+										</td>
 										<td class="middle">
 											<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Popup Spray</option>
@@ -1722,7 +1734,10 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle"><span class="icon iconZoneAdvSet" rm-id="zone-sun-icon">$</span> Sun Exposure</td>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sun-icon">$</div>
+											<div class="inlineblock">Sun Exposure</div>
+										</td>
 										<td class="middle">
 											<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
 												<option value="1" selected>Full Sun</option>
@@ -1785,15 +1800,6 @@
 		<div id="program-settings-template">
 			<div class="overTop">
 				<table cellspacing="0" cellpadding="0" class="programEdit">
-					<tr>
-						<td colspan="2" class="noborder">
-							<div class="center">
-								<button class="button grey left" rm-id="program-cancel">Cancel</button>
-								<button class="button blue center" rm-id="program-save">Save</button>
-								<button class="button red center right" rm-id="program-delete">Delete</button>
-							</div>
-						</td>
-					</tr>
 	                <tr>
 						<td class="programProperties noborder halfLeft">
 							<table width="100%" cellpadding="0" cellspacing="0">
@@ -1988,6 +1994,15 @@
 							</table>
 						</td>
 						</tr>
+						<tr>
+						<td colspan="2" class="noborder">
+							<div class="center" style="margin-top:30px;">
+								<button class="button blue center right" rm-id="program-save">Save</button>
+								<button class="button grey left right" rm-id="program-cancel">Cancel</button>
+								<button class="button red center left" rm-id="program-delete">Delete</button>
+							</div>
+						</td>
+					</tr>
 					</table>
         	</div>
 		</div>
