@@ -122,7 +122,7 @@ function ChartData () {
 
 	// fill the days array with 365 (chartsMaximumDataRange) days and calculate the months found within those dates
 	var _start = new Date(this.startDate);
-	while (_start < end) {
+	while (_start <= end) {
 		var isoDate = _start.toISOString().split('T')[0],
 			isoDateMonthStart = isoDate.split('-')[0] + '-' + isoDate.split('-')[1] + '-' + '01';
 
@@ -152,7 +152,7 @@ function ChartData () {
 	this.programs = [];
 	this.programsFlags = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
-	this.totalMinutesReduced = 0 //Holds the total real watering minutes
+	this.totalMinutesReduced = 0; //Holds the total real watering minutes
 
 	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
 }
@@ -181,7 +181,7 @@ function getProgramById(id) {
  * @param pastDays
  */
 function getDailyStatsWithRetry(retryCount, retryDelay) {
-
+	console.log("Getting daily stats with retry %s", retryCount);
 	if (retryCount-- > 0) {
 		APIAsync.getDailyStats(null, true)
         	.then(function(o) {
@@ -209,8 +209,8 @@ function getChartData(pastDays) {
 	APIAsync.getPrograms()
 	.then(function(o) { Data.programs = o; Data.counters.charts++; processChartData(); });
 
-	//for weather data in the  past + 7 future
-	APIAsync.getMixer(Util.getDateWithDaysDiff(pastDays), pastDays + 7)
+	//for weather data in the  past + 7 future (inclusive)
+	APIAsync.getMixer(Util.getDateWithDaysDiff(pastDays), pastDays + 7 + 1)
 	.then(function(o) { Data.mixerData = o.mixerDataByDate; Data.counters.charts++; processChartData(); });
 
 	//for used water
@@ -511,15 +511,18 @@ function loadWeeklyCharts () {
 	//var sliceStart = -(chartsWeeklySlice  * (chartsWeeklyPeriod + 1)),
 	//	sliceEnd = -(chartsWeeklySlice * chartsWeeklyPeriod);
 
-	// We want 1 day in the past
-	var sliceStart = -((chartsWeeklySlice + 1)  * (chartsWeeklyPeriod + 1)),
-    	sliceEnd = -(chartsWeeklySlice  * chartsWeeklyPeriod);
+	// We want 1 day in the past and 7 in the future inclusive (+1)
+	var sliceStart = -((chartsWeeklySlice + 1 + 1)  * (chartsWeeklyPeriod + 1)),
+    	sliceEnd =  sliceStart + 7;
 
 
-	// if the slice end is 0 than we need to make it (-1 for the above day in the past)
+	// if the slice end is 0 then we need to make it (-1 for the above day in the past)
 	if (sliceEnd === 0) {
 		sliceEnd = chartsData.days.length - 1;
 	}
+
+
+	console.log("Start: %d End: %d", sliceStart, sliceEnd);
 
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
@@ -562,7 +565,7 @@ function loadMonthlyCharts () {
 	var sliceStart = -(chartsMonthlySlice * (chartsMonthlyPeriod + 1)),
 		sliceEnd = -(chartsMonthlySlice * chartsMonthlyPeriod);
 
-	// if the slice end is 0 than we need to make it
+	// if the slice end is 0 then we need to make it
 	if (sliceEnd === 0) {
 		sliceEnd = chartsData.days.length;
 	}
@@ -623,7 +626,7 @@ function loadYearlyCharts () {
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
 	//For water gauge show only last year
-    setWaterSavedValueForDays(356);
+    setWaterSavedValueForDays(YEARDAYS);
     generateWaterSavedGauge();
 }
 
