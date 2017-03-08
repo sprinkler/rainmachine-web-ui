@@ -1643,6 +1643,7 @@ td.right,
 .button {
   display: inline-block;
   position: relative;
+  min-width: 80px;
   height: 32px;
   line-height: 32px;
   border-radius: 2px;
