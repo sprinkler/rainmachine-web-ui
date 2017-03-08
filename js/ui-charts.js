@@ -1074,7 +1074,15 @@ function generateProgramChart (programUid, programIndex) {
 
 					//Icon only for weekly bars
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
-						flagText = '<span style="font-family: RainMachine; font-size: 22px; color: red;">/</span><br>';
+
+						if (flag == 6) {
+							//Water Surplus
+							flagText = '<span style="font-family: RainMachine; font-size: 22px; color: #3399cc;">`</span><br>';
+						} else {
+							//Other restriction
+							flagText = '<span style="font-family: RainMachine; font-size: 22px; color: red;">/</span><br>';
+						}
+
 					} else {
 						flagText = '<span style="font-family: RainMachine; font-size: 22px;">.</span><br>'; // for spacing
 					}
