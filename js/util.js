@@ -277,17 +277,6 @@ Util.saveMasterValve = function(enabled, before, after)
 	return true;
 }
 
-Util.redirectHome = function(locationObj) {
-	var re = "my.rainmachine.com";
-	var host = locationObj.hostname;
-
-	if (host.match(re)) {
-		window.location.href = locationObj.origin
-	} else {
-		location.reload();
-	}
-}
-
 Util.isFloat = function(value) {
 	if(/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(value)) {
 		return true;
