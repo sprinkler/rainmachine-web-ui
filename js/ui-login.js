@@ -12,15 +12,38 @@ window.ui = window.ui || {};
     var loginButtonElem = null;
     var errorContainerElem = null;
 
+    var headerAccessToken = " x-rainmachine-cloud-access-token";
+    var headerLogoutUrl = "x-rainmachine-cloud-logout-url";
+
+    var logoutUrl = null;
+
+
     _login.login = function(callback) {
 
         var accessToken = Storage.restoreItem("access_token");
 
-        if(accessToken && accessToken !== "") {
-            console.log("Login: Using saved access token.");
-            API.setAccessToken(accessToken);
-            APIAsync.setAccessToken(accessToken);
+        if(!accessToken || accessToken === "") {
+            //Added for demo.labs.rainmachine.com
+            if (window.location.hostname == "demo.labs.rainmachine.com") {
+                accessToken = API.auth("", true); //request an access token that will be used for session management
+                if(accessToken) {
+                    document.body.className = "";
+                    Storage.saveItem("access_token", accessToken);
+                }
+            } else {
+                //Try to retrieve access token from header set by my.rainmachine.com
+                var r = new XMLHttpRequest();
+                r.open("GET", "", false);
+                r.send(null);
+                accessToken = r.getResponseHeader(headerAccessToken);
+                logoutUrl = r.getResponseHeader(headerLogoutUrl);
+                //console.log("Header RainMachine token: %s", accessToken);
+                //console.log("Header RainMachine logout URL: %s", logoutUrl);
+            }
         }
+
+        API.setAccessToken(accessToken);
+        APIAsync.setAccessToken(accessToken);
 
         var deviceDate = API.getDateTime();
         if(deviceDate && !deviceDate.statusCode) {
@@ -33,19 +56,6 @@ window.ui = window.ui || {};
             loginRememberMeElem = $("#loginRememberMe");
             loginButtonElem = $("#loginButton");
             errorContainerElem = $("#loginError");
-        }
-
-        //Added for demo
-        var host = window.location.hostname;
-        if (host == "demo.labs.rainmachine.com") {
-            accessToken = API.auth("", true);
-            if(accessToken) {
-                document.body.className = "";
-                Storage.saveItem("access_token", accessToken);
-                API.setAccessToken(accessToken);
-                APIAsync.setAccessToken(accessToken);
-                return callback();
-            }
         }
 
         loginButtonElem.onclick = function() {
@@ -87,7 +97,21 @@ window.ui = window.ui || {};
         Storage.saveItem("access_token", accessToken);
         API.setAccessToken(accessToken);
         APIAsync.setAccessToken(accessToken);
-        Util.redirectHome(location);
+
+        var re = "my.rainmachine.com";
+        var host = location.hostname;
+
+
+        //Refresh page
+        if (host.match(re)) {
+            if (logoutUrl) {
+                location = logoutUrl;
+            } else {
+                location = location.origin
+            }
+        } else {
+            location.reload();
+        }
     };
 
 } (window.ui.login = window.ui.login || {}));

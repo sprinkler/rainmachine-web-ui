@@ -63,35 +63,30 @@ window.ui = window.ui || {};
 
 		correctionPastElem.checked = correctionPast;
 
-		rsSaveElem.onclick = function() {
+		uiFeedback.sync(rsSaveElem, function() {
 			var rsNew = +rsElem.value/100.0;
-			if (rsNew != rs)
-			{
-				var data = {rainSensitivity: rsNew};
-				API.setProvision(null, data);
-				console.log("Set Rain Sensitivity: %f",  rsNew);
-			}
-		};
+			var data = {rainSensitivity: rsNew};
+			console.log("Set Rain Sensitivity: %f",  rsNew);
+			return API.setProvision(null, data);
 
-		wsSaveElem.onclick = function() {
+		});
+
+		uiFeedback.sync(wsSaveElem, function() {
 			var wsNew = +wsElem.value/100.0;
-			if (wsNew != ws)
-			{
-				var data = {windSensitivity: wsNew};
-				API.setProvision(null, data);
-				console.log("Set Wind Sensitivity: %f",  wsNew);
-			}
-		};
+			var data = {windSensitivity: wsNew};
+			console.log("Set Wind Sensitivity: %f",  wsNew);
+			return API.setProvision(null, data);
+		});
 
-		correctionPastSet.onclick = function() {
-			window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
-		};
+		uiFeedback.sync(correctionPastSet, function() {
+			return window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
+		});
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = onWeatherSourceRun;
+		uiFeedback.sync(updateWeatherButton, onWeatherSourceRun);
 
 		var fetchWeatherServicesButton = $("#weatherServicesFetch");
 		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
@@ -250,9 +245,9 @@ window.ui = window.ui || {};
 		weatherDataSourcesEditContent.appendChild(template);
 
 		closeButton.onclick = onWeatherSourceClose;
-		saveButton.onclick = function() { onWeatherSourceSave(p.uid); };
-		runButton.onclick = function() { onWeatherSourceRun(p.uid); };
-		resetButton.onclick = function() { onWeatherSourceReset(p.uid); };
+		uiFeedback.sync(saveButton, function() { return onWeatherSourceSave(p.uid); });
+		uiFeedback.sync(runButton, function() { return onWeatherSourceRun(p.uid); });
+		uiFeedback.sync(resetButton, function() { return onWeatherSourceReset(p.uid); });
 	}
 
 	function onWeatherSourceClose() {
@@ -268,17 +263,20 @@ window.ui = window.ui || {};
 				withMixer = true;
 		}
 
-		API.runParser(id, true, withMixer, false);
+		var r = API.runParser(id, true, withMixer, false);
 		showParsers(false);
-		onWeatherSourceClose();
+		//onWeatherSourceClose();
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
+		return r;
 	}
 
 	function onWeatherSourceReset(id) {
-		API.resetParserParams(id);
+		var r = API.resetParserParams(id);
 		var p = API.getParsers(id);
 		showParserDetails(p.parser);
 		showParsers(false);
+
+		return r;
 	}
 
 	function onWeatherSourceDelete(id) {
@@ -286,15 +284,18 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.error("Can't delete parser %d: %o",id, r);
-			return;
+			return null;
 		}
 		showParsers(false);
 		onWeatherSourceClose();
+
+		return r;
 	}
 
 	function onWeatherSourceSave(id) {
 		var shouldSaveEnable = false;
 		var shouldSaveParams = false;
+		var r = null;
 
 		var p = null;
 		for (var i = 0; i < Data.parsers.parsers.length; i++) {
@@ -306,7 +307,7 @@ window.ui = window.ui || {};
 
 		if (!p) {
 			console.error("Parser id not found in list !");
-			return;
+			return null;
 		}
 
 		var enabledElem = $("#weatherSourceStatus-" + p.uid);
@@ -315,7 +316,7 @@ window.ui = window.ui || {};
 			shouldSaveEnable = true;
 		}
 
-		var newParams = {}
+		var newParams = {};
         if (p.params) {
 			for (param in p.params) {
 				var t = Util.readGeneratedTagValue(param);
@@ -331,18 +332,23 @@ window.ui = window.ui || {};
 
 		if (shouldSaveEnable) {
 			console.log("Setting weather source %d to %o", p.uid, enabledElem.checked);
-			console.log(API.setParserEnable(p.uid, enabledElem.checked));
+			r = API.setParserEnable(p.uid, enabledElem.checked);
+			console.log(r);
 		}
 
 		if (shouldSaveParams) {
-			console.log(API.setParserParams(p.uid, newParams));
+			r = API.setParserParams(p.uid, newParams);
+			console.log(r);
 		}
 
 		if (shouldSaveEnable || shouldSaveParams) {
 			showWeather();
 			showParsers(false);
-			onWeatherSourceClose();
+			//onWeatherSourceClose();
+			return r;
 		}
+
+		return {}; //dummy return for uiFeedback
 	}
 
 	function setupWeatherSourceUpload() {
