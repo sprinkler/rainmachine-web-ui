@@ -297,10 +297,13 @@ function processChartData() {
 				wnfTotalDayProgramUserWater += currentProgram.zones[zoneIndex].scheduledWateringTime;
 				wnfTotalDayProgramScheduledWater += currentProgram.zones[zoneIndex].computedWateringTime;
 
-				var _programFlag = currentProgram.zones[zoneIndex].wateringFlag;
-				if (_programFlag > 0) {
-					programFlag = _programFlag;
+				var _zoneFlag = currentProgram.zones[zoneIndex].wateringFlag;
+
+				//Don't overwrite normal watering (0) with zones that don't water because of surplus(5) or threshold(2) if program will run
+				if (wnfTotalDayProgramScheduledWater > 0 && (_zoneFlag == 6 && _zoneFlag == 2)) {
+					_zoneFlag = 0;
 				}
+				programFlag = _zoneFlag;
 			}
 
 			var wnfProgramDayWN = Util.normalizeWaterNeed(wnfTotalDayProgramUserWater, wnfTotalDayProgramScheduledWater);
@@ -352,11 +355,7 @@ function processChartData() {
 
 			for (zoneIndex = 0; zoneIndex < currentProgram.zones.length; zoneIndex++) {
 				var zone = currentProgram.zones[zoneIndex];
-				var _programFlag = zone.flag;
-				if (_programFlag > 0) {
-					programFlag = _programFlag;
-					//console.log("History Program %s flag %s", currentProgram.id, programFlag);
-				}
+				var _zoneFlag = zone.flag;
 
 				var zoneScheduledWater = 0;
 				var zoneUserWater = 0;
@@ -367,6 +366,12 @@ function processChartData() {
 				}
 				wnpTotalDayProgramScheduledWater += zoneScheduledWater;
 				wnpTotalDayProgramUserWater += zoneUserWater;
+
+				//Don't overwrite normal watering (0) with zones that don't water because of surplus(5) or threshold(2) if program will run
+				if (zoneScheduledWater > 0 && (_zoneFlag == 6 || _zoneFlag == 2)) {
+					_zoneFlag = 0
+				}
+				programFlag = _zoneFlag;
 
 
 				//Total Water Volume Used for this zone (we need it per zone as savings depend on zone properties)
