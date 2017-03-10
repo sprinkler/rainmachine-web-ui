@@ -522,8 +522,6 @@ function loadWeeklyCharts () {
 	}
 
 
-	console.log("Start: %d End: %d", sliceStart, sliceEnd);
-
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
 	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart, sliceEnd);
