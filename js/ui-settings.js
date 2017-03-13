@@ -35,7 +35,8 @@ window.ui = window.ui || {};
 
 	function showWeather()
 	{
-        showParsers(false);
+		onWeatherSourceClose();
+        showParsers(false, true);
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -92,12 +93,17 @@ window.ui = window.ui || {};
 		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
 
 		setupWeatherSourceUpload();
-		onWeatherServicesFetch();
 		onDOYET0Fetch();
 	}
 
-	function showParsers(onDashboard) {
-		APIAsync.getParsers().then(function(o) { Data.parsers = o; updateParsers(onDashboard)});
+	function showParsers(onDashboard, fetchData) {
+		APIAsync.getParsers().then(function(o) {
+			Data.parsers = o;
+			updateParsers(onDashboard);
+			if (fetchData) {
+				onWeatherServicesFetch();
+			}
+		});
 	}
 
 	function updateParsers(onDashboard) {
@@ -264,7 +270,9 @@ window.ui = window.ui || {};
 		}
 
 		var r = API.runParser(id, true, withMixer, false);
-		showParsers(false);
+		showParsers(false, true);
+		var p = API.getParsers(id);
+		showParserDetails(p.parser);
 		//onWeatherSourceClose();
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 		return r;
@@ -274,7 +282,7 @@ window.ui = window.ui || {};
 		var r = API.resetParserParams(id);
 		var p = API.getParsers(id);
 		showParserDetails(p.parser);
-		showParsers(false);
+		showParsers(false, false);
 
 		return r;
 	}
@@ -286,7 +294,7 @@ window.ui = window.ui || {};
 			console.error("Can't delete parser %d: %o",id, r);
 			return null;
 		}
-		showParsers(false);
+		showParsers(false, false);
 		onWeatherSourceClose();
 
 		return r;
@@ -342,8 +350,7 @@ window.ui = window.ui || {};
 		}
 
 		if (shouldSaveEnable || shouldSaveParams) {
-			showWeather();
-			showParsers(false);
+			showParsers(false, false);
 			//onWeatherSourceClose();
 			return r;
 		}
@@ -397,7 +404,7 @@ window.ui = window.ui || {};
 				}
 			} else {
 				o.textContent = "Successful uploaded " + status.file.name;
-				showParsers(false);
+				showParsers(false, false);
 			}
 		}
 	}

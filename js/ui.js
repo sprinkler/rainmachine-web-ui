@@ -201,7 +201,7 @@ window.ui = window.ui || {};
 		window.ui.about.getDeviceInfo();
 		window.ui.programs.showPrograms();
 		window.ui.zones.showZones();
-		window.ui.settings.showParsers(true);
+		window.ui.settings.showParsers(true, false);
 		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
 		loop = setInterval(uiLoop, loopSeconds);
 	}
