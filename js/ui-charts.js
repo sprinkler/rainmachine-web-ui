@@ -154,7 +154,7 @@ function ChartData () {
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
 	this.totalMinutesReduced = 0; //Holds the total real watering minutes
 
-	console.log('Initialised ChartData from %s to %s',this.startDate.toDateString(), end.toDateString());
+	console.log('Initialised ChartData from %s to %s',Util.getDateStr(this.startDate), Util.getDateStr(end));
 }
 
 /**
@@ -325,6 +325,7 @@ function processChartData() {
 			}
 			chartsData.programs[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, wnfProgramDayWN);
 			chartsData.programsFlags[currentProgramIndex].insertAtDate(daily[dailyDetailsIndex].day, programFlag);
+			//console.log("Program %s day %s value %s", existingProgram.name, daily[dailyDetailsIndex].day, wnfProgramDayWN);
 		}
 
 		var wnfDailyWN = Util.normalizeWaterNeed(wnfTotalDayUserWater, wnfTotalDayScheduledWater);
@@ -396,6 +397,7 @@ function processChartData() {
 					chartsData.programsMap[currentProgram.id] = currentProgramIndex;
 
 				}
+
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
 				chartsData.programsFlags[currentProgramIndex].insertAtDate(day.date, programFlag);
 				chartsData.volumeSaved.insertAtDate(day.date, volumeSavedDay);
@@ -513,20 +515,22 @@ function loadWeeklyCharts () {
 		chartsWeeklyPeriod = chartsMaxWeeklyPeriod;
 	}
 
-	//var sliceStart = -(chartsWeeklySlice  * (chartsWeeklyPeriod + 1)),
-	//	sliceEnd = -(chartsWeeklySlice * chartsWeeklyPeriod);
+	var todayStr = Util.getDateStr(Util.today());
+	for (var i = 0; i < chartsData.days.length; i++) {
+		if (chartsData.days[i] == todayStr) {
+			var sliceStart = i - 1; // start from yesterday
+			break;
+		}
+	}
 
-	// We want 1 day in the past and 7 in the future inclusive (+1)
-	var sliceStart = -((chartsWeeklySlice + 1 + 1)  * (chartsWeeklyPeriod + 1)),
-    	sliceEnd =  sliceStart + 7;
-
+	var sliceEnd =  sliceStart + 7;
 
 	// if the slice end is 0 then we need to make it (-1 for the above day in the past)
 	if (sliceEnd === 0) {
 		sliceEnd = chartsData.days.length - 1;
 	}
 
-
+	//console.log("Start: %d End: %d", sliceStart, sliceEnd);
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);
 	chartsData.maxt.currentSeries = chartsData.maxt.data.slice(sliceStart, sliceEnd);
