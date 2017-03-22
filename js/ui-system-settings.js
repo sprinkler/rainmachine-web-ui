@@ -285,7 +285,7 @@ window.ui = window.ui || {};
 		{
 			console.log("Can't set %s", provisionKey);
 			value = Data.provision.system[provisionKey];
-			return null;
+			r = null;
 		}
 
 		Data.provision.system[provisionKey] = value;
