@@ -301,10 +301,27 @@ window.ui = window.ui || {};
 	}
 
 	function onSetRainSensor() {
-		var r = window.ui.system.changeSingleSystemProvisionValue("useRainSensor", uiElems.rainSensorElem.checked);
-		if (r) {
-			r = window.ui.system.changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", uiElems.rainSensorTypeElem.checked);
+
+		var useRainSensor = uiElems.rainSensorElem.checked;
+		var normallyClosed = uiElems.rainSensorTypeElem.checked;
+
+		var data = {
+			useRainSensor: useRainSensor,
+			rainSensorIsNormallyClosed: normallyClosed
+		};
+
+		var r = API.setProvision(data, null);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't set Rain Sensor !");
+			useRainSensor = Data.provision.system.useRainSensor;
+			normallyClosed = Data.provision.system.rainSensorIsNormallyClosed;
+			r = null;
 		}
+
+		Data.provision.system.useRainSensor = useRainSensor;
+		Data.provision.system.rainSensorIsNormallyClosed = normallyClosed;
 
 		return r;
 	}

@@ -21,6 +21,7 @@ window.ui = window.ui || {};
     _login.login = function(callback) {
 
         var accessToken = Storage.restoreItem("access_token");
+        logoutUrl = Storage.restoreItem("logoutUrl");
 
         if(!accessToken || accessToken === "") {
             //Added for demo.labs.rainmachine.com
@@ -33,10 +34,11 @@ window.ui = window.ui || {};
             } else {
                 //Try to retrieve access token from header set by my.rainmachine.com
                 var r = new XMLHttpRequest();
-                r.open("GET", "", false);
+                r.open("HEAD", "", false);
                 r.send(null);
                 accessToken = r.getResponseHeader(headerAccessToken);
                 logoutUrl = r.getResponseHeader(headerLogoutUrl);
+                Storage.saveItem("logoutUrl", logoutUrl);
                 //console.log("Header RainMachine token: %s", accessToken);
                 //console.log("Header RainMachine logout URL: %s", logoutUrl);
             }
