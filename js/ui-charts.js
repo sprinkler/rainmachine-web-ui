@@ -703,7 +703,7 @@ function generateDailyWeatherChart(container, past, days) {
 		weatherTempElem.textContent +="\xB0";
 
 		try {
-			qpf = qpf.toFixed(1)
+			qpf = qpf.toFixed(2)
 		} catch(e) {}
 
 		if (qpf !== null) {
