@@ -333,6 +333,10 @@ Util.generateTagFromDataType = function(parent, data, label) {
 				console.log("%s: JS Object detected", label);
 			} else if (dataFromJSON !== null) { // Check if we received JSON data as string
 				inputElem.value = JSON.stringify(dataFromJSON, null, 4);
+				//For now activate only for rules  field from Weather Rules parser
+				if (label === "rules") {
+					inputElem.id = id;
+				}
 				console.log("%s: JSON data as string detected", label);
 			}
 		}
