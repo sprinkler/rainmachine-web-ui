@@ -272,8 +272,12 @@ window.ui = window.ui || {};
 		var r = API.runParser(id, true, withMixer, false);
 		showParsers(false, true);
 		var p = API.getParsers(id);
-		showParserDetails(p.parser);
-		//onWeatherSourceClose();
+
+		//Did we refresh all parsers or just a single one from its detail page
+		if (id > 0) {
+			showParserDetails(p.parser);
+		}
+
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 		return r;
 	}

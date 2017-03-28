@@ -557,7 +557,7 @@ _API.prototype.getParsers = function(id)
 {
 	var url = this.URL.parser;
 
-	if (id !== undefined)
+	if (id !== undefined && id !== null && id > 0)
 		url += "/" + id;
 
 	return this.get(url, null);
