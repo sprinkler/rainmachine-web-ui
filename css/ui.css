@@ -539,7 +539,7 @@ strong { font-weight: 700; }
   font-family: 'RainMachine';
   font-size: 52px;
   width: 64px;
-  height: 64px;
+  height: 62px;
   color: #4296cd;
 }
 .dayTemp {
@@ -776,7 +776,7 @@ h1 {
   float: right;
   min-width: 100px;
   display: inline-block;
-  padding-top: 23px;
+  padding-top: 1.35em;
   padding-bottom: 12px;
   margin-right: 5px;
   color: #555;
