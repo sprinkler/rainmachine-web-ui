@@ -592,11 +592,16 @@ Util.convert = {
 		}
 	},
 	uiFlowVolume: function(flow) {
+		var f;
 		if (!Data.localSettings.units) {
-			return Util.convert.volumeMetersHourToGPM(flow);
+			f = Util.convert.volumeMetersHourToGPM(flow);
 		} else {
-			return Math.round(flow * 100) /100;
+			f = Math.round(flow * 100) /100;
 		}
+
+		if (f < 0) f = null;
+
+		return f;
 	},
 	uiFlowVolumeToMeters: function(flow) {
 		if (!Data.localSettings.units) {
@@ -641,11 +646,14 @@ Util.convert = {
 		}
 	},
 	uiArea: function(area) {
+		var a;
 		if (!Data.localSettings.units) {
-			return Util.convert.areaMetersToFeet(area);
+			a = Util.convert.areaMetersToFeet(area);
 		} else {
-			return area;
+			a = area;
 		}
+		if (a < 0) a = null;
+		return a;
 	},
 	uiAreaStr: function() {
 		if (!Data.localSettings.units) {
