@@ -370,9 +370,8 @@
 									<table cellspacing="0" cellpadding="0" class="full">
 										<tr>
 											<td class="middle">
-												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
 												<div>
-													<input type="checkbox" id="restrictionsRainSensor" class="right" />
+													<input type="checkbox" id="restrictionsRainSensor" class="right" style="margin-right:80px;" />
 													<span class="cardTitle">Use hardware rain sensor</span><br>
 													<span class="subtitle">Stop all watering when rain is detected.</span>
 													<br><br>
@@ -380,6 +379,27 @@
 													<span class="cardTitle">Rain sensor normally closed</span><br>
 													<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
 												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="right" style="margin-right:80px;">
+													<span class="cardTitle">While rain is detected</span>
+													<select id="" style="width:420px;">
+														<option value="0">stop all watering activities.</option>
+														<option value="-1" selected>stop all watering until midnight.</option>
+														<option value="1">stop all watering for 6 hours after the rain event.</option>
+														<option value="2">stop all watering for 12 hours after the rain event.</option>
+														<option value="3">stop all watering for 48 hours after the rain event.</option>
+													</select>
+												</div>
+												<span class="cardTitle">Last detected rain event</span><br>
+												<span class="subtitle label-blue">FRI, APR 7, 06:45</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="noborder">
+												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
 											</td>
 										</tr>
 									</table>
