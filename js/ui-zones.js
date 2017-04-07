@@ -770,7 +770,7 @@ window.ui = window.ui || {};
 		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
 		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
 
-		title.textContent = "Surplus water for \"" + Data.zoneData.zones[id].name + "\" zone";
+		title.textContent = "Surplus water for \"" + Data.zoneData.zones[id - 1].name + "\" zone";
 		close.onclick = function() { delTag(template);};
 		document.body.appendChild(template);
 
