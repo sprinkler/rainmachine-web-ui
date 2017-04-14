@@ -1133,7 +1133,12 @@ window.ui = window.ui || {};
 
 		var param = parseInt(param, 2); // param is as a binary string
 
-		//console.log("Weekdays param: %s", Util.showBin(param));
+		console.log("Weekdays param: %s", Util.showBin(param));
+		var p = Data.programs.programs[0];
+		var nextrun = Util.dateStringToLocalDate(p.nextRun);
+		var nextrunDay = nextrun.getDay();
+
+		console.log("Next Run Day: %d", nextrunDay);
 
 		// two cycles (weeks) worth of days to count bits easily in the format SSFTWTMSSFTWTM0
 		// remove the extra 0 between the two weeks
@@ -1144,24 +1149,54 @@ window.ui = window.ui || {};
 		*/
 
 		var firstWeekDay = 1;
+		//firstWeekDay = nextrunDay;
 
 		var twoCyclesFuture;
 		var twoCyclesPast;
 
 		twoCyclesFuture = twoCyclesPast = param | (((param & 254) >> 1) << 8);
 
-		var futureStart = firstWeekDay + 1;  // Start on next day
+		var futureStart = 1; //firstWeekDay + 1;  // Start on next day
 		var pastStart = firstWeekDay + 7 - 1;  // Add a week as we're going backward in time starting on prev day
 
 		var future = 1;
 		var past = 1;
 
-		//console.log("* getMultipliers: param=%s, futureStart=%d, pastStart=%d, twoCyclesFuture=%s firstWeekDay=%d",
-		//	Util.showBin(param), futureStart, pastStart, Util.showBin(twoCyclesFuture), firstWeekDay);
+		console.log("* getMultipliers: param=%s, futureStart=%d, pastStart=%d, twoCyclesFuture=%s firstWeekDay=%d",
+			Util.showBin(param), futureStart, pastStart, Util.showBin(twoCyclesFuture), firstWeekDay);
 
-		while (((twoCyclesFuture & (1 << futureStart)) == 0) && (future < 8)) {
-			future += 1;
+		var multiplierList = [];
+		var futureIndex = 0;
+		var firstFound = -1;
+		while (futureIndex < 16 && multiplierList.length < 8) {
+
+			if (futureIndex > firstFound + 7) {
+				break;
+			}
+
+			if ((twoCyclesFuture & (1 << futureStart)) > 0) {
+
+				if (firstFound < 0) {
+					firstFound = futureIndex;
+					console.log("First day found at %d", firstFound);
+
+				} else {
+					multiplierList.push(future);
+					console.log("Added future %d for day: %d", future, futureStart);
+					future = 1;
+				}
+
+				console.log("Found day %d - %d", futureStart, futureIndex);
+			} else {
+				if (firstFound >= 0) {
+					future += 1;
+				}
+			}
+
+			futureIndex += 1;
 			futureStart += 1;
+
+			console.log("Future is now %d", future)
 		}
 
 		if (future >= 8) {
@@ -1177,6 +1212,8 @@ window.ui = window.ui || {};
 			past = 1;
 		}
 
+		console.log("Future: %d, Past: %d", future, past);
+		console.log("Multipliers list: %o", multiplierList);
 		return { future: future, past: past };
 	}
 
