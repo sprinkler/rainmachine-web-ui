@@ -1001,12 +1001,13 @@ window.ui = window.ui || {};
 			zones = Data.zoneAdvData.zones;
 		}
 
-		var programMultiplier = getProgramMultiplier();
+		//var programMultiplier = getProgramMultiplier();
+		var frequency = parseCurrentProgramFrequency();
 		var skipTimerText = "Not set";
-		var totalTimes = 0;
+		var totalTimes = [];
 
 		for (var index = 0; index < Data.provision.system.localValveCount; index++) {
-			var autoTimer = 0;
+			var referenceTimer = 0;
 			var autoCoef = 1;
 			var customTimer = 0;
 			var timerText = "";
@@ -1018,7 +1019,7 @@ window.ui = window.ui || {};
 
 			//Fill the suggested auto timer
 			if (zones) {
-				autoTimer = parseInt(zones[index].waterSense.referenceTime || 0) * programMultiplier;
+				referenceTimer = parseInt(zones[index].waterSense.referenceTime || 0); //* programMultiplier;
 			}
 
 			//If called with wateringTimes fill from program data
@@ -1073,38 +1074,43 @@ window.ui = window.ui || {};
 
 			//Add auto coef
 			autoCoef = zoneElems.zonePercentage.value / 100.0;
-			autoTimer *= autoCoef;
+			//autoTimer *= autoCoef;
+
+			totalTimes[index] = {
+				type: ZoneDurationType.Off,
+				duration: 0,
+				autocoef: 1
+			};
 
 			//Check what duration we should display on Program Zones List
 			if (durationType == ZoneDurationType.Auto) {
-				timerText = Util.secondsToText(autoTimer);
-				totalTimes += autoTimer;
+				timerText = formatAutoTimer(frequency, referenceTimer, autoCoef); //Util.secondsToText(autoTimer);
+				totalTimes[index].duration = referenceTimer;
+				totalTimes[index].autocoef = autoCoef;
+				totalTimes[index].type = ZoneDurationType.Auto;
 				timerColor = "#3399cc";
 			} else if (durationType == ZoneDurationType.Manual) {
 				timerText = Util.secondsToText(customTimer);
-				totalTimes += customTimer;
+				totalTimes[index].duration = customTimer;
+				totalTimes[index].type = ZoneDurationType.Manual;
 				timerColor = "#555";
 			} else {
 				timerText = skipTimerText;
 				timerColor = "#bbb";
 			}
 
-			zoneElems.durationAutoElem.textContent = Util.secondsToText(autoTimer);
+			zoneElems.durationAutoElem.textContent = formatAutoTimer(frequency, referenceTimer, autoCoef); //Util.secondsToText(autoTimer);
 			zoneElems.durationElem.textContent = timerText;
 			zoneElems.durationElem.style.color = timerColor;
 		}
 
-		uiElems.zonesTotalTime.textContent = Util.secondsToText(totalTimes);
+		uiElems.zonesTotalTime.textContent = formatTotalTimer(frequency, totalTimes); //Util.secondsToText(totalTimes);
 	}
 
-	function getProgramMultiplier(frequency, forPast) {
+	function getProgramMultiplier(frequency) {
 
-		if (typeof frequency === "undefined") {
+		if (!frequency || typeof frequency === "undefined") {
 			frequency = parseCurrentProgramFrequency(); //get for current program being setup
-		}
-
-		if (typeof forPast === "undefined"){
-			forPast = false;
 		}
 
 		if (frequency === null) {
@@ -1119,12 +1125,7 @@ window.ui = window.ui || {};
 			case FrequencyType.EveryN:
 				return frequency.param;
 			case FrequencyType.Weekday:
-				if (forPast) {
-					return getWeekdaysFrequencyMultiplier(frequency.param).past;
-				} else {
-					return getWeekdaysFrequencyMultiplier(frequency.param).future;
-				}
-
+				return getWeekdaysFrequencyMultiplier(frequency.param);
 		}
 		return 1;
 	}
@@ -1133,88 +1134,116 @@ window.ui = window.ui || {};
 
 		var param = parseInt(param, 2); // param is as a binary string
 
-		console.log("Weekdays param: %s", Util.showBin(param));
-		var p = Data.programs.programs[0];
-		var nextrun = Util.dateStringToLocalDate(p.nextRun);
-		var nextrunDay = nextrun.getDay();
-
-		console.log("Next Run Day: %d", nextrunDay);
-
-		// two cycles (weeks) worth of days to count bits easily in the format SSFTWTMSSFTWTM0
-		// remove the extra 0 between the two weeks
-		/*
-		if (typeof firstWeekDay === "undefined" || firstWeekDay === null) {
-			firstWeekDay = new Date().getDay();
-		}
-		*/
-
-		var firstWeekDay = 1;
-		//firstWeekDay = nextrunDay;
-
 		var twoCyclesFuture;
-		var twoCyclesPast;
+		twoCyclesFuture = param | (((param & 254) >> 1) << 8);
 
-		twoCyclesFuture = twoCyclesPast = param | (((param & 254) >> 1) << 8);
+		var futureStart = 1; //Monday
+		var future = 1; // x1 multiplier default
 
-		var futureStart = 1; //firstWeekDay + 1;  // Start on next day
-		var pastStart = firstWeekDay + 7 - 1;  // Add a week as we're going backward in time starting on prev day
+		console.log("* getMultipliers: param=%s, futureStart=%d, twoCyclesFuture=%s futureStart=%d",
+			Util.showBin(param), futureStart, Util.showBin(twoCyclesFuture), futureStart);
 
-		var future = 1;
-		var past = 1;
-
-		console.log("* getMultipliers: param=%s, futureStart=%d, pastStart=%d, twoCyclesFuture=%s firstWeekDay=%d",
-			Util.showBin(param), futureStart, pastStart, Util.showBin(twoCyclesFuture), firstWeekDay);
-
-		var multiplierList = [];
-		var futureIndex = 0;
 		var firstFound = -1;
-		while (futureIndex < 16 && multiplierList.length < 8) {
+		var daysMultiplier = {};
+		var daysAdded = 0;
+		var day = 0;
 
-			if (futureIndex > firstFound + 7) {
+		while (futureStart < 16 && daysAdded < 8) {
+
+			if (futureStart > firstFound + 7) {
 				break;
 			}
 
 			if ((twoCyclesFuture & (1 << futureStart)) > 0) {
 
 				if (firstFound < 0) {
-					firstFound = futureIndex;
+					firstFound = futureStart;
 					console.log("First day found at %d", firstFound);
 
 				} else {
-					multiplierList.push(future);
-					console.log("Added future %d for day: %d", future, futureStart);
+					daysAdded += 1;
+					if (futureStart > 7) {
+						day = futureStart - 7;
+					} else {
+						day = futureStart;
+					}
+					daysMultiplier[day] = future;
+
+					console.log("%d(%d) (%s): %d", futureStart, day, Util.weekDaysNames[day - 1], future);
 					future = 1;
 				}
-
-				console.log("Found day %d - %d", futureStart, futureIndex);
+				console.log("Enabled on day %d", futureStart);
 			} else {
-				if (firstFound >= 0) {
+				if (firstFound > 0) {
 					future += 1;
 				}
 			}
 
-			futureIndex += 1;
 			futureStart += 1;
-
-			console.log("Future is now %d", future)
 		}
 
-		if (future >= 8) {
-			future = 1;
+		console.log(daysMultiplier);
+		return daysMultiplier;
+	}
+
+	function formatAutoTimer(frequency, referenceTimer, coef) {
+		var daysMultiplier = getProgramMultiplier(frequency);
+		var text = "";
+
+		if (typeof daysMultiplier === "object") {
+			for (var day in daysMultiplier) {
+				var multiplier = daysMultiplier[day];
+				text += Util.weekDaysNamesShort[day - 1] + ": " + Util.secondsToText(referenceTimer * multiplier * coef) + "\n";
+			}
+		} else {
+			text =  Util.secondsToText(referenceTimer * daysMultiplier * coef) + " ";
 		}
 
-		while (((twoCyclesPast & (1 << pastStart)) == 0) && (past < 8)) {
-			past += 1;
-			pastStart -= 1;
-		}
 
-		if (past >= 8) {
-			past = 1;
-		}
+		return text;
+	}
 
-		console.log("Future: %d, Past: %d", future, past);
-		console.log("Multipliers list: %o", multiplierList);
-		return { future: future, past: past };
+
+
+	function formatTotalTimer(frequency, timersList) {
+		var daysMultiplier = getProgramMultiplier(frequency);
+		var totalDurationsCustom = 0;
+
+		if (typeof daysMultiplier === "object") {
+			var totalDuration = {};
+
+			//First we loop though all zones and compute total time for "Custom" durations and
+			//for each selected day set duration scaled by multiplier.
+			//At the end we loop on object holding days and add for each day the total "Custom" durations
+			for (var i = 0; i < timersList.length; i++) {
+				if (timersList[i].type == ZoneDurationType.Manual) {
+					totalDurationsCustom += timersList[i].duration;
+				} else if (timersList[i].type == ZoneDurationType.Auto) {
+					for (var day in daysMultiplier) {
+						var multiplier = daysMultiplier[day];
+						if (! totalDuration.hasOwnProperty(day)) {
+							  totalDuration[day] = 0;
+						}
+						totalDuration[day] += timersList[i].duration * multiplier * timersList[i].autocoef;
+					}
+				}
+			}
+
+			var text = "";
+			for (var day in totalDuration) {
+				totalDuration[day] += totalDurationsCustom;
+				text += Util.weekDaysNamesShort[day - 1] + ": " + Util.secondsToText(totalDuration[day]) + "\n";
+			}
+
+			return text;
+
+		} else {
+			var totalDuration = 0;
+			for (var i = 0; i < timersList.length; i++) {
+				totalDuration += timersList[i].duration;
+			}
+			return Util.secondsToText(totalDuration);
+		}
 	}
 
 	function parseCurrentProgramFrequency() {
