@@ -123,8 +123,8 @@ function ChartData () {
 	// fill the days array with 365 (chartsMaximumDataRange) days and calculate the months found within those dates
 	var _start = new Date(this.startDate);
 	while (_start <= end) {
-		var isoDate = _start.toISOString().split('T')[0],
-			isoDateMonthStart = isoDate.split('-')[0] + '-' + isoDate.split('-')[1] + '-' + '01';
+		var isoDate = Util.getDateStr(_start);
+		var isoDateMonthStart = isoDate.split('-')[0] + '-' + isoDate.split('-')[1] + '-' + '01';
 
 		this.days.push(isoDate);
 
@@ -569,13 +569,21 @@ function loadMonthlyCharts () {
 		chartsMonthlyPeriod = chartsMaxMonthlyPeriod;
 	}
 
-	var sliceStart = -(chartsMonthlySlice * (chartsMonthlyPeriod + 1)),
-		sliceEnd = -(chartsMonthlySlice * chartsMonthlyPeriod);
+	var todayStr = Util.getDateStr(Util.today());
+	for (var i = 0; i < chartsData.days.length; i++) {
+		if (chartsData.days[i] == todayStr) {
+			var sliceStart = i - 30;
+			var sliceEnd = i + 1;  //including today
+			break;
+		}
+	}
 
 	// if the slice end is 0 then we need to make it
 	if (sliceEnd === 0) {
 		sliceEnd = chartsData.days.length;
 	}
+
+	//console.log("Monthly start %s : %d end: %d", todayStr, sliceStart, sliceEnd);
 
 	// set the categories and series for all charts
 	chartsData.currentAxisCategories = chartsData.days.slice(sliceStart, sliceEnd);

@@ -450,13 +450,11 @@ window.ui = window.ui || {};
 			makeVisible(uiElems.snooze.enabledContainer);
 			var v = Util.secondsToHuman(rd);
 			uiElems.snooze.enabledContent.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
-			console.log("Device is snoozing for %d seconds", rd);
 		}
 		else
 		{
 			makeHidden(uiElems.snooze.enabledContainer);
 			makeVisible(uiElems.snooze.disabledContainer);
-			console.log("Device is not snoozing");
 		}
 	}
 
