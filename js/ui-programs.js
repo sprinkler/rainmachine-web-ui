@@ -1150,7 +1150,7 @@ window.ui = window.ui || {};
 
 		while (futureStart < 16 && daysAdded < 8) {
 
-			if (futureStart > firstFound + 7) {
+			if (futureStart > firstFound + 8) {
 				break;
 			}
 
@@ -1196,13 +1196,12 @@ window.ui = window.ui || {};
 				text += Util.weekDaysNamesShort[day - 1] + ": " + Util.secondsToText(referenceTimer * multiplier * coef) + "\n";
 			}
 		} else {
-			text =  Util.secondsToText(referenceTimer * daysMultiplier * coef) + " ";
+			text = Util.secondsToText(referenceTimer * daysMultiplier * coef) + " ";
 		}
 
 
 		return text;
 	}
-
 
 
 	function formatTotalTimer(frequency, timersList) {
