@@ -1467,11 +1467,11 @@
 									</tr>
 									<tr style="background-color: #f9f9f9;">
 										<td class="center middle">
-											<div class="helpText inlineblock" help="zoneListImageHelp">?</div> <div rm-id="zone-settings-image" class="zoneListImageEdit center">
+											<div rm-id="zone-settings-image" class="zoneListImageEdit center">
 												<div class="zoneListImageNoneEdit">&#xe800;</div>
 											</div>
 										</td>
-										<td>
+										<td style="padding-left:2%;">
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
 													<td class="middle noborder">Name</td>
@@ -1495,6 +1495,8 @@
 												<tr>
 													<td class="middle noborder">Use Seasonal Adjustments<br>
 														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on locally stored daily averages<br>based on 10 year weather history for your location.<br>(No Internet connection needed)</span>
+														<br><br>
+														<div class="helpText inlineblock" help="zoneListImageHelp">?</div>
 													</td>
 													<td class="middle noborder"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 												</tr>
@@ -1868,36 +1870,43 @@
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-sunday" class="right" />
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Sunday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-monday" class="right"/>
+															<input type="checkbox" rm-id="weekday-monday" class="right" checked>
+															<span class="right mr10" style="display:inline;color:#3399cc;">will water to cover 7 days</span>
 															<div>Monday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Tuesday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Wednesday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-thursday" class="right"/>
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Thursday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-friday" class="right"/>
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Friday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-saturday" class="right"/>
+															<span class="right mr10" style="display:none;">will water to cover n days</span>
 															<div>Saturday</div>
 														</div>
 													</div>
@@ -2007,16 +2016,14 @@
 									</td>
 								</tr>
 								<tr>
-									<td style="padding-right:0">
-										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <pre rm-id="program-settings-zone-totaltime" class="right" style="margin-right:0;">00h 00m 00s</pre></div>
+									<td style="padding:1.2em 0;">
+										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
+										<span style="text-transform: uppercase;">Total watering time</span>
 									</td>
 								</tr>
 								<tr>
-									<td class="middle">
-										<div class="right">
-											Duration
-										</div>
-										Zone name
+									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;">
+										Zones
 									</td>
 								</tr>
 								<!-- Start program settings zones template -->
@@ -2042,10 +2049,10 @@
 		<!-- Template for Program Settings Zone Watering Times Display only (Start) -->
 		<table id="program-settings-zone-template-container-2">
 			<tr id="program-settings-zone-template">
-				<td class="middle weatherSource">
+				<td class="middle weatherSource" style="padding-right:1.5em;">
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
-					<div class="middle right" style="padding: 0px 30px 0 0;">
-						<pre rm-id="program-zone-duration" style="font-size:20px;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
+					<div class="middle right">
+						<pre rm-id="program-zone-duration" style="font-size:1.3em;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
 						<!--<div rm-id="program-zone-duration-percent" style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" ></div>-->
 					</div>
 				</td>
