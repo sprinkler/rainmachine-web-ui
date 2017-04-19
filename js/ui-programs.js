@@ -1001,7 +1001,6 @@ window.ui = window.ui || {};
 			zones = Data.zoneAdvData.zones;
 		}
 
-		//var programMultiplier = getProgramMultiplier();
 		var frequency = parseCurrentProgramFrequency();
 		var skipTimerText = "Not set";
 		var totalTimes = [];
@@ -1019,7 +1018,7 @@ window.ui = window.ui || {};
 
 			//Fill the suggested auto timer
 			if (zones) {
-				referenceTimer = parseInt(zones[index].waterSense.referenceTime || 0); //* programMultiplier;
+				referenceTimer = parseInt(zones[index].waterSense.referenceTime || 0);
 			}
 
 			//If called with wateringTimes fill from program data
@@ -1074,7 +1073,6 @@ window.ui = window.ui || {};
 
 			//Add auto coef
 			autoCoef = zoneElems.zonePercentage.value / 100.0;
-			//autoTimer *= autoCoef;
 
 			totalTimes[index] = {
 				type: ZoneDurationType.Off,
@@ -1084,7 +1082,7 @@ window.ui = window.ui || {};
 
 			//Check what duration we should display on Program Zones List
 			if (durationType == ZoneDurationType.Auto) {
-				timerText = formatAutoTimer(frequency, referenceTimer, autoCoef); //Util.secondsToText(autoTimer);
+				timerText = formatAutoTimer(frequency, referenceTimer, autoCoef);
 				totalTimes[index].duration = referenceTimer;
 				totalTimes[index].autocoef = autoCoef;
 				totalTimes[index].type = ZoneDurationType.Auto;
@@ -1099,12 +1097,12 @@ window.ui = window.ui || {};
 				timerColor = "#bbb";
 			}
 
-			zoneElems.durationAutoElem.textContent = formatAutoTimer(frequency, referenceTimer, autoCoef); //Util.secondsToText(autoTimer);
+			zoneElems.durationAutoElem.textContent = formatAutoTimer(frequency, referenceTimer, autoCoef);
 			zoneElems.durationElem.textContent = timerText;
 			zoneElems.durationElem.style.color = timerColor;
 		}
 
-		uiElems.zonesTotalTime.textContent = formatTotalTimer(frequency, totalTimes); //Util.secondsToText(totalTimes);
+		uiElems.zonesTotalTime.textContent = formatTotalTimer(frequency, totalTimes);
 	}
 
 	function getProgramMultiplier(frequency) {
@@ -1198,7 +1196,6 @@ window.ui = window.ui || {};
 		} else {
 			text = Util.secondsToText(referenceTimer * daysMultiplier * coef) + " ";
 		}
-
 
 		return text;
 	}
