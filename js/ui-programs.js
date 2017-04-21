@@ -764,7 +764,7 @@ window.ui = window.ui || {};
 			var param = program.frequency.param;
 			param = param.substr(param.length - WeekdaysOrder.length - 1);
 			for(var index = 0; index < param.length; index++)
-            	infoText += (param[index] === "1" ? WeekdaysOrder[index].substr(0,3).toUpperCase() : "");
+            	infoText += (param[index] === "1" ? WeekdaysOrder[index].substr(0,3).toUpperCase() : "") + " ";
 		} else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
 			var param = parseInt(program.frequency.param);
 			if (param % 2 === FrequencyParam.Odd) { // Odd
