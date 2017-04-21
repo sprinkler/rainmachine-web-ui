@@ -764,7 +764,7 @@ window.ui = window.ui || {};
 			var param = program.frequency.param;
 			param = param.substr(param.length - WeekdaysOrder.length - 1);
 			for(var index = 0; index < param.length; index++)
-            	infoText += (param[index] === "1" ? WeekdaysOrder[index].substr(0,3).toUpperCase() : "");
+            	infoText += (param[index] === "1" ? WeekdaysOrder[index].substr(0,3).toUpperCase() : "")  + " ";
 		} else if (program.frequency.type === FrequencyType.OddEven) { // Odd or Even
 			var param = parseInt(program.frequency.param);
 			if (param % 2 === FrequencyParam.Odd) { // Odd
@@ -1138,8 +1138,8 @@ window.ui = window.ui || {};
 		var futureStart = 1; //Monday
 		var future = 1; // x1 multiplier default
 
-		console.log("* getMultipliers: param=%s, futureStart=%d, twoCyclesFuture=%s futureStart=%d",
-			Util.showBin(param), futureStart, Util.showBin(twoCyclesFuture), futureStart);
+		//console.log("* getMultipliers: param=%s, futureStart=%d, twoCyclesFuture=%s futureStart=%d",
+		//	Util.showBin(param), futureStart, Util.showBin(twoCyclesFuture), futureStart);
 
 		var firstFound = -1;
 		var daysMultiplier = {};
@@ -1156,7 +1156,7 @@ window.ui = window.ui || {};
 
 				if (firstFound < 0) {
 					firstFound = futureStart;
-					console.log("First day found at %d", firstFound);
+					//console.log("First day found at %d", firstFound);
 
 				} else {
 					daysAdded += 1;
@@ -1167,10 +1167,10 @@ window.ui = window.ui || {};
 					}
 					daysMultiplier[day] = future;
 
-					console.log("%d(%d) (%s): %d", futureStart, day, Util.weekDaysNames[day - 1], future);
+					//console.log("%d(%d) (%s): %d", futureStart, day, Util.weekDaysNames[day - 1], future);
 					future = 1;
 				}
-				console.log("Enabled on day %d", futureStart);
+				//console.log("Enabled on day %d", futureStart);
 			} else {
 				if (firstFound > 0) {
 					future += 1;
@@ -1196,13 +1196,16 @@ window.ui = window.ui || {};
 		} else {
 			text = Util.secondsToText(referenceTimer * daysMultiplier * coef);
 		}
-
+		if (text === "") {
+			text = "No days selected";
+		}
 		return text;
 	}
 
 
 	function formatTotalTimer(frequency, timersList) {
 		var daysMultiplier = getProgramMultiplier(frequency);
+		addWeekDayMultiplierHint(daysMultiplier);
 		var totalDurationsCustom = 0;
 
 		if (typeof daysMultiplier === "object") {
@@ -1239,6 +1242,19 @@ window.ui = window.ui || {};
 				totalDuration += timersList[i].duration;
 			}
 			return Util.secondsToText(totalDuration);
+		}
+	}
+
+	// This will write the multiplier next to the selected day in Week Days Frequency
+	function addWeekDayMultiplierHint(daysMultiplier) {
+		for (var i = 1; i < 8; i++) {
+			var elem = $(uiElems.frequencyWeekdaysContainerElem, '[rm-id="weekday-' + i + '"]');
+			if (i in daysMultiplier) {
+				var m = daysMultiplier[i];
+				elem.textContent = "Covers  " + m  + " day" + ((m > 1) ? "s" : "");
+			} else {
+				elem.textContent = "";
+			}
 		}
 	}
 
