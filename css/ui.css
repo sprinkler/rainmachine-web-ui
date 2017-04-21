@@ -703,17 +703,13 @@ h1 {
   color: #eee;
   padding: 42px;
 }
-/*.zoneListImage:hover, .zoneListImageEdit:hover {
+.zoneListImage:hover {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   z-index: 512;
   transition: all 200ms ease-in;
   transform: scale(4);
   border: 1px solid #f9f9f9;;
 }
-
-.zoneListImageEdit:hover {
-  transform: scale(2);
-}*/
 
 #mainContainer {
   display: block;
