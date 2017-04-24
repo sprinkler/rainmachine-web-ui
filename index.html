@@ -244,13 +244,15 @@
 										<table cellspacing="0" cellpadding="0" class="center full">
 											<tbody>
 												<tr>
-													<th><h1 class="title">By number of days</h1></th>
+													<th><span class="subtitle">Prevents the device from starting any watering activity for the defined duration</span></th>
 												</tr>
 												<tr>
 													<td class="middle center" style="border-bottom:0;">
-														<span class="cardTitle bold">Days:</span>
+														<span class="cardTitle bold">Days Hours Minutes</span>
 														<br><br>
-														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber center" placeholder="0">
+														<input id="snoozeDays" type="number" name="days" min="0" max="365" class="typeNumber center" placeholder="0">
+														<input id="snoozeHours" type="number" name="hours" min="0" max="24" class="typeNumber center" placeholder="0">
+														<input id="snoozeMinutes" type="number" name="minutes" min="0" max="60" class="typeNumber center" placeholder="0">
 													</td>
 												</tr>
 												<tr>

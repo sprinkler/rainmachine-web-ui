@@ -421,14 +421,25 @@ window.ui = window.ui || {};
 			uiElems.snooze.disabledContainer = $("#snoozeSetContent");
 
 			uiElems.snooze.enabledContent = $("#snoozeCurrentValue");
-			uiElems.snooze.daysInput = $('#snoozeDays')
+			uiElems.snooze.daysInput = $('#snoozeDays');
+			uiElems.snooze.hoursInput = $('#snoozeHours');
+			uiElems.snooze.minutesInput = $('#snoozeMinutes');
 
 			uiElems.snooze.stop = $("#snoozeStop");
 			uiElems.snooze.set = $("#snoozeSet");
 
 			uiFeedback.sync(uiElems.snooze.stop, onSetSnooze, 0);
 			uiFeedback.sync(uiElems.snooze.set, function() {
-				return onSetSnooze(+uiElems.snooze.daysInput.value);
+				var seconds = 0;
+				try {
+					seconds += +uiElems.snooze.daysInput.value * 86400;
+					seconds += +uiElems.snooze.hoursInput.value * 3600;
+					seconds += +uiElems.snooze.minutesInput.value * 60;
+					return onSetSnooze(seconds);
+				} catch(e)  {
+					console.log("Invalid Snooze parameters");
+					return null;
+				}
 			});
 		}
 
@@ -458,8 +469,16 @@ window.ui = window.ui || {};
 		}
 	}
 
-	function onSetSnooze(duration) {
-		var r = API.setRestrictionsRainDelay(duration);
+	function onSetSnooze(seconds) {
+
+		var params = {
+			rainDelayStartTime: Math.floor(Date.now() / 1000),
+			rainDelayDuration: seconds
+		};
+
+		//var r = API.setRestrictionsRainDelay(days);
+		var r = API.setRestrictionsGlobal(params);
+
 		showRainDelay();
 		return r;
 	}
