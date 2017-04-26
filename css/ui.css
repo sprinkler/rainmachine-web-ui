@@ -458,6 +458,7 @@ strong { font-weight: 700; }
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
+  height: 82px;
 }
 .zoneListName {
   /*padding-top: 25px;*/
@@ -681,7 +682,7 @@ h1 {
   margin-top: 6px;
   margin-left: 10px;
   margin-bottom: 10px;
-  border: 1px solid #f9f9f9;
+  border: 0px solid #f9f9f9;
   border-radius: 100%;
   vertical-align: middle;
 }
@@ -689,7 +690,9 @@ h1 {
   width: 378px;
   height: 282px;
   border-radius: 0%;
-  border: 1px solid #f1f1f1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border:0;
 }
 
 .zoneListImageNone, .zoneListImageNoneEdit {
@@ -704,11 +707,16 @@ h1 {
   padding: 42px;
 }
 .zoneListImage:hover {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  z-index: 512;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   transition: all 200ms ease-in;
   transform: scale(4);
-  border: 1px solid #f9f9f9;;
+  border: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  background-position: center center;
+  border-radius: 0;
+  z-index: 9999;
 }
 
 #mainContainer {
