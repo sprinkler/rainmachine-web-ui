@@ -15,28 +15,43 @@ function DataProperty()
 
 var Data  = (function(Data) {
 
-Data.now = Date.now() / 1000 >> 0;
-
 //Properties
 Data.zoneData = null;
 Data.zoneAdvData = null;
 Data.parsers = null;
 Data.parserData = null;
+Data.doyET0 = null;
 Data.programs = null;
-Data.provision = {};
+Data.provision = {
+	api: null,
+	system: null,
+	location: null,
+	wifi: null,
+	cloud: null
+};
 Data.diag = null;
 Data.mixerData = null;
 Data.dailyDetails = null;
 Data.waterLog = null;
 Data.waterLogCustom = null;
 Data.waterLogSimulated = null;
-Data.waterLogSimple = null;
-Data.dateTime = null;
+Data.programsPastValues = null;
+Data.availableWater = null;
+Data.zonesAvailableWater = null;
+Data.today = null;
 Data.rainDelay = null;
-Data.uiVer = "1.3-beta";
+Data.uiVer = "1.7";
 Data.restrictionsCurrent = null;
+Data.zonesImages = null;
 Data.localSettings =  {
 	units: false // Default to US units
+};
+
+
+//TODO Reference counting
+Data.counters = {
+	charts: 0,
+	zoneAdv: 0
 };
 
 _timeZoneDB = new DataProperty();

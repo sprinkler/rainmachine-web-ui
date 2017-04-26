@@ -33,6 +33,7 @@ window.ui = window.ui || {};
 	{
 		$("#aboutName").textContent = Data.provision.system.netName;
 		$("#aboutVersion").textContent = Data.provision.api.swVer;
+		$("#aboutWebUI").textContent = Data.uiVer;
 		$("#aboutHardware").textContent = Data.provision.api.hwVer;
 		$("#aboutAPI").textContent = Data.provision.api.apiVer;
 		$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
@@ -53,7 +54,7 @@ window.ui = window.ui || {};
 
 	function showLog(log) {
 		var logWin = window.open();
-		logWin.document.write("<h2>Retriving log from device ...</h2>");
+		logWin.document.write("<h2>Retrieving log from device ...</h2>");
 		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
 	}
 
@@ -92,18 +93,18 @@ window.ui = window.ui || {};
 	}
 
 	function showDeviceInfo() {
-		if (Data.provision.wifi === undefined || Data.provision.system === undefined ||
-			Data.provision.api === undefined || Data.diag === null) {
+		if (Data.provision.wifi === null || Data.provision.system === null ||
+			Data.provision.api === null || Data.diag === null) {
 			return false;
 		}
+
 		var deviceImgDiv = $('#deviceImage');
 		var deviceNameDiv = $('#deviceName');
 		var deviceNetDiv = $('#deviceNetwork');
 		var footerInfoDiv = $('#footerInfo');
 
 		deviceNameDiv.textContent = Data.provision.system.netName;
-		deviceNetDiv.textContent = Data.provision.location.name + "  (" + Data.provision.wifi.ipAddress + ")";
-		deviceNetDiv.textContent += " - UI Version: " + Data.uiVer;
+		deviceNetDiv.textContent = Data.provision.location.name;
 
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
@@ -112,6 +113,7 @@ window.ui = window.ui || {};
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
         $("#homeUptime").textContent = Data.diag.uptime;
+		$("#homeIP").textContent = Data.provision.wifi.ipAddress;
 
 		return true;
 	}

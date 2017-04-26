@@ -2,7 +2,10 @@
 <head>
 	<title> RainMachine Web Application </title>
 	<meta charset="utf-8" />
-	<link rel="icon" type="image/ico" href="http://rainmachine.com/favicon.ico">
+	<link rel="icon" type="image/ico" href="https://rainmachine.com/favicon.ico">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+	<!-- BUILD DEVEL -->
 	<link href="css/ui.css" rel="stylesheet" type="text/css">
 	<script src="js/highcharts-custom.js"></script>
 	<script src="js/dom.js"></script>
@@ -11,8 +14,9 @@
 	<script src="js/async.js"></script>
     <script src="js/rainmachine-api-v4.js"></script>
 	<script src="js/data.js"></script>
+	<script src="js/help.js"></script>
 
-
+	<script src="js/ui-firebase.js"></script>
 	<script src="js/ui-charts.js"></script>
 	<script src="js/ui-charts-parsers.js"></script>
 	<script src="js/ui-login.js"></script>
@@ -23,6 +27,9 @@
 	<script src="js/ui-programs.js"></script>
 	<script src="js/ui-zones.js"></script>
 	<script src="js/ui.js"></script>
+	<!-- END BUILD DEVEL -->
+
+	<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
 </head>
 <body>
 	<!-- Success Start -->
@@ -59,7 +66,7 @@
 				</div>
 				<span class="subtitle" id="deviceNetwork"></span>
 		</div>
-		<div>
+		<div class="iconsMenu">
 			<div id="logoutBtn" class="topButton logout"><span class="icon">L</span><br>Logout</div>
 			<div id="settingsBtn" class="topButton"><span class="icon">S</span><br>Settings</div>
 			<div id="programsBtn" class="topButton"><span class="icon">P</span><br>Programs</div>
@@ -86,21 +93,28 @@
 
 				<div id="dashboard" class="dashboard" style="display: none;">
 						<div class="homeScreenMain">
-							<div id="homeScreenLeft" style="display:inline-block;">
-								<div class="homeScreenWaterSaved">
+							<div id="homeScreenLeft">
+								<div id="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
-									<div id="waterSavedGaugeContainer" style="display: block; width:180px; height: 180px;border:0px solid #eee;margin:0 auto;margin-bottom:10px;">
+									<div id="waterSavedGaugeContainer"></div><div class="helpTextWaterSaved" help="waterSavedVolume">?</div>
+									<div class="waterSavedInfo">
+										<div class="waterSavedInfoInner">
+											<div class="inlineblock" id="waterSavedGaugeVolume"></div><br>
+											<div class="inlineblock" id="waterSavedGaugeMinutes"></div>
+										</div>
 									</div>
 								</div>
 								<div class="homeScreenWaterLog">
 									<button id="waterlog-more" class="button label-grey right mr10">More</button>
 									<h1 class="titleHome">7-Day Watering History</h1>
-									<div style="display:block;padding-bottom:25px;padding-top:15px;border-bottom:1px solid #ddd;color:#555;">
-										<span class="right mr10" style="width:70px;">Watered</span>
-										<span class="right center mr10" style="width:70px;">Scheduled</span>
-									</div>
-									<div id="wateringHistorySimpleContent">
-										<!--- waterlog-simple-template -->
+									<div class="wateringHistorySimpleLines">
+										<div class="wateringHistorySimpleLinesTitle">
+											<span class="right mr10" style="width:70px;">Watered</span>
+											<span class="right center mr10" style="width:70px;">Scheduled</span>
+										</div>
+										<div id="wateringHistorySimpleContent">
+											<!--- waterlog-simple-template -->
+										</div>
 									</div>
 								</div>
 								<div class="homeScreenDataSource">
@@ -112,7 +126,7 @@
 								</div>
 								<div class="homeScreenDataSource">
 									<button id="weather-data-edit" class="button label-grey right mr10">Edit</button>
-									<h1 class="titleHome">Weather Updates</h1>
+									<h1 class="titleHome">Weather</h1>
 									<div id="weatherDataSourcesSimpleList">
 										<!--- weather-sources-simple-template -->
 									</div>
@@ -133,6 +147,10 @@
 										<div>CPU Usage</div>
 									</div>
 									<div class="deviceStatusItem">
+										<div id="homeIP" class="right gray"></div>
+										<div>Network Address</div>
+									</div>
+									<div class="deviceStatusItem">
 										<div id="homeCloud" class="right gray"></div>
 										<div>Remote Access</div>
 									</div>
@@ -149,8 +167,9 @@
 								</div>
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
-									<div class="weather-program-line" id="weatherChartDaysContainer">
-										<div class="program-title-next-run" style="text-align:right;vertical-align:bottom;color:#39c;height:42px;line-height:18px;font-size:12px;">Max Temp<br>Precipitation</div>
+									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0">
+										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
+										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -186,6 +205,9 @@
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
                                     <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
 								    <h1 class="titleHome">Zones</h1>
+									<div id="wateringQueueContainer">
+										<!--- Inserted from Javascript -->
+									</div>
 									<div id="zones">
 										<div id="zonesList" style="display: inline"></div>
 									</div>
@@ -196,38 +218,21 @@
 
 				<div id="settings">
 					<h1 id="settingsTitle"></h1>
-					<div id="settingsContent" class="content">
+					<div id="settingsContent" class="content" style="overflow: auto;">
 						<div id="wateringHistory">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
 										<span class="title"> Start Date
-											<input type="date" id="waterHistoryStartDate" class="typeTime">
+											<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
 											for
-											<input type="number" id="waterHistoryDays" class="typeNumber" placeholder="7">
+											<input type="number" id="waterHistoryDays" class="typeNumber center" placeholder="7">
 											days.
 										</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
 								</h1>
-								<div class="historyDateContainer" style="margin-top: -40px;border:0;">
-									<div class="historyDate"></div>
-									<div>
-										<div class="historyProgName"></div>
-										<div class="historyAllZones" style="border:0;">
-											<div class="historyZone">
-												<div class="historyZoneItem"></div>
-												<div class="historyZoneItem">Start Time</div>
-												<div class="historyZoneItem">Scheduled Time</div>
-												<div class="historyZoneItem">Watered Time</div>
-												<div class="historyZoneItem">Water Saved</div>
-												<div class="historyZoneItem">Special Condition</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div id="wateringHistoryContent">
+							</div>
+							<div id="wateringHistoryContent">
 									<!-- Watering History generated by javascript -->
-								</div>
 							</div>
 						</div>
 
@@ -239,13 +244,15 @@
 										<table cellspacing="0" cellpadding="0" class="center full">
 											<tbody>
 												<tr>
-													<th><h1 class="title">By number of days</h1></th>
+													<th><span class="subtitle">Prevents the device from starting any watering activity for the defined duration</span></th>
 												</tr>
 												<tr>
 													<td class="middle center" style="border-bottom:0;">
-														<span class="cardTitle bold">Days:</span>
+														<span class="cardTitle bold">Days Hours Minutes</span>
 														<br><br>
-														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber" placeholder="00">
+														<input id="snoozeDays" type="number" name="days" min="0" max="365" class="typeNumber center" placeholder="0">
+														<input id="snoozeHours" type="number" name="hours" min="0" max="24" class="typeNumber center" placeholder="0">
+														<input id="snoozeMinutes" type="number" name="minutes" min="0" max="60" class="typeNumber center" placeholder="0">
 													</td>
 												</tr>
 												<tr>
@@ -317,41 +324,94 @@
 						<div id="restrictions" style="display: none;">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Global Restrictions</h1>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Hot Days</h1>
-											<span class="separator"></span>
-											<input type="checkbox" id="restrictionsExtraWatering" class="right" />
-											<span>Allow extra watering</span>
-										</div>
-										<div class="bottom">
-											<button id="restrictionsHotDaysSet" class="button label-blue absolute center right">Set</button>
-										</div>
-									</div>
-									<div class="listItemSettingsRestrictions relative">
-										<div>
-											<h1>Freeze Protect</h1>
-											<span class="separator"></span>
-											<div>Do not water under:</div>
-											<div>
-												<select  id="restrictionsFreezeProtectTemp" style="width:180px;">
-													<option value="0">0 &deg; C / 32 &deg; F</option>
-													<option value="2" selected>2 &deg; C / 35.6 &deg; F</option>
-													<option value="5">5 &deg; C / 41 &deg; F</option>
-													<option value="10">10 &deg; C / 50 &deg; F</option>
-												</select>
-												<input type="checkbox" id="restrictionsFreezeProtect" class="right" />
-											</div>
-											</div>
-												<div class="bottom">
-													<button id="restrictionFreezeSet" class="button label-blue absolute center right">Set</button>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<button id="restrictionsHotDaysSet" class="button label-blue center right">Apply</button>
+												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
+												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
+													<span class="top15">Maximum percentage for over watering:</span>
+													<input type="number" id="restrictionsMaxWatering" class="typeNumber txtright" min="100" max="200"> %
 												</div>
-									</div>
-								<div class="listItemSettingsRestrictions relative">
-									<div style="height:250px;">
+												<span class="cardTitle">Hot Days</span><br>
+												<span class="subtitle">Allow extra watering</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="restrictionFreezeSet" class="button label-blue center right">Apply</button>
+												<input type="checkbox" id="restrictionsFreezeProtect" class="right" style="margin-top:8px;" />
+												<div id="restrictionsFreezeProtectContainer" class="right mr" style="width:51%;">
+													<span class="top15">Select minimum temperature value:</span>
+													<select id="restrictionsFreezeProtectTemp" style="width:180px;">
+														<option value="0">0 &deg; C / 32 &deg; F</option>
+														<option value="2" selected>2 &deg; C / 35.6 &deg; F</option>
+														<option value="5">5 &deg; C / 41 &deg; F</option>
+														<option value="10">10 &deg; C / 50 &deg; F</option>
+													</select>
+												</div>
+												<span class="cardTitle">Freeze Protect</span><br>
+												<span class="subtitle">Stop all watering activities when minimum temperature has reached:</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="restrictionsMinWateringSet" class="button label-blue center right">Apply</button>
+												<div id="restrictionsMinWateringSeconds" class="right mr" style="width:48%;">
+													<span class="top15">threshold duration in seconds:</span>
+													<input type="number" id="restrictionsMinWatering" class="typeNumber">
+												</div>
+												<span class="cardTitle">Minimum Watering Time</span><br>
+												<span class="subtitle">This feature allows users to set a minimum time for their sprinklers to run. Any time below that threshold will rollover to the next watering cycle.</span>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="settingsBlock center block70">
+									<h1 class="title center">Rain Sensor</h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<div>
+													<input type="checkbox" id="restrictionsRainSensor" class="right" style="margin-right:80px;" />
+													<span class="cardTitle">Use hardware rain sensor</span><br>
+													<span class="subtitle">Stop all watering when rain is detected.</span>
+													<br><br>
+													<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
+													<span class="cardTitle">Rain sensor normally closed</span><br>
+													<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="right" style="margin-right:80px;">
+													<span class="cardTitle">While rain is detected</span>
+													<select id="" style="width:420px;">
+														<option value="0">stop all watering activities.</option>
+														<option value="-1" selected>stop all watering until midnight.</option>
+														<option value="1">stop all watering for 6 hours after the rain event.</option>
+														<option value="2">stop all watering for 12 hours after the rain event.</option>
+														<option value="3">stop all watering for 48 hours after the rain event.</option>
+													</select>
+												</div>
+												<span class="cardTitle">Last detected rain event</span><br>
+												<span class="subtitle label-blue">FRI, APR 7, 06:45</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="noborder">
+												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="settingsBlock center block70">
+									<div class="listItemSettingsRestrictions relative">
+									<div style="height:290px;">
 										<div>
 											<h1>Weekdays</h1>
-											<div class="half">
+											<div style="display:inline-block;width:44.5%;">
 												<div>
 													<span class="separator"></span>
 													<input type="checkbox" id="restrictionsSunday" class="right" />
@@ -373,7 +433,7 @@
 													<div>Wednesday</div>
 												</div>
 											</div>
-											<div class="halfRight">
+											<div style="display:inline-block;width:44.5%;padding-left:15px;vertical-align:top;">
 												<div>
 													<span class="separator"></span>
 													<input type="checkbox" id="restrictionsThursday" class="right"/>
@@ -392,15 +452,15 @@
 											</div>
 										</div>
 										<div class="bottom">
-											<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Set</button>
+											<button id="restrictionWeekDaysSet" class="button label-blue absolute center right">Apply</button>
 										</div>
 									</div>
-								</div>
-								<div class="listItemSettingsRestrictions relative">
+									</div>
+									<div class="listItemSettingsRestrictions relative">
 									<div>
-										<div style="height:250px;">
+										<div style="height:290px;">
 											<h1>Months</h1>
-											<div class="half">
+											<div style="display:inline-block;width:44.5%;">
 												<div>
 													<span class="separator"></span>
 													<input type="checkbox" id="restrictionsJanuary" class="right" />
@@ -432,7 +492,7 @@
 													<div>June</div>
 												</div>
 											</div>
-											<div class="halfRight">
+											<div style="display:inline-block;width:44.5%;padding-left:15px;">
 												<div>
 													<span class="separator"></span>
 													<input type="checkbox" id="restrictionsJuly" class="right"/>
@@ -466,11 +526,28 @@
 											</div>
 										</div>
 										<div class="bottom">
-											<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Set</button>
+											<button id="restrictionsMonthsSet" class="button label-blue absolute center right">Apply</button>
 										</div>
 									</div>
-								</div>
+									</div>
 							</div>
+							<!--<div id="restrictions">
+								<div class="settingsBlock center block70">
+									<h1 class="title center" style="margin-bottom: 0">Programs Restrictions<br><span class="subtitle">Required by some municipalities. This will override RainMachine algorithm.</span></h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle weatherSource">
+												Do not run program "IFTTT-test" if rain exceeds 4mm / 1/8 inch.
+											</td>
+										</tr>
+										<tr>
+											<td class="middle weatherSource">
+												Do not run program "Flowers Back Yard" if rain exceeds 3mm / 3/32 inch.
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>-->
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Hourly Restrictions</h1>
 								<div id="restrictionsHourly">
@@ -487,14 +564,14 @@
 												<strong>Restriction start time</strong>
 												<br><br>
 												Hour:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartHour"  placeholder="14">
+												<input type="number" min="0" max="24" class="typeNumber center" id="restrictionHourlyStartHour"  placeholder="14">
 												Minute:
-												<input type="number" min="0" max="24" class="typeNumber" id="restrictionHourlyStartMinute"  placeholder="30">
+												<input type="number" min="0" max="60" class="typeNumber center" id="restrictionHourlyStartMinute"  placeholder="30">
 											</td>
 											<td class="middle noborder">
 												<strong>Restriction duration</strong>
 												<br><br>
-												<input type="number" min="0" max="1440" class="typeNumber" id="restrictionHourlyDuration" placeholder="60">
+												<input type="number" min="0" max="1440" class="typeNumber center" id="restrictionHourlyDuration" placeholder="60">
 												minutes
 											</td>
 											<td class="middle noborder">
@@ -531,8 +608,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="rainSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="rainSensitivityDefault" class="button label-grey center right" value="80" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="rainSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="rainSensitivityDefault" class="button label-grey center right" value="80">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="80" id="rainSensitivity" step="1" oninput="outputUpdateRain(value)" width="100%">
 													<output for="rainSensitivity" id="outputRainSensitivity" class="weatherPercent">80</output>
@@ -548,25 +625,8 @@
 										</tr>
 										<tr>
 											<td class="middle">
-												<button id="fieldCapacitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="fieldCapacityDefault" class="button label-grey center right" value="2" style="margin-right:10px;margin-top:15px;">Default</button>
-												<span class="right mr" style="width:30%;">
-													<input type="range" min="1" max="7" value="2" id="fieldCapacity" step="1" oninput="outputUpdateCapacity(value)" width="100%">
-													<output for="fieldCapacity" id="outputFieldCapacity" class="weatherPercent">2</output>
-													<script>
-														function outputUpdateCapacity(capacity) {
-															document.querySelector('#outputFieldCapacity').value = capacity;
-														}
-													</script>
-												</span>
-												<span class="cardTitle">Field Capacity</span><br>
-												<span class="subtitle">The maximum number of days your soil can store water in the summer.</span>
-											</td>
-										</tr>
-										<tr>
-											<td class="middle">
-												<button id="windSensitivitySave" class="button label-blue center right" style="margin-top:15px;">Save</button>
-												<button id="windSensitivityDefault" class="button label-grey center right" value="50" style="margin-right:10px;margin-top:15px;">Default</button>
+												<button id="windSensitivitySave" class="button label-blue center right">Save</button>
+												<button id="windSensitivityDefault" class="button label-grey center right" value="50">Default</button>
 												<span class="right mr" style="width:30%;">
 													<input type="range" min="0" max="100" value="50" id="windSensitivity" step="1" oninput="outputUpdateWind(value)" width="100%">
 													<output for="windSensitivity" id="outputWindSensitivity" class="weatherPercent">50</output>
@@ -584,6 +644,16 @@
 												</span>
 											</td>
 										</tr>
+										<tr>
+											<td class="middle">
+												<button id="weatherCorrectionPastSet" class="button label-blue center right">Apply</button>
+												<input id="weatherCorrectionPast" type="checkbox" class="right" style="margin:10px 40px;" />
+												<span class="cardTitle">Forecast Correction</span><br>
+												<span class="subtitle">Rainmachine algorithm corrects forecast data with most recent weather data.
+													<br>This works best if you have a local weather service enabled (Wunderground, Netatmo).
+												</span>
+											</td>
+										</tr>
 									</table>
 							</div>
 							<div id="weatherDataSources">
@@ -596,9 +666,9 @@
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
 												<div style="height:40px;">&nbsp;</div>
 												<div class="absolute full">
-													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
-													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-													<button id="weatherSourcesEditRun" class="button label-gray center left ml10">Refresh Now</button>
+													<button id="weatherSourcesEditSave" class="button blue center right">Save</button>
+													<button id="weatherSourcesEditClose" class="button grey center right">Close</button>
+													<button id="weatherSourcesEditRun" class="button label-gray center left ml10 mr">Refresh Now</button>
 													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml10">Defaults</button>
 												</div>
 											</div>
@@ -695,43 +765,58 @@
 											<tr valign="top">
 												<th>
 													<h1 class="title">Weather Services - Comparison</h1>
-													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime"> for
-													<input type="number" id="weatherServicesDays" class="typeNumber" placeholder="7"> days
+													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime center" style="width:168px;"> for
+													<input type="number" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>
 												</th>
 											</tr>
 											<!-- Data Sources info buttons (Begin) -->
 											<tr>
 												<td style="border-bottom: 0">
-													<div class="weatherServices" style="height:540px;margin-top:30px;">
+													<div class="weatherServices" style="height:500px;margin-top:30px;">
 														<div class="weatherServicesTab">
-															<input type="radio" id="weatherServicesTab-4" name="weatherServicesTab-group-2" checked>
-															<label for="weatherServicesTab-4">Temperature</label>
+															<input type="radio" id="weatherServicesTab-7" name="weatherServicesTab-group-2" checked>
+															<label for="weatherServicesTab-7">Rain (QPF)</label>
 															<div class="weatherServicesTabContent">
-																<div id="temperatureParsersChartContainer" class="charts"></div>
+																<div id="qpfParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-13" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-13">Rain (Observed)</label>
+															<div class="weatherServicesTabContent">
+																<div id="rainParsersChartContainer" class="charts"></div>
 															</div>
 														</div>
 														<div class="weatherServicesTab">
 															<input type="radio" id="weatherServicesTab-5" name="weatherServicesTab-group-2">
-															<label for="weatherServicesTab-5">Max Temperature</label>
+															<label for="weatherServicesTab-5">Max Temp</label>
 															<div class="weatherServicesTabContent">
 																<div id="maxTemperatureParsersChartContainer" class="charts"></div>
 															</div>
 														</div>
 														<div class="weatherServicesTab">
 															<input type="radio" id="weatherServicesTab-6" name="weatherServicesTab-group-2">
-															<label for="weatherServicesTab-6">Min Temperature</label>
+															<label for="weatherServicesTab-6">Min Temp</label>
 															<div class="weatherServicesTabContent">
 																<div id="minTemperatureParsersChartContainer" class="charts"></div>
 															</div>
 														</div>
 														<div class="weatherServicesTab">
-															<input type="radio" id="weatherServicesTab-7" name="weatherServicesTab-group-2">
-															<label for="weatherServicesTab-7">Rain (QPF)</label>
+															<input type="radio" id="weatherServicesTab-12" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-12">ET</label>
 															<div class="weatherServicesTabContent">
-																<div id="qpfParsersChartContainer" class="charts"></div>
+																<div id="etParsersChartContainer" class="charts"></div>
 															</div>
 														</div>
+														<div class="weatherServicesTab">
+															<input type="radio" id="weatherServicesTab-4" name="weatherServicesTab-group-2">
+															<label for="weatherServicesTab-4">Temp</label>
+															<div class="weatherServicesTabContent">
+																<div id="temperatureParsersChartContainer" class="charts"></div>
+															</div>
+														</div>
+
 														<div class="weatherServicesTab">
 															<input type="radio" id="weatherServicesTab-8" name="weatherServicesTab-group-2">
 															<label for="weatherServicesTab-8">Wind</label>
@@ -767,6 +852,27 @@
 									</div>
 								</div>
 								<!-- Weather Data Source Comparison Graphs (End) -->
+
+								<!-- Weather DOY Data  (Begin) -->
+								<div class="settingsBlock center block70" style="height:660px;">
+									<div>
+										<table cellspacing="10" cellpadding="0" class="full">
+											<tr valign="top">
+												<th>
+													<h1 class="title">Daily EvapoTranspiration Seasonal Adjustments</h1>
+													<span class="subtitle">Used when weather data could not be fetched from internet.</span>
+												</th>
+											</tr>
+											<tr>
+												<td>
+													<div id="doyChart" class="charts"></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<!-- Weather DOY Data  (End) -->
+
 								<div class="center restriction" style="font-size:12px;margin-bottom:20px;">Warning: The RainMachine device weather settings are meant for advanced users. Changing these settings will affect watering times.</div>
 							</div>
 						</div>
@@ -784,9 +890,9 @@
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsDeviceNameSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsDeviceNameSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
-											<span class="left top15">Change name:</span>
+											<span class="left top15"></span>
 											<input type="text" id="systemSettingsDeviceName" placeholder="" class="typeNumber" style="width:70%;">
 										</span>
 										<span class="cardTitle">Device name</span><br>
@@ -796,7 +902,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsUnitsSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsUnitsSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
 												<span class="left">US</span>
@@ -808,27 +914,13 @@
 											</span>
 										</span>
 										<span class="cardTitle">Units</span><br>
-										<span class="restriction">Please reload the webpage for this setting to take effect.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsCloudSet" class="button label-blue center right">Change</button>
-										<span class="right mr" style="width:40%;">
-											<span style="display:block;">
-												<span class="left top15">Email address:</span><input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:70%;" />
-											</span>
-											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
-										</span>
-										<span class="cardTitle">Remote Access</span><br>
-										<span class="subtitle">Enter the email address asociated with the remote access account.</span>
-										<div id="systemSettingsPendingEmail" class="red"></div>
+										<!--<span class="restriction">Please reload the webpage for this setting to take effect.</span>-->
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
 										<div class="center right">
-											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Change</button>
+											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Apply</button>
 										</div>
 										<div class="right mr" style="width:40%;">
 											<div style="margin-top:-24px;">
@@ -851,7 +943,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsDateTimeSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsDateTimeSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<!--DD:<input type="text" id="systemSettingsDateDays" class="typeNumber">
 											MM:<input type="text" id="systemSettingsDateMonths" class="typeNumber">
@@ -861,7 +953,7 @@
 											</span>
 											<span style="display:block;">
 												<span class="left top15">Time:</span>
-													<input type="number" id="systemSettingsHour" min="0" max="24" class="typeNumber" style="width:20.6%;text-align:center;">
+												<input type="number" id="systemSettingsHour" min="0" max="24" class="typeNumber" style="width:20.6%;text-align:center;">
 												: <input type="number" id="systemSettingsMinute" class="typeNumber" min="0" max="60" style="width:21.6%;text-align:center;">
 												: <input type="number" id="systemSettingsSeconds" class="typeNumber" min="0" max="60" style="width:21.6%;text-align:center;">
 											</span>
@@ -872,10 +964,10 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTimeZoneSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
-												<span class="left top15">Timezone:</span>
+												<!--<span class="left top15"></span>-->
 													<select id="systemSettingsTimeZoneSelect" style="width:70%;">
 														&lt;!&ndash; Generated from Javascript &ndash;&gt;
 													</select>
@@ -887,7 +979,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsPasswordSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsPasswordSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
 												<span class="left top15">Old:</span> <input type="password" id="systemSettingsPasswordOld" placeholder="" class="typeNumber" style="width:70%;" />
@@ -902,19 +994,48 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsCloudSet" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
-												<span class="left">Enable master valve (Zone 1):</span> <input type="checkbox" id="systemSettingsEnableMasterValve" />
+												<span class="left top15">Email address:</span><input type="text" id="systemSettingsEmail" placeholder="" class="typeNumber" style="width:70%;" disabled/>
+											</span>
+											Enable access: <input type="checkbox" id="systemSettingsCloudEnable"/>
+										</span>
+										<span class="cardTitle">Remote Access</span><br>
+										<span class="subtitle">Enable or disable remote access (over internet) for this device</span>
+										<div id="systemSettingsPendingEmail" class="red"></div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="settingsBlock center block70">
+							<table cellspacing="0" cellpadding="0" class="full">
+								<tr>
+									<th>
+										<h1 class="title">Master Valve (Pump) on Zone 1</h1>
+									</th>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsMasterValveSet" class="button label-blue center right">Apply</button>
+										<!--<span class="right mr" style="width:40%;">-->
+											<span style="display:block;">
+												<span class="left mr">Enable:</span><input type="checkbox" id="systemSettingsEnableMasterValve" />
+												<br><br><span class="subtitle">Use this option if the irrigation system has a Master Valve (Pump).</span>
 											</span>
 											<br>
 											<span style="display:block;">
-												<span class="left top15">Start</span> <input type="number" class="typeNumber" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes before and
-												<input type="number" class="typeNumber" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes after each program.
+												Starts:
+												<input type="number" class="typeNumber txtright" id="systemSettingsMasterValveBefore" min="0" placeholder="0"> minutes
+												<input type="number" class="typeNumber txtright" id="systemSettingsMasterValveBeforeSec" min="0" placeholder="0"> seconds
+												<strong>before</strong> each cycle/program.<br>
+												Stops:
+												<input type="number" class="typeNumber txtright" id="systemSettingsMasterValveAfter" min="0" placeholder="0"> minutes
+												<input type="number" class="typeNumber txtright" id="systemSettingsMasterValveAfterSec" min="0" placeholder="0"> seconds
+												<strong>after</strong> each cycle/program.
 											</span>
-										</span>
-										<span class="cardTitle">Master Valve</span><br>
-										<span class="subtitle">Use this option if the irrigation system has a Master Valve (pump).<br>Zone 1 will be used as Master Valve.</span>
+										<!--</span>-->
+
 									</td>
 								</tr>
 							</table>
@@ -928,7 +1049,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsAlexaSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsAlexaSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsAlexa" type="checkbox" class="right mr" />
 										<span class="cardTitle">Amazon Echo Alexa Integration</span><br>
 										<span class="subtitle">Allow local LAN integration with Amazon Alexa.</span>
@@ -936,54 +1057,30 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
-										<span class="cardTitle">Software rainsensor</span><br>
-										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
+										<button id="systemSettingsBonjourSet" class="button label-blue center right">Apply</button>
+										<input id="systemSettingsBonjour" type="checkbox" class="right mr" />
+										<span class="cardTitle">Apple Bonjour Integration</span><br>
+										<span class="subtitle">Allow local LAN integration with Apple Bonjour protocol.</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
-										<span class="subtitle">Allow to receive beta updates which are more often, but not thoroughly tested (use this at your own risk).</span>
+										<span class="subtitle">Allow to receive beta updates which are more often, but less thoroughly tested.</span><br>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMinWateringSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMinWatering" class="typeNumber"> seconds</span>
-										<span class="cardTitle">Minimum Watering Duration Threshold</span><br>
-										<span class="subtitle">Don't start watering zone if computed watering time is below this threshold.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsCorrectionPastSet" class="button label-blue center right">Change</button>
-										<input id="systemSettingsCorrectionPast" type="checkbox" class="right mr" />
-										<span class="cardTitle">Use Correction For Past</span><br>
-										<span class="subtitle">If future water needs should take in account past precipitations.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsMaxWaterSet" class="button label-blue center right">Change</button>
-										<span class="right mr"><input type="number" id="systemSettingsMaxWater" class="typeNumber"> %</span>
-										<span class="cardTitle">Maximum Watering Coefficient</span><br>
-										<span class="subtitle">How much over watering (more than user specified) is allowed.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsSSHSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsSSHSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsSSH" type="checkbox" class="right mr" />
 										<span class="cardTitle">SSH Access</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsLogSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsLogSet" class="button label-blue center right">Apply</button>
 								  			<span class="right mr">
 								  			<select id="systemSettingsLog">
 												<option value="10">Debug</option>
@@ -996,38 +1093,45 @@
 									</td>
 								</tr>
 								<!-- DEVELOPER ONLY
-
+                                <tr>
+									<td class="middle">
+										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
+										<span class="cardTitle">Software rainsensor</span><br>
+										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
+									</td>
+								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
 										<span class="cardTitle">Mixer History Size</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
 										<span class="cardTitle">Simulator History Size</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
 										<span class="cardTitle">Water Log History Size</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsParserHistorySet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsParserHistorySet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
 										<span class="cardTitle">Parser History Size</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsParserDaysSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsParserDaysSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
 										<span class="cardTitle">Parser Future Days</span>
 									</td>
@@ -1044,19 +1148,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsSensorSet" class="button label-blue center right" style="margin-top:20px;">Change</button>
-										<span class="right mr"><input type="checkbox" id="systemSettingsSensor" class="middle" /></span>
-										<span class="cardTitle">Use hardware rain sensor</span><br>
-										<span class="subtitle">Stop all watering when rain is detected.</span>
-										<br><br>
-										<span class="right mr"><input type="checkbox" id="systemSettingsSensorType" class="middle" /></span>
-										<span class="cardTitle">Rain sensor normally closed</span><br>
-										<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsTouchProg"></span>
 										<span class="cardTitle">Enable Touch to Cycle Programs</span><br>
 										<span class="subtitle">Show P on digit display and enable to start the first available program.</span>
@@ -1064,7 +1156,7 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchAdvSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsTouchAdv" class="middle" /></span>
 										<span class="cardTitle">Touch Advanced</span><br>
 										<span class="subtitle">Allow multiple zone queueing by pressing "Start Water" button.</span>
@@ -1073,21 +1165,21 @@
 								<!-- DEVELOPER SETTINGS
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTouchSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsTouch" type="checkbox" class="right mr" />
 										<span class="cardTitle">Disable Touch</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsLedsSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsLedsSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsLeds" type="checkbox" class="right mr" />
 										<span class="cardTitle">Light LEDs</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchAuthSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchAuth" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch to Authorize Access Point</span><br>
 										<span class="subtitle">How many seconds after a touch the setup program is given access.</span>
@@ -1096,21 +1188,21 @@
 								-->
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMaxLedSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsMaxLedSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsMaxLed" class="typeNumber" min="0" max="255"> (0 to 255)</span>
 										<span class="cardTitle">Max LED Brighness</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsMixLedSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsMixLedSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsMinLed" class="typeNumber" min="0" max="255"> (0 to 255)</span>
 										<span class="cardTitle">Min LED Brighness</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTouchTimeoutSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchTimeoutSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchTimeout" class="typeNumber"> seconds</span>
 										<span class="cardTitle">Touch Sleep Timeout</span><br>
 										<span class="subtitle">After how many seconds of inactivity touch display will sleep.</span>
@@ -1118,10 +1210,22 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="systemSettingsTouchPressTimeoutSet" class="button label-blue center right">Change</button>
+										<button id="systemSettingsTouchPressTimeoutSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="number" id="systemSettingsTouchPressTimeout" class="typeNumber" placeholder="3"> seconds</span>
 										<span class="cardTitle">Touch Long Press Timeout</span><br>
 										<span class="subtitle">After how many seconds when a button is pressed the action will execute automatically.</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsShortDetectionSet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="checkbox" id="systemSettingsShortDetectionEnable" class="middle" /></span>
+										<div class="right mr">
+											<span id="systemSettingsShortDetectionStatus">No short detected</span><br>
+											<span id="systemSettingsShortDetectionLoad">No overload detected</span>
+										</div>
+										<span class="cardTitle">Enable Short Detection and Prevention</span><br>
+										<span class="subtitle">Report and stop valves that produces too much load or a short.</span>
 									</td>
 								</tr>
 							</table>
@@ -1177,6 +1281,12 @@
 										<span class="cardTitle">Firmware version</span><br>
 										<span class="cardSubtitle" id="aboutVersion"></span>
 										<span class="start" id="aboutNewVersion"></span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<span class="cardTitle">Web UI Version</span><br>
+										<span class="cardSubtitle" id="aboutWebUI"></span>
 									</td>
 								</tr>
 								<tr>
@@ -1242,7 +1352,7 @@
 								<tr>
 									<td class="middle">
 										<span class="start" id="aboutDiagStatus"></span>
-										<button id="aboutDiagSend" class="button label-blue center" style="width:160px;">Send Diagnostics</button>
+										<button id="aboutDiagSend" class="button label-blue center">Send Diagnostics</button>
 										<button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button>
 									</td>
 								</tr>
@@ -1264,16 +1374,21 @@
 		<div id="day-weather-template" class="graphDay">
 			<div rm-id="day-weather-date" class="dateno">SEP 13</div>
 			<div rm-id="day-weather-icon" class="weatherIcon">s</div>
-			<div rm-id="day-weather-temp" class="dayTemp">79<sup>o</sup></div>
-			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
+			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
-        <!-- Template for Zone Card (Begin) -->
-        <div id="zone-entry" class="zone-line">
-        	<div>
+		<!-- Template for Zone Card (Begin) -->
+		<div id="zone-entry" class="zone-line">
+			<div>
 				<div rm-id="zone-edit" class="zoneListEdit" id="zone-edit" style="float:right;"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
 			</div>
+			<div rm-id="zone-image" class="zoneListImage">
+				<div class="zoneListImageNone">&#xe800;</div>
+			</div>
+
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
 				<div rm-id="zone-info" style="display:none;"></div>
@@ -1286,49 +1401,412 @@
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
 		</div>
-        <!-- Template for Zone Card (End) -->
-
+		<!-- Template for Zone Card (End) -->
+		<!-- Template for Zone Available Water Card (Begin) -->
+		<div id="zone-available-water-template">
+			<div class="overTop">
+				<table class="programEdit center" style="margin: 0 auto; min-width:740px; width:1028px;!important;margin-top:5em;" cellpadding="0" cellspacing="0">
+					<tr valign="top">
+						<td>
+							<button class="button grey center right" rm-id="zone-available-water-cancel">Close</button>
+							<span style="font-size:130%;" rm-id="zone-available-water-title">Surplus Water</span><br>
+						</td>
+					</tr>
+					<tr>
+						<td class="noborder">
+							<div class="bg-grey border-thin-grey">
+								<div rm-id="zone-available-water-top-row" style="overflow: hidden;background:#f6f6f6;"></div>
+								<div rm-id="zone-available-water-chart-row" style="height: 300px;"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<span class="subtitle"> RainMachine treats each program independently, each program zone has its own available water.
+								The program graphs might differ because of the weather data known at the time of each program run.
+								Enabling <i>Correction for the past</i>  from settings will automatically correct differences at next run with the
+								last known day weather information</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- Template for Zone Available Water Card (End) -->
         <!-- Template for Zone Properties Card (Begin) -->
         <div id="zone-settings-template">
        		<div class="overTop">
-	            <table class="programEdit" cellpadding="0" cellspacing="0">
-	                <tbody>
-	                <tr rm-id="zone-master-valve-option">
-		                <td class="middle" width="15%">Master Valve:</td>
-		                <td class="middle"><input type="checkbox" rm-id="zone-master-valve"/></td>
-	                </tr>
-
-					<tr rm-id="zone-master-valve-timer">
-						<td class="middle" width="15%">Master Valve:</td>
-						<td class="middle">
-							Start <input type="number" class="typeNumber" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes before and
-							<input type="number" class="typeNumber" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes after each program.
-						</td>
-
+	            <table class="programEdit" style="padding-top:0;" cellpadding="0" cellspacing="0">
+					<tr>
+					<tr rm-id="zone-master-valve-title">
+						<td class="middle center" style="padding: 20px;font-size:20px;">Use Zone 1 as Master Valve (Pump) <span style="margin-left:35px;">Enable: <input type="checkbox" rm-id="zone-master-valve"/></span>
+							<span  rm-id="zone-master-valve-option"></span></td>
 					</tr>
-	                <tr>
-	                	<td class="middle">Name:</td>
-	                	<td class="middle"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText"/></td>
-	                </tr>
-	                <tr><td class="middle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="zone-active"/></td></tr>
-	                <tr><td class="middle">Vegetation Type:</td>
-	                    <td class="middle">
-	                        <select rm-id="zone-vegetation-type">
-	                            <option value="1">Other</option>
-	                            <option value="2" selected>Lawn</option>
-	                            <option value="3">Fruit Trees</option>
-	                            <option value="4">Flowers</option>
-	                            <option value="5">Vegetables</option>
-	                            <option value="6">Citrus</option>
-	                            <option value="7">Trees and Bushes</option>
-	                        </select>
-	                </td></tr>
-	                <tr><td class="middle">Forecast Data:</td><td class="middle"><input type="checkbox" rm-id="zone-forecast-data"/></td></tr>
-	                <tr><td class="middle">Historical Averages:</td><td class="middle"><input type="checkbox" rm-id="zone-historical-averages"/></td></tr>
-	                <tr>
-	                	<td class="middle noborder" colspan="2"><button class="button blue center right" rm-id="zone-save">Save</button><button class="button grey center right" rm-id="zone-cancel">Cancel</button></td>
-	                </tr>
-	                </tbody>
+					<!-- <tr>
+						<td class="middle noborder">
+							
+						</td>
+					</tr> -->
+					<tr>
+						<td class="middle noborder" colspan="2">
+							<div rm-id="zone-master-valve-timer">
+								Starts:
+								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes
+								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds
+								<strong>before</strong> each cycle/program.<br>
+								Stops:
+								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes
+								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds
+								<strong>after</strong> each cycle/program.
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="noborder">
+							<div rm-id="zone-basic-advanced-settings">
+								<table width="100%" cellpadding="0" cellspacing="0">
+									<!-- Start Zone Basic & Advanced Settings -->
+									<tr>
+										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:130%;">Basic Zone Settings</td>
+									</tr>
+									<tr style="background-color: #f9f9f9;">
+										<td class="center middle">
+											<div class="helpText inlineblock" help="zoneListImageHelp">?</div>
+											<div rm-id="zone-settings-image" class="zoneListImageEdit center">
+												<div class="zoneListImageNoneEdit">&#xe800;</div>
+											</div>
+										</td>
+										<td style="padding-left:2%;">
+											<table width="100%" cellpadding="0" cellspacing="0">
+												<tr>
+													<td class="middle noborder">Name</td>
+													<td class="middle noborder" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
+												</tr>
+												<tr>
+													<td class="middle">Zone is Active</td>
+													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
+												</tr>
+												<tr>
+													<td class="middle noborder">
+														<div class="helpText" help="zoneWeatherSeasonalAdjustments">?</div> Weather & Seasonal Adjustments
+													</td>
+												</tr>
+												<tr>
+													<td class="middle noborder">Use Weather Data<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on live weather data.<br>(Needs Internet connection)</span>
+													</td>
+													<td class="middle noborder"><input type="checkbox" rm-id="zone-forecast-data"/></td>
+												</tr>
+												<tr>
+													<td class="middle noborder">Use Seasonal Adjustments<br>
+														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on locally stored daily averages<br>based on 10 year weather history for your location.<br>(No Internet connection needed)</span>
+													</td>
+													<td class="middle noborder"><input type="checkbox" rm-id="zone-historical-averages"/></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle center" colspan="2" style="padding: 20px;font-size:130%;">Advanced Zone Settings</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="noborder">
+											<table width="100%" cellpadding="0" cellspacing="0">
+												<tr>
+													<td class="middle" style="width:33%;">
+														<div class="helpText" help="zoneFieldCapacityMain">?</div> <span style="font-size:130%;">Field Capacity</span>
+														<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><span class="icon">&#xe901;</span> show graph</div>
+														<br>&nbsp;<br>
+														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
+															0.14 in
+														</div>
+														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
+													</td>
+
+													<td style="width:33%;">
+														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
+														<br>
+														<div class="zoneTimesDeterminedFullTime" style="color:#555;margin:0;padding-left:27px;" rm-id="zone-simulated-timer">
+															00h 05m 38s
+														</div>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle" style="width:30%;">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-vegetation-icon">&#xe302;</div>
+											<div class="inlineblock">Vegetation Type</div>
+										</td>
+										<td class="middle">
+											<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
+												<option value="2" selected>Lawn</option>
+												<option value="3">Fruit Trees</option>
+												<option value="4">Flowers</option>
+												<option value="5">Vegetables</option>
+												<option value="6">Citrus</option>
+												<option value="7">Trees and Bushes</option>
+												<option value="9">Drought Tolerant Plants</option>
+												<option value="99">Custom</option>
+											</select>
+											<!-- Vegetation Type "Custom" options start -->
+											<div style="display:none;" rm-id="zone-vegetation-advanced">
+												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
+													   cellspacing="0">
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zoneAllowedDepletion">?</div>
+															Allowed Depletion:
+														</td>
+														<td style="padding:0;">
+															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1" min="0"> decimal %</td>
+													</tr>
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zoneRootDepth">?</div>
+															Root Depth:
+														</td>
+														<td style="padding:0;">
+															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1" min="0">
+															<span rm-id="zone-vegetation-rootdepth-unit">mm</span>
+															</td>
+													</tr>
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zoneWiltingPoint">?</div>
+															Permanent Wilting Point:
+														</td>
+														<td style="padding:0;">
+															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0.01" max="0.23">decimal %
+														</td>
+													</tr>
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zoneTallPlant">?</div>
+															The vegetation is tall?
+														</td>
+														<td class="middle" style="padding:0;"><input rm-id="zone-vegetation-tall" type="checkbox"></td>
+													</tr>
+													<tr>
+														<td class="middle noborder" style="width:50%">
+															<div class="helpText" help="zoneCropCoef">?</div>
+															Crop Coefficient:
+														</td>
+														<td class="noborder" style="padding:10px 0 10px 0;">
+															<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
+																<option value="0" selected>Single yearly value</option>
+																<option value="1">Multiple monthly values</option>
+															</select>
+															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0.01" max="2"> decimal %
+															<div rm-id="zone-months-coef-advanced">
+																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
+																	   cellspacing="0"> 
+																	<tr>
+																		<td class="middle noborder center">Jan<br>
+																			<input rm-id="zone-months-coef0" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Feb<br>
+																			<input rm-id="zone-months-coef1" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Mar<br>
+																			<input rm-id="zone-months-coef2" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Apr<br>
+																			<input rm-id="zone-months-coef3" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="middle noborder center">May<br>
+																			<input rm-id="zone-months-coef4" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Jun<br>
+																			<input rm-id="zone-months-coef5" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Jul<br>
+																			<input rm-id="zone-months-coef6" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Aug<br>
+																			<input rm-id="zone-months-coef7" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="middle noborder center">Sep<br>
+																			<input rm-id="zone-months-coef8" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Oct<br>
+																			<input rm-id="zone-months-coef9" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																		<td class="middle noborder center">Nov<br>
+																			<input rm-id="zone-months-coef10" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																				</td>
+																		<td class="middle noborder center">Dec<br>
+																			<input rm-id="zone-months-coef11" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																		</td>
+																	</tr>
+																</table>
+															</div>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<!-- Vegetation Type "Custom" options end -->
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-soil-icon">_</div>
+											<div class="inlineblock">Soil Type</div>
+										</td>
+										<td class="middle">
+											<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
+												<option value="1" selected>Clay Loam</option>
+												<option value="2">Silty Clay</option>
+												<option value="3">Clay</option>
+												<option value="4" selected>Loam</option>
+												<option value="5">Sandy Loam</option>
+												<option value="6">Loamy Sand</option>
+												<option value="7">Sand</option>
+												<option value="8">Sandy Clay</option>
+												<option value="9">Silt Loam</option>
+												<option value="10">Silt</option>
+												<option value="99">Custom</option>
+											</select>
+											<!-- Soil type "Custom" options start -->
+											<div style="display:none;" rm-id="zone-soil-advanced">
+												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zoneIntakeRate">?</div>
+															Intake Rate:
+														</td>
+														<td style="padding:0;">
+															<input rm-id="zone-soil-intakerate" type="number" class="typeNumber">
+															<span rm-id="zone-soil-intakerate-unit">mm/h</span>
+														</td>
+													</tr>
+													<tr style="padding: 0 15px;">
+														<td class="middle noborder" style="width:50%">
+															<div class="helpText" help="zoneFieldCapacity">?</div>
+															Soil field capacity:
+														</td>
+														<td class="middle noborder" style="padding: 12px 0;">
+															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0.01"> decimal %
+														</td>
+													</tr>
+												</table>
+											</div>
+											<!-- Soil type "Custom" options end -->
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-slope-icon">\</div>
+											<div class="inlineblock">Slope</div>
+										</td>
+										<td class="middle">
+											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
+												<option value="1" selected>Flat</option>
+												<option value="2">Moderate</option>
+												<option value="3">High</option>
+												<option value="4">Very High</option>
+												<option value="99">Custom</option>
+											</select>
+											<!-- Slope "Custom" options start -->
+											<div style="display:none;" rm-id="zone-slope-advanced">
+												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+													<tr>
+														<td class="middle noborder" style="width:50%">
+															<div class="helpText" help="zoneSurfaceAccumulation">?</div>
+															Enter surface accumulation value:
+														</td>
+														<td class="middle noborder" style="padding:0;">
+															<input rm-id="zone-surface-acc" type="number" class="typeNumber">
+															<span rm-id="zone-surface-acc-unit">mm</span>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<!-- Slope "Custom" options end -->
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sprinkler-icon">#</div>
+											<div class="inlineblock">Sprinkler Head Type</div>
+										</td>
+										<td class="middle">
+											<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
+												<option value="1" selected>Popup Spray</option>
+												<option value="2">Rotors</option>
+												<option value="3">Surface Drip</option>
+												<option value="4">Bubblers Drip</option>
+												<option value="99">Custom</option>
+											</select>
+											<!-- Sprinkler head "Custom" options start -->
+											<div style="display:none;" rm-id="zone-sprinkler-advanced">
+												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
+													   cellspacing="0">
+													<tr>
+														<td class="middle" style="width:50%">
+															<div class="helpText" help="zonePrecipRate">?</div>
+															Precipitation Rate:</td>
+														<td style="padding:0;">
+															<input rm-id="zone-sprinkler-preciprate"  type="number" class="typeNumber">
+															<span rm-id="zone-sprinkler-preciprate-unit">mm/h</span>
+														</td>
+													</tr>
+													<tr>
+														<td class="middle noborder" style="width:50%">
+															<div class="helpText" href="#" help="zoneAppEfficiency">?</div>
+															Application	Efficiency:
+														</td>
+														<td class="middle noborder" style="padding:0;">
+															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0.1" max="1"> decimal % </td>
+													</tr>
+												</table>
+											</div>
+											<!-- Sprinkler head "Custom" options end -->
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">
+											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sun-icon">$</div>
+											<div class="inlineblock">Sun Exposure</div>
+										</td>
+										<td class="middle">
+											<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
+												<option value="1" selected>Full Sun</option>
+												<option value="2">Partial Shade</option>
+												<option value="3">Full Shade</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">
+											Zone Flow Rate Reporting
+											<span class="subtitle" style="display:block;padding-right:20px;">Use these options if you want watering history to show also water consumed</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle">Area <br><span class="subtitle">(optional)</span></td>
+										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText" style="width:25%;"/><span rm-id="zone-area-units"></span></td>
+									</tr>
+									<tr>
+										<td class="middle">Total Flow <br><span class="subtitle"> (optional, used instead of area for drip irrigation)</span></td>
+										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText" style="width:25%;"/><span rm-id="zone-flow-units"></span></td>
+									</tr>
+									<!-- End Zone Basic & Advanced Settings -->
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="middle noborder" colspan="2">
+							<button class="button blue center right" rm-id="zone-save">Save</button>
+							<button class="button grey center right" rm-id="zone-cancel">Cancel</button>
+						</td>
+					</tr>
+					</tbody>
 	            </table>
             </div>
         </div>
@@ -1346,7 +1824,9 @@
 					<div rm-id="program-zones-bullets"></div>
 				</div>
 			</div>
-			<div class="programGraph" rm-id="program-graph"></div>
+			<div class="programGraph" rm-id="program-graph">
+				<div class="subtitle programNotSimulated inlineblock">Program watering graphs will be displayed at next weather download,<br>or before program starting time.</div>
+			</div>
 			<div class="program-start-stop">
 				<div rm-id="program-start" class="playstopButton center">Q</div>
 			</div>
@@ -1356,179 +1836,297 @@
 		<!-- Template for Program Settings (Begin) -->
 		<div id="program-settings-template">
 			<div class="overTop">
-	            <table cellspacing="0" cellpadding="0" class="programEdit">
+				<table cellspacing="0" cellpadding="0" class="programEdit">
 	                <tr>
-	                    <td class="programProperties">
-	                        <div class="center">
-	                            <button class="button grey left" rm-id="program-cancel">Cancel</button>
-	                            <button class="button red center" rm-id="program-delete">Delete</button>
-	                            <button class="button blue center right" rm-id="program-save">Save</button>
-	                        </div>
-	                        <table width="100%" cellpadding="0" cellspacing="0">
-	                            <tbody>
-	                            <tr><td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td></tr>
-	                            <tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
-	                            <tr><td class="cardTitle">Weather data:</td><td class="middle"><input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox"></td></tr>
-	                            <tr>
-	                                <td colspan="2">
-	                                    <span class="cardTitle">Frequency:</span><br><br>
-	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
-	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
-	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
-	                                    <div>
-	                                        <input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
-	                                        <select rm-id="program-frequency-every-param" class="selectSmall">
-	                                            <option value="2" selected>2 days</option>
-	                                            <option value="3">3 day</option>
-	                                            <option value="4">4 day</option>
-	                                            <option value="5">5 day</option>
-	                                            <option value="6">6 day</option>
-	                                            <option value="7">7 day</option>
-	                                            <option value="8">8 day</option>
-	                                            <option value="9">9 day</option>
-	                                            <option value="10">10 day</option>
-	                                            <option value="11">11 day</option>
-	                                            <option value="12">12 day</option>
-	                                            <option value="13">13 day</option>
-	                                            <option value="14">14 day</option>
-	                                        </select>
-	                                    </div><br>
-	                                    <div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
-	                                        <div rm-id="program-frequency-weekdays-container">
-	                                            <div class="half">
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-sunday" class="right" />
-	                                                    <div>Sunday</div>
-	                                                </div>
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-monday" class="right"/>
-	                                                    <div>Monday</div>
-	                                                </div>
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-tuesday" class="right"/>
-	                                                    <div>Tuesday</div>
-	                                                </div>
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-wednesday" class="right"/>
-	                                                    <div>Wednesday</div>
-	                                                </div>
-	                                            </div>
-	                                            <div class="halfRight">
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-thursday" class="right"/>
-	                                                    <div>Thursday</div>
-	                                                </div>
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-friday" class="right"/>
-	                                                    <div>Friday</div>
-	                                                </div>
-	                                                <div>
-	                                                    <span class="separator"></span>
-	                                                    <input type="checkbox" rm-id="weekday-saturday" class="right"/>
-	                                                    <div>Saturday</div>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	                                </td>
-	                            </tr>
-	                            <tr>
-									<td class="middle noborder" colspan="2">
-										<span class="cardTitle">Start time</span><br>
+						<td class="programProperties noborder halfLeft">
+							<table width="100%" cellpadding="0" cellspacing="0">
+								<tbody>
+
+									<tr>
+										<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
+									</tr>
+									<tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+									<tr>
+										<td colspan="2">
+											<span class="cardTitle">Frequency:</span><br><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
+											<div>
+												<input type="radio" name="program-frequency" rm-id="program-frequency-every"/> <span>Every</span>
+												<select rm-id="program-frequency-every-param" class="selectSmall">
+													<option value="2" selected>2 days</option>
+													<option value="3">3 day</option>
+													<option value="4">4 day</option>
+													<option value="5">5 day</option>
+													<option value="6">6 day</option>
+													<option value="7">7 day</option>
+													<option value="8">8 day</option>
+													<option value="9">9 day</option>
+													<option value="10">10 day</option>
+													<option value="11">11 day</option>
+													<option value="12">12 day</option>
+													<option value="13">13 day</option>
+													<option value="14">14 day</option>
+												</select>
+											</div><br>
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+												<div rm-id="program-frequency-weekdays-container">
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-sunday" class="right" />
+															<span class="right mr10" rm-id="weekday-7"></span>
+															<div>Sunday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-monday" class="right" checked>
+															<span class="right mr10" rm-id="weekday-1"></span>
+															<div>Monday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+															<span class="right mr10" rm-id="weekday-2"></span>
+															<div>Tuesday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+															<span class="right mr10" rm-id="weekday-3"></span>
+															<div>Wednesday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-thursday" class="right"/>
+															<span class="right mr10" rm-id="weekday-4"></span>
+															<div>Thursday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-friday" class="right"/>
+															<span class="right mr10" rm-id="weekday-5"></span>
+															<div>Friday</div>
+														</div>
+														<div>
+															<span class="separator"></span>
+															<input type="checkbox" rm-id="weekday-saturday" class="right"/>
+															<span class="right mr10" rm-id="weekday-6"></span>
+															<div>Saturday</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle noborder" colspan="2">
+											<span class="cardTitle">Start time</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="middle noborder">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
+
+												<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+												:
+												<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle" colspan="2">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
+											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
+											<span>
+												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
+													<option value="-1" selected>before</option>
+													<option value="1">after</option>
+												</select>
+												<select rm-id="program-start-time-sun-option" class="selectSmall">
+													<option value="1" selected>sunrise</option>
+													<option value="2">sunset</option>
+												</select>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="middle program-td-next-run">
+											<span class="cardTitle">Next run:</span>
+											<input type="date" rm-id="program-next-run-settable" class="typeTime hidden" style="width:168px;">
+											<span rm-id="program-next-run"></span>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Cycles &amp Soak</div>
+											<div style="display: inline-block;float:right;text-align:right;">
+												<div style="display: none" rm-id="program-cycles-manual">
+													<input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumberZone"> cycles
+													&nbsp;&nbsp;&nbsp;
+													<input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumberZone"> min soak
+												</div>
+												<select class="selectSmall" rm-id="program-cycles-type">
+													<option value="0" selected>OFF</option>
+													<option value="1">Auto</option>
+													<option value="2">Custom</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div class="middle cardTitle" style="float:left;padding-top: 14px;">Delay between zones</div>
+											<div style="display:inline-block;float:right;text-align:right;">
+												<div rm-id="program-delay-zones-manual" style="display:none">
+													<input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumberZone" placeholder="00"> min
+													:
+													<input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumberZone" placeholder="00"> sec
+												</div>
+												<select class="selectSmall" rm-id="program-delay-zones-type">
+													<option value="0" selected>OFF</option>
+													<option value="1">Custom</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div class="middle" style="float:left;padding-top: 14px;font-size: 16px;">
+												Rain Restriction:<br>
+											<span class="zoneTimesSubtitle" style="margin:0">Required by some municipalities.<br><span class="red">This will override RainMachine algorithm.</span></span></div>
+											<div style="display:inline-block;float:right;text-align:right;">
+												<div>
+													<select style="padding-right: 25px;" rm-id="program-restriction-qpf">
+														<option value="0" selected>Not set</option>
+														<option value="2">2 mm / 1/16 inch</option>
+														<option value="3">3 mm / 1/8 inch</option>
+														<option value="6">6 mm / 1/4 inch</option>
+														<option value="13">13 mm / 1/2 inch</option>
+														<option value="19">19 mm / 3/4 inch</option>
+														<option value="25">25 mm / 1 inch</option>
+													</select>
+												</div>
+											</div>
+										</td>
+									</tr>	 
+								</tbody>
+							</table>
+						</td>
+						<td class="noborder halfRight">
+							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
+								<tr>
+									<td>
+										<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
+										<span class="cardTitle">Weather-Adaptive Watering</span>
 									</td>
 								</tr>
 								<tr>
-	                                <td class="middle noborder">
-										<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
-									</td>
-									<td class="middle right noborder">
-											<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-	                                        :
-											<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+									<td style="padding:1.2em 0;">
+										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
+										<span style="text-transform: uppercase;">Total watering time</span>
 									</td>
 								</tr>
 								<tr>
-									<td class="middle" colspan="2">
-										<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-										<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> minutes </span>
-										<span class="right">
-											<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
-												<option value="-1" selected>before</option>
-												<option value="1">after</option>
-											</select>
-											<select rm-id="program-start-time-sun-option" class="selectSmall">
-												<option value="1" selected>sunrise</option>
-												<option value="2">sunset</option>
-											</select>
-										</span>
+									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;">
+										Zones
 									</td>
 								</tr>
-	                            <tr>
-	                                <td class="middle">
-	                                    <span class="cardTitle">Next run:</span>
-	                                </td>
-	                                <td>
-	                                    <span rm-id="program-next-run" class="right"></span>
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td>
-	                                    <span class="middle cardTitle">Cycles &amp Soak:</span><br/>
-	                                    <span class="cardSubtitle">
-	                                        <input rm-id="program-cycles" type="number" min="2" max="5" class="typeNumber" placeholder="2"> cycles
-	                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                        <input rm-id="program-soak-duration" type="number" min="0" max="300" class="typeNumber" placeholder="5"> min soak
-	                                    </span>
-	                                </td>
-	                                <td class="middle right"><input type="checkbox" rm-id="program-cycle-soak" class="right"></td>
-	                            </tr>
-	                            <tr>
-	                                <td>
-	                                    <span class="middle cardTitle">Delay between zones</span><br/>
-	                                    <span class="cardSubtitle">
-	                                        <input rm-id="program-delay-zones-min" type="number" min="0" max="59" class="typeNumber" placeholder="2">
-	                                        :
-	                                        <input rm-id="program-delay-zones-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-	                                    </span>
-	                                </td>
-	                                <td class="middle"><input type="checkbox" rm-id="program-delay-zones" class="right"></td>
-	                            </tr>
-	                        </tbody>
-	                    </table>
-	                    </td>
-	                    <td class="gapProrgEdit">&nbsp;</td>
-	                    <td class="wateringTimes">
-	                        <table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-	                            <tr><td colspan="2" class="cardTitle">Watering Time (mm:ss)</td></tr>
-	                        </table>
-	                    </td>
-	                </tr>
-	            </table>
+								<!-- Start program settings zones template -->
+								<!-- End program settings zones template -->
+							</table>
+						</td>
+						</tr>
+						<tr>
+						<td colspan="2" class="noborder">
+							<div class="center" style="margin-top:30px;">
+								<button class="button blue center right" rm-id="program-save">Save</button>
+								<button class="button grey left right" rm-id="program-cancel">Cancel</button>
+								<button class="button red center left" rm-id="program-delete">Delete</button>
+							</div>
+						</td>
+					</tr>
+					</table>
         	</div>
 		</div>
 
 		<!-- Template for Program Settings (End) -->
 
-		<!-- Template for Program Settings Zone Watering Times (Start) -->
-		<div id="program-settings-zone-template-container-2" comment="just a containter for program-settings-zone-template">
-				<div id="program-settings-zone-template" rm-id="program-zone-row" class="zoneRow">
-						<span class="right" style="padding-top:10px;">
-							<input rm-id="program-zone-duration-min" type="number" min="0" max="1439" class="typeNumber" placeholder="00">
-								:
-							<input rm-id="program-zone-duration-sec" type="number" min="0" max="59" class="typeNumber" placeholder="00">
-							<input type="checkbox" rm-id="program-zone-active"/>
-						</span>
-						<span rm-id="program-zone-name" class="zoneListName" style="width: 71%;padding-left:0;padding-top:22px;">Zone 1</span>
-				</div>
-		</div>
-		<!-- Template for Program Settings Zone Watering Times (End) -->
+		<!-- Template for Program Settings Zone Watering Times Display only (Start) -->
+		<table id="program-settings-zone-template-container-2">
+			<tr id="program-settings-zone-template">
+				<td class="middle weatherSource" style="padding-right:1.5em;">
+					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
+					<div class="middle right">
+						<pre rm-id="program-zone-duration" style="font-size:1.3em;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
+						<!--<div rm-id="program-zone-duration-percent" style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" ></div>-->
+					</div>
+				</td>
+			</tr>
+		</table>
+		<!-- Template for Program Settings Zone Watering Times Display only (End) -->
 
+		<!-- Template for Program zones time Set (Begin) -->
+		<div class="overTopProgramZonesTime" id="program-settings-zone-timer-template">
+			<table cellspacing="0" cellpadding="0" class="programEditZonesTime">
+				<tbody>
+				<tr>
+					<td class="noborder" style="text-align:center;padding: 0 0 25px 0;color:#3399cc;">
+						<span style="font-size:24px;" rm-id="program-settings-zone-timer-weather-info">Duration</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div rm-id="program-settings-zone-timer-name" style="font-size:170%;">2. Zone name</div>
+						<div rm-id="program-settings-zone-timer-isdefault" style="color:#4CAF50;margin-top:0px;margin-left:28px;cursor:pointer;">Zone settings are set to default values make sure they are correct.</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<div class="right" style="font-size: 150%;margin-top:7px;">
+							<div rm-id="program-settings-zone-timer-percentage" class="right"></div>
+							<pre class="zoneTimesDeterminedFullTime" rm-id="program-settings-zone-timer-autoduration">00h 25m 33s</pre>
+						</div>
+						<div style="display: inline-block;margin-top: 14px;">
+							<input rm-id="program-settings-zone-timer-auto" type="radio" class="zoneTimesInput" style="vertical-align: top;">
+							<span class="cardTitle">Suggested</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<div class="right">
+							<span><input rm-id="program-settings-zone-timer-min" type="number" class="typeNumber" placeholder="00" min="0"></span>
+							:
+							<span><input rm-id="program-settings-zone-timer-sec" type="number" class="typeNumber" placeholder="00" min="0"></span>
+						</div>
+						<div style="display: inline-block;margin-top: 18px;">
+							<input rm-id="program-settings-zone-timer-custom" type="radio" class="zoneTimesInput" style="vertical-align: top;">
+							<span class="cardTitle">Custom</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle">
+						<input rm-id="program-settings-zone-timer-skip" type="radio" class="zoneTimesInput">
+						<span class="cardTitle">Not set</span>
+						<br><span class="zoneTimesSubtitle">This zone will not be watered in this program.</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="center middle noborder" style="padding: 30px;padding-top:15px;font-size: 14px; color: #555;">
+					<span rm-id="program-settings-zone-timer-weatherinfo">Weather-Adaptive Watering is ON<br>Suggested Duration is determined from your plant type, soil and location properties for a typical summer day.</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="middle noborder">
+						<button class="button blue center right" rm-id="program-settings-zone-timer-save">OK</button>
+						<button class="button grey center right" rm-id="program-settings-zone-timer-cancel">Cancel</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- Template for Program zones time Set (End) -->
 
 		<!-- Template for New Hourly Restrictions (Start) -->
 		<div id="restrictions-hourly-new-teplate">
@@ -1556,6 +2154,8 @@
 					Sunday <input type="checkbox" rm-id="restrictionsHourlySunday"/>
 				</div>
 			</div>
+			<div id="domain" style="display: none;" data-f="@rainmachine.com"></div>
+			<div id="mode" style="display: none;" data-f="readonly"></div>
 		</div>
 		<!-- Template for Hourly Restrictions (End) -->
 
@@ -1602,7 +2202,7 @@
 			<span rm-id="weather-source-description" class="subtitle"></span><br>
 			<span class="separator"></span>
 			<div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span><span class="icon label-red parserRefresh">R</span></div>
+			<div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
 			<span class="separator"></span>
 			<div rm-id="weather-source-params"></div>
 		</div>
@@ -1618,41 +2218,101 @@
 		<!-- Template for Current Restrictions (dashboard) (End) -->
 
 		<!-- Template for Watering History per Day (Start) -->
-		<div id="watering-history-day-template" class="historyDateContainer">
-			<div class="historyDate" style="text-align:center;border-right: 1px solid #eee;padding-right: 10px;">
-				<div rm-id="wateringLogDayName"></div>
-				<br>
-				<div id="day-weather-template-history">
-					<div rm-id="wateringLogDayWeatherIcon" style="font:normal 70px/75px 'RainMachine', Arial, sans-serif;color:#39c;">s</div>
-					<br>
-					<div>Min/Max Temp:</div>
-					<div rm-id="wateringLogDayWeatherTemp" class="dayTemp">79<sup>o</sup></div>
-					<br>
-					<div>Precipitation:</div>
-					<div rm-id="wateringLogDayWeatherQpf" class="dayTemp" style="display:inline;">0.0</div><div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+		<div id="watering-history-day-template" class="settingsBlock center block70">
+		      <div class="row wateringLogDayHeader" style="text-align:left;">
+		        <div class="col-4" class="wateringLogDay">
+		          <div class="wateringLogWeatherDay">
+		          	<div rm-id="wateringLogDayName" class="wateringLogDayDate">Tue, Jan 11 2017</div>
+		          	<div class="wateringLogDayWeatherData">
+			          	<div style="display:inline-block;">Max:</div>
+						<div rm-id="wateringLogDayWeatherMaxTemp" style="display:inline;">79<sup>o</sup></div> | 
+			          	<div style="display:inline-block;">Min:</div>
+						<div rm-id="wateringLogDayWeatherMinTemp" style="display:inline;">29<sup>o</sup></div>
+						<br>
+			          	<div style="display:inline-block;">Rain:</div>
+						<div rm-id="wateringLogDayWeatherQpf" style="display:inline;">0.0</div> | 
+						<div style="display:inline-block;">ET:</div>
+						<div rm-id="wateringLogDayWeatherET" style="display:inline;">0.0</div>
+			        </div>
+		          </div>
+		          <div rm-id="wateringLogDayWeatherIcon" class="wateringLogDayWeatherIcon">s</div>
+			    </div>
+			    <div class="col-2" style="width:9%;">
+		          	&nbsp;
 				</div>
-			</div>
+		        <div class="col-3">
+		        	<div style="height:2em;"></div>
+		          	<div>Total Scheduled</div>
+					<div rm-id="wateringLogDayUser" class="dayTemp" style="display:inline-block;margin-right:10px;"></div>
+				</div>
+				<div class="col-3">
+					<div style="height:2em;"></div>
+					<div>Total Watered</div>
+					<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;"></div>
+					<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>
+		        </div>
+		      </div>
 			<div rm-id="wateringLogProgramsContainer"></div>
 		</div>
 		<!-- Template for Watering History per Day (End) -->
 
 		<!-- Template for Watering History Day per Program (Start) -->
 		<div id="watering-history-day-programs-template">
-			<div style="width:42px;float:left;padding:12px 8px;color:#39c;"><span class="icon">P</span></div>
-			<div rm-id="wateringLogProgramName" class="historyProgName bluerm"></div>
+			<div class="row" style="text-align:left;">
+		        <div class="col-4">
+					<div style="color:#555;font-size:0.8em;padding-bottom:5px;">
+						<span rm-id="wateringLogZoneName" class="historyZoneItemName">
+							<span rm-id="wateringLogProgramName" class="wateringLogProgramName"></span>
+							<span rm-id="wateringLogProgramPastET" style="display:block;"></span>
+							<span rm-id="wateringLogProgramPastQPF" style="display:block;"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-2" style="width:9%;">
+		          	<div class="padTop">Start time</div>
+				</div>
+		        <div class="col-3">
+		          	<div class="padTop">Scheduled</div>
+				</div>
+				<div class="col-3">
+					<div class="padTop">Watered</div>
+		        </div>
+		        <div class="col-1" style="text-align:center;">
+		          <div class="padTop">Saved</div>
+		        </div>
+		        <div class="col-1" style="width:14%;text-align:right;">
+		          <div class="padTop">Special condition</div>
+		        </div>
+			</div>
 			<div rm-id="wateringLogZonesContainer" class="historyAllZones"></div>
+			<div rm-id="wateringLogProgramTotal" class="historyProgName"></div>
 		</div>
 		<!-- Template for Watering History Day per Program (End) -->
 
 		<!-- Template for Watering History Day Program per Zone (Start) -->
 		<div id="watering-history-day-programs-zone-template" class="historyZone">
-			<div class="historyZoneItem"><span rm-id="wateringLogZoneName" class="historyZoneItemName"></span></div>
-			<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
-			<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
-			<div rm-id="wateringLogZoneRealTime" class="historyZoneItem"></div>
-			<div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
-			<div rm-id="wateringLogZoneSavedReason" class="historyZoneItem"></div>
+			<div class="row" style="text-align:left;">
+		        <div class="col-4">
+		          <span rm-id="wateringLogZoneName" class="historyZoneItemName"></span>
+			    </div>
+		        <div class="col-2" style="width:9%;">
+		          	<div rm-id="wateringLogZoneStartTime" class="historyZoneItem"></div>
+				</div>
+		        <div class="col-3">
+		          	<div rm-id="wateringLogZoneSchedTime" class="historyZoneItem"></div>
+				</div>
+				<div class="col-3">
+					<span rm-id="wateringLogZoneRealTime" class="historyZoneItem"></span> <span rm-id="wateringLogZoneFlowRate" class="historyZoneItem"></span>
+		        </div>
+		        <div class="col-1" style="text-align:center;">
+		          <div rm-id="wateringLogZoneSaved" class="historyZoneItem"></div>
+		        </div>
+		        <div class="col-1" style="width:14%;text-align:right;">
+		          <div rm-id="wateringLogZoneSavedReason" class="historyZoneItem watersurplus"></div>
+		        </div>
+		    </div>
 		</div>
+
 		<!-- Template for Watering History Day Program per Zone (End) -->
 
 		<!-- Simple Watering History Templates -->
@@ -1669,9 +2329,11 @@
 		<!-- Template for Simple Watering History per Day (End) -->
 
 		<!-- Template for Simple Watering History Day per Program (Start) -->
-		<div id="watering-history-day-programs-simple-template">
-			<div rm-id="wateringLogProgramStart" class="right mr10" style="width:170px;display:inline-block;vertical-align:middle;"></div>
-			<div rm-id="wateringLogProgramName" style="padding-bottom:10px;padding-left:10px;"></div>
+		<div id="watering-history-day-programs-simple-template" style="border-bottom:1px solid #ddd;margin-bottom:10px;">
+			<div style="padding-bottom:10px;padding-left:10px;">
+				<div rm-id="wateringLogProgramName"></div>
+				<div rm-id="wateringLogProgramStart" style="color:#888;"></div>
+			</div>
 			<div rm-id="wateringLogZonesContainer" class="wateringLogAllZones"></div>
 		</div>
 		<!-- Template for Simple Watering History Day per Program (End) -->
@@ -1704,6 +2366,15 @@
 			</div>
 		</div>
 		<!-- Template for Hourly Restriction (End)-->
+
+		<!-- Template for Home Screen Watering details (Start) -->
+		<div id="water-queue-template" class="zoneWateringDetails">
+			<span class="right" style="font-size: 24px;" rm-id="water-queue-timer"></span>
+			<span class="icon" style="padding-right: 5px;" rm-id="water-queue-is-program"></span>
+			<span rm-id="water-queue-zone" style="font-size: 18px"></span><br>
+			<span style="color:#004d40;margin-left: 35px;" rm-id="water-queue-details"></span>
+		</div>
+		<!-- Template for Home Screen Watering details (End) -->
 	</div>
 
 </body>

@@ -11,6 +11,165 @@ body.login {
   src: url('../font/rainmachine.woff');
 }
 /* Declare RainMachine custom font END */
+/* ==== GRID SYSTEM ==== */
+
+.container {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+}
+
+.row [class^="col"] {
+  float: left;
+  margin: 0.01rem 0.1%;
+  min-height: 0.125rem;
+}
+
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  width: 99%;
+}
+
+.col-1-sm {
+  width: 4.33%;
+}
+
+.col-2-sm {
+  width: 12.66%;
+}
+
+.col-3-sm {
+  width: 21%;
+}
+
+.col-4-sm {
+  width: 29.33%;
+}
+
+.col-5-sm {
+  width: 37.66%;
+}
+
+.col-6-sm {
+  width: 46%;
+}
+
+.col-7-sm {
+  width: 54.33%;
+}
+
+.col-8-sm {
+  width: 62.66%;
+}
+
+.col-9-sm {
+  width: 71%;
+}
+
+.col-10-sm {
+  width: 79.33%;
+}
+
+.col-11-sm {
+  width: 87.66%;
+}
+
+.col-12-sm {
+  width: 96%;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.hidden-sm {
+  display: none;
+}
+
+@media only screen and (min-width: 33.75em) {  /* 540px */
+  .container {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 45em) {  /* 720px */
+  .col-1 {
+    width: 4.33%;
+  }
+
+  .col-2 {
+    width: 12.66%;
+  }
+
+  .col-3 {
+    width: 21%;
+  }
+
+  .col-4 {
+    width: 29.33%;
+  }
+
+  .col-5 {
+    width: 37.66%;
+  }
+
+  .col-6 {
+    width: 46%;
+  }
+
+  .col-7 {
+    width: 54.33%;
+  }
+
+  .col-8 {
+    width: 62.66%;
+  }
+
+  .col-9 {
+    width: 71%;
+  }
+
+  .col-10 {
+    width: 79.33%;
+  }
+
+  .col-11 {
+    width: 87.66%;
+  }
+
+  .col-12 {
+    width: 96%;
+  }
+
+  .hidden-sm {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 60em) { /* 960px */
+  .container {
+    width: 75%;
+    max-width: 60rem;
+  }
+}
+/*END GRID SYSTEM */
 
 .loginContainer {
   display: none;
@@ -46,6 +205,10 @@ body.login {
   border: 1px solid #eee;
   padding: 10px 10px;
 }
+#loginError {
+  color: red;
+}
+
 .loader {
   margin: 60px auto;
   font-size: 10px;
@@ -85,14 +248,14 @@ body.login {
 
 body.login .loginContainer { display: block; }
 body.login .logout { display: none; }
-body { font-family: Helvetica, Arial, sans-serif;margin: 0 auto;min-width: 1124px; }
+body { font-family: Roboto, Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-font-smoothing: antialiased;}
 .left { float: left; }
 .top15 {padding-top: 15px;}
-.hidden { display: none; }
-.right { float: right; }
-.center { text-align: center; }
-.full { width: 100%; }
-.bold { font-weight: bold; }
+.hidden { display: none;}
+.right {float: right;}
+.center {text-align: center;}
+.full {width: 100%; }
+.bold {font-weight: bold;}
 
 .clear30 {
   clear: both;
@@ -129,7 +292,7 @@ h1.titleHome {
   border-top: 3px solid red;
 }
 #success {
-  border-top: 3px solid darkgreen;
+  border-top: 3px solid green;
 }
 b,
 strong { font-weight: 700; }
@@ -138,8 +301,9 @@ strong { font-weight: 700; }
 
 /* Home screen start */
 .homeScreenMain {
-  width: 1216px;
+  /*width: 1216px;*/
   margin: 0 auto;
+  text-align: center;
 }
 #homeScreenLeft {
   display: inline-block;
@@ -148,17 +312,19 @@ strong { font-weight: 700; }
   margin-right: 5px;
   vertical-align: top;
   border: 0;
+  text-align: left;
 }
 #homeScreenRight {
   display: inline-block;
-  width: 806px;
+  width: 805px;
   background-color: transparent;
   vertical-align: top;
   border: 0;
+  text-align: left;
 }
 #homeScreenZoneList,
+#homeScreenWaterSaved,
 .homeScreenDeviceStatus,
-.homeScreenWaterSaved,
 .homeScreenDataSource,
 .homeScreenWaterLog,
 .homeScreenProgramList
@@ -166,9 +332,43 @@ strong { font-weight: 700; }
   display: block;
   padding-top: 5px;
   background-color: #fff;
-  border: 1px solid #ddd;
   margin-bottom: 10px;
   width: 100%;
+  border-radius: 0 0 .25rem .25rem;
+  box-shadow: 0 1px 0 rgba(0,0,0,.25);
+  border: 1px solid #e8e8e8;
+}
+#homeScreenWaterSaved {
+  cursor: pointer;
+}
+#waterSavedGaugeContainer {
+  display: block;
+  width:180px;
+  height:180px;
+  border:0px solid #eee;
+  margin:0 auto;
+  margin-bottom:10px;
+}
+.waterSavedInfo {
+  display:block;
+  padding:10px 0;
+  margin:0 auto;
+  color:#3399cc;
+  text-align:center;
+  border-top:1px solid #dddddd;
+  font-size: 135%;
+  height: 18px;
+  overflow: hidden;
+}
+.waterSavedInfoInner {
+  animation: verticalscroll 10s infinite;
+}
+
+.graphUnit {
+  float: right;
+  margin-top: -45px;
+  margin-right: 10px;
+  line-height: 20px;
 }
 
 /* Don't allow selection as moving zone sliders might select text around */
@@ -194,6 +394,20 @@ strong { font-weight: 700; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.weatherChartDaysMonth {
+  display: block;
+  text-align: right;
+  padding-top: 0.3em;
+  color: #999;
+  height: 5.9em;
+}
+.weatherChartDaysTempRain {
+  display: block;
+  text-align: right;
+  color: #39c;
+  line-height: 21px;
+  font-size: 14px;
+}
 .program-line,
 .weather-program-line {
   display: inline-block;
@@ -201,6 +415,12 @@ strong { font-weight: 700; }
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
 }
+
+.program-line:last-child,
+.weather-program-line:last-child {
+  border-bottom: 0
+}
+
 .program-title-next-run,
 .zoneListLine {
   display: inline-block;
@@ -210,12 +430,20 @@ strong { font-weight: 700; }
   height: 142px;
   width: 29%;
 }
+.program-td-next-run {
+  background-color:#39c;
+  color:#fff;
+  padding:10px 30px;
+}
 .programUsedWeather {
-  font-size: 12px;
+  font-size: 18px;
   color: #888888;
+  text-align: left;
+  margin-top:-10px;
+  margin-bottom: 10px;
 }
 .geoPin {
-  font-family: 'RainMachine', Arial, sans-serif;
+  font-family: 'RainMachine';
   color:#AF0000;
   font-size: 40px;
   float: right;
@@ -224,17 +452,18 @@ strong { font-weight: 700; }
   margin-left: 10px;
 }
 .zoneListLine {
-  height: 70px;
-  width: 44%;
+  height: 34px;
+  width: 34%;
+  padding-right: 44px;
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
 }
 .zoneListName {
-  padding-top: 25px;
+  /*padding-top: 25px;*/
   padding-left: 10px;
   font-size: 18px;
-  color:#888;
+  color:#555;
 }
 .zoneListEdit, .programListEdit {
   display:none;
@@ -251,6 +480,14 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
 }
+.zoneWateringDetails {
+  display:block;
+  margin-top: -10px;
+  background-color: #689f38;
+  color:#ffffff;
+  padding:10px;
+  font-size: 18px;
+}
 .programListEdit {
   padding-top: 57px;
   height: 85px;
@@ -266,9 +503,9 @@ strong { font-weight: 700; }
 }
 .programGraph[state="weekly"] {
   height: 142px;
-  width: 478px;
+  width: 477px;
 }
-.inputStepDown { width: 362px }
+.inputStepDown { width: 315px }
 .program-start-stop,
 .zone-start-stop {
   display: inline-block;
@@ -299,10 +536,10 @@ strong { font-weight: 700; }
 }
 .weatherIcon, .pinLocation {
   display: block;
-  font-family: 'RainMachine', Arial, sans-serif;
+  font-family: 'RainMachine';
   font-size: 52px;
   width: 64px;
-  height: 64px;
+  height: 62px;
   color: #4296cd;
 }
 .dayTemp {
@@ -317,13 +554,19 @@ sup { font-size: 12px }
 .zoneListName {
   padding-left: 10px;
   display: inline-block;
-  white-space: nowrap;
+  cursor: pointer;
+  /*white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;*/
   /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
-  -o-text-overflow: ellipsis;
+  /*-o-text-overflow: ellipsis;*/
   /** Opera 9 & 10 **/
 }
+
+.zoneListName:hover,.programListName:hover {
+  text-decoration: underline;
+}
+
 #deviceName{
   width:380px;
   padding-left:0px;
@@ -337,8 +580,11 @@ sup { font-size: 12px }
   font-size: 14px;
   color: #888;
 }
-.zoneListName { width: 85%; }
-.overTop {
+.halfRight{
+  padding-left: 4%;
+}
+
+.overTop, .overTopProgramZonesTime {
   position: fixed;
   top: 0;
   left: 0;
@@ -348,17 +594,23 @@ sup { font-size: 12px }
   overflow: scroll;
   z-index: 3;
 }
+.overTopProgramZonesTime {
+  z-index: 4;
+  display: none;
+}
 /* Home screen end */
 .icon, .playstopButton {
-  font-family: 'RainMachine', Arial, sans-serif;
+  font-family: 'RainMachine';
   font-size: 25px;
   vertical-align: middle;
+}
+.iconZoneAdvSet {
+  font-size: 64px;
 }
 * {
   padding: 0;
   margin: 0;
   border: 0;
-  font: 14px normal Arial, sans-serif;
 }
 #name {
   padding-top: 20px;
@@ -367,7 +619,8 @@ sup { font-size: 12px }
   min-width: 480px;
 }
 h1 {
-  font: 24px normal Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
 }
 .content {
   position: relative;
@@ -380,12 +633,84 @@ h1 {
 .content h1 {
   margin-bottom: 10px;
 }
-.subtitle {
+.subtitle, .zoneTimesSubtitle {
   padding-left: 0;
-  font: 12px normal Arial, sans-serif;
+  font-size: 12px;
   color: #888;
   vertical-align: top;
 }
+.zoneTimesSubtitle {
+  margin-left: 34px;
+  margin-top: 3px;
+  display: block;
+}
+.zoneTimesInput {
+  display:inline-block;
+  height:0;
+  vertical-align: middle;
+}
+.zoneTimesDeterminedFullTime, .zoneTimesDetermined {
+  display: inline-block;
+  color: #3399cc;
+  margin-left:10px;
+  font-size:1.1em;
+  padding: 2px 15px;
+  padding-left: 0;
+}
+.zoneTimesDetermined {
+  width: 3em;
+  text-align: center;
+  margin: 0px;
+  padding-right: 0.25em;
+}
+.zoneTimesWeatherMessage{
+  color:#3399cc;
+  font-size: 20px;
+  display: inline;
+}
+
+.zoneListImage, .zoneListImageEdit {
+  webkit-background-size: cover;
+  moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position-x: 45%;
+  display: inline-block;
+  width: 65px;
+  height: 65px;
+  margin-top: 6px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #f9f9f9;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+.zoneListImageEdit {
+  width: 378px;
+  height: 282px;
+  border-radius: 0%;
+  border: 1px solid #f1f1f1;
+}
+
+.zoneListImageNone, .zoneListImageNoneEdit {
+  font-family: Rainmachine;
+  font-size: 48px;
+  padding: 8px 0px 0px 8px;
+  color:#f1f1f1;
+}
+.zoneListImageNoneEdit {
+  font-size: 100px;
+  color: #eee;
+  padding: 42px;
+}
+.zoneListImage:hover {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  z-index: 512;
+  transition: all 200ms ease-in;
+  transform: scale(4);
+  border: 1px solid #f9f9f9;;
+}
+
 #mainContainer {
   display: block;
   margin: 0 auto;
@@ -427,20 +752,19 @@ h1 {
   min-width: 100% !important;
   background-color: #fff;
 }
-.helpText {
-  display: block;
-  padding: 10px 0;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  color: #888;
-  margin-bottom: 40px;
-}
+
 .weatherPercent {
   display: inline-block;
   width: 50px;
-  font-size: 50px;
+  font-size: 22px;
   text-align: center;
   color: #39c;
+}
+#waterSavedGaugeVolume {
+  margin-top:-5px;
+}
+#waterSavedGaugeMinutes {
+  margin-top:20px;
 }
 /*topMenu starts*/
 
@@ -448,8 +772,8 @@ h1 {
   float: right;
   min-width: 100px;
   display: inline-block;
-  padding-top: 23px;
-  padding-bottom: 15px;
+  padding-top: 1.35em;
+  padding-bottom: 12px;
   margin-right: 5px;
   color: #555;
   cursor: pointer;
@@ -511,7 +835,7 @@ h1 {
 .addNew,
 .addNew:hover {
   display: block;
-  font-family: 'RainMachine', Arial, sans-serif;
+  font-family: 'RainMachine';
   font-size: 80px;
   text-align: center;
   margin: 55px auto 0;
@@ -576,15 +900,6 @@ td.saved {
   text-align: center;
   line-height: 25px;
 }
-.half,
-.halfRight {
-  display: inline-block;
-  width: 47%;
-  vertical-align: top;
-}
-.halfRight {
-  margin-left: 4%;
-}
 .noborder {
   border: 0;
 }
@@ -620,11 +935,21 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+textarea {
+  border: 1px solid #eee;
+  width: 75%;
+  height: 200px;
+  margin-left: 10px;
+  vertical-align: middle;
+  font-family: 'Roboto', Arial, Helvetica;
+}
+
 input.typeText {
   border: 1px solid #eee;
   padding: 15px;
   font-size: 16px;
   width: 100%;
+  font-family: 'Roboto', Arial, Helvetica;
 }
 #systemSettingsLocationLat,
 #systemSettingsLocationLon,
@@ -632,18 +957,20 @@ input.typeText {
   width: 150px;
 }
 input[type="checkbox"] {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 8px;
   -webkit-appearance: button;
   width: 15px;
   height: 15px;
   border: 1px solid #6B6B6B;
+  border-radius: 50%;
   background-color: #fff;
   vertical-align: middle;
 }
 input[type="checkbox"]:checked {
-  background: url('../images/selected.png') no-repeat center;
-  border: 1px solid #3399cc;
+    background: #39c url('../images/selected.png') no-repeat center;
+    border: 1px solid #3399cc;
+    padding: 8px;
+    border-radius: 50%;
 }
 .rangeSliderBody {
   width: 100%;
@@ -678,14 +1005,14 @@ input[type=range] {
   -webkit-appearance: none;
   width: 70%;
   vertical-align: middle;
-  margin: 0px 30px 30px 0px;
+  margin: 0;
 }
 input[type=range]:focus {
   outline: none;
 }
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 4px;
+  height: 2px;
   cursor: pointer;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
   background: #3399cc;
@@ -695,9 +1022,9 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
-  height: 27px;
-  width: 35px;
-  border-radius: 5px;
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
@@ -708,7 +1035,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 input[type=range]::-moz-range-track {
   width: 100%;
-  height: 4px;
+  height: 2px;
   cursor: pointer;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
   background: #3399cc;
@@ -718,13 +1045,38 @@ input[type=range]::-moz-range-track {
 input[type=range]::-moz-range-thumb {
   box-shadow: 1px 1px 2px #3399cc, 0 0 1px #47a3d1;
   border: 2px solid rgba(51, 153, 204, 0);
-  height: 27px;
-  width: 35px;
-  border-radius: 5px;
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
   background: #ffffff;
   cursor: pointer;
 }
-
+input[type="radio"] {
+    background-color: #fff;
+    display: inline-block;
+    border-radius: 50%;
+    height: 15px;
+    margin-right: 15px;
+    width: 15px;
+    -webkit-appearance: none;
+}
+input[type="radio"]:after {
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #6B6B6B;
+    content: '';
+    display: block;
+    height: 15px;
+    left: 0px;
+    position: relative;
+    top: 0px;
+    width: 15px;
+}
+input[type="radio"]:checked:after {
+    background: #39c url('../images/selected.png') no-repeat center;
+    border: 1px solid #39c;
+    
+}
 /*/!*IE custom input range START *!/
 ::-ms-track {
   width: 100%;
@@ -770,17 +1122,23 @@ input.typeRadio {
   font-size: 16px;
 }
 input.typeNumber,
-input.typeTime {
-  margin: 5px 0;
-  border: 1px solid #eee;
+input.typeTime, input.typeNumberZone {
+  border: 0;
+  border-bottom: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
+  font-family: 'Roboto', Arial, Helvetica;
   width: 60px;
-  height: 36px;
+  height: 44px;
+  margin: 5px 0 5px 0;
+  vertical-align: middle;
 }
-
-input.typeTime {
-  width: 180px;
+input:focus {
+  border-bottom: 1px solid #3399cc;
+  background: #F8F8F8;
+  }
+input.typeNumberZone {
+  margin:0px;
 }
 input[type=file] {
   padding: 10px 10px 10px 0;
@@ -792,8 +1150,8 @@ input[type=file] {
 select, .selectSmall {
   background: #fff url('../images/arrow.png') no-repeat right center;
   padding: 10px;
-  font-size: 15px;
-  line-height: 1;
+  font-size: 16px;
+  font-family: 'Roboto', Arial, Helvetica;
   border: 1px solid #ddd;
   border-radius: 0;
   height: 44px;
@@ -802,19 +1160,10 @@ select, .selectSmall {
 .selectSmall {
   width: 90px;
 }
-.zonecircle {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #3399cc;
-  border-radius: 100%;
-  line-height: 20px;
-  color: #3399cc;
-  font-size: 12px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  text-align: center;
-  vertical-align: middle;
-  display: inline-block;
+.zoneTimesCircleButton {
+  width: 30px;
+  height: 30px;
+  margin-top: -2px;
 }
 @keyframes bullets {
   from { transform: scale(0.5); }
@@ -834,6 +1183,10 @@ select, .selectSmall {
   padding-bottom: 10px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+}
+.zonecircle:hover, .zoneTimesCircleButton:hover {
+  background-color: #3399cc;
+  color:#fff;
 }
 /*small devices images*/
 
@@ -904,9 +1257,7 @@ select, .selectSmall {
 .inactive, .master {
   opacity: 0.3;
 }
-.master {
-  margin-top: -10px;
-}
+
 .zoneIdle,
 .zonePending {
   display: none;
@@ -942,30 +1293,43 @@ select, .selectSmall {
 .programInactive { 
   opacity: 0.2;
   filter: alpha(opacity=40); /* For IE8 and earlier */ }
-.programInactive>.program-start-stop { display: none }
+.programInactive>.program-start-stop { opacity: 1 }
 .programEdit,
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram {
-  padding: 25px;
-  text-align: left;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
+  border-radius: 0 0 .25rem .25rem;
+  box-shadow: 0 1px 0 rgba(0,0,0,.25);
+  padding: 2rem 2rem 1rem;
+  border: 1px solid #e8e8e8;
 }
 .block70{
-  min-width:932px;
-  width:70%;
+  min-width:917px;
+  width:94%;
   margin:0 auto;
   margin-bottom:20px;
 }
-.programEdit {
+.programEdit, .programEditZonesTime {
   background-color: #fff;
-  width: 70%;
-  margin: 25px auto;
+  width: 90%;
+  min-width:826px;
+  margin: 15px auto;
   border-radius: 10px;
-  z-index: 3;
+}
+.programEditZonesTime {
+  margin-top: 15%;
+  width: 60%;
+  padding: 20px;
 }
 
+#restrictionsMaxWateringContainer, #restrictionsFreezeProtectContainer {
+  opacity: 0.1;
+  pointer-events: none;
+}
+#restrictionsMaxWateringContainer[enabled], #restrictionsFreezeProtectContainer[enabled] {
+  opacity: 1;
+  pointer-events: auto;
+}
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram { background-color: #fff }
@@ -974,22 +1338,16 @@ select, .selectSmall {
   height: 100%;
   width: 95%;
 }
-.wateringTimes {
-  width: 44.5%;
-  border-bottom: 0;
-}
+
 .programProperties {
-  width: 44.5%;
+  width:44.5%;
   border-bottom: 0;
 }
 .gap {
   width: 1%;
   border-bottom: 0;
 }
-.gapProrgEdit {
-  width: 2%;
-  border-bottom: 0;
-}
+
 .zoneRow {
   display: block;
   height:60px;
@@ -1027,12 +1385,13 @@ td {
 td.middle,
 .middle { vertical-align: middle }
 td.right,
-.right { text-align: right }
-.listItem hr {
+.right, .txtright { text-align: right }
+.listItem hr, hr {
   height: 1px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
 }
+
 /* Watering History Custom Classes */
 .historyDateContainer,
 .wateringLogDayContainer {
@@ -1053,33 +1412,92 @@ td.right,
   margin-left: 10px;
   margin-right: 10px;
 }
+.wateringLogDayContainer:last-child, .weather-program-line:last-child {
+  border-bottom: 0
+}
+.wateringLogDay {
+  background-color:#fff;
+  color:#39c;
+}
+.wateringLogWholeDay {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.14);
+}
+.wateringLogWholeDay:hover {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.14);
+  background-color: #FAFAFA;
+}
+.wateringLogDayHeader {
+ padding: 0 0 2.4em 0;
+ text-align: left;
+}
+.wateringLogProgramName {
+ font-size:1.5em;
+ color: #39c;
+ vertical-align: baseline;
+}
+
+.wateringLogDayWeatherIcon {
+  display: inline;
+  font: normal 4.6em 'RainMachine', Arial, sans-serif;
+  margin: 0 0.1em;
+  margin-top: -0.1em;
+  vertical-align: middle;
+  border-radius: 100%;
+  padding: 10px;
+  color: #39c;
+  background-color: transparent;
+}
+.wateringLogDayGrandTotals {
+  display: inline-block;
+  margin: 0 1em;
+}
+.wateringLogDayDate {
+  font-size: 1.5em;
+  font-weight: 400;
+  background-color: transparent;
+  color: #39c;
+}
+.wateringLogDayWeatherData {
+  vertical-align:middle;
+  padding-top:5px;
+  border-top:1px solid #57a4cb;
+  /*color:#c5dce8;*/
+  color:#555;
+  font-size:0.9em;
+}
+.wateringLogWeatherDay{
+  display: inline-block;
+  vertical-align: middle;
+  border-left: 10px solid #39c;
+  padding-left: 0.8em;
+  margin-right: 3em;
+}
+.padTop {
+  padding-top: 2.5em;
+  color:#ccc;
+  font-size: 0.9em;
+}
 .historyZone {
   width: 100%;
   display: table;
 }
+
+.historyZoneCycles {
+  width: 100%;
+  display: table;
+  font-weight: normal;
+  color: #3399cc;
+  padding-top: 15px;
+  /*border-bottom: 1px solid #3399cc;*/
+}
+
 .historyZone:hover { background-color: #f0f0f0 }
 .historyZoneItem {
-  display: table-cell;
-  text-align: left;
-  width: 135px;
-  padding: 10px 0;
-  background-color: #ffffff;
+  padding-bottom: 12px;
+  font-size: 0.9em;
 }
-.historyZoneItem:nth-child(5), .historyZoneItem:last-child {
-  text-align: left;
-  color: #3399cc;
-  font-weight: bold;
-}
-.historyZoneItem:last-child {
-  text-align: right;
-  width:20%;
-}
-.historyZoneItemName {
-  white-space: nowrap;
-  display: inline-block;
-  width: 128px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.watersurplus {
+  color:#39c;
 }
 .historyDate,
 .historyProgName {
@@ -1092,9 +1510,29 @@ td.right,
 .historyAllZones {
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 15px;
-  margin-left: 60px;
+  padding-top: 10px;
+  margin-bottom: 0;
 }
+.displayCyclesExpand, .displayCyclesContract {
+  text-transform: uppercase;
+  padding: 10px;
+  display: block;
+  background-color: #FAFAFA;
+  color: #39c;
+  cursor: pointer;
+}
+.displayCyclesExpand:before {
+  content: "Hide";
+  margin-right:5px;
+}
+.displayCyclesContract:before {
+  content: "Show";
+  margin-right:5px;
+}
+.cyclesExpanded {
+  background-color: #FAFAFA;
+}
+
 /* DASHBOARD */
 .dashboardMenu {
   position: relative;
@@ -1119,6 +1557,16 @@ td.right,
   border: 1px solid #dddddd;
   border-radius: 5px;
 }
+.programNotSimulated {
+  text-align: center;
+  width:100%;
+  display: block;
+  vertical-align: middle;
+  margin-top: 4.5em;
+}
+.programNotSimulated a {
+  color:#888;
+}
 .bgred {
   background-color: #ff0000;
 }
@@ -1132,11 +1580,19 @@ td.right,
   margin-right: 54px;
   border: 1px solid #ddd;
 }
+.wateringHistorySimpleLinesTitle {
+  display: block;
+  padding-bottom: 25px;
+  padding-top: 15px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
 /* DASHBOARD */
 /* Settings - Weather (START) */
-#weatherSourcesList {
+#weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
+
 .weatherSource {
   border-top: 0 solid #eee;
   border-bottom: 1px solid #eee;
@@ -1151,10 +1607,12 @@ td.right,
 .weatherSourceStatus[enabled] {
   width: 16px;
   height: 16px;
-  background: url('../images/selected.png') no-repeat center;
+  background: #3399cc url('../images/selected.png') no-repeat center;
   padding-top: 0;
   border: 0;
   margin: 0 auto;
+  border-radius: 100%;
+  padding:1px;
 }
 .weatherSourceStatus[circle] {
   width: 7px;
@@ -1177,21 +1635,6 @@ td.right,
   height: 18px;
 }
 /* Settings - Weather (END) */
-/* MEDIA QUERIES */
-@media screen and (max-width: 1024px) { 
-  .pageLeftMenu {
-    float: left;
-    clear: none;
-    width: 100%;
-  }
-  .pageContent {
-    float: left;
-    clear: none;
-    width: 100%;
-    background-color: #f9f9f9;
-  }
-  #name { display: none }
-}
 /* Material UI Button */
 .button {
   display: inline-block;
@@ -1201,6 +1644,7 @@ td.right,
   line-height: 32px;
   border-radius: 2px;
   font-size: 1.1em;
+  font-family: 'Roboto', Arial, Helvetica;
   color: #646464;
   text-transform: uppercase;
 }
@@ -1210,24 +1654,28 @@ td.right,
   padding: 0 10px;
   width: 100px;
   margin-right: 20px;
+  text-align: center;
 }
 .button.blue {
   background-color: #39c;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
+  text-align: center;
 }
 .button.red {
   background-color: red;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
+  text-align: center;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
   padding: 0 10px;
-  width: 100px;
+  width: 132px;
+  text-align: center;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1245,53 +1693,50 @@ td.right,
   bottom: 10px;
   right: 10px;
 }
-.parserRefresh {
-  display:none;
-  animation: refresh 1.5s infinite linear;
-  font-size: 14px;
-  margin: 10px;
+.loading, .success, .error {
+  font-size: 1.2em;
+  font-weight: 300;
+  position:absolute;
+  margin-left: 0.1em;
 }
-.parserRefresh[state="running"] {
-  display: inline;
+
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
 }
-@-webkit-keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+@-moz-keyframes spinnerRotate
+{
+    from{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(360deg);}
 }
-@keyframes refresh {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+@-ms-keyframes spinnerRotate
+{
+    from{-ms-transform:rotate(0deg);}
+    to{-ms-transform:rotate(360deg);}
 }
-.button:active,
-.button:focus { animation: flash 1s ease-in }
-@keyframes flash { 
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-    background-color: #fff;
-  }
-  25%,
-  75% { opacity: 0 }
+
+.loading {
+  -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spinnerRotate;
+    -moz-animation-duration: 0.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spinnerRotate;
+    -ms-animation-duration: 0.5s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
 }
+
 /* Icon Button */
 .playstopButton {
   border: 0;
   font-size: 42px;
   cursor: pointer;
-  padding: 14px 20px;
+  padding: 16px 16px;
 }
 .playstopButton[state="idle"] {
   display:none;
@@ -1334,6 +1779,18 @@ td.right,
   to {-webkit-transform: rotate(360deg);}
 }
 
+@keyframes verticalscroll {
+  0%, 20%, 80%, 100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  26%, 74% {
+    -webkit-transform: translateY(-70%);
+    transform: translateY(-70%);
+  }
+}
+
 .spinner:before {
   content: '';
   display: inline-block;
@@ -1355,7 +1812,7 @@ td.right,
 /* Weather services tabs start */
 .weatherServices {
   position: relative;
-  min-height: 430px;
+  min-height: 445px;
   clear: both;
   background: white;
 }
@@ -1375,7 +1832,7 @@ td.right,
 }
 .weatherServicesTab label {
   background: #f1f1f1;
-  padding: 10px;
+  padding: 7px;
   border: 1px solid #ccc;
   margin-left: -1px;
   position: relative;
@@ -1393,7 +1850,7 @@ td.right,
   background: white;
   right: 0;
   bottom: 0;
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #ccc;
   -webkit-transition: opacity .6s linear;
   opacity: 0;
@@ -1406,6 +1863,268 @@ td.right,
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
   z-index: 1;
   opacity: 1;
-  overflow: overlay;
+  overflow: initial;
 }
 /* Weather services tabs end */
+/* Fixes for Firefox browser */
+﻿@-moz-document url-prefix() {
+   .icon{
+     font-size:29px;
+   }
+   .topButton{
+     padding-bottom:5px;
+   }
+   .playstopButton{
+     font-size:45px;
+   }
+ }
+/* End Fixes for Firefox browser */
+/**
+ * Tooltip Styles
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[zones-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[zones-tooltip]:before,
+[zones-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[zones-tooltip]:before {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -20px;
+  padding: 10px;
+  width: 240px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color:  rgba(249,251,231,1.0);
+  border:1px solid #555;
+  color: #333;
+  content: attr(zones-tooltip);
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+
+/* Show tooltip content on hover */
+[zones-tooltip]:hover:before,
+[zones-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/*[zones-tooltip]:hover:before {
+  -webkit-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+  -moz-box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+  box-shadow: 6px -6px 0px -1px rgba(37,104,138,1);
+}*/
+
+/* Help text tooltips START */
+.helpText, .helpTextWaterSaved, .zonecircle, .zoneTimesCircleButton {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #3399cc;
+  border-radius: 100%;
+  line-height: 20px;
+  color: #3399cc;
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  z-index: 1;
+}
+.helpText, .helpTextWaterSaved {
+  width: 15px;
+  height: 15px;
+  line-height: 16px;
+  color: rgba(84, 110, 122, 1.0);
+}
+
+.helpTextWaterSaved {
+   position: absolute;
+   margin-left: 10px;
+   margin-top: 10px;
+   z-index: 1;
+}
+/* Help text tooltips END */
+
+.bg-grey {
+  background-color: #f9f9f9;
+}
+
+.border-thin-grey {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+/* MEDIA QUERIES */
+/* Bigger or equal to 1240px works without modifications. Less or equal to 1239 reduce some dimensions to fit 2 column mode */
+@media screen and (max-width: 1239px) {
+  #homeScreenLeft {
+    width: 330px;
+    margin-left: 5px;
+  }
+  h1 {
+    font-size: 100%;
+  }
+  h1.title, h1.titleHome {
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+  .historyDateContainer, .historyDate {
+    font-size:13px;
+  }
+  #waterSavedGaugeVolume, #waterSavedGaugeMinutes {
+    font-size: 14px;
+  }
+  #waterSavedGaugeVolume {
+    margin-top: 0
+  }
+}
+
+/* Smaller or equal to 1177px switch to single vertical column */
+@media screen and (max-width: 1177px) {
+  .pageLeftMenu {
+    float: left;
+    clear: none;
+    width: 100%;
+  }
+  .pageContent {
+    float: left;
+    clear: none;
+    width: 100%;
+    background-color: #f9f9f9;
+  }
+  .homeScreenMain {
+    text-align: center;
+  }
+  h1.title, h1.titleHome {
+    font-size: 130%;
+  }
+  #homeScreenLeft {
+    width:805px;
+  }
+  #homeScreenRight {
+    width: 805px;
+  }
+  .homeRightExpanded, .homeZonesExpanded {
+    margin-left:0;
+  }
+  .homeRightContracted, .homeZonesContracted {
+    margin-left:0;
+  }
+  .programGraph {
+    width: 62%;
+  }
+  .programNextRun {
+    font-size: 10px;
+  }
+  .program-title-next-run {
+    width: 27%;
+  }
+  .pageHeader {
+    height: 80px;
+  }
+  .topButton {
+    min-width: 88px;
+  }
+  .inputStepDown {
+    width: 320px;
+    margin-left: 30px;
+  }
+  .master {
+    height:70px;
+  }
+  .wateringLogZoneItem {
+    width: 196px;
+  }
+}
+/* Smaller or equal to 980px reduce font size and div width on single vertical column */
+@media screen and (max-width: 980px) {
+  #homeScreenLeft, #homeScreenRight {
+    width: 734px;
+    margin-left: 0;
+  }
+  .homeRightExpanded, .homeZonesExpanded {
+    margin-left:0;
+  }
+  .programGraph {
+    width: 65%;
+  }
+  .zoneListName {
+    overflow: hidden;
+  }
+
+  .autoTime {
+    font-size: 18px;
+    padding: 2px;
+    color: #39c;
+  }
+  .iconsMenu {
+    float: left;
+    margin-top: 1em;
+    margin-left: -5em;
+  }
+  #name {
+    padding-top: 20px;
+    padding-left: 30px;
+    float: inherit;
+    width: 480px;
+    margin: 0 auto;
+    display: block;
+  }
+  input[type=range] {
+    width: 53%;
+  }
+  .block70 {
+    min-width: 671px;
+  }
+  #pageContent {
+    border-top: 1px solid #ddd;
+  }
+  h1.title, h1.titleHome {
+    font-size: 130%;
+  }
+  .button {
+    min-width: 76px;
+  }
+  .program-start-stop {
+    height: inherit;
+  }
+  .programEdit {
+    min-width: 700px;
+  }
+  .program-title-next-run {
+    width: 24%;
+  }
+  .inputStepDown {
+    width: 300px;
+  }
+  .halfLeft, .halfRight {
+    display:block;
+    width:100%;
+    padding-left: 0%;
+  }
+}
+
+/* MEDIA QUERIES END */
+.inlineblock {display:inline-block;}

@@ -8,18 +8,20 @@ window.ui = window.ui || {};
 (function(_system) {
 
 	var systemSettingsView = null;
-	var deviceDateTime = null;
-	var deviceDateTimeTimer = null;
+	var dateRefreshValue = null; //Local value of device date to simulate passing of time
+	var dateRefreshTimer = null; //Handler to setTimeout()
 
 	function loadView() {
-		systemSettingsView= {
+		systemSettingsView = {
 			CloudEnable: $("#systemSettingsCloudEnable"),
 			Email: $("#systemSettingsEmail"),
 			PendingEmail: $("#systemSettingsPendingEmail"),
 			CloudSet: $("#systemSettingsCloudSet"),
 
 			MasterValveBefore: $("#systemSettingsMasterValveBefore"),
+			MasterValveBeforeSec: $("#systemSettingsMasterValveBeforeSec"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
+			MasterValveAfterSec: $("#systemSettingsMasterValveAfterSec"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
 			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
@@ -57,9 +59,8 @@ window.ui = window.ui || {};
 			AlexaSet: $("#systemSettingsAlexaSet"),
 			Alexa: $("#systemSettingsAlexa"),
 
-			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
-			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
-			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
+			BonjourSet: $("#systemSettingsBonjourSet"),
+			Bonjour: $("#systemSettingsBonjour"),
 
 			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
 			BetaUpdates: $("#systemSettingsBetaUpdates"),
@@ -80,13 +81,10 @@ window.ui = window.ui || {};
 			ParserHistory: $("#systemSettingsParserHistory"),
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
+			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
+			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
+			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
 			*/
-			MinWateringSet: $("#systemSettingsMinWateringSet"),
-			MinWatering: $("#systemSettingsMinWatering"),
-			CorrectionPastSet: $("#systemSettingsCorrectionPastSet"),
-			CorrectionPast: $("#systemSettingsCorrectionPast"),
-			MaxWaterSet: $("#systemSettingsMaxWaterSet"),
-			MaxWater: $("#systemSettingsMaxWater"),
 
 			//Advanced Settings Mini-8 SPK2
 			//TODO Developer mode commented out atm
@@ -102,9 +100,7 @@ window.ui = window.ui || {};
 			MaxLed: $("#systemSettingsMaxLed"),
 			MinLedSet: $("#systemSettingsMixLedSet"),
 			MinLed: $("#systemSettingsMinLed"),
-			SensorSet: $("#systemSettingsSensorSet"),
-			Sensor: $("#systemSettingsSensor"),
-			SensorType: $("#systemSettingsSensorType"),
+
 			TouchTimeoutSet: $("#systemSettingsTouchTimeoutSet"),
 			TouchTimeout: $("#systemSettingsTouchTimeout"),
 			TouchAdvSet: $("#systemSettingsTouchAdvSet"),
@@ -113,6 +109,10 @@ window.ui = window.ui || {};
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
 			TouchProg: $("#systemSettingsTouchProg"),
+			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
+			ShortDetection: $("#systemSettingsShortDetectionEnable"),
+			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
+			ShortDetectionLoad: $("#systemSettingsShortDetectionLoad")
 			};
     	}
 
@@ -131,6 +131,7 @@ window.ui = window.ui || {};
 		}
 
 		getBetaUpdatesStatus();
+		getDeviceDateTime();
 
 		systemSettingsView.CloudEnable.checked = Data.provision.cloud.enabled;
 
@@ -150,8 +151,14 @@ window.ui = window.ui || {};
 		systemSettingsView.PendingEmail.textContent = pendingEmailText;
 		systemSettingsView.Email.value = currentEmail;
 
-		systemSettingsView.MasterValveBefore.value = Data.provision.system.masterValveBefore/60;
-		systemSettingsView.MasterValveAfter.value = Data.provision.system.masterValveAfter/60;
+		var beforeTimer = Util.secondsToHuman(Data.provision.system.masterValveBefore);
+		var afterTimer = Util.secondsToHuman(Data.provision.system.masterValveAfter);
+
+		systemSettingsView.MasterValveBefore.value = beforeTimer.minutes;
+		systemSettingsView.MasterValveBeforeSec.value = beforeTimer.seconds;
+
+		systemSettingsView.MasterValveAfter.value = afterTimer.minutes;
+		systemSettingsView.MasterValveAfterSec.value = afterTimer.seconds;
 		systemSettingsView.enableMasterValveInput.checked = Data.provision.system.useMasterValve;
 
 
@@ -165,57 +172,52 @@ window.ui = window.ui || {};
 		systemSettingsView.LocationLon.value = Data.provision.location.longitude;
 		systemSettingsView.LocationElev.value = Data.provision.location.elevation;
 
-
-		Data.timeDate = API.getDateTime();
-		deviceDateTime = new Date(Data.timeDate.appDate.replace(/-/g, "/"));
-		clearInterval(deviceDateTimeTimer);
-		deviceDateTimeTimer = setInterval(showDeviceDateTime, 1000);
+		clearInterval(dateRefreshTimer);
+		dateRefreshTimer = setInterval(showDeviceDateTime, 1000);
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
 		systemSettingsView.UnitsUS.checked = !Data.localSettings.units;
 		systemSettingsView.UnitsMetric.checked = Data.localSettings.units;
 
-		systemSettingsView.MasterValveSet.onclick = function() {systemSettingsChangeMasterValve(); };
-		systemSettingsView.DeviceNameSet.onclick = function() {
-			changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
-			getProvision(); //refresh
-		};
-		systemSettingsView.LocationSet.onclick = function() { systemSettingsChangeLocation(); };
-		systemSettingsView.DateTimeSet.onclick = function() { systemSettingsChangeDateTime(); };
-		systemSettingsView.TimeZoneSet.onclick = function() { systemSettingsChangeTimeZone(); };
-		systemSettingsView.UnitsSet.onclick = function() { systemSettingsChangeUnits(); };
-		systemSettingsView.PasswordSet.onclick = function() { systemSettingsChangePassword(); };
-		systemSettingsView.ResetDefaultSet.onclick = function() { systemSettingsReset(); };
-		systemSettingsView.RebootSet.onclick = function() { systemSettingsReboot(); };
-		systemSettingsView.PINGenerate.onclick = function() { getLoginPIN(); };
+		uiFeedback.sync(systemSettingsView.MasterValveSet, systemSettingsChangeMasterValve);
+
+		uiFeedback.sync(systemSettingsView.DeviceNameSet, systemSettingsSetName);
+		uiFeedback.sync(systemSettingsView.LocationSet, systemSettingsChangeLocation);
+		uiFeedback.sync(systemSettingsView.DateTimeSet, systemSettingsChangeDateTime);
+		uiFeedback.sync(systemSettingsView.TimeZoneSet, systemSettingsChangeTimeZone);
+		uiFeedback.sync(systemSettingsView.UnitsSet, systemSettingsChangeUnits);
+		uiFeedback.sync(systemSettingsView.PasswordSet, systemSettingsChangePassword);
+		uiFeedback.sync(systemSettingsView.ResetDefaultSet, systemSettingsReset);
+		uiFeedback.sync(systemSettingsView.RebootSet, systemSettingsReboot);
+		uiFeedback.sync(systemSettingsView.PINGenerate, getLoginPIN);
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
-		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
-		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+		systemSettingsView.Bonjour.checked = Data.provision.system.useBonjourService;
+
 		//TODO Developer mode commented out atm
 		/*
+		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
+		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
 		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
 		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
 		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
 		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
 		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
 		*/
-		systemSettingsView.MinWatering.value = Data.provision.system.minWateringDurationThreshold;
-		systemSettingsView.CorrectionPast.checked = Data.provision.system.useCorrectionForPast;
-		systemSettingsView.MaxWater.value = Data.provision.system.maxWateringCoef * 100;
 
-		systemSettingsView.SSHSet.onclick = function() { systemSettingsChangeSSH(); };
-		systemSettingsView.LogSet.onclick = function() { systemSettingsChangeLog(); };
-		systemSettingsView.CloudSet.onclick = function() { systemSettingsChangeCloud(); };
+		uiFeedback.sync(systemSettingsView.SSHSet, systemSettingsChangeSSH);
+		uiFeedback.sync(systemSettingsView.LogSet, systemSettingsChangeLog);
+		uiFeedback.sync(systemSettingsView.CloudSet, systemSettingsChangeCloud);
 
-		systemSettingsView.AlexaSet.onclick = function() {
-			changeSingleSystemProvisionValue("allowAlexaDiscovery", systemSettingsView.Alexa.checked);
-		};
+		uiFeedback.sync(systemSettingsView.AlexaSet,
+			function(){ return changeSingleSystemProvisionValue("allowAlexaDiscovery",  systemSettingsView.Alexa.checked)});
 
-		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
-		systemSettingsView.BetaUpdatesSet.onclick = function() { systemSettingsSetBetaUpdates() };
+		uiFeedback.sync(systemSettingsView.BonjourSet,
+			function(){ return changeSingleSystemProvisionValue("useBonjourService",  systemSettingsView.Bonjour.checked)});
+
+		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
 		//TODO Developer mode commented out atm
 		/*
@@ -234,55 +236,46 @@ window.ui = window.ui || {};
 		systemSettingsView.ParserDaysSet.onclick = function() {
 			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
 		};
+
+		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
 		*/
-		systemSettingsView.MinWateringSet.onclick = function() {
-			changeSingleSystemProvisionValue("minWateringDurationThreshold", systemSettingsView.MinWatering.value);
-		};
-		systemSettingsView.CorrectionPastSet.onclick = function() {
-			changeSingleSystemProvisionValue("useCorrectionForPast", systemSettingsView.CorrectionPast.checked);
-		};
-		systemSettingsView.MaxWaterSet.onclick = function() {
-			changeSingleSystemProvisionValue("maxWateringCoef", parseInt(systemSettingsView.MaxWater.value) / 100);
-		};
 	}
 
 
 	function showSettingsMini8() {
+		getShortDetectionStatus();
+
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
-		systemSettingsView.Sensor.checked = Data.provision.system.useRainSensor;
-		systemSettingsView.SensorType.checked = Data.provision.system.rainSensorIsNormallyClosed;
 		systemSettingsView.TouchTimeout.value = Data.provision.system.touchSleepTimeout;
 		systemSettingsView.TouchAdv.checked = Data.provision.system.touchAdvanced;
 		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
 		systemSettingsView.TouchProg.checked = Data.provision.system.touchCyclePrograms;
 
-		systemSettingsView.MaxLedSet.onclick = function() {
-			changeSingleSystemProvisionValue("maxLEDBrightness", systemSettingsView.MaxLed.value);
-		};
-		systemSettingsView.MinLedSet.onclick = function() {
-			changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value);
-		};
-		systemSettingsView.SensorSet.onclick = function() {
-			changeSingleSystemProvisionValue("useRainSensor", systemSettingsView.Sensor.checked);
-			changeSingleSystemProvisionValue("rainSensorIsNormallyClosed", systemSettingsView.SensorType.checked);
-		};
-		systemSettingsView.TouchTimeoutSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value);
-		};
-		systemSettingsView.TouchAdvSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchAdvanced", systemSettingsView.TouchAdv.checked);
-		};
-		systemSettingsView.TouchPressTimeoutSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value);
-		};
-		systemSettingsView.TouchProgSet.onclick = function() {
-			changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked);
-		};
+		uiFeedback.sync(systemSettingsView.MaxLedSet,
+			function(){ return changeSingleSystemProvisionValue("maxLEDBrightness", systemSettingsView.MaxLed.value)});
+
+		uiFeedback.sync(systemSettingsView.MinLedSet,
+			function(){ return changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value)});
+
+		uiFeedback.sync(systemSettingsView.TouchTimeoutSet,
+			function(){ return changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value)});
+
+		uiFeedback.sync(systemSettingsView.TouchAdvSet,
+			function(){ return changeSingleSystemProvisionValue("touchAdvanced", systemSettingsView.TouchAdv.checked)});
+
+		uiFeedback.sync(systemSettingsView.TouchPressTimeoutSet,
+			function(){ return changeSingleSystemProvisionValue("touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value)});
+
+		uiFeedback.sync(systemSettingsView.TouchProgSet,
+			function(){ return changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked)});
+
+		uiFeedback.sync(systemSettingsView.ShortDetectionSet, systemSettingsChangeShortDetection);
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
 	{
+		console.log("Setting: %s to %o", provisionKey, value);
 		var data = {};
 		data[provisionKey] = value;
 
@@ -291,24 +284,42 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't set %s", provisionKey);
-			return;
+			value = Data.provision.system[provisionKey];
+			r = null;
 		}
 
 		Data.provision.system[provisionKey] = value;
+		return r;
+	}
 
+
+	function systemSettingsSetName() {
+		var r = changeSingleSystemProvisionValue("netName", systemSettingsView.DeviceName.value);
+
+		if (r === undefined || !r || r.statusCode != 0) {
+			console.log("Can't set device name");
+			return null;
+		}
+
+		getProvision();
+		return r;
 	}
 
 	function systemSettingsSetBetaUpdates() {
 		var enable =  systemSettingsView.BetaUpdates.checked;
 		var r = API.setBeta(enable);
 
-		if (r === undefined || !r || r.statusCode != 0)
-		{
+		if (r === undefined || !r || r.statusCode != 0) {
 			console.log("Can't set beta updates");
 		}
+
 		getBetaUpdatesStatus();
+
+		return r;
 	}
 
+	//TODO: Developer Mode
+	/*
 	function systemSettingsSetSoftwareRainSensor()
 	{
 		var enable =  systemSettingsView.SoftwareRainSensorEnable.checked;
@@ -329,12 +340,22 @@ window.ui = window.ui || {};
 		Data.provision.system.useSoftwareRainSensor = enable;
 		Data.provision.system.softwareRainSensorMinQPF = threshold;
 	}
+	*/
 
 	function systemSettingsChangeMasterValve()
 	{
 		var enabled = systemSettingsView.enableMasterValveInput.checked;
-		var b = parseInt(systemSettingsView.MasterValveBefore.value) * 60;
-        var a =  parseInt(systemSettingsView.MasterValveAfter.value) * 60;
+		var beforeTimer = { minutes: 0, seconds: 0};
+		var afterTimer = { minutes: 0, seconds:0};
+
+		beforeTimer.minutes = parseInt(systemSettingsView.MasterValveBefore.value) || 0;
+		beforeTimer.seconds = parseInt(systemSettingsView.MasterValveBeforeSec.value) || 0;
+
+		afterTimer.minutes = parseInt(systemSettingsView.MasterValveAfter.value) || 0;
+		afterTimer.seconds = parseInt(systemSettingsView.MasterValveAfterSec.value) || 0;
+
+		var b =  beforeTimer.minutes * 60 + beforeTimer.seconds;
+		var a = afterTimer.minutes * 60 + afterTimer.seconds;
 
 		return Util.saveMasterValve(enabled, b, a);
 	}
@@ -343,6 +364,7 @@ window.ui = window.ui || {};
 	{
 		Data.localSettings.units = systemSettingsView.UnitsMetric.checked;
 		Storage.saveItem("localSettings", Data.localSettings);
+		return true;
 	}
 
 	function systemSettingsChangePassword()
@@ -354,27 +376,27 @@ window.ui = window.ui || {};
 
 		console.log(r);
 		if (r === undefined || !r || r.statusCode != 0)
-		{
 			console.log("Can't change password");
-			return;
-		}
+
+		return r;
 	}
 
 	function systemSettingsReset()
 	{
-		API.setProvisionReset(true);
+		var r = API.setProvisionReset(true);
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsReboot()
 	{
-		API.reboot();
+		return API.reboot();
 	}
 
 	function systemSettingsChangeSSH()
 	{
 		var isEnabled = systemSettingsView.SSH.checked;
-		API.setSSH(isEnabled);
+		return API.setSSH(isEnabled);
 	}
 
 	function systemSettingsChangeCloud()
@@ -384,19 +406,25 @@ window.ui = window.ui || {};
 		var currentEmail = Data.provision.cloud.email;
 		var data = null;
 
-		if (email && Util.validateEmail(email) && email != currentEmail) {
+		if (email && Util.validateEmail(email)) {
 			data = {};
-			data.email = "";
-			data.pendingEmail = email;
 			data.enable = isEnabled;
+
+			if (email != currentEmail) {
+				data.email = "";
+				data.pendingEmail = email;
+			}
 		}
 
 		if (data) {
-			API.setProvisionCloud(data);
+			var r = API.setProvisionCloud(data);
 			getProvisionCloud();
+			return r;
 		} else {
-			console.error("Invalid or unchanged email for remote access");
+			console.error("Invalid email for remote access");
 		}
+
+		return null;
 	}
 
 	function systemSettingsChangeLocation()
@@ -425,10 +453,11 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't change location settings.");
-			return;
+			return null;
 		}
 
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsChangeDateTime()
@@ -445,10 +474,11 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			window.ui.main.showError("Can't change date/time settings: " + r.message);
-			return;
+			return null;
 		}
 
 		getProvision();
+		return r;
 	}
 
 	function systemSettingsChangeTimeZone()
@@ -464,24 +494,31 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.log("Can't change timezone.");
-			return;
+			return null;
 		}
 
 		getProvision();
+
+		return r;
 	}
 
 	function systemSettingsChangeLog()
 	{
 		var level = systemSettingsView.Log.options[systemSettingsView.Log.selectedIndex].value;
-		API.setLogLevel(level);
+		return API.setLogLevel(level);
+	}
+
+	function systemSettingsChangeShortDetection() {
+		var enabled = systemSettingsView.ShortDetection.checked;
+		return API.setShortDetection(enabled);
 	}
 
 	function showDeviceDateTime()
 	{
 		//Month/Day should have a leading 0
-		var dateString = deviceDateTime.getFullYear() + "-" +
-		 				('0' + (deviceDateTime.getMonth() + 1)).slice(-2) + '-' +
-						('0' + deviceDateTime.getDate()).slice(-2);
+		var dateString = dateRefreshValue.getFullYear() + "-" +
+		 				('0' + (dateRefreshValue.getMonth() + 1)).slice(-2) + '-' +
+						('0' + dateRefreshValue.getDate()).slice(-2);
 
 		//Don't update if focused by user
 		if (document.activeElement !== systemSettingsView.Seconds &&
@@ -489,13 +526,13 @@ window.ui = window.ui || {};
 			document.activeElement !== systemSettingsView.Hour &&
 			document.activeElement !== systemSettingsView.Date) {
 
-			systemSettingsView.Hour.value = deviceDateTime.getHours();
-			systemSettingsView.Minute.value = deviceDateTime.getMinutes();
-			systemSettingsView.Seconds.value = deviceDateTime.getSeconds();
+			systemSettingsView.Hour.value = dateRefreshValue.getHours();
+			systemSettingsView.Minute.value = dateRefreshValue.getMinutes();
+			systemSettingsView.Seconds.value = dateRefreshValue.getSeconds();
 			systemSettingsView.Date.value = dateString;
 		}
 
-		deviceDateTime.setSeconds(deviceDateTime.getSeconds() + 1);
+		dateRefreshValue.setSeconds(dateRefreshValue.getSeconds() + 1);
 	}
 
 	function getLoginPIN()
@@ -503,6 +540,8 @@ window.ui = window.ui || {};
 		APIAsync.totp().then(function(o) {
 			systemSettingsView.PINOutput.value = o.totp;
 		});
+
+		return true;
 	}
 
 	function buildTimeZoneSelect(container)
@@ -550,9 +589,41 @@ window.ui = window.ui || {};
 			});
 	}
 
+	function getShortDetectionStatus() {
+		return APIAsync.getShortDetection().then(
+			function(o) {
+				console.log(o);
+				if (o.settings.watchforshort)
+					systemSettingsView.ShortDetection.checked = true;
+				else
+					systemSettingsView.ShortDetection.checked = false;
+
+				if (o.short >= 1000)
+					systemSettingsView.ShortDetectionStatus.textContent = "Short detected type:" + o.short;
+				else
+					systemSettingsView.ShortDetectionStatus.textContent = "No short detected";
+
+				if (o.load > 0)
+					systemSettingsView.ShortDetectionLoad.textContent = "Load of " + o.load + " detected";
+				else
+					systemSettingsView.ShortDetectionLoad.textContent = "No overload detected";
+			}
+		);
+	}
+
+	function getDeviceDateTime() {
+		return APIAsync.getDateTime().then(
+			function(o) {
+				Util.parseDeviceDateTime(o);
+				dateRefreshValue = Util.today();
+			});
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_system.showSettings = showSettings;
+	_system.changeSingleSystemProvisionValue = changeSingleSystemProvisionValue;
+	_system.getDeviceDateTime = getDeviceDateTime;
 
 } (window.ui.system = window.ui.system || {}));

@@ -5,6 +5,10 @@
 
 /* Generic DOM functions */
 
+function defined(v) {
+	return (typeof v !== "undefined" && v !== null)
+}
+
 function $(elem, selector)
 {
 	if(arguments.length == 1) {
@@ -120,6 +124,14 @@ function setSelectOption(e, str, matchValue)
 	return false;
 }
 
+function getSelectValue(e) {
+	if (e === null) {
+		return null;
+	}
+
+	return e.options[e.selectedIndex].value
+}
+
 function isVisible(tag)
 {
 	var e;
@@ -146,15 +158,18 @@ function makeVisible(tag)
 	//e.focus();
 }
 
-function makeVisibleBlock(tag)
+function makeVisibleBlock(tag, inline)
 {
 	var e;
 
 	if (typeof(tag) === 'string') { e = $(tag); }
 	else { e = tag; }
 
-	e.style.display = "block";
-	//e.focus();
+	if (typeof inline === "undefined" || inline == false) {
+		e.style.display = "block";
+	} else {
+		e.style.display = "inline-block";
+	}
 }
 
 function makeHidden(tag)
@@ -204,6 +219,66 @@ function loadTemplate(name) {
 	return template;
 }
 
+function percentageChooser(parent, min, max, start, step, onChange, relative) {
+	var minusButton = addTag(parent, 'button');
+	var outputDiv = addTag(parent, 'span');
+	var plusButton = addTag(parent, 'button');
+
+	minusButton.className = "zoneTimesCircleButton";
+	minusButton.textContent = "-";
+
+	plusButton.className = "zoneTimesCircleButton";
+	plusButton.textContent = "+";
+
+	outputDiv.className = "zoneTimesDetermined";
+
+	this.value = start;
+
+	this.updateOutput = function() {
+
+		if (typeof relative !== "undefined" && relative) {
+			outputDiv.textContent = (+this.value - 100) + "%";
+		} else {
+			outputDiv.textContent = this.value + "%";
+		}
+
+	};
+
+	this.changeValue = function(step) {
+		if (this.value + step > max) {
+			this.value = max
+		} else if (this.value + step < min) {
+			this.value = min;
+		} else {
+			this.value += step;
+		}
+
+		this.updateOutput();
+
+		if (onChange !== null){
+			onChange(this.value);
+		}
+	};
+
+	this.setValue = function(value) {
+		if (value > max) {
+			value = max;
+		}
+
+		if (value < min) {
+			value = min;
+		}
+
+		this.value = value;
+		this.updateOutput();
+	};
+
+	minusButton.onclick =  this.changeValue.bind(this, -step);
+	plusButton.onclick = this.changeValue.bind(this, step);
+
+	this.updateOutput();
+}
+
 function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	var thumb = slider.children[0];
@@ -217,7 +292,17 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 
 	calculateSizes();
 
-	slider.addEventListener("mousedown", function(e) {
+	slider.addEventListener("mousedown", startMove);
+	slider.addEventListener("touchstart", startMove);
+
+	document.addEventListener("mousemove", updateSlider);
+	document.addEventListener("touchmove", updateSlider);
+
+	document.addEventListener("mouseup", endMove);
+	document.addEventListener("touchend", endMove);
+
+
+	function startMove(e) {
 		//These are recalculated as they aren't ready on DOM creation
 		sliderWidth = this.offsetWidth;
 		sliderLeft = this.offsetLeft;
@@ -225,23 +310,26 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		mouseDown = true;
 		updateSlider(e);
 		return false;
-	});
+	}
 
-	document.addEventListener("mousemove", function(e) {
-		updateSlider(e);
-	});
-
-	document.addEventListener("mouseup", function(e) {
+	function endMove(e) {
 		if (mouseDown && typeof onDragEnd == "function") {
 			var value = updateSlider(e);
 			onDragEnd(value);
 		}
 		mouseDown = false;
-	});
+	}
 
 	function updateSlider(e) {
 		var value = null;
 		if (mouseDown) {
+			if ("targetTouches" in e) {
+				if (e.targetTouches.length > 0) {
+					e.pageX = e.targetTouches[0].pageX; //touchmove
+				} else {
+					e.pageX = e.changedTouches[0].pageX; //touchend
+				}
+			}
 			if (e.pageX >= sliderLeft && e.pageX <= (sliderLeft + sliderWidth)) {
         		thumb.style.left = e.pageX - sliderLeft - thumbWidth + 'px';
         		value = (e.pageX - sliderLeft) * ratio;
@@ -271,16 +359,16 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		thumb.style.left = v + 'px';
 		setThumbInfo(value);
 		calculateSizes();
-	}
+	};
 
 	this.setPositionWithOffset = function(value) {
 		var current = this.getPosition();
 		this.setPosition(current + value * ratio);
-	}
+	};
 
 	this.getPosition = function() {
 		return (thumb.offsetLeft - slider.offsetLeft + thumbWidth) * ratio;
-	}
+	};
 
 	this.setMaxValue = function(value) {
 		var current = this.getPosition() / ratio;
@@ -289,13 +377,65 @@ function rangeSlider(slider, virtualMaxValue, onDragEnd) {
 		calculateSizes();
 		//console.log("maxValue: %d(%d) Ratio after: %f", maxValue, oldMax, ratio);
 		this.setPosition(current * ratio);
-	}
+	};
 
 	this.getMaxValue = function() {
 		return maxValue;
-	}
+	};
 
 	this.isDragging = function() {
 		return mouseDown;
 	}
 }
+
+
+uiFeedback =  {
+	sync: function(elem, func) {
+		var params = [].slice.call(arguments, 2);
+
+		elem.onclick = function() {
+			uiFeedback.start(elem);
+			var r = func.apply(elem, params);
+			if (r) {
+				uiFeedback.success(elem);
+			} else {
+				uiFeedback.error(elem);
+			}
+		}
+	},
+
+	start: function(elem) {
+		delTag($("#feedback-" + elem.id));
+		var n  = addTag(elem, "span");
+		n.id = "feedback-" + elem.id;
+		n.textContent = "\ue97b";
+		n.className = "loading icon";
+	},
+
+	success: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		if (e) {
+			e.textContent = "\ue116";
+			e.className = "success icon";
+			setTimeout(function(){ delTag(e);}, 3600 )
+		}
+	},
+
+	// Like success but without feedback
+	done: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		delTag(e);
+	},
+
+	error: function(elem) {
+		var e = $("#feedback-" + elem.id);
+		if (e) {
+			e.textContent = "\ue629";
+			e.className = "error icon red";
+		}
+
+		console.log("Error ! %s", elem.id);
+		elem.style.color = "red";
+		elem.style.background = "white";
+	}
+};
