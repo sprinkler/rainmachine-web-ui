@@ -1180,7 +1180,7 @@ window.ui = window.ui || {};
 			futureStart += 1;
 		}
 
-		console.log(daysMultiplier);
+//		console.log(daysMultiplier);
 		return daysMultiplier;
 	}
 
@@ -1249,7 +1249,7 @@ window.ui = window.ui || {};
 	function addWeekDayMultiplierHint(daysMultiplier) {
 		for (var i = 1; i < 8; i++) {
 			var elem = $(uiElems.frequencyWeekdaysContainerElem, '[rm-id="weekday-' + i + '"]');
-			if (i in daysMultiplier) {
+			if (typeof daysMultiplier === "object" && i in daysMultiplier) {
 				var m = daysMultiplier[i];
 				elem.textContent = "Covers  " + m  + " day" + ((m > 1) ? "s" : "");
 			} else {
