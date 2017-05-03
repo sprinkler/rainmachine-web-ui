@@ -1330,14 +1330,19 @@ select, .selectSmall {
   padding: 20px;
 }
 
-#restrictionsMaxWateringContainer, #restrictionsFreezeProtectContainer {
+#greyoutMaxWatering, #greyoutFreezeProtect,
+#greyoutRainSensorType, #greyoutRainSensorSnooze
+{
   opacity: 0.1;
   pointer-events: none;
 }
-#restrictionsMaxWateringContainer[enabled], #restrictionsFreezeProtectContainer[enabled] {
+#greyoutMaxWatering[enabled], #greyoutFreezeProtect[enabled],
+#greyoutRainSensorType[enabled], #greyoutRainSensorSnooze[enabled]
+{
   opacity: 1;
   pointer-events: auto;
 }
+
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram { background-color: #fff }
