@@ -396,13 +396,14 @@
 										<tr id="greyoutRainSensorSnooze">
 											<td>
 												<div class="right" style="margin-right:80px;">
-													<span class="cardTitle">While rain is detected</span>
+													<span class="cardTitle">After rain has stopped</span>
 													<select id="restrictionsRainSensorSnooze" style="width:420px;">
-														<option value="0">stop all watering activities.</option>
-														<option value="-1" selected>stop all watering until midnight.</option>
-														<option value="21600">stop all watering for 6 hours after the rain event.</option>
-														<option value="43200">stop all watering for 12 hours after the rain event.</option>
-														<option value="172800">stop all watering for 48 hours after the rain event.</option>
+														<option value="0">resume normal operation.</option>
+														<option value="-1" selected>snooze device until midnight.</option>
+														<option value="21600">snooze device for 6 hours.</option>
+														<option value="43200">snooze device for 12 hours.</option>
+														<option value="86400">snooze device for 24 hours.</option>
+														<option value="172800">snooze device for 48 hours.</option>
 													</select>
 												</div>
 												<span class="cardTitle">Last detected rain event</span><br>
