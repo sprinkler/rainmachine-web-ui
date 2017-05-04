@@ -337,7 +337,7 @@
 											<td class="middle">
 												<button id="restrictionsHotDaysSet" class="button label-blue center right">Apply</button>
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
-												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
+												<div id="greyoutMaxWatering" class="right mr" style="width:51%;">
 													<span class="top15">Maximum percentage for over watering:</span>
 													<input type="number" id="restrictionsMaxWatering" class="typeNumber txtright" min="100" max="200"> %
 												</div>
@@ -349,7 +349,7 @@
 											<td class="middle">
 												<button id="restrictionFreezeSet" class="button label-blue center right">Apply</button>
 												<input type="checkbox" id="restrictionsFreezeProtect" class="right" style="margin-top:8px;" />
-												<div id="restrictionsFreezeProtectContainer" class="right mr" style="width:51%;">
+												<div id="greyoutFreezeProtect" class="right mr" style="width:51%;">
 													<span class="top15">Select minimum temperature value:</span>
 													<select id="restrictionsFreezeProtectTemp" style="width:180px;">
 														<option value="0">0 &deg; C / 32 &deg; F</option>
@@ -385,26 +385,28 @@
 													<span class="cardTitle">Use hardware rain sensor</span><br>
 													<span class="subtitle">Stop all watering when rain is detected.</span>
 													<br><br>
-													<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
-													<span class="cardTitle">Rain sensor normally closed</span><br>
-													<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+													<div id="greyoutRainSensorType">
+														<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
+														<span class="cardTitle">Rain sensor normally closed</span><br>
+														<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+													</div>
 												</div>
 											</td>
 										</tr>
-										<tr>
+										<tr id="greyoutRainSensorSnooze">
 											<td>
 												<div class="right" style="margin-right:80px;">
 													<span class="cardTitle">While rain is detected</span>
-													<select id="" style="width:420px;">
+													<select id="restrictionsRainSensorSnooze" style="width:420px;">
 														<option value="0">stop all watering activities.</option>
 														<option value="-1" selected>stop all watering until midnight.</option>
-														<option value="1">stop all watering for 6 hours after the rain event.</option>
-														<option value="2">stop all watering for 12 hours after the rain event.</option>
-														<option value="3">stop all watering for 48 hours after the rain event.</option>
+														<option value="21600">stop all watering for 6 hours after the rain event.</option>
+														<option value="43200">stop all watering for 12 hours after the rain event.</option>
+														<option value="172800">stop all watering for 48 hours after the rain event.</option>
 													</select>
 												</div>
 												<span class="cardTitle">Last detected rain event</span><br>
-												<span class="subtitle label-blue">FRI, APR 7, 06:45</span>
+												<span class="subtitle label-blue" id="restrictionsRainSensorLastEvent"></span>
 											</td>
 										</tr>
 										<tr>
@@ -584,13 +586,13 @@
 											</td>
 											<td class="middle noborder">
 												<strong>Weekdays</strong><br><br>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday" checked><br>Sun</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday" checked><br>Mon</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday" checked><br>Tue</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday" checked><br>Wed</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday" checked><br>Thu</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday" checked><br>Fri</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday" checked><br>Sat</div>
 											</td>
 										</tr>
 										<tr>

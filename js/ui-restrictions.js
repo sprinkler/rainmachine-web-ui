@@ -13,11 +13,11 @@ window.ui = window.ui || {};
 		uiElems = {};
 		uiElems.extraWateringElem = $("#restrictionsExtraWatering");
 		uiElems.maxWateringElem = $("#restrictionsMaxWatering");
-		uiElems.maxWateringContainer = $("#restrictionsMaxWateringContainer");
+		uiElems.maxWateringContainer = $("#greyoutMaxWatering");
 
 		uiElems.freezeProtectElem = $("#restrictionsFreezeProtect");
 		uiElems.freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
-		uiElems.freezeProtectContainer = $("#restrictionsFreezeProtectContainer");
+		uiElems.freezeProtectContainer = $("#greyoutFreezeProtect");
 
 		uiElems.minWateringElem = $("#restrictionsMinWatering");
 
@@ -26,6 +26,8 @@ window.ui = window.ui || {};
 		uiElems.durationElem = $("#restrictionHourlyDuration");
 		uiElems.rainSensorElem = $("#restrictionsRainSensor");
 		uiElems.rainSensorTypeElem = $("#restrictionsRainSensorType");
+		uiElems.rainSensorSnoozeElem = $("#restrictionsRainSensorSnooze");
+		uiElems.rainSensorLastEvent = $("#restrictionsRainSensorLastEvent");
 
 		uiElems.buttonExtraSet = $("#restrictionsHotDaysSet");
 		uiElems.buttonFreezeSet = $("#restrictionFreezeSet");
@@ -50,10 +52,20 @@ window.ui = window.ui || {};
 		uiElems.rainSensorElem.checked = Data.provision.system.useRainSensor;
 		uiElems.rainSensorTypeElem.checked = Data.provision.system.rainSensorIsNormallyClosed;
 
+		var rainSnooze = +Data.provision.system.rainSensorSnoozeDuration;
+		setSelectOption(uiElems.rainSensorSnoozeElem, +rainSnooze, true);
+
+		var rainStart = Data.provision.system.rainSensorRainStart;
+		if ( rainStart !== null) {
+			uiElems.rainSensorLastEvent.textContent = (new Date(rainStart * 1000)).toDateString();
+		} else {
+			uiElems.rainSensorLastEvent.textContent = "No recent events";
+		}
+
 		uiElems.maxWateringElem.value = Data.provision.system.maxWateringCoef * 100;
 		uiElems.minWateringElem.value = Data.provision.system.minWateringDurationThreshold;
 
-		setSelectOption(uiElems.freezeProtectTempElem, parseInt(rg.freezeProtectTemp), true);
+		setSelectOption(uiElems.freezeProtectTempElem, +rg.freezeProtectTemp, true);
 
 		//Set the months restrictions
 		for (var i = 0; i < Util.monthNames.length; i++)
@@ -118,10 +130,12 @@ window.ui = window.ui || {};
 
 		uiElems.extraWateringElem.onclick = showMaxWatering;
 		uiElems.freezeProtectElem.onclick = showFreezeProtect;
+		uiElems.rainSensorElem.onclick = showRainSensorOptions;
 
 		//Set current state
 		showMaxWatering();
 		showFreezeProtect();
+		showRainSensorOptions();
 	}
 
 	function showCurrentRestrictions() {
@@ -304,10 +318,12 @@ window.ui = window.ui || {};
 
 		var useRainSensor = uiElems.rainSensorElem.checked;
 		var normallyClosed = uiElems.rainSensorTypeElem.checked;
+		var snoozeDuration = +getSelectValue(uiElems.rainSensorSnoozeElem);
 
 		var data = {
 			useRainSensor: useRainSensor,
-			rainSensorIsNormallyClosed: normallyClosed
+			rainSensorIsNormallyClosed: normallyClosed,
+			rainSensorSnoozeDuration: snoozeDuration
 		};
 
 		var r = API.setProvision(data, null);
@@ -317,11 +333,13 @@ window.ui = window.ui || {};
 			console.log("Can't set Rain Sensor !");
 			useRainSensor = Data.provision.system.useRainSensor;
 			normallyClosed = Data.provision.system.rainSensorIsNormallyClosed;
+			snoozeDuration = Data.provision.system.rainSensorSnoozeDuration;
 			r = null;
 		}
 
 		Data.provision.system.useRainSensor = useRainSensor;
 		Data.provision.system.rainSensorIsNormallyClosed = normallyClosed;
+		Data.provision.system.rainSensorSnoozeDuration = snoozeDuration;
 
 		return r;
 	}
@@ -334,6 +352,10 @@ window.ui = window.ui || {};
 		toggleAttr(uiElems.freezeProtectContainer, uiElems.freezeProtectElem.checked);
 	}
 
+	function showRainSensorOptions() {
+		toggleAttr($('#greyoutRainSensorType'), uiElems.rainSensorElem.checked);
+		toggleAttr($('#greyoutRainSensorSnooze'), uiElems.rainSensorElem.checked);
+	}
 
 
 	//--------------------------------------------------------------------------------------------
