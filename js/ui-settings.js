@@ -17,7 +17,7 @@ window.ui = window.ui || {};
         4: "Day restriction",
         5: "Watering time reaches next day",
         6: "Water surplus",
-        7: "Rain detected",
+        7: "Rain detected by sensor",
 		8: "Software rain sensor restriction",
 		9: "Month Restricted",
 		10: "Snooze set by user",
