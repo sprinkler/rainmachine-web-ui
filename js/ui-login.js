@@ -33,12 +33,16 @@ window.ui = window.ui || {};
                 }
             } else {
                 //Try to retrieve access token from header set by my.rainmachine.com
-                var r = new XMLHttpRequest();
-                r.open("HEAD", "", false);
-                r.send(null);
-                accessToken = r.getResponseHeader(headerAccessToken);
-                logoutUrl = r.getResponseHeader(headerLogoutUrl);
-                Storage.saveItem("logoutUrl", logoutUrl);
+                try {
+                    var r = new XMLHttpRequest();
+                    r.open("HEAD", "", false);
+                    r.send(null);
+                    accessToken = r.getResponseHeader(headerAccessToken);
+                    logoutUrl = r.getResponseHeader(headerLogoutUrl);
+                    Storage.saveItem("logoutUrl", logoutUrl);
+                } catch (e) {
+                    console.error("No access set in header.");
+                }
                 //console.log("Header RainMachine token: %s", accessToken);
                 //console.log("Header RainMachine logout URL: %s", logoutUrl);
             }

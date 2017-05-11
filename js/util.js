@@ -8,7 +8,9 @@ var Util = (function(Util) {
 
 Util.parseDeviceDateTime = function(json) {
 	try {
-		Data.today = new Date(json.appDate.replace(/-/g, "/"));
+		deviceDate = json.appDate; //Format: YYYY-MM-DD HH:MM:SS
+		//Data.today = new Date(json.appDate.replace(/-/g, "/"));
+		Data.today = Util.deviceDateStrToDate(deviceDate);
 		console.log("DEVICE DATE: %o", Data.today);
 	} catch(e) {
 		console.log("DEVICE DATE: Invalid !")
@@ -84,7 +86,7 @@ Util.secondsToMMSS = function(seconds)
 Util.sinceDateAsText = function(dateString)
 {
 	var text;
-	var today = new Date();
+	var today = Util.today();
 	var d = new Date(dateString.split(" ")[0]);
 	var s = d.getTime() / 1000;
 	var sToday = (today.getTime() / 1000) >> 0;
@@ -118,8 +120,7 @@ Util.bitStringToWeekDays = function(bitstr)
 //Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
-	var dateTokens = dateStr.split("-");
-	var dayDate = new Date(dateTokens[0],dateTokens[1] - 1 , dateTokens[2]);
+	var dayDate =  Util.deviceDateStrToDate(dateStr);
 	var diff = dayDate - startDate;
 	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
 }
@@ -184,6 +185,37 @@ Util.dateStringToLocalDate = function(dateStr) {
 	return null;
 };
 
+//Converts date informat "YYYY-MM-DD HH:MM:SS" to a javascript date
+Util.deviceDateStrToDate = function(datetimeStr) {
+	var datetimeArr = datetimeStr.split(" ");
+
+	var dateArr = datetimeArr[0].split("-");
+	var day = dateArr[2];
+	var month = dateArr[1];
+	var year = dateArr[0];
+
+	var h = 0;
+	var m = 0;
+	var s = 0;
+
+	if (datetimeArr.length > 1) {
+		var timeArr = datetimeArr[1].split(":");
+		h = timeArr[0];
+		m = timeArr[1];
+		s = timeArr[2];
+	}
+
+	var d = new Date();
+	d.setDate(day);
+	d.setMonth(month-1);
+	d.setFullYear(year);
+
+	d.setHours(h);
+	d.setMinutes(m);
+	d.setSeconds(s);
+
+	return d;
+}
 
 Util.isToday = function(dateStr)
 {
@@ -216,29 +248,6 @@ Util.normalizeWaterNeed = function(user, real)
 		wn = Math.round((real / user) * 100);
 
 	return wn;
-}
-
-Util.appDateToFields = function(appDateStr)
-{
-	var fields = {
-		date: "",
-		hour: "",
-		minute: "",
-		seconds: "",
-	};
-
-	if (appDateStr === undefined || !appDateStr || appDateStr.length < 19)
-		return fields;
-
-	var dt = appDateStr.split(" ");
-	var t = dt[1].split(":");
-
-	fields.date = dt[0];
-	fields.hour = t[0];
-	fields.minute = t[1];
-	fields.seconds = t[2];
-
-	return fields;
 }
 
 

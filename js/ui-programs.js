@@ -977,7 +977,7 @@ window.ui = window.ui || {};
 	//Converts program next run a a nicer string
 	function getProgramNextRunAsString(programNextRun) {
 
-		var nextRun = Util.dateStringToLocalDate(programNextRun);
+		var nextRun = Util.deviceDateStrToDate(programNextRun);
 
 		if(nextRun === null || isNaN(nextRun.getTime()))	 {
 			nextRun = "Unknown";
