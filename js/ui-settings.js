@@ -648,7 +648,14 @@ window.ui = window.ui || {};
 
 			//console.log("Day: %s Temp: %s/%s QPF: %s", day.date, dayMinTempStr, dayMaxTempStr, dayQpfStr);
 
-			dayNameElem.textContent = Util.deviceDateStrToDate(day.date).toDateString();
+			var d = Util.deviceDateStrToDate(day.date);
+
+			if (d) {
+				dayNameElem.textContent = d.toDateString();
+			} else {
+				dayNameElem.textContent = "";
+			}
+
 			dayConditionElem.textContent = dayConditionStr;
 			dayTempMaxElem.textContent = dayMaxTempStr;
 			dayTempMinElem.textContent = dayMinTempStr;
@@ -924,8 +931,10 @@ window.ui = window.ui || {};
 			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
 			//console.log("Day: %s", day.date);
-			var d = Util.deviceDateStrToDate(day.date); //DATE Issue: Util.dateStringToLocalDate(day.date);
-			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
+			var d = Util.deviceDateStrToDate(day.date);
+			if (d) {
+				dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
+			}
 
 			for (var j = 0; j < day.programs.length; j++)
 			{

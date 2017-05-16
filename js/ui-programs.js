@@ -1239,7 +1239,11 @@ window.ui = window.ui || {};
 		} else {
 			var totalDuration = 0;
 			for (var i = 0; i < timersList.length; i++) {
-				totalDuration += timersList[i].duration;
+				if (timersList[i].type == ZoneDurationType.Auto) {
+					totalDuration += timersList[i].duration * daysMultiplier
+				} else {
+					totalDuration += timersList[i].duration;
+				}
 			}
 			return Util.secondsToText(totalDuration);
 		}

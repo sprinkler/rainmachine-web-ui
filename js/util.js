@@ -9,7 +9,6 @@ var Util = (function(Util) {
 Util.parseDeviceDateTime = function(json) {
 	try {
 		deviceDate = json.appDate; //Format: YYYY-MM-DD HH:MM:SS
-		//Data.today = new Date(json.appDate.replace(/-/g, "/"));
 		Data.today = Util.deviceDateStrToDate(deviceDate);
 		console.log("DEVICE DATE: %o", Data.today);
 	} catch(e) {
@@ -121,8 +120,12 @@ Util.bitStringToWeekDays = function(bitstr)
 Util.getDateIndex = function(dateStr, startDate)
 {
 	var dayDate =  Util.deviceDateStrToDate(dateStr);
-	var diff = dayDate - startDate;
-	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	if (dayDate) {
+		var diff = dayDate - startDate;
+		return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	}
+	console.error("Cannot find index from date string: %s", dateStr);
+	return 0;
 }
 
 
@@ -187,6 +190,11 @@ Util.dateStringToLocalDate = function(dateStr) {
 
 //Converts date informat "YYYY-MM-DD HH:MM:SS" to a javascript date
 Util.deviceDateStrToDate = function(datetimeStr) {
+
+	if (datetimeStr === null) {
+		return null;
+	}
+
 	var datetimeArr = datetimeStr.split(" ");
 
 	var dateArr = datetimeArr[0].split("-");
