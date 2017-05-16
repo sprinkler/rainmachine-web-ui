@@ -1240,7 +1240,7 @@ window.ui = window.ui || {};
 			var totalDuration = 0;
 			for (var i = 0; i < timersList.length; i++) {
 				if (timersList[i].type == ZoneDurationType.Auto) {
-					totalDuration += timersList[i].duration * daysMultiplier
+					totalDuration += timersList[i].duration * daysMultiplier * timersList[i].autocoef;
 				} else {
 					totalDuration += timersList[i].duration;
 				}
