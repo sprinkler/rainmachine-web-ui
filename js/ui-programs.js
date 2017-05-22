@@ -1229,7 +1229,11 @@ window.ui = window.ui || {};
 			}
 
 			var text = "";
-			for (var day in totalDuration) {
+			for (var day in daysMultiplier) {
+				// We might have no Auto durations
+				if (! totalDuration.hasOwnProperty(day)) {
+					totalDuration[day] = 0;
+				}
 				totalDuration[day] += totalDurationsCustom;
 				text += Util.weekDaysNamesShort[day - 1] + ": " + Util.secondsToText(totalDuration[day]) + "\n";
 			}
