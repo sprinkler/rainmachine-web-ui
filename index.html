@@ -934,17 +934,21 @@
 											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Apply</button>
 										</div>
 										<div class="right mr" style="width:40%;">
-											<div style="margin-top:-24px;">
-												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>
+											<div>
+<!--												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>-->
 												<span style="display:block;">
-													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:59%;" />
+													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
 												</span>
 												<span style="display:block;">
-													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:59%;" />
+													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
 												</span>
 											</div>
 											<span style="display:block;">
 												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
+											</span>
+                                            <span style="display:block;padding-top: 15px;">
+												<span class="left top15">Get my Location:</span>
+                                                <button onclick="Util.getGeoLocation(&quot;#systemSettingsLocationLat&quot;, &quot;#systemSettingsLocationLon&quot;)" class="geoPin" style="padding-left: 20px;">G</button>
 											</span>
 										</div>
 										<span class="cardTitle">Location</span><br>
@@ -1269,8 +1273,8 @@
 								<tr>
 									<td class="middle" style="border:0;">
 										<button id="systemSettingsResetDefaultSet" class="button label-red center right" style="color:white;">Reset</button>
-										<span class="cardTitle">Reset to Defaults</span><br>
-										<span class="subtitle" style="color:#660000;">Reset device to factory defaults.<br>
+										<span class="cardTitle reset_defaults">Reset to Defaults</span><br>
+										<span class="subtitle" style="color:rgba(255, 255, 255, 0.63);">Reset device to factory defaults.<br>
 										This action will remove all settings and data saved on device.</span>
 									</td>
 								</tr>
