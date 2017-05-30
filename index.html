@@ -376,48 +376,6 @@
 									</table>
 								</div>
 								<div class="settingsBlock center block70">
-									<h1 class="title center">Rain Sensor</h1>
-									<table cellspacing="0" cellpadding="0" class="full">
-										<tr>
-											<td class="middle">
-												<div>
-													<input type="checkbox" id="restrictionsRainSensor" class="right" style="margin-right:80px;" />
-													<span class="cardTitle">Use hardware rain sensor</span><br>
-													<span class="subtitle">Stop all watering when rain is detected.</span>
-													<br><br>
-													<div id="greyoutRainSensorType">
-														<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
-														<span class="cardTitle">Rain sensor normally closed</span><br>
-														<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr id="greyoutRainSensorSnooze">
-											<td>
-												<div class="right" style="margin-right:80px;">
-													<span class="cardTitle">After rain has stopped</span>
-													<select id="restrictionsRainSensorSnooze" style="width:420px;">
-														<option value="0">resume normal operation.</option>
-														<option value="-1" selected>snooze device until midnight.</option>
-														<option value="21600">snooze device for 6 hours.</option>
-														<option value="43200">snooze device for 12 hours.</option>
-														<option value="86400">snooze device for 24 hours.</option>
-														<option value="172800">snooze device for 48 hours.</option>
-													</select>
-												</div>
-												<span class="cardTitle">Last detected rain event</span><br>
-												<span class="subtitle label-blue" id="restrictionsRainSensorLastEvent"></span>
-											</td>
-										</tr>
-										<tr>
-											<td class="noborder">
-												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<div class="settingsBlock center block70">
 									<div class="listItemSettingsRestrictions relative">
 									<div style="height:290px;">
 										<div>
@@ -609,8 +567,53 @@
 							</div>
 						</div>
 
-						<div id="weather" style="display: none;">
+						<div id="rainsensor" style="display: none;">
 							<div class="settingsBlock center block70">
+								<h1 class="title center">Rain Sensor</h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<div>
+													<input type="checkbox" id="restrictionsRainSensor" class="right" style="margin-right:80px;" />
+													<span class="cardTitle">Use hardware rain sensor</span><br>
+													<span class="subtitle">Stop all watering when rain is detected.</span>
+													<br><br>
+													<div id="greyoutRainSensorType">
+														<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
+														<span class="cardTitle">Rain sensor normally closed</span><br>
+														<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="greyoutRainSensorSnooze">
+											<td>
+												<div class="right" style="margin-right:80px;">
+													<span class="cardTitle">After rain has stopped</span>
+													<select id="restrictionsRainSensorSnooze" style="width:420px;">
+														<option value="0">resume normal operation.</option>
+														<option value="-1" selected>snooze device until midnight.</option>
+														<option value="21600">snooze device for 6 hours.</option>
+														<option value="43200">snooze device for 12 hours.</option>
+														<option value="86400">snooze device for 24 hours.</option>
+														<option value="172800">snooze device for 48 hours.</option>
+													</select>
+												</div>
+													<span class="cardTitle">Last detected rain event</span><br>
+													<span class="subtitle label-blue" id="restrictionsRainSensorLastEvent"></span>
+											</td>
+										</tr>
+										<tr>
+											<td class="noborder">
+												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<div id="weather" style="display: none;">
+								<div class="settingsBlock center block70">
 									<table cellspacing="0" cellpadding="0" class="full">
 										<tr>
 											<th>
@@ -934,17 +937,21 @@
 											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Apply</button>
 										</div>
 										<div class="right mr" style="width:40%;">
-											<div style="margin-top:-24px;">
-												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>
+											<div>
+<!--												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>-->
 												<span style="display:block;">
-													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:59%;" />
+													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
 												</span>
 												<span style="display:block;">
-													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:59%;" />
+													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
 												</span>
 											</div>
 											<span style="display:block;">
 												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
+											</span>
+                                            <span style="display:block;padding-top: 15px;">
+												<span class="left top15">Click to get location:</span>
+                                                <button onclick="Util.getGeoLocation(&quot;#systemSettingsLocationLat&quot;, &quot;#systemSettingsLocationLon&quot;)" class="geoPin">G</button>
 											</span>
 										</div>
 										<span class="cardTitle">Location</span><br>
@@ -1269,8 +1276,8 @@
 								<tr>
 									<td class="middle" style="border:0;">
 										<button id="systemSettingsResetDefaultSet" class="button label-red center right" style="color:white;">Reset</button>
-										<span class="cardTitle">Reset to Defaults</span><br>
-										<span class="subtitle" style="color:#660000;">Reset device to factory defaults.<br>
+										<span class="cardTitle reset_defaults">Reset to Defaults</span><br>
+										<span class="subtitle" style="color:rgba(255, 255, 255, 0.63);">Reset device to factory defaults.<br>
 										This action will remove all settings and data saved on device.</span>
 									</td>
 								</tr>
