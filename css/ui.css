@@ -448,9 +448,7 @@ strong { font-weight: 700; }
   font-size: 40px;
   float: left;
   display: block;
-/*  padding-top: 40px;*/
-  margin-left: 10px;
-  padding-left: 20px;
+  margin-left: 1em;
 }
 .zoneListLine {
   height: 34px;
