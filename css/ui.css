@@ -638,8 +638,8 @@ h1 {
 .subtitle, .zoneTimesSubtitle {
   padding-left: 0;
   font-size: 13px;
-/*  color: #888;*/
-    color: rgba(255, 255, 255, 0.54);
+  color: #888;
+    
   vertical-align: top;
 }
 .zoneTimesSubtitle {
