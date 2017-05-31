@@ -380,7 +380,7 @@ window.ui = window.ui || {};
 		//Edit button for dashboard weather data
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings3').onclick();
+			$('#settings4').onclick();
 		};
 
 		//Edit button for dashboard current restrictions
@@ -392,7 +392,7 @@ window.ui = window.ui || {};
 		//More button for dashboard device status
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings5').onclick();
+			$('#settings6').onclick();
 		};
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
