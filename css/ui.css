@@ -405,7 +405,7 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   color: #39c;
-  line-height: 21px;
+  line-height: 22px;
   font-size: 14px;
 }
 .program-line,
@@ -522,7 +522,7 @@ strong { font-weight: 700; }
   display: inline-block;
   vertical-align: top;
   width: 64px;
-  height: 142px;
+  height: 170px;
   text-align: center;
   padding: 0 2px 5px 2px;
   margin-top: -5px;
@@ -545,6 +545,7 @@ strong { font-weight: 700; }
 .dayTemp {
   color: #4296cd;
   font-size: 15px;
+  height:23px;
 }
 sup { font-size: 12px }
 
