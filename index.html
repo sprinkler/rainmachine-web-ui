@@ -167,9 +167,9 @@
 								</div>
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
-									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0">
+									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
-										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation</span></div>
+										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br>EvapoTranspiration</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -1395,6 +1395,8 @@
 			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
 			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
 			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;" title="EvapoTranspiration">0.00</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">&#xe900;</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
