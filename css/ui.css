@@ -569,7 +569,7 @@ sup { font-size: 12px }
 }
 
 #deviceName{
-  width:380px;
+  /*width:380px;*/
   padding-left:0px;
 }
 .programListName {
