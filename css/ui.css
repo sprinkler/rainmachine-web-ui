@@ -254,7 +254,7 @@ body { font-family: Roboto, Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-
 .hidden { display: none;}
 .right {float: right;}
 .center {text-align: center;}
-.full {width: 100%; }
+.full {width: 100%;}
 .bold {font-weight: bold;}
 
 .clear30 {
@@ -405,7 +405,7 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   color: #39c;
-  line-height: 21px;
+  line-height: 22px;
   font-size: 14px;
 }
 .program-line,
@@ -446,10 +446,9 @@ strong { font-weight: 700; }
   font-family: 'RainMachine';
   color:#AF0000;
   font-size: 40px;
-  float: right;
+  float: left;
   display: block;
-  padding-top: 40px;
-  margin-left: 10px;
+  margin-left: 1em;
 }
 .zoneListLine {
   height: 34px;
@@ -523,7 +522,7 @@ strong { font-weight: 700; }
   display: inline-block;
   vertical-align: top;
   width: 64px;
-  height: 142px;
+  height: 170px;
   text-align: center;
   padding: 0 2px 5px 2px;
   margin-top: -5px;
@@ -546,6 +545,7 @@ strong { font-weight: 700; }
 .dayTemp {
   color: #4296cd;
   font-size: 15px;
+  height:23px;
 }
 sup { font-size: 12px }
 
@@ -569,7 +569,7 @@ sup { font-size: 12px }
 }
 
 #deviceName{
-  width:380px;
+  /*width:380px;*/
   padding-left:0px;
 }
 .programListName {
@@ -636,8 +636,9 @@ h1 {
 }
 .subtitle, .zoneTimesSubtitle {
   padding-left: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
+    
   vertical-align: top;
 }
 .zoneTimesSubtitle {
@@ -1375,6 +1376,10 @@ select, .selectSmall {
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
+
+.reset_defaults{
+    color:white;
+}
 .cardSubtitle {
   color: #999;
   font-size: 12px;
@@ -1581,7 +1586,7 @@ td.right,
   color:#888;
 }
 .bgred {
-  background-color: #ff0000;
+  background-color: #d23f31;
 }
 .pin {
   display: inline-block;
@@ -1645,7 +1650,7 @@ td.right,
   margin-left: 10px;
   vertical-align: middle;
   width: 75%;
-  height: 18px;
+  height: 44px;
 }
 /* Settings - Weather (END) */
 /* Material UI Button */

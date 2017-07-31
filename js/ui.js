@@ -36,6 +36,7 @@ window.ui = window.ui || {};
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
 		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
+		{ name: "Rain Sensor",  	func: window.ui.restrictions.showRainSensor,	container: '#rainsensor' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
 		{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
@@ -379,7 +380,7 @@ window.ui = window.ui || {};
 		//Edit button for dashboard weather data
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings3').onclick();
+			$('#settings4').onclick();
 		};
 
 		//Edit button for dashboard current restrictions
@@ -391,7 +392,7 @@ window.ui = window.ui || {};
 		//More button for dashboard device status
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings5').onclick();
+			$('#settings6').onclick();
 		};
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
