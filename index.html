@@ -99,7 +99,7 @@
 									<button id="waterlog-saved" class="button label-grey left mr10">Saved</button>
 									<button id="waterlog-used" class="button label-blue right mr10">Used</button>									
 									<div id="waterSavedGaugeContainer"></div><div class="helpTextWaterSaved" help="waterSavedVolume">?</div>
-									<div class="waterSavedInfo">
+									<div class="waterSavedInfo" id="waterSavedInfo">
 										<div class="waterSavedInfoInner">
 											<div class="inlineblock" id="waterSavedGaugeVolume"></div><br>
 											<div class="inlineblock" id="waterSavedGaugeMinutes"></div>
@@ -940,7 +940,6 @@
 										</div>
 										<div class="right mr" style="width:40%;">
 											<div>
-<!--												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>-->
 												<span style="display:block;">
 													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
 												</span>
@@ -953,7 +952,9 @@
 											</span>
                                             <span style="display:block;padding-top: 15px;">
 												<span class="left top15">Click to get location:</span>
-                                                <button onclick="Util.getGeoLocation(&quot;#systemSettingsLocationLat&quot;, &quot;#systemSettingsLocationLon&quot;)" class="geoPin">G</button>
+                                                <button
+														onclick="Util.getGeoLocation('#systemSettingsLocationLat', '#systemSettingsLocationLon', '#systemSettingsLocationElev')"
+														class="geoPin">G</button>
 											</span>
 										</div>
 										<span class="cardTitle">Location</span><br>
@@ -1169,8 +1170,9 @@
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><select id="systemSettingsTouchProgSelect" style="width:100%;color:#39c;"></select></span>
-                                                                                <span class="cardTitle">Enable Touch to Cycle Programs</span><br>
+										<span class="right mr"><input type="checkbox" id="systemSettingsTouchProg"></span>
+										<span class="right mr"><select id="systemSettingsTouchProgSelect" style="width:100%;color:#39c;padding-right:35px"></select></span>
+										<span class="cardTitle">Enable Touch to Cycle Programs</span><br>
 										<span class="subtitle">Show P on digit display and enable to start selected program of your choice.</span>
 									</td>
 								</tr>
@@ -1936,7 +1938,6 @@
 															<span class="right mr10" rm-id="weekday-6"></span>
 															<div>Saturday</div>
 														</div>
-													</div>
 												</div>
 											</div>
 										</td>

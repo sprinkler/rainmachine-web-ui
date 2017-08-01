@@ -372,7 +372,7 @@ window.ui = window.ui || {};
 		$("#logoutBtn").onclick = ui.login.logout;
 
 		//More button for water log details
-		$("#waterlog-more").onclick = $('#homeScreenWaterSaved').onclick = function() {
+		$("#waterlog-more").onclick = $('#waterSavedInfo').onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings0').onclick();
 		};
