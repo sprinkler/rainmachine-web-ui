@@ -97,6 +97,11 @@ window.ui = window.ui || {};
 			div.func = submenus[i].func;
 			div.onclick = function()
 				{
+					if (history.state.elem != this.id) {
+						history.pushState({"elem": this.id }, null, null);
+						console.log("Saved history for %s", this.id);
+					}
+
 					//Hide other containers and Show the selected container
 					for (var t = 0; t < submenus.length; t++)
 					{
@@ -135,11 +140,15 @@ window.ui = window.ui || {};
 
 	function buildMenu() {
 		for (var i = 0; i < mainMenus.length; i++) {
-			var id = mainMenus[i].prefix;
-			var currentButton = $("#" + id + "Btn");
+			var currentButton = $("#" + mainMenus[i].prefix  + "Btn");
 
 			currentButton.onclick = (function(index) {
 				return function() {
+					if (history.state.elem != this.id) {
+						history.pushState({"elem": this.id }, null, null);
+						console.log("Saved history for %s", this.id);
+					}
+
 					var visibilityFunc = mainMenus[index].visibilityFunc;
 					var currentElements = getMenuElements(mainMenus[index].prefix);
 					var parent = mainMenus[index].parent;
@@ -416,7 +425,18 @@ window.ui = window.ui || {};
 		$("#waterGaugeSaved").setAttribute("selected", "on");
 		$("#waterGaugeSaved").onclick = function() { toggleWaterGaugeInfo(true); };
 		$("#waterGaugeUsed").onclick = function() { toggleWaterGaugeInfo(false);	};
+	}
 
+	function setupHistoryState() {
+		history.pushState({"elem": "dashboardBtn"}, null, null, null);
+		window.addEventListener("popstate", function(e) {
+			if (!e.state || !e.state.elem)
+				return;
+
+			var elem = $("#" + e.state.elem);
+			if (elem.onclick && typeof elem.onclick === "function")
+				elem.onclick();
+		});
 	}
 
 	//--------------------------------------------------------------------------------------------
@@ -431,6 +451,7 @@ window.ui = window.ui || {};
 		Help.bindAll();
 		window.ui.firebase.init();
 		setDefaultButtonActions();
+		setupHistoryState();
 
 		//Load local settings
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
