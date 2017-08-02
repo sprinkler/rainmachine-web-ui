@@ -43,9 +43,9 @@ window.ui = window.ui || {};
 		];
 
 	var dashboardNavigation = [
-		{ id: "chartsWeek",	idText: "waterSavedTitle",	text: "Water saved past 7 days", 	func: loadWeeklyCharts },
-		{ id: "chartsMonth",idText: "waterSavedTitle",	text: "Water saved past 30 days", func: loadMonthlyCharts },
-		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past year",	func: loadYearlyCharts }
+		{ id: "chartsWeek",	 func: loadWeeklyCharts },
+		{ id: "chartsMonth", func: loadMonthlyCharts },
+		{ id: "chartsYear",	 func: loadYearlyCharts }
 	];
 
 
@@ -78,7 +78,7 @@ window.ui = window.ui || {};
 					var c = buttonList[t];
 					if (this.id === c.id) {
 						this.setAttribute("selected", "on");
-						$("#" + c.idText).textContent = c.text;
+						//$("#" + c.idText).textContent = c.text;
 						this.func();
 					} else {
 						$("#" + c.id).removeAttribute("selected");
@@ -348,6 +348,22 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function toggleWaterGaugeInfo(showSaved) {
+		var bOn = $("#waterGaugeSaved");
+		var bOff = $("#waterGaugeUsed");
+
+		if (!showSaved) {
+			bOn = $("#waterGaugeUsed");
+			bOff = $("#waterGaugeSaved");
+		}
+
+		bOn.setAttribute("selected", "on");
+		bOff.removeAttribute("selected");
+		waterGaugeSaved = showSaved;
+		setWaterSavedValueForDays(chartsCurrentDays);
+		generateWaterSavedGauge();
+	}
+
 	//Static UI elements for main UI
 	function buildUIElems() {
 		uiElems.homeLeft = $('#homeScreenLeft');
@@ -396,6 +412,10 @@ window.ui = window.ui || {};
 		};
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
+
+		$("#waterGaugeSaved").setAttribute("selected", "on");
+		$("#waterGaugeSaved").onclick = function() { toggleWaterGaugeInfo(true); };
+		$("#waterGaugeUsed").onclick = function() { toggleWaterGaugeInfo(false);	};
 
 	}
 
