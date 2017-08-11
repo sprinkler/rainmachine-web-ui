@@ -158,6 +158,7 @@ function ChartData () {
 	this.gaugeMinutes = 0; //Holds the total watering minutes either saved or used
 	this.gaugePercentage = 0; //Holds the gauge percentage either saved or used
 	this.gaugeVolume = 0; //Holds the gauge actual volume either saved or used
+	this.et0Avg = 5;
 
 	console.log('Initialised ChartData from %s to %s',Util.getDateStr(this.startDate), Util.getDateStr(end));
 }
@@ -259,6 +260,7 @@ function processChartData() {
 		Data.counters.charts = 0;
 	}
 
+	chartsData.et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -573,6 +575,7 @@ function loadWeeklyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
 	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
+	chartsData.et0.currentSeries = chartsData.et0.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -628,6 +631,7 @@ function loadMonthlyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
 	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
+	chartsData.et0.currentSeries = chartsData.et0.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -670,6 +674,7 @@ function loadYearlyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.monthsData;
 	chartsData.qpf.currentSeries = chartsData.qpf.monthsData;
 	chartsData.rain.currentSeries = chartsData.rain.monthsData;
+	chartsData.et0.currentSeries = chartsData.et0.monthsData;
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].monthsData;
@@ -712,6 +717,7 @@ function generateDailyWeatherChart(container, past, days) {
 		var maxtemp = Util.convert.uiTemp(chartsData.maxt.data[i]);
 		var mintemp = Util.convert.uiTemp(chartsData.mint.data[i]);
 		var qpf = Util.convert.uiQuantity(chartsData.qpf.data[i]);
+		var et0 = Util.convert.uiQuantity(chartsData.et0.data[i]);
 		var date = chartsData.condition.getDateAtIndex(i);
 
 		var weatherTemplate = loadTemplate("day-weather-template");
@@ -719,6 +725,7 @@ function generateDailyWeatherChart(container, past, days) {
 		var weatherIconElem = $(weatherTemplate, '[rm-id="day-weather-icon"]');
 		var weatherTempElem = $(weatherTemplate, '[rm-id="day-weather-temp"]');
 		var weatherQPFElem =  $(weatherTemplate, '[rm-id="day-weather-qpf"]');
+		var weatherETElem = $(weatherTemplate, '[rm-id="day-weather-et0"]');
 
 		if (i == startDayIndex) {
 			$('#weatherChartDaysMonth').textContent = Util.monthNames[date.getMonth()];
@@ -755,6 +762,17 @@ function generateDailyWeatherChart(container, past, days) {
 			weatherQPFElem.textContent = qpf;
 		} else  {
 			weatherQPFElem.textContent = "--";
+		}
+
+		try {
+			et0 = et0.toFixed(2)
+		} catch(e) {}
+
+
+		if (et0 !== null) {
+			weatherETElem.textContent = et0;
+		} else  {
+			weatherETElem.textContent = "--";
 		}
 
 		containerDiv.appendChild(weatherTemplate);
@@ -1108,7 +1126,8 @@ function generateProgramChart (programUid, programIndex) {
 			style: {
 				fontFamily: "Roboto, Helvetica, Arial, sans-serif",
 				fontSize: "14px"
-			}
+			},
+			alignTicks: false
 		},
 		tooltip: {
 			hideDelay: 0,
@@ -1173,8 +1192,17 @@ function generateProgramChart (programUid, programIndex) {
 						+ ": " + this.y + '%<br>' + flagText + '</span>';
 				}
 			},
-			type: 'column'
-		}],
+			type: 'column',
+			yAxis: 0
+		},
+			{
+				data: chartsData.et0.currentSeries,
+				type:'line',
+				dashStyle: 'dot',
+				color: '#ff9999',
+				yAxis: 1
+			}
+		],
 
 		title: null,
 		xAxis: [{
@@ -1203,8 +1231,24 @@ function generateProgramChart (programUid, programIndex) {
 			},
 			title: {
 				text: null
+			},
+			endOnTick:false
+		},
+			{
+				min: 0,
+				max: chartsData.et0Avg,
+				gridLineWidth: 0,
+				minorGridLineWidth: 0,
+				labels: {
+					enabled: false,
+					format: '{value}'
+				},
+				title: {
+					text: null
+				},
+				endOnTick:false
 			}
-		}]
+		]
 	};
 
     // Hide labels from monthly charts
@@ -1219,6 +1263,8 @@ function generateProgramChart (programUid, programIndex) {
 
 	console.log("Showing chart for program: ", programName);
 	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
+
+	console.log("ET0AVG: %f", chartsData.et0Avg);
 }
 
 
