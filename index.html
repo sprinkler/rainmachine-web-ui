@@ -1546,6 +1546,13 @@
 														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
 													</td>
 
+													<td class="middle" style="width:33%;">
+														<div class="helpText" help="zoneMinimumDuration">?</div> <span style="font-size:130%;">Minimum watering duration</span>
+														<br>
+														<span class="top15">threshold duration in seconds:</span>
+														<input type="number" id="restrictionsMinWatering" class="typeNumber">
+													</td>
+
 													<td style="width:33%;">
 														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
 														<br>
@@ -1865,14 +1872,45 @@
 						<td class="programProperties noborder halfLeft">
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tbody>
-
 									<tr>
 										<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
 									</tr>
-									<tr><td class="cardTitle">Enabled:</td><td class="middle"><input type="checkbox" rm-id="program-active" class="right typeCheckbox"></td></tr>
+									<tr>
+									<td class="cardTitle">Enabled:</td>
+									<td class="middle">
+										<input type="checkbox" rm-id="program-active" class="right typeCheckbox">
+									</td>
+									</tr>
+									<tr>
+										<td style="border-bottom: 0">
+											<span class="cardTitle">Weather-Adaptive Watering</span><br>
+											<span class="zoneTimesSubtitle" style="margin:0">All program zones duration will auto adjust based on weather.</span>
+										</td>
+										<td class="middle" style="border-bottom: 0">
+											<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Choose between weather data channel:
+											<br><br>
+											<input type="radio" id="liveweather" name="radios" value="all" checked style="display: none;">
+       										<label for="liveweather">Live<br>Weather<br>Data</label>
+											<input type="radio" id="seasonaladjustments" name="radios" value="false" style="display: none;">
+       										<label for="seasonaladjustments">Seasonal<br>Adjustments<br>Data</label>
+											<div style="clear: both;height:20px;"></div>
+											and then between frequency and zone watering duration options:
+											<br><br>
+											<input type="radio" id="ffandfd" name="radios2" value="all" style="display: none;">
+       										<label for="ffandfd">Fixed Frequency<br>and<br>Flexible Duration</label>
+											<input type="radio" id="ffandfd2" name="radios2" value="false" checked style="display: none;">
+       										<label for="ffandfd2">Flexible Frequency<br>and<br>Fixed Duration</label>
+       										<div style="clear: both;height:20px;"></div>
+										</td>
+									</tr>
 									<tr>
 										<td colspan="2">
-											<span class="cardTitle">Frequency:</span><br><br>
+											<span class="cardTitle">Fixed Frequency:</span><br><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
@@ -2037,13 +2075,6 @@
 						</td>
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
-								<tr>
-									<td style="border-top:1px solid #ddd;">
-										<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
-										<span class="cardTitle">Weather-Adaptive Watering</span><br>
-										<span class="zoneTimesSubtitle" style="margin:0">All program zones duration will auto adjust based on weather.</span>
-									</td>
-								</tr>
 								<tr>
 									<td style="padding:1.2em 0;">
 										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
