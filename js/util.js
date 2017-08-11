@@ -8,7 +8,8 @@ var Util = (function(Util) {
 
 Util.parseDeviceDateTime = function(json) {
 	try {
-		Data.today = new Date(json.appDate.replace(/-/g, "/"));
+		deviceDate = json.appDate; //Format: YYYY-MM-DD HH:MM:SS
+		Data.today = Util.deviceDateStrToDate(deviceDate);
 		console.log("DEVICE DATE: %o", Data.today);
 	} catch(e) {
 		console.log("DEVICE DATE: Invalid !")
@@ -84,7 +85,7 @@ Util.secondsToMMSS = function(seconds)
 Util.sinceDateAsText = function(dateString)
 {
 	var text;
-	var today = new Date();
+	var today = Util.today();
 	var d = new Date(dateString.split(" ")[0]);
 	var s = d.getTime() / 1000;
 	var sToday = (today.getTime() / 1000) >> 0;
@@ -118,10 +119,13 @@ Util.bitStringToWeekDays = function(bitstr)
 //Returns date (YYYY-MM-DD) index in a 365 length array that starts with startDate
 Util.getDateIndex = function(dateStr, startDate)
 {
-	var dateTokens = dateStr.split("-");
-	var dayDate = new Date(dateTokens[0],dateTokens[1] - 1 , dateTokens[2]);
-	var diff = dayDate - startDate;
-	return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	var dayDate =  Util.deviceDateStrToDate(dateStr);
+	if (dayDate) {
+		var diff = dayDate - startDate;
+		return ((diff/(60 * 60 * 24 * 1000) + 1) >> 0);
+	}
+	console.error("Cannot find index from date string: %s", dateStr);
+	return 0;
 }
 
 
@@ -184,6 +188,42 @@ Util.dateStringToLocalDate = function(dateStr) {
 	return null;
 };
 
+//Converts date informat "YYYY-MM-DD HH:MM:SS" to a javascript date
+Util.deviceDateStrToDate = function(datetimeStr) {
+
+	if (datetimeStr === null) {
+		return null;
+	}
+
+	var datetimeArr = datetimeStr.split(" ");
+
+	var dateArr = datetimeArr[0].split("-");
+	var day = dateArr[2];
+	var month = dateArr[1];
+	var year = dateArr[0];
+
+	var h = 0;
+	var m = 0;
+	var s = 0;
+
+	if (datetimeArr.length > 1) {
+		var timeArr = datetimeArr[1].split(":");
+		h = timeArr[0];
+		m = timeArr[1];
+		s = timeArr[2];
+	}
+
+	var d = new Date();
+	d.setDate(day);
+	d.setMonth(month-1);
+	d.setFullYear(year);
+
+	d.setHours(h);
+	d.setMinutes(m);
+	d.setSeconds(s);
+
+	return d;
+}
 
 Util.isToday = function(dateStr)
 {
@@ -216,29 +256,6 @@ Util.normalizeWaterNeed = function(user, real)
 		wn = Math.round((real / user) * 100);
 
 	return wn;
-}
-
-Util.appDateToFields = function(appDateStr)
-{
-	var fields = {
-		date: "",
-		hour: "",
-		minute: "",
-		seconds: "",
-	};
-
-	if (appDateStr === undefined || !appDateStr || appDateStr.length < 19)
-		return fields;
-
-	var dt = appDateStr.split(" ");
-	var t = dt[1].split(":");
-
-	fields.date = dt[0];
-	fields.hour = t[0];
-	fields.minute = t[1];
-	fields.seconds = t[2];
-
-	return fields;
 }
 
 
@@ -275,17 +292,6 @@ Util.saveMasterValve = function(enabled, before, after)
 	Data.provision.system.masterValveAfter = after;
 
 	return true;
-}
-
-Util.redirectHome = function(locationObj) {
-	var re = "my.rainmachine.com";
-	var host = locationObj.hostname;
-
-	if (host.match(re)) {
-		window.location.href = locationObj.origin
-	} else {
-		location.reload();
-	}
 }
 
 Util.isFloat = function(value) {
@@ -344,6 +350,10 @@ Util.generateTagFromDataType = function(parent, data, label) {
 				console.log("%s: JS Object detected", label);
 			} else if (dataFromJSON !== null) { // Check if we received JSON data as string
 				inputElem.value = JSON.stringify(dataFromJSON, null, 4);
+				//For now activate only for rules  field from Weather Rules parser
+				if (label === "rules") {
+					inputElem.id = id;
+				}
 				console.log("%s: JSON data as string detected", label);
 			}
 		}
@@ -399,7 +409,7 @@ Util.readGeneratedTagValue = function(label) {
 }
 
 //Get geolocation coordinates start
-Util.getGeoLocation = function(latitudeTag, longitudeTag) {
+Util.getGeoLocation = function(latitudeTag, longitudeTag, elevationTag) {
 
 	if (!navigator.geolocation){
 		console.error("Geolocation is not supported by your browser");
@@ -409,6 +419,8 @@ Util.getGeoLocation = function(latitudeTag, longitudeTag) {
 	function success(position) {
 		$(latitudeTag).value  = position.coords.latitude;
 		$(longitudeTag).value = position.coords.longitude;
+		if (position.coords.altitude)
+			$(elevationTag).value = position.coords.altitude;
 	};
 
 	function error() {
@@ -599,11 +611,16 @@ Util.convert = {
 		}
 	},
 	uiFlowVolume: function(flow) {
+		var f;
 		if (!Data.localSettings.units) {
-			return Util.convert.volumeMetersHourToGPM(flow);
+			f = Util.convert.volumeMetersHourToGPM(flow);
 		} else {
-			return Math.round(flow * 100) /100;
+			f = Math.round(flow * 100) /100;
 		}
+
+		if (f < 0) f = null;
+
+		return f;
 	},
 	uiFlowVolumeToMeters: function(flow) {
 		if (!Data.localSettings.units) {
@@ -648,11 +665,14 @@ Util.convert = {
 		}
 	},
 	uiArea: function(area) {
+		var a;
 		if (!Data.localSettings.units) {
-			return Util.convert.areaMetersToFeet(area);
+			a = Util.convert.areaMetersToFeet(area);
 		} else {
-			return area;
+			a = area;
 		}
+		if (a < 0) a = null;
+		return a;
 	},
 	uiAreaStr: function() {
 		if (!Data.localSettings.units) {

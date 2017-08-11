@@ -254,7 +254,7 @@ body { font-family: Roboto, Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-
 .hidden { display: none;}
 .right {float: right;}
 .center {text-align: center;}
-.full {width: 100%; }
+.full {width: 100%;}
 .bold {font-weight: bold;}
 
 .clear30 {
@@ -405,7 +405,7 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   color: #39c;
-  line-height: 21px;
+  line-height: 22px;
   font-size: 14px;
 }
 .program-line,
@@ -446,10 +446,9 @@ strong { font-weight: 700; }
   font-family: 'RainMachine';
   color:#AF0000;
   font-size: 40px;
-  float: right;
+  float: left;
   display: block;
-  padding-top: 40px;
-  margin-left: 10px;
+  margin-left: 1em;
 }
 .zoneListLine {
   height: 34px;
@@ -458,6 +457,7 @@ strong { font-weight: 700; }
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
+  height: 82px;
 }
 .zoneListName {
   /*padding-top: 25px;*/
@@ -522,7 +522,7 @@ strong { font-weight: 700; }
   display: inline-block;
   vertical-align: top;
   width: 64px;
-  height: 142px;
+  height: 170px;
   text-align: center;
   padding: 0 2px 5px 2px;
   margin-top: -5px;
@@ -539,12 +539,13 @@ strong { font-weight: 700; }
   font-family: 'RainMachine';
   font-size: 52px;
   width: 64px;
-  height: 64px;
+  height: 62px;
   color: #4296cd;
 }
 .dayTemp {
   color: #4296cd;
   font-size: 15px;
+  height:23px;
 }
 sup { font-size: 12px }
 
@@ -568,7 +569,7 @@ sup { font-size: 12px }
 }
 
 #deviceName{
-  width:380px;
+  /*width:380px;*/
   padding-left:0px;
 }
 .programListName {
@@ -635,8 +636,9 @@ h1 {
 }
 .subtitle, .zoneTimesSubtitle {
   padding-left: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
+    
   vertical-align: top;
 }
 .zoneTimesSubtitle {
@@ -653,15 +655,15 @@ h1 {
   display: inline-block;
   color: #3399cc;
   margin-left:10px;
-  font-size:20px;
+  font-size:1.1em;
   padding: 2px 15px;
   padding-left: 0;
 }
 .zoneTimesDetermined {
-  width: 56px;
+  width: 3em;
   text-align: center;
-  margin:0;
-  padding: 0;
+  margin: 0px;
+  padding-right: 0.25em;
 }
 .zoneTimesWeatherMessage{
   color:#3399cc;
@@ -681,15 +683,17 @@ h1 {
   margin-top: 6px;
   margin-left: 10px;
   margin-bottom: 10px;
-  border: 1px solid #f9f9f9;
+  border: 0px solid #f9f9f9;
   border-radius: 100%;
   vertical-align: middle;
 }
 .zoneListImageEdit {
-  width: 195px;
-  height: 195px;
-  border-radius: 100%;
-  border: 1px solid #f1f1f1;
+  width: 378px;
+  height: 282px;
+  border-radius: 0%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border:0;
 }
 
 .zoneListImageNone, .zoneListImageNoneEdit {
@@ -703,16 +707,17 @@ h1 {
   color: #eee;
   padding: 42px;
 }
-.zoneListImage:hover, .zoneListImageEdit:hover {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  z-index: 512;
+.zoneListImage:hover {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   transition: all 200ms ease-in;
   transform: scale(4);
-  border: 1px solid #f9f9f9;;
-}
-
-.zoneListImageEdit:hover {
-  transform: scale(2);
+  border: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  background-position: center center;
+  border-radius: 0;
+  z-index: 9999;
 }
 
 #mainContainer {
@@ -776,7 +781,7 @@ h1 {
   float: right;
   min-width: 100px;
   display: inline-block;
-  padding-top: 23px;
+  padding-top: 1.35em;
   padding-bottom: 12px;
   margin-right: 5px;
   color: #555;
@@ -1326,14 +1331,19 @@ select, .selectSmall {
   padding: 20px;
 }
 
-#restrictionsMaxWateringContainer, #restrictionsFreezeProtectContainer {
+#greyoutMaxWatering, #greyoutFreezeProtect,
+#greyoutRainSensorType, #greyoutRainSensorSnooze
+{
   opacity: 0.1;
   pointer-events: none;
 }
-#restrictionsMaxWateringContainer[enabled], #restrictionsFreezeProtectContainer[enabled] {
+#greyoutMaxWatering[enabled], #greyoutFreezeProtect[enabled],
+#greyoutRainSensorType[enabled], #greyoutRainSensorSnooze[enabled]
+{
   opacity: 1;
   pointer-events: auto;
 }
+
 .settingsBlock,
 .settingsBlockZones,
 .settingsBlockProgram { background-color: #fff }
@@ -1344,7 +1354,7 @@ select, .selectSmall {
 }
 
 .programProperties {
-  width: 44.5%;
+  width:44.5%;
   border-bottom: 0;
 }
 .gap {
@@ -1365,6 +1375,10 @@ select, .selectSmall {
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
+}
+
+.reset_defaults{
+    color:white;
 }
 .cardSubtitle {
   color: #999;
@@ -1572,7 +1586,7 @@ td.right,
   color:#888;
 }
 .bgred {
-  background-color: #ff0000;
+  background-color: #d23f31;
 }
 .pin {
   display: inline-block;
@@ -1636,7 +1650,7 @@ td.right,
   margin-left: 10px;
   vertical-align: middle;
   width: 75%;
-  height: 18px;
+  height: 44px;
 }
 /* Settings - Weather (END) */
 /* Material UI Button */
@@ -1651,7 +1665,6 @@ td.right,
   font-family: 'Roboto', Arial, Helvetica;
   color: #646464;
   text-transform: uppercase;
-  text-align: center;
 }
 .button.narrow { width: 60px }
 .button.grey {
@@ -1659,24 +1672,28 @@ td.right,
   padding: 0 10px;
   width: 100px;
   margin-right: 20px;
+  text-align: center;
 }
 .button.blue {
   background-color: #39c;
   color: #fff;
   padding: 0 10px;
   width: 132px;
+  text-align: center;
 }
 .button.red {
   background-color: red;
   color: #fff;
   padding: 0 10px;
   width: 132px;
+  text-align: center;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
   padding: 0 10px;
   width: 132px;
+  text-align: center;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);

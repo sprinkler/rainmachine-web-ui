@@ -98,6 +98,19 @@ function getPosition(tag)
 
     return r;
 }
+
+
+function addSelectOption(e, name, value, selected) {
+	if (selected === undefined || selected === null)
+		selected = false;
+
+	var o = addTag(e, 'option');
+	o.value = value;
+	o.textContent = name;
+	o.selected = selected;
+}
+
+
 //set current option of a select element by matching string in option text or value
 function setSelectOption(e, str, matchValue)
 {

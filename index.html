@@ -96,8 +96,10 @@
 							<div id="homeScreenLeft">
 								<div id="homeScreenWaterSaved">
 									<h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
+									<button id="waterGaugeSaved" class="button label-gray left mr10">Saved</button>
+									<button id="waterGaugeUsed" class="button label-gray right mr10">Used</button>
 									<div id="waterSavedGaugeContainer"></div><div class="helpTextWaterSaved" help="waterSavedVolume">?</div>
-									<div class="waterSavedInfo">
+									<div class="waterSavedInfo" id="waterSavedInfo">
 										<div class="waterSavedInfoInner">
 											<div class="inlineblock" id="waterSavedGaugeVolume"></div><br>
 											<div class="inlineblock" id="waterSavedGaugeMinutes"></div>
@@ -167,9 +169,9 @@
 								</div>
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
-									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0">
+									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
-										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation</span></div>
+										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br><span style="color:#ff9999;">EvapoTranspiration</span></span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -244,17 +246,27 @@
 										<table cellspacing="0" cellpadding="0" class="center full">
 											<tbody>
 												<tr>
-													<th><h1 class="title">By number of days</h1></th>
+													<th colspan="3" style="padding-bottom:42px;"><span class="subtitle">Prevents the device from starting any watering activity for the defined duration</span></th>
 												</tr>
 												<tr>
-													<td class="middle center" style="border-bottom:0;">
-														<span class="cardTitle bold">Days:</span>
+													<td class="middle center" style="border-bottom:0;width:40px;">
+														<span class="cardTitle bold">Days</span>
 														<br><br>
-														<input id="snoozeDays" type="number" name="seconds" min="0" max="365" class="typeNumber center" placeholder="0">
+														<input id="snoozeDays" type="number" name="days" min="0" max="365" class="typeNumber center" style="font-size: xx-large;width:100px;" placeholder="0">
+													</td>
+													<td class="middle center" style="border-bottom:0;width:40px;">
+														<span class="cardTitle bold">Hours</span>
+														<br><br>
+														<input id="snoozeHours" type="number" name="hours" min="0" max="24" class="typeNumber center" style="font-size: xx-large;width:100px;" placeholder="0">
+													</td>
+													<td class="middle center" style="border-bottom:0;width:40px;">
+														<span class="cardTitle bold">Minutes</span>
+														<br><br>
+														<input id="snoozeMinutes" type="number" name="minutes" min="0" max="60" class="typeNumber center" style="font-size: xx-large;width:100px;" placeholder="0">
 													</td>
 												</tr>
 												<tr>
-												<td colspan="3" style="padding-bottom:42px;">&nbsp;</td>
+												<td colspan="3" style="padding-bottom:30px;">&nbsp;</td>
 												</tr>
 												<tr>
 													<td colspan="3" class="noborder">
@@ -327,7 +339,7 @@
 											<td class="middle">
 												<button id="restrictionsHotDaysSet" class="button label-blue center right">Apply</button>
 												<input type="checkbox" id="restrictionsExtraWatering" class="right" style="margin-top:8px;" />
-												<div id="restrictionsMaxWateringContainer" class="right mr" style="width:51%;">
+												<div id="greyoutMaxWatering" class="right mr" style="width:51%;">
 													<span class="top15">Maximum percentage for over watering:</span>
 													<input type="number" id="restrictionsMaxWatering" class="typeNumber txtright" min="100" max="200"> %
 												</div>
@@ -339,7 +351,7 @@
 											<td class="middle">
 												<button id="restrictionFreezeSet" class="button label-blue center right">Apply</button>
 												<input type="checkbox" id="restrictionsFreezeProtect" class="right" style="margin-top:8px;" />
-												<div id="restrictionsFreezeProtectContainer" class="right mr" style="width:51%;">
+												<div id="greyoutFreezeProtect" class="right mr" style="width:51%;">
 													<span class="top15">Select minimum temperature value:</span>
 													<select id="restrictionsFreezeProtectTemp" style="width:180px;">
 														<option value="0">0 &deg; C / 32 &deg; F</option>
@@ -361,25 +373,6 @@
 												</div>
 												<span class="cardTitle">Minimum Watering Time</span><br>
 												<span class="subtitle">This feature allows users to set a minimum time for their sprinklers to run. Any time below that threshold will rollover to the next watering cycle.</span>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<div class="settingsBlock center block70">
-									<h1 class="title center">Rain Sensor</h1>
-									<table cellspacing="0" cellpadding="0" class="full">
-										<tr>
-											<td class="middle">
-												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
-												<div>
-													<input type="checkbox" id="restrictionsRainSensor" class="right" />
-													<span class="cardTitle">Use hardware rain sensor</span><br>
-													<span class="subtitle">Stop all watering when rain is detected.</span>
-													<br><br>
-													<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
-													<span class="cardTitle">Rain sensor normally closed</span><br>
-													<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
-												</div>
 											</td>
 										</tr>
 									</table>
@@ -544,7 +537,7 @@
 												Hour:
 												<input type="number" min="0" max="24" class="typeNumber center" id="restrictionHourlyStartHour"  placeholder="14">
 												Minute:
-												<input type="number" min="0" max="24" class="typeNumber center" id="restrictionHourlyStartMinute"  placeholder="30">
+												<input type="number" min="0" max="60" class="typeNumber center" id="restrictionHourlyStartMinute"  placeholder="30">
 											</td>
 											<td class="middle noborder">
 												<strong>Restriction duration</strong>
@@ -554,13 +547,13 @@
 											</td>
 											<td class="middle noborder">
 												<strong>Weekdays</strong><br><br>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday"><br>Sun</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday"><br>Mon</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday"><br>Tue</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday"><br>Wed</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday"><br>Thu</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday"><br>Fri</div>
-												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday"><br>Sat</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySunday" checked><br>Sun</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyMonday" checked><br>Mon</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyTuesday" checked><br>Tue</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyWednesday" checked><br>Wed</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyThursday" checked><br>Thu</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlyFriday" checked><br>Fri</div>
+												<div class="restrictionAddNewDays"><input type="checkbox" id="restrictionHourlySaturday" checked><br>Sat</div>
 											</td>
 										</tr>
 										<tr>
@@ -576,8 +569,53 @@
 							</div>
 						</div>
 
-						<div id="weather" style="display: none;">
+						<div id="rainsensor" style="display: none;">
 							<div class="settingsBlock center block70">
+								<h1 class="title center">Rain Sensor</h1>
+									<table cellspacing="0" cellpadding="0" class="full">
+										<tr>
+											<td class="middle">
+												<div>
+													<input type="checkbox" id="restrictionsRainSensor" class="right" style="margin-right:80px;" />
+													<span class="cardTitle">Use hardware rain sensor</span><br>
+													<span class="subtitle">Stop all watering when rain is detected.</span>
+													<br><br>
+													<div id="greyoutRainSensorType">
+														<span class="right"><input type="checkbox" id="restrictionsRainSensorType" style="margin-right:80px;" /></span>
+														<span class="cardTitle">Rain sensor normally closed</span><br>
+														<span class="subtitle">Hardware Rain Sensor is normally closed and open when rain is detected</span>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr id="greyoutRainSensorSnooze">
+											<td>
+												<div class="right" style="margin-right:80px;">
+													<span class="cardTitle">After rain has stopped</span>
+													<select id="restrictionsRainSensorSnooze" style="width:420px;">
+														<option value="0">resume normal operation.</option>
+														<option value="-1" selected>snooze device until midnight.</option>
+														<option value="21600">snooze device for 6 hours.</option>
+														<option value="43200">snooze device for 12 hours.</option>
+														<option value="86400">snooze device for 24 hours.</option>
+														<option value="172800">snooze device for 48 hours.</option>
+													</select>
+												</div>
+													<span class="cardTitle">Last detected rain event</span><br>
+													<span class="subtitle label-blue" id="restrictionsRainSensorLastEvent"></span>
+											</td>
+										</tr>
+										<tr>
+											<td class="noborder">
+												<button id="restrictionsRainSensorSet" class="button label-blue center right" style="padding-top:16px;">Apply</button>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<div id="weather" style="display: none;">
+								<div class="settingsBlock center block70">
 									<table cellspacing="0" cellpadding="0" class="full">
 										<tr>
 											<th>
@@ -644,9 +682,9 @@
 												<div id="weatherSourcesEditContent"><!-- template inserted by javascript --></div>
 												<div style="height:40px;">&nbsp;</div>
 												<div class="absolute full">
-													<button id="weatherSourcesEditSave" class="button label-blue center right">Save</button>
-													<button id="weatherSourcesEditClose" class="button label-gray center right">Close</button>
-													<button id="weatherSourcesEditRun" class="button label-gray center left ml10">Refresh Now</button>
+													<button id="weatherSourcesEditSave" class="button blue center right">Save</button>
+													<button id="weatherSourcesEditClose" class="button grey center right">Close</button>
+													<button id="weatherSourcesEditRun" class="button label-gray center left ml10 mr">Refresh Now</button>
 													<button id="weatherSourcesEditDefaults" class="button label-gray center left ml10">Defaults</button>
 												</div>
 											</div>
@@ -901,17 +939,22 @@
 											<button id="systemSettingsLocationSet" class="button label-blue center" style="margin-top:40px;">Apply</button>
 										</div>
 										<div class="right mr" style="width:40%;">
-											<div style="margin-top:-24px;">
-												<button onclick='Util.getGeoLocation("#systemSettingsLocationLat", "#systemSettingsLocationLon")' class="geoPin">G</button><br>
+											<div>
 												<span style="display:block;">
-													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:59%;" />
+													<span class="left top15">Latitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLat" style="width:70%;" />
 												</span>
 												<span style="display:block;">
-													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:59%;" />
+													<span class="left top15">Longitude:</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationLon" style="width:70%;" />
 												</span>
 											</div>
 											<span style="display:block;">
 												<span class="left top15">Elevation(m):</span> <input type="text"  placeholder="" class="typeNumber" id="systemSettingsLocationElev" style="width:70%;" />
+											</span>
+                                            <span style="display:block;padding-top: 15px;">
+												<span class="left top15">Click to get location:</span>
+                                                <button
+														onclick="Util.getGeoLocation('#systemSettingsLocationLat', '#systemSettingsLocationLon', '#systemSettingsLocationElev')"
+														class="geoPin">G</button>
 											</span>
 										</div>
 										<span class="cardTitle">Location</span><br>
@@ -947,7 +990,7 @@
 											<span style="display:block;">
 												<!--<span class="left top15"></span>-->
 													<select id="systemSettingsTimeZoneSelect" style="width:70%;">
-														&lt;!&ndash; Generated from Javascript &ndash;&gt;
+														<!--- Generated from Javascript --->
 													</select>
 												</span>
 											</span>
@@ -1035,6 +1078,14 @@
 								</tr>
 								<tr>
 									<td class="middle">
+										<button id="systemSettingsBonjourSet" class="button label-blue center right">Apply</button>
+										<input id="systemSettingsBonjour" type="checkbox" class="right mr" />
+										<span class="cardTitle">Apple Bonjour Integration</span><br>
+										<span class="subtitle">Allow local LAN integration with Apple Bonjour protocol.</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
 										<button id="systemSettingsBetaUpdatesSet" class="button label-blue center right">Apply</button>
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
@@ -1113,15 +1164,16 @@
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
 									<th>
-										<h1 class="title">RainMachine Mini-8 specific</h1>
+										<h1 class="title">Display, LED & Touch</h1>
 									</th>
 								</tr>
 								<tr>
 									<td class="middle">
 										<button id="systemSettingsTouchProgSet" class="button label-blue center right">Apply</button>
 										<span class="right mr"><input type="checkbox" id="systemSettingsTouchProg"></span>
+										<span class="right mr"><select id="systemSettingsTouchProgSelect" style="width:100%;color:#39c;padding-right:35px"></select></span>
 										<span class="cardTitle">Enable Touch to Cycle Programs</span><br>
-										<span class="subtitle">Show P on digit display and enable to start the first available program.</span>
+										<span class="subtitle">Show P on digit display and enable to start selected program of your choice.</span>
 									</td>
 								</tr>
 								<tr>
@@ -1228,8 +1280,8 @@
 								<tr>
 									<td class="middle" style="border:0;">
 										<button id="systemSettingsResetDefaultSet" class="button label-red center right" style="color:white;">Reset</button>
-										<span class="cardTitle">Reset to Defaults</span><br>
-										<span class="subtitle" style="color:#660000;">Reset device to factory defaults.<br>
+										<span class="cardTitle reset_defaults">Reset to Defaults</span><br>
+										<span class="subtitle" style="color:rgba(255, 255, 255, 0.63);">Reset device to factory defaults.<br>
 										This action will remove all settings and data saved on device.</span>
 									</td>
 								</tr>
@@ -1347,6 +1399,8 @@
 			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
 			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
 			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
+			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;color:#ff9999;" title="EvapoTranspiration">0.00</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;color:#ff9999;">&#xe900;</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1408,13 +1462,14 @@
 	            <table class="programEdit" style="padding-top:0;" cellpadding="0" cellspacing="0">
 					<tr>
 					<tr rm-id="zone-master-valve-title">
-						<td class="middle center" style="padding: 20px;font-size:20px;">Master Valve Settings</td>
+						<td class="middle center" style="padding: 20px;font-size:20px;">Use Zone 1 as Master Valve (Pump) <span style="margin-left:35px;">Enable: <input type="checkbox" rm-id="zone-master-valve"/></span>
+							<span  rm-id="zone-master-valve-option"></span></td>
 					</tr>
-					<tr rm-id="zone-master-valve-option">
+					<!-- <tr>
 						<td class="middle noborder">
-							Enable Zone 1 as Master Valve (Pump): <input type="checkbox" rm-id="zone-master-valve"/>
+							
 						</td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td class="middle noborder" colspan="2">
 							<div rm-id="zone-master-valve-timer">
@@ -1439,11 +1494,12 @@
 									</tr>
 									<tr style="background-color: #f9f9f9;">
 										<td class="center middle">
-											<div class="helpText inlineblock" help="zoneListImageHelp">?</div> <div rm-id="zone-settings-image" class="zoneListImageEdit center">
+											<div class="helpText inlineblock" help="zoneListImageHelp">?</div>
+											<div rm-id="zone-settings-image" class="zoneListImageEdit center">
 												<div class="zoneListImageNoneEdit">&#xe800;</div>
 											</div>
 										</td>
-										<td>
+										<td style="padding-left:2%;">
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
 													<td class="middle noborder">Name</td>
@@ -1634,6 +1690,9 @@
 												<option value="5">Sandy Loam</option>
 												<option value="6">Loamy Sand</option>
 												<option value="7">Sand</option>
+												<option value="8">Sandy Clay</option>
+												<option value="9">Silt Loam</option>
+												<option value="10">Silt</option>
 												<option value="99">Custom</option>
 											</select>
 											<!-- Soil type "Custom" options start -->
@@ -1840,39 +1899,45 @@
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-sunday" class="right" />
+															<span class="right mr10" rm-id="weekday-7"></span>
 															<div>Sunday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-monday" class="right"/>
+															<input type="checkbox" rm-id="weekday-monday" class="right" checked>
+															<span class="right mr10" rm-id="weekday-1"></span>
 															<div>Monday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
+															<span class="right mr10" rm-id="weekday-2"></span>
 															<div>Tuesday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
+															<span class="right mr10" rm-id="weekday-3"></span>
 															<div>Wednesday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-thursday" class="right"/>
+															<span class="right mr10" rm-id="weekday-4"></span>
 															<div>Thursday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-friday" class="right"/>
+															<span class="right mr10" rm-id="weekday-5"></span>
 															<div>Friday</div>
 														</div>
 														<div>
 															<span class="separator"></span>
 															<input type="checkbox" rm-id="weekday-saturday" class="right"/>
+															<span class="right mr10" rm-id="weekday-6"></span>
 															<div>Saturday</div>
 														</div>
-													</div>
 												</div>
 											</div>
 										</td>
@@ -1973,22 +2038,21 @@
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 								<tr>
-									<td>
+									<td style="border-top:1px solid #ddd;">
 										<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
-										<span class="cardTitle">Weather-Adaptive Watering</span>
+										<span class="cardTitle">Weather-Adaptive Watering</span><br>
+										<span class="zoneTimesSubtitle" style="margin:0">All program zones duration will auto adjust based on weather.</span>
 									</td>
 								</tr>
 								<tr>
-									<td style="padding-right:0">
-										<div style="text-align: right;font-size: 120%;padding: 10px 0;">Total: <span rm-id="program-settings-zone-totaltime" class="right" style="margin-right:0;">00h 00m 00s</span></div>
+									<td style="padding:1.2em 0;">
+										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
+										<span style="text-transform: uppercase;">Total watering time</span>
 									</td>
 								</tr>
 								<tr>
-									<td class="middle">
-										<div class="right">
-											Duration
-										</div>
-										Zone name
+									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;">
+										Zones
 									</td>
 								</tr>
 								<!-- Start program settings zones template -->
@@ -2014,10 +2078,10 @@
 		<!-- Template for Program Settings Zone Watering Times Display only (Start) -->
 		<table id="program-settings-zone-template-container-2">
 			<tr id="program-settings-zone-template">
-				<td class="middle weatherSource">
+				<td class="middle weatherSource" style="padding-right:1.5em;">
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
-					<div class="middle right" style="padding: 0px 30px 0 0;">
-						<div rm-id="program-zone-duration" style="font-size:20px;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</div>
+					<div class="middle right">
+						<pre rm-id="program-zone-duration" style="font-size:1.3em;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
 						<!--<div rm-id="program-zone-duration-percent" style="display: none;font-size:18px;color: #3399cc;margin-top: 10px;" ></div>-->
 					</div>
 				</td>
@@ -2044,7 +2108,7 @@
 					<td class="middle">
 						<div class="right" style="font-size: 150%;margin-top:7px;">
 							<div rm-id="program-settings-zone-timer-percentage" class="right"></div>
-							<span class="zoneTimesDeterminedFullTime" rm-id="program-settings-zone-timer-autoduration">00h 25m 33s</span>
+							<pre class="zoneTimesDeterminedFullTime" rm-id="program-settings-zone-timer-autoduration">00h 25m 33s</pre>
 						</div>
 						<div style="display: inline-block;margin-top: 14px;">
 							<input rm-id="program-settings-zone-timer-auto" type="radio" class="zoneTimesInput" style="vertical-align: top;">

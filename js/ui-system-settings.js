@@ -59,6 +59,9 @@ window.ui = window.ui || {};
 			AlexaSet: $("#systemSettingsAlexaSet"),
 			Alexa: $("#systemSettingsAlexa"),
 
+			BonjourSet: $("#systemSettingsBonjourSet"),
+			Bonjour: $("#systemSettingsBonjour"),
+
 			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
 			BetaUpdates: $("#systemSettingsBetaUpdates"),
 
@@ -106,6 +109,7 @@ window.ui = window.ui || {};
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
 			TouchProg: $("#systemSettingsTouchProg"),
+			TouchProgSelect: $("#systemSettingsTouchProgSelect"),
 			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
 			ShortDetection: $("#systemSettingsShortDetectionEnable"),
 			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
@@ -191,7 +195,7 @@ window.ui = window.ui || {};
 
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
-
+		systemSettingsView.Bonjour.checked = Data.provision.system.useBonjourService;
 
 		//TODO Developer mode commented out atm
 		/*
@@ -208,8 +212,11 @@ window.ui = window.ui || {};
 		uiFeedback.sync(systemSettingsView.LogSet, systemSettingsChangeLog);
 		uiFeedback.sync(systemSettingsView.CloudSet, systemSettingsChangeCloud);
 
-		uiFeedback.sync(systemSettingsView.AlexaSet, changeSingleSystemProvisionValue,
-			"allowAlexaDiscovery",  systemSettingsView.Alexa.checked);
+		uiFeedback.sync(systemSettingsView.AlexaSet,
+			function(){ return changeSingleSystemProvisionValue("allowAlexaDiscovery",  systemSettingsView.Alexa.checked)});
+
+		uiFeedback.sync(systemSettingsView.BonjourSet,
+			function(){ return changeSingleSystemProvisionValue("useBonjourService",  systemSettingsView.Bonjour.checked)});
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
@@ -238,6 +245,7 @@ window.ui = window.ui || {};
 
 	function showSettingsMini8() {
 		getShortDetectionStatus();
+		buildTouchProgramList(systemSettingsView.TouchProgSelect);
 
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
@@ -246,23 +254,23 @@ window.ui = window.ui || {};
 		systemSettingsView.TouchPressTimeout.value = Data.provision.system.touchLongPressTimeout;
 		systemSettingsView.TouchProg.checked = Data.provision.system.touchCyclePrograms;
 
-		uiFeedback.sync(systemSettingsView.MaxLedSet, changeSingleSystemProvisionValue,
-			"maxLEDBrightness", systemSettingsView.MaxLed.value);
+		uiFeedback.sync(systemSettingsView.MaxLedSet,
+			function(){ return changeSingleSystemProvisionValue("maxLEDBrightness", systemSettingsView.MaxLed.value)});
 
-		uiFeedback.sync(systemSettingsView.MinLedSet, changeSingleSystemProvisionValue,
-			"minLEDBrightness", systemSettingsView.MinLed.value);
+		uiFeedback.sync(systemSettingsView.MinLedSet,
+			function(){ return changeSingleSystemProvisionValue("minLEDBrightness", systemSettingsView.MinLed.value)});
 
-		uiFeedback.sync(systemSettingsView.TouchTimeoutSet, changeSingleSystemProvisionValue,
-			"touchSleepTimeout", systemSettingsView.TouchTimeout.value);
+		uiFeedback.sync(systemSettingsView.TouchTimeoutSet,
+			function(){ return changeSingleSystemProvisionValue("touchSleepTimeout", systemSettingsView.TouchTimeout.value)});
 
-		uiFeedback.sync(systemSettingsView.TouchAdvSet, changeSingleSystemProvisionValue,
-			"touchAdvanced", systemSettingsView.TouchAdv.checked);
+		uiFeedback.sync(systemSettingsView.TouchAdvSet,
+			function(){ return changeSingleSystemProvisionValue("touchAdvanced", systemSettingsView.TouchAdv.checked)});
 
-		uiFeedback.sync(systemSettingsView.TouchPressTimeoutSet, changeSingleSystemProvisionValue,
-			"touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value);
+		uiFeedback.sync(systemSettingsView.TouchPressTimeoutSet,
+			function(){ return changeSingleSystemProvisionValue("touchLongPressTimeout", systemSettingsView.TouchPressTimeout.value)});
 
-		uiFeedback.sync(systemSettingsView.TouchProgSet, changeSingleSystemProvisionValue,
-			"touchCyclePrograms", systemSettingsView.TouchProg.checked);
+		uiFeedback.sync(systemSettingsView.TouchProgSet,
+			function(){ return changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked)});
 
 		uiFeedback.sync(systemSettingsView.ShortDetectionSet, systemSettingsChangeShortDetection);
 	}
@@ -279,7 +287,7 @@ window.ui = window.ui || {};
 		{
 			console.log("Can't set %s", provisionKey);
 			value = Data.provision.system[provisionKey];
-			return null;
+			r = null;
 		}
 
 		Data.provision.system[provisionKey] = value;
@@ -554,6 +562,25 @@ window.ui = window.ui || {};
 			if (sortedData[i] == Data.provision.location.timezone)
 				o.selected = true;
 		}
+	}
+
+
+	function buildTouchProgramList(container) {
+
+		// default option
+		addSelectOption(container, "First program", null, true);
+
+		if (Data.programs == null)
+			return;
+
+		var programs = Data.programs.programs;
+		for (var i = 0; i < programs.length; i++) {
+			if (programs[i].active) {
+				//console.log("Adding program: (%s) %s", programs[i].uid, programs[i].name);
+				addSelectOption(container, programs[i].name, programs[i].uid);
+			}
+		}
+
 	}
 
 	function getBetaUpdatesStatus() {

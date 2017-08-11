@@ -17,10 +17,10 @@ window.ui = window.ui || {};
         4: "Day restriction",
         5: "Watering time reaches next day",
         6: "Water surplus",
-        7: "Rain detected",
+        7: "Rain detected by sensor",
 		8: "Software rain sensor restriction",
 		9: "Month Restricted",
-		10: "Rain Delay set by user",
+		10: "Snooze set by user",
 		11: "Program Rain Restriction"
 };
 
@@ -35,7 +35,8 @@ window.ui = window.ui || {};
 
 	function showWeather()
 	{
-        showParsers(false);
+		onWeatherSourceClose();
+        showParsers(false, true);
 
 		//Rain, Wind, Days sensitivity
 		var rs = Data.provision.location.rainSensitivity;
@@ -63,46 +64,46 @@ window.ui = window.ui || {};
 
 		correctionPastElem.checked = correctionPast;
 
-		rsSaveElem.onclick = function() {
+		uiFeedback.sync(rsSaveElem, function() {
 			var rsNew = +rsElem.value/100.0;
-			if (rsNew != rs)
-			{
-				var data = {rainSensitivity: rsNew};
-				API.setProvision(null, data);
-				console.log("Set Rain Sensitivity: %f",  rsNew);
-			}
-		};
+			var data = {rainSensitivity: rsNew};
+			console.log("Set Rain Sensitivity: %f",  rsNew);
+			return API.setProvision(null, data);
 
-		wsSaveElem.onclick = function() {
+		});
+
+		uiFeedback.sync(wsSaveElem, function() {
 			var wsNew = +wsElem.value/100.0;
-			if (wsNew != ws)
-			{
-				var data = {windSensitivity: wsNew};
-				API.setProvision(null, data);
-				console.log("Set Wind Sensitivity: %f",  wsNew);
-			}
-		};
+			var data = {windSensitivity: wsNew};
+			console.log("Set Wind Sensitivity: %f",  wsNew);
+			return API.setProvision(null, data);
+		});
 
-		correctionPastSet.onclick = function() {
-			window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
-		};
+		uiFeedback.sync(correctionPastSet, function() {
+			return window.ui.system.changeSingleSystemProvisionValue("useCorrectionForPast", correctionPastElem.checked);
+		});
 
 		rsDefaultElem.onclick = function() { rsElem.value = rsDefaultElem.value; rsElem.oninput(); Data.provision = API.getProvision();};
 		wsDefaultElem.onclick = function() { wsElem.value = wsDefaultElem.value; wsElem.oninput(); Data.provision = API.getProvision();};
 
 		var updateWeatherButton = $('#weatherSourcesRun');
-		updateWeatherButton.onclick = onWeatherSourceRun;
+		uiFeedback.sync(updateWeatherButton, onWeatherSourceRun);
 
 		var fetchWeatherServicesButton = $("#weatherServicesFetch");
 		fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
 
 		setupWeatherSourceUpload();
-		onWeatherServicesFetch();
 		onDOYET0Fetch();
 	}
 
-	function showParsers(onDashboard) {
-		APIAsync.getParsers().then(function(o) { Data.parsers = o; updateParsers(onDashboard)});
+	function showParsers(onDashboard, fetchData) {
+		APIAsync.getParsers().then(function(o) {
+			Data.parsers = o;
+			updateParsers(onDashboard);
+			if (fetchData) {
+				onWeatherServicesFetch();
+			}
+		});
 	}
 
 	function updateParsers(onDashboard) {
@@ -250,9 +251,9 @@ window.ui = window.ui || {};
 		weatherDataSourcesEditContent.appendChild(template);
 
 		closeButton.onclick = onWeatherSourceClose;
-		saveButton.onclick = function() { onWeatherSourceSave(p.uid); };
-		runButton.onclick = function() { onWeatherSourceRun(p.uid); };
-		resetButton.onclick = function() { onWeatherSourceReset(p.uid); };
+		uiFeedback.sync(saveButton, function() { return onWeatherSourceSave(p.uid); });
+		uiFeedback.sync(runButton, function() { return onWeatherSourceRun(p.uid); });
+		uiFeedback.sync(resetButton, function() { return onWeatherSourceReset(p.uid); });
 	}
 
 	function onWeatherSourceClose() {
@@ -268,17 +269,26 @@ window.ui = window.ui || {};
 				withMixer = true;
 		}
 
-		API.runParser(id, true, withMixer, false);
-		showParsers(false);
-		onWeatherSourceClose();
+		var r = API.runParser(id, true, withMixer, false);
+		showParsers(false, true);
+		var p = API.getParsers(id);
+
+		//Did we refresh all parsers or just a single one from its detail page
+		if (id > 0) {
+			showParserDetails(p.parser);
+		}
+
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
+		return r;
 	}
 
 	function onWeatherSourceReset(id) {
-		API.resetParserParams(id);
+		var r = API.resetParserParams(id);
 		var p = API.getParsers(id);
 		showParserDetails(p.parser);
-		showParsers(false);
+		showParsers(false, false);
+
+		return r;
 	}
 
 	function onWeatherSourceDelete(id) {
@@ -286,15 +296,18 @@ window.ui = window.ui || {};
 		if (r === undefined || !r || r.statusCode != 0)
 		{
 			console.error("Can't delete parser %d: %o",id, r);
-			return;
+			return null;
 		}
-		showParsers(false);
+		showParsers(false, false);
 		onWeatherSourceClose();
+
+		return r;
 	}
 
 	function onWeatherSourceSave(id) {
 		var shouldSaveEnable = false;
 		var shouldSaveParams = false;
+		var r = null;
 
 		var p = null;
 		for (var i = 0; i < Data.parsers.parsers.length; i++) {
@@ -306,7 +319,7 @@ window.ui = window.ui || {};
 
 		if (!p) {
 			console.error("Parser id not found in list !");
-			return;
+			return null;
 		}
 
 		var enabledElem = $("#weatherSourceStatus-" + p.uid);
@@ -315,7 +328,7 @@ window.ui = window.ui || {};
 			shouldSaveEnable = true;
 		}
 
-		var newParams = {}
+		var newParams = {};
         if (p.params) {
 			for (param in p.params) {
 				var t = Util.readGeneratedTagValue(param);
@@ -331,18 +344,22 @@ window.ui = window.ui || {};
 
 		if (shouldSaveEnable) {
 			console.log("Setting weather source %d to %o", p.uid, enabledElem.checked);
-			console.log(API.setParserEnable(p.uid, enabledElem.checked));
+			r = API.setParserEnable(p.uid, enabledElem.checked);
+			console.log(r);
 		}
 
 		if (shouldSaveParams) {
-			console.log(API.setParserParams(p.uid, newParams));
+			r = API.setParserParams(p.uid, newParams);
+			console.log(r);
 		}
 
 		if (shouldSaveEnable || shouldSaveParams) {
-			showWeather();
-			showParsers(false);
-			onWeatherSourceClose();
+			showParsers(false, false);
+			//onWeatherSourceClose();
+			return r;
 		}
+
+		return {}; //dummy return for uiFeedback
 	}
 
 	function setupWeatherSourceUpload() {
@@ -391,7 +408,7 @@ window.ui = window.ui || {};
 				}
 			} else {
 				o.textContent = "Successful uploaded " + status.file.name;
-				showParsers(false);
+				showParsers(false, false);
 			}
 		}
 	}
@@ -404,14 +421,25 @@ window.ui = window.ui || {};
 			uiElems.snooze.disabledContainer = $("#snoozeSetContent");
 
 			uiElems.snooze.enabledContent = $("#snoozeCurrentValue");
-			uiElems.snooze.daysInput = $('#snoozeDays')
+			uiElems.snooze.daysInput = $('#snoozeDays');
+			uiElems.snooze.hoursInput = $('#snoozeHours');
+			uiElems.snooze.minutesInput = $('#snoozeMinutes');
 
 			uiElems.snooze.stop = $("#snoozeStop");
 			uiElems.snooze.set = $("#snoozeSet");
 
 			uiFeedback.sync(uiElems.snooze.stop, onSetSnooze, 0);
 			uiFeedback.sync(uiElems.snooze.set, function() {
-				return onSetSnooze(+uiElems.snooze.daysInput.value);
+				var seconds = 0;
+				try {
+					seconds += +uiElems.snooze.daysInput.value * 86400;
+					seconds += +uiElems.snooze.hoursInput.value * 3600;
+					seconds += +uiElems.snooze.minutesInput.value * 60;
+					return onSetSnooze(seconds);
+				} catch(e)  {
+					console.log("Invalid Snooze parameters");
+					return null;
+				}
 			});
 		}
 
@@ -433,18 +461,24 @@ window.ui = window.ui || {};
 			makeVisible(uiElems.snooze.enabledContainer);
 			var v = Util.secondsToHuman(rd);
 			uiElems.snooze.enabledContent.textContent = v.days + " days " + v.hours + " hours " + v.minutes + " mins ";
-			console.log("Device is snoozing for %d seconds", rd);
 		}
 		else
 		{
 			makeHidden(uiElems.snooze.enabledContainer);
 			makeVisible(uiElems.snooze.disabledContainer);
-			console.log("Device is not snoozing");
 		}
 	}
 
-	function onSetSnooze(duration) {
-		var r = API.setRestrictionsRainDelay(duration);
+	function onSetSnooze(seconds) {
+
+		var params = {
+			rainDelayStartTime: Math.floor(Date.now() / 1000),
+			rainDelayDuration: seconds
+		};
+
+		//var r = API.setRestrictionsRainDelay(days);
+		var r = API.setRestrictionsGlobal(params);
+
 		showRainDelay();
 		return r;
 	}
@@ -612,9 +646,16 @@ window.ui = window.ui || {};
 				console.error("Missing mixer data for day %s", day.date);
 			}
 
-			//console.log("Day: %s Condition: %s Temp: %s/%s QPF: %s", day.date, dayCondition, dayMinTempStr, dayMaxTempStr, dayQpfStr);
+			//console.log("Day: %s Temp: %s/%s QPF: %s", day.date, dayMinTempStr, dayMaxTempStr, dayQpfStr);
 
-			dayNameElem.textContent = (new Date(day.date)).toDateString();
+			var d = Util.deviceDateStrToDate(day.date);
+
+			if (d) {
+				dayNameElem.textContent = d.toDateString();
+			} else {
+				dayNameElem.textContent = "";
+			}
+
 			dayConditionElem.textContent = dayConditionStr;
 			dayTempMaxElem.textContent = dayMaxTempStr;
 			dayTempMinElem.textContent = dayMinTempStr;
@@ -890,8 +931,10 @@ window.ui = window.ui || {};
 			var dayContainerElem = $(dayTemplate, '[rm-id="wateringLogProgramsContainer"]');
 
 			//console.log("Day: %s", day.date);
-			var d = Util.dateStringToLocalDate(day.date);
-			dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
+			var d = Util.deviceDateStrToDate(day.date);
+			if (d) {
+				dayNameElem.textContent = Util.monthNamesShort[d.getMonth()] + " " + d.getDate();
+			}
 
 			for (var j = 0; j < day.programs.length; j++)
 			{

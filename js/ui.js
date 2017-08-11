@@ -36,15 +36,16 @@ window.ui = window.ui || {};
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
 		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
+		{ name: "Rain Sensor",  	func: window.ui.restrictions.showRainSensor,	container: '#rainsensor' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
 		{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
 		];
 
 	var dashboardNavigation = [
-		{ id: "chartsWeek",	idText: "waterSavedTitle",	text: "Water saved past 7 days", 	func: loadWeeklyCharts },
-		{ id: "chartsMonth",idText: "waterSavedTitle",	text: "Water saved past 30 days", func: loadMonthlyCharts },
-		{ id: "chartsYear",	idText: "waterSavedTitle",	text: "Water saved past year",	func: loadYearlyCharts }
+		{ id: "chartsWeek",	 func: loadWeeklyCharts },
+		{ id: "chartsMonth", func: loadMonthlyCharts },
+		{ id: "chartsYear",	 func: loadYearlyCharts }
 	];
 
 
@@ -77,7 +78,7 @@ window.ui = window.ui || {};
 					var c = buttonList[t];
 					if (this.id === c.id) {
 						this.setAttribute("selected", "on");
-						$("#" + c.idText).textContent = c.text;
+						//$("#" + c.idText).textContent = c.text;
 						this.func();
 					} else {
 						$("#" + c.id).removeAttribute("selected");
@@ -96,6 +97,11 @@ window.ui = window.ui || {};
 			div.func = submenus[i].func;
 			div.onclick = function()
 				{
+					if (history.state.elem != this.id) {
+						history.pushState({"elem": this.id }, null, null);
+						console.log("Saved history for %s", this.id);
+					}
+
 					//Hide other containers and Show the selected container
 					for (var t = 0; t < submenus.length; t++)
 					{
@@ -134,11 +140,15 @@ window.ui = window.ui || {};
 
 	function buildMenu() {
 		for (var i = 0; i < mainMenus.length; i++) {
-			var id = mainMenus[i].prefix;
-			var currentButton = $("#" + id + "Btn");
+			var currentButton = $("#" + mainMenus[i].prefix  + "Btn");
 
 			currentButton.onclick = (function(index) {
 				return function() {
+					if (history.state.elem != this.id) {
+						history.pushState({"elem": this.id }, null, null);
+						console.log("Saved history for %s", this.id);
+					}
+
 					var visibilityFunc = mainMenus[index].visibilityFunc;
 					var currentElements = getMenuElements(mainMenus[index].prefix);
 					var parent = mainMenus[index].parent;
@@ -201,7 +211,7 @@ window.ui = window.ui || {};
 		window.ui.about.getDeviceInfo();
 		window.ui.programs.showPrograms();
 		window.ui.zones.showZones();
-		window.ui.settings.showParsers(true);
+		window.ui.settings.showParsers(true, false);
 		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
 		loop = setInterval(uiLoop, loopSeconds);
 	}
@@ -347,6 +357,22 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function toggleWaterGaugeInfo(showSaved) {
+		var bOn = $("#waterGaugeSaved");
+		var bOff = $("#waterGaugeUsed");
+
+		if (!showSaved) {
+			bOn = $("#waterGaugeUsed");
+			bOff = $("#waterGaugeSaved");
+		}
+
+		bOn.setAttribute("selected", "on");
+		bOff.removeAttribute("selected");
+		waterGaugeSaved = showSaved;
+		setWaterSavedValueForDays(chartsCurrentDays);
+		generateWaterSavedGauge();
+	}
+
 	//Static UI elements for main UI
 	function buildUIElems() {
 		uiElems.homeLeft = $('#homeScreenLeft');
@@ -371,7 +397,7 @@ window.ui = window.ui || {};
 		$("#logoutBtn").onclick = ui.login.logout;
 
 		//More button for water log details
-		$("#waterlog-more").onclick = $('#homeScreenWaterSaved').onclick = function() {
+		$("#waterlog-more").onclick = $('#waterSavedInfo').onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings0').onclick();
 		};
@@ -379,7 +405,7 @@ window.ui = window.ui || {};
 		//Edit button for dashboard weather data
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings3').onclick();
+			$('#settings4').onclick();
 		};
 
 		//Edit button for dashboard current restrictions
@@ -391,11 +417,26 @@ window.ui = window.ui || {};
 		//More button for dashboard device status
 		$("#device-status-more").onclick = function() {
 			$('#settingsBtn').onclick();
-			$('#settings5').onclick();
+			$('#settings6').onclick();
 		};
 
 		$("#deviceImage").onclick = $('#dashboardBtn').onclick;
 
+		$("#waterGaugeSaved").setAttribute("selected", "on");
+		$("#waterGaugeSaved").onclick = function() { toggleWaterGaugeInfo(true); };
+		$("#waterGaugeUsed").onclick = function() { toggleWaterGaugeInfo(false);	};
+	}
+
+	function setupHistoryState() {
+		history.pushState({"elem": "dashboardBtn"}, null, null, null);
+		window.addEventListener("popstate", function(e) {
+			if (!e.state || !e.state.elem)
+				return;
+
+			var elem = $("#" + e.state.elem);
+			if (elem.onclick && typeof elem.onclick === "function")
+				elem.onclick();
+		});
 	}
 
 	//--------------------------------------------------------------------------------------------
@@ -410,6 +451,7 @@ window.ui = window.ui || {};
 		Help.bindAll();
 		window.ui.firebase.init();
 		setDefaultButtonActions();
+		setupHistoryState();
 
 		//Load local settings
 		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
