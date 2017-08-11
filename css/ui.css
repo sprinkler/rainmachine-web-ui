@@ -1086,6 +1086,25 @@ input[type="radio"]:checked:after {
     border: 1px solid #39c;
     
 }
+
+input[type=radio] + label, input[type=checkbox] + label {
+    margin-right:20px;
+    padding:20px;
+    width:12.35em;
+    height: 4em;
+    display: inline-block;
+    float: left;
+    border: 1px solid #eee;
+    border-radius: 2%;
+    text-align:center;
+  }
+
+   input[type=radio]:checked + label {
+    background-color: #39c;
+    color:#fff;
+    transition: all .35s ease-in-out;
+  }
+
 /*/!*IE custom input range START *!/
 ::-ms-track {
   width: 100%;
@@ -1875,7 +1894,7 @@ td.right,
 }
 [type=radio]:checked ~ label {
   background: white;
-  border-bottom: 1px solid white;
+  /*border-bottom: 1px solid white;*/
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
