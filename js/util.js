@@ -214,9 +214,10 @@ Util.deviceDateStrToDate = function(datetimeStr) {
 	}
 
 	var d = new Date();
-	d.setDate(day);
-	d.setMonth(month-1);
+
 	d.setFullYear(year);
+	d.setMonth(month-1);
+	d.setDate(day);
 
 	d.setHours(h);
 	d.setMinutes(m);
