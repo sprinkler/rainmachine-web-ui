@@ -5,12 +5,14 @@
 
 /* global Highcharts */
 var YEARDAYS = Util.getYearDays((new Date()).getFullYear() - 1); //Get the number of days of last year not current one
+var waterGaugeSaved = true;
 var chartsLevel = { // available viewing levels for the charts
 		weekly: 0,
 		monthly: 1,
 		yearly: 2
 	},
 	chartsCurrentLevel = chartsLevel.weekly, // current viewing level for all the charts
+	chartsCurrentDays = 7;
 	chartsDateFormat = '%b %e', // format for the dates used in chart labels
 	chartsDateFormatSmall = '%e', // format for the dates used in chart labels when charts are in a small container
 	chartsMaximumDataRange = YEARDAYS, // the maximum amount of data that the application loads
@@ -142,6 +144,7 @@ function ChartData () {
 	this.temperature = new ChartSeries(this.startDate);
 	this.waterSaved = new ChartSeries(this.startDate);
 	this.volumeSaved = new ChartSeries(this.startDate);
+	this.volumeUsed = new ChartSeries(this.startDate);
 	this.condition = new ChartSeries(this.startDate);
 	this.et0 = new ChartSeries(this.startDate);
 	this.pressure = new ChartSeries(this.startDate);
@@ -152,7 +155,10 @@ function ChartData () {
 	this.programs = [];
 	this.programsFlags = [];
 	this.programsMap = {}; //Holds programs uid to programs array index mapping
-	this.totalMinutesReduced = 0; //Holds the total real watering minutes
+	this.gaugeMinutes = 0; //Holds the total watering minutes either saved or used
+	this.gaugePercentage = 0; //Holds the gauge percentage either saved or used
+	this.gaugeVolume = 0; //Holds the gauge actual volume either saved or used
+	this.et0Avg = 5;
 
 	console.log('Initialised ChartData from %s to %s',Util.getDateStr(this.startDate), Util.getDateStr(end));
 }
@@ -254,6 +260,7 @@ function processChartData() {
 		Data.counters.charts = 0;
 	}
 
+	chartsData.et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -343,6 +350,7 @@ function processChartData() {
 		var wnpTotalDayUserWater = 0;
 		var wnpTotalDayScheduledWater = 0;
 		var volumeSavedDay = 0;
+		var volumeUsedDay = 0;
 
 		for (programIndex = 0; programIndex < day.programs.length; programIndex++) {
 			currentProgram = day.programs[programIndex];
@@ -377,6 +385,7 @@ function processChartData() {
 
 				//Total Water Volume Used for this zone (we need it per zone as savings depend on zone properties)
 				volumeSavedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid - 1, (zoneUserWater - zoneScheduledWater));
+				volumeUsedDay += window.ui.zones.zoneComputeWaterVolume(zone.uid - 1, zoneScheduledWater);
 
 				var wnpProgramDayWN = Util.normalizeWaterNeed(wnpTotalDayProgramUserWater, wnpTotalDayProgramScheduledWater);
 				wnpTotalDayUserWater += wnpTotalDayProgramUserWater;
@@ -401,7 +410,7 @@ function processChartData() {
 				chartsData.programs[currentProgramIndex].insertAtDate(day.date, wnpProgramDayWN);
 				chartsData.programsFlags[currentProgramIndex].insertAtDate(day.date, programFlag);
 				chartsData.volumeSaved.insertAtDate(day.date, volumeSavedDay);
-
+				chartsData.volumeUsed.insertAtDate(day.date, volumeUsedDay);
 			}
 		}
 
@@ -475,27 +484,54 @@ function setWaterSavedValueForDays(pastDays) {
 	var realSum = 0;
 	var userSum = 0;
 	var volumeSum = 0;
+	var title;
 
 	for (var i = startDayIndex; i < startDayIndex + pastDays; i++) {
 		var v = chartsData.waterSaved.data[i];
+
 		if (typeof v !== "undefined" && v !== null) {
 			realSum += v.real;
 			userSum += v.user;
 		}
-		v = chartsData.volumeSaved.data[i];
-		volumeSum += v;
+
+		if (waterGaugeSaved)
+			v = chartsData.volumeSaved.data[i];
+		else
+			v = chartsData.volumeUsed.data[i];
+
+		if (typeof v !== "undefined" && v !== null)
+			volumeSum += v;
 	}
 
-	var saved = 0;
+	var percent = 0;
 	if (userSum > 0) {
-		saved = Math.round((1.0 - (realSum / userSum)) * 100);
-		if (saved < 0) saved = 0;
-		if (saved > 100) saved = 100;
+		var frac =  realSum / userSum;
+
+		if (waterGaugeSaved)
+			percent = Math.round((1.0 - frac ) * 100);
+		else
+			percent = Math.round(frac * 100);
+
+		if (percent < 0) percent = 0;
+		if (percent > 100) percent = 100;
 	}
 
-	chartsData.waterSaved.currentSeries = [ saved ];
-	chartsData.volumeSaved.currentSeries = [ volumeSum ];
-	chartsData.totalMinutesReduced = realSum;
+	chartsData.gaugePercentage = [ percent ];
+	chartsData.gaugeVolume = [ volumeSum ];
+
+	if (waterGaugeSaved) {
+		chartsData.gaugeMinutes = userSum - realSum;
+		title = "saved";
+	} else {
+		chartsData.gaugeMinutes = realSum;
+		title = "used";
+	}
+
+	var pastDaysText = pastDays + " days";
+	if (pastDays > 300)
+		pastDaysText = "year";
+
+	$('#waterSavedTitle').textContent = "Water " + title + " past " + pastDaysText ;
 }
 
 /**
@@ -503,6 +539,7 @@ function setWaterSavedValueForDays(pastDays) {
  */
 function loadWeeklyCharts () {
 	chartsCurrentLevel = chartsLevel.weekly;
+	chartsCurrentDays = 7;
 	chartsDateFormat = '%b %e';
 
 	// reset the charts monthly period
@@ -538,6 +575,7 @@ function loadWeeklyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
 	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
+	chartsData.et0.currentSeries = chartsData.et0.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -548,7 +586,7 @@ function loadWeeklyCharts () {
 	generateCharts();
 
 	//For water gauge show only last week (today - 7)
-	setWaterSavedValueForDays(7);
+	setWaterSavedValueForDays(chartsCurrentDays);
 	generateWaterSavedGauge();
 }
 
@@ -557,6 +595,7 @@ function loadWeeklyCharts () {
  */
 function loadMonthlyCharts () {
 	chartsCurrentLevel = chartsLevel.monthly;
+	chartsCurrentDays = 30;
 	chartsDateFormat = '%b %e';
 
 	// reset the charts weekly period
@@ -592,6 +631,7 @@ function loadMonthlyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.data.slice(sliceStart, sliceEnd);
 	chartsData.qpf.currentSeries = chartsData.qpf.data.slice(sliceStart, sliceEnd);
 	chartsData.rain.currentSeries = chartsData.rain.data.slice(sliceStart, sliceEnd);
+	chartsData.et0.currentSeries = chartsData.et0.data.slice(sliceStart, sliceEnd);
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].data.slice(sliceStart, sliceEnd);
@@ -601,7 +641,7 @@ function loadMonthlyCharts () {
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
 	//For water gauge show only last month
-    setWaterSavedValueForDays(30);
+    setWaterSavedValueForDays(chartsCurrentDays);
     generateWaterSavedGauge();
 }
 
@@ -620,6 +660,7 @@ function loadYearlyCharts () {
 
 
 	chartsCurrentLevel = chartsLevel.yearly;
+	chartsCurrentDays = YEARDAYS;
 	chartsDateFormat = '%b';
 
 	// reset the charts weekly and monthly periods
@@ -633,6 +674,7 @@ function loadYearlyCharts () {
 	chartsData.temperature.currentSeries = chartsData.temperature.monthsData;
 	chartsData.qpf.currentSeries = chartsData.qpf.monthsData;
 	chartsData.rain.currentSeries = chartsData.rain.monthsData;
+	chartsData.et0.currentSeries = chartsData.et0.monthsData;
 
 	for (var programIndex = 0; programIndex < chartsData.programs.length; programIndex++) {
 		chartsData.programs[programIndex].currentSeries = chartsData.programs[programIndex].monthsData;
@@ -641,7 +683,7 @@ function loadYearlyCharts () {
 	// render all charts with the currentAxisCategories and currentSeries
 	generateCharts();
 	//For water gauge show only last year
-    setWaterSavedValueForDays(YEARDAYS);
+    setWaterSavedValueForDays(chartsCurrentDays);
     generateWaterSavedGauge();
 }
 
@@ -675,6 +717,7 @@ function generateDailyWeatherChart(container, past, days) {
 		var maxtemp = Util.convert.uiTemp(chartsData.maxt.data[i]);
 		var mintemp = Util.convert.uiTemp(chartsData.mint.data[i]);
 		var qpf = Util.convert.uiQuantity(chartsData.qpf.data[i]);
+		var et0 = Util.convert.uiQuantity(chartsData.et0.data[i]);
 		var date = chartsData.condition.getDateAtIndex(i);
 
 		var weatherTemplate = loadTemplate("day-weather-template");
@@ -682,6 +725,7 @@ function generateDailyWeatherChart(container, past, days) {
 		var weatherIconElem = $(weatherTemplate, '[rm-id="day-weather-icon"]');
 		var weatherTempElem = $(weatherTemplate, '[rm-id="day-weather-temp"]');
 		var weatherQPFElem =  $(weatherTemplate, '[rm-id="day-weather-qpf"]');
+		var weatherETElem = $(weatherTemplate, '[rm-id="day-weather-et0"]');
 
 		if (i == startDayIndex) {
 			$('#weatherChartDaysMonth').textContent = Util.monthNames[date.getMonth()];
@@ -720,6 +764,17 @@ function generateDailyWeatherChart(container, past, days) {
 			weatherQPFElem.textContent = "--";
 		}
 
+		try {
+			et0 = et0.toFixed(2)
+		} catch(e) {}
+
+
+		if (et0 !== null) {
+			weatherETElem.textContent = et0;
+		} else  {
+			weatherETElem.textContent = "--";
+		}
+
 		containerDiv.appendChild(weatherTemplate);
 	}
  }
@@ -729,6 +784,10 @@ function generateDailyWeatherChart(container, past, days) {
  * Generates the Water Saved gauge
  */
 function generateWaterSavedGauge() {
+	var color = '#4CAF50';
+	if (!waterGaugeSaved)
+		color = '#3399cc';
+
 	var waterSavedGaugeOptions = {
 		chart: {
 			type: 'solidgauge',
@@ -769,7 +828,7 @@ function generateWaterSavedGauge() {
 		},
 		plotOptions: {
 			solidgauge: {
-				borderColor: '#3399cc',
+				borderColor:color,
 				borderWidth: 15,
 				radius: 90,
 				innerRadius: '90%',
@@ -782,7 +841,7 @@ function generateWaterSavedGauge() {
 		},
 		series: [{
 			name: 'waterSaved',
-			data: chartsData.waterSaved.currentSeries,
+			data: chartsData.gaugePercentage,
 			dataLabels: {
 				format: '<div style="margin-top:-30px;height:50px;vertical-align:middle;width: 170px;text-align:center"><span style="font-size:36px;color:#555;font-weight:normal;">{y} %</span></div>'
 			}
@@ -813,12 +872,21 @@ function generateWaterSavedGauge() {
 	}
 
 	//Write gallons text
-	$('#waterSavedGaugeVolume').textContent = Util.convert.uiWaterVolume(chartsData.volumeSaved.currentSeries) +
-			" " + Util.convert.uiWaterVolumeStrLong() + " of water saved";
+	$('#waterSavedGaugeVolume').textContent = Util.convert.uiWaterVolume(chartsData.gaugeVolume) +
+			" " + Util.convert.uiWaterVolumeStrLong();
+
+	if (waterGaugeSaved)
+		$('#waterSavedGaugeVolume').textContent += " of water saved";
+	else
+		$('#waterSavedGaugeVolume').textContent += " of water used";
 
 	//Write minutes reduced
-	$('#waterSavedGaugeMinutes').textContent = Util.secondsToText(chartsData.totalMinutesReduced, true) + " less watering time";
+	$('#waterSavedGaugeMinutes').textContent = Util.secondsToText(chartsData.gaugeMinutes, true);
 
+	if (waterGaugeSaved)
+		$('#waterSavedGaugeMinutes').textContent += " less watering time";
+	else
+		$('#waterSavedGaugeMinutes').textContent += " watering time";
 }
 
 /**
@@ -1058,7 +1126,8 @@ function generateProgramChart (programUid, programIndex) {
 			style: {
 				fontFamily: "Roboto, Helvetica, Arial, sans-serif",
 				fontSize: "14px"
-			}
+			},
+			alignTicks: false
 		},
 		tooltip: {
 			hideDelay: 0,
@@ -1123,8 +1192,17 @@ function generateProgramChart (programUid, programIndex) {
 						+ ": " + this.y + '%<br>' + flagText + '</span>';
 				}
 			},
-			type: 'column'
-		}],
+			type: 'column',
+			yAxis: 0
+		},
+			{
+				data: chartsData.et0.currentSeries,
+				type:'line',
+				dashStyle: 'dot',
+				color: '#ff9999',
+				yAxis: 1
+			}
+		],
 
 		title: null,
 		xAxis: [{
@@ -1153,8 +1231,24 @@ function generateProgramChart (programUid, programIndex) {
 			},
 			title: {
 				text: null
+			},
+			endOnTick:false
+		},
+			{
+				min: 0,
+				max: chartsData.et0Avg,
+				gridLineWidth: 0,
+				minorGridLineWidth: 0,
+				labels: {
+					enabled: false,
+					format: '{value}'
+				},
+				title: {
+					text: null
+				},
+				endOnTick:false
 			}
-		}]
+		]
 	};
 
     // Hide labels from monthly charts
@@ -1169,6 +1263,8 @@ function generateProgramChart (programUid, programIndex) {
 
 	console.log("Showing chart for program: ", programName);
 	charts.programs[programIndex] = new Highcharts.Chart(programChartOptions, generateChartCallback);
+
+	console.log("ET0AVG: %f", chartsData.et0Avg);
 }
 
 
