@@ -1506,7 +1506,7 @@
 													<td class="middle noborder" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
 												</tr>
 												<tr>
-													<td class="middle">Zone is Active</td>
+													<td class="middle">Zone is Active:</td>
 													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
 												</tr>
 												<tr>
@@ -1876,41 +1876,37 @@
 										<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
 									</tr>
 									<tr>
-									<td class="cardTitle">Enabled:</td>
+									<td class="cardTitle">Program is Active:</td>
 									<td class="middle">
 										<input type="checkbox" rm-id="program-active" class="right typeCheckbox">
 									</td>
 									</tr>
 									<tr>
+										<td class="cardTitle header" colspan="2">ZONE DURATION BASED ON WEATHER</td>
+									</tr>
+									<tr>
 										<td style="border-bottom: 0">
 											<span class="cardTitle">Weather-Adaptive Watering</span><br>
-											<span class="zoneTimesSubtitle" style="margin:0">All program zones duration will auto adjust based on weather.</span>
+											<span class="zoneTimesSubtitle" style="margin:0">Use Live Weather or Seasonal Adjustments as specified on your zone properties.</span>
 										</td>
 										<td class="middle" style="border-bottom: 0">
-											<input type="checkbox" rm-id="program-weather-data" class="right typeCheckbox">
+											<input type="radio" rm-id="program-weather-data" name="weather" class="right typeCheckbox" checked="checked">
 										</td>
 									</tr>
 									<tr>
 										<td>
-											Choose between weather data channel:
-											<br><br>
-											<input type="radio" id="liveweather" name="radios" value="all" checked style="display: none;">
-       										<label for="liveweather">Live<br>Weather<br>Data</label>
-											<input type="radio" id="seasonaladjustments" name="radios" value="false" style="display: none;">
-       										<label for="seasonaladjustments">Seasonal<br>Adjustments<br>Data</label>
-											<div style="clear: both;height:20px;"></div>
-											and then between frequency and zone watering duration options:
-											<br><br>
-											<input type="radio" id="ffandfd" name="radios2" value="all" style="display: none;">
-       										<label for="ffandfd">Fixed Frequency<br>and<br>Flexible Duration</label>
-											<input type="radio" id="ffandfd2" name="radios2" value="false" checked style="display: none;">
-       										<label for="ffandfd2">Flexible Frequency<br>and<br>Fixed Duration</label>
-       										<div style="clear: both;height:20px;"></div>
+											<span class="cardTitle">Fixed</span><br>
+											<span class="zoneTimesSubtitle" style="margin:0">Fixed watering duration for each zone.</span>
+										</td>
+										<td class="middle">
+											<input type="radio" name="weather" class="right typeCheckbox">
 										</td>
 									</tr>
 									<tr>
+										<td class="cardTitle header" colspan="2">FREQUENCY</td>
+									</tr>
+									<tr>
 										<td colspan="2">
-											<span class="cardTitle">Fixed Frequency:</span><br><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
@@ -1981,9 +1977,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="middle noborder" colspan="2">
-											<span class="cardTitle">Start time</span><br>
-										</td>
+										<td class="cardTitle header" colspan="2">START TIME</td>
 									</tr>
 									<tr>
 										<td colspan="2" class="middle noborder">
@@ -2016,6 +2010,9 @@
 											<input type="date" rm-id="program-next-run-settable" class="typeTime hidden" style="width:168px;">
 											<span rm-id="program-next-run"></span>
 										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle header" colspan="2">CYCLE & SOAK, DELAY BETWEEN ZONES AND RESTRICTIONS</td>
 									</tr>
 									<tr>
 										<td colspan="2">
@@ -2078,7 +2075,7 @@
 								<tr>
 									<td style="padding:1.2em 0;">
 										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
-										<span style="text-transform: uppercase;">Total watering time</span>
+										<span style="text-transform: uppercase;color:#666666;">Total watering time</span>
 									</td>
 								</tr>
 								<tr>
