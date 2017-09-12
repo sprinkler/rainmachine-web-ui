@@ -274,7 +274,8 @@ window.ui = window.ui || {};
         uiElems = loadProgramTemplate();
 
         uiElems.activeElem.checked = true;
-        uiElems.weatherDataElem.checked = true;
+        uiElems.weatherDataElemOn.checked = true;
+		uiElems.weatherDataElemOff.checked = false;
         uiElems.nextRun.textContent = getProgramNextRunAsString(Util.getTodayDateStr());
 		uiElems.nextRunSettable.value = Util.getTodayDateStr();
 
@@ -326,7 +327,8 @@ window.ui = window.ui || {};
             //
             uiElems.nameElem.value = program.name;
             uiElems.activeElem.checked = program.active;
-            uiElems.weatherDataElem.checked = !program.ignoreInternetWeather;
+            uiElems.weatherDataElemOn.checked = !program.ignoreInternetWeather;
+			uiElems.weatherDataElemOff.checked = program.ignoreInternetWeather;
 
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
@@ -496,7 +498,8 @@ window.ui = window.ui || {};
 
         templateInfo.nameElem = $(templateInfo.programTemplateElem, '[rm-id="program-name"]');
         templateInfo.activeElem = $(templateInfo.programTemplateElem, '[rm-id="program-active"]');
-        templateInfo.weatherDataElem = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data"]');
+        templateInfo.weatherDataElemOn = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data-on"]');
+		templateInfo.weatherDataElemOff = $(templateInfo.programTemplateElem, '[rm-id="program-weather-data-off"]');
 
 		//fixed start time (hh:mm)
 		templateInfo.startTimeFixedElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-fixed"]');
@@ -629,7 +632,7 @@ window.ui = window.ui || {};
 
         program.name = uiElems.nameElem.value;
         program.active = uiElems.activeElem.checked;
-        program.ignoreInternetWeather = !uiElems.weatherDataElem.checked;
+        program.ignoreInternetWeather = !uiElems.weatherDataElemOn.checked;
 
 		if (uiElems.startTimeSunElem.checked) {
 			console.log("Sunset/Sunrise time selected");
@@ -883,7 +886,7 @@ window.ui = window.ui || {};
 		zoneElems.saveElem.onclick = function() { fillProgramTimers(null); makeHidden(zoneElems.templateSettingElem); };
 
 		//Show or hide the weather info text below title
-		if (uiElems.weatherDataElem.checked) {
+		if (uiElems.weatherDataElemOn.checked) {
 			makeVisible(zoneElems.zoneWeatherInfoElem);
 		} else {
 			makeHidden(zoneElems.zoneWeatherInfoElem);

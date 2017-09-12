@@ -21,7 +21,8 @@ window.ui = window.ui || {};
 		8: "Software rain sensor restriction",
 		9: "Month Restricted",
 		10: "Snooze set by user",
-		11: "Program Rain Restriction"
+		11: "Program Rain Restriction",
+		12: "Adaptive Frequency Skip"
 };
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
