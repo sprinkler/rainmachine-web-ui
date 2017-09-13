@@ -267,6 +267,7 @@ window.ui = window.ui || {};
 		templateInfo.simulatedCapacityElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity"]');
 		templateInfo.simulatedCapacityChooserElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-simulated-capacity-chooser"]');
 		templateInfo.showAvailableWaterElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-available-water"]');
+		templateInfo.minRuntime = $(templateInfo.zoneTemplateElem, '[rm-id="zone-min-runtime"]');
 
 		templateInfo.vegetationElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-vegetation-type"]');
 		templateInfo.soilElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-soil-type"]');
@@ -361,6 +362,7 @@ window.ui = window.ui || {};
 			zoneProperties.ETcoef = uiElems.advVegCropElem.value;
 		}
 
+		zoneAdvProperties.minRuntime = uiElems.minRuntime.value;
 		zoneAdvProperties.appEfficiency = uiElems.advAppEffElem.value; // percentage
 		zoneAdvProperties.maxAllowedDepletion = uiElems.advDepletionElem.value; // percentage
 		zoneAdvProperties.fieldCapacity = uiElems.advFieldCapElem.value; // percentage
@@ -444,6 +446,14 @@ window.ui = window.ui || {};
 				showZoneSimulatedValues(zone.waterSense);
 			}, true
 		);
+
+		//Minimum Watering Duration
+		var minRuntime = zone.waterSense.minRuntime;
+
+		if (minRuntime < 0)
+			minRuntime = Data.provision.system.minWateringDurationThreshold;
+
+		uiElems.minRuntime.value = minRuntime;
 
 		//Curent simulated values
 		showZoneSimulatedValues(zone.waterSense);
