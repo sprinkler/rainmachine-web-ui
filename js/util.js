@@ -214,9 +214,10 @@ Util.deviceDateStrToDate = function(datetimeStr) {
 	}
 
 	var d = new Date();
-	d.setDate(day);
-	d.setMonth(month-1);
+
 	d.setFullYear(year);
+	d.setMonth(month-1);
+	d.setDate(day);
 
 	d.setHours(h);
 	d.setMinutes(m);
@@ -409,7 +410,7 @@ Util.readGeneratedTagValue = function(label) {
 }
 
 //Get geolocation coordinates start
-Util.getGeoLocation = function(latitudeTag, longitudeTag) {
+Util.getGeoLocation = function(latitudeTag, longitudeTag, elevationTag) {
 
 	if (!navigator.geolocation){
 		console.error("Geolocation is not supported by your browser");
@@ -419,6 +420,8 @@ Util.getGeoLocation = function(latitudeTag, longitudeTag) {
 	function success(position) {
 		$(latitudeTag).value  = position.coords.latitude;
 		$(longitudeTag).value = position.coords.longitude;
+		if (position.coords.altitude)
+			$(elevationTag).value = position.coords.altitude;
 	};
 
 	function error() {

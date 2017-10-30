@@ -109,6 +109,7 @@ window.ui = window.ui || {};
 			TouchPressTimeout: $("#systemSettingsTouchPressTimeout"),
 			TouchProgSet: $("#systemSettingsTouchProgSet"),
 			TouchProg: $("#systemSettingsTouchProg"),
+			TouchProgSelect: $("#systemSettingsTouchProgSelect"),
 			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
 			ShortDetection: $("#systemSettingsShortDetectionEnable"),
 			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
@@ -244,6 +245,7 @@ window.ui = window.ui || {};
 
 	function showSettingsMini8() {
 		getShortDetectionStatus();
+		buildTouchProgramList(systemSettingsView.TouchProgSelect);
 
 		systemSettingsView.MaxLed.value = Data.provision.system.maxLEDBrightness;
 		systemSettingsView.MinLed.value = Data.provision.system.minLEDBrightness;
@@ -560,6 +562,25 @@ window.ui = window.ui || {};
 			if (sortedData[i] == Data.provision.location.timezone)
 				o.selected = true;
 		}
+	}
+
+
+	function buildTouchProgramList(container) {
+
+		// default option
+		addSelectOption(container, "First program", null, true);
+
+		if (Data.programs == null)
+			return;
+
+		var programs = Data.programs.programs;
+		for (var i = 0; i < programs.length; i++) {
+			if (programs[i].active) {
+				//console.log("Adding program: (%s) %s", programs[i].uid, programs[i].name);
+				addSelectOption(container, programs[i].name, programs[i].uid);
+			}
+		}
+
 	}
 
 	function getBetaUpdatesStatus() {
