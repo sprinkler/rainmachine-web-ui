@@ -1926,6 +1926,8 @@
 									</tr>
 									<tr>
 										<td colspan="2">
+											<div><input type="radio" name="program-frequency" rm-id="program-frequency-adaptive"/> <span>Adaptive</span><br>
+												<span class="zoneTimesSubtitle">Daily frequency adjustment based on zone soil moisture.</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
@@ -2028,6 +2030,16 @@
 											<span class="cardTitle">Next run:</span>
 											<input type="date" rm-id="program-next-run-settable" class="typeTime hidden" style="width:168px;">
 											<span rm-id="program-next-run"></span>
+										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle header" colspan="2">END DAY</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="middle">
+											<input type="checkbox" name="program-end-day" rm-id="program-end-day-check" style="margin-right:10px;">
+											<input type="date" rm-id="program-end-day-settable" class="typeTime" style="width:168px;">
+											<span rm-id="program-end-day"></span>
 										</td>
 									</tr>
 									<tr>
