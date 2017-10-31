@@ -301,7 +301,6 @@ strong { font-weight: 700; }
 
 /* Home screen start */
 .homeScreenMain {
-  /*width: 1216px;*/
   margin: 0 auto;
   text-align: center;
 }
@@ -457,7 +456,47 @@ strong { font-weight: 700; }
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
-  height: 82px;
+}
+.zone-line:hover{
+    background-color: #f9f9f9;
+}
+.zone-line:hover .zoneListEdit{
+     background-color: #f9f9f9; 
+}
+.zone-second-row-container{
+    width: 95%;
+    margin: 0 auto;
+    border-top: 1px solid #f7f7f7;
+}
+.zone-line:hover .zone-second-row-container{
+   border-top: 1px solid #fdfdfd;
+}
+.zone-second-row-container ul{
+    list-style-type: none;
+    line-height: 1.5em;
+    font-size: 16px;
+    color: #555;
+}
+.zone-second-row-container li:not(:first-child){
+    padding-left: 7px;
+}
+.zone-second-row-container ul span{
+    color: #a2a1a1;
+    margin-left: 5px;
+}
+.second-row-title:before{
+   content: "I";
+   color: #3499cc;
+   font-weight: bold; 
+   padding-right: 2px;
+}
+.secondary-row-container-block{
+    display: inline-block;
+    padding: 2% 7% 2% 0;
+    vertical-align: top;
+}
+.zones-in-programs-items li{
+    padding-left: 6.66px;
 }
 .zoneListName {
   /*padding-top: 25px;*/
@@ -480,6 +519,7 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
 }
+
 .zoneWateringDetails {
   display:block;
   margin-top: -10px;
@@ -569,7 +609,6 @@ sup { font-size: 12px }
 }
 
 #deviceName{
-  /*width:380px;*/
   padding-left:0px;
 }
 .programListName {
@@ -700,11 +739,11 @@ h1 {
   font-family: Rainmachine;
   font-size: 48px;
   padding: 8px 0px 0px 8px;
-  color:#f1f1f1;
+  color:#e4e4e4;
 }
 .zoneListImageNoneEdit {
   font-size: 100px;
-  color: #eee;
+/*  color: #eee;*/
   padding: 42px;
 }
 .zoneListImage:hover {
@@ -1266,7 +1305,7 @@ select, .selectSmall {
   float: left;
 }
 .inactive, .master {
-  opacity: 0.3;
+  opacity: 0.6;
 }
 
 .zoneIdle,
@@ -1513,7 +1552,6 @@ td.right,
   font-weight: normal;
   color: #3399cc;
   padding-top: 15px;
-  /*border-bottom: 1px solid #3399cc;*/
 }
 
 .historyZone:hover { background-color: #f0f0f0 }
@@ -1882,7 +1920,6 @@ td.right,
 }
 [type=radio]:checked ~ label {
   background: white;
-  /*border-bottom: 1px solid white;*/
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
