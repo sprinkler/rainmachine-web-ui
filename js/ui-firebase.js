@@ -53,25 +53,56 @@ window.ui = window.ui || {};
 			}
 			try {
 				var mac = Data.provision.wifi.macAddress;
+				var lat = Data.provision.location.latitude;
+				var lon = Data.provision.location.longitude;
+
 				if (mac === null || mac.split(":").length != 6) {
 					console.error("Invalid device MAC address");
 					return;
 				}
+
+				if (lat === null || lon === null)
+				{
+                    console.error("Invalid latidue or longitude");
+                    return;
+				}
+
+				lat = Math.trunc(lat * 1000)/1000;
+                lon = Math.trunc(lon * 1000)/1000;
+				var strLat = lat.toFixed(3);
+                var strLon = lon.toFixed(3);
+
 				var valves = +Data.provision.system.localValveCount;
 				var storagePath = "devices/" + mac + "/images/";
 				Data.zonesImages = {};
 
 				for (var i = 1; i <= valves; i++) {
-					var name = "zone" + i + ".jpg";
+					var name = "zone" + i + "_" + strLat + "_" + strLon + ".jpg";
 					var currentImage = storagePath + name;
 					var imageRef = window.ui.firebase.firebase.storageRef.child(currentImage);
+
+					var nameLegacy = "zone" + i + ".jpg";
+                    var currentImageLegacy = storagePath + nameLegacy;
+                    var imageRefLegacy = window.ui.firebase.firebase.storageRef.child(currentImageLegacy);
+
 					imageRef.getDownloadURL().then(
 						function(id, url) {
 							Data.zonesImages[id] = url;
 							window.ui.zones.updateZoneImage(id); //Force a zone image refresh
 						}.bind(null, i)
+					).catch(
+						function(id, ref){
+                            console.log("Cannot download image %d", id);
+                            ref.getDownloadURL().then(
+                                function(idlegacy, url) {
+                                    Data.zonesImages[idlegacy] = url;
+                                    window.ui.zones.updateZoneImage(idlegacy); //Force a zone image refresh
+                                }.bind(null, id)
+							)
+						}.bind(null, i, imageRefLegacy)
 					);
-				}
+
+                }
 			} catch (e) {
 				console.error(e);
 			}
