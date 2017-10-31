@@ -1413,7 +1413,37 @@
 				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
+            <!--            Expandable div in zone details screen-->
+            <div class="zone-second-row-container" rm-id="extendable-zone-details">
+                <div class="secondary-row-container-block">
+                    <ul>
+                        <li class="second-row-title">BASIC SETTINGS</li>
+                        <li>Status:<span rm-id="zone-active">Active</span></li>
+                        <li>Weather Data:<span rm-id="zone-weather">Enabled</span></li>
+                        <li>Seasonal Adjustments:<span rm-id="zone-season">Enabled</span></li>
+                    </ul>
+                </div>
+                <div class="secondary-row-container-block">
+                <ul>
+                        <li class="second-row-title">ADVANCED SETTINGS</li>
+                        <li>Vegetation:<span rm-id="zone-vegetation">Lawn</span></li>
+                        <li>Soil:<span rm-id="zone-soil">Loam</span></li>
+                        <li>Slope:<span rm-id="zone-slope">High</span></li>
+                        <li>Sprinkler:<span rm-id="zone-sprinkler">Rotors</span></li>
+                        <li>Sun Exposure:<span rm-id="zone-exposure">Full Shade</span></li>
+                    </ul>
+                </div>
+                <div class="secondary-row-container-block">
+                <ul><li class="second-row-title">SET IN PROGRAM</li></ul>
+                <ul rm-id="zone-programs" class="zones-in-programs-items">
+                        <li>Program 1</li>
+                    </ul>
+                </div>
+            </div>
+<!--            END OF Expandable div in zone details screen-->
 		</div>
+        
+        
 		<!-- Template for Zone Card (End) -->
 		<!-- Template for Zone Available Water Card (Begin) -->
 		<div id="zone-available-water-template">
