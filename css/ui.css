@@ -478,7 +478,7 @@ strong { font-weight: 700; }
     color: #555;
 }
 .zone-second-row-container li:not(:first-child){
-    padding-left: 6.66px;
+    padding-left: 7px;
 }
 .zone-second-row-container ul span{
     color: #a2a1a1;
