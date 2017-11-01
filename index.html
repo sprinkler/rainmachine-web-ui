@@ -1926,8 +1926,6 @@
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div><input type="radio" name="program-frequency" rm-id="program-frequency-adaptive"/> <span>Adaptive</span><br>
-												<span class="zoneTimesSubtitle">Daily frequency adjustment based on zone soil moisture.</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-daily"/> <span>Every Day</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-odd"/> <span>Odd Days</span></div><br>
 											<div><input type="radio" name="program-frequency" rm-id="program-frequency-even"/> <span>Even Days</span></div><br>
@@ -1949,7 +1947,7 @@
 													<option value="14">14 day</option>
 												</select>
 											</div><br>
-											<div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+											<div style="padding-bottom: 15px;"><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
 												<div rm-id="program-frequency-weekdays-container">
 														<div>
 															<span class="separator"></span>
@@ -1998,6 +1996,12 @@
 										</td>
 									</tr>
 									<tr>
+										<td colspan="2">
+											<div><input type="checkbox" name="program-frequency-adaptive" rm-id="program-frequency-adaptive" style="margin-right:10px;" /> <span>Use Adaptive Frequency</span><br>
+											<span class="zoneTimesSubtitle">Allow RainMachine to skip the program frequency based on zone soil moisture.</span></div>
+										</td>
+									</tr>
+									<tr>
 										<td class="cardTitle header" colspan="2">START TIME</td>
 									</tr>
 									<tr>
@@ -2033,13 +2037,22 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="cardTitle header" colspan="2">END DAY</td>
+										<td class="cardTitle header" width="50%">START DATE</td><td class="cardTitle header">END DATE</td>
 									</tr>
 									<tr>
-										<td colspan="2" class="middle">
-											<input type="checkbox" name="program-end-day" rm-id="program-end-day-check" style="margin-right:10px;">
+										<td class="middle" style="border-bottom:0;">
 											<input type="date" rm-id="program-end-day-settable" class="typeTime" style="width:168px;">
 											<span rm-id="program-end-day"></span>
+										</td>
+										<td class="middle" style="border-bottom:0;">
+											<input type="date" rm-id="program-end-day-settable" class="typeTime" style="width:168px;">
+											<span rm-id="program-end-day"></span>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div><input type="checkbox" name="program-reccuring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
+											<span class="zoneTimesSubtitle">Uncheck this option if you don't want this program to repeat yearly.</span></div>
 										</td>
 									</tr>
 									<tr>
