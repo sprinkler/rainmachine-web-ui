@@ -1305,7 +1305,7 @@ select, .selectSmall {
   float: left;
 }
 .inactive, .master {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .zoneIdle,
@@ -1925,7 +1925,7 @@ td.right,
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
   z-index: 1;
   opacity: 1;
-  overflow: initial;
+  overflow: auto;
 }
 /* Weather services tabs end */
 /* Fixes for Firefox browser */
