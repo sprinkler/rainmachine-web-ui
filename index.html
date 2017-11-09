@@ -948,7 +948,7 @@
 										</div>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
-										<span class="restriction">Warning: Changing this settings will delete all weather data.</span>
+										<span class="restriction">Warning: Changing these settings will delete all weather data.</span>
 									</td>
 								</tr>
 								<tr>
@@ -1404,7 +1404,6 @@
 
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
-				<div rm-id="zone-info" style="display:none;"></div>
 			</div>
 			<div id="zoneSlider" class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
@@ -1414,29 +1413,27 @@
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
             <!--            Expandable div in zone details screen-->
-            <div class="zone-second-row-container" rm-id="extendable-zone-details">
+            <div class="zone-second-row-container" rm-id="zone-extended-details" style="display: none;">
                 <div class="secondary-row-container-block">
                     <ul>
                         <li class="second-row-title">BASIC SETTINGS</li>
-                        <li>Status:<span rm-id="zone-active">Active</span></li>
-                        <li>Weather Data:<span rm-id="zone-weather">Enabled</span></li>
-                        <li>Seasonal Adjustments:<span rm-id="zone-season">Enabled</span></li>
+                        <li>Weather Data:<span rm-id="zone-internet"></span></li>
+                        <li>Seasonal Adjustments:<span rm-id="zone-history"></span></li>
                     </ul>
                 </div>
                 <div class="secondary-row-container-block">
                 <ul>
                         <li class="second-row-title">ADVANCED SETTINGS</li>
-                        <li>Vegetation:<span rm-id="zone-vegetation">Lawn</span></li>
-                        <li>Soil:<span rm-id="zone-soil">Loam</span></li>
-                        <li>Slope:<span rm-id="zone-slope">High</span></li>
-                        <li>Sprinkler:<span rm-id="zone-sprinkler">Rotors</span></li>
-                        <li>Sun Exposure:<span rm-id="zone-exposure">Full Shade</span></li>
+                        <li>Vegetation:<span rm-id="zone-vegetation"></span></li>
+                        <li>Soil:<span rm-id="zone-soil"></span></li>
+                        <li>Slope:<span rm-id="zone-slope"></span></li>
+                        <li>Sprinkler:<span rm-id="zone-sprinkler"></span></li>
+                        <li>Sun Exposure:<span rm-id="zone-sun"></span></li>
                     </ul>
                 </div>
                 <div class="secondary-row-container-block">
                 <ul><li class="second-row-title">SET IN PROGRAM</li></ul>
                 <ul rm-id="zone-programs" class="zones-in-programs-items">
-                        <li>Program 1</li>
                     </ul>
                 </div>
             </div>
@@ -1998,7 +1995,7 @@
 									<tr>
 										<td colspan="2">
 											<div><input type="checkbox" name="program-frequency-adaptive" rm-id="program-frequency-adaptive" style="margin-right:10px;" /> <span>Use Adaptive Frequency</span><br>
-											<span class="zoneTimesSubtitle">Allow RainMachine to skip the program frequency based on zone soil moisture.</span></div>
+											<span class="zoneTimesSubtitle">Allow RainMachine to manage irrigation by skipping nonoptimal watering cycles, taking in consideration your soil moisture values. </span></div>
 										</td>
 									</tr>
 									<tr>
@@ -2030,29 +2027,30 @@
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2" class="middle program-td-next-run">
-											<span class="cardTitle">Next run:</span>
-											<input type="date" rm-id="program-next-run-settable" class="typeTime hidden" style="width:168px;">
-											<span rm-id="program-next-run"></span>
-										</td>
-									</tr>
-									<tr>
 										<td class="cardTitle header" width="50%">START DATE</td><td class="cardTitle header">END DATE</td>
 									</tr>
 									<tr>
 										<td class="middle" style="border-bottom:0;">
-											<input type="date" rm-id="program-end-day-settable" class="typeTime" style="width:168px;">
-											<span rm-id="program-end-day"></span>
+											<input type="date" rm-id="program-start-date" class="typeTime" style="width:168px;">
 										</td>
 										<td class="middle" style="border-bottom:0;">
-											<input type="date" rm-id="program-end-day-settable" class="typeTime" style="width:168px;">
-											<span rm-id="program-end-day"></span>
+											<select class="selectSmall" rm-id="program-end-date-type">
+												<option value="0" selected>Never</option>
+												<option value="1">Select Date</option>
+											</select>&nbsp;
+											<input type="date" rm-id="program-end-date" class="typeTime" style="width:168px; display:none;">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div><input type="checkbox" name="program-reccuring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
+											<div><input type="checkbox" name="program-recurring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
 											<span class="zoneTimesSubtitle">Uncheck this option if you don't want this program to repeat yearly.</span></div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="middle">
+											<span class="cardTitle">Next run:</span>
+											<span rm-id="program-next-run"></span>
 										</td>
 									</tr>
 									<tr>
