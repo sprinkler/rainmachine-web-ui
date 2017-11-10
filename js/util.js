@@ -216,7 +216,7 @@ Util.deviceDateStrToDate = function(datetimeStr) {
 	var d = new Date();
 
 	d.setFullYear(year);
-	d.setMonth(month-1);
+	d.setMonth(month-1, 1);
 	d.setDate(day);
 
 	d.setHours(h);
