@@ -472,7 +472,7 @@ window.ui = window.ui || {};
 			var elem = uiElemsAll.zones[z.uid];
 
 			if (shouldExpand && !z.master) {
-				makeVisible(elem.extendedContainer);
+				makeVisibleBlock(elem.extendedContainer);
 			} else {
 				makeHidden(elem.extendedContainer);
 			}
