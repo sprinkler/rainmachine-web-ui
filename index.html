@@ -171,7 +171,7 @@
 									<!-- Top weather days start -->
 									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
-										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br><span style="color:#ff9999;">EvapoTranspiration</span></span></div>
+										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br>EvapoTranspiration</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -1388,8 +1388,8 @@
 			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
 			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
 			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
-			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;color:#ff9999;" title="EvapoTranspiration">0.00</div>
-			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;color:#ff9999;">&#xe900;</div>
+			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;" title="EvapoTranspiration">0.00</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">&#xe900;</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1412,18 +1412,18 @@
 				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
-            <!--            Expandable div in zone details screen-->
+            <!-- Expandable div in zone details screen -->
             <div class="zone-second-row-container" rm-id="zone-extended-details" style="display: none;">
                 <div class="secondary-row-container-block">
                     <ul>
-                        <li class="second-row-title">BASIC SETTINGS</li>
+                        <li class="second-row-title">Basic Settings</li>
                         <li>Weather Data:<span rm-id="zone-internet"></span></li>
                         <li>Seasonal Adjustments:<span rm-id="zone-history"></span></li>
                     </ul>
                 </div>
                 <div class="secondary-row-container-block">
-                <ul>
-                        <li class="second-row-title">ADVANCED SETTINGS</li>
+                	<ul>
+                        <li class="second-row-title">Advanced Settings</li>
                         <li>Vegetation:<span rm-id="zone-vegetation"></span></li>
                         <li>Soil:<span rm-id="zone-soil"></span></li>
                         <li>Slope:<span rm-id="zone-slope"></span></li>
@@ -1432,12 +1432,12 @@
                     </ul>
                 </div>
                 <div class="secondary-row-container-block">
-                <ul><li class="second-row-title">SET IN PROGRAM</li></ul>
-                <ul rm-id="zone-programs" class="zones-in-programs-items">
+                	<ul><li class="second-row-title">Used In Programs</li></ul>
+                	<ul rm-id="zone-programs" class="zones-in-programs-items">
                     </ul>
                 </div>
-            </div>
-<!--            END OF Expandable div in zone details screen-->
+			<!-- END OF Expandable div in zone details screen -->
+			</div>
 		</div>
         
         
