@@ -1898,6 +1898,56 @@
 									</td>
 									</tr>
 									<tr>
+										<td class="cardTitle header" colspan="2">START TIME</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="middle noborder">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
+
+												<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+												:
+												<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle" colspan="2">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
+											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
+											<span>
+												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
+													<option value="-1" selected>before</option>
+													<option value="1">after</option>
+												</select>
+												<select rm-id="program-start-time-sun-option" class="selectSmall">
+													<option value="1" selected>sunrise</option>
+													<option value="2">sunset</option>
+												</select>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle header">START DATE</td>
+										<td class="cardTitle header">END DATE</td>
+									</tr>
+									<tr>
+										<td class="middle" style="border-bottom:0;">
+											<input type="date" rm-id="program-start-date" class="typeTime" style="width:168px;">
+										</td>
+										<td class="middle" style="border-bottom:0;">
+											<select class="selectSmall" rm-id="program-end-date-type" style="width:120px">
+												<option value="0" selected>Never</option>
+												<option value="1">Select Date</option>
+											</select>&nbsp;
+											<input type="date" rm-id="program-end-date" class="typeTime" style="width:168px; display:none;">
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div><input type="checkbox" name="program-recurring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
+											<span class="zoneTimesSubtitle">Uncheck this option if you don't want this program to repeat yearly.</span></div>
+										</td>
+									</tr>
+									<tr>
 										<td class="cardTitle header" colspan="2">FREQUENCY (Next run: <span rm-id="program-next-run"></span>)</td>
 									</tr>
 									<tr>
@@ -1975,56 +2025,6 @@
 										<td colspan="2">
 											<div><input type="checkbox" name="program-frequency-adaptive" rm-id="program-frequency-adaptive" style="margin-right:10px;" /> <span>Use Adaptive Frequency</span><br>
 											<span class="zoneTimesSubtitle">Allow RainMachine to manage irrigation by skipping nonoptimal watering cycles, taking in consideration your soil moisture values. </span></div>
-										</td>
-									</tr>
-									<tr>
-										<td class="cardTitle header" colspan="2">START TIME</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="middle noborder">
-											<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
-
-												<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-												:
-												<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle" colspan="2">
-											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
-											<span>
-												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
-													<option value="-1" selected>before</option>
-													<option value="1">after</option>
-												</select>
-												<select rm-id="program-start-time-sun-option" class="selectSmall">
-													<option value="1" selected>sunrise</option>
-													<option value="2">sunset</option>
-												</select>
-											</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="cardTitle header">START DATE</td>
-										<td class="cardTitle header">END DATE</td>
-									</tr>
-									<tr>
-										<td class="middle" style="border-bottom:0;">
-											<input type="date" rm-id="program-start-date" class="typeTime" style="width:168px;">
-										</td>
-										<td class="middle" style="border-bottom:0;">
-											<select class="selectSmall" rm-id="program-end-date-type" style="width:120px">
-												<option value="0" selected>Never</option>
-												<option value="1">Select Date</option>
-											</select>&nbsp;
-											<input type="date" rm-id="program-end-date" class="typeTime" style="width:168px; display:none;">
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2">
-											<div><input type="checkbox" name="program-recurring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
-											<span class="zoneTimesSubtitle">Uncheck this option if you don't want this program to repeat yearly.</span></div>
 										</td>
 									</tr>
 									<tr>
