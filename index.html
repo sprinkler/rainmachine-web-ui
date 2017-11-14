@@ -1486,8 +1486,13 @@
 	            <table class="programEdit" style="padding-top:0;" cellpadding="0" cellspacing="0">
 					<tr>
 					<tr rm-id="zone-master-valve-title">
-						<td class="middle center" style="padding: 20px;font-size:20px;">Use Zone 1 as Master Valve (Pump) <span style="margin-left:35px;">Enable: <input type="checkbox" rm-id="zone-master-valve"/></span>
+						<td class="middle center" style="padding: 20px;font-size:20px;">Master Valve (Pump)</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="display:block;text-align:center;">Enable Zone 1 as Master Valve <input type="checkbox" style="margin-left:50px;" rm-id="zone-master-valve"/></span>
 							<span  rm-id="zone-master-valve-option"></span></td>
+						</td>
 					</tr>
 					<!-- <tr>
 						<td class="middle noborder">
@@ -2097,7 +2102,7 @@
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 								<tr>
-									<td class="cardTitle header" colspan="2" style="padding-top:0;">ZONE DURATION BASED ON WEATHER</td>
+									<td class="cardTitle header" colspan="2" style="padding-top:0;">WEATHER ADJUSTED ZONE DURATION</td>
 								</tr>
 								<tr>
 									<td style="border-bottom: 0">
@@ -2118,14 +2123,15 @@
 									</td>
 									</tr>
 								<tr>
-									<td style="padding:1.2em 0;" colspan="2">
-										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
-										<span class="cardTitle header">TOTAL WATERING TIME</span>
+									<td class="cardTitle header" colspan="2">
+										WATERING DURATION AND START ORDER<br>
+										<span class="zoneTimesSubtitle" style="margin:0">Set zones watering duration and change their start order using drag & drop.</span>
 									</td>
 								</tr>
 								<tr>
-									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;" colspan="2">
-										Zones
+									<td style="padding:1.2em 0;" colspan="2">
+										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
+										<span>TOTAL WATERING TIME</span>
 									</td>
 								</tr>
 								<!-- Start program settings zones template -->
@@ -2152,6 +2158,7 @@
 		<table id="program-settings-zone-template-container-2">
 			<tr id="program-settings-zone-template">
 				<td class="middle weatherSource" style="padding-right:1.5em;" colspan="2">
+					<mark data-char-info="" style="color: #888;background:transparent;font-size: 1.2em;">⇵</mark>
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
 					<div class="middle right">
 						<pre rm-id="program-zone-duration" style="font-size:1.3em;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
