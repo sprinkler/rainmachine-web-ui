@@ -171,7 +171,7 @@
 									<!-- Top weather days start -->
 									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
-										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br><span style="color:#ff9999;">EvapoTranspiration</span></span></div>
+										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br>EvapoTranspiration</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
 										<div class="program-start-stop"></div>
 									</div>
@@ -948,7 +948,7 @@
 										</div>
 										<span class="cardTitle">Location</span><br>
 										<span class="subtitle" id="systemSettingsLocationFull"></span><br>
-										<span class="restriction">Warning: Changing this settings will delete all weather data.</span>
+										<span class="restriction">Warning: Changing these settings will delete all weather data.</span>
 									</td>
 								</tr>
 								<tr>
@@ -1079,6 +1079,14 @@
 										<input id="systemSettingsBetaUpdates" type="checkbox" class="right mr" />
 										<span class="cardTitle">Enable beta quality updates</span><br>
 										<span class="subtitle">Allow to receive beta updates which are more often, but less thoroughly tested.</span><br>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsAutomaticUpdatesSet" class="button label-blue center right">Apply</button>
+										<input id="systemSettingsAutomaticUpdates" type="checkbox" class="right mr" />
+										<span class="cardTitle">Automatic updates</span><br>
+										<span class="subtitle">Allow the device to automatically update itself if no watering is scheduled.</span><br>
 									</td>
 								</tr>
 								<tr>
@@ -1388,8 +1396,8 @@
 			<div rm-id="day-weather-temp" class="dayTemp" title="Min/Max Temperature">79<sup>o</sup></div>
 			<div rm-id="day-weather-qpf" class="dayTemp" style="display:inline;" title="Precipitation">0.0</div>
 			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">V</div>
-			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;color:#ff9999;" title="EvapoTranspiration">0.00</div>
-			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;color:#ff9999;">&#xe900;</div>
+			<div rm-id="day-weather-et0" class="dayTemp" style="display:inline;" title="EvapoTranspiration">0.00</div>
+			<div class="dayTemp icon" style="display:inline;font-size:8px;vertical-align:top;">&#xe900;</div>
 		</div>
 		<!-- Template for Day Weather (Begin) -->
 
@@ -1404,7 +1412,6 @@
 
 			<div class="program-title-next-run zoneListLine">
 				<div rm-id="zone-name" class="zoneListName"></div>
-				<div rm-id="zone-info" style="display:none;"></div>
 			</div>
 			<div id="zoneSlider" class="inputStepDown">
 				<div class="rangeSliderBody" rm-id="zone-timer"><div class="rangeSliderThumb">00:00</div></div>
@@ -1413,7 +1420,35 @@
 				<span class="zoneIdle" rm-id="zone-status" style="display: none;">!</span>
 				<div rm-id="zone-stop" class="playstopButton center right">W</div>
 			</div>
+            <!-- Expandable div in zone details screen -->
+            <div class="zone-second-row-container" rm-id="zone-extended-details" style="display: none;">
+                <div class="secondary-row-container-block">
+                    <ul>
+                        <li class="second-row-title">Basic Settings</li>
+                        <li>Weather Data:<span rm-id="zone-internet"></span></li>
+                        <li>Seasonal Adjustments:<span rm-id="zone-history"></span></li>
+                    </ul>
+                </div>
+                <div class="secondary-row-container-block">
+                	<ul>
+                        <li class="second-row-title">Advanced Settings</li>
+                        <li>Vegetation:<span rm-id="zone-vegetation"></span></li>
+                        <li>Soil:<span rm-id="zone-soil"></span></li>
+                        <li>Slope:<span rm-id="zone-slope"></span></li>
+                        <li>Sprinkler:<span rm-id="zone-sprinkler"></span></li>
+                        <li>Sun Exposure:<span rm-id="zone-sun"></span></li>
+                    </ul>
+                </div>
+                <div class="secondary-row-container-block">
+                	<ul><li class="second-row-title">Used In Programs</li></ul>
+                	<ul rm-id="zone-programs" class="zones-in-programs-items">
+                    </ul>
+                </div>
+			<!-- END OF Expandable div in zone details screen -->
+			</div>
 		</div>
+        
+        
 		<!-- Template for Zone Card (End) -->
 		<!-- Template for Zone Available Water Card (Begin) -->
 		<div id="zone-available-water-template">
@@ -1871,28 +1906,57 @@
 									</td>
 									</tr>
 									<tr>
-										<td class="cardTitle header" colspan="2">ZONE DURATION BASED ON WEATHER</td>
+										<td class="cardTitle header" colspan="2">START TIME</td>
 									</tr>
 									<tr>
-										<td style="border-bottom: 0">
-											<span class="cardTitle">Weather-Adaptive Watering</span><br>
-											<span class="zoneTimesSubtitle" style="margin:0">Use Live Weather or Seasonal Adjustments as specified on your zone properties.</span>
-										</td>
-										<td class="middle" style="border-bottom: 0">
-											<input type="radio" rm-id="program-weather-data-on" name="program-weather" class="right typeCheckbox" checked="checked">
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<span class="cardTitle">Fixed</span><br>
-											<span class="zoneTimesSubtitle" style="margin:0">Fixed watering duration for each zone.</span>
-										</td>
-										<td class="middle">
-											<input type="radio" rm-id="program-weather-data-off" name="program-weather" class="right typeCheckbox">
+										<td colspan="2" class="middle noborder">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
+
+												<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
+												:
+												<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
 										</td>
 									</tr>
 									<tr>
-										<td class="cardTitle header" colspan="2">FREQUENCY</td>
+										<td class="middle" colspan="2">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
+											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
+											<span>
+												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
+													<option value="-1" selected>before</option>
+													<option value="1">after</option>
+												</select>
+												<select rm-id="program-start-time-sun-option" class="selectSmall">
+													<option value="1" selected>sunrise</option>
+													<option value="2">sunset</option>
+												</select>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle header">START DATE</td>
+										<td class="cardTitle header">END DATE</td>
+									</tr>
+									<tr>
+										<td class="middle" style="border-bottom:0;">
+											<input type="date" rm-id="program-start-date" class="typeTime" style="width:168px;">
+										</td>
+										<td class="middle" style="border-bottom:0;">
+											<select class="selectSmall" rm-id="program-end-date-type" style="width:120px">
+												<option value="0" selected>Never</option>
+												<option value="1">Select Date</option>
+											</select>&nbsp;
+											<input type="date" rm-id="program-end-date" class="typeTime" style="width:168px; display:none;">
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div><input type="checkbox" name="program-recurring" rm-id="program-recurring" style="margin-right:10px;" checked /> <span>Yearly Recurring</span><br>
+											<span class="zoneTimesSubtitle">Uncheck this option if you don't want this program to repeat yearly.</span></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="cardTitle header" colspan="2">FREQUENCY (Next run: <span rm-id="program-next-run"></span>)</td>
 									</tr>
 									<tr>
 										<td colspan="2">
@@ -1917,7 +1981,7 @@
 													<option value="14">14 day</option>
 												</select>
 											</div><br>
-											<div><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+											<div style="padding-bottom: 15px;"><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
 												<div rm-id="program-frequency-weekdays-container">
 														<div>
 															<span class="separator"></span>
@@ -1966,38 +2030,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="cardTitle header" colspan="2">START TIME</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="middle noborder">
-											<input type="radio" name="program-start-time" rm-id="program-start-time-fixed" style="margin-right:10px;">Time of day (hh:mm)
-
-												<span><input rm-id="program-start-time-hour" type="number" min="0" max="23" class="typeNumber" placeholder="00"></span>
-												:
-												<span><input rm-id="program-start-time-min" type="number" min="0" max="59" class="typeNumber" placeholder="00"></span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle" colspan="2">
-											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
-											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
-											<span>
-												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
-													<option value="-1" selected>before</option>
-													<option value="1">after</option>
-												</select>
-												<select rm-id="program-start-time-sun-option" class="selectSmall">
-													<option value="1" selected>sunrise</option>
-													<option value="2">sunset</option>
-												</select>
-											</span>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="middle program-td-next-run">
-											<span class="cardTitle">Next run:</span>
-											<input type="date" rm-id="program-next-run-settable" class="typeTime hidden" style="width:168px;">
-											<span rm-id="program-next-run"></span>
+										<td colspan="2">
+											<div><input type="checkbox" name="program-frequency-adaptive" rm-id="program-frequency-adaptive" style="margin-right:10px;" /> <span>Use Adaptive Frequency</span><br>
+											<span class="zoneTimesSubtitle">Allow RainMachine to manage irrigation by skipping nonoptimal watering cycles, taking in consideration your soil moisture values. </span></div>
 										</td>
 									</tr>
 									<tr>
@@ -2062,13 +2097,34 @@
 						<td class="noborder halfRight">
 							<table cellpadding="0" cellspacing="0"  width="100%" height="100%" rm-id="program-settings-zone-template-container">
 								<tr>
-									<td style="padding:1.2em 0;">
-										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
-										<span style="text-transform: uppercase;color:#666666;">Total watering time</span>
+									<td class="cardTitle header" colspan="2" style="padding-top:0;">ZONE DURATION BASED ON WEATHER</td>
+								</tr>
+								<tr>
+									<td style="border-bottom: 0">
+										<span class="cardTitle">Weather-Adaptive Watering</span><br>
+										<span class="zoneTimesSubtitle" style="margin:0">Use Live Weather or Seasonal Adjustments as specified on your zone properties.</span>
+									</td>
+										<td class="middle" style="border-bottom: 0">
+										<input type="radio" rm-id="program-weather-data-on" name="program-weather" class="right typeCheckbox" checked="checked">
 									</td>
 								</tr>
 								<tr>
-									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;">
+									<td>
+										<span class="cardTitle">Fixed</span><br>
+										<span class="zoneTimesSubtitle" style="margin:0">Fixed watering duration for each zone.</span>
+									</td>
+									<td class="middle">
+										<input type="radio" rm-id="program-weather-data-off" name="program-weather" class="right typeCheckbox">
+									</td>
+									</tr>
+								<tr>
+									<td style="padding:1.2em 0;" colspan="2">
+										<div style="text-align: right;font-size:1.3em;"><pre rm-id="program-settings-zone-totaltime" class="right" style="padding-right:1.5em;">00h 00m 00s</pre></div>
+										<span class="cardTitle header">TOTAL WATERING TIME</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle" style="padding:1.2em 0;color:#555;font-size:18px;" colspan="2">
 										Zones
 									</td>
 								</tr>
@@ -2095,7 +2151,7 @@
 		<!-- Template for Program Settings Zone Watering Times Display only (Start) -->
 		<table id="program-settings-zone-template-container-2">
 			<tr id="program-settings-zone-template">
-				<td class="middle weatherSource" style="padding-right:1.5em;">
+				<td class="middle weatherSource" style="padding-right:1.5em;" colspan="2">
 					<div rm-id="program-zone-name" class="zoneListName" style="padding:15px 0;"></div>
 					<div class="middle right">
 						<pre rm-id="program-zone-duration" style="font-size:1.3em;color:rgb(187, 187, 187);margin-top: 17px;display: block;">No time set</pre>
