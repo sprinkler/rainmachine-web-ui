@@ -65,6 +65,9 @@ window.ui = window.ui || {};
 			BetaUpdatesSet: $("#systemSettingsBetaUpdatesSet"),
 			BetaUpdates: $("#systemSettingsBetaUpdates"),
 
+			AutomaticUpdatesSet: $("#systemSettingsAutomaticUpdatesSet"),
+			AutomaticUpdates: $("#systemSettingsAutomaticUpdates"),
+
 			SSHSet: $("#systemSettingsSSHSet"),
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
@@ -196,6 +199,7 @@ window.ui = window.ui || {};
 		//Advanced Settings
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.Bonjour.checked = Data.provision.system.useBonjourService;
+		systemSettingsView.AutomaticUpdates.checked = Data.provision.system.automaticUpdates;
 
 		//TODO Developer mode commented out atm
 		/*
@@ -217,6 +221,9 @@ window.ui = window.ui || {};
 
 		uiFeedback.sync(systemSettingsView.BonjourSet,
 			function(){ return changeSingleSystemProvisionValue("useBonjourService",  systemSettingsView.Bonjour.checked)});
+
+		uiFeedback.sync(systemSettingsView.AutomaticUpdatesSet,
+			function(){ return changeSingleSystemProvisionValue("automaticUpdates",  systemSettingsView.AutomaticUpdates.checked)});
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
