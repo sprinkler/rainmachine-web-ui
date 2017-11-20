@@ -534,6 +534,8 @@ function dragenter(e) {
 	else {
 		target.parentNode.insertBefore(dragSource, target.nextSibling);
 	}
+
+	dragSource.style.visibility = "hidden";
 }
 
 function dragleave(e) {
@@ -543,11 +545,12 @@ function dragleave(e) {
 function dragstart(e) {
 	dragSource = e.target;
 	dragSource.style.backgroundColor = "#ecf0f1";
-	//e.dataTransfer.setDragImage(this.firstElementChild, e.offsetX, e.offsetY);
+	e.dataTransfer.setDragImage(this.firstElementChild, e.offsetX, e.offsetY);
 	e.dataTransfer.effectAllowed = 'move';
 }
 
 function dragend(e) {
 	e.target.style.backgroundColor = "";
+	dragSource.style.visibility = "visible";
 	markTagOrder($("#program-settings-zone-container"), "tr");
 }

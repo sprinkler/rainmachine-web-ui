@@ -1661,10 +1661,14 @@ td.right,
   padding: 10px 0;
   min-height: 30px;
 }
+
+/*
 .weatherSource:hover {
   background-color: #ecf0f1;
   cursor: pointer;
 }
+*/
+
 .weatherSourceStatus[enabled] {
   width: 16px;
   height: 16px;
