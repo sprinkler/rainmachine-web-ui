@@ -545,6 +545,7 @@ function dragleave(e) {
 function dragstart(e) {
 	dragSource = e.target;
 	dragSource.style.backgroundColor = "#ecf0f1";
+	e.dataTransfer.setData('text/plain', 'dummy'); // For firefox compatibility
 	e.dataTransfer.setDragImage(this.firstElementChild, e.offsetX, e.offsetY);
 	e.dataTransfer.effectAllowed = 'move';
 }
