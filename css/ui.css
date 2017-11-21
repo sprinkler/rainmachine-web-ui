@@ -1204,6 +1204,11 @@ select, .selectSmall {
   border-radius: 0;
   height: 44px;
   -webkit-appearance: none;
+  /*fix for Firefox start*/
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: '';
+  /*fix for Firefox end*/
 }
 .selectSmall {
   width: 90px;
