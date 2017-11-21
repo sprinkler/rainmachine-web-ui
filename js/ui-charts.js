@@ -260,7 +260,6 @@ function processChartData() {
 		Data.counters.charts = 0;
 	}
 
-	chartsData.et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -1192,7 +1191,7 @@ function generateProgramChart (programUid, programIndex) {
 				data: chartsData.et0.currentSeries,
 				type:'line',
 				dashStyle: 'dot',
-				color: '#ff9999',
+				color: '#777',
 				yAxis: 1
 			}
 		],

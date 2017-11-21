@@ -397,13 +397,13 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   padding-top: 0.3em;
-  color: #999;
+  color: #000;
   height: 5.9em;
 }
 .weatherChartDaysTempRain {
   display: block;
   text-align: right;
-  color: #39c;
+  color: #000;
   line-height: 22px;
   font-size: 14px;
 }
@@ -569,7 +569,7 @@ strong { font-weight: 700; }
 .dateno {
   display: block;
   padding-top: 10px;
-  color: #999;
+  color: #777;
   padding-bottom: 15px;
 }
 .weatherIcon, .pinLocation {
@@ -581,7 +581,7 @@ strong { font-weight: 700; }
   color: #4296cd;
 }
 .dayTemp {
-  color: #4296cd;
+  color: #777;
   font-size: 15px;
   height:23px;
 }
