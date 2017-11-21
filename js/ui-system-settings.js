@@ -181,8 +181,8 @@ window.ui = window.ui || {};
 
 		buildTimeZoneSelect(systemSettingsView.TimeZoneSelect);
 
-		systemSettingsView.UnitsUS.checked = !Data.localSettings.units;
-		systemSettingsView.UnitsMetric.checked = Data.localSettings.units;
+		systemSettingsView.UnitsUS.checked = !Data.provision.system.uiUnitsMetric;
+		systemSettingsView.UnitsMetric.checked = Data.provision.system.uiUnitsMetric;
 
 		uiFeedback.sync(systemSettingsView.MasterValveSet, systemSettingsChangeMasterValve);
 
@@ -190,7 +190,6 @@ window.ui = window.ui || {};
 		uiFeedback.sync(systemSettingsView.LocationSet, systemSettingsChangeLocation);
 		uiFeedback.sync(systemSettingsView.DateTimeSet, systemSettingsChangeDateTime);
 		uiFeedback.sync(systemSettingsView.TimeZoneSet, systemSettingsChangeTimeZone);
-		uiFeedback.sync(systemSettingsView.UnitsSet, systemSettingsChangeUnits);
 		uiFeedback.sync(systemSettingsView.PasswordSet, systemSettingsChangePassword);
 		uiFeedback.sync(systemSettingsView.ResetDefaultSet, systemSettingsReset);
 		uiFeedback.sync(systemSettingsView.RebootSet, systemSettingsReboot);
@@ -224,6 +223,9 @@ window.ui = window.ui || {};
 
 		uiFeedback.sync(systemSettingsView.AutomaticUpdatesSet,
 			function(){ return changeSingleSystemProvisionValue("automaticUpdates",  systemSettingsView.AutomaticUpdates.checked)});
+
+		uiFeedback.sync(systemSettingsView.UnitsSet,
+			function(){ return changeSingleSystemProvisionValue("uiUnitsMetric",  systemSettingsView.UnitsMetric.checked)});
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 
@@ -371,8 +373,9 @@ window.ui = window.ui || {};
 
 	function systemSettingsChangeUnits()
 	{
-		Data.localSettings.units = systemSettingsView.UnitsMetric.checked;
-		Storage.saveItem("localSettings", Data.localSettings);
+		Data.provision.system.uiUnitsMetric = systemSettingsView.UnitsMetric.checked;
+		//Storage.saveItem("localSettings", Data.localSettings);
+
 		return true;
 	}
 

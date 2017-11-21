@@ -445,6 +445,11 @@ window.ui = window.ui || {};
 		document.body.onkeydown = function(event) { if (event.keyCode == 27) onCancel() };
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
+
+		// Arrange zones in UI based on their specified order
+		if ($("#program-settings-zone-container") !== null) {
+			arrangeTagOrder($("#program-settings-zone-container"), "tr");
+		}
 	}
 
 
@@ -578,6 +583,7 @@ window.ui = window.ui || {};
 
 		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
+		templateInfo.zoneTableElem.id = "program-settings-zone-container";
         templateInfo.zoneElems = {};
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
@@ -593,6 +599,12 @@ window.ui = window.ui || {};
 
 			//Show zone timer settings on click
 			zoneElems.templateDisplayElem.onclick =  (function(id) { return function() { onZoneTimerClick(id); } })(zoneId);
+			zoneElems.templateDisplayElem.setAttribute('draggable', true);
+			zoneElems.templateDisplayElem.ondragstart = dragstart;
+			zoneElems.templateDisplayElem.ondragenter = dragenter;
+			zoneElems.templateDisplayElem.ondragleave = dragleave;
+			zoneElems.templateDisplayElem.ondragend = dragend;
+			zoneElems.templateDisplayElem.setAttribute("order", zoneId);
 
 			//Create the onclick action for helper text when zone settings are default
 			zoneElems.zoneIsDefaultElem.onclick = (function(id, elems) {
@@ -726,10 +738,13 @@ window.ui = window.ui || {};
 			var wateringTime = {};
 
             if (!uiElems.zoneElems.hasOwnProperty(zoneId)) {
+				console.log("No zoneId for id %s", zoneId);
                 continue;
             }
 
 			var zoneElems = uiElems.zoneElems[zoneId];
+
+			var order = zoneElems.templateDisplayElem.getAttribute("order");
 
 			if (zoneElems.autoTypeElem.checked) {
 				durationType = ZoneDurationType.Auto;
@@ -742,6 +757,7 @@ window.ui = window.ui || {};
             wateringTime.id = parseInt(zoneId);
             wateringTime.active = durationType > 0 ? true:false;
 			wateringTime.userPercentage = zoneElems.zonePercentage.value / 100.0;
+			wateringTime.order = order;
 
 			if (durationType == ZoneDurationType.Auto) {
 				wateringTime.duration = 0;
@@ -1092,6 +1108,7 @@ window.ui = window.ui || {};
 
 				//Specified auto timer user percentage
 				zoneElems.zonePercentage.setValue(parseInt(wateringTime.userPercentage * 100) || 1);
+				zoneElems.templateDisplayElem.setAttribute("order", wateringTime.order);
 			} else {
 
 				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
