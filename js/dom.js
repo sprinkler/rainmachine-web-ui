@@ -452,3 +452,106 @@ uiFeedback =  {
 		elem.style.background = "white";
 	}
 };
+
+
+function getTagIndex(node, matchTag) {
+	var index = 0;
+	while ( (node = node.previousElementSibling) ) {
+		if (defined(matchTag)) {
+			if (node.tagName == matchTag.toUpperCase()) {
+				index++;
+				node.setAttribute("neworder", index);
+			}
+		} else {
+			index++;
+		}
+	}
+	return index;
+}
+
+function markTagOrder(parent, tag) {
+	var nodes = parent.childNodes;
+	var matchedNodes = 0;
+	for(var i = 0; i < nodes.length; i++) {
+		if (nodes[i].nodeName.toLowerCase() == tag) {
+			matchedNodes++;
+			nodes[i].setAttribute("order", matchedNodes);
+		}
+	}
+}
+
+function arrangeTagOrder(parent, tag) {
+	var nodes = parent.childNodes;
+
+	for(var i = 0; i < nodes.length; i++) {
+		if (nodes[i].nodeName.toLowerCase() == tag) {
+			var order = nodes[i].getAttribute("order");
+			var node = nodes[i];
+			var min = 999;
+			var minNode = null;
+
+			for(var j = 0; j < i; j++) {
+				if (nodes[j].nodeName.toLowerCase() == tag) {
+					var norder = nodes[j].getAttribute("order");
+					if (order < norder) {
+						if (norder < min) {
+							min = norder;
+							minNode = nodes[j];
+						}
+					}
+				}
+			}
+			if (minNode !== null) {
+				parent.insertBefore(node, minNode);
+			}
+		}
+	}
+}
+
+var dragSource;
+
+function isbefore(a, b) {
+	if (a.parentNode == b.parentNode) {
+		for (var cur = a; cur; cur = cur.previousSibling) {
+			if (cur === b) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function dragenter(e) {
+	var target = e.target;
+
+	if (target.nodeName == "TD") {
+		target = target.parentNode;
+	}
+
+	if (isbefore(dragSource,target)) {
+		target.parentNode.insertBefore(dragSource, target);
+	}
+	else {
+		target.parentNode.insertBefore(dragSource, target.nextSibling);
+	}
+
+	dragSource.style.visibility = "hidden";
+}
+
+function dragleave(e) {
+
+}
+
+function dragstart(e) {
+	dragSource = e.target;
+	dragSource.style.backgroundColor = "#ecf0f1";
+	e.dataTransfer.setData('text/plain', 'dummy'); // For firefox compatibility
+	e.dataTransfer.setDragImage(this.firstElementChild, e.offsetX, e.offsetY);
+	e.dataTransfer.effectAllowed = 'move';
+}
+
+function dragend(e) {
+	e.target.style.backgroundColor = "";
+	dragSource.style.visibility = "visible";
+	markTagOrder($("#program-settings-zone-container"), "tr");
+}
