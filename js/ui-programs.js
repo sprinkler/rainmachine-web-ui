@@ -346,6 +346,7 @@ window.ui = window.ui || {};
 				uiElems.endDateElem.value = Util.getDateWithDaysDiff(-366)
 			}
 
+			uiElems.recurringElem.checked = program.yearlyRecurring;
 			onEndDateTypeChange();
 
 			var cyclesType = CyclesType.Off;
@@ -541,6 +542,9 @@ window.ui = window.ui || {};
 		templateInfo.endDateTypeElem.onchange = onEndDateTypeChange;
 		templateInfo.endDateElem = $(templateInfo.programTemplateElem, '[rm-id="program-end-date"]');
 
+		templateInfo.recurringElem = $(templateInfo.programTemplateElem, '[rm-id="program-recurring"]');
+		templateInfo.recurringContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-recurring-container"]');
+
 		templateInfo.cyclesTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-type"]');
 		templateInfo.cyclesManualElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-manual"]');
         templateInfo.cyclesElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles"]');
@@ -726,6 +730,8 @@ window.ui = window.ui || {};
 		} else {
 			program.endDate = null;
 		}
+
+		program.yearlyRecurring = uiElems.recurringElem.checked;
 
         //---------------------------------------------------------------------------------------
         // Collect watering times.
@@ -1406,8 +1412,10 @@ window.ui = window.ui || {};
 	function onEndDateTypeChange() {
 		if (getSelectValue(uiElems.endDateTypeElem) > 0) {
 			makeVisible(uiElems.endDateElem);
+			makeVisible(uiElems.recurringContainerElem);
 		} else {
 			makeHidden(uiElems.endDateElem);
+			makeHidden(uiElems.recurringContainerElem);
 		}
 	}
 
