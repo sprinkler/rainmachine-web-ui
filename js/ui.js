@@ -18,8 +18,8 @@ window.ui = window.ui || {};
 	var loopHourlySeconds = 60 * 60 * 1000;
 
     var uiLastWateringState = false;
+	var zonesExpanded = false;
     var programsExpanded = false;
-    var zonesExpanded = false;
     var uiElems = {};
 
 	/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
@@ -90,7 +90,7 @@ window.ui = window.ui || {};
 
 	function buildSubMenu(submenus, category, parentTag) {
 		for (var i = 0; i < submenus.length; i++) {
-			var div = addTag(parentTag, 'div')
+			var div = addTag(parentTag, 'div');
 			div.className = "submenu";
 			div.id = category + i;
 			div.name = div.innerHTML = submenus[i].name;
@@ -348,12 +348,14 @@ window.ui = window.ui || {};
 			uiElems.homeZones.style.display = "inline-block";
 			uiElems.homeZones.className = 'homeZonesExpanded';
 			zonesExpanded = true;
+			window.ui.zones.toggleZonesDetails(zonesExpanded);
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
 			uiElems.chartsTime.style.display = uiElems.chartsDays.style.display = "inline-block";
 			uiElems.homePrograms.style.display = "inline-block";
 			uiElems.homeZones.className = 'homeZonesContracted';
 			zonesExpanded = false;
+			window.ui.zones.toggleZonesDetails(zonesExpanded);
 		}
 	}
 
@@ -454,7 +456,7 @@ window.ui = window.ui || {};
 		setupHistoryState();
 
 		//Load local settings
-		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+		//Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
 		ui.login.login(uiStart);
 	}
@@ -465,7 +467,6 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiMain = uiMain;
 	_main.refreshGraphs = false;
-
 } (window.ui.main = window.ui.main || {}));
 
 window.addEventListener("load", window.ui.main.uiMain);

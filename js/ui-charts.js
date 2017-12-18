@@ -260,7 +260,6 @@ function processChartData() {
 		Data.counters.charts = 0;
 	}
 
-	chartsData.et0Avg = Util.convert.withType('et0', +Data.provision.location.et0Average);
 	//Get all available days in mixer TODO: Can be quite long (365 - chartsMaximumDataRange - days)
 	for (mixedDataIndex = 0; mixedDataIndex < Data.mixerData.length; mixedDataIndex++) {
 		var entry = Data.mixerData[mixedDataIndex];
@@ -1158,20 +1157,13 @@ function generateProgramChart (programUid, programIndex) {
 
 					//Icon only for weekly bars
 					if (flag > 0 && chartsCurrentLevel === chartsLevel.weekly) {
-
-						if (flag == 6) {
-							//Water Surplus
-							flagText = '<span style="font-family: RainMachine; font-size: 22px; color: #3399cc;">`</span><br>';
-						} else {
-							//Other restriction
-							flagText = '<span style="font-family: RainMachine; font-size: 22px; color: red;">/</span><br>';
-						}
-
+						var iconData = getWateringIcon(flag);
+						flagText = '<span style="font-family: RainMachine; font-size: 22px; color:' + iconData.color +
+							';">' + iconData.icon + '</span><br>';
 					} else {
 						flagText = '<span style="font-family: RainMachine; font-size: 22px;">.</span><br>'; // for spacing
 					}
-					return flagText +
-						'<span style="font-weight: normal;">' + Math.round(this.y) + '%</span>';
+					return flagText + '<span style="font-weight: normal;">' + Math.round(this.y) + '%</span>';
 				},
 				inside: true,
 				verticalAlign: 'bottom'
@@ -1199,7 +1191,7 @@ function generateProgramChart (programUid, programIndex) {
 				data: chartsData.et0.currentSeries,
 				type:'line',
 				dashStyle: 'dot',
-				color: '#ff9999',
+				color: '#777',
 				yAxis: 1
 			}
 		],
@@ -1471,3 +1463,31 @@ function onChartTooltip(focusedChart, e) {
 	}
 }
 
+/**
+ * Returns a tuple of icon glyph and its color to be used on charts
+  * @param flag - the watering flag as stored in watering log or daily stats see (waterLogReason in ui-settings)
+ */
+function getWateringIcon(flag) {
+
+	// Default values to restriction icon
+	var icon = "/";
+	var color = "red";
+
+	switch (flag) {
+		case 2:  // Minimum watering time
+			icon = "(";
+			color ="#3399cc";
+			break;
+		case 6: // Watering surplus
+			icon = "`";
+			color="#3399cc";
+			break;
+		case 12: // Adaptive Frequency skip
+			icon = ")";
+			color="#3399cc";
+			break;
+
+	}
+
+	return { icon: icon, color: color};
+}
