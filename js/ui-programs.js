@@ -204,6 +204,7 @@ window.ui = window.ui || {};
 				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
 				div.textContent = zid;
+				div.setAttribute("order", p.wateringTimes[zi].order);
 
 				if (zoneDetails) {
 					var zoneInfo = "Inactive";
@@ -225,6 +226,7 @@ window.ui = window.ui || {};
 				}
 			}
 		}
+		arrangeTagOrder(programElem.zonesElem, 'div'); //Arrange zone bullets in their program order
 	}
 
     //--------------------------------------------------------------------------------------------
@@ -447,7 +449,7 @@ window.ui = window.ui || {};
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 
-		// Arrange zones in UI based on their specified order
+		// Arrange zones in program UI based on their specified order
 		if ($("#program-settings-zone-container") !== null) {
 			arrangeTagOrder($("#program-settings-zone-container"), "tr");
 		}
