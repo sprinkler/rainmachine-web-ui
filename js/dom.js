@@ -485,14 +485,14 @@ function arrangeTagOrder(parent, tag) {
 
 	for(var i = 0; i < nodes.length; i++) {
 		if (nodes[i].nodeName.toLowerCase() == tag) {
-			var order = nodes[i].getAttribute("order");
+			var order = +nodes[i].getAttribute("order");
 			var node = nodes[i];
 			var min = 999;
 			var minNode = null;
 
 			for(var j = 0; j < i; j++) {
 				if (nodes[j].nodeName.toLowerCase() == tag) {
-					var norder = nodes[j].getAttribute("order");
+					var norder = +nodes[j].getAttribute("order");
 					if (order < norder) {
 						if (norder < min) {
 							min = norder;
