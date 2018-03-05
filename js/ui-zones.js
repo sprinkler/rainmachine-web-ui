@@ -33,13 +33,14 @@ window.ui = window.ui || {};
 	};
 
 	var zoneVegetation = {
-		2: "Lawn",
+		2: "Cool Season Grass",
 		3: "Fruit Trees",
 		4: "Flowers",
 		5: "Vegetables",
 		6: "Citrus",
 		7: "Trees and Bushes",
 		9: "Drought Tolerant Plants",
+		10: "Warm Season Grass",
 		99: "Custom"
 	};
 
