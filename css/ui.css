@@ -1259,6 +1259,10 @@ select, .selectSmall {
   margin-top: -56px;
   /*show SPK3 thumb*/
 }
+.spk5 {
+  margin-top: -108px;
+  /*show SPK5 thumb*/
+}
 /*zone, programs squares*/
 
 .listItem,

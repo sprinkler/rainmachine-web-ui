@@ -122,6 +122,9 @@ window.ui = window.ui || {};
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
 
+		if (Data.provision.api.hwVer == 5)
+			deviceImgDiv.className = "spk5";
+
 		$("#homeVersion").textContent = Data.provision.api.swVer;
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
