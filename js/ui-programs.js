@@ -417,7 +417,14 @@ window.ui = window.ui || {};
             //
             var wateringTimeList = program.wateringTimes;
 			fillProgramTimers(wateringTimeList);
-        }
+        } else {
+			// New Program put some sensible defaults
+			uiElems.startTimeFixedElem.checked = true;
+			uiElems.startTimeHourElem.value = 6;
+			uiElems.startTimeMinElem = 0;
+			uiElems.frequencyDailyElem.checked = true;
+
+		}
 
 		// Fill the Auto watering times even if it's a new program being created
 		fillProgramTimers(null);
@@ -670,7 +677,7 @@ window.ui = window.ui || {};
             program.uid = selectedProgram.uid;
         }
 
-        program.name = uiElems.nameElem.value;
+        program.name = uiElems.nameElem.value || "New Program";
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElemOn.checked;
 

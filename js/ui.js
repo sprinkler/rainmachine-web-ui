@@ -217,6 +217,10 @@ window.ui = window.ui || {};
 	}
 
 	function uiLoop() {
+		// Entire Window/Tab not visible
+		if (document.visibilityState === "hidden")
+			return;
+
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
 
 			//Check if watering and update programs/zones status
@@ -440,6 +444,7 @@ window.ui = window.ui || {};
 				elem.onclick();
 		});
 	}
+
 
 	//--------------------------------------------------------------------------------------------
 	//
