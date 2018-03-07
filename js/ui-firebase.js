@@ -90,14 +90,18 @@ window.ui = window.ui || {};
 							Data.zonesImages[id] = url;
 							window.ui.zones.updateZoneImage(id); //Force a zone image refresh
 						}.bind(null, i)
-					).catch(
+					).catch( //Error for mac/zone1_lat_lon.jpg name format
 						function(id, ref){
-                            console.log("Cannot download image %d", id);
-                            ref.getDownloadURL().then(
+                            console.log("Cannot download zone %d image", id);
+                            ref.getDownloadURL().then( // Try to fallback to legacy image
                                 function(idlegacy, url) {
                                     Data.zonesImages[idlegacy] = url;
                                     window.ui.zones.updateZoneImage(idlegacy); //Force a zone image refresh
                                 }.bind(null, id)
+							).catch( //Error for mac/zone1.jpg name format
+                                function (idlegacy, ref) {
+                                    console.log("Cannot download legacy zone %d image", id);
+                                }
 							)
 						}.bind(null, i, imageRefLegacy)
 					);

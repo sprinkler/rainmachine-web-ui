@@ -204,6 +204,7 @@ window.ui = window.ui || {};
 				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
 				div.textContent = zid;
+				div.setAttribute("order", p.wateringTimes[zi].order);
 
 				if (zoneDetails) {
 					var zoneInfo = "Inactive";
@@ -225,6 +226,7 @@ window.ui = window.ui || {};
 				}
 			}
 		}
+		arrangeTagOrder(programElem.zonesElem, 'div'); //Arrange zone bullets in their program order
 	}
 
     //--------------------------------------------------------------------------------------------
@@ -415,7 +417,14 @@ window.ui = window.ui || {};
             //
             var wateringTimeList = program.wateringTimes;
 			fillProgramTimers(wateringTimeList);
-        }
+        } else {
+			// New Program put some sensible defaults
+			uiElems.startTimeFixedElem.checked = true;
+			uiElems.startTimeHourElem.value = 6;
+			uiElems.startTimeMinElem = 0;
+			uiElems.frequencyDailyElem.checked = true;
+
+		}
 
 		// Fill the Auto watering times even if it's a new program being created
 		fillProgramTimers(null);
@@ -447,7 +456,7 @@ window.ui = window.ui || {};
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
 
-		// Arrange zones in UI based on their specified order
+		// Arrange zones in program UI based on their specified order
 		if ($("#program-settings-zone-container") !== null) {
 			arrangeTagOrder($("#program-settings-zone-container"), "tr");
 		}
@@ -668,7 +677,7 @@ window.ui = window.ui || {};
             program.uid = selectedProgram.uid;
         }
 
-        program.name = uiElems.nameElem.value;
+        program.name = uiElems.nameElem.value || "New Program";
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElemOn.checked;
 
