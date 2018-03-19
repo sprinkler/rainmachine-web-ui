@@ -169,14 +169,23 @@ window.ui = window.ui || {};
 
 		var zPrograms = zonesInPrograms();
 
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
 			var za = Data.zoneAdvData.zones[i];
 			var elem = uiElemsAll.zones[z.uid];
+			var nameIndex = z.uid;
 
             elem.template.className="zone-line";
 			elem.template.data = za;
+
+			if (dedicatedMasterValve)
+			{
+				if  (z.uid == 1) makeHidden(elem.template);
+				nameIndex = z.uid - 1;
+			}
 
 			if (z.master)
 			{
@@ -189,7 +198,7 @@ window.ui = window.ui || {};
 			}
 			else
 			{
-				elem.nameElem.textContent = z.uid + ". " + z.name;
+				elem.nameElem.textContent = nameIndex + ". " + z.name;
 
 				if (!z.active) {
 					elem.template.className += " inactive";

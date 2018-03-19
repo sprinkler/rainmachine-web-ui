@@ -63,7 +63,7 @@ window.ui = window.ui || {};
 
 				if (lat === null || lon === null)
 				{
-                    console.error("Invalid latidue or longitude");
+                    console.error("Invalid latitude or longitude");
                     return;
 				}
 

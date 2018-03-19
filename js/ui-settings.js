@@ -550,6 +550,8 @@ window.ui = window.ui || {};
 		buttonElem.onclick = function() { onWaterLogFetch(); onPastProgramValuesFetch()};
 		clearTag(container);
 
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
 		//First time on this page view 7 past days
 		if (!startDateElem.value || !daysElem.value) {
 			startDateElem.value = startDate;
@@ -739,6 +741,8 @@ window.ui = window.ui || {};
 				{
 					var zone = program.zones[k];
 					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
+					var nameIndex = zone.uid;
+					if (dedicatedMasterValve) nameIndex = zone.uid - 1;
 
 					if (zone.cycles.length > maxCycles) {
 						maxCycles = zone.cycles.length;
@@ -773,22 +777,25 @@ window.ui = window.ui || {};
 
 						zoneidx = zone.uid - 1;
 
+
+
 						if (Data.zoneData !== null && Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
-							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
+							cycles[c].zones[k].name = Data.zoneData.zones[zoneidx].name;
 						}
 						else {
-							cycles[c].zones[k].name  = "Zone " + zone.uid;
+							cycles[c].zones[k].name  = "Zone " + nameIndex;
 						}
 
 						cycles[c].zones[k].flag = zone.flag;
 					}
 
 					zoneidx = zone.uid - 1;
+
 					if (Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
-						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
+						zoneName = Data.zoneData.zones[zoneidx].name;
 					}
 					else {
-						zoneName = "Zone " + zone.uid;
+						zoneName = "Zone " + nameIndex;
 					}
 
 					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
@@ -920,6 +927,8 @@ window.ui = window.ui || {};
 
 		clearTag(container);
 
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
 		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 		{
 			var day =  waterLog.waterLog.days[i];
@@ -984,11 +993,14 @@ window.ui = window.ui || {};
 					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
 					var zoneid = zone.uid - 1;
+					var nameIndex = zone.uid;
+					if (dedicatedMasterValve) nameIndex = zone.uid - 1;
+
 					if (Data.zoneData !== null && Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						zoneNameElem.textContent = Data.zoneData.zones[zoneid].name;
 					}
 					else {
-						zoneNameElem.textContent = "Zone " + zone.uid;
+						zoneNameElem.textContent = "Zone " + nameIndex;
 					}
 					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);
