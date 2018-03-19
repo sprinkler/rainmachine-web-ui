@@ -157,6 +157,7 @@ window.ui = window.ui || {};
 
 	function updateProgram(p) {
 		var programElem = uiElemsAll.programs[p.uid];
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
 		if (typeof programElem === "undefined" || programElem === null) {
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
@@ -203,7 +204,11 @@ window.ui = window.ui || {};
 				var div = addTag(programElem.zonesElem, 'div');
 				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
-				div.textContent = zid;
+				if (dedicatedMasterValve)
+					div.textContent = zid - 1;
+				else
+					div.textContent = zid;
+
 				div.setAttribute("order", p.wateringTimes[zi].order);
 
 				if (zoneDetails) {
