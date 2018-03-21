@@ -157,6 +157,7 @@ window.ui = window.ui || {};
 
 	function updateProgram(p) {
 		var programElem = uiElemsAll.programs[p.uid];
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
 		if (typeof programElem === "undefined" || programElem === null) {
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
@@ -203,7 +204,11 @@ window.ui = window.ui || {};
 				var div = addTag(programElem.zonesElem, 'div');
 				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
-				div.textContent = zid;
+				if (dedicatedMasterValve)
+					div.textContent = zid - 1;
+				else
+					div.textContent = zid;
+
 				div.setAttribute("order", p.wateringTimes[zi].order);
 
 				if (zoneDetails) {
@@ -599,6 +604,8 @@ window.ui = window.ui || {};
 		templateInfo.zoneTableElem.id = "program-settings-zone-container";
         templateInfo.zoneElems = {};
 
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
 			var zoneData = Data.zoneData.zones[index];
@@ -625,19 +632,22 @@ window.ui = window.ui || {};
 					makeHidden(elems.templateSettingElem);
 					window.ui.zones.showZoneSettingsById(id); } })(index, zoneElems);
 
-			//Don't show zone 1 when master valve is enabled
-			if (Data.provision.system.useMasterValve && index == 0) {
+			//Don't show zone 1 when master valve is enabled or on a system with dedicated master valve
+			if ((Data.provision.system.useMasterValve || dedicatedMasterValve) && index == 0) {
 				zoneElems.templateDisplayElem.style.display = "none";
 			}
 
 			if (zoneData) {
-				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = zoneId + ". " + zoneData.name;
+				var nameIndex = zoneId;
+				if (dedicatedMasterValve) nameIndex = zoneId - 1;
+
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = nameIndex + ". " + zoneData.name;
 				//Don't show inactive zones
 				if (!zoneData.active) {
 					zoneElems.templateDisplayElem.style.display = "none";
 				}
 			} else {
-				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + nameIndex;
 			}
 
 			//Add Auto percentage chooser
