@@ -22,6 +22,7 @@ window.ui = window.ui || {};
 			MasterValveBeforeSec: $("#systemSettingsMasterValveBeforeSec"),
 			MasterValveAfter: $("#systemSettingsMasterValveAfter"),
 			MasterValveAfterSec: $("#systemSettingsMasterValveAfterSec"),
+			MasterValveTitle: $("#systemSettingsMasterValveTitle"),
 			MasterValveSet: $("#systemSettingsMasterValveSet"),
 			enableMasterValveInput: $("#systemSettingsEnableMasterValve"),
 
@@ -130,6 +131,8 @@ window.ui = window.ui || {};
 			showSettingsMini8();
 		} else if (Data.provision.api.hwVer == 3) {
 		    console.log("No specific settings for RainMachine HD-* family");
+		} else if (Data.provision.api.hwVer == 5) {
+			console.log("No specific settings for RainMachine Pro family");
 		}  else {
 			console.log("Unknown device with hwVer %s", Data.provision.api.hwVer);
 		}
@@ -183,6 +186,10 @@ window.ui = window.ui || {};
 
 		systemSettingsView.UnitsUS.checked = !Data.provision.system.uiUnitsMetric;
 		systemSettingsView.UnitsMetric.checked = Data.provision.system.uiUnitsMetric;
+
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
+		if (dedicatedMasterValve) systemSettingsView.MasterValveTitle.textContent = "Master Valve (Pump) on Zone M";
 
 		uiFeedback.sync(systemSettingsView.MasterValveSet, systemSettingsChangeMasterValve);
 
