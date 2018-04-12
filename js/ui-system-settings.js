@@ -117,7 +117,13 @@ window.ui = window.ui || {};
 			ShortDetectionSet: $("#systemSettingsShortDetectionSet"),
 			ShortDetection: $("#systemSettingsShortDetectionEnable"),
 			ShortDetectionStatus: $("#systemSettingsShortDetectionStatus"),
-			ShortDetectionLoad: $("#systemSettingsShortDetectionLoad")
+			ShortDetectionLoad: $("#systemSettingsShortDetectionLoad"),
+
+			//Advanced Settings RainMachine PRO SPK5
+			FlowSensorSet: $("#systemSettingsFlowSensorSet"),
+			FlowSensor: $("#systemSettingsFlowSensorEnable"),
+			FlowSensorClicks:$("#systemSettingsFlowSensorClicks"),
+			FlowSensorUnits: $("#systemSettingsFlowSensorUnits")
 			};
     	}
 
@@ -132,7 +138,8 @@ window.ui = window.ui || {};
 		} else if (Data.provision.api.hwVer == 3) {
 		    console.log("No specific settings for RainMachine HD-* family");
 		} else if (Data.provision.api.hwVer == 5) {
-			console.log("No specific settings for RainMachine Pro family");
+			makeVisibleBlock("#systemSettingsPro");
+			showSettingsPro();
 		}  else {
 			console.log("Unknown device with hwVer %s", Data.provision.api.hwVer);
 		}
@@ -289,6 +296,20 @@ window.ui = window.ui || {};
 			function(){ return changeSingleSystemProvisionValue("touchCyclePrograms", systemSettingsView.TouchProg.checked)});
 
 		uiFeedback.sync(systemSettingsView.ShortDetectionSet, systemSettingsChangeShortDetection);
+	}
+
+	function showSettingsPro() {
+		systemSettingsView.FlowSensor.checked = Data.provision.system.useFlowSensor || false;
+		systemSettingsView.FlowSensorClicks.value = Util.convert.uiFlowClicks(Data.provision.system.flowSensorClicksPerCubicMeter) || 0;
+		systemSettingsView.FlowSensorUnits.textContent = Util.convert.uiFlowClicksStr();
+		uiFeedback.sync(systemSettingsView.FlowSensorSet,
+			function(){
+				var flowSensorClicks = Util.convert.uiFlowClicksToMeters(systemSettingsView.FlowSensorClicks.value);
+				return changeSingleSystemProvisionValue("useFlowSensor", systemSettingsView.FlowSensor.checked) &&
+					changeSingleSystemProvisionValue("flowSensorClicksPerCubicMeter", flowSensorClicks)
+			}
+		);
+
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)

@@ -573,6 +573,9 @@ Util.convert = {
 	volumeMetersToGal: function(v) {
 		return Math.round((v * 264.172) * 10) /10;
 	},
+	galToVolumeMeters: function(v) {
+		return Math.round((v * 0.00378541) * 10) /10;
+	},
 	// functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
 	uiTemp: function(temp) {
 		if (!Data.provision.system.uiUnitsMetric) {
@@ -589,7 +592,27 @@ Util.convert = {
 			return "\xB0C";
 		}
 	},
-
+	uiFlowClicks: function(v) {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return Math.round(Util.convert.galToVolumeMeters(v));
+		} else {
+			return  Math.round(v);
+		}
+	},
+	uiFlowClicksToMeters: function(v) {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return Util.convert.volumeMetersToGal(v);
+		} else {
+			return  Math.round(v);
+		}
+	},
+	uiFlowClicksStr: function() {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return " gallon";
+		} else {
+			return " m\xB3";
+		}
+	},
 	uiQuantity: function(v) {
 		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.mmToInches(v);
