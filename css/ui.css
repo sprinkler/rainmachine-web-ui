@@ -490,7 +490,8 @@ strong { font-weight: 700; }
 }
 .secondary-row-container-block{
     display: inline-block;
-    padding: 2% 7% 2% 0;
+    width: 32%;
+    padding: 2% 0% 2% 0;
     vertical-align: top;
 }
 .zones-in-programs-items li{
@@ -613,6 +614,9 @@ sup { font-size: 12px }
   padding-top: 10px;
   font-size: 18px;
   width: 98%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .programNextRun {
   font-size: 14px;
@@ -1505,6 +1509,7 @@ td.right,
  font-size:1.5em;
  color: #39c;
  vertical-align: baseline;
+ white-space: nowrap;
 }
 
 .wateringLogDayWeatherIcon {
