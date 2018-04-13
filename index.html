@@ -558,7 +558,7 @@
 							</div>
 						</div>
 
-						<div id="rainsensor" style="display: none;">
+						<div id="sensors" style="display: none;">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Rain Sensor</h1>
 									<table cellspacing="0" cellpadding="0" class="full">
@@ -601,6 +601,31 @@
 										</tr>
 									</table>
 								</div>
+
+							<div class="settingsBlock center block70" id="flowsensor">
+								<h1 class="title center">Flow Sensor</h1>
+								<table cellspacing="0" cellpadding="0" class="full">
+									<tr>
+										<td class="middle">
+											<button id="sensorsFlowSensorSet" class="button label-blue center right">Apply</button>
+											<span style="display:block;">
+												<span class="left mr">Enable:</span><input type="checkbox" id="sensorsFlowSensorEnable" />
+												<br><br><span class="subtitle">Use this option if a flow sensor is connected to FLOW terminals.</span>
+											</span>
+											<br>
+											<span style="display:block;">
+												<input type="number" id="sensorsFlowSensorClicks" class="typeNumber">
+												flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>
+											</span>
+											<br>
+											<span class="cardTitle">Last detected leak event:</span><br>
+											<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span>
+											<button id="sensorsFlowSensorReset" class="button blue center right">Reset</button>
+
+										</td>
+									</tr>
+								</table>
+							</div>
 							</div>
 
 							<div id="weather" style="display: none;">
@@ -1249,6 +1274,20 @@
 								</tr>
 							</table>
 						</div>
+						<div id="systemSettingsPro" style="display: none" class="settingsBlock center block70">
+							<table cellspacing="0" cellpadding="0" class="full">
+								<tr>
+									<th>
+										<h1 class="title">RainMachine Pro Settings</h1>
+									</th>
+								</tr>
+								<tr>
+									<td class="middle">
+									</td>
+								</tr>
+								</table>
+						</div>
+
 						<div class="settingsBlock center block70">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
