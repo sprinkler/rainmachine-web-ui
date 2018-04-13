@@ -36,7 +36,7 @@ window.ui = window.ui || {};
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
 		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
-		{ name: "Rain Sensor",  	func: window.ui.restrictions.showRainSensor,	container: '#rainsensor' },
+		{ name: "Sensors",		  	func: window.ui.restrictions.showSensors,		container: '#sensors' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
 		{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
