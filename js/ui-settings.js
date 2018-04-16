@@ -740,7 +740,7 @@ window.ui = window.ui || {};
 				for (var k = 0; k < program.zones.length; k++)
 				{
 					var zone = program.zones[k];
-					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
+					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0, flowclicks: 0 };
 					var nameIndex = zone.uid;
 					if (dedicatedMasterValve) nameIndex = zone.uid - 1;
 
@@ -769,15 +769,15 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].real = cycle.realDuration;
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
+						cycles[c].zones[k].flowclicks = cycle.mumu;
 
 						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
+						zoneDurations.flowclicks += cycle.flowclicks;
 
 						zoneidx = zone.uid - 1;
-
-
 
 						if (Data.zoneData !== null && Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
 							cycles[c].zones[k].name = Data.zoneData.zones[zoneidx].name;
@@ -798,7 +798,12 @@ window.ui = window.ui || {};
 						zoneName = "Zone " + nameIndex;
 					}
 
-					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
+					if (Data.provision.system.useFlowSensor) {
+						zoneDurations.usedVolume = Util.convert.uiFlowClicksToVolume(zoneDurations.flowclicks);
+					} else {
+						zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
+					}
+
 					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.user);
 
 					var zoneStartTime = "";

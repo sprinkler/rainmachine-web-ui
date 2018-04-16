@@ -604,11 +604,17 @@ Util.convert = {
 			return  Math.round(v);
 		}
 	},
-	uiFlowClicksToMeters: function(v) {
+	uiFlowClicksInMetric: function(v) {
 		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.volumeMetersToGal(v);
 		} else {
 			return  Math.round(v);
+		}
+	},
+	uiFlowClicksToVolume: function(v) {
+		var systemClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
+		if ( systemClicks && systemClicks > 0) {
+			return Math.round(v / systemClicks * 100) / 100;
 		}
 	},
 	uiFlowClicksStr: function() {
