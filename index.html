@@ -227,7 +227,7 @@
 										<span class="title"> Start Date
 											<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
 											for
-											<input type="number" id="waterHistoryDays" class="typeNumber center" placeholder="7">
+											<input type="number" min="0" id="waterHistoryDays" class="typeNumber center" placeholder="7">
 											days.
 										</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
@@ -613,8 +613,8 @@
 													<span class="subtitle">Use this option if a flow sensor is connected to the terminals F, 5V and G.</span>
 													<br>
 														<span style="display:block;">
-														   <input type="number" id="sensorsFlowSensorClicks" class="typeNumber">
-														   flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>
+														   <input type="number" min="0" id="sensorsFlowSensorClicks" class="typeNumber">
+														   flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>&nbsp;&nbsp;<div class="helpText" help="settingsSensorsFlow">?</div>
 														</span>
 													<br>
 													<div id="greyoutFlowSensorType">
@@ -802,7 +802,7 @@
 												<th>
 													<h1 class="title">Weather Services - Comparison</h1>
 													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime center" style="width:168px;"> for
-													<input type="number" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
+													<input type="number" min="0" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>
 												</th>
 											</tr>
@@ -2393,7 +2393,7 @@
 					<div style="height:2em;"></div>
 					<div>Total Watered</div>
 					<div rm-id="wateringLogDayReal" class="dayTemp" style="display:inline-block;"></div>
-					<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>
+					<div rm-id="wateringLogDayWaterUsed" class="dayTemp" style="display:inline-block;"></div>&nbsp;&nbsp;<div class="helpText inlineblock" help="settingsWateringHistoryTotalWaterUsed">?</div>
 		        </div>
 		      </div>
 			<div rm-id="wateringLogProgramsContainer"></div>

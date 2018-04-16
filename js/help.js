@@ -39,7 +39,10 @@ var Help = (function(Help) {
 		"zoneAppEfficiency": "The ratio of the average water depth applied and the target water depth during an irrigation event.",
 		"zoneSurfaceAccumulation": "The maximum height of water that is allowed to accumulate over the soil surface before runoff occurs.",
 		/*Watering History help texts */
-		"waterSavedVolume": "For accurate results make sure you enter the correct precipitation rate, zone area or zone total flow in advanced zone settings."
+		"waterSavedVolume": "For accurate results enter the correct precipitation rate, zone area or zone total flow in advanced zone settings.",
+		/*Settings help texts */
+		"settingsSensorsFlow": "For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.",
+		"settingsWateringHistoryTotalWaterUsed": "Total watered gallons (cube meters) per program is a number provided by the flow sensor (measured) or otherwise based on the sprinkler heads precipitation rate (estimated)."
 
 	};
 
