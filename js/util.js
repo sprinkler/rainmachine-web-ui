@@ -188,6 +188,11 @@ Util.dateStringToLocalDate = function(dateStr) {
 	return null;
 };
 
+//Convert unix timestamp to a date string with local timezone
+Util.timestampToLocalDateString = function(timestamp) {
+	return (new Date(timestamp * 1000)).toDateString();
+};
+
 //Converts date informat "YYYY-MM-DD HH:MM:SS" to a javascript date
 Util.deviceDateStrToDate = function(datetimeStr) {
 

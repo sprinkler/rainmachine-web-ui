@@ -328,7 +328,8 @@ window.ui = window.ui || {};
 
 	function showSensors() {
 		showRainSensor();
-		if (Data.provision.api.hwVer == 5) showFlowSensor();
+		//if (Data.provision.api.hwVer == 5)
+		showFlowSensor();
 	}
 
     function showRainSensor() {
@@ -343,7 +344,7 @@ window.ui = window.ui || {};
 
 		var rainStart = Data.provision.system.rainSensorRainStart;
 		if ( rainStart !== null) {
-			uiElems.rainSensorLastEvent.textContent = (new Date(rainStart * 1000)).toDateString();
+			uiElems.rainSensorLastEvent.textContent = Util.timestampToLocalDateString(rainStart);
 		} else {
 			uiElems.rainSensorLastEvent.textContent = "No recent events";
 		}
@@ -364,7 +365,7 @@ window.ui = window.ui || {};
 		var lastLeakDetected = Data.provision.system.lastLeakDetected || 0;
 
 		if (lastLeakDetected)
-			uiElems.flowSensorLastLeakDetected.textContent = (new Date(rainStart * 1000)).toDateString();
+			uiElems.flowSensorLastLeakDetected.textContent = Util.timestampToLocalDateString(lastLeakDetected);
 		else
 			uiElems.flowSensorLastLeakDetected.textContent = "No leaks detected";
 
@@ -409,8 +410,13 @@ window.ui = window.ui || {};
 
 		var r = API.setProvision(data, null);
 
-		if (r === undefined || !r || r.statusCode != 0)
+		if (r === undefined || !r || r.statusCode != 0) {
 			console.log("Can't reset Flow Sensor !");
+		}
+		else {
+			Data.provision.system.lastLeakDetected = 0;
+			showFlowSensor();
+		}
 
 		return r;
 	}

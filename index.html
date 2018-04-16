@@ -611,10 +611,16 @@
 													<input type="checkbox" id="sensorsFlowSensorEnable" class="right" style="margin-right:80px;" />
 													<span class="cardTitle">Use hardware flow sensor</span><br>
 													<span class="subtitle">Use this option if a flow sensor is connected to the terminals F, 5V and G.</span>
-													<br><br>
+													<br>
+														<span style="display:block;">
+														   <input type="number" id="sensorsFlowSensorClicks" class="typeNumber">
+														   flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>
+														</span>
+													<br>
 													<div id="greyoutFlowSensorType">
-														<span class="cardTitle">Last detected leak event:<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span></span><br />
-														<button id="sensorsFlowSensorReset" class="red subtitle">Reset</button>
+														<button id="sensorsFlowSensorReset" class="button label-red right">Reset</button>
+														<span class="cardTitle">Last detected leak event</span><br>
+														<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span><br />
 													</div>
 												</div>
 											</td>
