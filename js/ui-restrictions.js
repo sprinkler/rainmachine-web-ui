@@ -328,8 +328,7 @@ window.ui = window.ui || {};
 
 	function showSensors() {
 		showRainSensor();
-		//if (Data.provision.api.hwVer == 5)
-		showFlowSensor();
+		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === "simulator") showFlowSensor();
 	}
 
     function showRainSensor() {
@@ -422,7 +421,7 @@ window.ui = window.ui || {};
 	}
 
 	function onSetFlowSensor() {
-		var flowSensorClicks = Util.convert.uiFlowClicksToMeters(uiElems.flowSensorClicks.value);
+		var flowSensorClicks = Util.convert.uiFlowClicksInMetric(uiElems.flowSensorClicks.value);
 		var useFlowSensor = uiElems.flowSensor.checked;
 
 		var data = {
