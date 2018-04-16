@@ -32,6 +32,55 @@ window.ui = window.ui || {};
 		monthly: 1
 	};
 
+	var zoneVegetation = {
+		2: "Cool Season Grass",
+		3: "Fruit Trees",
+		4: "Flowers",
+		5: "Vegetables",
+		6: "Citrus",
+		7: "Trees and Bushes",
+		9: "Drought Tolerant Plants",
+		10: "Warm Season Grass",
+		99: "Custom"
+	};
+
+	var zoneSoil = {
+		1: "Clay Loam",
+		2: "Silty Clay",
+		3: "Clay",
+		4: "Loam",
+		5: "Sandy Loam",
+		6: "Loamy Sand",
+		7: "Sand",
+		8: "Sandy Clay",
+		9: "Silt Loam",
+		10: "Silt",
+		99: "Custom"
+	};
+
+	var zoneSlope = {
+		1: "Flat",
+		2: "Moderate",
+		3: "High",
+		4: "Very High",
+		99: "Custom"
+	};
+
+
+	var zoneSprinkler = {
+		1: "Popup Spray",
+		2: "Rotors",
+		3: "Surface Drip",
+		4: "Bubblers Drip",
+		99: "Custom"
+	};
+
+	var zoneExposure = {
+		1: "Full Sun",
+		2: "Partial Shade",
+		3: "Full Shade"
+	};
+
 	var uiElems = {}; //Current editing zone settings elements
 	var uiElemsAll = {}; //All zones elements without settings elements
 	var maxZoneManualSeconds = 3600;
@@ -79,10 +128,20 @@ window.ui = window.ui || {};
 			zoneElem.nameElem = $(zoneElem.template, '[rm-id="zone-name"]');
 			zoneElem.stopElem = $(zoneElem.template, '[rm-id="zone-stop"]');
 			zoneElem.editElem = $(zoneElem.template, '[rm-id="zone-edit"]');
-			zoneElem.typeElem = $(zoneElem.template,'[rm-id="zone-info"]');
 			zoneElem.statusElem = $(zoneElem.template,'[rm-id="zone-status"]');
 			zoneElem.timerElem = $(zoneElem.template, '[rm-id="zone-timer"]');
 			zoneElem.imageElem = $(zoneElem.template, '[rm-id="zone-image"]');
+
+			// Extended Info
+			zoneElem.extendedContainer = $(zoneElem.template, '[rm-id="zone-extended-details"]');
+			zoneElem.internetElem = $(zoneElem.template, '[rm-id="zone-internet"]');
+			zoneElem.historyElem = $(zoneElem.template, '[rm-id="zone-history"]');
+			zoneElem.vegetationElem = $(zoneElem.template, '[rm-id="zone-vegetation"]');
+			zoneElem.soilElem = $(zoneElem.template, '[rm-id="zone-soil"]');
+			zoneElem.slopeElem = $(zoneElem.template, '[rm-id="zone-slope"]');
+			zoneElem.sprinklerElem = $(zoneElem.template, '[rm-id="zone-sprinkler"]');
+			zoneElem.sunElem = $(zoneElem.template, '[rm-id="zone-sun"]');
+			zoneElem.programsElem = $(zoneElem.template, '[rm-id="zone-programs"]');
 
 			zoneElem.template.id = "zone-" + z.uid;
 
@@ -108,14 +167,25 @@ window.ui = window.ui || {};
 		if (!uiElemsAll.hasOwnProperty("zones"))
 			createZonesElems();
 
+		var zPrograms = zonesInPrograms();
+
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
+
 		for (var i = 0; i < Data.zoneData.zones.length; i++)
 		{
 			var z = Data.zoneData.zones[i];
 			var za = Data.zoneAdvData.zones[i];
 			var elem = uiElemsAll.zones[z.uid];
+			var nameIndex = z.uid;
 
             elem.template.className="zone-line";
 			elem.template.data = za;
+
+			if (dedicatedMasterValve)
+			{
+				if  (z.uid == 1) makeHidden(elem.template);
+				nameIndex = z.uid - 1;
+			}
 
 			if (z.master)
 			{
@@ -124,12 +194,11 @@ window.ui = window.ui || {};
 				elem.nameElem.textContent = "Master Valve";
 				var b = Data.provision.system.masterValveBefore/60;
 				var a = Data.provision.system.masterValveAfter/60;
-				elem.typeElem.textContent = "Before: " + b + " min After: " + a + " min";
+				makeHidden(elem.extendedContainer);
 			}
 			else
 			{
-				elem.nameElem.textContent = z.uid + ". " + z.name;
-				elem.typeElem.textContent = zoneVegetationTypeToString(z.type);
+				elem.nameElem.textContent = nameIndex + ". " + z.name;
 
 				if (!z.active) {
 					elem.template.className += " inactive";
@@ -140,8 +209,24 @@ window.ui = window.ui || {};
 				}
 			}
 
+			elem.internetElem.textContent = za.internet ? "Enabled": "Disabled";
+			elem.historyElem.textContent = za.history ? "Enabled" : "Disabled";
+			elem.vegetationElem.textContent = zoneVegetation[z.type] || "Unknown";
+			elem.soilElem.textContent = zoneSoil[za.soil] || "Unknown";
+			elem.slopeElem.textContent = zoneSlope[za.slope] || "Unknown";
+			elem.sprinklerElem.textContent = zoneSprinkler[za.group_id]  || "Unknown";
+			elem.sunElem.textContent = zoneExposure[za.sun] || "Unknown";
+
 			elem.stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
 			elem.nameElem.onclick = elem.editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
+
+			clearTag(elem.programsElem);
+			if (zPrograms.hasOwnProperty(z.uid)) {
+				for (var pid in zPrograms[z.uid]) {
+					var div = addTag(elem.programsElem, "li");
+					div.textContent = zPrograms[z.uid][pid];
+				}
+			}
 
 			setZoneState(z);
 			updateZoneTimer(z);
@@ -387,6 +472,21 @@ window.ui = window.ui || {};
 		};
 
 		return data;
+	}
+
+	function toggleZonesDetails(shouldExpand) {
+		for (var i = 0; i < Data.zoneData.zones.length; i++)
+		{
+			var z = Data.zoneData.zones[i];
+			var za = Data.zoneAdvData.zones[i];
+			var elem = uiElemsAll.zones[z.uid];
+
+			if (shouldExpand && !z.master) {
+				makeVisibleBlock(elem.extendedContainer);
+			} else {
+				makeHidden(elem.extendedContainer);
+			}
+		}
 	}
 
 	function showZoneSettingsById(id) {
@@ -903,23 +1003,32 @@ window.ui = window.ui || {};
 		);
 	}
 
-	function zoneVegetationTypeToString(type) {
-		switch (type) {
-			case 2:
-				return "Lawn";
-			case 3:
-				return "Fruit Trees";
-		   case 4:
-				return "Flowers";
-		   case 5:
-				return "Vegetables";
-		   case 6:
-				return "Citrus";
-		   case 7:
-				return "Trees and Bushes";
-		   default:
-				return "Other"
+	// Returns an object with zone id as keys and values a hash of programs uids
+	function zonesInPrograms() {
+		if (!defined(Data.programs)) {
+			console.error("No programs data");
+			return {};
 		}
+
+		var programs = Data.programs.programs;
+		var inprograms = {};
+
+		for (var i = 0; i < programs.length; i++) {
+			var zones = programs[i].wateringTimes;
+			for (var j = 0; j < zones.length; j++) {
+				var z = zones[j];
+				if (z.active == true) {
+					if (!inprograms.hasOwnProperty(z.id)) {
+						inprograms[z.id] = {};
+					}
+					if (!inprograms[z.id].hasOwnProperty(programs[i].uid)) {
+						inprograms[z.id][programs[i].uid] = programs[i].name;
+					}
+				}
+			}
+		}
+
+		return inprograms;
 	}
 
 	function zoneHasDefaultSettings(index) {
@@ -991,6 +1100,7 @@ window.ui = window.ui || {};
 	_zones.updateZoneImage = updateZoneImage;
 	_zones.zoneHasDefaultSettings = zoneHasDefaultSettings;
 	_zones.zoneComputeWaterVolume = zoneComputeWaterVolume;
+	_zones.toggleZonesDetails = toggleZonesDetails;
 	_zones.uiElems = uiElemsAll;
 
 } (window.ui.zones = window.ui.zones || {}));

@@ -48,7 +48,14 @@ window.ui = window.ui || {};
 		$("#aboutDiagSend").onclick = function() { API.sendDiag(); showAbout(); };
 		$("#aboutDiagViewLog").onclick = function() { showLog(); };
 
-		APIAsync.checkUpdate().then(setTimeout(function(){ APIAsync.getUpdate().then(function(o) { showUpdateStatus(o);})}, 1000));
+		APIAsync.checkUpdate().then(function(o) {
+			showUpdateStatus(null);
+			setTimeout(function () {
+				APIAsync.getUpdate().then(function (o) {
+					showUpdateStatus(o);
+				})
+			}, 3000)
+		});
 		APIAsync.getDiagUpload().then(function(o) { showDiagUploadStatus(o);});
 	}
 
@@ -62,6 +69,12 @@ window.ui = window.ui || {};
 	{
 		var newVerElem = $("#aboutNewVersion");
 		var startUpdateElem = $("#aboutUpdate");
+
+		if (updateStatus === null) {
+			newVerElem.textContent = "(Checking ...)";
+			makeHidden(startUpdateElem);
+			return;
+		}
 
 		if (updateStatus.update)
 		{
@@ -108,6 +121,9 @@ window.ui = window.ui || {};
 
 		if (Data.provision.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
+
+		if (Data.provision.api.hwVer == 5)
+			deviceImgDiv.className = "spk5";
 
 		$("#homeVersion").textContent = Data.provision.api.swVer;
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];

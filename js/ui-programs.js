@@ -157,6 +157,7 @@ window.ui = window.ui || {};
 
 	function updateProgram(p) {
 		var programElem = uiElemsAll.programs[p.uid];
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
 		if (typeof programElem === "undefined" || programElem === null) {
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
@@ -203,7 +204,12 @@ window.ui = window.ui || {};
 				var div = addTag(programElem.zonesElem, 'div');
 				var zid = p.wateringTimes[zi].id;
 				div.className = "zoneCircle";
-				div.textContent = zid;
+				if (dedicatedMasterValve)
+					div.textContent = zid - 1;
+				else
+					div.textContent = zid;
+
+				div.setAttribute("order", p.wateringTimes[zi].order);
 
 				if (zoneDetails) {
 					var zoneInfo = "Inactive";
@@ -225,6 +231,7 @@ window.ui = window.ui || {};
 				}
 			}
 		}
+		arrangeTagOrder(programElem.zonesElem, 'div'); //Arrange zone bullets in their program order
 	}
 
     //--------------------------------------------------------------------------------------------
@@ -277,7 +284,7 @@ window.ui = window.ui || {};
         uiElems.weatherDataElemOn.checked = true;
 		uiElems.weatherDataElemOff.checked = false;
         uiElems.nextRun.textContent = getProgramNextRunAsString(Util.getTodayDateStr());
-		uiElems.nextRunSettable.value = Util.getTodayDateStr();
+		uiElems.startDateElem.value = Util.getTodayDateStr();
 
         makeHidden(uiElems.frequencyWeekdaysContainerElem);
         for(var weekday in uiElems.frequencyWeekdaysElemCollection) {
@@ -333,8 +340,21 @@ window.ui = window.ui || {};
             uiElems.startTimeHourElem.value = startTime.hour;
             uiElems.startTimeMinElem.value = startTime.min;
 
-            uiElems.nextRun.textContent = getProgramNextRunAsString(program.nextRun);
-			uiElems.nextRunSettable.value = program.nextRun;
+			uiElems.nextRun.textContent = getProgramNextRunAsString(program.nextRun);
+
+			uiElems.startDateElem.value = program.startDate || Util.getTodayDateStr();
+
+			//Show End Date input
+			if (program.endDate !== null && program.endDate !== "") {
+				setSelectOption(uiElems.endDateTypeElem, 1, true);
+				uiElems.endDateElem.value = program.endDate;
+			} else {
+				setSelectOption(uiElems.endDateTypeElem, 0, true);
+				uiElems.endDateElem.value = Util.getDateWithDaysDiff(-366)
+			}
+
+			uiElems.recurringElem.checked = program.yearlyRecurring;
+			onEndDateTypeChange();
 
 			var cyclesType = CyclesType.Off;
 			if (program.cs_on) {
@@ -375,6 +395,13 @@ window.ui = window.ui || {};
                 }
             }
 
+			//Adaptive frequency
+			if (program.freq_modified > 0) {
+				uiElems.frequencyAdaptiveElem.checked = true;
+			} else {
+				uiElems.frequencyAdaptiveElem.checked = false;
+			}
+
 			//Fixed day or sunrise/sunset start time new in API 4.1
 			if (program.hasOwnProperty("startTimeParams")) {
 				if (program.startTimeParams.type == 0) {
@@ -395,17 +422,21 @@ window.ui = window.ui || {};
             //
             var wateringTimeList = program.wateringTimes;
 			fillProgramTimers(wateringTimeList);
-        }
+        } else {
+			// New Program put some sensible defaults
+			uiElems.startTimeFixedElem.checked = true;
+			uiElems.startTimeHourElem.value = 6;
+			uiElems.startTimeMinElem = 0;
+			uiElems.frequencyDailyElem.checked = true;
+
+		}
 
 		// Fill the Auto watering times even if it's a new program being created
 		fillProgramTimers(null);
 
-        //Show settable or plain next run information
-		changeNextRunType();
 
         //---------------------------------------------------------------------------------------
         // Add listeners and elements.
-		uiElems.activeElem.onclick = changeNextRunType;
         uiElems.frequencyDailyElem.onchange = onFrequencyChanged;
         uiElems.frequencyEveryElem.onchange = onFrequencyChanged;
         uiElems.frequencyWeekdaysElem.onchange = onFrequencyChanged;
@@ -429,6 +460,11 @@ window.ui = window.ui || {};
 		document.body.onkeydown = function(event) { if (event.keyCode == 27) onCancel() };
 
 		programSettingsDiv.appendChild(uiElems.programTemplateElem);
+
+		// Arrange zones in program UI based on their specified order
+		if ($("#program-settings-zone-container") !== null) {
+			arrangeTagOrder($("#program-settings-zone-container"), "tr");
+		}
 	}
 
 
@@ -514,7 +550,14 @@ window.ui = window.ui || {};
 		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
 
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
-		templateInfo.nextRunSettable = $(templateInfo.programTemplateElem, '[rm-id="program-next-run-settable"]');
+
+		templateInfo.startDateElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-date"]');
+		templateInfo.endDateTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-end-date-type"]');
+		templateInfo.endDateTypeElem.onchange = onEndDateTypeChange;
+		templateInfo.endDateElem = $(templateInfo.programTemplateElem, '[rm-id="program-end-date"]');
+
+		templateInfo.recurringElem = $(templateInfo.programTemplateElem, '[rm-id="program-recurring"]');
+		templateInfo.recurringContainerElem = $(templateInfo.programTemplateElem, '[rm-id="program-recurring-container"]');
 
 		templateInfo.cyclesTypeElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-type"]');
 		templateInfo.cyclesManualElem = $(templateInfo.programTemplateElem, '[rm-id="program-cycles-manual"]');
@@ -545,6 +588,8 @@ window.ui = window.ui || {};
             monday: $(templateInfo.frequencyWeekdaysContainerElem, '[rm-id="weekday-monday"]')
         };
 
+		templateInfo.frequencyAdaptiveElem = $(templateInfo.programTemplateElem, '[rm-id="program-frequency-adaptive"]');
+
 		templateInfo.cyclesTypeElem.onchange = onCycleAndSoakTypeChange;
 		templateInfo.delayTypeElem.onchange = onDelayZonesTypeChange;
 
@@ -556,7 +601,10 @@ window.ui = window.ui || {};
 
 		templateInfo.zonesTotalTime = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-totaltime"]');
         templateInfo.zoneTableElem = $(templateInfo.programTemplateElem, '[rm-id="program-settings-zone-template-container"]');
+		templateInfo.zoneTableElem.id = "program-settings-zone-container";
         templateInfo.zoneElems = {};
+
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
         for (var index = 0; index < Data.provision.system.localValveCount; index++) {
             var zoneId = index + 1;
@@ -571,6 +619,12 @@ window.ui = window.ui || {};
 
 			//Show zone timer settings on click
 			zoneElems.templateDisplayElem.onclick =  (function(id) { return function() { onZoneTimerClick(id); } })(zoneId);
+			zoneElems.templateDisplayElem.setAttribute('draggable', true);
+			zoneElems.templateDisplayElem.ondragstart = dragstart;
+			zoneElems.templateDisplayElem.ondragenter = dragenter;
+			zoneElems.templateDisplayElem.ondragleave = dragleave;
+			zoneElems.templateDisplayElem.ondragend = dragend;
+			zoneElems.templateDisplayElem.setAttribute("order", zoneId);
 
 			//Create the onclick action for helper text when zone settings are default
 			zoneElems.zoneIsDefaultElem.onclick = (function(id, elems) {
@@ -578,19 +632,22 @@ window.ui = window.ui || {};
 					makeHidden(elems.templateSettingElem);
 					window.ui.zones.showZoneSettingsById(id); } })(index, zoneElems);
 
-			//Don't show zone 1 when master valve is enabled
-			if (Data.provision.system.useMasterValve && index == 0) {
+			//Don't show zone 1 when master valve is enabled or on a system with dedicated master valve
+			if ((Data.provision.system.useMasterValve || dedicatedMasterValve) && index == 0) {
 				zoneElems.templateDisplayElem.style.display = "none";
 			}
 
 			if (zoneData) {
-				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = zoneId + ". " + zoneData.name;
+				var nameIndex = zoneId;
+				if (dedicatedMasterValve) nameIndex = zoneId - 1;
+
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = nameIndex + ". " + zoneData.name;
 				//Don't show inactive zones
 				if (!zoneData.active) {
 					zoneElems.templateDisplayElem.style.display = "none";
 				}
 			} else {
-				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + zoneId;
+				zoneElems.nameElem.textContent = zoneElems.nameDisplayElem.textContent = "Zone " + nameIndex;
 			}
 
 			//Add Auto percentage chooser
@@ -630,7 +687,7 @@ window.ui = window.ui || {};
             program.uid = selectedProgram.uid;
         }
 
-        program.name = uiElems.nameElem.value;
+        program.name = uiElems.nameElem.value || "New Program";
         program.active = uiElems.activeElem.checked;
         program.ignoreInternetWeather = !uiElems.weatherDataElemOn.checked;
 
@@ -670,15 +727,30 @@ window.ui = window.ui || {};
         //
         program.frequency = parseCurrentProgramFrequency();
 
-
 		//---------------------------------------------------------------------------------------
-		// Collect settable next run
+		// API 4.4 Program
 		//
-		var customNextRun = uiElems.nextRunSettable.value;
-		if (settableNextRun() && customNextRun !== "") {
-			program.nextRun = customNextRun;
-			console.log("Setting program next run to: %s", customNextRun);
+		if (uiElems.frequencyAdaptiveElem.checked) {
+			program.freq_modified = 50;
+		} else {
+			program.freq_modified = 0;
 		}
+
+		if (uiElems.startDateElem.value.length > 0) {
+			program.startDate =  uiElems.startDateElem.value.trim();
+			console.log("Start Date: %s", program.startDate);
+		}
+
+		if (getSelectValue(uiElems.endDateTypeElem) > 0) {
+			if (uiElems.endDateElem.value.length > 0) {
+				program.endDate = uiElems.endDateElem.value.trim();
+				console.log("End Date: %s", program.endData);
+			}
+		} else {
+			program.endDate = null;
+		}
+
+		program.yearlyRecurring = uiElems.recurringElem.checked;
 
         //---------------------------------------------------------------------------------------
         // Collect watering times.
@@ -691,10 +763,13 @@ window.ui = window.ui || {};
 			var wateringTime = {};
 
             if (!uiElems.zoneElems.hasOwnProperty(zoneId)) {
+				console.log("No zoneId for id %s", zoneId);
                 continue;
             }
 
 			var zoneElems = uiElems.zoneElems[zoneId];
+
+			var order = zoneElems.templateDisplayElem.getAttribute("order");
 
 			if (zoneElems.autoTypeElem.checked) {
 				durationType = ZoneDurationType.Auto;
@@ -707,6 +782,7 @@ window.ui = window.ui || {};
             wateringTime.id = parseInt(zoneId);
             wateringTime.active = durationType > 0 ? true:false;
 			wateringTime.userPercentage = zoneElems.zonePercentage.value / 100.0;
+			wateringTime.order = order;
 
 			if (durationType == ZoneDurationType.Auto) {
 				wateringTime.duration = 0;
@@ -788,7 +864,6 @@ window.ui = window.ui || {};
     function onFrequencyChanged (e) {
         var showWeekdays = uiElems.frequencyWeekdaysElem.checked;
         uiElems.frequencyWeekdaysContainerElem.style.display = (showWeekdays ? "block" : "none");
-		changeNextRunType();
 		fillProgramTimers(null); // Timers will change with the program frequency
     }
 
@@ -1058,6 +1133,7 @@ window.ui = window.ui || {};
 
 				//Specified auto timer user percentage
 				zoneElems.zonePercentage.setValue(parseInt(wateringTime.userPercentage * 100) || 1);
+				zoneElems.templateDisplayElem.setAttribute("order", wateringTime.order);
 			} else {
 
 				duration.min = parseInt(zoneElems.durationMinElem.value) || 0;
@@ -1351,20 +1427,14 @@ window.ui = window.ui || {};
 		return zones;
 	}
 
-
-	//If next run field is user settable or not
-	function settableNextRun() {
-		return uiElems.frequencyEveryElem.checked && uiElems.activeElem.checked;
-	}
-
-	//If we should display the simple next run text or a settable next run
-	function changeNextRunType() {
-		if (settableNextRun()) {
-			makeVisible(uiElems.nextRunSettable);
-			makeHidden(uiElems.nextRun);
+	// If we should display the endDate or not
+	function onEndDateTypeChange() {
+		if (getSelectValue(uiElems.endDateTypeElem) > 0) {
+			makeVisible(uiElems.endDateElem);
+			makeVisible(uiElems.recurringContainerElem);
 		} else {
-			makeHidden(uiElems.nextRunSettable);
-			makeVisible(uiElems.nextRun);
+			makeHidden(uiElems.endDateElem);
+			makeHidden(uiElems.recurringContainerElem);
 		}
 	}
 
