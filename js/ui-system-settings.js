@@ -199,6 +199,7 @@ window.ui = window.ui || {};
 		systemSettingsView.Alexa.checked = Data.provision.system.allowAlexaDiscovery;
 		systemSettingsView.Bonjour.checked = Data.provision.system.useBonjourService;
 		systemSettingsView.AutomaticUpdates.checked = Data.provision.system.automaticUpdates;
+		systemSettingsView.SSH.checked = Data.provision.system.SSH;
 
 		//TODO Developer mode commented out atm
 		/*
