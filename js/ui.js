@@ -236,15 +236,22 @@ window.ui = window.ui || {};
 					if (waterQueue.queue.length == 0) {
 						if (uiLastWateringState == true) {
 							uiLastWateringState = false;
-							//Hide STOP all button
+							//Hide STOP and PAUSE all button
 							makeHidden(window.ui.zones.uiElems.stopAll);
+							makeHidden(window.ui.zones.uiElems.pauseAll);
 						} else {
 							return;
 						}
 					} else {
 						uiLastWateringState = true;
-						//Show STOP all button
+						//Show STOP and PAUSE all button
 						makeVisible(window.ui.zones.uiElems.stopAll);
+						makeVisible(window.ui.zones.uiElems.pauseAll);
+						if (waterQueue.queue[0].zid == 1005) {
+							window.ui.zones.setPauseState(true);
+						} else {
+							window.ui.zones.setPauseState(false);
+						}
 					}
 					refreshProgramAndZones(true);
 
