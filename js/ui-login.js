@@ -25,7 +25,7 @@ window.ui = window.ui || {};
 
         if(!accessToken || accessToken === "") {
             //Added for demo.labs.rainmachine.com
-            if (window.location.hostname == "demo.labs.rainmachine.com" || window.location.hostname == "") {
+            if (window.location.hostname == "demo.labs.rainmachine.com") {
                 accessToken = API.auth("", true); //request an access token that will be used for session management
                 if(accessToken) {
                     document.body.className = "";
