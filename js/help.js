@@ -20,7 +20,7 @@ var Help = (function(Help) {
 		"zoneWeatherSeasonalAdjustments": "If weather data is temporarily unreachable RainMachine will automatically fall back on Seasonal Adjustments until connectivity is restored. If both Weather and Seasonal Adjustments are turned off their data will be ignored when watering times are calculated for this zone.",
 		"zoneDailySummerEPA": "Scheduled to run for a typical summer day and calculated based on Advanced Zone Settings properties. This time will be adjusted automatically to any program that use this zone.",
 		"zoneFieldCapacityMain": "The maximum amount of water/moisture content held in the soil after excess water has drained away. Increase this value if the RainMachine starts too soon after a rain event.",
-		"zoneMinimumDuration": "This feature allows users to set a minimum time for their sprinklers to run. Any time below that threshold will rollover to the next watering cycle.",
+		"zoneMinimumDuration": "This feature allows users to set a minimum duration limit. Any computed irrigation duration below this threshold will rollover to the next scheduled irrigation.",
 		"zoneAvailableWater": "The current quantity of water/moisture in the soil, which is consumed by evapo-transpiration.",
 		"zoneListImageHelp": "Use the RainMachine mobile app (iPhone or Android) to upload a picture of this zone. Uploading images through web app is not allowed.",
 		"zoneAllowedDepletion": "The maximum percentage of the soil moisture/water that is allowed to be consume before " +
