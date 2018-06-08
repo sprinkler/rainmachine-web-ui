@@ -238,8 +238,19 @@ window.ui = window.ui || {};
 		descriptionElem.textContent = p.description;
 
 		if (p.params) {
-			for (param in p.params) {
-				Util.generateTagFromDataType(paramsElem, p.params[param], param);
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom UI for %s ", p.name);
+				window.ui.weatherservices.custom[p.name].render(paramsElem, p.params);
+			} else {
+				//Automatically generated
+				for (param in p.params) {
+
+					Util.generateTagFromDataType(paramsElem, p.params[param], param);
+					if (p.name == "WUnderground Parser" && param == "apiKey") {
+						var info = addTag(paramsElem, 'span');
+						info.textContent = "(only required for forecast)";
+					}
+				}
 			}
 		}
 
