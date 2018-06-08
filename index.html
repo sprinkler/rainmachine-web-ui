@@ -21,6 +21,7 @@
 	<script src="js/ui-charts-parsers.js"></script>
 	<script src="js/ui-login.js"></script>
 	<script src="js/ui-restrictions.js"></script>
+	<script src="js/ui-weather-services.js"></script>
 	<script src="js/ui-settings.js"></script>
 	<script src="js/ui-system-settings.js"></script>
     <script src="js/ui-about.js"></script>
@@ -2526,6 +2527,34 @@
 			<span style="color:#004d40;margin-left: 35px;" rm-id="water-queue-details"></span>
 		</div>
 		<!-- Template for Home Screen Watering details (End) -->
+
+		<!-- Template for Weather Underground (Start) -->
+		<div id="weather-sources-wu-ui">
+			<div>
+				<span>API Key</span>
+				<span class="subtitle">only required for forecast</span>
+				<input rm-id="weather-sources-wu-apikey" type="text">
+			</div>
+			<div>
+				<span> Nearby Weather Stations</span>
+				<span class="subtitle" rm-id="weather-sources-wu-nostations">You need to run this service at least once to retrieve the station list</span>
+			</div>
+			<div>
+				<span>Name</span>
+				<span>Distance</span>
+			</div>
+			<div rm-id="weather-sources-wu-stationslist">
+			<!-- Will be filled from JS -->
+			</div>
+			<div>
+				<span>Selected Stations</span>
+				<input rm-id="weather-sources-wu-customstations" type="text">
+				<input rm-id="weather-sources-wu-usecustom" type="checkbox">
+			</div>
+
+		</div>
+		<!-- Template for Weather Underground (End) -->
+
 	</div>
 
 </body>
