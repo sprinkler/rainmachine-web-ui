@@ -27,6 +27,8 @@ window.ui = window.ui || {};
 				var distance = tokens[1].split(";")[0];
 				var elName = addTag(stationsList, "div");
 				var elDistance = addTag(stationsList, "div");
+				elName.style.width = "250px";
+				elName.style.float = "left";
 				elName.textContent = name;
 				elDistance.textContent = distance;
 			}
