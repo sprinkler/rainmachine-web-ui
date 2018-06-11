@@ -2531,27 +2531,43 @@
 		<!-- Template for Weather Underground (Start) -->
 		<div id="weather-sources-wu-ui">
 			<div>
-				<span>API Key</span>
-				<span class="subtitle">only required for forecast</span>
-				<input rm-id="weather-sources-wu-apikey" type="text">
+				<h1>API Key</h1>
+				<input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<div style="clear:both;"></div>
+				<span class="subtitle">Only required for forecast weather data.</span>
 			</div>
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
 			<div>
-				<span> Nearby Weather Stations</span>
+				<h1>Nearby Weather Stations</h1>
 				<span class="subtitle" rm-id="weather-sources-wu-nostations">You need to run this service at least once to retrieve the station list</span>
 			</div>
 			<div>
-				<span>Name</span>
-				<span>Distance</span>
+				<div class="left" style="width:250px;">
+					<h4>Name</h4>
+				</div>
+				<div class="left">
+					<h4>Distance</h4>
+				</div>
 			</div>
+			<div style="clear:both;margin-bottom:-24px;"></div>
 			<div rm-id="weather-sources-wu-stationslist">
 			<!-- Will be filled from JS -->
 			</div>
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
 			<div>
-				<span>Selected Stations</span>
-				<input rm-id="weather-sources-wu-customstations" type="text">
-				<input rm-id="weather-sources-wu-usecustom" type="checkbox">
-			</div>
-
+				<h1>Use Nearby Weather Stations <input rm-id="weather-sources-wu-usecustom" type="checkbox"></h1>
+				<input rm-id="weather-sources-wu-customstations" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<div style="clear:both;"></div>
+				<span class="subtitle">
+					Enter the name of the station you would like to use.<br>
+					If you want to use backup stations, add them after the first one and separate their names with comma.<br>
+					When the first one fail to send data, the next one will be used as backup.
+				</span>
+			</div>	
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
 		</div>
 		<!-- Template for Weather Underground (End) -->
 
