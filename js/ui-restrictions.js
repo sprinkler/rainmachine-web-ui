@@ -34,6 +34,14 @@ window.ui = window.ui || {};
 		uiElems.buttonWeekDaysSet = $("#restrictionWeekDaysSet");
 		uiElems.buttonHourlySet = $("#restrictionHourlyAdd");
 		uiElems.buttonRainSensorSet = $("#restrictionsRainSensorSet");
+
+		//RainMachine PRO SPK5
+		uiElems.flowSensorSet = $("#sensorsFlowSensorSet");
+		uiElems.flowSensor = $("#sensorsFlowSensorEnable");
+		uiElems.flowSensorClicks = $("#sensorsFlowSensorClicks");
+		uiElems.flowSensorUnits = $("#sensorsFlowSensorUnits");
+		uiElems.flowSensorReset = $("#sensorsFlowSensorReset");
+		uiElems.flowSensorLastLeakDetected = $("#sensorsLastLeakDetected");
 	}
     
 //    -----
@@ -193,6 +201,10 @@ window.ui = window.ui || {};
 			addCurrentRestriction("Rain Sensor");
 		}
 
+		if (Data.restrictionsCurrent.lastLeakDetected) {
+			addCurrentRestriction("Leak Detected");
+		}
+
 		if (!hasRestrictions) {
 			addCurrentRestriction("No current active restrictions", false);
 		}
@@ -312,7 +324,12 @@ window.ui = window.ui || {};
 		return r;
 	}
     
-//    ----------------------
+//---------------------------------------------------------------------------------------------------------------------
+
+	function showSensors() {
+		showRainSensor();
+		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === "simulator") showFlowSensor();
+	}
 
     function showRainSensor() {
         if (uiElems === null)
@@ -326,7 +343,7 @@ window.ui = window.ui || {};
 
 		var rainStart = Data.provision.system.rainSensorRainStart;
 		if ( rainStart !== null) {
-			uiElems.rainSensorLastEvent.textContent = (new Date(rainStart * 1000)).toDateString();
+			uiElems.rainSensorLastEvent.textContent = Util.timestampToLocalDateString(rainStart);
 		} else {
 			uiElems.rainSensorLastEvent.textContent = "No recent events";
 		}
@@ -335,8 +352,25 @@ window.ui = window.ui || {};
         uiFeedback.sync(uiElems.buttonRainSensorSet, onSetRainSensor);
         uiElems.rainSensorElem.onclick = showRainSensorOptions;
         showRainSensorOptions();
-        
     }
+
+	function showFlowSensor() {
+		makeVisibleBlock('#flowsensor');
+
+		uiElems.flowSensor.checked = Data.provision.system.useFlowSensor || false;
+		uiElems.flowSensorClicks.value = Util.convert.uiFlowClicks(Data.provision.system.flowSensorClicksPerCubicMeter) || 0;
+		uiElems.flowSensorUnits.textContent = Util.convert.uiFlowClicksStr();
+
+		var lastLeakDetected = Data.provision.system.lastLeakDetected || 0;
+
+		if (lastLeakDetected)
+			uiElems.flowSensorLastLeakDetected.textContent = Util.timestampToLocalDateString(lastLeakDetected);
+		else
+			uiElems.flowSensorLastLeakDetected.textContent = "No leaks detected";
+
+		uiFeedback.sync(uiElems.flowSensorSet, onSetFlowSensor);
+		uiFeedback.sync(uiElems.flowSensorReset, onResetFlowSensor);
+	}
     
 	function onSetRainSensor() {
 
@@ -368,6 +402,50 @@ window.ui = window.ui || {};
 		return r;
 	}
 
+	function onResetFlowSensor() {
+		var data = {
+			lastLeakDetected: 0
+		};
+
+		var r = API.setProvision(data, null);
+
+		if (r === undefined || !r || r.statusCode != 0) {
+			console.log("Can't reset Flow Sensor !");
+		}
+		else {
+			Data.provision.system.lastLeakDetected = 0;
+			showFlowSensor();
+		}
+
+		return r;
+	}
+
+	function onSetFlowSensor() {
+		var flowSensorClicks = Util.convert.uiFlowClicksInMetric(uiElems.flowSensorClicks.value);
+		var useFlowSensor = uiElems.flowSensor.checked;
+
+		var data = {
+			useFlowSensor:  useFlowSensor,
+			flowSensorClicksPerCubicMeter: flowSensorClicks
+		};
+
+		var r = API.setProvision(data, null);
+
+		if (r === undefined || !r || r.statusCode != 0)
+		{
+			console.log("Can't set Flow Sensor !");
+			useFlowSensor = Data.provision.system.useFlowSensor;
+			flowSensorClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
+			r = null;
+		}
+
+		Data.provision.system.useFlowSensor = useFlowSensor;
+		Data.provision.system.flowSensorClicksPerCubicMeter = flowSensorClicks;
+
+		return r;
+	}
+
+
 	function showMaxWatering() {
 		toggleAttr(uiElems.maxWateringContainer, uiElems.extraWateringElem.checked);
 	}
@@ -387,6 +465,6 @@ window.ui = window.ui || {};
 	//
 	_restrictions.showRestrictions = showRestrictions;
 	_restrictions.showCurrentRestrictions = showCurrentRestrictions;
-    _restrictions.showRainSensor = showRainSensor;
+    _restrictions.showSensors = showSensors;
 
 } (window.ui.restrictions = window.ui.restrictions || {}));

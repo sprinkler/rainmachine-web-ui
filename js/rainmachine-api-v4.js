@@ -12,7 +12,7 @@ function _API(async) {
 
 var host = window.location.hostname;
 //var host = "127.0.0.1";
-//var host = "192.168.12.174";             //Example: A local networked RainMachine
+//var host = "192.168.12.174"; //Example: A local networked RainMachine
 //var host = "demo.labs.rainmachine.com";  //Example: API Mock server
 
 var port = window.location.port;
@@ -67,6 +67,7 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 
 		//r.setRequestHeader("Content-type", "application/json");
 		if (type === "POST") {
+			//console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
 			if (isBinary) {
 				r.send(data);
 			} else {
@@ -548,6 +549,17 @@ _API.prototype.stopAll = function()
 {
 	var url = this.URL.watering + "/stopall";
 	var data = { all: true };
+
+	return this.post(url, data, null);
+}
+
+_API.prototype.pauseAll = function(state)
+{
+	var url = this.URL.watering + "/pauseall";
+	var duration = 30 * 60;
+	if (!state) duration = 0;
+
+	var data = { duration: duration };
 
 	return this.post(url, data, null);
 }
