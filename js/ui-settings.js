@@ -244,12 +244,7 @@ window.ui = window.ui || {};
 			} else {
 				//Automatically generated
 				for (param in p.params) {
-
 					Util.generateTagFromDataType(paramsElem, p.params[param], param);
-					if (p.name == "WUnderground Parser" && param == "apiKey") {
-						var info = addTag(paramsElem, 'span');
-						info.textContent = "(only required for forecast)";
-					}
 				}
 			}
 		}
@@ -343,16 +338,27 @@ window.ui = window.ui || {};
 
 		var newParams = {};
         if (p.params) {
-			for (param in p.params) {
-				var t = Util.readGeneratedTagValue(param);
-				if (t && t.length == 2) {
-					newParams[t[0]] = t[1];
-				}
-
-				if (p.params[param] != t[1]) {
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom save function for %s ", p.name);
+				newParams = window.ui.weatherservices.custom[p.name].save(p.params);
+				if (newParams !== null) {
+					console.log("Parameters have been changed, saving.");
 					shouldSaveParams = true;
 				}
+			} else {
+				//Read automatically generated tags
+				for (param in p.params) {
+					var t = Util.readGeneratedTagValue(param);
+					if (t && t.length == 2) {
+						newParams[t[0]] = t[1];
+					}
+
+					if (p.params[param] != t[1]) {
+						shouldSaveParams = true;
+					}
+				}
 			}
+
 		}
 
 		if (shouldSaveEnable) {
