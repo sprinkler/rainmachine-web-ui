@@ -2531,16 +2531,10 @@
 		<!-- Template for Weather Underground (Start) -->
 		<div id="weather-sources-wu-ui">
 			<div>
-				<h1>API Key</h1>
-				<input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
-				<div style="clear:both;"></div>
-				<span class="subtitle">Only required for forecast weather data.</span>
-			</div>
-			<div style="clear:both;"></div>
-			<span class="separator"></span>
-			<div>
 				<h1>Nearby Weather Stations</h1>
-				<span class="subtitle" rm-id="weather-sources-wu-nostations">You need to run this service at least once to retrieve the station list</span>
+				<span class="subtitle" rm-id="weather-sources-wu-nostations">
+					Please enable this weather service and press REFRESH NOW to retrieve the weather stations list.
+				</span>
 			</div>
 			<div>
 				<div class="left" style="width:250px;">
@@ -2566,6 +2560,15 @@
 					When the first one fail to send data, the next one will be used as backup.
 				</span>
 			</div>	
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
+			<div>
+				<h1>API Key</h1>
+				<input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<div style="clear:both;"></div>
+				<span class="subtitle">Only required if you wish to also receive forecast data in addition to weather station data.
+					<br>This key is obtained from <a href="https://www.wunderground.com/weather/api/">Weather Undeground</a>.</span>
+			</div>
 			<div style="clear:both;"></div>
 			<span class="separator"></span>
 		</div>
