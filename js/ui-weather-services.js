@@ -16,6 +16,7 @@ window.ui = window.ui || {};
 		var customStations = $(ui, '[rm-id="weather-sources-wu-customstations"]');
 		var useCustom = $(ui, '[rm-id="weather-sources-wu-usecustom"]');
 
+		apiKey.id = "weather-sources-wu-apikey";
 		apiKey.value = params.apiKey;
 
 		if (params._nearbyStationsIDList.length > 0) {
@@ -33,13 +34,33 @@ window.ui = window.ui || {};
 			makeVisible(infoNoStations);
 		}
 
+		useCustom.id = "weather-sources-wu-usecustom";
 		useCustom.checked = params.useCustomStation;
+
+		customStations.id = "weather-sources-wu-customstations";
 		customStations.value = params.customStationName;
 		parent.appendChild(ui);
 	}
 
-	function wundergroundSave(params) {
+	// Returns new parameters if they are different from the old ones or null otherwise
+	function wundergroundSave(oldparams) {
+		var apiKey = $("#weather-sources-wu-apikey");
+		var customStations = $("#weather-sources-wu-customstations");
+		var useCustom = $("#weather-sources-wu-usecustom");
 
+		var params = {};
+
+		params.apiKey = apiKey.value;
+		params.useCustomStation = useCustom.checked;
+		params.customStationName = customStations.value;
+
+		if (params.apiKey == oldparams.apiKey &&
+			params.useCustomStation == oldparams.useCustomStation &&
+			params.customStationName == oldparams.customStationName) {
+			return null;
+		}
+
+		return params;
 	}
 
 	_weatherservices.custom = {
