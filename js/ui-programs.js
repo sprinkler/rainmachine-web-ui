@@ -163,6 +163,10 @@ window.ui = window.ui || {};
 			console.error("Cannot find program id %d in uiElemsAll list", p.uid);
 			return;
 		}
+		var zones = null;
+		if (Data.zoneData && Data.zoneData.zones !== null) {
+			zones = Data.zoneData.zones;
+		}
 
 		programElem.template.data = p;
 		programElem.nameElem.data = p;
@@ -203,7 +207,12 @@ window.ui = window.ui || {};
 			if (p.wateringTimes[zi].active) {
 				var div = addTag(programElem.zonesElem, 'div');
 				var zid = p.wateringTimes[zi].id;
-				div.className = "zoneCircle";
+				div.className = "zonecircle";
+
+				if (zones && !zones[zi].active) {
+					div.className += " zonecircleInactive";
+				}
+
 				if (dedicatedMasterValve)
 					div.textContent = zid - 1;
 				else
@@ -211,18 +220,17 @@ window.ui = window.ui || {};
 
 				div.setAttribute("order", p.wateringTimes[zi].order);
 
+				var zoneInfo = "Loading...";
 				if (zoneDetails) {
-					var zoneInfo = "Inactive";
+					zoneInfo = "Inactive";
 					if (zoneDetails[zid]) {
 						zoneInfo = "Will water " + Util.secondsToText(zoneDetails[zid].computedWateringTime);
 					}
-
-					div.setAttribute("zones-tooltip", zoneInfo);
 				}
+				div.setAttribute("zones-tooltip", zoneInfo);
 
 				//Check if zone is actually running now in this program and animate the small circle
-				if (p.status == ProgramStatus.Running && Data.zoneData && Data.zoneData.zones !== null) {
-				    var zones = Data.zoneData.zones;
+				if (p.status == ProgramStatus.Running && zones !== null) {
 				    for (var zd = 0; zd < zones.length; zd++ ) {
 				        if (zones[zd].uid == p.wateringTimes[zi].id && zones[zd].state == 1) {
 				            div.setAttribute("state", "running");
@@ -1156,7 +1164,8 @@ window.ui = window.ui || {};
 			totalTimes[index] = {
 				type: ZoneDurationType.Off,
 				duration: 0,
-				autocoef: 1
+				autocoef: 1,
+				active: (zones !== null && zones[index].active) //If actual zone is active or not (not the zone from program but the real one)
 			};
 
 			//Check what duration we should display on Program Zones List
@@ -1294,6 +1303,9 @@ window.ui = window.ui || {};
 			//for each selected day set duration scaled by multiplier.
 			//At the end we loop on object holding days and add for each day the total "Custom" durations
 			for (var i = 0; i < timersList.length; i++) {
+				if (!timersList[i].active) {
+					continue;
+				}
 				if (timersList[i].type == ZoneDurationType.Manual) {
 					totalDurationsCustom += timersList[i].duration;
 				} else if (timersList[i].type == ZoneDurationType.Auto) {
@@ -1322,6 +1334,9 @@ window.ui = window.ui || {};
 		} else {
 			var totalDuration = 0;
 			for (var i = 0; i < timersList.length; i++) {
+				if (!timersList[i].active) {
+					continue;
+				}
 				if (timersList[i].type == ZoneDurationType.Auto) {
 					totalDuration += timersList[i].duration * daysMultiplier * timersList[i].autocoef;
 				} else {
