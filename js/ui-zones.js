@@ -17,14 +17,16 @@ window.ui = window.ui || {};
 		masterValveStart: 1001,
 		masterValveStop: 1002,
 		zoneDelay: 1003,
-		cycleDelay: 1004
+		cycleDelay: 1004,
+		pause: 1005
 	};
 
 	var zoneTypeTitle = {
 		1001: "Master Valve pre-open ",
 		1002: "Master Valve post-open ",
 		1003: "Delay Between cycles ",
-		1004: "Soak time "
+		1004: "Soak time ",
+		1005: "Paused"
 	};
 
 	var AdvVegCoefType = {
@@ -158,6 +160,8 @@ window.ui = window.ui || {};
 
 		uiElemsAll.stopAll = $('#home-zones-stopall');
         uiElemsAll.stopAll.onclick = stopAllWatering;
+		uiElemsAll.pauseAll = $('#home-zones-pauseall');
+		uiElemsAll.pauseAll.onclick = pauseAllWatering;
 
 		window.ui.firebase.enter();
 	}
@@ -306,7 +310,9 @@ window.ui = window.ui || {};
 			queueZone.textContent += cycleText;
 		}
 
-		queueDetails.textContent += " program " + programName;
+		if (queueTop.zid != zoneType.pause) {
+			queueDetails.textContent += " program " + programName;
+		}
 
 		if (typeof queueTop.remaining === "undefined") {
 			queueTimer.textContent = "R";
@@ -792,6 +798,45 @@ window.ui = window.ui || {};
 		window.ui.programs.showPrograms(); //Also refresh programs state
 	}
 
+	function pauseAllWatering()
+	{
+		console.log("Pause state: %s", uiElemsAll.pauseAll.state);
+		if (uiElemsAll.pauseAll.state) {
+			var ret = API.pauseAll(false);
+			if (ret != null) {
+				console.log("Resumed Watering");
+			} else {
+				console.error("Error resuming watering");
+			}
+		} else {
+			var ret = API.pauseAll(true);
+			if (ret != null) {
+				console.log("Paused Watering");
+			} else {
+				console.error("Error pausing watering");
+			}
+
+		}
+		console.log("Pause state: %s", uiElemsAll.pauseAll.state);
+
+		showZones();
+		window.ui.programs.showPrograms(); //Also refresh programs state
+	}
+
+	function setPauseState(paused) {
+		var iconElem = uiElemsAll.pauseAll.children[0];
+		var textElem = uiElemsAll.pauseAll.children[1];
+		if (paused) {
+
+			iconElem.textContent = "Q";
+			textElem.textContent = "Resume";
+			uiElemsAll.pauseAll.state = 1;
+		} else {
+			iconElem.textContent = "E";
+			textElem.textContent = "Pause";
+			uiElemsAll.pauseAll.state = 0;
+		}
+	}
 	//---------------------------------------------------------------------------------------
 	// Single Zone Settings
 	// Event and Action functions
@@ -1101,6 +1146,7 @@ window.ui = window.ui || {};
 	_zones.zoneHasDefaultSettings = zoneHasDefaultSettings;
 	_zones.zoneComputeWaterVolume = zoneComputeWaterVolume;
 	_zones.toggleZonesDetails = toggleZonesDetails;
+	_zones.setPauseState = setPauseState;
 	_zones.uiElems = uiElemsAll;
 
 } (window.ui.zones = window.ui.zones || {}));

@@ -22,7 +22,8 @@ window.ui = window.ui || {};
 		9: "Month Restricted",
 		10: "Snooze set by user",
 		11: "Program Rain Restriction",
-		12: "Adaptive Frequency Skip"
+		12: "Adaptive Frequency Skip",
+		13: "Paused watering"
 };
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
@@ -237,8 +238,14 @@ window.ui = window.ui || {};
 		descriptionElem.textContent = p.description;
 
 		if (p.params) {
-			for (param in p.params) {
-				Util.generateTagFromDataType(paramsElem, p.params[param], param);
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom UI for %s ", p.name);
+				window.ui.weatherservices.custom[p.name].render(paramsElem, p.params);
+			} else {
+				//Automatically generated
+				for (param in p.params) {
+					Util.generateTagFromDataType(paramsElem, p.params[param], param);
+				}
 			}
 		}
 
@@ -331,16 +338,27 @@ window.ui = window.ui || {};
 
 		var newParams = {};
         if (p.params) {
-			for (param in p.params) {
-				var t = Util.readGeneratedTagValue(param);
-				if (t && t.length == 2) {
-					newParams[t[0]] = t[1];
-				}
-
-				if (p.params[param] != t[1]) {
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom save function for %s ", p.name);
+				newParams = window.ui.weatherservices.custom[p.name].save(p.params);
+				if (newParams !== null) {
+					console.log("Parameters have been changed, saving.");
 					shouldSaveParams = true;
 				}
+			} else {
+				//Read automatically generated tags
+				for (param in p.params) {
+					var t = Util.readGeneratedTagValue(param);
+					if (t && t.length == 2) {
+						newParams[t[0]] = t[1];
+					}
+
+					if (p.params[param] != t[1]) {
+						shouldSaveParams = true;
+					}
+				}
 			}
+
 		}
 
 		if (shouldSaveEnable) {

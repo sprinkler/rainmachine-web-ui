@@ -21,6 +21,7 @@
 	<script src="js/ui-charts-parsers.js"></script>
 	<script src="js/ui-login.js"></script>
 	<script src="js/ui-restrictions.js"></script>
+	<script src="js/ui-weather-services.js"></script>
 	<script src="js/ui-settings.js"></script>
 	<script src="js/ui-system-settings.js"></script>
     <script src="js/ui-about.js"></script>
@@ -205,7 +206,13 @@
 								</div>
 								<div id="homeScreenZoneList">
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
-                                    <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none"><span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All</button>
+                                    <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none">
+										<span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All
+									</button>
+									<button id="home-zones-pauseall" class="button label-red center right mr10" style="display: none">
+										<span class="icon" style="width:65%;vertical-align:middle;">E</span>
+										<span>Pause</span>
+									</button>
 								    <h1 class="titleHome">Zones</h1>
 									<div id="wateringQueueContainer">
 										<!--- Inserted from Javascript -->
@@ -2520,6 +2527,53 @@
 			<span style="color:#004d40;margin-left: 35px;" rm-id="water-queue-details"></span>
 		</div>
 		<!-- Template for Home Screen Watering details (End) -->
+
+		<!-- Template for Weather Underground (Start) -->
+		<div id="weather-sources-wu-ui">
+			<div>
+				<h1>Nearby Weather Stations</h1>
+				<span class="subtitle" rm-id="weather-sources-wu-nostations">
+					Please enable this weather service and press REFRESH NOW to retrieve the weather stations list.
+				</span>
+			</div>
+			<div>
+				<div class="left" style="width:250px;">
+					<h4>Name</h4>
+				</div>
+				<div class="left">
+					<h4>Distance</h4>
+				</div>
+			</div>
+			<div style="clear:both;margin-bottom:-24px;"></div>
+			<div rm-id="weather-sources-wu-stationslist">
+			<!-- Will be filled from JS -->
+			</div>
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
+			<div>
+				<h1>Use Nearby Weather Stations <input rm-id="weather-sources-wu-usecustom" type="checkbox"></h1>
+				<input rm-id="weather-sources-wu-customstations" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<div style="clear:both;"></div>
+				<span class="subtitle">
+					Enter the name of the station you would like to use.<br>
+					If you want to use backup stations, add them after the first one and separate their names with comma.<br>
+					When the first one fail to send data, the next one will be used as backup.
+				</span>
+			</div>	
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
+			<div>
+				<h1>API Key</h1>
+				<input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<div style="clear:both;"></div>
+				<span class="subtitle">Only required if you wish to also receive forecast data in addition to weather station data.
+					<br>This key is obtained from <a href="https://www.wunderground.com/weather/api/">Weather Undeground</a>.</span>
+			</div>
+			<div style="clear:both;"></div>
+			<span class="separator"></span>
+		</div>
+		<!-- Template for Weather Underground (End) -->
+
 	</div>
 
 </body>
