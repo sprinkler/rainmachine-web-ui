@@ -208,12 +208,18 @@ window.ui = window.ui || {};
 
 	function uiInitialDownload() {
 		chartsData = new ChartData();
-		window.ui.about.getDeviceInfo();
-		window.ui.programs.showPrograms();
-		window.ui.zones.showZones();
-		window.ui.settings.showParsers(true, false);
-		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
-		loop = setInterval(uiLoop, loopSeconds);
+		APIAsync.getProvision().then(
+			function(o) {
+				Data.provision.system = o.system;
+				Data.provision.location = o.location;
+
+				window.ui.about.getDeviceInfo();
+				window.ui.programs.showPrograms();
+				window.ui.zones.showZones();
+				window.ui.settings.showParsers(true, false);
+				loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
+				loop = setInterval(uiLoop, loopSeconds);
+			});
 	}
 
 	function uiLoop() {

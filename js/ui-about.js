@@ -136,12 +136,6 @@ window.ui = window.ui || {};
 
 	function getDeviceInfo()
     {
-    	APIAsync.getProvision().then(
-		   function(o) {
-				Data.provision.system = o.system;
-				Data.provision.location = o.location;
-				showDeviceInfo();
-			});
 
 		APIAsync.getApiVer().then(
 			function(o) {
