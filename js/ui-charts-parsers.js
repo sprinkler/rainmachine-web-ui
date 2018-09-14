@@ -15,6 +15,21 @@ var parserCharts = {
 	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain" }
 };
 
+var parserNameToColor = {
+	"NOAA": 				'#cccccc',
+	"WUnderground":			'#f2aeac',
+	"METNO": 				'#d8e4aa',
+	"Netatmo":				'#b8d2eb',
+	"ForecastIO":			'#f2d1b0',
+	"OpenWeatherMap":		'#d4b2d3',
+	"Local Weather Push": 	'#ddb8a9',
+	"CIMIS":				'#ebbfd9',
+	"FAWN": 				'#dbe7f9',
+	"DWD": 					'#f9f4db',
+	"WeatherFlow": 			'#e6edde',
+	"PWS":					'#dee7ed'
+};
+
 var doyET0Chart = null;
 var et0AvgGraphed = false;
 
@@ -178,22 +193,32 @@ function generateSpecificParsersChart(key, startDate, days) {
 
     for (id in data) {
 		if (data[id].length > 0) {
-		// Build the chart series
-		chartSeries.push({
-			data: data[id],
-			name: getParserName(id),
-			zoneAxis: 'x',
-			tooltip: {
-				valueSuffix: Util.convert.getUnits(key)
+			var parserName = getParserName(id);
+			var parserColor = null;
+			if (parserName in parserNameToColor) {
+				parserColor = parserNameToColor[parserName];
 			}
-			/*
-			zones: [{
-				value: todayTimestamp,
-			}, {
-				dashStyle: 'LongDash'
-			}]
-			*/
-		});
+
+			// Build the chart series
+			chartSeries.push({
+				data: data[id],
+				name: getParserName(id),
+				zoneAxis: 'x',
+				tooltip: {
+					valueSuffix: Util.convert.getUnits(key)
+				}
+				/*
+				zones: [{
+					value: todayTimestamp,
+				}, {
+					dashStyle: 'LongDash'
+				}]
+				*/
+			});
+
+			if (parserColor) {
+				chartSeries[chartSeries.length - 1].color = parserColor;
+			}
 		}
 	}
 
