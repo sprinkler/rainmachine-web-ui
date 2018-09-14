@@ -20,6 +20,8 @@ window.ui = window.ui || {};
 		uiElems.freezeProtectTempElem = $("#restrictionsFreezeProtectTemp");
 		uiElems.freezeProtectContainer = $("#greyoutFreezeProtect");
 
+		uiElems.carryOverElem = $("#restrictionCarryOver");
+
 		uiElems.startHourElem = $("#restrictionHourlyStartHour");
 		uiElems.startMinuteElem = $("#restrictionHourlyStartMinute");
 		uiElems.durationElem = $("#restrictionHourlyDuration");
@@ -30,6 +32,7 @@ window.ui = window.ui || {};
 
 		uiElems.buttonExtraSet = $("#restrictionsHotDaysSet");
 		uiElems.buttonFreezeSet = $("#restrictionFreezeSet");
+		uiElems.buttonCarryOverSet = $("#restrictionCarryOverSet");
 		uiElems.buttonMonthsSet = $("#restrictionsMonthsSet");
 		uiElems.buttonWeekDaysSet = $("#restrictionWeekDaysSet");
 		uiElems.buttonHourlySet = $("#restrictionHourlyAdd");
@@ -129,6 +132,7 @@ window.ui = window.ui || {};
 		//Button actions
 		uiFeedback.sync(uiElems.buttonExtraSet, onSetExtraWatering);
 		uiFeedback.sync(uiElems.buttonFreezeSet, onSetFreezeProtect);
+		uiFeedback.sync(uiElems.buttonCarryOverSet, onSetCarryOver);
 		uiFeedback.sync(uiElems.buttonMonthsSet, onSetMonths);
 		uiFeedback.sync(uiElems.buttonWeekDaysSet, onSetWeekDays);
 		uiFeedback.sync(uiElems.buttonHourlySet, onSetHourly);
@@ -246,6 +250,13 @@ window.ui = window.ui || {};
 
 		return r;
 	}
+
+	function onSetCarryOver()
+	{
+		console.log("Carry Over in restrictions %o",  uiElems.carryOverElem.checked);
+		return window.ui.system.changeSingleSystemProvisionValue("carryOverInRestriction", uiElems.carryOverElem.checked);
+	}
+
 
 	function onSetMonths()
 	{
