@@ -2,6 +2,7 @@
  *	Copyright (c) 2015 RainMachine, Green Electronics LLC
  *	All rights reserved.
  */
+
 var parserCharts = {
 	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature" },
 	maxTemperature:	{ chart: null, container: "maxTemperatureParsersChartContainer",title: "Maximum Temperature" },
@@ -241,6 +242,12 @@ function generateSpecificParsersChart(key, startDate, days) {
 	var todayTimestamp = Util.today();
 	todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
 
+	var title = parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')';
+	var subtitle = "";
+	if (key == 'wind') {
+		subtitle = "RainMachine final wind value reduced by " + Data.provision.location.windSensitivity * 100 + "% sensitivity";
+	}
+
 	var chartOptions = {
 		chart: {
 			renderTo: parserCharts[key].container,
@@ -262,8 +269,11 @@ function generateSpecificParsersChart(key, startDate, days) {
 		},
 		series: chartSeries,
 		title: {
-			text: '<h1>' +  parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')</h1>',
+			text:'<h1>' + title + '</h1>',
 			useHTML: true
+		},
+		subtitle: {
+			text: subtitle
 		},
 		plotOptions: {
         	series: {
