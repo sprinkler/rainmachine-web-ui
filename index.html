@@ -170,7 +170,7 @@
 								</div>
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
-									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
+									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;cursor: pointer;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
 										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br>EvapoTranspiration</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
@@ -815,7 +815,7 @@
 										<table cellspacing="10" cellpadding="0" class="full">
 											<tr valign="top">
 												<th>
-													<h1 class="title">Weather Services - Comparison</h1>
+													<h1 class="title" id="WeatherServicesComparisonTitle">Weather Services - Comparison</h1>
 													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime center" style="width:168px;"> for
 													<input type="number" min="0" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>

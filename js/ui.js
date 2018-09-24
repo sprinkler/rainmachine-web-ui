@@ -421,7 +421,13 @@ window.ui = window.ui || {};
 			$('#settings0').onclick();
 		};
 
-		//Edit button for dashboard weather data
+		//Edit button for dashboard weather data and click on top chart
+		uiElems.chartsDays.onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings4').onclick();
+			$('#WeatherServicesComparisonTitle').scrollIntoView();
+		};
+
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings4').onclick();
