@@ -231,12 +231,19 @@
 						<div id="wateringHistory">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
-										<span class="title"> Start Date
-											<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
-											for
-											<input type="number" min="0" id="waterHistoryDays" class="typeNumber center" placeholder="7">
-											days.
-										</span>
+									<span class="title"> Start Date
+										<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
+										for
+										<input type="number" min="0" id="waterHistoryDays" class="typeNumber center" placeholder="7">
+										days.
+									</span><br>
+									<span class="title"> Filter by program
+										<select id="waterHistoryFilterProgram" class="center">
+										</select>
+										 or by zone
+										<select id="waterHistoryFilterZone" class="center">
+										</select>
+									</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
 								</h1>
 							</div>
