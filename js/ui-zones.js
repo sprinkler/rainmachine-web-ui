@@ -145,6 +145,9 @@ window.ui = window.ui || {};
 			zoneElem.sprinklerElem = $(zoneElem.template, '[rm-id="zone-sprinkler"]');
 			zoneElem.sunElem = $(zoneElem.template, '[rm-id="zone-sun"]');
 			zoneElem.programsElem = $(zoneElem.template, '[rm-id="zone-programs"]');
+			zoneElem.nextRunElem = $(zoneElem.template, '[rm-id="zone-nextrun"]');
+			zoneElem.nextRunProgramElem = $(zoneElem.template, '[rm-id="zone-nextrun-program"]');
+			zoneElem.nextRunDateElem = $(zoneElem.template, '[rm-id="zone-nextrun-date"]');
 
 			zoneElem.template.id = "zone-" + z.uid;
 
@@ -225,11 +228,32 @@ window.ui = window.ui || {};
 			elem.stopElem.onclick = function() { stopZone(this.parentNode.parentNode.data.uid); };
 			elem.nameElem.onclick = elem.editElem.onclick = function() { showZoneSettings(this.parentNode.parentNode.data); };
 
+			// Show Programs that contain this zone and the next run date of the zone
 			clearTag(elem.programsElem);
-			if (zPrograms.hasOwnProperty(z.uid)) {
-				for (var pid in zPrograms[z.uid]) {
-					var div = addTag(elem.programsElem, "li");
-					div.textContent = zPrograms[z.uid][pid];
+			var inProgramsElem;
+			var minNextRunDate = null;
+			var minNextRunProgram;
+
+			if (zPrograms) {
+				if (zPrograms.hasOwnProperty(z.uid)) {
+					for (var pid in zPrograms[z.uid]) {
+						inProgramsElem = addTag(elem.programsElem, "li");
+						inProgramsElem.textContent = zPrograms[z.uid][pid].name;
+						var d = Util.deviceDateStrToDate(zPrograms[z.uid][pid].nextrun);
+						if (d && (minNextRunDate === null || d < minNextRunDate)) {
+							minNextRunDate = d;
+							minNextRunProgram = zPrograms[z.uid][pid].name;
+						}
+					}
+					if (minNextRunDate !== null) {
+						elem.nextRunDateElem.textContent = "Date: " + minNextRunDate.toDateString();
+						elem.nextRunProgramElem.textContent = "Program: " + minNextRunProgram;
+					}
+				} else {
+					inProgramsElem = addTag(elem.programsElem, "li");
+					inProgramsElem.textContent = "UNUSED";
+					inProgramsElem.className = "red";
+					elem.nextRunElem.style.display = "none";
 				}
 			}
 
@@ -1058,7 +1082,6 @@ window.ui = window.ui || {};
 
 		var programs = Data.programs.programs;
 		var inprograms = {};
-
 		for (var i = 0; i < programs.length; i++) {
 			var zones = programs[i].wateringTimes;
 			for (var j = 0; j < zones.length; j++) {
@@ -1068,7 +1091,10 @@ window.ui = window.ui || {};
 						inprograms[z.id] = {};
 					}
 					if (!inprograms[z.id].hasOwnProperty(programs[i].uid)) {
-						inprograms[z.id][programs[i].uid] = programs[i].name;
+						inprograms[z.id][programs[i].uid] = {
+							name: programs[i].name,
+							nextrun: programs[i].nextRun
+						};
 					}
 				}
 			}
