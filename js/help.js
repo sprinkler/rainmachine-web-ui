@@ -20,7 +20,7 @@ var Help = (function(Help) {
 		"zoneWeatherSeasonalAdjustments": "If weather data is temporarily unreachable RainMachine will automatically fall back on Seasonal Adjustments until connectivity is restored. If both Weather and Seasonal Adjustments are turned off their data will be ignored when watering times are calculated for this zone.",
 		"zoneDailySummerEPA": "Scheduled to run for a typical summer day and calculated based on Advanced Zone Settings properties. This time will be adjusted automatically to any program that use this zone.",
 		"zoneFieldCapacityMain": "The maximum amount of water/moisture content held in the soil after excess water has drained away. Increase this value if the RainMachine starts too soon after a rain event.",
-		"zoneMinimumDuration": "This feature allows users to set a minimum time for their sprinklers to run. Any time below that threshold will rollover to the next watering cycle.",
+		"zoneMinimumRolloverThreshold": "When weather adjusted watering is less than the rollover threshold, RainMachine will roll over to next scheduled watering. This promotes deeper root penetration and also allows rotors to complete full rotation.",
 		"zoneAvailableWater": "The current quantity of water/moisture in the soil, which is consumed by evapo-transpiration.",
 		"zoneListImageHelp": "Use the RainMachine mobile app (iPhone or Android) to upload a picture of this zone. Uploading images through web app is not allowed.",
 		"zoneAllowedDepletion": "The maximum percentage of the soil moisture/water that is allowed to be consume before " +
@@ -39,7 +39,10 @@ var Help = (function(Help) {
 		"zoneAppEfficiency": "The ratio of the average water depth applied and the target water depth during an irrigation event.",
 		"zoneSurfaceAccumulation": "The maximum height of water that is allowed to accumulate over the soil surface before runoff occurs.",
 		/*Watering History help texts */
-		"waterSavedVolume": "For accurate results make sure you enter the correct precipitation rate, zone area or zone total flow in advanced zone settings."
+		"waterSavedVolume": "For accurate results enter the correct precipitation rate, zone area or zone total flow in advanced zone settings.",
+		/*Settings help texts */
+		"settingsSensorsFlow": "For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.",
+		"settingsWateringHistoryTotalWaterUsed": "Total watered gallons (cube meters) per program is a number provided by the flow sensor (measured) or otherwise based on the sprinkler heads precipitation rate (estimated)."
 
 	};
 

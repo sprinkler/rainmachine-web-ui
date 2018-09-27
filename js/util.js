@@ -188,6 +188,11 @@ Util.dateStringToLocalDate = function(dateStr) {
 	return null;
 };
 
+//Convert unix timestamp to a date string with local timezone
+Util.timestampToLocalDateString = function(timestamp) {
+	return (new Date(timestamp * 1000)).toDateString();
+};
+
 //Converts date informat "YYYY-MM-DD HH:MM:SS" to a javascript date
 Util.deviceDateStrToDate = function(datetimeStr) {
 
@@ -216,7 +221,7 @@ Util.deviceDateStrToDate = function(datetimeStr) {
 	var d = new Date();
 
 	d.setFullYear(year);
-	d.setMonth(month-1);
+	d.setMonth(month-1, 1);
 	d.setDate(day);
 
 	d.setHours(h);
@@ -573,9 +578,12 @@ Util.convert = {
 	volumeMetersToGal: function(v) {
 		return Math.round((v * 264.172) * 10) /10;
 	},
+	galToVolumeMeters: function(v) {
+		return Math.round((v * 0.00378541) * 10) /10;
+	},
 	// functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
 	uiTemp: function(temp) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.celsiusToFahrenheit(temp);
 		} else {
 			return  Math.round(temp * 100) /100;
@@ -583,29 +591,55 @@ Util.convert = {
 	},
 
 	uiTempStr: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return  "\xB0F";
 		} else {
 			return "\xB0C";
 		}
 	},
-
+	uiFlowClicks: function(v) {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return Math.round(Util.convert.galToVolumeMeters(v));
+		} else {
+			return  Math.round(v);
+		}
+	},
+	uiFlowClicksInMetric: function(v) {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return Util.convert.volumeMetersToGal(v);
+		} else {
+			return  Math.round(v);
+		}
+	},
+	uiFlowClicksToVolume: function(v) {
+		var systemClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
+		if ( systemClicks && systemClicks > 0) {
+			return Math.round(v / systemClicks * 100) / 100;
+		}
+	},
+	uiFlowClicksStr: function() {
+		if (!Data.provision.system.uiUnitsMetric) {
+			return " gallon";
+		} else {
+			return " m\xB3";
+		}
+	},
 	uiQuantity: function(v) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.mmToInches(v);
 		} else {
 			return  Math.round(v * 100) /100;
 		}
 	},
 	uiQuantityStr: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " inch";
 		} else {
 			return " mm";
 		}
 	},
 	uiQuantityToMM: function(v) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.inchesToMM(v);
 		} else {
 			return  Math.round(v * 100) /100;
@@ -613,7 +647,7 @@ Util.convert = {
 	},
 	uiFlowVolume: function(flow) {
 		var f;
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			f = Util.convert.volumeMetersHourToGPM(flow);
 		} else {
 			f = Math.round(flow * 100) /100;
@@ -624,42 +658,42 @@ Util.convert = {
 		return f;
 	},
 	uiFlowVolumeToMeters: function(flow) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.volumeGPMToMetersHour(flow);
 		} else {
 			return Math.round(flow * 100) /100
 		}
 	},
 	uiFlowCompute: function(rate, area, seconds) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.rateToGPM(rate, area, seconds);
 		} else {
 			return Util.convert.rateToCubicMeters(rate, area, seconds);
 		}
 	},
 	uiFlowVolumeStr: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " gpm";
 		} else {
 			return " m\xB3/h";
 		}
 	},
 	uiWaterVolume: function(v) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.volumeMetersToGal(v);
 		} else {
 			return Math.round(v * 100)/ 100;
 		}
 	},
 	uiWaterVolumeStr: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " gal";
 		} else {
 			return " m\xB3";
 		}
 	},
 	uiWaterVolumeStrLong: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " gallons";
 		} else {
 			return " m\xB3";
@@ -667,7 +701,7 @@ Util.convert = {
 	},
 	uiArea: function(area) {
 		var a;
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			a = Util.convert.areaMetersToFeet(area);
 		} else {
 			a = area;
@@ -676,14 +710,14 @@ Util.convert = {
 		return a;
 	},
 	uiAreaStr: function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " ft\xB2";
 		} else {
 			return " m\xB2";
 		}
 	},
 	uiAreaToMeters: function(a) {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return Util.convert.areaFeetToMeters(a);
 		} else {
 			return +a;
@@ -693,7 +727,7 @@ Util.convert = {
 		return Util.convert.uiQuantity(v);
 	},
 	uiRateStr:function() {
-		if (!Data.localSettings.units) {
+		if (!Data.provision.system.uiUnitsMetric) {
 			return " in/h";
 		} else {
 			return " mm/h";

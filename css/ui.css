@@ -301,7 +301,6 @@ strong { font-weight: 700; }
 
 /* Home screen start */
 .homeScreenMain {
-  /*width: 1216px;*/
   margin: 0 auto;
   text-align: center;
 }
@@ -398,13 +397,13 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   padding-top: 0.3em;
-  color: #999;
+  color: #000;
   height: 5.9em;
 }
 .weatherChartDaysTempRain {
   display: block;
   text-align: right;
-  color: #39c;
+  color: #000;
   line-height: 22px;
   font-size: 14px;
 }
@@ -457,7 +456,46 @@ strong { font-weight: 700; }
 }
 .zone-line {
   border-bottom: 1px solid #ddd;
-  height: 82px;
+}
+.zone-line:hover{
+    background-color: #f9f9f9;
+}
+.zone-line:hover .zoneListEdit{
+     background-color: #f9f9f9; 
+}
+.zone-second-row-container{
+    padding-left: 5.5em;
+    margin: 0 auto;
+    border-top: 1px solid #f7f7f7;
+}
+.zone-line:hover .zone-second-row-container{
+   border-top: 1px solid #fdfdfd;
+}
+.zone-second-row-container ul{
+    list-style-type: none;
+    line-height: 1.5em;
+    font-size: 0.8em;
+    color: #555;
+}
+.zone-second-row-container li:not(:first-child){
+    padding-left: 0px;
+}
+.zone-second-row-container ul span{
+    color: #888;
+    margin-left: 5px;
+}
+.second-row-title{
+   padding-right: 2px;
+   text-decoration: underline;
+}
+.secondary-row-container-block{
+    display: inline-block;
+    width: 32%;
+    padding: 2% 0% 2% 0;
+    vertical-align: top;
+}
+.zones-in-programs-items li{
+    padding-left: 0px;
 }
 .zoneListName {
   /*padding-top: 25px;*/
@@ -480,6 +518,7 @@ strong { font-weight: 700; }
   padding-top: 20px;
   height: 50px;
 }
+
 .zoneWateringDetails {
   display:block;
   margin-top: -10px;
@@ -531,7 +570,7 @@ strong { font-weight: 700; }
 .dateno {
   display: block;
   padding-top: 10px;
-  color: #999;
+  color: #777;
   padding-bottom: 15px;
 }
 .weatherIcon, .pinLocation {
@@ -543,7 +582,7 @@ strong { font-weight: 700; }
   color: #4296cd;
 }
 .dayTemp {
-  color: #4296cd;
+  color: #777;
   font-size: 15px;
   height:23px;
 }
@@ -569,13 +608,15 @@ sup { font-size: 12px }
 }
 
 #deviceName{
-  /*width:380px;*/
   padding-left:0px;
 }
 .programListName {
   padding-top: 10px;
   font-size: 18px;
   width: 98%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .programNextRun {
   font-size: 14px;
@@ -700,11 +741,11 @@ h1 {
   font-family: Rainmachine;
   font-size: 48px;
   padding: 8px 0px 0px 8px;
-  color:#f1f1f1;
+  color:#e4e4e4;
 }
 .zoneListImageNoneEdit {
   font-size: 100px;
-  color: #eee;
+/*  color: #eee;*/
   padding: 42px;
 }
 .zoneListImage:hover {
@@ -1167,6 +1208,11 @@ select, .selectSmall {
   border-radius: 0;
   height: 44px;
   -webkit-appearance: none;
+  /*fix for Firefox start*/
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: '';
+  /*fix for Firefox end*/
 }
 .selectSmall {
   width: 90px;
@@ -1186,6 +1232,7 @@ select, .selectSmall {
   color: #fff;
   animation: bullets 0.5s infinite;
 }
+
 .zones-bullets {
   height: 50px;
   margin-top: 15px;
@@ -1216,6 +1263,10 @@ select, .selectSmall {
 .spk3 {
   margin-top: -56px;
   /*show SPK3 thumb*/
+}
+.spk5 {
+  margin-top: -108px;
+  /*show SPK5 thumb*/
 }
 /*zone, programs squares*/
 
@@ -1266,9 +1317,8 @@ select, .selectSmall {
   float: left;
 }
 .inactive, .master {
-  opacity: 0.3;
+  opacity: 0.7;
 }
-
 .zoneIdle,
 .zonePending {
   display: none;
@@ -1380,7 +1430,7 @@ select, .selectSmall {
 }
 .header {
   border-bottom:0;
-  color:#666666;
+  color:#3399cc;
   padding-top:2em;
 }
 
@@ -1459,6 +1509,7 @@ td.right,
  font-size:1.5em;
  color: #39c;
  vertical-align: baseline;
+ white-space: nowrap;
 }
 
 .wateringLogDayWeatherIcon {
@@ -1513,7 +1564,6 @@ td.right,
   font-weight: normal;
   color: #3399cc;
   padding-top: 15px;
-  /*border-bottom: 1px solid #3399cc;*/
 }
 
 .historyZone:hover { background-color: #f0f0f0 }
@@ -1625,10 +1675,14 @@ td.right,
   padding: 10px 0;
   min-height: 30px;
 }
+
+/*
 .weatherSource:hover {
   background-color: #ecf0f1;
   cursor: pointer;
 }
+*/
+
 .weatherSourceStatus[enabled] {
   width: 16px;
   height: 16px;
@@ -1882,13 +1936,12 @@ td.right,
 }
 [type=radio]:checked ~ label {
   background: white;
-  /*border-bottom: 1px solid white;*/
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
   z-index: 1;
   opacity: 1;
-  overflow: initial;
+  overflow: auto;
 }
 /* Weather services tabs end */
 /* Fixes for Firefox browser */
@@ -1991,6 +2044,11 @@ td.right,
    z-index: 1;
 }
 /* Help text tooltips END */
+
+.zonecircleInactive {
+  color: #dddddd;
+  border: 1px solid #dddddd;
+}
 
 .bg-grey {
   background-color: #f9f9f9;

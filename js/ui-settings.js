@@ -22,7 +22,8 @@ window.ui = window.ui || {};
 		9: "Month Restricted",
 		10: "Snooze set by user",
 		11: "Program Rain Restriction",
-		12: "Adaptive Frequency Skip"
+		12: "Adaptive Frequency Skip",
+		13: "Paused watering"
 };
 
 	//Separate the developers focused parsers to make the weather sources list easier to understand
@@ -31,7 +32,8 @@ window.ui = window.ui || {};
 		"Fixed Parser": 1,
 		"PWS Parser": 1,
 		"Simulator Parser": 1,
-		"Weather Rules Parser": 1
+		"Weather Rules Parser": 1,
+		"Local Weather Push Parser": 1
 	};
 
 	function showWeather()
@@ -237,8 +239,14 @@ window.ui = window.ui || {};
 		descriptionElem.textContent = p.description;
 
 		if (p.params) {
-			for (param in p.params) {
-				Util.generateTagFromDataType(paramsElem, p.params[param], param);
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom UI for %s ", p.name);
+				window.ui.weatherservices.custom[p.name].render(paramsElem, p.params);
+			} else {
+				//Automatically generated
+				for (param in p.params) {
+					Util.generateTagFromDataType(paramsElem, p.params[param], param);
+				}
 			}
 		}
 
@@ -331,16 +339,27 @@ window.ui = window.ui || {};
 
 		var newParams = {};
         if (p.params) {
-			for (param in p.params) {
-				var t = Util.readGeneratedTagValue(param);
-				if (t && t.length == 2) {
-					newParams[t[0]] = t[1];
-				}
-
-				if (p.params[param] != t[1]) {
+			if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
+				console.log("Found custom save function for %s ", p.name);
+				newParams = window.ui.weatherservices.custom[p.name].save(p.params);
+				if (newParams !== null) {
+					console.log("Parameters have been changed, saving.");
 					shouldSaveParams = true;
 				}
+			} else {
+				//Read automatically generated tags
+				for (param in p.params) {
+					var t = Util.readGeneratedTagValue(param);
+					if (t && t.length == 2) {
+						newParams[t[0]] = t[1];
+					}
+
+					if (p.params[param] != t[1]) {
+						shouldSaveParams = true;
+					}
+				}
 			}
+
 		}
 
 		if (shouldSaveEnable) {
@@ -542,13 +561,49 @@ window.ui = window.ui || {};
 		var days = 30;
 		var startDate = Util.getDateWithDaysDiff(days-1); // We want including today
 
+		if (! uiElems.hasOwnProperty("waterlog")) {
+			uiElems.waterlog = {};
+			uiElems.waterlog.filterProgram = $("#waterHistoryFilterProgram");
+			uiElems.waterlog.filterZone = $("#waterHistoryFilterZone");
+
+			uiElems.waterlog.filterProgram.onchange = function() {
+				setSelectOption(uiElems.waterlog.filterZone, -1, true);
+				showWaterLog();
+			};
+
+			uiElems.waterlog.filterZone.onchange = function() {
+				setSelectOption(uiElems.waterlog.filterProgram, -1, true);
+				showWaterLog();
+			};
+
+			addSelectOption(uiElems.waterlog.filterProgram, "All", -1);
+			addSelectOption(uiElems.waterlog.filterProgram, "Manual Watering", 0);
+
+			if (Data.programs) {
+				for (var i = 0; i < Data.programs.programs.length; i++)
+					addSelectOption(uiElems.waterlog.filterProgram, Data.programs.programs[i].name, Data.programs.programs[i].uid);
+			}
+
+			addSelectOption(uiElems.waterlog.filterZone, "All", -1);
+			if (Data.zoneData) {
+				for (var i = 0; i < Data.zoneData.zones.length; i++)
+					addSelectOption(uiElems.waterlog.filterZone, Data.zoneData.zones[i].name, Data.zoneData.zones[i].uid);
+			}
+		}
+
 		var container = $("#wateringHistoryContent");
 		var startDateElem = $("#waterHistoryStartDate");
 		var daysElem = $("#waterHistoryDays");
 		var buttonElem = $("#waterHistoryFetch");
+		var filterProgramId = getSelectValue(uiElems.waterlog.filterProgram);
+		var filterZoneId = getSelectValue(uiElems.waterlog.filterZone);
+
+		console.log("Filtering program id: %s zone id: %s", filterProgramId, filterZoneId);
 
 		buttonElem.onclick = function() { onWaterLogFetch(); onPastProgramValuesFetch()};
 		clearTag(container);
+
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
 		//First time on this page view 7 past days
 		if (!startDateElem.value || !daysElem.value) {
@@ -610,6 +665,7 @@ window.ui = window.ui || {};
 			//Actual values will be used for past program values differences below
 			var dayQpf;
 			var dayET;
+			var dayHasPrograms = false;
 
 			try {
 				dayConditionStr =  Util.conditionAsIcon(chartsData.condition.getAtDate(day.date));
@@ -667,7 +723,12 @@ window.ui = window.ui || {};
 			{
 				var program = day.programs[j];
 				var programDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
+				var programHasZones = false;
 
+				if (filterProgramId != -1 && program.id != filterProgramId)
+					continue;
+
+				dayHasPrograms = true;
 				if (program.id == 0) {
 					var name = "Manual Watering";
 				} else {
@@ -738,8 +799,14 @@ window.ui = window.ui || {};
 				for (var k = 0; k < program.zones.length; k++)
 				{
 					var zone = program.zones[k];
-					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
+					var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0, flowclicks: 0 };
+					var nameIndex = zone.uid;
+					if (dedicatedMasterValve) nameIndex = zone.uid - 1;
 
+					if (filterZoneId != -1 && nameIndex != filterZoneId)
+						continue;
+
+					programHasZones = true;
 					if (zone.cycles.length > maxCycles) {
 						maxCycles = zone.cycles.length;
 					}
@@ -765,33 +832,41 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].real = cycle.realDuration;
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
+						cycles[c].zones[k].flowclicks = cycle.mumu;
 
 						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
+						zoneDurations.flowclicks += cycle.flowclicks;
 
 						zoneidx = zone.uid - 1;
 
 						if (Data.zoneData !== null && Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
-							cycles[c].zones[k].name = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
+							cycles[c].zones[k].name = Data.zoneData.zones[zoneidx].name;
 						}
 						else {
-							cycles[c].zones[k].name  = "Zone " + zone.uid;
+							cycles[c].zones[k].name  = "Zone " + nameIndex;
 						}
 
 						cycles[c].zones[k].flag = zone.flag;
 					}
 
 					zoneidx = zone.uid - 1;
+
 					if (Data.zoneData.zones[zoneidx] && Data.zoneData.zones[zoneidx].name) {
-						zoneName = zone.uid + ". " + Data.zoneData.zones[zoneidx].name;
+						zoneName = Data.zoneData.zones[zoneidx].name;
 					}
 					else {
-						zoneName = "Zone " + zone.uid;
+						zoneName = "Zone " + nameIndex;
 					}
 
-					zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
+					if (Data.provision.system.useFlowSensor) {
+						zoneDurations.usedVolume = Util.convert.uiFlowClicksToVolume(zoneDurations.flowclicks);
+					} else {
+						zoneDurations.usedVolume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.real);
+					}
+
 					zoneDurations.volume = window.ui.zones.zoneComputeWaterVolume(zoneidx, zoneDurations.user);
 
 					var zoneStartTime = "";
@@ -817,7 +892,8 @@ window.ui = window.ui || {};
 					programDurations.volume += zoneDurations.volume;
 					programDurations.usedVolume += zoneDurations.usedVolume;
 
-					programContainerElem.appendChild(zoneListTemplate);
+					if (programHasZones)
+						programContainerElem.appendChild(zoneListTemplate);
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
 
@@ -896,9 +972,11 @@ window.ui = window.ui || {};
 				}
 
 				//console.log(JSON.stringify(cycles, null, 4));
-				dayContainerElem.appendChild(programTemplate);
-				//Program Totals
-				programContainerElem.appendChild(programTotalsTemplate);
+				if (programHasZones) {
+					dayContainerElem.appendChild(programTemplate);
+					//Program Totals
+					programContainerElem.appendChild(programTotalsTemplate);
+				}
 			}
 
 			//Show day totals
@@ -908,7 +986,8 @@ window.ui = window.ui || {};
 				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
 					Util.convert.uiWaterVolumeStr() + ")";
 			}
-			container.appendChild(dayTemplate);
+			if (dayHasPrograms && programHasZones)
+				container.appendChild(dayTemplate);
 		}
 	}
 
@@ -919,6 +998,8 @@ window.ui = window.ui || {};
 		var daysToShow = 7;
 
 		clearTag(container);
+
+		var dedicatedMasterValve = Data.provision.system.dedicatedMasterValve || false;
 
 		for (var i = waterLog.waterLog.days.length - 1; i >= 0 ; i--)
 		{
@@ -984,11 +1065,14 @@ window.ui = window.ui || {};
 					var zoneWateredElem = $(zoneListTemplate, '[rm-id="wateringLogZoneRealTime"]');
 
 					var zoneid = zone.uid - 1;
+					var nameIndex = zone.uid;
+					if (dedicatedMasterValve) nameIndex = zone.uid - 1;
+
 					if (Data.zoneData !== null && Data.zoneData.zones[zoneid] && Data.zoneData.zones[zoneid].name) {
-						zoneNameElem.textContent = zone.uid + ". " + Data.zoneData.zones[zoneid].name;
+						zoneNameElem.textContent = Data.zoneData.zones[zoneid].name;
 					}
 					else {
-						zoneNameElem.textContent = "Zone " + zone.uid;
+						zoneNameElem.textContent = "Zone " + nameIndex;
 					}
 					zoneSchedElem.textContent = Util.secondsToMMSS(zoneDurations.user);
 					zoneWateredElem.textContent = Util.secondsToMMSS(zoneDurations.real);

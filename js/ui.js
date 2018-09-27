@@ -18,8 +18,8 @@ window.ui = window.ui || {};
 	var loopHourlySeconds = 60 * 60 * 1000;
 
     var uiLastWateringState = false;
+	var zonesExpanded = false;
     var programsExpanded = false;
-    var zonesExpanded = false;
     var uiElems = {};
 
 	/* Menus that appear on top, if an entry has a parent defined it means that it's container/menu will be in the parent
@@ -36,7 +36,7 @@ window.ui = window.ui || {};
 		{ name: "Watering History", func: window.ui.settings.showWaterLog,			container: '#wateringHistory' },
 		{ name: "Snooze",  			func: window.ui.settings.showRainDelay,			container: '#snooze' },
 		{ name: "Restrictions",  	func: window.ui.restrictions.showRestrictions,	container: '#restrictions' },
-		{ name: "Rain Sensor",  	func: window.ui.restrictions.showRainSensor,	container: '#rainsensor' },
+		{ name: "Sensors",		  	func: window.ui.restrictions.showSensors,		container: '#sensors' },
 		{ name: "Weather", 			func: window.ui.settings.showWeather,			container: '#weather' },
 		{ name: "System Settings",  func: window.ui.system.showSettings,			container: '#systemSettings' },
 		{ name: "About",  			func: window.ui.about.showAbout, 				container: '#about' }
@@ -90,7 +90,7 @@ window.ui = window.ui || {};
 
 	function buildSubMenu(submenus, category, parentTag) {
 		for (var i = 0; i < submenus.length; i++) {
-			var div = addTag(parentTag, 'div')
+			var div = addTag(parentTag, 'div');
 			div.className = "submenu";
 			div.id = category + i;
 			div.name = div.innerHTML = submenus[i].name;
@@ -208,15 +208,25 @@ window.ui = window.ui || {};
 
 	function uiInitialDownload() {
 		chartsData = new ChartData();
-		window.ui.about.getDeviceInfo();
-		window.ui.programs.showPrograms();
-		window.ui.zones.showZones();
-		window.ui.settings.showParsers(true, false);
-		loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
-		loop = setInterval(uiLoop, loopSeconds);
+		APIAsync.getProvision().then(
+			function(o) {
+				Data.provision.system = o.system;
+				Data.provision.location = o.location;
+
+				window.ui.about.getDeviceInfo();
+				window.ui.programs.showPrograms();
+				window.ui.zones.showZones();
+				window.ui.settings.showParsers(true, false);
+				loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
+				loop = setInterval(uiLoop, loopSeconds);
+			});
 	}
 
 	function uiLoop() {
+		// Entire Window/Tab not visible
+		if (document.visibilityState === "hidden")
+			return;
+
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
 
 			//Check if watering and update programs/zones status
@@ -232,15 +242,22 @@ window.ui = window.ui || {};
 					if (waterQueue.queue.length == 0) {
 						if (uiLastWateringState == true) {
 							uiLastWateringState = false;
-							//Hide STOP all button
+							//Hide STOP and PAUSE all button
 							makeHidden(window.ui.zones.uiElems.stopAll);
+							makeHidden(window.ui.zones.uiElems.pauseAll);
 						} else {
 							return;
 						}
 					} else {
 						uiLastWateringState = true;
-						//Show STOP all button
+						//Show STOP and PAUSE all button
 						makeVisible(window.ui.zones.uiElems.stopAll);
+						makeVisible(window.ui.zones.uiElems.pauseAll);
+						if (waterQueue.queue[0].zid == 1005) {
+							window.ui.zones.setPauseState(true);
+						} else {
+							window.ui.zones.setPauseState(false);
+						}
 					}
 					refreshProgramAndZones(true);
 
@@ -348,12 +365,14 @@ window.ui = window.ui || {};
 			uiElems.homeZones.style.display = "inline-block";
 			uiElems.homeZones.className = 'homeZonesExpanded';
 			zonesExpanded = true;
+			window.ui.zones.toggleZonesDetails(zonesExpanded);
 		} else {
 			uiElems.homeLeft.style.display = uiElems.homeRight.style.display = "inline-block";
 			uiElems.chartsTime.style.display = uiElems.chartsDays.style.display = "inline-block";
 			uiElems.homePrograms.style.display = "inline-block";
 			uiElems.homeZones.className = 'homeZonesContracted';
 			zonesExpanded = false;
+			window.ui.zones.toggleZonesDetails(zonesExpanded);
 		}
 	}
 
@@ -402,7 +421,13 @@ window.ui = window.ui || {};
 			$('#settings0').onclick();
 		};
 
-		//Edit button for dashboard weather data
+		//Edit button for dashboard weather data and click on top chart
+		uiElems.chartsDays.onclick = function() {
+			$('#settingsBtn').onclick();
+			$('#settings4').onclick();
+			$('#WeatherServicesComparisonTitle').scrollIntoView();
+		};
+
 		$("#weather-data-edit").onclick = function() {
 			$('#settingsBtn').onclick();
 			$('#settings4').onclick();
@@ -439,6 +464,7 @@ window.ui = window.ui || {};
 		});
 	}
 
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -454,7 +480,7 @@ window.ui = window.ui || {};
 		setupHistoryState();
 
 		//Load local settings
-		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+		//Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
 		ui.login.login(uiStart);
 	}
@@ -465,7 +491,6 @@ window.ui = window.ui || {};
 	_main.showError = showError;
 	_main.uiMain = uiMain;
 	_main.refreshGraphs = false;
-
 } (window.ui.main = window.ui.main || {}));
 
 window.addEventListener("load", window.ui.main.uiMain);

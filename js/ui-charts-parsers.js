@@ -2,6 +2,7 @@
  *	Copyright (c) 2015 RainMachine, Green Electronics LLC
  *	All rights reserved.
  */
+
 var parserCharts = {
 	temperature:	{ chart: null, container: "temperatureParsersChartContainer",	title: "Temperature" },
 	maxTemperature:	{ chart: null, container: "maxTemperatureParsersChartContainer",title: "Maximum Temperature" },
@@ -13,6 +14,21 @@ var parserCharts = {
     pressure:		{ chart: null, container: "pressureParsersChartContainer",		title: "Atmospheric Pressure" },
 	et0:			{ chart: null, container: "etParsersChartContainer",			title: "EvapoTranspiration" },
 	rain:			{ chart: null, container: "rainParsersChartContainer",			title: "Observed Weather Station Rain" }
+};
+
+var parserNameToColor = {
+	"NOAA": 				'#cccccc',
+	"WUnderground":			'#f2aeac',
+	"METNO": 				'#d8e4aa',
+	"Netatmo":				'#b8d2eb',
+	"ForecastIO":			'#f2d1b0',
+	"OpenWeatherMap":		'#d4b2d3',
+	"Local Weather Push": 	'#ddb8a9',
+	"CIMIS":				'#ebbfd9',
+	"FAWN": 				'#dbe7f9',
+	"DWD": 					'#f9f4db',
+	"WeatherFlow": 			'#e6edde',
+	"PWS":					'#dee7ed'
 };
 
 var doyET0Chart = null;
@@ -178,22 +194,32 @@ function generateSpecificParsersChart(key, startDate, days) {
 
     for (id in data) {
 		if (data[id].length > 0) {
-		// Build the chart series
-		chartSeries.push({
-			data: data[id],
-			name: getParserName(id),
-			zoneAxis: 'x',
-			tooltip: {
-				valueSuffix: Util.convert.getUnits(key)
+			var parserName = getParserName(id);
+			var parserColor = null;
+			if (parserName in parserNameToColor) {
+				parserColor = parserNameToColor[parserName];
 			}
-			/*
-			zones: [{
-				value: todayTimestamp,
-			}, {
-				dashStyle: 'LongDash'
-			}]
-			*/
-		});
+
+			// Build the chart series
+			chartSeries.push({
+				data: data[id],
+				name: getParserName(id),
+				zoneAxis: 'x',
+				tooltip: {
+					valueSuffix: Util.convert.getUnits(key)
+				}
+				/*
+				zones: [{
+					value: todayTimestamp,
+				}, {
+					dashStyle: 'LongDash'
+				}]
+				*/
+			});
+
+			if (parserColor) {
+				chartSeries[chartSeries.length - 1].color = parserColor;
+			}
 		}
 	}
 
@@ -216,6 +242,12 @@ function generateSpecificParsersChart(key, startDate, days) {
 	var todayTimestamp = Util.today();
 	todayTimestamp = todayTimestamp - (todayTimestamp % 86400000);
 
+	var title = parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')';
+	var subtitle = "";
+	if (key == 'wind') {
+		subtitle = "RainMachine final wind value reduced by " + Data.provision.location.windSensitivity * 100 + "% sensitivity";
+	}
+
 	var chartOptions = {
 		chart: {
 			renderTo: parserCharts[key].container,
@@ -237,8 +269,11 @@ function generateSpecificParsersChart(key, startDate, days) {
 		},
 		series: chartSeries,
 		title: {
-			text: '<h1>' +  parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')</h1>',
+			text:'<h1>' + title + '</h1>',
 			useHTML: true
+		},
+		subtitle: {
+			text: subtitle
 		},
 		plotOptions: {
         	series: {
