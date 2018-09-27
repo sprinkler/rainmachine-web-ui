@@ -45,6 +45,14 @@ window.ui = window.ui || {};
 		Manual: 1
 	};
 
+	var StartTimeType = {
+		Fixed: 0,
+		Sunrise: 1,
+		Sunset: 2,
+		EndBySunrise: 3,
+		EndBySunset: 4
+	};
+
     var WeekdaysOrder = ["sunday", "saturday", "friday", "thursday", "wednesday", "tuesday", "monday"]; // See FrequencyParam.WeekdayFormat
 
     //--------------------------------------------------------------------------------------------
@@ -412,9 +420,8 @@ window.ui = window.ui || {};
 
 			//Fixed day or sunrise/sunset start time new in API 4.1
 			if (program.hasOwnProperty("startTimeParams")) {
-				if (program.startTimeParams.type == 0) {
-					uiElems.startTimeFixedElem.checked = true;
-				} else {
+				if (program.startTimeParams.type == StartTimeType.Sunrise || program.startTimeParams.type == StartTimeType.Sunset) {
+
 					uiElems.startTimeSunElem.checked = true;
 					var minutes = program.startTimeParams.offsetMinutes;
 
@@ -422,6 +429,18 @@ window.ui = window.ui || {};
 					uiElems.startTimeSunMinElem.value = minutes;
 					uiElems.startTimeSunOptionElem.value = program.startTimeParams.type;
 					uiElems.startTimeSunOffsetOptionElem.value = program.startTimeParams.offsetSign;
+
+				} else if (program.startTimeParams.type == StartTimeType.EndBySunrise || program.startTimeParams.type == StartTimeType.EndBySunset) {
+
+					uiElems.startTimeEndByElem.checked = true;
+					var minutes = program.startTimeParams.offsetMinutes;
+
+					uiElems.startTimeEndByMinElem.value = minutes;
+					uiElems.startTimeEndByOptionElem.value = program.startTimeParams.type;
+					uiElems.startTimeEndByOffsetOptionElem.value = program.startTimeParams.offsetSign;
+				}
+				else { //Default  StartTimeType.Fixed
+					uiElems.startTimeFixedElem.checked = true;
 				}
 			}
 
@@ -556,6 +575,12 @@ window.ui = window.ui || {};
 		//templateInfo.startTimeSunHourElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-hour"]');
 		templateInfo.startTimeSunMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-min"]');
 		templateInfo.startTimeSunOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-sun-offset-option"]');
+
+		//dynamic start time finish by (sunset/sunrise +/- offset)
+		templateInfo.startTimeEndByElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-endby"]');
+		templateInfo.startTimeEndByOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-endby-option"]');
+		templateInfo.startTimeEndByMinElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-endby-min"]');
+		templateInfo.startTimeEndByOffsetOptionElem = $(templateInfo.programTemplateElem, '[rm-id="program-start-time-endby-offset-option"]');
 
         templateInfo.nextRun = $(templateInfo.programTemplateElem, '[rm-id="program-next-run"]');
 
@@ -706,6 +731,17 @@ window.ui = window.ui || {};
 
 			startTimeParams.type = uiElems.startTimeSunOptionElem.value;
 			startTimeParams.offsetSign = parseInt(uiElems.startTimeSunOffsetOptionElem.value);
+			startTimeParams.offsetMinutes = minutes;
+			program.startTimeParams = startTimeParams;
+			console.log(program.startTimeParams);
+
+		} else if (uiElems.startTimeEndByElem.checked){
+			console.log("Finish by Sunset/Sunrise time selected");
+
+			var minutes = parseInt(uiElems.startTimeEndByMinElem.value) || 0;
+
+			startTimeParams.type = uiElems.startTimeEndByOptionElem.value;
+			startTimeParams.offsetSign = parseInt(uiElems.startTimeEndByOffsetOptionElem.value);
 			startTimeParams.offsetMinutes = minutes;
 			program.startTimeParams = startTimeParams;
 			console.log(program.startTimeParams);

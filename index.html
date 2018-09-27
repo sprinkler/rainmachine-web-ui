@@ -170,7 +170,7 @@
 								</div>
 								<div class="homeScreenProgramList" id="weatherChartsContainer">
 									<!-- Top weather days start -->
-									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;">
+									<div class="weather-program-line" id="weatherChartDaysContainer" style="border-bottom:0; height:170px;cursor: pointer;">
 										<div class="program-title-next-run"><span id="weatherChartDaysMonth" class="weatherChartDaysMonth">December</span>
 										<span class="weatherChartDaysTempRain">Max/Min Temp<br>Precipitation<br>EvapoTranspiration</span></div>
 										<div class="programGraph" id="weatherChartDays"></div>
@@ -231,12 +231,19 @@
 						<div id="wateringHistory">
 							<div class="settingsBlock center block70">
 								<h1 class="title center">Watering History<br>
-										<span class="title"> Start Date
-											<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
-											for
-											<input type="number" min="0" id="waterHistoryDays" class="typeNumber center" placeholder="7">
-											days.
-										</span>
+									<span class="title"> Start Date
+										<input type="date" id="waterHistoryStartDate" class="typeTime center" style="width:168px;">
+										for
+										<input type="number" min="0" id="waterHistoryDays" class="typeNumber center" placeholder="7">
+										days.
+									</span><br>
+									<span class="title"> Filter by program
+										<select id="waterHistoryFilterProgram" class="center">
+										</select>
+										 or by zone
+										<select id="waterHistoryFilterZone" class="center">
+										</select>
+									</span>
 									<button id="waterHistoryFetch" class="button blue center" style="font-size:16px;">Show</button>
 								</h1>
 							</div>
@@ -369,6 +376,14 @@
 												</div>
 												<span class="cardTitle">Freeze Protect</span><br>
 												<span class="subtitle">Stop all watering activities when minimum temperature has reached:</span>
+											</td>
+										</tr>
+										<tr>
+											<td class="middle">
+												<button id="restrictionCarryOverSet" class="button label-blue center right">Apply</button>
+												<input type="checkbox" id="restrictionCarryOver" class="right" style="margin-top:8px;" />
+												<span class="cardTitle">Carry over water deficit to next schedule</span><br>
+												<span class="subtitle">Day and rain restrictions will carry skipped irrigation to next schedule if needed.</span>
 											</td>
 										</tr>
 									</table>
@@ -807,7 +822,7 @@
 										<table cellspacing="10" cellpadding="0" class="full">
 											<tr valign="top">
 												<th>
-													<h1 class="title">Weather Services - Comparison</h1>
+													<h1 class="title" id="WeatherServicesComparisonTitle">Weather Services - Comparison</h1>
 													Start date:<input type="date" id="weatherServicesStartDate" class="typeTime center" style="width:168px;"> for
 													<input type="number" min="0" id="weatherServicesDays" class="typeNumber center" placeholder="7"> days
 													<button id="weatherServicesFetch" class="button blue center" style="font-size:16px;">Show</button>
@@ -1650,8 +1665,9 @@
 												<option value="4">Flowers</option>
 												<option value="5">Vegetables</option>
 												<option value="6">Citrus</option>
-												<option value="7">Trees and Bushes</option>
+												<option value="7">Bushes</option>
 												<option value="9">Drought Tolerant Plants</option>
+												<option value="11">Trees</option>
 												<option value="99">Custom</option>
 											</select>
 											<!-- Vegetation Type "Custom" options start -->
@@ -1970,7 +1986,7 @@
 									</tr>
 									<tr>
 										<td class="middle" colspan="2">
-											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-sun" style="margin-right:10px;">Start
 											<span><input rm-id="program-start-time-sun-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
 											<span>
 												<select rm-id="program-start-time-sun-offset-option" class="selectSmall">
@@ -1980,6 +1996,22 @@
 												<select rm-id="program-start-time-sun-option" class="selectSmall">
 													<option value="1" selected>sunrise</option>
 													<option value="2">sunset</option>
+												</select>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="middle" colspan="2">
+											<input type="radio" name="program-start-time" rm-id="program-start-time-endby" style="margin-right:10px;">Finish
+											<span><input rm-id="program-start-time-endby-min" type="number" min="0" max="720" class="typeNumber" placeholder="120"> min </span>
+											<span>
+												<select rm-id="program-start-time-endby-offset-option" class="selectSmall">
+													<option value="-1" selected>before</option>
+													<option value="1">after</option>
+												</select>
+												<select rm-id="program-start-time-endby-option" class="selectSmall">
+													<option value="3" selected>sunrise</option>
+													<option value="4">sunset</option>
 												</select>
 											</span>
 										</td>

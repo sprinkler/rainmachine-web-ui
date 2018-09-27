@@ -40,9 +40,10 @@ window.ui = window.ui || {};
 		4: "Flowers",
 		5: "Vegetables",
 		6: "Citrus",
-		7: "Trees and Bushes",
+		7: "Bushes",
 		9: "Drought Tolerant Plants",
 		10: "Warm Season Grass",
+		11: "Trees",
 		99: "Custom"
 	};
 
