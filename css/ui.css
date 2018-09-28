@@ -441,7 +441,7 @@ strong { font-weight: 700; }
   margin-top:-10px;
   margin-bottom: 10px;
 }
-.programNoProgramContainer {
+#home-programs-no-program {
   display: block;
   margin: 0 auto;
   text-align: center;
