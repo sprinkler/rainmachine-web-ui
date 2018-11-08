@@ -30,7 +30,7 @@ window.ui = window.ui || {};
 	var developerParsers = {
 		"My Example Parser": 1,
 		"Fixed Parser": 1,
-		"PWS Parser": 1,
+		"WeatherDisplay Parser": 1,
 		"Simulator Parser": 1,
 		"Weather Rules Parser": 1,
 		"Local Weather Push Parser": 1
