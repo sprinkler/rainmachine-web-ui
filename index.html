@@ -629,26 +629,33 @@
 											</td>
 										</tr>
 									</table>
-								</div>
+							</div>
 
 							<div class="settingsBlock center block70 hidden" id="flowsensor">
-								<h1 class="title center">Flow Sensor</h1>
+								<h1 class="title center">Flow Meter Sensor</h1>
 								<table cellspacing="0" cellpadding="0" class="full">
 										<tr>
 											<td class="middle">
 												<div>
 													<input type="checkbox" id="sensorsFlowSensorEnable" class="right" style="margin-right:30px;" />
-													<span class="cardTitle">Use hardware flow sensor</span><br>
-													<span class="subtitle">Use this option if a flow sensor is connected to the terminals F, 5V and G.</span>
-													<br>
-														<span style="display:block;">
-														   <input type="number" min="0" id="sensorsFlowSensorClicks" class="typeNumber">
-														   flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>&nbsp;&nbsp;<div class="helpText" help="settingsSensorsFlow">?</div>
-														</span>
-													<br>
+													<span class="cardTitle">Use hardware flow meter</span><br>
+													<span class="subtitle">Use this option if a flow meter is connected to the terminals F, 5V and G.</span>
+													<br><br>
 													<div id="greyoutFlowSensorType">
+														<input type="number" min="0" id="sensorsFlowSensorClicks" class="typeNumber center right">
+														<span style="display:block;">
+														Enter the flow meter flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span><!-- &nbsp;&nbsp;<div class="helpText" help="settingsSensorsFlow">?</div>-->
+														</span>
+														<span class="subtitle">For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.</span>
+														<br><br>
+														<input type="number" min="0" id="sensorsFlowSensorStartIndex" class="typeNumber center right" style="width:150px;text-align:right;"></span>
+														<span class="cardTitle">Flow meter start index:</span>
+														<span class="subtitle" style="display: block;margin-bottom: 2em;">Enter the flow meter start index if it was used before installation.</span>
+
+														<span class="cardTitle">Total leak clicks detected: 0</span><br>
+														<span class="cardTitle">Total watering clicks detected: 0</span><br><br>
 														<button id="sensorsFlowSensorReset" class="button label-red center right">Reset</button>
-														<span class="cardTitle">Last detected leak event</span><br>
+														<span class="cardTitle">Last detected leak click event</span><br>
 														<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span><br />
 													</div>
 												</div>
