@@ -30,11 +30,14 @@ window.ui = window.ui || {};
 	var developerParsers = {
 		"My Example Parser": 1,
 		"Fixed Parser": 1,
-		"PWS Parser": 1,
+		"WeatherDisplay Parser": 1,
 		"Simulator Parser": 1,
 		"Weather Rules Parser": 1,
 		"Local Weather Push Parser": 1
 	};
+
+	// keeps mapping of id -> name some programs might only exists on waterlog and not in programs
+	var waterLogPrograms = {};
 
 	function showWeather()
 	{
@@ -577,13 +580,6 @@ window.ui = window.ui || {};
 			};
 
 			addSelectOption(uiElems.waterlog.filterProgram, "All", -1);
-			addSelectOption(uiElems.waterlog.filterProgram, "Manual Watering", 0);
-
-			if (Data.programs) {
-				for (var i = 0; i < Data.programs.programs.length; i++)
-					addSelectOption(uiElems.waterlog.filterProgram, Data.programs.programs[i].name, Data.programs.programs[i].uid);
-			}
-
 			addSelectOption(uiElems.waterlog.filterZone, "All", -1);
 			if (Data.zoneData) {
 				for (var i = 0; i < Data.zoneData.zones.length; i++)
@@ -724,22 +720,26 @@ window.ui = window.ui || {};
 				var program = day.programs[j];
 				var programDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
 				var programHasZones = false;
+				var name;
+
+				if (waterLogPrograms.hasOwnProperty(program.id)) {
+					name = waterLogPrograms[program.id];
+				} else {
+					if (program.id == 0) {
+						name = "Manual Watering";
+					} else {
+						var p = getProgramById(program.id); //TODO make sure we have Data.programs
+						if (p !== null)
+							name = p.name;
+						else
+							name = "Program " + program.id
+					}
+					waterLogPrograms[program.id] = name;
+					addSelectOption(uiElems.waterlog.filterProgram, name, program.id);
+				}
 
 				if (filterProgramId != -1 && program.id != filterProgramId)
 					continue;
-
-				dayHasPrograms = true;
-				if (program.id == 0) {
-					var name = "Manual Watering";
-				} else {
-					//TODO make sure we have Data.programs
-					//TODO Optimize
-					var p = getProgramById(program.id);
-					if (p !== null)
-						var name = p.name;
-					else
-						var name = "Program " + program.id
-				}
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
@@ -892,8 +892,11 @@ window.ui = window.ui || {};
 					programDurations.volume += zoneDurations.volume;
 					programDurations.usedVolume += zoneDurations.usedVolume;
 
-					if (programHasZones)
+					if (programHasZones) {
 						programContainerElem.appendChild(zoneListTemplate);
+						dayHasPrograms = true;
+					}
+
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
 
@@ -986,7 +989,7 @@ window.ui = window.ui || {};
 				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
 					Util.convert.uiWaterVolumeStr() + ")";
 			}
-			if (dayHasPrograms && programHasZones)
+			if (dayHasPrograms)
 				container.appendChild(dayTemplate);
 		}
 	}
@@ -1025,8 +1028,7 @@ window.ui = window.ui || {};
 				if (program.id == 0) {
 					var name = "Manual Watering";
 				} else {
-					//TODO make sure we have Data.programs
-					var p = getProgramById(program.id);
+					var p = getProgramById(program.id); //TODO make sure we have Data.programs
 					if (p !== null)
 						var name = p.name;
 					else

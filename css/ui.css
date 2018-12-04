@@ -441,6 +441,14 @@ strong { font-weight: 700; }
   margin-top:-10px;
   margin-bottom: 10px;
 }
+#home-programs-no-program {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding:40px 0;
+  color:#777;
+}
+
 .geoPin {
   font-family: 'RainMachine';
   color:#AF0000;
