@@ -650,13 +650,40 @@
 														<br><br>
 														<input type="number" min="0" id="sensorsFlowSensorStartIndex" class="typeNumber center right" style="width:150px;text-align:right;"></span>
 														<span class="cardTitle">Flow meter start index:</span>
-														<span class="subtitle" style="display: block;margin-bottom: 2em;">Enter the flow meter start index if it was used before installation.</span>
-
-														<span class="cardTitle">Total leak clicks detected: 0</span><br>
-														<span class="cardTitle">Total watering clicks detected: 0</span><br><br>
-														<button id="sensorsFlowSensorReset" class="button label-red center right">Reset</button>
-														<span class="cardTitle">Last detected leak click event</span><br>
-														<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span><br />
+														<span class="subtitle" style="display: block;margin-bottom: 2em;">Enter the flow meter start index if it was used before installation.</span
+														<br><hr><br>
+														<div style="display: block;padding:1em;">
+															<div style="display: inline-block; width: 24%;vertical-align: top;">
+																<span class="cardTitle">Total <span>gallons</span> registered<br>during the water flow meter lifetime</span><br>
+																<span class="label-blue" style="font-size: 1.5em;">13259</span>
+																<br><br>
+																Registered last:<br>
+																24 hours: <span class="label-blue">190</span><br>
+																7 days: <span class="label-blue">613</span><br>
+																31 days: <span class="label-blue">1980</span>
+															</div>
+															<div style="display: inline-block; width: 50%;vertical-align: top;">
+																<div class="flowmetersensorWindow">
+																	<h1>US Gallons</h1>
+																	<div class="flowmetersensorDigitContainer">
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">0</div>
+																	</div>
+																</div>
+															</div>
+															<div style="display: inline-block; width: 24%;vertical-align: top;">
+																<span class="cardTitle">Total water leaked:</span><br>
+																<span class="cardTitle">Last detected leak click event</span><br>
+																<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span><br />
+																<button id="sensorsFlowSensorReset" class="button label-red center">Reset</button>
+															</div>
+														</div>
 													</div>
 												</div>
 											</td>
