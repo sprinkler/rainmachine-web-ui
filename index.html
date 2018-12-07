@@ -654,13 +654,15 @@
 														<br><hr><br>
 														<div style="display: block;padding:1em;">
 															<div style="display: inline-block; width: 24%;vertical-align: top;">
-																<span class="cardTitle">Total <span>gallons</span> registered<br>during the water flow meter lifetime</span><br>
-																<span class="label-blue" style="font-size: 1.5em;">13259</span>
+																<span class="cardTitle">Overall water consumption<br>since the flow meter was installed</span><br>
+																<span class="label-blue" style="font-size: 1.5em;">13259</span> <span>gallons</span>
 																<br><br>
 																Registered last:<br>
 																24 hours: <span class="label-blue">190</span><br>
 																7 days: <span class="label-blue">613</span><br>
 																31 days: <span class="label-blue">1980</span>
+																<br><br>
+																<button id="sensorsFlowSensorResetConsumption" class="button center"><span class="label-blue">Reset</span></button>
 															</div>
 															<div style="display: inline-block; width: 50%;vertical-align: top;">
 																<div class="flowmetersensorWindow">
@@ -669,18 +671,23 @@
 																		<div class="flowmetersensorDigit">0</div>
 																		<div class="flowmetersensorDigit">0</div>
 																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
+																		<div class="flowmetersensorDigit">1</div>
+																		<div class="flowmetersensorDigit">3</div>
+																		<div class="flowmetersensorDigit">2</div>
+																		<div class="flowmetersensorDigit">5</div>
+																		<div class="flowmetersensorDigit">9</div>
+																	</div>
+																	<div class="flowmetersensorWheel">
+																		<img id="flowmetersensorWheelWatering" src="images/flowmeterblackwheel.png">
 																	</div>
 																</div>
 															</div>
 															<div style="display: inline-block; width: 24%;vertical-align: top;">
-																<span class="cardTitle">Total water leaked:</span><br>
-																<span class="cardTitle">Last detected leak click event</span><br>
-																<span class="subtitle label-blue" id="sensorsLastLeakDetected"></span><br />
+																<span class="cardTitle">Overall water leaked<br>since the flow meter was installed</span><br>
+																<span class="label-red" style="font-size: 1.5em;">13</span> <span>gallons</span>
+																<br><br>
+																<span class="cardTitle">Last detected leak event</span><br>
+																<span class="subtitle label-red" id="sensorsLastLeakDetected"></span><br><br>
 																<button id="sensorsFlowSensorReset" class="button label-red center">Reset</button>
 															</div>
 														</div>

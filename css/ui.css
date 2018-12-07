@@ -1653,6 +1653,29 @@ td.right,
   vertical-align: middle;
   font-size: 2.5em;
 }
+.flowmetersensorWheel {
+  display:block;
+  width:80px;
+  height:80px;
+  padding:5px;
+  border:1px solid #555555;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+#flowmetersensorWheelWatering {
+  -webkit-animation: rotation 1s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
 
 /* DASHBOARD */
 .dashboardMenu {
