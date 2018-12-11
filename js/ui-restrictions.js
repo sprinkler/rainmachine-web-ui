@@ -315,7 +315,6 @@ window.ui = window.ui || {};
 		return r;
 	}
 
-
 	function onSetHourly()
 	{
 		//Read the WeekDays restrictions
@@ -351,7 +350,8 @@ window.ui = window.ui || {};
 
 	function showSensors() {
 		showRainSensor();
-		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === "simulator") showFlowSensor();
+		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === 3 || Data.provision.api.hwVer === "simulator")
+			showFlowSensor();
 	}
 
     function showRainSensor() {
@@ -371,7 +371,6 @@ window.ui = window.ui || {};
 			uiElems.rainSensorLastEvent.textContent = "No recent events";
 		}
 
-        
         uiFeedback.sync(uiElems.buttonRainSensorSet, onSetRainSensor);
         uiElems.rainSensorElem.onclick = showRainSensorOptions;
         showRainSensorOptions();
@@ -382,7 +381,19 @@ window.ui = window.ui || {};
 
 		uiElems.flowSensor.checked = Data.provision.system.useFlowSensor || false;
 		uiElems.flowSensorClicks.value = Util.convert.uiFlowClicks(Data.provision.system.flowSensorClicksPerCubicMeter) || 0;
-		uiElems.flowSensorUnits.textContent = Util.convert.uiFlowClicksStr();
+
+		var wateringVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorWateringClicks) || 0;
+		var leakVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorLeakClicks) || 0;
+		var startIndex = +Data.provision.system.flowSensorStartIndex || 0;
+
+		uiElems.flowSensorTotalWatering.textContent = wateringVolume;
+		uiElems.flowSensorTotalLeak.textContent = leakVolume;
+		uiElems.flowSensorStartIndex.value = startIndex;
+
+		uiElems.flowSensorUnits.textContent =
+			uiElems.flowSensorTotalWateringUnit.textContent =
+			uiElems.flowSensorCounterUnit.textContent =
+			uiElems.flowSensorTotalLeakUnit.textContent = Util.convert.uiFlowClicksStr();
 
 		var lastLeakDetected = Data.provision.system.lastLeakDetected || 0;
 
@@ -391,7 +402,25 @@ window.ui = window.ui || {};
 		else
 			uiElems.flowSensorLastLeakDetected.textContent = "No leaks detected";
 
+		//Draw meter digits
+		var totalVolume = wateringVolume + leakVolume + startIndex;
+		var maxDigits = 8;
+
+		var totalVolumeStr = Math.round(totalVolume).toString();
+		var nrDigits = totalVolumeStr.length;
+
+		clearTag(uiElems.flowSensorCounterContainer);
+		for (var i = maxDigits; i > 0; i--) {
+			var val = 0;
+			if (i <= nrDigits) val = totalVolumeStr[nrDigits - i];
+
+			var d = addTag(uiElems.flowSensorCounterContainer, 'div');
+			d.className = "flowmetersensorDigit";
+			d.textContent = val;
+		}
+
 		uiFeedback.sync(uiElems.flowSensorSet, onSetFlowSensor);
+		uiFeedback.sync(uiElems.flowSensorResetConsumption, onResetFlowSensorConsumption);
 		uiFeedback.sync(uiElems.flowSensorReset, onResetFlowSensor);
 	}
     
@@ -425,6 +454,23 @@ window.ui = window.ui || {};
 		return r;
 	}
 
+	function onResetFlowSensorConsumption() {
+		var data = {
+			flowSensorWateringClicks: 0
+		};
+
+		var r = API.setProvision(data, null);
+
+		if (r === undefined || !r || r.statusCode != 0) {
+			console.log("Can't reset Flow Sensor Consumption !");
+		}
+		else {
+			Data.provision.system.flowSensorWateringClicks = 0;
+			showFlowSensor();
+		}
+		return r;
+	}
+
 	function onResetFlowSensor() {
 		var data = {
 			lastLeakDetected: 0
@@ -445,11 +491,12 @@ window.ui = window.ui || {};
 
 	function onSetFlowSensor() {
 		var flowSensorClicks = Util.convert.uiFlowClicksInMetric(uiElems.flowSensorClicks.value);
+		var flowSensorStartIndex = uiElems.flowSensorStartIndex.value;
 		var useFlowSensor = uiElems.flowSensor.checked;
-
 		var data = {
 			useFlowSensor:  useFlowSensor,
-			flowSensorClicksPerCubicMeter: flowSensorClicks
+			flowSensorClicksPerCubicMeter: flowSensorClicks,
+			flowSensorStartIndex: flowSensorStartIndex
 		};
 
 		var r = API.setProvision(data, null);
@@ -459,11 +506,14 @@ window.ui = window.ui || {};
 			console.log("Can't set Flow Sensor !");
 			useFlowSensor = Data.provision.system.useFlowSensor;
 			flowSensorClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
+			flowSensorStartIndex = Data.provision.system.flowSensorStartIndex;
 			r = null;
 		}
 
 		Data.provision.system.useFlowSensor = useFlowSensor;
 		Data.provision.system.flowSensorClicksPerCubicMeter = flowSensorClicks;
+		Data.provision.system.flowSensorStartIndex = flowSensorStartIndex;
+		showFlowSensor();
 
 		return r;
 	}

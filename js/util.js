@@ -598,7 +598,6 @@ Util.convert = {
 		}
 	},
 	uiFlowClicks: function(v) {
-		console.log(v);
 		if (!Data.provision.system.uiUnitsMetric) {
 			return Math.round(Util.convert.galToVolumeMeters(v) * 10) / 10;
 		} else {
