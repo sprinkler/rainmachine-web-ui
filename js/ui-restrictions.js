@@ -38,13 +38,25 @@ window.ui = window.ui || {};
 		uiElems.buttonHourlySet = $("#restrictionHourlyAdd");
 		uiElems.buttonRainSensorSet = $("#restrictionsRainSensorSet");
 
-		//RainMachine PRO SPK5
+		//RainMachine PRO SPK5 and SPK3
 		uiElems.flowSensorSet = $("#sensorsFlowSensorSet");
 		uiElems.flowSensor = $("#sensorsFlowSensorEnable");
 		uiElems.flowSensorClicks = $("#sensorsFlowSensorClicks");
 		uiElems.flowSensorUnits = $("#sensorsFlowSensorUnits");
+		uiElems.flowSensorStartIndex = $("#sensorsFlowSensorStartIndex");
 		uiElems.flowSensorReset = $("#sensorsFlowSensorReset");
+		uiElems.flowSensorResetConsumption = $("#sensorsFlowSensorResetConsumption");
 		uiElems.flowSensorLastLeakDetected = $("#sensorsLastLeakDetected");
+		uiElems.flowSensorTotalWatering = $("#sensorFlowTotalWatering");
+		uiElems.flowSensorTotalLeak = $("#sensorFlowTotalLeak");
+		uiElems.flowSensorTotalWateringUnit = $("#sensorFlowTotalWaterUnit");
+		uiElems.flowSensorTotalLeakUnit = $("#sensorFlowTotalLeakUnit");
+		uiElems.flowSensorCounterUnit = $("#flowSensorCounterUnit");
+		uiElems.flowSensorDayWater = $("#sensorFlowDayWater");
+		uiElems.flowSensorWeekWater = $("#sensorFlowWeekWater");
+		uiElems.flowSensorMonthWater = $("#sensorFlowMonthWater");
+		uiElems.flowSensorCounterContainer = $("#flowSensorCounterContainer");
+		uiElems.flowSensorCounterWheel = $("#sensorFlowCounterWheel");
 	}
     
 //    -----

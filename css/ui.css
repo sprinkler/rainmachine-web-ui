@@ -1663,7 +1663,8 @@ td.right,
   margin: 0 auto;
   margin-top: 10px;
 }
-#flowmetersensorWheelWatering {
+
+.flowmetersensorWheel[running] {
   -webkit-animation: rotation 1s infinite linear;
 }
 
