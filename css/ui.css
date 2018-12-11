@@ -1616,6 +1616,67 @@ td.right,
   background-color: #FAFAFA;
 }
 
+/* FLOW METER SENSOR */
+.flowmetersensorWindow {
+  display: block;
+  width:300px;
+  height:300px;
+  border-width: 10px;
+  border-color: rgb(174, 174, 174);
+  border-style: solid;
+  border-radius: 50%;
+  background-color: rgba(204, 204, 204, 0.2);
+  margin:0 auto;
+  text-align: center;
+}
+.flowmetersensorWindow h1 {
+  margin-top:35px;
+}
+.flowmetersensorDigitContainer {
+  display:block;
+  width:260px;
+  height:48px;
+  background-color:#ffffff;
+  padding:5px;
+  border:1px solid #555555;
+  margin: 0 auto;
+  margin-top: 2em;
+  text-align: center;
+  vertical-align: middle;
+}
+.flowmetersensorDigit {
+  display: inline-block;
+  width: 27px;
+  height: 46px;
+  border: 1px solid #555555;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2.5em;
+}
+.flowmetersensorWheel {
+  display:block;
+  width:80px;
+  height:80px;
+  padding:5px;
+  border:1px solid #555555;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+#flowmetersensorWheelWatering {
+  -webkit-animation: rotation 1s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+
 /* DASHBOARD */
 .dashboardMenu {
   position: relative;
