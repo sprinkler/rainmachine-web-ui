@@ -634,7 +634,7 @@
 							<div class="settingsBlock center block70 hidden" id="flowsensor">
 								<h1 class="title center">Flow Meter Sensor</h1>
 								<table cellspacing="0" cellpadding="0" class="full">
-										<tr>
+									<tr>
 											<td class="middle">
 												<div>
 													<input type="checkbox" id="sensorsFlowSensorEnable" class="right" style="margin-right:30px;" />
@@ -648,10 +648,12 @@
 														</span>
 														<span class="subtitle">For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.</span>
 														<br><br>
-														<input type="number" min="0" id="sensorsFlowSensorStartIndex" class="typeNumber center right" style="width:150px;text-align:right;"></span>
-														<span class="cardTitle">Flow meter start index:</span>
-														<span class="subtitle" style="display: block;margin-bottom: 2em;">Enter the flow meter start index if it was used before installation.</span
-														<br><hr><br>
+														<input type="number" min="0" id="sensorsFlowSensorStartIndex" class="typeNumber center right"></span>
+														<span class="cardTitle">Flow meter start index:</span><br>
+														<span class="subtitle">Enter the flow meter start index if it was used before installation.</span>
+														<div style="clear:both;"></div>
+														<button id="sensorsFlowSensorSet" class="button label-blue center right">Apply</button>
+														<br><br><hr><br>
 														<div style="display: block;padding:1em;">
 															<div style="display: inline-block; width: 24%;vertical-align: top;">
 																<span class="cardTitle">Overall water consumption<br>since the flow meter was installed</span><br>
@@ -662,24 +664,13 @@
 																7 days: <span class="label-blue" id="sensorFlowWeekWater">613</span><br>
 																31 days: <span class="label-blue" id="sensorFlowMonthWater">1980</span>
 																<br><br>
-																<button id="sensorsFlowSensorResetConsumption" class="button center"><span class="label-blue">Reset</span></button>
+																<button id="sensorsFlowSensorResetConsumption" class="button label-red center">Reset</button>
 															</div>
 															<div style="display: inline-block; width: 50%;vertical-align: top;">
-																<div class="flowmetersensorWindow">
+																<div class="flowSensorWindow">
 																	<h1 id="flowSensorCounterUnit">US Gallons</h1>
-																	<div class="flowmetersensorDigitContainer" id="flowSensorCounterContainer">
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">0</div>
-																		<div class="flowmetersensorDigit">1</div>
-																		<div class="flowmetersensorDigit">3</div>
-																		<div class="flowmetersensorDigit">2</div>
-																		<div class="flowmetersensorDigit">5</div>
-																		<div class="flowmetersensorDigit">9</div>
-																	</div>
-																	<div id="sensorFlowCounterWheel" class="flowmetersensorWheel">
-																		<img src="images/flowmeterblackwheel.png">
-																	</div>
+																	<div class="flowSensorDigitContainer" id="flowSensorCounterContainer"></div>
+																	<div id="sensorFlowCounterWheel" class="flowSensorWheel"></div>
 																</div>
 															</div>
 															<div style="display: inline-block; width: 24%;vertical-align: top;">
@@ -687,17 +678,12 @@
 																<span class="label-red" style="font-size: 1.5em;" id="sensorFlowTotalLeak">13</span> <span id="sensorFlowTotalLeakUnit">gallons</span>
 																<br><br>
 																<span class="cardTitle">Last detected leak event</span><br>
-																<span class="subtitle label-red" id="sensorsLastLeakDetected"></span><br><br>
+																<span class="label-red" id="sensorsLastLeakDetected"></span><br><br>
 																<button id="sensorsFlowSensorReset" class="button label-red center">Reset</button>
 															</div>
 														</div>
 													</div>
 												</div>
-											</td>
-										</tr>
-										<tr>
-											<td class="noborder">
-												<button id="sensorsFlowSensorSet" class="button label-blue center right">Apply</button>
 											</td>
 										</tr>
 									</table>
