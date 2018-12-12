@@ -415,7 +415,7 @@ window.ui = window.ui || {};
 			if (i <= nrDigits) val = totalVolumeStr[nrDigits - i];
 
 			var d = addTag(uiElems.flowSensorCounterContainer, 'div');
-			d.className = "flowmetersensorDigit";
+			d.className = "flowSensorDigit";
 			d.textContent = val;
 		}
 
