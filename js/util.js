@@ -599,9 +599,9 @@ Util.convert = {
 	},
 	uiFlowClicks: function(v) {
 		if (!Data.provision.system.uiUnitsMetric) {
-			return Math.round(Util.convert.galToVolumeMeters(v));
+			return Math.round(Util.convert.galToVolumeMeters(v) * 10) / 10;
 		} else {
-			return  Math.round(v);
+			return  Math.round(v * 10) / 10;
 		}
 	},
 	uiFlowClicksInMetric: function(v) {
