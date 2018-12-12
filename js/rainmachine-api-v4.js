@@ -20,9 +20,9 @@ var port = window.location.port;
 //var port = "8080";   //Example: Port for local network connection to a RainMachine
 //var port = "19090";  //Example: Port for demo.labs.rainmachine.com mock server
 
-//var protocol = window.location.protocol;
+var protocol = window.location.protocol;
 
-var apiUrl = "https://" + host + ":" + port + "/api/4";
+var apiUrl = protocol + "//" + host + ":" + port + "/api/4";
 //var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 

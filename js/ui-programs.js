@@ -75,13 +75,21 @@ window.ui = window.ui || {};
 			createProgramElems(p)
 		}
 
+
 		uiElemsAll.add = $('#home-programs-add');
+		uiElemsAll.addbig = $('#home-programs-add-big');
 		uiElemsAll.edit = $('#home-programs-edit');
-		uiElemsAll.add.onclick = function() { showProgramSettings({}); };
+		uiElemsAll.addbig.onclick = uiElemsAll.add.onclick = function() { showProgramSettings({}); };
 		uiElemsAll.edit.onclick = function() { showPrograms(); onProgramsEdit(); }
 	}
 
 	function updatePrograms() {
+		// Hide "No programs defined " message if we have programs defined
+		if (Data.programs.programs.length > 0)
+			makeHidden($('#home-programs-no-program'));
+		else
+			makeVisibleBlock($('#home-programs-no-program'));
+
 		if (!uiElemsAll.hasOwnProperty("programs"))
 			createProgramsElems();
 
