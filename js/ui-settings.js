@@ -832,13 +832,13 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].real = cycle.realDuration;
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
-						cycles[c].zones[k].flowclicks = cycle.mumu;
+						cycles[c].zones[k].flowclicks = cycle.flowclicks || 0;
 
 						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
-						zoneDurations.flowclicks += cycle.flowclicks;
+						zoneDurations.flowclicks += cycle.flowclicks || 0;
 
 						zoneidx = zone.uid - 1;
 
@@ -1165,6 +1165,50 @@ window.ui = window.ui || {};
 		return zoneListTemplate
 	}
 
+	function getDailyFlowVolume() {
+		var daysFlowVolume = [];
+		for (var i = 0; i < Data.waterLog.waterLog.days.length ; i++)
+		{
+			var day =  Data.waterLog.waterLog.days[i];
+			var dayUsedVolume = 0;
+
+			for (var j = 0; j < day.programs.length; j++)
+			{
+				var program = day.programs[j];
+				var pUsedVolume = 0;
+
+				//Convert between program/zones/cycles to program/cycles/zones
+				cycles = {};
+				var maxCycles = 0;
+
+				for (var k = 0; k < program.zones.length; k++)
+				{
+					var zone = program.zones[k];
+					var zFlowclicks = 0;
+
+					if (zone.cycles.length > maxCycles) {
+						maxCycles = zone.cycles.length;
+					}
+
+					//Calculate cycles total per zones and also create per cycle structure
+					for (var c = 0; c < zone.cycles.length; c++)
+					{
+						var cycle = zone.cycles[c];
+						//Cycle Totals
+						zFlowclicks += cycle.flowclicks || 0;
+					}
+
+					zUsedVolume = Util.convert.uiFlowClicksToVolume(zFlowclicks);
+					pUsedVolume += zUsedVolume;
+				}
+				//Day totals
+				dayUsedVolume += pUsedVolume;
+			}
+			daysFlowVolume.push(dayUsedVolume);
+		}
+		return daysFlowVolume;
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -1174,6 +1218,7 @@ window.ui = window.ui || {};
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
 	_settings.showRainDelay = showRainDelay;
+	_settings.getDailyFlowVolume = getDailyFlowVolume;
 	_settings.waterLogReason = waterLogReason;
 
 

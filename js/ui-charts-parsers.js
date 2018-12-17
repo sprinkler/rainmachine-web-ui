@@ -98,7 +98,7 @@ function processParserChartData(id, startDate, days) {
 		console.error("No recent data for parser %s", getParserName(id));
 		return;
 	}
-
+	console.log("Processing parser %s", id);
 	// initialize all data points for this parser id
 	var keys = Object.keys(parsersHourlyChartData);
 	for (var i = 0; i < keys.length; i++) {

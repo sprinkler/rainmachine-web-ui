@@ -3,10 +3,7 @@ OUT = build
 
 FONT_FILES = font/rainmachine.woff
 
-IMG_FILES = images/spks.png \
-	images/selected.png \
-	images/arrow.png \
-	images/arrow_right.png
+IMG_FILES = images/spks.png
 
 CSS_FILES = $(filter-out %-min.css,$(wildcard \
 	css/*.css \

@@ -59,8 +59,6 @@ window.ui = window.ui || {};
 		uiElems.flowSensorCounterWheel = $("#sensorFlowCounterWheel");
 	}
     
-//    -----
-
 	function showRestrictions()
 	{
 		if (uiElems === null)
@@ -350,9 +348,9 @@ window.ui = window.ui || {};
 
 	function showSensors() {
 		showRainSensor();
-		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === 3 || Data.provision.api.hwVer === "simulator")
+		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === "simulator")
 			showFlowSensor();
-	}
+		}
 
     function showRainSensor() {
         if (uiElems === null)
@@ -377,10 +375,14 @@ window.ui = window.ui || {};
     }
 
 	function showFlowSensor() {
-		makeVisibleBlock('#flowsensor');
-
 		uiElems.flowSensor.checked = Data.provision.system.useFlowSensor || false;
 		uiElems.flowSensorClicks.value = Util.convert.uiFlowClicks(Data.provision.system.flowSensorClicksPerCubicMeter) || 0;
+
+		if (uiElems.flowSensor.checked)
+			makeVisibleBlock('#sensorsFlowInfo');
+		else
+			makeHidden('#sensorsFlowInfo');
+		makeVisibleBlock('#flowsensor');
 
 		var wateringVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorWateringClicks) || 0;
 		var leakVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorLeakClicks) || 0;
@@ -419,9 +421,25 @@ window.ui = window.ui || {};
 			d.textContent = val;
 		}
 
+		var daysFlowVolume = window.ui.settings.getDailyFlowVolume();
+		var weekly = 0;
+		var monthly = 0;
+		for (var i = 0; i < daysFlowVolume.length; i++) {
+			if (i < 8) weekly += daysFlowVolume[i];
+			else if (i < 31) monthly += daysFlowVolume[i];
+			else break;
+		}
+
+		uiElems.flowSensorDayWater.textContent = daysFlowVolume[0];
+		uiElems.flowSensorWeekWater.textContent = weekly;
+		uiElems.flowSensorMonthWater.textContent = monthly;
+
 		uiFeedback.sync(uiElems.flowSensorSet, onSetFlowSensor);
 		uiFeedback.sync(uiElems.flowSensorResetConsumption, onResetFlowSensorConsumption);
 		uiFeedback.sync(uiElems.flowSensorReset, onResetFlowSensor);
+
+		uiElems.flowSensor.onclick = showFlowSensorOptions;
+		showFlowSensorOptions();
 	}
     
 	function onSetRainSensor() {
@@ -451,6 +469,13 @@ window.ui = window.ui || {};
 		Data.provision.system.rainSensorIsNormallyClosed = normallyClosed;
 		Data.provision.system.rainSensorSnoozeDuration = snoozeDuration;
 
+		// On SPK3 only Rain and Flow can't be used at the same time this is also taken care of in the API automatically
+		// There is no need to set useFlowSensor with API since it's disabled automatically when Rain is enabled
+		if (Data.provision.api.hwVer === 3) {
+			Data.provision.system.useFlowSensor = !useRainSensor;
+			showFlowSensor();
+		}
+
 		return r;
 	}
 
@@ -473,7 +498,8 @@ window.ui = window.ui || {};
 
 	function onResetFlowSensor() {
 		var data = {
-			lastLeakDetected: 0
+			lastLeakDetected: 0,
+			flowSensorLeakClicks:0
 		};
 
 		var r = API.setProvision(data, null);
@@ -513,7 +539,15 @@ window.ui = window.ui || {};
 		Data.provision.system.useFlowSensor = useFlowSensor;
 		Data.provision.system.flowSensorClicksPerCubicMeter = flowSensorClicks;
 		Data.provision.system.flowSensorStartIndex = flowSensorStartIndex;
+
 		showFlowSensor();
+
+		// On SPK3 only Rain and Flow can't be used at the same time this is also taken care of in the API automatically
+		// There is no need to set useFlowSensor with API since it's disabled automatically when Rain is enabled
+		if (Data.provision.api.hwVer === 3) {
+			Data.provision.system.useRainSensor = !useFlowSensor;
+			showRainSensor();
+		}
 
 		return r;
 	}
@@ -530,6 +564,10 @@ window.ui = window.ui || {};
 	function showRainSensorOptions() {
 		toggleAttr($('#greyoutRainSensorType'), uiElems.rainSensorElem.checked);
 		toggleAttr($('#greyoutRainSensorSnooze'), uiElems.rainSensorElem.checked);
+	}
+
+	function showFlowSensorOptions(status) {
+		toggleAttr($('#greyoutFlowSensorType'), uiElems.flowSensor.checked);
 	}
 
 

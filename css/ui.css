@@ -1629,10 +1629,6 @@ td.right,
   margin:0 auto;
   text-align: center;
 }
-.flowSensorHidden {
-  display:none;
-  padding:1em;
-}
 
 .flowSensorWindow h1 {
   margin-top:35px;
@@ -1672,7 +1668,7 @@ td.right,
   margin-top: 10px;
 }
 
-#sensorFlowCounterWheel {
+.flowSensorWheel[running] {
   -webkit-animation: rotation 1.5s infinite linear;
 }
 
