@@ -348,7 +348,7 @@ window.ui = window.ui || {};
 
 	function showSensors() {
 		showRainSensor();
-		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === "simulator")
+		if (Data.provision.api.hwVer == 5 ||  Data.provision.api.hwVer === 3 || Data.provision.api.hwVer === "simulator")
 			showFlowSensor();
 		}
 
