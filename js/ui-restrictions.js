@@ -384,8 +384,8 @@ window.ui = window.ui || {};
 			makeHidden('#sensorsFlowInfo');
 		makeVisibleBlock('#flowsensor');
 
-		var wateringVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorWateringClicks) || 0;
-		var leakVolume = Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorLeakClicks) || 0;
+		var wateringVolume = Util.convert.uiWaterVolume(Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorWateringClicks)) || 0;
+		var leakVolume = Util.convert.uiWaterVolume(Util.convert.uiFlowClicksToVolume(Data.provision.system.flowSensorLeakClicks)) || 0;
 		var startIndex = +Data.provision.system.flowSensorStartIndex || 0;
 
 		uiElems.flowSensorTotalWatering.textContent = wateringVolume;
@@ -426,13 +426,13 @@ window.ui = window.ui || {};
 		var monthly = 0;
 		for (var i = 0; i < daysFlowVolume.length; i++) {
 			if (i < 8) weekly += daysFlowVolume[i];
-			else if (i < 31) monthly += daysFlowVolume[i];
+			if (i < 31) monthly += daysFlowVolume[i];
 			else break;
 		}
 
-		uiElems.flowSensorDayWater.textContent = daysFlowVolume[0];
-		uiElems.flowSensorWeekWater.textContent = weekly;
-		uiElems.flowSensorMonthWater.textContent = monthly;
+		uiElems.flowSensorDayWater.textContent = Util.convert.uiWaterVolume(daysFlowVolume[0]);
+		uiElems.flowSensorWeekWater.textContent = Util.convert.uiWaterVolume(weekly);
+		uiElems.flowSensorMonthWater.textContent = Util.convert.uiWaterVolume(monthly);
 
 		uiFeedback.sync(uiElems.flowSensorSet, onSetFlowSensor);
 		uiFeedback.sync(uiElems.flowSensorResetConsumption, onResetFlowSensorConsumption);

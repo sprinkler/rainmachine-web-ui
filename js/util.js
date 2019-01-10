@@ -614,7 +614,7 @@ Util.convert = {
 	uiFlowClicksToVolume: function(v) {
 		var systemClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
 		if ( systemClicks && systemClicks > 0) {
-			return Math.round(v / systemClicks * 100) / 100;
+			return Math.round(v / systemClicks * 1000) / 1000;
 		}
 	},
 	uiFlowClicksStr: function() {
