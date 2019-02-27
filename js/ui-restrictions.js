@@ -161,11 +161,9 @@ window.ui = window.ui || {};
 //    -----------
 
 	function showCurrentRestrictions() {
-		APIAsync.getRestrictionsCurrently().then(function(o) { Data.restrictionsCurrent = o; updateCurrentRestrictions()})
+		return APIAsync.getRestrictionsCurrently().then(function(o) { Data.restrictionsCurrent = o; updateCurrentRestrictions()});
 	}
 
-	
-    
     function updateCurrentRestrictions() {
 		var container = $("#currentRestrictionsList");
 		var hasRestrictions = false;

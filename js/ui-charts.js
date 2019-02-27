@@ -198,10 +198,14 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
         	 	setTimeout(getDailyStatsWithRetry.bind(null, retryCount, retryDelay), retryDelay);
 			})
 	} else {
-		// hide the spinner
-        makeHidden($('#pageLoadSpinner'));
-        window.ui.main.showError("Error loading Daily Stats !");
+		errorDataDownload();
 	}
+}
+
+function errorDataDownload() {
+	// hide the spinner
+	makeHidden($('#pageLoadSpinner'));
+	window.ui.main.showError("Error loading Dashboard data. Dashboard graphs not available. Please refresh page !");
 }
 
 /**
@@ -213,26 +217,31 @@ function getChartData(pastDays) {
 
 	//for programs name and status
 	APIAsync.getPrograms()
-	.then(function(o) { Data.programs = o; Data.counters.charts++; processChartData(); });
+		.then(function(o) { Data.programs = o; Data.counters.charts++; processChartData(); })
+		.retry()
+		.error(errorDataDownload);
 
 	//for weather data in the  past + 7 future (inclusive)
 	APIAsync.getMixer(Util.getDateWithDaysDiff(pastDays), pastDays + 7 + 1)
-	.then(function(o) { Data.mixerData = o.mixerDataByDate; Data.counters.charts++; processChartData(); });
+		.then(function(o) { Data.mixerData = o.mixerDataByDate; Data.counters.charts++; processChartData(); })
+		.retry()
+		.error(errorDataDownload);
 
 	//for used water
 	APIAsync.getWateringLog(false, true,  Util.getDateWithDaysDiff(pastDays), pastDays + 1)
-	.then(function(o) {
-		Data.waterLog = o;
-		Data.counters.charts++;
-		processChartData();
-		window.ui.settings.showWaterLogSimple();
+		.then(function(o) {
+			Data.waterLog = o;
+			Data.counters.charts++;
+			processChartData();
+			window.ui.settings.showWaterLogSimple();
 
-		//On first run it's ok to share data with Watering History UI
-		if (!Data.waterLogCustom) {
-			Data.waterLogCustom = o;
-		}
-
-	});
+			//On first run it's ok to share data with Watering History UI
+			if (!Data.waterLogCustom) {
+				Data.waterLogCustom = o;
+			}
+		})
+		.retry()
+		.error(errorDataDownload);
 
 	//for future watering/program runs
 	getDailyStatsWithRetry(20, 6000);

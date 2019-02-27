@@ -12,7 +12,7 @@ window.ui = window.ui || {};
 	var loopMediumLastRun = Date.now();
 	var loopHourlyLastRun = Date.now();
 
-	var loopSeconds = 3 * 1000;
+	var loopSeconds = 3.5 * 1000;
 	var loopSlowSeconds = 20 * 1000;
 	var loopMediumSeconds = 9 * 1000;
 	var loopHourlySeconds = 60 * 60 * 1000;
@@ -223,53 +223,65 @@ window.ui = window.ui || {};
 	}
 
 	function uiLoop() {
+		var wqAsync = null;
+		var rAsync = null;
+		var runCall = false;
 		// Entire Window/Tab not visible
 		if (document.visibilityState === "hidden")
 			return;
 
 		if (isVisible(uiElems.dashboard) && isVisible(uiElems.zones)) {
+			if (wqAsync == null || (wqAsync !== null && wqAsync.finished))
+				runCall = true;
 
 			//Check if watering and update programs/zones status
-			APIAsync.getWateringQueue()
-			.then(
-				function(waterQueue) {
+			if (runCall)
+				console.log("%s QUEUE", new Date());
+				wqAsync = APIAsync.getWateringQueue()
+				.then(
+					function(waterQueue) {
+						console.log("%s FINISHED QUEUE", new Date());
 
-					if (waterQueue === undefined || !waterQueue || !waterQueue.queue) {
-						return;
-					}
-
-					//If watering has been stopped do 1 more refresh
-					if (waterQueue.queue.length == 0) {
-						if (uiLastWateringState == true) {
-							uiLastWateringState = false;
-							//Hide STOP and PAUSE all button
-							makeHidden(window.ui.zones.uiElems.stopAll);
-							makeHidden(window.ui.zones.uiElems.pauseAll);
-						} else {
+						if (waterQueue === undefined || !waterQueue || !waterQueue.queue) {
 							return;
 						}
-					} else {
-						uiLastWateringState = true;
-						//Show STOP and PAUSE all button
-						makeVisible(window.ui.zones.uiElems.stopAll);
-						makeVisible(window.ui.zones.uiElems.pauseAll);
-						if (waterQueue.queue[0].zid == 1005) {
-							window.ui.zones.setPauseState(true);
-						} else {
-							window.ui.zones.setPauseState(false);
-						}
-					}
-					refreshProgramAndZones(true);
 
-					//Refresh queue information
-					window.ui.zones.updateWateringQueue(waterQueue);
-				}
-			);
+						//If watering has been stopped do 1 more refresh
+						if (waterQueue.queue.length == 0) {
+							if (uiLastWateringState == true) {
+								uiLastWateringState = false;
+								//Hide STOP and PAUSE all button
+								makeHidden(window.ui.zones.uiElems.stopAll);
+								makeHidden(window.ui.zones.uiElems.pauseAll);
+							} else {
+								return;
+							}
+						} else {
+							uiLastWateringState = true;
+							//Show STOP and PAUSE all button
+							makeVisible(window.ui.zones.uiElems.stopAll);
+							makeVisible(window.ui.zones.uiElems.pauseAll);
+							if (waterQueue.queue[0].zid == 1005) {
+								window.ui.zones.setPauseState(true);
+							} else {
+								window.ui.zones.setPauseState(false);
+							}
+						}
+						refreshProgramAndZones(true);
+
+						//Refresh queue information
+						window.ui.zones.updateWateringQueue(waterQueue);
+					}
+				);
 			//Refresh (without data download) parser box
 			window.ui.settings.updateParsers(true);
 
 			//Refresh on medium timer
-			refreshRestrictions(false);
+			runCall = false;
+			if (rAsync == null || (rAsync !== null && rAsync.finished))
+				runCall = true;
+			if (runCall)
+				rAsync = refreshRestrictions(false);
 
 			//Refresh on slower timer
 			refreshProgramAndZones(false);
@@ -302,8 +314,9 @@ window.ui = window.ui || {};
 	function refreshRestrictions(forced) {
 		if (forced || (Date.now() - loopMediumLastRun) > loopMediumSeconds) {
 			loopMediumLastRun = Date.now();
-			window.ui.restrictions.showCurrentRestrictions();
+			return window.ui.restrictions.showCurrentRestrictions();
 		}
+		return null;
 	}
 
 	function refreshHourly(forced) {
