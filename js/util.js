@@ -804,4 +804,25 @@ Util.showBin = function(n) {
 	return padding.substr(s.length) + s;
 };
 
+Util.parseVersion = function(versionStr) {
+	var version = {
+		major: 0,
+		minor: 0,
+		revision: 0
+	};
+
+	if (!defined(versionStr)) return version``;
+
+	var v = versionStr.split('.');
+	if (defined(v[0])) {
+		version.major = parseInt(v[0]);
+		if (defined(v[1]))
+			version.minor = parseInt(v[1]);
+			if (defined(v[2]))
+				version.revision = parseInt(v[2]);
+	}
+
+	return version;
+};
+
 return Util; } ( Util || {}));

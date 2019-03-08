@@ -410,27 +410,53 @@ window.ui = window.ui || {};
         };
 
 		uiElems.weatherSources.Upload.Upload.onclick = function() {
-			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+			if (Util.parseVersion(Data.provision.api.swVer).revision < 978) {
+				//Async load file from disk and send REST POST
+				Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+			} else {
+				//Send file as FormData()
+				var o = uiElems.weatherSources.Upload.Status;
+				var files = uiElems.weatherSources.Upload.File.files;
+				var status = {
+					message: null,
+					data: new FormData(),
+					file: null
+				};
+
+				if(!files || files.length < 0) {
+					status = "No files selected";
+				} else {
+					status.file = files[0];
+					status.data.append(status.file.name, status.file);
+				}
+				onParserLoad(status, true);
+			}
 		};
 	}
 
-	function onParserLoad(status) {
-		var o = uiElems.weatherSources.Upload.Status;
+	function onParserLoad(status, useFormData) {
+		if (!defined(useFormData)) useFormData = False;
 
+		var o = uiElems.weatherSources.Upload.Status;
 		if (status.message) {
 			o.textContent = status.message;
 		}
 
 		if (status.data && status.file) {
 			o.textContent = "Uploading file " + status.file.name;
-			var r = API.uploadParser(status.file.name, status.file.type, status.data);
+			var r = null;
+			if (useFormData)
+				r = API.uploadParser(status.file.name, status.data);
+			else
+				r = API.uploadParserOld(status.file.name, status.file.type, status.data);
+
 			if (r === undefined || !r || r.statusCode != 0) {
 				o.textContent = "Error uploading " + status.file.name;
 				if (r.message) {
 					o.textContent += ": " + r.message;
 				}
 			} else {
-				o.textContent = "Successful uploaded " + status.file.name;
+				o.textContent = "Successful uploaded " + status.file.name + " !";
 				showParsers(false, false);
 			}
 		}
