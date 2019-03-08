@@ -811,7 +811,7 @@ Util.parseVersion = function(versionStr) {
 		revision: 0
 	};
 
-	if (!defined(versionStr)) return version``;
+	if (!defined(versionStr)) return version;
 
 	var v = versionStr.split('.');
 	if (defined(v[0])) {
