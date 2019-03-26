@@ -236,12 +236,9 @@ window.ui = window.ui || {};
 
 			//Check if watering and update programs/zones status
 			if (runCall)
-				console.log("%s QUEUE", new Date());
 				wqAsync = APIAsync.getWateringQueue()
 				.then(
 					function(waterQueue) {
-						console.log("%s FINISHED QUEUE", new Date());
-
 						if (waterQueue === undefined || !waterQueue || !waterQueue.queue) {
 							return;
 						}
