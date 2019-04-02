@@ -4,6 +4,9 @@
  */
 
 /* global Highcharts */
+
+Highcharts.setOptions({global:{useUTC: false}}); // We only want to display in local device time
+
 var YEARDAYS = Util.getYearDays((new Date()).getFullYear() - 1); //Get the number of days of last year not current one
 var waterGaugeSaved = true;
 var chartsLevel = { // available viewing levels for the charts

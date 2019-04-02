@@ -173,7 +173,6 @@ function sortDataPoint(key) {
 	}
 }
 
-
 function generateAllKnownCharts(id, startDate, days) {
 	et0AvgGraphed = false;
 	var keys = Object.keys(parserCharts);
@@ -260,7 +259,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 		tooltip: {
 			shared: true,
 			useHTML: true,
-			xDateFormat: '%b %d',
+			xDateFormat: '%b %d %H:%M',
 			headerFormat: '<h1>{point.key}</h1><table>',
 			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
 			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
