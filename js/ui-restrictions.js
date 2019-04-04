@@ -84,6 +84,7 @@ window.ui = window.ui || {};
 //		}
 //
 		uiElems.maxWateringElem.value = Data.provision.system.maxWateringCoef * 100;
+		uiElems.carryOverElem.checked = Data.provision.system.carryOverInRestriction;
 
 		setSelectOption(uiElems.freezeProtectTempElem, +rg.freezeProtectTemp, true);
 
