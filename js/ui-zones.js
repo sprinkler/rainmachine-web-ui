@@ -370,7 +370,7 @@ window.ui = window.ui || {};
 		templateInfo.masterValveAfterSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after-sec"]');
 
 		// Basic properties
-		templateInfo.imageContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-image"]');
+		templateInfo.imageContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-image-container"]');
 		templateInfo.basicSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-basic"]');
 		templateInfo.advSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-advanced"]');
 		templateInfo.nameElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-name"]');
