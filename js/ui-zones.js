@@ -370,8 +370,9 @@ window.ui = window.ui || {};
 		templateInfo.masterValveAfterSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after-sec"]');
 
 		// Basic properties
-
-		templateInfo.propertiesContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-basic-advanced-settings"]');
+		templateInfo.imageContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-image"]');
+		templateInfo.basicSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-basic"]');
+		templateInfo.advSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-advanced"]');
 		templateInfo.nameElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-name"]');
 		templateInfo.activeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-active"]');
 		templateInfo.forecastElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-forecast-data"]');
@@ -915,10 +916,14 @@ window.ui = window.ui || {};
 	function onMasterValveChange() {
 		if (!uiElems.masterValveElem.checked) {
 			makeHidden(uiElems.masterTimerContainerElem);
-			makeVisible(uiElems.propertiesContainerElem);
+			makeVisible(uiElems.basicSettingsContainerElem);
+			makeVisible(uiElems.advSettingsContainerElem);
+			makeVisible(uiElems.imageContainerElem);
 		} else {
 			makeVisible(uiElems.masterTimerContainerElem);
-			makeHidden(uiElems.propertiesContainerElem);
+			makeHidden(uiElems.basicSettingsContainerElem);
+			makeHidden(uiElems.advSettingsContainerElem);
+			makeHidden(uiElems.imageContainerElem);
 		}
 	}
 

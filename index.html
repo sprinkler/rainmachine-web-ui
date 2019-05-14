@@ -1591,372 +1591,375 @@
         <div id="zone-settings-template">
        		<div class="overTop">
 	            <table class="programEdit" style="padding-top:0;" cellpadding="0" cellspacing="0">
-					<tr rm-id="zone-master-valve-title">
-						<td class="middle center" style="padding-top: 20px;font-size:20px;">Master Valve (Pump)<br>
-							<hr style="margin-bottom:10px;">
-							<span style="display:block;text-align:center;">Enable Zone 1 as Master Valve <input type="checkbox" style="margin-left:50px;" rm-id="zone-master-valve"/></span>
-							<span  rm-id="zone-master-valve-option"></span></td>
-						</td>
-					</tr>
-					<tr>
-						<td class="middle noborder" colspan="2">
-							<div rm-id="zone-master-valve-timer">
-								Starts:
-								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes
-								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds
-								<strong>before</strong> each cycle/program.<br>
-								Stops:
-								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes
-								<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds
-								<strong>after</strong> each cycle/program.
-							</div>
-						</td>
-					</tr>
 					<tr>
 						<td class="noborder">
-							<div rm-id="zone-basic-advanced-settings">
+							<div>
 								<table width="100%" cellpadding="0" cellspacing="0">
 									<!-- Start Zone Basic & Advanced Settings -->
-									<tr>
-										<td class="middle center" colspan="2" style="padding:20px;padding-top:0;font-size:130%;">Basic Zone Settings</td>
-									</tr>
 									<tr style="background-color: #f9f9f9;">
-										<td class="center middle">
+										<td class="center middle"  rm-id="zone-settings-image">
 											<div class="helpText inlineblock" help="zoneListImageHelp">?</div>
 											<div rm-id="zone-settings-image" class="zoneListImageEdit center">
 												<div class="zoneListImageNoneEdit">&#xe800;</div>
 											</div>
+											<div><input type="text" rm-id="zone-name" placeholder="Zone Name" class="center typeText" style="width: 97%;"/></div>
 										</td>
 										<td style="padding-left:2%;">
 											<table width="100%" cellpadding="0" cellspacing="0">
-												<tr>
-													<td class="middle noborder">Name</td>
-													<td class="middle noborder" width="60%"><input type="text" rm-id="zone-name" placeholder="Zone Name" class="typeText" style="width: 97%;"/></td>
+												<tr rm-id="zone-master-valve-title">
+													<td class="middle noborder">Use as Master Valve</td>
+													<td class="middle noborder"><input type="checkbox" rm-id="zone-master-valve"/></td>
 												</tr>
-												<tr>
-													<td class="middle">Zone is Active:</td>
-													<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
-												</tr>
-												<tr>
-													<td class="middle noborder">
-														<div class="helpText" help="zoneWeatherSeasonalAdjustments">?</div> Weather & Seasonal Adjustments
+												<tr rm-id="zone-master-valve-timer">
+													<td class="middle noborder" colspan="2">
+														<div rm-id="zone-master-valve-option" style="padding-left: 30px;">
+															Starts:
+															<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before" min="0" placeholder="0"> minutes
+															<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-before-sec" min="0" placeholder="0"> seconds
+															<strong>before</strong> each cycle/program.<br>
+															Stops:
+															<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after" min="0" placeholder="0"> minutes
+															<input type="number" class="typeNumber txtright" rm-id="zone-master-valve-after-sec" min="0" placeholder="0"> seconds
+															<strong>after</strong> each cycle/program.
+														</div>
 													</td>
 												</tr>
-												<tr>
-													<td class="middle noborder">Use Weather Data<br>
-														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on live weather data.<br>(Needs Internet connection)</span>
+												<tr rm-id="zone-settings-basic">
+													<td class="middle noborder" colspan="2">
+														<table width="100%" cellpadding="0" cellspacing="0">
+															<tr>
+																<td class="middle">Zone is Active:</td>
+																<td class="middle"><input type="checkbox" rm-id="zone-active"/></td>
+															</tr>
+															<tr>
+																<td class="middle noborder">
+																	<div class="helpText" help="zoneWeatherSeasonalAdjustments">?</div> Weather & Seasonal Adjustments
+																</td>
+															</tr>
+															<tr>
+																<td class="middle noborder">Use Weather Data<br>
+																	<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on live weather data.<br>(Needs Internet connection)</span>
+																</td>
+																<td class="middle noborder"><input type="checkbox" rm-id="zone-forecast-data"/></td>
+															</tr>
+															<tr>
+																<td class="middle noborder">Use Seasonal Adjustments<br>
+																	<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on locally stored daily averages<br>based on 10 year weather history for your location.<br>(No Internet connection needed)</span>
+																</td>
+																<td class="middle noborder"><input type="checkbox" rm-id="zone-historical-averages"/></td>
+															</tr>
+														</table>
 													</td>
-													<td class="middle noborder"><input type="checkbox" rm-id="zone-forecast-data"/></td>
-												</tr>
-												<tr>
-													<td class="middle noborder">Use Seasonal Adjustments<br>
-														<span class="subtitle" style="display:block;padding-right:20px;">Adjust watering times based on locally stored daily averages<br>based on 10 year weather history for your location.<br>(No Internet connection needed)</span>
-													</td>
-													<td class="middle noborder"><input type="checkbox" rm-id="zone-historical-averages"/></td>
 												</tr>
 											</table>
 										</td>
 									</tr>
-									<tr>
-										<td class="middle center" colspan="2" style="padding: 20px;font-size:130%;">Advanced Zone Settings</td>
-									</tr>
-									<tr>
+									<tr rm-id="zone-settings-advanced" style="width: 100%;">
 										<td colspan="2" class="noborder">
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
-													<td class="middle" style="width:33%;">
-														<div class="helpText" help="zoneFieldCapacityMain">?</div> <span style="font-size:130%;">Field Capacity</span>
-														<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><span class="icon">&#xe901;</span> show graph</div>
-														<br>&nbsp;<br>
-														<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
-															0.14 in
-														</div>
-														<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
-													</td>
+													<td colspan="2" class="noborder">
+														<table width="100%" cellpadding="0" cellspacing="0">
+															<tr>
+																<td class="middle bluerm" colspan="2" style="font-size:20px;">Advanced Zone Settings</td>
+															</tr>
+															<tr>
+																<td class="middle" style="width:33%;">
+																	<div class="helpText" help="zoneFieldCapacityMain">?</div> <span style="font-size:130%;">Field Capacity</span>
+																	<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><span class="icon">&#xe901;</span> show graph</div>
+																	<br>&nbsp;<br>
+																	<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
+																		0.14 in
+																	</div>
+																	<div style="display: inline-block;" rm-id="zone-simulated-capacity-chooser"></div>
+																</td>
 
-													<td class="middle" style="width:33%;">
-														<div class="helpText" help="zoneMinimumRolloverThreshold">?</div> <span style="font-size:130%;">Minimum Rollover Threshold</span>
-														<br>
-														<span class="top15">threshold duration in seconds:</span>
-														<input type="number" rm-id="zone-min-runtime" class="typeNumber">
-													</td>
+																<td class="middle" style="width:33%;">
+																	<div class="helpText" help="zoneMinimumRolloverThreshold">?</div> <span style="font-size:130%;">Minimum Rollover Threshold</span>
+																	<br>
+																	<span class="top15">threshold duration in seconds:</span>
+																	<input type="number" rm-id="zone-min-runtime" class="typeNumber">
+																</td>
 
-													<td style="width:33%;">
-														<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
-														<br>
-														<div class="zoneTimesDeterminedFullTime" style="color:#555;margin:0;padding-left:27px;" rm-id="zone-simulated-timer">
-															00h 05m 38s
-														</div>
+																<td style="width:33%;">
+																	<div class="helpText" help="zoneDailySummerEPA">?</div> <span style="font-size:130%;">Suggested daily summer watering time<br><span class="subtitle" style="padding-left:27px;">Not scheduled, suggested by EPA WaterSense</span></span>
+																	<br>
+																	<div class="zoneTimesDeterminedFullTime" style="color:#555;margin:0;padding-left:27px;" rm-id="zone-simulated-timer">
+																		00h 05m 38s
+																	</div>
+																</td>
+															</tr>
+														</table>
 													</td>
 												</tr>
-											</table>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle" style="width:30%;">
-											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-vegetation-icon">&#xe302;</div>
-											<div class="inlineblock">Vegetation Type</div>
-										</td>
-										<td class="middle">
-											<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
-												<option value="2" selected>Cool Season Grass</option>
-												<option value="10" selected>Warm Season Grass</option>
-												<option value="3">Fruit Trees</option>
-												<option value="4">Flowers</option>
-												<option value="5">Vegetables</option>
-												<option value="6">Citrus</option>
-												<option value="7">Bushes</option>
-												<option value="9">Drought Tolerant Plants</option>
-												<option value="11">Trees</option>
-												<option value="99">Custom</option>
-											</select>
-											<!-- Vegetation Type "Custom" options start -->
-											<div style="display:none;" rm-id="zone-vegetation-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
-													   cellspacing="0">
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zoneAllowedDepletion">?</div>
-															Allowed Depletion:
-														</td>
-														<td style="padding:0;">
-															<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1" min="0"> decimal %</td>
-													</tr>
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zoneRootDepth">?</div>
-															Root Depth:
-														</td>
-														<td style="padding:0;">
-															<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1" min="0">
-															<span rm-id="zone-vegetation-rootdepth-unit">mm</span>
-															</td>
-													</tr>
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zoneWiltingPoint">?</div>
-															Permanent Wilting Point:
-														</td>
-														<td style="padding:0;">
-															<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0.01" max="0.23">decimal %
-														</td>
-													</tr>
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zoneTallPlant">?</div>
-															The vegetation is tall?
-														</td>
-														<td class="middle" style="padding:0;"><input rm-id="zone-vegetation-tall" type="checkbox"></td>
-													</tr>
-													<tr>
-														<td class="middle noborder" style="width:50%">
-															<div class="helpText" help="zoneCropCoef">?</div>
-															Crop Coefficient:
-														</td>
-														<td class="noborder" style="padding:10px 0 10px 0;">
-															<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
-																<option value="0" selected>Single yearly value</option>
-																<option value="1">Multiple monthly values</option>
-															</select>
-															<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0.01" max="2"> decimal %
-															<div rm-id="zone-months-coef-advanced">
-																<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
-																	   cellspacing="0"> 
-																	<tr>
-																		<td class="middle noborder center">Jan<br>
-																			<input rm-id="zone-months-coef0" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+												<tr>
+													<td class="middle" style="width:30%;">
+														<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-vegetation-icon">&#xe302;</div>
+														<div class="inlineblock">Vegetation Type</div>
+													</td>
+													<td class="middle">
+														<select rm-id="zone-vegetation-type" style="width:100%;color:#39c;">
+															<option value="2" selected>Cool Season Grass</option>
+															<option value="10" selected>Warm Season Grass</option>
+															<option value="3">Fruit Trees</option>
+															<option value="4">Flowers</option>
+															<option value="5">Vegetables</option>
+															<option value="6">Citrus</option>
+															<option value="7">Bushes</option>
+															<option value="9">Drought Tolerant Plants</option>
+															<option value="11">Trees</option>
+															<option value="99">Custom</option>
+														</select>
+														<!-- Vegetation Type "Custom" options start -->
+														<div style="display:none;" rm-id="zone-vegetation-advanced">
+															<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
+																   cellspacing="0">
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zoneAllowedDepletion">?</div>
+																		Allowed Depletion:
+																	</td>
+																	<td style="padding:0;">
+																		<input rm-id="zone-vegetation-depletion" type="number" class="typeNumber" step="0.1" min="0"> decimal %</td>
+																</tr>
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zoneRootDepth">?</div>
+																		Root Depth:
+																	</td>
+																	<td style="padding:0;">
+																		<input rm-id="zone-vegetation-rootdepth" type="number" class="typeNumber" step="1" min="0">
+																		<span rm-id="zone-vegetation-rootdepth-unit">mm</span>
 																		</td>
-																		<td class="middle noborder center">Feb<br>
-																			<input rm-id="zone-months-coef1" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Mar<br>
-																			<input rm-id="zone-months-coef2" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Apr<br>
-																			<input rm-id="zone-months-coef3" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																	</tr>
-																	<tr>
-																		<td class="middle noborder center">May<br>
-																			<input rm-id="zone-months-coef4" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Jun<br>
-																			<input rm-id="zone-months-coef5" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Jul<br>
-																			<input rm-id="zone-months-coef6" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Aug<br>
-																			<input rm-id="zone-months-coef7" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																	</tr>
-																	<tr>
-																		<td class="middle noborder center">Sep<br>
-																			<input rm-id="zone-months-coef8" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Oct<br>
-																			<input rm-id="zone-months-coef9" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																		<td class="middle noborder center">Nov<br>
-																			<input rm-id="zone-months-coef10" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																				</td>
-																		<td class="middle noborder center">Dec<br>
-																			<input rm-id="zone-months-coef11" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
-																		</td>
-																	</tr>
-																</table>
-															</div>
-														</td>
-													</tr>
+																</tr>
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zoneWiltingPoint">?</div>
+																		Permanent Wilting Point:
+																	</td>
+																	<td style="padding:0;">
+																		<input rm-id="zone-vegetation-permwilting" type="number" class="typeNumber" step="0.01" min="0.01" max="0.23">decimal %
+																	</td>
+																</tr>
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zoneTallPlant">?</div>
+																		The vegetation is tall?
+																	</td>
+																	<td class="middle" style="padding:0;"><input rm-id="zone-vegetation-tall" type="checkbox"></td>
+																</tr>
+																<tr>
+																	<td class="middle noborder" style="width:50%">
+																		<div class="helpText" help="zoneCropCoef">?</div>
+																		Crop Coefficient:
+																	</td>
+																	<td class="noborder" style="padding:10px 0 10px 0;">
+																		<select rm-id="zone-vegetation-cropcoef-type" style="width:200px;">
+																			<option value="0" selected>Single yearly value</option>
+																			<option value="1">Multiple monthly values</option>
+																		</select>
+																		<input rm-id="zone-vegetation-cropcoef" type="number" class="typeNumber" step="0.1" min="0.01" max="2"> decimal %
+																		<div rm-id="zone-months-coef-advanced">
+																			<table class="noborder" style="width:100%;margin-bottom:10px;" cellpadding="0"
+																				   cellspacing="0">
+																				<tr>
+																					<td class="middle noborder center">Jan<br>
+																						<input rm-id="zone-months-coef0" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Feb<br>
+																						<input rm-id="zone-months-coef1" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Mar<br>
+																						<input rm-id="zone-months-coef2" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Apr<br>
+																						<input rm-id="zone-months-coef3" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="middle noborder center">May<br>
+																						<input rm-id="zone-months-coef4" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Jun<br>
+																						<input rm-id="zone-months-coef5" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Jul<br>
+																						<input rm-id="zone-months-coef6" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Aug<br>
+																						<input rm-id="zone-months-coef7" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="middle noborder center">Sep<br>
+																						<input rm-id="zone-months-coef8" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Oct<br>
+																						<input rm-id="zone-months-coef9" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																					<td class="middle noborder center">Nov<br>
+																						<input rm-id="zone-months-coef10" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																							</td>
+																					<td class="middle noborder center">Dec<br>
+																						<input rm-id="zone-months-coef11" type="number" class="typeNumber" step="0.1" min="0.01" max="2"/>
+																					</td>
+																				</tr>
+																			</table>
+																		</div>
+																	</td>
+																</tr>
+															</table>
+														</div>
+														<!-- Vegetation Type "Custom" options end -->
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">
+														<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-soil-icon">_</div>
+														<div class="inlineblock">Soil Type</div>
+													</td>
+													<td class="middle">
+														<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
+															<option value="1" selected>Clay Loam</option>
+															<option value="2">Silty Clay</option>
+															<option value="3">Clay</option>
+															<option value="4" selected>Loam</option>
+															<option value="5">Sandy Loam</option>
+															<option value="6">Loamy Sand</option>
+															<option value="7">Sand</option>
+															<option value="8">Sandy Clay</option>
+															<option value="9">Silt Loam</option>
+															<option value="10">Silt</option>
+															<option value="99">Custom</option>
+														</select>
+														<!-- Soil type "Custom" options start -->
+														<div style="display:none;" rm-id="zone-soil-advanced">
+															<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zoneIntakeRate">?</div>
+																		Intake Rate:
+																	</td>
+																	<td style="padding:0;">
+																		<input rm-id="zone-soil-intakerate" type="number" class="typeNumber">
+																		<span rm-id="zone-soil-intakerate-unit">mm/h</span>
+																	</td>
+																</tr>
+																<tr style="padding: 0 15px;">
+																	<td class="middle noborder" style="width:50%">
+																		<div class="helpText" help="zoneFieldCapacity">?</div>
+																		Soil field capacity:
+																	</td>
+																	<td class="middle noborder" style="padding: 12px 0;">
+																		<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0.01"> decimal %
+																	</td>
+																</tr>
+															</table>
+														</div>
+														<!-- Soil type "Custom" options end -->
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">
+														<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-slope-icon">\</div>
+														<div class="inlineblock">Slope</div>
+													</td>
+													<td class="middle">
+														<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
+															<option value="1" selected>Flat</option>
+															<option value="2">Moderate</option>
+															<option value="3">High</option>
+															<option value="4">Very High</option>
+															<option value="99">Custom</option>
+														</select>
+														<!-- Slope "Custom" options start -->
+														<div style="display:none;" rm-id="zone-slope-advanced">
+															<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
+																<tr>
+																	<td class="middle noborder" style="width:50%">
+																		<div class="helpText" help="zoneSurfaceAccumulation">?</div>
+																		Enter surface accumulation value:
+																	</td>
+																	<td class="middle noborder" style="padding:0;">
+																		<input rm-id="zone-surface-acc" type="number" class="typeNumber">
+																		<span rm-id="zone-surface-acc-unit">mm</span>
+																	</td>
+																</tr>
+															</table>
+														</div>
+														<!-- Slope "Custom" options end -->
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">
+														<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sprinkler-icon">#</div>
+														<div class="inlineblock">Sprinkler Head Type</div>
+													</td>
+													<td class="middle">
+														<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
+															<option value="1" selected>Popup Spray</option>
+															<option value="2">Rotors Low Rate</option>
+															<option value="5">Rotors High Rate</option>
+															<option value="3">Surface Drip</option>
+															<option value="4">Bubblers Drip</option>
+															<option value="99">Custom</option>
+														</select>
+														<!-- Sprinkler head "Custom" options start -->
+														<div style="display:none;" rm-id="zone-sprinkler-advanced">
+															<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
+																   cellspacing="0">
+																<tr>
+																	<td class="middle" style="width:50%">
+																		<div class="helpText" help="zonePrecipRate">?</div>
+																		Precipitation Rate:</td>
+																	<td style="padding:0;">
+																		<input rm-id="zone-sprinkler-preciprate"  type="number" class="typeNumber">
+																		<span rm-id="zone-sprinkler-preciprate-unit">mm/h</span>
+																	</td>
+																</tr>
+																<tr>
+																	<td class="middle noborder" style="width:50%">
+																		<div class="helpText" href="#" help="zoneAppEfficiency">?</div>
+																		Application	Efficiency:
+																	</td>
+																	<td class="middle noborder" style="padding:0;">
+																		<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0.1" max="1"> decimal % </td>
+																</tr>
+															</table>
+														</div>
+														<!-- Sprinkler head "Custom" options end -->
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">
+														<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sun-icon">$</div>
+														<div class="inlineblock">Sun Exposure</div>
+													</td>
+													<td class="middle">
+														<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
+															<option value="1" selected>Full Sun</option>
+															<option value="2">Partial Shade</option>
+															<option value="3">Full Shade</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td class="middle bluerm" colspan="2" style="font-size:20px;">
+														Zone Flow Rate Reporting
+														<span class="subtitle" style="display:block;padding-right:20px;">Use these options if you want watering history to show also water consumed</span>
+													</td>
+												</tr>
+												<tr>
+													<td class="middle">Area <br><span class="subtitle">(optional)</span></td>
+													<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText" style="width:25%;"/><span rm-id="zone-area-units"></span></td>
+												</tr>
+												<tr>
+													<td class="middle">Total Flow <br><span class="subtitle"> (optional, used instead of area for drip irrigation)</span></td>
+													<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText" style="width:25%;"/><span rm-id="zone-flow-units"></span></td>
+												</tr>
 												</table>
-											</div>
-											<!-- Vegetation Type "Custom" options end -->
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-soil-icon">_</div>
-											<div class="inlineblock">Soil Type</div>
-										</td>
-										<td class="middle">
-											<select rm-id="zone-soil-type" style="width:100%;color:#39c;">
-												<option value="1" selected>Clay Loam</option>
-												<option value="2">Silty Clay</option>
-												<option value="3">Clay</option>
-												<option value="4" selected>Loam</option>
-												<option value="5">Sandy Loam</option>
-												<option value="6">Loamy Sand</option>
-												<option value="7">Sand</option>
-												<option value="8">Sandy Clay</option>
-												<option value="9">Silt Loam</option>
-												<option value="10">Silt</option>
-												<option value="99">Custom</option>
-											</select>
-											<!-- Soil type "Custom" options start -->
-											<div style="display:none;" rm-id="zone-soil-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zoneIntakeRate">?</div>
-															Intake Rate:
-														</td>
-														<td style="padding:0;">
-															<input rm-id="zone-soil-intakerate" type="number" class="typeNumber">
-															<span rm-id="zone-soil-intakerate-unit">mm/h</span>
-														</td>
-													</tr>
-													<tr style="padding: 0 15px;">
-														<td class="middle noborder" style="width:50%">
-															<div class="helpText" help="zoneFieldCapacity">?</div>
-															Soil field capacity:
-														</td>
-														<td class="middle noborder" style="padding: 12px 0;">
-															<input	rm-id="zone-soil-fieldcapacity" type="number" class="typeNumber" step="0.1" min="0.01"> decimal %
-														</td>
-													</tr>
-												</table>
-											</div>
-											<!-- Soil type "Custom" options end -->
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-slope-icon">\</div>
-											<div class="inlineblock">Slope</div>
-										</td>
-										<td class="middle">
-											<select rm-id="zone-slope-type" style="width:100%;color:#39c;">
-												<option value="1" selected>Flat</option>
-												<option value="2">Moderate</option>
-												<option value="3">High</option>
-												<option value="4">Very High</option>
-												<option value="99">Custom</option>
-											</select>
-											<!-- Slope "Custom" options start -->
-											<div style="display:none;" rm-id="zone-slope-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0" cellspacing="0">
-													<tr>
-														<td class="middle noborder" style="width:50%">
-															<div class="helpText" help="zoneSurfaceAccumulation">?</div>
-															Enter surface accumulation value:
-														</td>
-														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-surface-acc" type="number" class="typeNumber">
-															<span rm-id="zone-surface-acc-unit">mm</span>
-														</td>
-													</tr>
-												</table>
-											</div>
-											<!-- Slope "Custom" options end -->
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sprinkler-icon">#</div>
-											<div class="inlineblock">Sprinkler Head Type</div>
-										</td>
-										<td class="middle">
-											<select rm-id="zone-sprinkler-type" style="width:100%;color:#39c;">
-												<option value="1" selected>Popup Spray</option>
-												<option value="2">Rotors Low Rate</option>
-												<option value="5">Rotors High Rate</option>
-												<option value="3">Surface Drip</option>
-												<option value="4">Bubblers Drip</option>
-												<option value="99">Custom</option>
-											</select>
-											<!-- Sprinkler head "Custom" options start -->
-											<div style="display:none;" rm-id="zone-sprinkler-advanced">
-												<table style="width:100%;margin-bottom:-10px;" cellpadding="0"
-													   cellspacing="0">
-													<tr>
-														<td class="middle" style="width:50%">
-															<div class="helpText" help="zonePrecipRate">?</div>
-															Precipitation Rate:</td>
-														<td style="padding:0;">
-															<input rm-id="zone-sprinkler-preciprate"  type="number" class="typeNumber">
-															<span rm-id="zone-sprinkler-preciprate-unit">mm/h</span>
-														</td>
-													</tr>
-													<tr>
-														<td class="middle noborder" style="width:50%">
-															<div class="helpText" href="#" help="zoneAppEfficiency">?</div>
-															Application	Efficiency:
-														</td>
-														<td class="middle noborder" style="padding:0;">
-															<input rm-id="zone-sprinkler-appefficiency" type="number" class="typeNumber" step="0.1" min="0.1" max="1"> decimal % </td>
-													</tr>
-												</table>
-											</div>
-											<!-- Sprinkler head "Custom" options end -->
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">
-											<div class="icon iconZoneAdvSet middle inlineblock" rm-id="zone-sun-icon">$</div>
-											<div class="inlineblock">Sun Exposure</div>
-										</td>
-										<td class="middle">
-											<select rm-id="zone-exposure-type" style="width:100%;color:#39c;">
-												<option value="1" selected>Full Sun</option>
-												<option value="2">Partial Shade</option>
-												<option value="3">Full Shade</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle center" colspan="2" style="padding: 20px;font-size:20px;">
-											Zone Flow Rate Reporting
-											<span class="subtitle" style="display:block;padding-right:20px;">Use these options if you want watering history to show also water consumed</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="middle">Area <br><span class="subtitle">(optional)</span></td>
-										<td class="middle"><input type="text" rm-id="zone-area" placeholder="Zone Area" class="typeText" style="width:25%;"/><span rm-id="zone-area-units"></span></td>
-									</tr>
-									<tr>
-										<td class="middle">Total Flow <br><span class="subtitle"> (optional, used instead of area for drip irrigation)</span></td>
-										<td class="middle"><input type="text" rm-id="zone-flow" placeholder="Zone Flow" class="typeText" style="width:25%;"/><span rm-id="zone-flow-units"></span></td>
-									</tr>
+											</td>
+										</tr>
 									<!-- End Zone Basic & Advanced Settings -->
 								</table>
 							</div>
