@@ -98,7 +98,7 @@ function processParserChartData(id, startDate, days) {
 		console.error("No recent data for parser %s", getParserName(id));
 		return;
 	}
-
+	console.log("Processing parser %s", id);
 	// initialize all data points for this parser id
 	var keys = Object.keys(parsersHourlyChartData);
 	for (var i = 0; i < keys.length; i++) {
@@ -172,7 +172,6 @@ function sortDataPoint(key) {
 		}
 	}
 }
-
 
 function generateAllKnownCharts(id, startDate, days) {
 	et0AvgGraphed = false;
@@ -260,7 +259,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 		tooltip: {
 			shared: true,
 			useHTML: true,
-			xDateFormat: '%b %d',
+			xDateFormat: '%b %d %H:%M',
 			headerFormat: '<h1>{point.key}</h1><table>',
 			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
 			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
