@@ -220,7 +220,7 @@
 										<span class="icon" style="width:65%;vertical-align:middle;">E</span>
 										<span>Pause</span>
 									</button>
-								    <h1 class="titleHome">Zones</h1>
+								    <h1 class="titleHome">Zones <span help="zoneListShowHideHelp"><span class="zones-showhide">*</span></span></h1>
 									<div id="wateringQueueContainer">
 										<!--- Inserted from Javascript -->
 									</div>
@@ -1657,7 +1657,6 @@
 											<tr>
 												<td class="middle" style="width:33%;">
 													<div class="helpText" help="zoneFieldCapacityMain">?</div> <span style="font-size:130%;">Field Capacity</span>
-													<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><span class="icon">&#xe901;</span> view water surplus</div>
 													<br>&nbsp;<br>
 													<div class="zoneTimesDetermined" style="display:inline-block;margin:0; width:110px;" rm-id="zone-simulated-capacity">
 														0.14 in
@@ -1666,10 +1665,12 @@
 												</td>
 
 												<td class="middle" style="width:33%;">
-													<div class="helpText" help="zoneMinimumRolloverThreshold">?</div> <span style="font-size:130%;">Minimum Rollover Threshold</span>
-													<br>
-													<span class="top15">threshold duration in seconds:</span>
-													<input type="number" rm-id="zone-min-runtime" class="typeNumber">
+													<div class="helpText" help="zoneWaterSurplus">?</div> <span style="font-size:130%;">Water Surplus</span><div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><!-- <span class="icon">&#xe901;</span> --> (view daily graph)</div></span>
+													<br>&nbsp;<br>
+													<div class="zoneTimesDetermined" style="display:inline-block;margin:0;width:100%;text-align:left;">
+														<button class="button blue center" rm-id="">Maximize</button> <button class="button red center" rm-id="">Reset</button>
+													</div>
+
 												</td>
 
 												<td style="width:33%;">
@@ -1933,6 +1934,10 @@
 											<option value="3">Full Shade</option>
 										</select>
 									</td>
+								</tr>
+								<tr>
+									<td class="middle">Minimum Rollover Threshold &nbsp;<div class="helpText" help="zoneMinimumRolloverThreshold">?</div><br><span class="subtitle">threshold duration in seconds</span></td>
+									<td class="middle"><input type="number" rm-id="zone-min-runtime" class="typeNumber"></td>
 								</tr>
 								<tr>
 									<td class="middle bluerm" colspan="3" style="font-size:20px;">
