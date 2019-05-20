@@ -505,6 +505,13 @@ strong { font-weight: 700; }
 .zones-in-programs-items li{
     padding-left: 0px;
 }
+.zones-showhide {
+  display: inline-block;
+  font-family:'RainMachine';
+  font-size:23px;
+  margin:0 0.5em;
+  vertical-align:bottom;
+}
 .zoneListName {
   /*padding-top: 25px;*/
   padding-left: 10px;
