@@ -167,7 +167,7 @@ function makeVisible(tag)
 	if (typeof(tag) === 'string') { e = $(tag); }
     else { e = tag; }
 
-	e.style.display = "inline";
+	e.style.display = "inline-table";
 	//e.focus();
 }
 
