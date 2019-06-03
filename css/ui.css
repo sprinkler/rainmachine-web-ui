@@ -726,7 +726,16 @@ h1 {
   font-size: 20px;
   display: inline;
 }
-
+.zoneListImageTD {
+  width:-moz-available;
+  width:-webkit-fill-available;
+}
+.zoneListImageHelp {
+  position: relative;
+  background: white;
+  left:3em; top:-2em;
+  margin-left:-2em;
+}
 .zoneListImage {
   webkit-background-size: cover;
   moz-background-size: cover;
