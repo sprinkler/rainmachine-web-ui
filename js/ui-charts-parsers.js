@@ -260,10 +260,10 @@ function generateSpecificParsersChart(key, startDate, days) {
 			shared: true,
 			useHTML: true,
 			xDateFormat: '%b %d %H:%M',
-			headerFormat: '<h1>{point.key}</h1><table>',
+			headerFormat: '<div style="z-index: 9999; opacity: 1; background-color: white"><h1>{point.key}</h1><table>',
 			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
 			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
-			footerFormat: '</table>',
+			footerFormat: '</table></div>',
 			valueDecimals: 2
 		},
 		series: chartSeries,
