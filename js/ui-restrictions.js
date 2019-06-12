@@ -424,12 +424,12 @@ window.ui = window.ui || {};
 		var weekly = 0;
 		var monthly = 0;
 		for (var i = 0; i < daysFlowVolume.length; i++) {
-			if (i < 8) weekly += daysFlowVolume[i];
-			if (i < 31) monthly += daysFlowVolume[i];
+			if (i > daysFlowVolume.length - 8 - 1) weekly += daysFlowVolume[i];
+			if (i > daysFlowVolume.length - 31 - 1) monthly += daysFlowVolume[i];
 			else break;
 		}
 
-		uiElems.flowSensorDayWater.textContent = Util.convert.uiWaterVolume(daysFlowVolume[0]);
+		uiElems.flowSensorDayWater.textContent = Util.convert.uiWaterVolume(daysFlowVolume[daysFlowVolume.length - 1]);
 		uiElems.flowSensorWeekWater.textContent = Util.convert.uiWaterVolume(weekly);
 		uiElems.flowSensorMonthWater.textContent = Util.convert.uiWaterVolume(monthly);
 
@@ -569,6 +569,16 @@ window.ui = window.ui || {};
 		toggleAttr($('#greyoutFlowSensorType'), uiElems.flowSensor.checked);
 	}
 
+	function setFlowSensorState(state) {
+		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === 3 || Data.provision.api.hwVer === "simulator") {
+			if (state) {
+				toggleAttr(uiElems.flowSensorCounterWheel, true, 'running');
+			} else {
+				toggleAttr(uiElems.flowSensorCounterWheel, false, 'running');
+			}
+		}
+	}
+
 
 	//--------------------------------------------------------------------------------------------
 	//
@@ -576,5 +586,6 @@ window.ui = window.ui || {};
 	_restrictions.showRestrictions = showRestrictions;
 	_restrictions.showCurrentRestrictions = showCurrentRestrictions;
     _restrictions.showSensors = showSensors;
+	_restrictions.setFlowSensorState = setFlowSensorState;
 
 } (window.ui.restrictions = window.ui.restrictions || {}));

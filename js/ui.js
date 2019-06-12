@@ -250,6 +250,8 @@ window.ui = window.ui || {};
 								//Hide STOP and PAUSE all button
 								makeHidden(window.ui.zones.uiElems.stopAll);
 								makeHidden(window.ui.zones.uiElems.pauseAll);
+								//Stop flow sensor wheel
+								window.ui.restrictions.setFlowSensorState(false);
 							} else {
 								return;
 							}
@@ -260,8 +262,10 @@ window.ui = window.ui || {};
 							makeVisible(window.ui.zones.uiElems.pauseAll);
 							if (waterQueue.queue[0].zid == 1005) {
 								window.ui.zones.setPauseState(true);
+								window.ui.restrictions.setFlowSensorState(false);
 							} else {
 								window.ui.zones.setPauseState(false);
+								window.ui.restrictions.setFlowSensorState(true);
 							}
 						}
 						refreshProgramAndZones(true);
