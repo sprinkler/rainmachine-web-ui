@@ -929,7 +929,7 @@ window.ui = window.ui || {};
 
 	function onAvailableWaterFetch(past, days, id) {
 		var startDate = Util.getDateWithDaysDiff(past);
-		console.log("Getting available water values starting from %s for %d days...", startDate, days);
+		console.log("Getting available water starting from %s for %d days...", startDate, days);
 
 		//TODO reload if startData differs
 		if (Data.availableWater === null) {
@@ -937,6 +937,7 @@ window.ui = window.ui || {};
 				.start(uiFeedback.start, uiElems.showAvailableWaterElem)
 				.then(function(o) {
 						Data.availableWater = o;
+						console.log("Showing AW for zone %s", id);
 						onAvailableWaterShow(past, days, id);
 						uiFeedback.done(uiElems.showAvailableWaterElem);
 				})
@@ -952,11 +953,19 @@ window.ui = window.ui || {};
 
 		var title = $(template, '[rm-id="zone-available-water-title"]');
 		var close = $(template, '[rm-id="zone-available-water-cancel"]');
+		var setToFull = $(template, '[rm-id="zone-available-water-set-full"]');
+		var setToMin = $(template, '[rm-id="zone-available-water-set-min"]');
 		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
 		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
 
-		title.textContent = "Surplus water for \"" + Data.zoneData.zones[id - 1].name + "\" zone";
+		template.id = "zone-available-water-graph";
+		title.textContent = "Soil water surplus for \"" + Data.zoneData.zones[id - 1].name + "\" zone";
+
 		close.onclick = function() { delTag(template);};
+		setToFull.onclick = function() { onZoneSetAW(id, 1); };
+		setToMin.onclick = function() { onZoneSetAW(id, 0); };
+
+		delTag("#zone-available-water-graph");
 		document.body.appendChild(template);
 
 		var capacity = uiElems.simulatedCapacityElem.data;
@@ -1017,6 +1026,32 @@ window.ui = window.ui || {};
 			}
 		}
 		getZoneSimulatedValues();
+	}
+
+	function onZoneSetAW(id, percentage) {
+		var zonesPrograms = zonesInPrograms();
+		if (!id in zonesPrograms) {
+			console.error("Zone %s not active or not scheduled in any program", id);
+			return;
+		}
+
+		var zonePrograms = zonesPrograms[id];
+		console.log(zonePrograms);
+
+		//Build the data for API Call
+		var data = [];
+		for (var pid in zonePrograms) {
+			data.push({pid: +pid, zid: id, percentage: percentage});
+		}
+
+		console.log(data);
+		if (data.length > 0) {
+			var ret = API.setWateringAvailable(data);
+			if (ret) {
+				Data.availableWater = null;
+				onAvailableWaterFetch(14, 14, id);
+			}
+		}
 	}
 
 	function toggleOtherOptions(selectElem, advContainer) {
