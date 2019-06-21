@@ -30,11 +30,14 @@ window.ui = window.ui || {};
 	var developerParsers = {
 		"My Example Parser": 1,
 		"Fixed Parser": 1,
-		"PWS Parser": 1,
+		"WeatherDisplay Parser": 1,
 		"Simulator Parser": 1,
 		"Weather Rules Parser": 1,
 		"Local Weather Push Parser": 1
 	};
+
+	// keeps mapping of id -> name some programs might only exists on waterlog and not in programs
+	var waterLogPrograms = {};
 
 	function showWeather()
 	{
@@ -278,14 +281,19 @@ window.ui = window.ui || {};
 				withMixer = true;
 		}
 
+		//Allow some time after a parser refresh was issued so that the parser finish downloading data
 		var r = API.runParser(id, true, withMixer, false);
-		showParsers(false, true);
-		var p = API.getParsers(id);
 
-		//Did we refresh all parsers or just a single one from its detail page
-		if (id > 0) {
-			showParserDetails(p.parser);
-		}
+		setTimeout(function(){
+			showParsers(false, true);
+			var p = API.getParsers(id);
+
+			//Did we refresh all parsers or just a single one from its detail page
+			if (id > 0) {
+				showParserDetails(p.parser);
+			}
+		}, 4000);
+
 
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 		return r;
@@ -407,27 +415,53 @@ window.ui = window.ui || {};
         };
 
 		uiElems.weatherSources.Upload.Upload.onclick = function() {
-			Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+			if (Util.parseVersion(Data.provision.api.swVer).revision < 978) {
+				//Async load file from disk and send REST POST
+				Util.loadFileFromDisk(uiElems.weatherSources.Upload.File.files, onParserLoad, true);
+			} else {
+				//Send file as FormData()
+				var o = uiElems.weatherSources.Upload.Status;
+				var files = uiElems.weatherSources.Upload.File.files;
+				var status = {
+					message: null,
+					data: new FormData(),
+					file: null
+				};
+
+				if(!files || files.length < 0) {
+					status = "No files selected";
+				} else {
+					status.file = files[0];
+					status.data.append(status.file.name, status.file);
+				}
+				onParserLoad(status, true);
+			}
 		};
 	}
 
-	function onParserLoad(status) {
-		var o = uiElems.weatherSources.Upload.Status;
+	function onParserLoad(status, useFormData) {
+		if (!defined(useFormData)) useFormData = False;
 
+		var o = uiElems.weatherSources.Upload.Status;
 		if (status.message) {
 			o.textContent = status.message;
 		}
 
 		if (status.data && status.file) {
 			o.textContent = "Uploading file " + status.file.name;
-			var r = API.uploadParser(status.file.name, status.file.type, status.data);
+			var r = null;
+			if (useFormData)
+				r = API.uploadParser(status.file.name, status.data);
+			else
+				r = API.uploadParserOld(status.file.name, status.file.type, status.data);
+
 			if (r === undefined || !r || r.statusCode != 0) {
 				o.textContent = "Error uploading " + status.file.name;
 				if (r.message) {
 					o.textContent += ": " + r.message;
 				}
 			} else {
-				o.textContent = "Successful uploaded " + status.file.name;
+				o.textContent = "Successful uploaded " + status.file.name + " !";
 				showParsers(false, false);
 			}
 		}
@@ -577,13 +611,6 @@ window.ui = window.ui || {};
 			};
 
 			addSelectOption(uiElems.waterlog.filterProgram, "All", -1);
-			addSelectOption(uiElems.waterlog.filterProgram, "Manual Watering", 0);
-
-			if (Data.programs) {
-				for (var i = 0; i < Data.programs.programs.length; i++)
-					addSelectOption(uiElems.waterlog.filterProgram, Data.programs.programs[i].name, Data.programs.programs[i].uid);
-			}
-
 			addSelectOption(uiElems.waterlog.filterZone, "All", -1);
 			if (Data.zoneData) {
 				for (var i = 0; i < Data.zoneData.zones.length; i++)
@@ -724,22 +751,26 @@ window.ui = window.ui || {};
 				var program = day.programs[j];
 				var programDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
 				var programHasZones = false;
+				var name;
+
+				if (waterLogPrograms.hasOwnProperty(program.id)) {
+					name = waterLogPrograms[program.id];
+				} else {
+					if (program.id == 0) {
+						name = "Manual Watering";
+					} else {
+						var p = getProgramById(program.id); //TODO make sure we have Data.programs
+						if (p !== null)
+							name = p.name;
+						else
+							name = "Program " + program.id
+					}
+					waterLogPrograms[program.id] = name;
+					addSelectOption(uiElems.waterlog.filterProgram, name, program.id);
+				}
 
 				if (filterProgramId != -1 && program.id != filterProgramId)
 					continue;
-
-				dayHasPrograms = true;
-				if (program.id == 0) {
-					var name = "Manual Watering";
-				} else {
-					//TODO make sure we have Data.programs
-					//TODO Optimize
-					var p = getProgramById(program.id);
-					if (p !== null)
-						var name = p.name;
-					else
-						var name = "Program " + program.id
-				}
 
 				var programTemplate = loadTemplate("watering-history-day-programs-template");
 				var programNameElem = $(programTemplate, '[rm-id="wateringLogProgramName"]');
@@ -832,13 +863,13 @@ window.ui = window.ui || {};
 						cycles[c].zones[k].real = cycle.realDuration;
 						cycles[c].zones[k].user = cycle.userDuration;
 						cycles[c].zones[k].start = cycle.startTime.split(" ")[1];
-						cycles[c].zones[k].flowclicks = cycle.mumu;
+						cycles[c].zones[k].flowclicks = cycle.flowclicks || 0;
 
 						//Cycle Totals
 						zoneDurations.machine += cycle.machineDuration;
 						zoneDurations.real += cycle.realDuration;
 						zoneDurations.user += cycle.userDuration;
-						zoneDurations.flowclicks += cycle.flowclicks;
+						zoneDurations.flowclicks += cycle.flowclicks || 0;
 
 						zoneidx = zone.uid - 1;
 
@@ -892,8 +923,11 @@ window.ui = window.ui || {};
 					programDurations.volume += zoneDurations.volume;
 					programDurations.usedVolume += zoneDurations.usedVolume;
 
-					if (programHasZones)
+					if (programHasZones) {
 						programContainerElem.appendChild(zoneListTemplate);
+						dayHasPrograms = true;
+					}
+
 					//console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 				}
 
@@ -986,7 +1020,7 @@ window.ui = window.ui || {};
 				dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
 					Util.convert.uiWaterVolumeStr() + ")";
 			}
-			if (dayHasPrograms && programHasZones)
+			if (dayHasPrograms)
 				container.appendChild(dayTemplate);
 		}
 	}
@@ -1025,8 +1059,7 @@ window.ui = window.ui || {};
 				if (program.id == 0) {
 					var name = "Manual Watering";
 				} else {
-					//TODO make sure we have Data.programs
-					var p = getProgramById(program.id);
+					var p = getProgramById(program.id); //TODO make sure we have Data.programs
 					if (p !== null)
 						var name = p.name;
 					else
@@ -1163,6 +1196,50 @@ window.ui = window.ui || {};
 		return zoneListTemplate
 	}
 
+	function getDailyFlowVolume() {
+		var daysFlowVolume = [];
+		for (var i = 0; i < Data.waterLog.waterLog.days.length ; i++)
+		{
+			var day =  Data.waterLog.waterLog.days[i];
+			var dayUsedVolume = 0;
+
+			for (var j = 0; j < day.programs.length; j++)
+			{
+				var program = day.programs[j];
+				var pUsedVolume = 0;
+
+				//Convert between program/zones/cycles to program/cycles/zones
+				cycles = {};
+				var maxCycles = 0;
+
+				for (var k = 0; k < program.zones.length; k++)
+				{
+					var zone = program.zones[k];
+					var zFlowclicks = 0;
+
+					if (zone.cycles.length > maxCycles) {
+						maxCycles = zone.cycles.length;
+					}
+
+					//Calculate cycles total per zones and also create per cycle structure
+					for (var c = 0; c < zone.cycles.length; c++)
+					{
+						var cycle = zone.cycles[c];
+						//Cycle Totals
+						zFlowclicks += cycle.flowclicks || 0;
+					}
+
+					zUsedVolume = Util.convert.uiFlowClicksToVolume(zFlowclicks);
+					pUsedVolume += zUsedVolume;
+				}
+				//Day totals
+				dayUsedVolume += pUsedVolume;
+			}
+			daysFlowVolume.push(dayUsedVolume);
+		}
+		return daysFlowVolume;
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
@@ -1172,6 +1249,7 @@ window.ui = window.ui || {};
 	_settings.showWaterLog = showWaterLog;
 	_settings.showWaterLogSimple = showWaterLogSimple;
 	_settings.showRainDelay = showRainDelay;
+	_settings.getDailyFlowVolume = getDailyFlowVolume;
 	_settings.waterLogReason = waterLogReason;
 
 
