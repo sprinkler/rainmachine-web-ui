@@ -166,6 +166,8 @@ window.ui = window.ui || {};
         uiElemsAll.stopAll.onclick = stopAllWatering;
 		uiElemsAll.pauseAll = $('#home-zones-pauseall');
 		uiElemsAll.pauseAll.onclick = pauseAllWatering;
+		uiElemsAll.toggleShowInactive = $('#home-zones-toggle-inactive');
+		uiElemsAll.toggleShowInactive.onclick = toggleShowInactive;
 
 		window.ui.firebase.enter();
 	}
@@ -212,6 +214,12 @@ window.ui = window.ui || {};
 					elem.template.className += " inactive";
 					elem.nameElem.textContent += " (inactive)";
 					makeHidden(elem.timerElem);
+
+					if (!Data.localSettings.showInactiveZones)
+						makeHidden(elem.template);
+					else
+						makeVisibleBlock(elem.template);
+
 				} else {
 					makeVisibleBlock(elem.timerElem);
 				}
@@ -862,6 +870,12 @@ window.ui = window.ui || {};
 			textElem.textContent = "Pause";
 			uiElemsAll.pauseAll.state = 0;
 		}
+	}
+
+	function toggleShowInactive() {
+		Data.localSettings.showInactiveZones = !Data.localSettings.showInactiveZones;
+		Storage.saveItem("localSettings", Data.localSettings);
+		updateZones();
 	}
 	//---------------------------------------------------------------------------------------
 	// Single Zone Settings

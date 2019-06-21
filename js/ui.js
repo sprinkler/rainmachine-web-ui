@@ -490,7 +490,7 @@ window.ui = window.ui || {};
 		setupHistoryState();
 
 		//Load local settings
-		//Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
 
 		ui.login.login(uiStart);
 	}

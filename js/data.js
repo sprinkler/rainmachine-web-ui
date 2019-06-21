@@ -44,7 +44,7 @@ Data.uiVer = "1.12";
 Data.restrictionsCurrent = null;
 Data.zonesImages = null;
 Data.localSettings =  {
-	units: false // Default to US units
+	showInactiveZones: true
 };
 
 
