@@ -169,6 +169,11 @@ window.ui = window.ui || {};
 		uiElemsAll.toggleShowInactive = $('#home-zones-toggle-inactive');
 		uiElemsAll.toggleShowInactive.onclick = toggleShowInactive;
 
+		//Set inactive icon state
+		setShowInactiveIcon();
+
+
+
 		window.ui.firebase.enter();
 	}
 
@@ -875,7 +880,13 @@ window.ui = window.ui || {};
 	function toggleShowInactive() {
 		Data.localSettings.showInactiveZones = !Data.localSettings.showInactiveZones;
 		Storage.saveItem("localSettings", Data.localSettings);
+		setShowInactiveIcon();
 		updateZones();
+	}
+
+	function setShowInactiveIcon() {
+		var zonesInactiveIcon = ['\'', '*'];
+		uiElemsAll.toggleShowInactive.textContent = zonesInactiveIcon[+Data.localSettings.showInactiveZones];
 	}
 	//---------------------------------------------------------------------------------------
 	// Single Zone Settings
