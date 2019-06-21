@@ -281,14 +281,19 @@ window.ui = window.ui || {};
 				withMixer = true;
 		}
 
+		//Allow some time after a parser refresh was issued so that the parser finish downloading data
 		var r = API.runParser(id, true, withMixer, false);
-		showParsers(false, true);
-		var p = API.getParsers(id);
 
-		//Did we refresh all parsers or just a single one from its detail page
-		if (id > 0) {
-			showParserDetails(p.parser);
-		}
+		setTimeout(function(){
+			showParsers(false, true);
+			var p = API.getParsers(id);
+
+			//Did we refresh all parsers or just a single one from its detail page
+			if (id > 0) {
+				showParserDetails(p.parser);
+			}
+		}, 4000);
+
 
 		window.ui.main.refreshGraphs = true; //Force refresh of graphs
 		return r;
