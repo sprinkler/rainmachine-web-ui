@@ -1576,19 +1576,24 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="noborder">
-							<div class="zoneTimesDetermined" style="display:inline-block;margin:0;width:100%;text-align:left;">
-								<button class="button blue center" rm-id="zone-available-water-set-full">Set fully wet</button>
-								<button class="button red center" rm-id="zone-available-water-set-min">Set to normal</button>
-							</div>
-						</td>
-					</tr>
-					<tr>
 						<td>
 						<span class="subtitle"> RainMachine treats each program independently, each program zone has its own available water.
 								The program graphs might differ because of the weather data known at the time of each program run.
 								Enabling <i>Correction for the past</i>  from settings will automatically correct differences at next run with the
 								last known day weather information</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="noborder">
+							<div class="zoneTimesDetermined" style="display:inline-block;margin:0;margin-top:20px;width:100%;text-align:center;">
+								<button class="button blue center" rm-id="zone-available-water-set-full" style="width:190px;">Set to maximum</button>
+								<button class="button green center" rm-id="zone-available-water-set-min" style="width:190px;">Set to optimal</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<span class="subtitle">Use <strong>Set To Maximum</strong> if you see your soil soaked wet and RainMachine shows no water surplus.<br>Use <strong>Set To Optimal</strong> if RainMachine displays more water surplus than your soil actually has.</span>
 						</td>
 					</tr>
 				</table>
@@ -1673,8 +1678,9 @@
 												</td>
 
 												<td class="middle" style="width:33%;">
-													<div class="helpText" help="zoneWaterSurplus">?</div> <span style="font-size:130%;">Water Surplus</span><div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block"><!-- <span class="icon">&#xe901;</span> --> (view daily graph)</div></span>
+													<div class="helpText" help="zoneWaterSurplus">?</div> <span style="font-size:130%;">Soil Water Surplus</span>
 													<br>&nbsp;<br>
+													<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block; color:#39c;"><!-- <span class="icon">&#xe901;</span> --> show</div></span>
 												</td>
 
 												<td style="width:33%;">
