@@ -505,6 +505,13 @@ strong { font-weight: 700; }
 .zones-in-programs-items li{
     padding-left: 0px;
 }
+.zones-showhide {
+  display: inline-block;
+  font-family:'RainMachine';
+  font-size:23px;
+  margin:0 0.5em;
+  vertical-align:bottom;
+}
 .zoneListName {
   /*padding-top: 25px;*/
   padding-left: 10px;
@@ -719,8 +726,17 @@ h1 {
   font-size: 20px;
   display: inline;
 }
-
-.zoneListImage, .zoneListImageEdit {
+.zoneListImageTD {
+  width:-moz-available;
+  width:-webkit-fill-available;
+}
+.zoneListImageHelp {
+  position: relative;
+  background: white;
+  left:3em; top:-2em;
+  margin-left:-2em;
+}
+.zoneListImage {
   webkit-background-size: cover;
   moz-background-size: cover;
   -o-background-size: cover;
@@ -737,11 +753,15 @@ h1 {
   vertical-align: middle;
 }
 .zoneListImageEdit {
-  width: 378px;
-  height: 282px;
+  width: 90%;
+  height: 300px;
   border-radius: 0%;
-  background-size: contain;
+  background-size: cover;
+  webkit-background-size: cover;
+  moz-background-size: cover;
+  -o-background-size: cover;
   background-repeat: no-repeat;
+  display: inline-block;
   border:0;
 }
 
@@ -1004,7 +1024,7 @@ textarea {
 
 input.typeText {
   border: 1px solid #eee;
-  padding: 15px;
+  padding: 7px;
   font-size: 16px;
   width: 100%;
   font-family: 'Roboto', Arial, Helvetica;

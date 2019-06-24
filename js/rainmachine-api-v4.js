@@ -565,6 +565,21 @@ _API.prototype.getWateringAvailable = function(startDate, days)
 	return this.get(url, null);
 }
 
+/*
+Sets available water using the following structure:
+[ { pid: <program id>,
+	zid: <zone id>,
+    percentage: <value>
+    }, ]
+ */
+
+_API.prototype.setWateringAvailable = function(awConfigData)
+{
+	var url = this.URL.watering + "/available";
+	var data = {"availableWaterValues": awConfigData };
+	return this.post(url, data);
+}
+
 _API.prototype.stopAll = function()
 {
 	var url = this.URL.watering + "/stopall";

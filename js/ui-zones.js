@@ -166,6 +166,13 @@ window.ui = window.ui || {};
         uiElemsAll.stopAll.onclick = stopAllWatering;
 		uiElemsAll.pauseAll = $('#home-zones-pauseall');
 		uiElemsAll.pauseAll.onclick = pauseAllWatering;
+		uiElemsAll.toggleShowInactive = $('#home-zones-toggle-inactive');
+		uiElemsAll.toggleShowInactive.onclick = toggleShowInactive;
+
+		//Set inactive icon state
+		setShowInactiveIcon();
+
+
 
 		window.ui.firebase.enter();
 	}
@@ -212,6 +219,12 @@ window.ui = window.ui || {};
 					elem.template.className += " inactive";
 					elem.nameElem.textContent += " (inactive)";
 					makeHidden(elem.timerElem);
+
+					if (!Data.localSettings.showInactiveZones)
+						makeHidden(elem.template);
+					else
+						makeVisibleBlock(elem.template);
+
 				} else {
 					makeVisibleBlock(elem.timerElem);
 				}
@@ -370,8 +383,9 @@ window.ui = window.ui || {};
 		templateInfo.masterValveAfterSecElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-master-valve-after-sec"]');
 
 		// Basic properties
-
-		templateInfo.propertiesContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-basic-advanced-settings"]');
+		templateInfo.imageContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-image-container"]');
+		templateInfo.basicSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-basic"]');
+		templateInfo.advSettingsContainerElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-settings-advanced"]');
 		templateInfo.nameElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-name"]');
 		templateInfo.activeElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-active"]');
 		templateInfo.forecastElem = $(templateInfo.zoneTemplateElem, '[rm-id="zone-forecast-data"]');
@@ -862,6 +876,18 @@ window.ui = window.ui || {};
 			uiElemsAll.pauseAll.state = 0;
 		}
 	}
+
+	function toggleShowInactive() {
+		Data.localSettings.showInactiveZones = !Data.localSettings.showInactiveZones;
+		Storage.saveItem("localSettings", Data.localSettings);
+		setShowInactiveIcon();
+		updateZones();
+	}
+
+	function setShowInactiveIcon() {
+		var zonesInactiveIcon = ['\'', '*'];
+		uiElemsAll.toggleShowInactive.textContent = zonesInactiveIcon[+Data.localSettings.showInactiveZones];
+	}
 	//---------------------------------------------------------------------------------------
 	// Single Zone Settings
 	// Event and Action functions
@@ -915,16 +941,20 @@ window.ui = window.ui || {};
 	function onMasterValveChange() {
 		if (!uiElems.masterValveElem.checked) {
 			makeHidden(uiElems.masterTimerContainerElem);
-			makeVisible(uiElems.propertiesContainerElem);
+			makeVisible(uiElems.basicSettingsContainerElem);
+			makeVisible(uiElems.advSettingsContainerElem);
+			makeVisible(uiElems.imageContainerElem);
 		} else {
 			makeVisible(uiElems.masterTimerContainerElem);
-			makeHidden(uiElems.propertiesContainerElem);
+			makeHidden(uiElems.basicSettingsContainerElem);
+			makeHidden(uiElems.advSettingsContainerElem);
+			makeHidden(uiElems.imageContainerElem);
 		}
 	}
 
 	function onAvailableWaterFetch(past, days, id) {
 		var startDate = Util.getDateWithDaysDiff(past);
-		console.log("Getting available water values starting from %s for %d days...", startDate, days);
+		console.log("Getting available water starting from %s for %d days...", startDate, days);
 
 		//TODO reload if startData differs
 		if (Data.availableWater === null) {
@@ -932,6 +962,7 @@ window.ui = window.ui || {};
 				.start(uiFeedback.start, uiElems.showAvailableWaterElem)
 				.then(function(o) {
 						Data.availableWater = o;
+						console.log("Showing AW for zone %s", id);
 						onAvailableWaterShow(past, days, id);
 						uiFeedback.done(uiElems.showAvailableWaterElem);
 				})
@@ -947,11 +978,19 @@ window.ui = window.ui || {};
 
 		var title = $(template, '[rm-id="zone-available-water-title"]');
 		var close = $(template, '[rm-id="zone-available-water-cancel"]');
+		var setToFull = $(template, '[rm-id="zone-available-water-set-full"]');
+		var setToMin = $(template, '[rm-id="zone-available-water-set-min"]');
 		var containerTop = $(template, '[rm-id="zone-available-water-top-row"]');
 		var containerChart = $(template, '[rm-id="zone-available-water-chart-row"]');
 
-		title.textContent = "Surplus water for \"" + Data.zoneData.zones[id - 1].name + "\" zone";
+		template.id = "zone-available-water-graph";
+		title.textContent = "Soil water surplus for \"" + Data.zoneData.zones[id - 1].name + "\" zone";
+
 		close.onclick = function() { delTag(template);};
+		setToFull.onclick = function() { onZoneSetAW(id, 1); };
+		setToMin.onclick = function() { onZoneSetAW(id, 0); };
+
+		delTag("#zone-available-water-graph");
 		document.body.appendChild(template);
 
 		var capacity = uiElems.simulatedCapacityElem.data;
@@ -1012,6 +1051,32 @@ window.ui = window.ui || {};
 			}
 		}
 		getZoneSimulatedValues();
+	}
+
+	function onZoneSetAW(id, percentage) {
+		var zonesPrograms = zonesInPrograms();
+		if (!id in zonesPrograms) {
+			console.error("Zone %s not active or not scheduled in any program", id);
+			return;
+		}
+
+		var zonePrograms = zonesPrograms[id];
+		console.log(zonePrograms);
+
+		//Build the data for API Call
+		var data = [];
+		for (var pid in zonePrograms) {
+			data.push({pid: +pid, zid: id, percentage: percentage});
+		}
+
+		console.log(data);
+		if (data.length > 0) {
+			var ret = API.setWateringAvailable(data);
+			if (ret) {
+				Data.availableWater = null;
+				onAvailableWaterFetch(14, 14, id);
+			}
+		}
 	}
 
 	function toggleOtherOptions(selectElem, advContainer) {
