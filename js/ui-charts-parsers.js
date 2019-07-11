@@ -243,6 +243,10 @@ function generateSpecificParsersChart(key, startDate, days) {
 
 	var title = parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')';
 	var subtitle = "";
+
+	if (key == 'rain') {
+		subtitle = "Only available when a weather service that supports observed data is enabled";
+	}
 	if (key == 'wind') {
 		subtitle = "RainMachine final wind value reduced by " + Data.provision.location.windSensitivity * 100 + "% sensitivity";
 	}
