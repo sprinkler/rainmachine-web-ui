@@ -875,3 +875,17 @@ _API.prototype.setBeta = function(enabled)
 	return this.post(url, data, null);
 }
 
+_API.prototype.getExtendValves = function()
+{
+	var url = this.URL.dev + "/extendvalves";
+	return this.get(url, null);
+}
+
+
+_API.prototype.setExtendValves = function(enabled)
+{
+	var url = this.URL.dev + "/extendvalves";
+	var data = { enabled: enabled };
+	return this.post(url, data, null);
+}
+
