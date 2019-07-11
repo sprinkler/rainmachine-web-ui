@@ -73,8 +73,7 @@ window.ui = window.ui || {};
 			SSH: $("#systemSettingsSSH"),
 			LogSet: $("#systemSettingsLogSet"),
 			Log: $("#systemSettingsLog"),
-			//TODO Developer mode commented out atm
-			/*
+
 			MixerHistorySet: $("#systemSettingsMixerHistorySet"),
 			MixerHistory: $("#systemSettingsMixerHistory"),
 			SimulatorHistorySet: $("#systemSettingsSimulatorHistorySet"),
@@ -85,6 +84,12 @@ window.ui = window.ui || {};
 			ParserHistory: $("#systemSettingsParserHistory"),
 			ParserDaysSet: $("#systemSettingsParserDaysSet"),
 			ParserDays: $("#systemSettingsParserDays"),
+
+			//Pro Debug Settings
+			ExtendValves: $("#systemSettingsExtendValves"),
+			ExtendValvesSet: $("#systemSettingsExtendValvesSet"),
+
+			/*
 			SoftwareRainSensorSet: $("#systemSettingsSoftwareRainSensorSet"),
 			SoftwareRainSensorEnable: $("#systemSettingsSoftwareRainSensor"),
 			SoftwareRainSensorQPF: $("#systemSettingsSoftwareRainsensorQPF"),
@@ -123,8 +128,10 @@ window.ui = window.ui || {};
 
 	function showSettings()
 	{
-		if (! systemSettingsView)
+		if (! systemSettingsView) {
 			loadView();
+			window.addEventListener('keyup', debugKeyUnlock, false);
+		}
 
 		if (Data.provision.api.hwVer == 2 || Data.provision.api.hwVer === "simulator") {
 			makeVisibleBlock("#systemSettingsMini8");
@@ -208,16 +215,6 @@ window.ui = window.ui || {};
 		systemSettingsView.Bonjour.checked = Data.provision.system.useBonjourService;
 		systemSettingsView.AutomaticUpdates.checked = Data.provision.system.automaticUpdates;
 
-		//TODO Developer mode commented out atm
-		/*
-		systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
-		systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
-		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
-		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
-		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
-		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
-		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
-		*/
 
 		uiFeedback.sync(systemSettingsView.SSHSet, systemSettingsChangeSSH);
 		uiFeedback.sync(systemSettingsView.LogSet, systemSettingsChangeLog);
@@ -236,27 +233,6 @@ window.ui = window.ui || {};
 			function(){ return changeSingleSystemProvisionValue("uiUnitsMetric",  systemSettingsView.UnitsMetric.checked)});
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
-
-		//TODO Developer mode commented out atm
-		/*
-		systemSettingsView.MixerHistorySet.onclick = function()	{
-			changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
-		};
-		systemSettingsView.SimulatorHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("simulatorHistorySize", systemSettingsView.SimulatorHistory.value);
-		};
-		systemSettingsView.WaterHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("waterLogHistorySize", systemSettingsView.WaterHistory.value);
-		};
-		systemSettingsView.ParserHistorySet.onclick = function() {
-			changeSingleSystemProvisionValue("parserHistorySize", systemSettingsView.ParserHistory.value);
-		};
-		systemSettingsView.ParserDaysSet.onclick = function() {
-			changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
-		};
-
-		systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
-		*/
 	}
 
 
@@ -294,6 +270,47 @@ window.ui = window.ui || {};
 
 	function showSettingsPro() {
 
+	}
+
+	function showSettingsDebug() {
+
+		//systemSettingsView.SoftwareRainSensorEnable.checked = Data.provision.system.useSoftwareRainSensor;
+		//systemSettingsView.SoftwareRainSensorQPF.value = Data.provision.system.softwareRainSensorMinQPF;
+
+		var hasExtendValves = false;
+		var r = API.getExtendValves();
+		console.log(r);
+		if (r && r.extended) hasExtendValves = true;
+
+		systemSettingsView.ExtendValves.checked = hasExtendValves;
+
+		uiFeedback.sync(systemSettingsView.ExtendValvesSet,
+			function(){ return APIAsync.setExtendValves(systemSettingsView.ExtendValves.checked)});
+
+		systemSettingsView.MixerHistory.value = Data.provision.system.mixerHistorySize;
+		systemSettingsView.SimulatorHistory.value = Data.provision.system.simulatorHistorySize;
+		systemSettingsView.WaterHistory.value = Data.provision.system.waterLogHistorySize;
+		systemSettingsView.ParserHistory.value = Data.provision.system.parserHistorySize;
+		systemSettingsView.ParserDays.value = Data.provision.system.parserDataSizeInDays;
+
+
+		systemSettingsView.MixerHistorySet.onclick = function()	{
+		 	changeSingleSystemProvisionValue("mixerHistorySize", systemSettingsView.MixerHistory.value);
+		 };
+		 systemSettingsView.SimulatorHistorySet.onclick = function() {
+		 	changeSingleSystemProvisionValue("simulatorHistorySize", systemSettingsView.SimulatorHistory.value);
+		 };
+		 systemSettingsView.WaterHistorySet.onclick = function() {
+		 	changeSingleSystemProvisionValue("waterLogHistorySize", systemSettingsView.WaterHistory.value);
+		 };
+		 systemSettingsView.ParserHistorySet.onclick = function() {
+		 	changeSingleSystemProvisionValue("parserHistorySize", systemSettingsView.ParserHistory.value);
+		 };
+		 systemSettingsView.ParserDaysSet.onclick = function() {
+		 	changeSingleSystemProvisionValue("parserDataSizeInDays", systemSettingsView.ParserDays.value);
+		 };
+
+		 //systemSettingsView.SoftwareRainSensorSet.onclick = function() { systemSettingsSetSoftwareRainSensor() };
 	}
 
 	function changeSingleSystemProvisionValue(provisionKey, value)
@@ -660,6 +677,13 @@ window.ui = window.ui || {};
 				Util.parseDeviceDateTime(o);
 				dateRefreshValue = Util.today();
 			});
+	}
+
+	function debugKeyUnlock(e) {
+		if (e.code == 'KeyD') {
+			makeVisibleBlock("#systemSettingsDebug");
+			showSettingsDebug();
+		}
 	}
 
 	//--------------------------------------------------------------------------------------------

@@ -1198,51 +1198,6 @@
 
 									</td>
 								</tr>
-								<!-- DEVELOPER ONLY
-                                <tr>
-									<td class="middle">
-										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
-										<span class="cardTitle">Software rainsensor</span><br>
-										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
-										<span class="cardTitle">Mixer History Size</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
-										<span class="cardTitle">Simulator History Size</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
-										<span class="cardTitle">Water Log History Size</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsParserHistorySet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
-										<span class="cardTitle">Parser History Size</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="middle">
-										<button id="systemSettingsParserDaysSet" class="button label-blue center right">Apply</button>
-										<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
-										<span class="cardTitle">Parser Future Days</span>
-									</td>
-								</tr>
-								-->
 							</table>
 						</div>
 						<div id="systemSettingsMini8" style="display: none" class="settingsBlock center block70">
@@ -1350,7 +1305,68 @@
 								</tr>
 								</table>
 						</div>
-
+						<!-- DEVELOPER ONLY -->
+						<div id="systemSettingsDebug" style="display:none" class="settingsBlock center block70">
+							<table cellspacing="0" cellpadding="0" class="full">
+								<tr>
+									<th>
+										<h1 class="title">Developer Settings</h1>
+									</th>
+								</tr>
+								<!---
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsSoftwareRainSensorSet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsSoftwareRainSensorQPF" class="typeNumber"> (qpf mm) &nbsp;&nbsp;&nbsp;Enable: <input id="systemSettingsSoftwareRainSensor" type="checkbox" class="middle" />	</span>
+										<span class="cardTitle">Software rainsensor</span><br>
+										<span class="subtitle">Over ride Rainmachine algorithm and stop all watering when predicted QPF exceeds value specified.</span>
+									</td>
+								</tr>
+								--->
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsExtendValvesSet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input id="systemSettingsExtendValves" type="checkbox" class="right mr" /></span>
+										<span class="cardTitle">Extended Valves Support</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsMixerHistorySet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsMixerHistory" class="typeNumber"> days</span>
+										<span class="cardTitle">Mixer History Size</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsSimulatorHistorySet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsSimulatorHistory" class="typeNumber"> days</span>
+										<span class="cardTitle">Simulator History Size</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsWaterHistorySet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsWaterHistory" class="typeNumber"> days</span>
+										<span class="cardTitle">Water Log History Size</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsParserHistorySet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsParserHistory" class="typeNumber"> days</span>
+										<span class="cardTitle">Parser History Size</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsParserDaysSet" class="button label-blue center right">Apply</button>
+										<span class="right mr"><input type="number" id="systemSettingsParserDays" class="typeNumber"> days</span>
+										<span class="cardTitle">Parser Future Days</span>
+									</td>
+								</tr>
+							</table>
+						</div>
 						<div class="settingsBlock center block70">
 							<table cellspacing="0" cellpadding="0" class="full">
 								<tr>
@@ -1681,7 +1697,7 @@
 												<td class="middle" style="width:33%;">
 													<div class="helpText" help="zoneWaterSurplus">?</div> <span style="font-size:130%;">Soil Water Surplus</span>
 													<br>&nbsp;<br>
-													<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block; color:#39c;"><!-- <span class="icon">&#xe901;</span> --> show</div></span>
+													<div rm-id="zone-available-water" style="color:#555;margin:0;padding-left:27px;cursor:pointer; display: inline-block; color:#39c;">View and Manage</div></span>
 												</td>
 
 												<td style="width:33%;">
