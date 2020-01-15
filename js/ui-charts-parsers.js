@@ -98,7 +98,7 @@ function processParserChartData(id, startDate, days) {
 		console.error("No recent data for parser %s", getParserName(id));
 		return;
 	}
-
+	console.log("Processing parser %s", id);
 	// initialize all data points for this parser id
 	var keys = Object.keys(parsersHourlyChartData);
 	for (var i = 0; i < keys.length; i++) {
@@ -173,7 +173,6 @@ function sortDataPoint(key) {
 	}
 }
 
-
 function generateAllKnownCharts(id, startDate, days) {
 	et0AvgGraphed = false;
 	var keys = Object.keys(parserCharts);
@@ -244,6 +243,10 @@ function generateSpecificParsersChart(key, startDate, days) {
 
 	var title = parserCharts[key].title + ' (' + Util.convert.getUnits(key) + ')';
 	var subtitle = "";
+
+	if (key == 'rain') {
+		subtitle = "Only available when a weather service that supports observed data is enabled";
+	}
 	if (key == 'wind') {
 		subtitle = "RainMachine final wind value reduced by " + Data.provision.location.windSensitivity * 100 + "% sensitivity";
 	}
@@ -260,11 +263,11 @@ function generateSpecificParsersChart(key, startDate, days) {
 		tooltip: {
 			shared: true,
 			useHTML: true,
-			xDateFormat: '%b %d',
-			headerFormat: '<h1>{point.key}</h1><table>',
+			xDateFormat: '%b %d %H:%M',
+			headerFormat: '<div style="z-index: 9999; opacity: 1; background-color: white"><h1>{point.key}</h1><table>',
 			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
 			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
-			footerFormat: '</table>',
+			footerFormat: '</table></div>',
 			valueDecimals: 2
 		},
 		series: chartSeries,

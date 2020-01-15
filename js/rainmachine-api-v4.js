@@ -20,20 +20,25 @@ var port = window.location.port;
 //var port = "8080";   //Example: Port for local network connection to a RainMachine
 //var port = "19090";  //Example: Port for demo.labs.rainmachine.com mock server
 
-//var protocol = window.location.protocol;
+var protocol = window.location.protocol;
 
-var apiUrl = "https://" + host + ":" + port + "/api/4";
+var apiUrl = protocol + "//" + host + ":" + port + "/api/4";
 //var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 
 var token = null;
 var async = async;
 
-function rest(type, apiCall, data, isBinary, extraHeaders)
+function rest(type, apiCall, data, isBinary, extraHeaders, asyncObject)
 {
 	var url;
-	var a = new Async();
+	var a;
 	var r = new XMLHttpRequest();
+
+	if (defined(asyncObject))
+		a = asyncObject;
+	else
+		a = new Async();
 
 	if (token !== null)
 		url = apiUrl + apiCall + "?access_token=" + token;
@@ -42,6 +47,16 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 
 	//console.log("%s API call: %s", async ? "ASYNC":"*sync*", url);
 
+	function retry() {
+		if (a.withRetry && a.retries > 0) {
+			console.log("REST: Retrying ! %d more times with delay %s ", a.retries, a.retryInterval);
+			a.retries--;
+			setTimeout(rest.bind(null, type, apiCall, data, isBinary, extraHeaders, a), a.retryInterval);
+			return true;
+		}
+		return false;
+	}
+
 	if (async) {
 		r.onload = function() {
 			if (r.readyState === 4) {
@@ -49,10 +64,15 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 					//console.info("REST ASYNC: SUCCESS  %s reply: %o", url, r);
 					a.resolve(JSON.parse(r.responseText));
 				} else {
-					a.reject(r.status);
 					console.log("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
+					if (!retry()) a.reject(r.status);
 				}
 			}
+		};
+
+		r.onerror = function(e) {
+			console.log("REST ASYNC: onerror(): %s", e);
+			if (!retry()) a.reject(e);
 		};
 	}
 
@@ -91,7 +111,7 @@ function rest(type, apiCall, data, isBinary, extraHeaders)
 	} catch(e) {
 		console.log("REST: Exception: %s", e);
 		if (async) {
-			a.reject(e);
+			if (!retry()) a.reject(e);
 		}
 	}
 
@@ -545,6 +565,21 @@ _API.prototype.getWateringAvailable = function(startDate, days)
 	return this.get(url, null);
 }
 
+/*
+Sets available water using the following structure:
+[ { pid: <program id>,
+	zid: <zone id>,
+    percentage: <value>
+    }, ]
+ */
+
+_API.prototype.setWateringAvailable = function(awConfigData)
+{
+	var url = this.URL.watering + "/available";
+	var data = {"availableWaterValues": awConfigData };
+	return this.post(url, data);
+}
+
 _API.prototype.stopAll = function()
 {
 	var url = this.URL.watering + "/stopall";
@@ -805,7 +840,18 @@ _API.prototype.getTimeZoneDB = function()
 	return this.get(url, null);
 }
 
-_API.prototype.uploadParser = function(fileName, fileType, binData)
+_API.prototype.uploadParser = function(fileName, formData)
+{
+	var url = this.URL.dev + "/import/parser";
+	var extraHeaders = [];
+
+	extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
+
+	return this.uploadFile(url, formData, extraHeaders);
+}
+
+
+_API.prototype.uploadParserOld = function(fileName, fileType, binData)
 {
 	var url = this.URL.dev + "/import/parser";
 	var extraHeaders = [];
@@ -825,6 +871,20 @@ _API.prototype.getBeta = function()
 _API.prototype.setBeta = function(enabled)
 {
 	var url = this.URL.dev + "/beta";
+	var data = { enabled: enabled };
+	return this.post(url, data, null);
+}
+
+_API.prototype.getExtendValves = function()
+{
+	var url = this.URL.dev + "/extendvalves";
+	return this.get(url, null);
+}
+
+
+_API.prototype.setExtendValves = function(enabled)
+{
+	var url = this.URL.dev + "/extendvalves";
 	var data = { enabled: enabled };
 	return this.post(url, data, null);
 }

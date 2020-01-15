@@ -599,9 +599,9 @@ Util.convert = {
 	},
 	uiFlowClicks: function(v) {
 		if (!Data.provision.system.uiUnitsMetric) {
-			return Math.round(Util.convert.galToVolumeMeters(v));
+			return Math.round(Util.convert.galToVolumeMeters(v) * 10) / 10;
 		} else {
-			return  Math.round(v);
+			return  Math.round(v * 10) / 10;
 		}
 	},
 	uiFlowClicksInMetric: function(v) {
@@ -614,7 +614,7 @@ Util.convert = {
 	uiFlowClicksToVolume: function(v) {
 		var systemClicks = Data.provision.system.flowSensorClicksPerCubicMeter;
 		if ( systemClicks && systemClicks > 0) {
-			return Math.round(v / systemClicks * 100) / 100;
+			return Math.round(v / systemClicks * 1000) / 1000;
 		}
 	},
 	uiFlowClicksStr: function() {
@@ -802,6 +802,27 @@ Util.showBin = function(n) {
 	var padding = new Array(octets * 8).join(0);
 	var s = n.toString(2);
 	return padding.substr(s.length) + s;
+};
+
+Util.parseVersion = function(versionStr) {
+	var version = {
+		major: 0,
+		minor: 0,
+		revision: 0
+	};
+
+	if (!defined(versionStr)) return version;
+
+	var v = versionStr.split('.');
+	if (defined(v[0])) {
+		version.major = parseInt(v[0]);
+		if (defined(v[1]))
+			version.minor = parseInt(v[1]);
+			if (defined(v[2]))
+				version.revision = parseInt(v[2]);
+	}
+
+	return version;
 };
 
 return Util; } ( Util || {}));
