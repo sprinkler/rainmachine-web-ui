@@ -280,7 +280,6 @@ window.ui = window.ui || {};
 	}
 
 	function updateWateringQueue(wateringQueue) {
-
 		var container = $('#wateringQueueContainer');
 		var template = loadTemplate("water-queue-template");
 		clearTag(container);

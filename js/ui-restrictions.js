@@ -8,7 +8,7 @@ window.ui = window.ui || {};
 (function(_restrictions) {
 
 	var uiElems = null;
-    
+	var flowSensorWateringState = false;
 
 	function createRestrictionsElems() {
 		uiElems = {};
@@ -439,6 +439,7 @@ window.ui = window.ui || {};
 
 		uiElems.flowSensor.onclick = showFlowSensorOptions;
 		showFlowSensorOptions();
+		toggleAttr(uiElems.flowSensorCounterWheel, flowSensorWateringState, 'running'); // Flow sensor wheel animation
 	}
     
 	function onSetRainSensor() {
@@ -570,13 +571,7 @@ window.ui = window.ui || {};
 	}
 
 	function setFlowSensorState(state) {
-		if (Data.provision.api.hwVer == 5 || Data.provision.api.hwVer === 3 || Data.provision.api.hwVer === "simulator") {
-			if (state) {
-				toggleAttr(uiElems.flowSensorCounterWheel, true, 'running');
-			} else {
-				toggleAttr(uiElems.flowSensorCounterWheel, false, 'running');
-			}
-		}
+		flowSensorWateringState = state;
 	}
 
 
