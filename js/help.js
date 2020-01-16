@@ -40,6 +40,7 @@ var Help = (function(Help) {
 							"calculated either by a catch cup test or by zone water meter flow and area.",
 		"zoneAppEfficiency": "The ratio of the average water depth applied and the target water depth during an irrigation event.",
 		"zoneSurfaceAccumulation": "The maximum height of water that is allowed to accumulate over the soil surface before runoff occurs.",
+		"zoneRangeSliderThumb": "To manually start a zone, click and drag the timer to the desired amount, and then release it.",
 		/*Watering History help texts */
 		"waterSavedVolume": "For accurate results enter the correct precipitation rate, zone area or zone total flow in advanced zone settings.",
 		/*Settings help texts */
