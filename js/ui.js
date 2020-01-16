@@ -327,6 +327,10 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function getWateringState() {
+		return uiLastWateringState;
+	}
+
 
 	//--------------------------------------------------------------------------------------------
 	//
@@ -504,6 +508,7 @@ window.ui = window.ui || {};
 	//
 	_main.showError = showError;
 	_main.uiMain = uiMain;
+	_main.getWateringState = getWateringState;
 	_main.refreshGraphs = false;
 } (window.ui.main = window.ui.main || {}));
 
