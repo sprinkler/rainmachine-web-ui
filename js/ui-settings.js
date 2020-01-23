@@ -972,6 +972,7 @@ window.ui = window.ui || {};
 					};
 
 					var cycleDetailsContainer = addTag(cycleParentContainer, "div");
+					cycleDetailsContainer.style.width = "100%";
 					makeHidden(cycleDetailsContainer);
 
 					//Append detailed per cycle information
