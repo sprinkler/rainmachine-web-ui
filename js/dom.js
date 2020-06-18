@@ -168,6 +168,8 @@ function makeVisible(tag)
     else { e = tag; }
 
 	e.style.display = "inline-table";
+	//correct display highchart graphs
+	e.style.width = "100%";
 	//e.focus();
 }
 
