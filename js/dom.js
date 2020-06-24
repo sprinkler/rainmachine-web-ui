@@ -227,6 +227,22 @@ function toggleAttr(elem, enable, attrName) {
 	}
 }
 
+function togglePasswordDisplay(elem, button) {
+	if (!elem) {
+		return false;
+	}
+
+	if (elem.type == "text") {
+		elem.type = "password";
+		button.textContent = "\'";
+	} else {
+		elem.type = "text";
+		button.textContent = "*";
+	}
+
+	return true;
+}
+
 function loadTemplate(name) {
 	var template = $("#" + name);
 	template = template.cloneNode(true);
