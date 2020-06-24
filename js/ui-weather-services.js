@@ -65,7 +65,74 @@ window.ui = window.ui || {};
 		return params;
 	}
 
+
+	/* NetAtmo custom UI */
+	function netatmoRender(parent, params) {
+		console.log(params);
+		clearTag(parent);
+		var ui = loadTemplate("weather-sources-netatmo-ui");
+		var user = $(ui, '[rm-id="weather-sources-netatmo-user"]');
+		var pass = $(ui, '[rm-id="weather-sources-netatmo-pass"]');
+		var modulesList = $(ui, '[rm-id="weather-sources-netatmo-modules"]');
+		var customModules = $(ui, '[rm-id="weather-sources-netatmo-custommodules"]');
+		var useCustom = $(ui, '[rm-id="weather-sources-netatmo-usecustom"]');
+
+		user.id = "weather-sources-netatmo-user";
+		user.value = params.username;
+		pass.id = "weather-sources-netatmo-pass";
+		pass.value = params.password;
+
+		if (params._availableModules.length > 0) {
+			for(var i = 0; i < params._availableModules.length; i++) {
+				var name = params._availableModules[i][0];
+				var id = params._availableModules[i][1];
+				var elName = addTag(modulesList, "div");
+				var elId = addTag(modulesList, "div");
+				elName.style.width = "250px";
+				elName.style.float = "left";
+				elName.textContent = name;
+				elId.textContent = id;
+			}
+		}
+
+		useCustom.id = "weather-sources-netatmo-usecustom";
+		useCustom.checked = params.useSpecifiedModules;
+
+		customModules.id = "weather-sources-netatmo-custommodules";
+		customModules.value = params.specificModules;
+		parent.appendChild(ui);
+	}
+
+	// Returns new parameters if they are different from the old ones or null otherwise
+	function netatmoSave(oldparams) {
+		var apiKey = $("#weather-sources-wu-apikey");
+		var customStations = $("#weather-sources-wu-customstations");
+		var useCustom = $("#weather-sources-wu-usecustom");
+
+		var user = $("#weather-sources-netatmo-user");
+		var pass = $("#weather-sources-netatmo-pass");
+		var useCustom = $("#weather-sources-netatmo-usecustom");
+		var customModules = $("#weather-sources-netatmo-custommodules");
+
+		var params = {};
+
+		params.username = user.value;
+		params.password = pass.value;
+		params.useSpecifiedModules = useCustom.checked;
+		params.specificModules = customModules.value;
+
+		if (params.username == oldparams.username &&
+			params.password == oldparams.password &&
+			params.useSpecifiedModules == oldparams.useSpecifiedModules &&
+			params.specificModules == oldparams.specificModules) {
+			return null;
+		}
+
+		return params;
+	}
+
 	_weatherservices.custom = {
-		"WUnderground Parser": {"render": wundergroundRender, "save": wundergroundSave }
+		"WUnderground Parser": {"render": wundergroundRender, "save": wundergroundSave },
+		"Netatmo Parser": {"render": netatmoRender, "save": netatmoSave }
 	};
 } (window.ui.weatherservices = window.ui.weatherservices || {}));
