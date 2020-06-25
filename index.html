@@ -2669,22 +2669,20 @@
 			<div>
 				<h1>Authentification</h1>
 				<span class="subtitle">
-					Enter your NetAtmo email and password to login.
-					<br> This information is only stored locally on your RainMachine and only sent to NetAtmo for login.
+					- Enter your NetAtmo account credentials (email and password).<br>
+					&nbsp;&nbsp;<i>Note: This information is only stored locally on your RainMachine and only sent to NetAtmo for login.</i><br>
+					- Click "<strong>SAVE</strong>" button.<br>
+					- Click on "<strong>REFRESH NOW</strong>" button. <br>
+					- Wait for NetAtmo Weather Modules to be listed beneath so you can choose which one to use.<br>
+					
 				</span>
-				<br>
-				<table border="0">
-					<tr>
-						<td>Email:</td>
-						<td><input rm-id="weather-sources-netatmo-user" type="text" class="typeText" style="width: 200px"></td>
-					</tr>
-					<tr>
-						<td>Password:</td>
-						<td> <input rm-id="weather-sources-netatmo-pass" type="password" class="typeText" style="width: 200px"></td>
-					</tr>
-
-
-				</table>
+				<div style="clear: both;height:0.3em;"></div>	
+					<span style="display: inline-block; width: 90px;">Email:</span>
+					<input rm-id="weather-sources-netatmo-user" type="text" class="typeText" style="width: 200px">
+				<div style="clear: both;height:0.3em;"></div>	
+					<span style="display: inline-block; width: 90px;">Password:</span>
+					<input rm-id="weather-sources-netatmo-pass" type="password" class="typeText" style="width: 200px;margin-left: 10px; height:44px;">
+					<div class="zones-showhide" rm-id="weather-sources-netatmo-showpass">'</div>
 				<br>
 			</div>
 
@@ -2692,21 +2690,22 @@
 			<span class="separator"></span>
 			<div>
 				<h1>NetAtmo Weather Modules</h1>
+				<span class="subtitle">
+					Copy the ID number of the modules you would like to use and paste it into the input field.<br>
+					If you want to use more than one module, separate the modules ID numbers by comma, check the box and then click the <strong>SAVE</strong> button.<br><br>
+					<i>Note: This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.<br>
+					If you don't specify any modules, your first NetAtmo base station module will be used.</i>
+				</span>
+				<div style="clear: both;height:0.3em;"></div>
 
 				<div rm-id="weather-sources-netatmo-modules">
 					<!-- Will be filled from JS -->
 				</div>
-				<h1>Use Selected Modules </h1>
-				<span class="subtitle">
-					Enter the ID of the modules you would like to use separated by comma.
-					<br>This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.
-					<br>If you don't specify any modules your first NetAtmo base station modules will be used.<br>
-				</span>
-				<br>
-				<input rm-id="weather-sources-netatmo-usecustom" type="checkbox"></h1>
+				<div style="clear: both;height:0.3em;"></div>	
 				<input rm-id="weather-sources-netatmo-custommodules" type="text" class="typeText" style="width:450px;margin-left:0;">
-				<div style="clear:both;"></div>
-
+				<div style="clear: both;height:0.3em;"></div>	
+				Please check this box to use selected modules <input rm-id="weather-sources-netatmo-usecustom" type="checkbox">
+				<br>
 			</div>
 		</div>
 		<!-- Template for NetAtmo (End) -->

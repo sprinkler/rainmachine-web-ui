@@ -68,7 +68,6 @@ window.ui = window.ui || {};
 
 	/* NetAtmo custom UI */
 	function netatmoRender(parent, params) {
-		console.log(params);
 		clearTag(parent);
 		var ui = loadTemplate("weather-sources-netatmo-ui");
 		var user = $(ui, '[rm-id="weather-sources-netatmo-user"]');
@@ -76,6 +75,7 @@ window.ui = window.ui || {};
 		var modulesList = $(ui, '[rm-id="weather-sources-netatmo-modules"]');
 		var customModules = $(ui, '[rm-id="weather-sources-netatmo-custommodules"]');
 		var useCustom = $(ui, '[rm-id="weather-sources-netatmo-usecustom"]');
+		var showPassword = $(ui, '[rm-id="weather-sources-netatmo-showpass"]');
 
 		user.id = "weather-sources-netatmo-user";
 		user.value = params.username;
@@ -100,6 +100,10 @@ window.ui = window.ui || {};
 
 		customModules.id = "weather-sources-netatmo-custommodules";
 		customModules.value = params.specificModules;
+
+		showPassword.onclick = function() { togglePasswordDisplay(pass, showPassword); };
+
+
 		parent.appendChild(ui);
 	}
 
