@@ -45,7 +45,12 @@ var Help = (function(Help) {
 		"waterSavedVolume": "For accurate results enter the correct precipitation rate, zone area or zone total flow in advanced zone settings.",
 		/*Settings help texts */
 		"settingsSensorsFlow": "For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.",
-		"settingsWateringHistoryTotalWaterUsed": "Total watered gallons (cube meters) per program is a number provided by the flow sensor (measured) or otherwise based on the sprinkler heads precipitation rate (estimated)."
+		"settingsWateringHistoryTotalWaterUsed": "Total watered gallons (cube meters) per program is a number provided by the flow sensor (measured) or otherwise based on the sprinkler heads precipitation rate (estimated).",
+		"settingsWateringHistoryTotalWaterUsed": "Total watered gallons (cube meters) per program is a number provided by the flow sensor (measured) or otherwise based on the sprinkler heads precipitation rate (estimated).",
+		"weatherNetAtmoLogin": "After you enter the NetAtmo credentials click on the 'SAVE' button." +
+					" Then click on 'REFRESH NOW' button." +
+					" Wait for NetAtmo Weather Modules to be listed beneath so you can choose which one to use.",
+		"weatherNetAtmoModules": "Copy the ID number of the modules you would like to use and paste it into the input field. If you want to use more than one module, separate the modules ID numbers by comma, check the box and then click the 'SAVE' button."
 
 	};
 
