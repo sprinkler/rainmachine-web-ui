@@ -827,9 +827,9 @@ function generateWaterSavedGauge() {
 			endAngle: 360,
 			background: {
 				borderWidth: 10,
-				backgroundColor: '#e5f4ff',
+				backgroundColor: '#2f2f2f',
 				shape: 'circle',
-				borderColor: '#e5f4ff',
+				borderColor: '#2f2f2f',
 				outerRadius: '100%',
 				innerRadius: '80%'
 			}
@@ -925,7 +925,7 @@ function generateTemperatureChart () {
 			animation: false,
 			formatter: function() {
 				var date = Highcharts.dateFormat(chartsDateFormat, new Date(this.point.category));
-				var s = '<span style="font-size: 14px;">' + date + ':';
+				var s = '<span style="font-size: 14px;background:#000000;">' + date + ':';
 
 				if (this.point.secondPoint) {
 					s += " Low:"+ Util.convert.uiTemp(this.point.secondPoint.y) + Util.convert.uiTempStr();
@@ -1392,7 +1392,7 @@ function highlightCurrentDayInChart(chart) {
 
 		// add properties to the highlighter
 		highlighter.attr({
-			fill: '#f6f6f6',
+			fill: '#2f2f2f',
 			//opacity: 0.2,
 			'rm-id': 'dayHighlight'
 		});
