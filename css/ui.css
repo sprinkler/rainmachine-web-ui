@@ -5,10 +5,6 @@
 body.login { 
   overflow: hidden
 }
-body {
-  background-color: #000000;
-  color: #ffffff;
-}
 /* Declare RainMachine custom font START */
 @font-face {
   font-family: 'RainMachine';
@@ -191,7 +187,7 @@ body {
   font-size: 14px;
 }
 .loginContainer .loginInnerContainer {
-  background-color: #2f2f2f;
+  background-color: #f7f7f7;
   padding: 25px;
   border-radius: 5px;
   width: 350px;
@@ -267,7 +263,7 @@ body { font-family: Roboto, Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-
 }
 h1.title, h1.titleHome {
   padding-bottom: 5px;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
 }
 h1.titleHome {
   padding-left:10px;
@@ -334,12 +330,12 @@ strong { font-weight: 700; }
  {
   display: block;
   padding-top: 5px;
-  background-color: #000000;
+  background-color: #fff;
   margin-bottom: 10px;
   width: 100%;
   border-radius: 0 0 .25rem .25rem;
   box-shadow: 0 1px 0 rgba(0,0,0,.25);
-  border: 1px solid #333333;
+  border: 1px solid #e8e8e8;
 }
 #homeScreenWaterSaved {
   cursor: pointer;
@@ -358,7 +354,7 @@ strong { font-weight: 700; }
   margin:0 auto;
   color:#3399cc;
   text-align:center;
-  border-top:1px solid #555555;
+  border-top:1px solid #dddddd;
   font-size: 135%;
   height: 18px;
   overflow: hidden;
@@ -401,13 +397,13 @@ strong { font-weight: 700; }
   display: block;
   text-align: right;
   padding-top: 0.3em;
-  color: #777;
+  color: #000;
   height: 5.9em;
 }
 .weatherChartDaysTempRain {
   display: block;
   text-align: right;
-  color: #777;
+  color: #000;
   line-height: 22px;
   font-size: 14px;
 }
@@ -415,7 +411,7 @@ strong { font-weight: 700; }
 .weather-program-line {
   display: inline-block;
   width:100%;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
   vertical-align: middle;
 }
 
@@ -445,6 +441,12 @@ strong { font-weight: 700; }
   margin-top:-10px;
   margin-bottom: 10px;
 }
+.programFrequencyWeekdays {
+  margin-top: 1em;
+  padding:0.8em;
+  padding-top: 0;
+  border:1px solid #dddddd;
+ }
 #home-programs-no-program {
   display: block;
   margin: 0 auto;
@@ -467,21 +469,21 @@ strong { font-weight: 700; }
   padding-right: 44px;
 }
 .zone-line {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
 }
 .zone-line:hover{
-    background-color: #191919;
+    background-color: #f9f9f9;
 }
 .zone-line:hover .zoneListEdit{
-     background-color: #191919; 
+     background-color: #f9f9f9; 
 }
 .zone-second-row-container{
     padding-left: 5.5em;
     margin: 0 auto;
-    border-top: 1px solid #555;
+    border-top: 1px solid #f7f7f7;
 }
 .zone-line:hover .zone-second-row-container{
-   border-top: 1px solid #555;
+   border-top: 1px solid #fdfdfd;
 }
 .zone-second-row-container ul{
     list-style-type: none;
@@ -520,7 +522,7 @@ strong { font-weight: 700; }
   /*padding-top: 25px;*/
   padding-left: 10px;
   font-size: 18px;
-  color:#ffffff;
+  color:#555;
 }
 .zoneListEdit, .programListEdit {
   display:none;
@@ -530,7 +532,7 @@ strong { font-weight: 700; }
   vertical-align: middle;
   text-align: right;
   float: right;  
-  background: rgba(0,0,0,0.9);
+  background: rgba(255,255,255,0.9);
   z-index: 2;
 }
 .zoneListEdit {
@@ -585,7 +587,7 @@ strong { font-weight: 700; }
   padding: 0 2px 5px 2px;
   margin-top: -5px;
 }
-.today { background-color: #2f2f2f }
+.today { background-color: #f6f6f6 }
 .dateno {
   display: block;
   padding-top: 10px;
@@ -651,7 +653,7 @@ sup { font-size: 12px }
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(56, 56, 56, 0.9);
+  background-color: rgba(0, 0, 0, 0.9);
   overflow: scroll;
   z-index: 3;
 }
@@ -787,14 +789,10 @@ h1 {
   border: 0;
   background-size: contain;
   background-repeat: no-repeat;
-  background-color: #000000;
+  background-color: #ffffff;
   background-position: center center;
   border-radius: 0;
   z-index: 9999;
-}
-.zoneAvailableWaterTop {
-  overflow: hidden;
-  background: #000000;
 }
 
 #mainContainer {
@@ -804,20 +802,20 @@ h1 {
   
   width: 100%;
   overflow: auto;
-  background-color: #000000;
+  background-color: #dfdfdf;
 }
 .pageHeader {
   height: 80px;
   width: 100% !important;
-  background-color: #000000;
-  color: #ffffff;
-  border-bottom: 1px solid #333333;
+  background-color: #fff;
+  color: #000;
+  border-bottom: 1px solid #ddd;
 }
 .pageLeftMenu {
   float: left;
   clear: none;
   width: 100%;
-  background-color: #000000;
+  background-color: #f2f2f2;
   margin-bottom: 10px;
 }
 #pageContent {
@@ -825,7 +823,7 @@ h1 {
   clear: none;
   width: 100%;
   min-height: 800px !important;
-  background-color: #000000;
+  background-color: #f9f9f9;
 }
 .pageFooter {
   float: left;
@@ -833,10 +831,10 @@ h1 {
   color: #555;
   text-align: left;
   font-size: 10px;
-  border-top: 1px solid #333333;
+  border-top: 1px solid #e7ebee;
   height: 50px;
   min-width: 100% !important;
-  background-color: #000000;
+  background-color: #fff;
 }
 
 .weatherPercent {
@@ -861,7 +859,7 @@ h1 {
   padding-top: 1.35em;
   padding-bottom: 12px;
   margin-right: 5px;
-  color: #ffffff;
+  color: #555;
   cursor: pointer;
   text-transform: uppercase;
   text-align: center;
@@ -883,17 +881,17 @@ h1 {
   cursor: pointer;
   text-decoration: none;
   padding: 10px 15px;
-  color: #ffffff;
+  color: #000;
 }
 .submenu[selected] {
-  background-color: #000000;
+  background-color: #f9f9f9;
   border-bottom: 2px solid #3399cc;
 }
 .submenu:hover {
   color: #3399cc;
   /*blue color*/
   
-  background-color: #000000;
+  background-color: #f9f9f9;
 }
 /*buttons*/
 
@@ -927,12 +925,12 @@ h1 {
   margin: 55px auto 0;
   color: #39c;
   padding: 1px;
-  background-color: #000000;
+  background-color: #fff;
   border-radius: 100%;
 }
 .addNew:hover {
   color: #555;
-  background-color: #000000;
+  background-color: #fff;
   border-radius: 100%;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
@@ -990,11 +988,14 @@ td.saved {
   border: 0;
 }
 .bordertop {
-  border-top: 1px solid #555;
+  border-top: 1px solid #ddd;
   padding-top: 5px;
 }
 .bluerm {
   color:#39c;
+}
+.space {
+  margin-top: 0.8em;
 }
 .green {
   color: #00B25C;
@@ -1010,10 +1011,7 @@ td.saved {
   margin-bottom: 5px;
   display: block;
   height: 1px;
-  background-color: #555;
-}
-.space {
-  margin-top: 0.8em;
+  background-color: #f0f0f0;
 }
 .relative {
   padding: 0;
@@ -1025,8 +1023,7 @@ button {
   cursor: pointer;
 }
 textarea {
-  border: 1px solid #555555;
-  color:#ffffff;
+  border: 1px solid #eee;
   width: 75%;
   height: 200px;
   margin-left: 10px;
@@ -1035,8 +1032,7 @@ textarea {
 }
 
 input.typeText {
-  border: 1px solid #555555;
-  color: #ffffff;
+  border: 1px solid #eee;
   padding: 7px;
   font-size: 16px;
   width: 100%;
@@ -1047,10 +1043,8 @@ input.typeText {
 #systemSettingsLocationElev {
   width: 150px;
 }
-
-/* The container */
+/* The new input type checkbox style start */
 .container {
-  /*display: block;*/
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
@@ -1079,12 +1073,12 @@ input.typeText {
   width: 15px;
   border: 1px solid #555555;
   border-radius: 50%;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: #2f2f2f;
+  background-color: #dddddd;
 }
 
 /* When the checkbox is checked, add a blue background */
@@ -1106,38 +1100,31 @@ input.typeText {
 
 /* Style the checkmark/indicator */
 .container .checkmark:after {
-  /*left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;*/
   background: #39c url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJFJREFUeNpi/P//PwMpgIkINVpAHA/EjGAeyAY8WAqIbwHxdyDmBrsGj2KQgv3/ISALJo5PQyVUcRuyOIhgAeJuIN4JxDpQCRcg/gHEW4CYDZuGViD+BcSvgNgLiC8B8T0glkS3GZmjBcR3/iNABDanogtoA/EDIJ6Py2+MWCJOEog/AfFXbJHCSIuYRgEAAQYAhqAZs9Z9Pr0AAAAASUVORK5CYII=') no-repeat center;
     border: 1px solid #3399cc;
     padding: 7px;
     border-radius: 50%;
-  /*border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);*/
 }
+/* End of The new input type checkbox style start */
 
 /*input[type="checkbox"] {
+input[type="checkbox"] {
   padding: 8px;
   -webkit-appearance: button;
   width: 15px;
   height: 15px;
-  border: 1px solid #555555;
+  border: 1px solid #6B6B6B;
   border-radius: 50%;
-  background-color: #000000;
+  background-color: #fff;
   vertical-align: middle;
-  color: #ffffff;
 }
 input[type="checkbox"]:checked {
     background: #39c url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJFJREFUeNpi/P//PwMpgIkINVpAHA/EjGAeyAY8WAqIbwHxdyDmBrsGj2KQgv3/ISALJo5PQyVUcRuyOIhgAeJuIN4JxDpQCRcg/gHEW4CYDZuGViD+BcSvgNgLiC8B8T0glkS3GZmjBcR3/iNABDanogtoA/EDIJ6Py2+MWCJOEog/AfFXbJHCSIuYRgEAAQYAhqAZs9Z9Pr0AAAAASUVORK5CYII=') no-repeat center;
     border: 1px solid #3399cc;
     padding: 8px;
     border-radius: 50%;
-}*/
+}
+*/
 .rangeSliderBody {
   width: 100%;
   height: 4px;
@@ -1158,7 +1145,7 @@ input[type="checkbox"]:checked {
   font-weight: 500;
   vertical-align: middle;
   border-radius: 100%;
-  background: #000;
+  background: #ffffff;
   cursor: pointer;
   padding-top: 17px;
 }
@@ -1218,7 +1205,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 input[type="radio"] {
-    background-color: #000000;
+    background-color: #fff;
     display: inline-block;
     border-radius: 50%;
     height: 15px;
@@ -1227,7 +1214,7 @@ input[type="radio"] {
     -webkit-appearance: none;
 }
 input[type="radio"]:after {
-    background-color: #000000;
+    background-color: #fff;
     border-radius: 50%;
     border: 1px solid #6B6B6B;
     content: '';
@@ -1283,19 +1270,16 @@ input[type=range]:focus::-ms-fill-upper {
   background: #3399cc;
 }
 /!*IE custom input range END *!/*/
-input {
-  background-color: #000;
-  color: #f6f6f6;
-}
+
 input.typeRadio {
-  border: 1px solid #555;
+  border: 1px solid #eee;
   padding: 15px;
   font-size: 16px;
 }
 input.typeNumber,
 input.typeTime, input.typeNumberZone {
   border: 0;
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid #ddd;
   padding: 5px 0 5px 5px;
   font-size: 16px;
   font-family: 'Roboto', Arial, Helvetica;
@@ -1306,25 +1290,24 @@ input.typeTime, input.typeNumberZone {
 }
 input:focus {
   border-bottom: 1px solid #3399cc;
-  background: #555;
+  background: #F8F8F8;
   }
 input.typeNumberZone {
   margin:0px;
 }
 input[type=file] {
   padding: 10px 10px 10px 0;
-  color: #555;
-  border-bottom: 1px solid #555;
+  color: #ddd;
+  border-bottom: 1px solid #f0f0f0;
   width: 100%;
   margin-bottom: 20px;
 }
 select, .selectSmall {
-  background: #000 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwM1ARMDlQHYwM+fP8u+ffvBmJDiZ8+euRI0EehlrsmTZ12rrm798ObNG31QEGDDW7fu7SwoKP9/4cLlTFxqQBjkwj+mpobHPn78wD916rxdQJfqoFu6e/fhpk2btpRJSUl+lZeXuU3IhWB84sTp2RkZxf+bm3uevH//SQMmvnfvodqMjML/ra19nz99+mSPz3XgCEbmHDp0dC5E84QHQM2qhw6dKIRa8vX9+/eOhAwDYUb0ZLNv34FFq1dviRUXFwUZwi0oKPwzNzfVT1hYYBdR0YzFFiZgBCxPTy/4D4yoPy9evPEmxmVYvYyEWXbt2j/n/v1HwaQYhtXLgy6nAAQYAEjoUznv/t74AAAAAElFTkSuQmCC') no-repeat right center;
+  background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQ1JREFUeNpi/P//PwM1ARMDlQHYwM+fP8u+ffvBmJDiZ8+euRI0EehlrsmTZ12rrm798ObNG31QEGDDW7fu7SwoKP9/4cLlTFxqQBjkwj+mpobHPn78wD916rxdQJfqoFu6e/fhpk2btpRJSUl+lZeXuU3IhWB84sTp2RkZxf+bm3uevH//SQMmvnfvodqMjML/ra19nz99+mSPz3XgCEbmHDp0dC5E84QHQM2qhw6dKIRa8vX9+/eOhAwDYUb0ZLNv34FFq1dviRUXFwUZwi0oKPwzNzfVT1hYYBdR0YzFFiZgBCxPTy/4D4yoPy9evPEmxmVYvYyEWXbt2j/n/v1HwaQYhtXLgy6nAAQYAEjoUznv/t74AAAAAElFTkSuQmCC') no-repeat right center;
   padding: 10px;
-  color:#f0f0f0;
   font-size: 16px;
   font-family: 'Roboto', Arial, Helvetica;
-  border: 1px solid #555;
+  border: 1px solid #ddd;
   border-radius: 0;
   height: 44px;
   -webkit-appearance: none;
@@ -1395,7 +1378,7 @@ select, .selectSmall {
 .listItemSettingsZones,
 .listItemSettingsRestrictions {
   vertical-align: top;
-  background-color: #191919;
+  background-color: #fff;
   padding: 10px;
   width: 265px;
   text-align: left;
@@ -1407,7 +1390,7 @@ select, .selectSmall {
 .listItemSettings,
 .listItemSettingsRestrictions {
   display: inline-block;
-  background-color: #191919;
+  background-color: #fff;
   width: 25%;
   min-width: 257px;
   line-height: 24px;
@@ -1482,7 +1465,7 @@ select, .selectSmall {
   border-radius: 0 0 .25rem .25rem;
   box-shadow: 0 1px 0 rgba(0,0,0,.25);
   padding: 2rem 2rem 1rem;
-  border: 1px solid #333333;
+  border: 1px solid #e8e8e8;
 }
 .block70{
   min-width:917px;
@@ -1491,7 +1474,7 @@ select, .selectSmall {
   margin-bottom:20px;
 }
 .programEdit, .programEditZonesTime {
-  background-color: #000000;
+  background-color: #fff;
   width: 90%;
   min-width:826px;
   margin: 15px auto;
@@ -1518,7 +1501,7 @@ select, .selectSmall {
 
 .settingsBlock,
 .settingsBlockZones,
-.settingsBlockProgram { background-color: #191919; }
+.settingsBlockProgram { background-color: #fff }
 .settingsBlockZones,
 .settingsBlockProgram {
   height: 100%;
@@ -1529,57 +1512,6 @@ select, .selectSmall {
   width:44.5%;
   border-bottom: 0;
 }
-.programFrequencyWeekdays {
-  margin-top: 1em;
-  padding:0.8em;
-  padding-top: 0;
-  border:1px solid #333333;
- }
-
-.highcharts-background, .highcharts-pane-group {
-  fill: #000000;
-}
-
-.highcharts-title {
-    color: #f9f9f9 !important;
-}
-
-.highcharts-subtitle {
-  fill: #f1f1f1 !important;
-}
-.highcharts-grid-line {
-  stroke: #2f2f2f !important;
-}
-.highcharts-legend-item > text {
-  fill: #f9f9f9 !important;
-}
-
-.highcharts-legend-item:hover text {
-  fill: #3399cc !important;
-}
-.highcharts-tooltip text {
-  fill: #f9f9f9 !important;
-  background-color: #000000 !important;
-}
-.highcharts-tooltip-box {
-  fill: #000000 !important;
-  background-color: #000000 !important;
-}
-.highcharts-tooltip-box .highcharts-label-box {
-  fill: #2f2f2f !important;
-  background-color: #000000 !important;
-}
-.highcharts-pane {
-  stroke: #2f2f2f !important;
-}
-.highcharts-parsers-tooltip {
-  background-color: #000000;
-  color: #f9f9f9;
-  opacity: 1;
-  z-index: 9999; 
-}
-
-
 .gap {
   width: 1%;
   border-bottom: 0;
@@ -1625,7 +1557,7 @@ td {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 0;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
   vertical-align: top;
 }
 td.middle,
@@ -1634,7 +1566,7 @@ td.right,
 .right, .txtright { text-align: right }
 .listItem hr, hr {
   height: 1px;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
 }
 
@@ -1644,7 +1576,7 @@ td.right,
   width: 100%;
   display: table;
   padding: 10px 0;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
 }
 .wateringLogDayContainer:before {
   content: "+";
@@ -1666,11 +1598,11 @@ td.right,
   color:#39c;
 }
 .wateringLogWholeDay {
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.14);
 }
 .wateringLogWholeDay:hover {
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.8);
-  background-color: #2f2f2f;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.14);
+  background-color: #FAFAFA;
 }
 .wateringLogDayHeader {
  padding: 0 0 2.4em 0;
@@ -1737,7 +1669,7 @@ td.right,
   padding-top: 15px;
 }
 
-.historyZone:hover { background-color: #2f2f2f }
+.historyZone:hover { background-color: #f0f0f0 }
 .historyZoneItem {
   padding-bottom: 12px;
   font-size: 0.9em;
@@ -1754,8 +1686,8 @@ td.right,
   font-size:16px;
 }
 .historyAllZones {
-  border-top: 1px solid #555;
-  border-bottom: 1px solid #333333;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   padding-top: 10px;
   margin-bottom: 0;
 }
@@ -1763,7 +1695,7 @@ td.right,
   text-transform: uppercase;
   padding: 10px;
   display: block;
-  background-color: #2f2f2f;
+  background-color: #FAFAFA;
   color: #39c;
   cursor: pointer;
 }
@@ -1776,7 +1708,7 @@ td.right,
   margin-right:5px;
 }
 .cyclesExpanded {
-  background-color: #2f2f2f;
+  background-color: #FAFAFA;
 }
 
 /* FLOW METER SENSOR */
@@ -1890,13 +1822,13 @@ td.right,
   text-align: center;
   padding:5px;
   margin-right: 54px;
-  border: 1px solid #555;
+  border: 1px solid #ddd;
 }
 .wateringHistorySimpleLinesTitle {
   display: block;
   padding-bottom: 25px;
   padding-top: 15px;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #ddd;
   color: #555;
 }
 /* DASHBOARD */
@@ -1906,8 +1838,8 @@ td.right,
 }
 
 .weatherSource {
-  border-top: 0 solid #555;
-  border-bottom: 1px solid #555;
+  border-top: 0 solid #eee;
+  border-bottom: 1px solid #eee;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAOCAYAAAAi2ky3AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAARdJREFUeNpi/P//PwM1ABMy5+LFK5kfPnxwIcskkItA+OnTp64FBeX/u7omfPn06ZM9TJxYDHeRlJTUbldXt667dx9yT548ZwvQZY5kuQiGd+061JSRUfi/ubnn65s3792IdRFWwb17D9VmZBT/r6/v+vHixRtvsg0C4UOHThTm5ZX/r65u/XP//qNgosMIHRgYaG0RFBQEeu818+3bdz1JDiMQfv/+k0Zr64QHIO9t3bp3OVCMhWSvAQNYBxjQT0ABvnfv/kVAMSaSw+jNmzf6jY1dL0EuOXTo6FxS0hGyS4yBAfshJ6f0/4kTp2eTmiBZYGHFxsb8SkJC9Jmvr9sac3OTVFJzCCNapuUC4j9A/ItUgwACDACtIMjJcaWYBwAAAABJRU5ErkJggg==') no-repeat right;
   padding: 10px 0;
   min-height: 30px;
@@ -1966,7 +1898,7 @@ td.right,
 }
 .button.narrow { width: 60px }
 .button.grey {
-  background-color: #2f2f2f;
+  background-color: #eee;
   padding: 0 10px;
   width: 100px;
   margin-right: 20px;
@@ -2147,9 +2079,9 @@ td.right,
 
 }
 .weatherServicesTab label {
-  background: #000000;
+  background: #f1f1f1;
   padding: 7px;
-  border: 1px solid #555;
+  border: 1px solid #ccc;
   margin-left: -1px;
   position: relative;
   left: 30px;
@@ -2163,21 +2095,16 @@ td.right,
   position: absolute;
   top: -1px;
   left: 0;
-  background: #2f2f2f;
+  background: white;
   right: 0;
   bottom: 0;
   padding: 10px;
-  border: 1px solid #555;
+  border: 1px solid #ccc;
   -webkit-transition: opacity .6s linear;
   opacity: 0;
 }
-.weatherServicesTabContentHeader {
-  display:block;
-  border-bottom:1px solid #555555;
-  height:24px;
-  }
 [type=radio]:checked ~ label {
-  background: #2f2f2f;
+  background: white;
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
@@ -2293,7 +2220,7 @@ td.right,
 }
 
 .bg-grey {
-  background-color: #000000;
+  background-color: #f9f9f9;
 }
 
 .border-thin-grey {
@@ -2337,7 +2264,7 @@ td.right,
     float: left;
     clear: none;
     width: 100%;
-    background-color: #000000;
+    background-color: #f9f9f9;
   }
   .homeScreenMain {
     text-align: center;
@@ -2424,7 +2351,7 @@ td.right,
     min-width: 671px;
   }
   #pageContent {
-    border-top: 1px solid #555;
+    border-top: 1px solid #ddd;
   }
   h1.title, h1.titleHome {
     font-size: 130%;
