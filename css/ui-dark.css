@@ -5,10 +5,12 @@
 body.login { 
   overflow: hidden
 }
+/* added for dark mode */
 body {
   background-color: #000000;
   color: #ffffff;
 }
+
 /* Declare RainMachine custom font START */
 @font-face {
   font-family: 'RainMachine';
@@ -191,6 +193,7 @@ body {
   font-size: 14px;
 }
 .loginContainer .loginInnerContainer {
+  /* Changed for dark mode from background-color: #f7f7f7; */
   background-color: #2f2f2f;
   padding: 25px;
   border-radius: 5px;
@@ -267,6 +270,7 @@ body { font-family: Roboto, Helvetica, Arial, sans-serif;margin: 0 auto;-webkit-
 }
 h1.title, h1.titleHome {
   padding-bottom: 5px;
+  /* Changed for dark mode from border-bottom: 1px solid #ddd; */
   border-bottom: 1px solid #333333;
 }
 h1.titleHome {
@@ -334,11 +338,13 @@ strong { font-weight: 700; }
  {
   display: block;
   padding-top: 5px;
-  background-color: #000000;
+  /* Changed for dark mode from background-color: #fff; */
+  background-color: #191919;
   margin-bottom: 10px;
   width: 100%;
   border-radius: 0 0 .25rem .25rem;
   box-shadow: 0 1px 0 rgba(0,0,0,.25);
+  /* Changed for dark mode from border: 1px solid #e8e8e8; */
   border: 1px solid #333333;
 }
 #homeScreenWaterSaved {
@@ -358,6 +364,7 @@ strong { font-weight: 700; }
   margin:0 auto;
   color:#3399cc;
   text-align:center;
+  /* Changed for dark mode from border-top:1px solid #dddddd; */
   border-top:1px solid #555555;
   font-size: 135%;
   height: 18px;
@@ -407,6 +414,7 @@ strong { font-weight: 700; }
 .weatherChartDaysTempRain {
   display: block;
   text-align: right;
+  /* Changed for dark mode from color: #000; */
   color: #777;
   line-height: 22px;
   font-size: 14px;
@@ -415,6 +423,7 @@ strong { font-weight: 700; }
 .weather-program-line {
   display: inline-block;
   width:100%;
+  /* Changed for drak mode from border-bottom: 1px solid #ddd; */
   border-bottom: 1px solid #333333;
   vertical-align: middle;
 }
@@ -467,30 +476,35 @@ strong { font-weight: 700; }
   padding-right: 44px;
 }
 .zone-line {
+  /* Changed for dark mode from border-bottom: 1px solid #ddd; */
   border-bottom: 1px solid #333333;
 }
 .zone-line:hover{
-    background-color: #191919;
+  /* Changed for dark mode from background-color: #f9f9f9; */
+  background-color: #191919;
 }
 .zone-line:hover .zoneListEdit{
-     background-color: #191919; 
+  /* Changed for dark mode from background-color: #f9f9f9; */
+  background-color: #191919; 
 }
 .zone-second-row-container{
-    padding-left: 5.5em;
-    margin: 0 auto;
-    border-top: 1px solid #555;
+  padding-left: 5.5em;
+  margin: 0 auto;
+  /* Changed for dark mode from background-color: #f7f7f7; */
+  border-top: 1px solid #555;
 }
 .zone-line:hover .zone-second-row-container{
-   border-top: 1px solid #555;
+  /* Changed for dark mode from background-color: #fdfdfd; */
+  border-top: 1px solid #555;
 }
 .zone-second-row-container ul{
-    list-style-type: none;
-    line-height: 1.5em;
-    font-size: 0.8em;
-    color: #555;
+  list-style-type: none;
+  line-height: 1.5em;
+  font-size: 0.8em;
+  color: #555;
 }
 .zone-second-row-container li:not(:first-child){
-    padding-left: 0px;
+  padding-left: 0px;
 }
 .zone-second-row-container ul span{
     color: #888;
@@ -530,7 +544,7 @@ strong { font-weight: 700; }
   vertical-align: middle;
   text-align: right;
   float: right;  
-  background: rgba(0,0,0,0.9);
+  background: #191919;
   z-index: 2;
 }
 .zoneListEdit {
@@ -1000,7 +1014,7 @@ td.saved {
   color: #00B25C;
 }
 .red {
-  color: #ff0000;
+  color: #FF0266;
 }
 .gray{
   color:#888;
@@ -1537,7 +1551,7 @@ select, .selectSmall {
  }
 
 .highcharts-background, .highcharts-pane-group {
-  fill: #000000;
+  fill: #191919;
 }
 
 .highcharts-title {
@@ -1571,6 +1585,12 @@ select, .selectSmall {
 }
 .highcharts-pane {
   stroke: #2f2f2f !important;
+}
+.highcharts-parsers-tooltip {
+  background-color: #000000;
+  color: #f9f9f9;
+  opacity: 1;
+  z-index: 9999; 
 }
 
 
@@ -1955,27 +1975,28 @@ td.right,
   border-radius: 2px;
   font-size: 1.1em;
   font-family: 'Roboto', Arial, Helvetica;
-  color: #646464;
+  color: #BB86FC;
   text-transform: uppercase;
 }
 .button.narrow { width: 60px }
 .button.grey {
-  background-color: #2f2f2f;
+  background-color: #BB86FC;
+  color:#191919;
   padding: 0 10px;
   width: 100px;
   margin-right: 20px;
   text-align: center;
 }
 .button.blue {
-  background-color: #39c;
-  color: #fff;
+  background-color: #03DAC5;
+  color: #191919;
   padding: 0 10px;
   width: 132px;
   text-align: center;
 }
 .button.red {
-  background-color: red;
-  color: #fff;
+  background-color: #CF6679;
+  color: #191919;
   padding: 0 10px;
   width: 132px;
   text-align: center;
