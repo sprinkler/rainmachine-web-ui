@@ -6,8 +6,8 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 
 	<!-- BUILD DEVEL -->
-	<link href="css/ui.css" rel="stylesheet" type="text/css">
-	<!-- <link href="css/ui-dark.css" rel="stylesheet" type="text/css"> -->
+	<link href="css/ui.css" rel="stylesheet" type="text/css" id="csslight">
+	<link href="css/ui-dark.css" rel="stylesheet alternate" type="text/css" id="cssdark">
 	<script src="js/highcharts-custom.js"></script>
 	<script src="js/dom.js"></script>
     <script src="js/storage.js"></script>
@@ -1012,15 +1012,15 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<button id="" class="button label-blue center right">Apply</button>
+										<button id="systemSettingsThemeApply" class="button label-blue center right">Apply</button>
 										<span class="right mr" style="width:40%;">
 											<span style="display:block;">
 												<span class="left">Light</span>
-												<input type="radio" id="" name="theme" class="typeCheckbox" checked="checked">
+												<input type="radio" id="systemSettingsThemeLight" name="theme" class="typeCheckbox" checked="checked">
 											</span><br>
 											<span style="display:block;">
 												<span class="left">Dark</span>
-												<input type="radio" id="" name="theme" class="typeCheckbox">
+												<input type="radio" id="systemSettingsThemeDark" name="theme" class="typeCheckbox">
 											</span>
 										</span>
 										<span class="cardTitle">Web app theme</span><br>
