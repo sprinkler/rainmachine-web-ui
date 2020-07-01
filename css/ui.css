@@ -1022,6 +1022,9 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+.buttonImp {
+  width: 14% !important;
+}
 textarea {
   border: 1px solid #eee;
   width: 75%;

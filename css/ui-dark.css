@@ -1038,6 +1038,9 @@ button {
   background-color: transparent;
   cursor: pointer;
 }
+.buttonImp {
+  width: 14% !important;
+}
 textarea {
   border: 1px solid #555555;
   color:#ffffff;
@@ -1157,7 +1160,7 @@ input[type="checkbox"]:checked {
   height: 4px;
   cursor: pointer;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0 0 1px rgba(13, 13, 13, 0);
-  background: #3399cc;
+  background: #4296cd;
   border-radius: 0;
   border: 0 solid #000101;
 }
@@ -1172,13 +1175,13 @@ input[type="checkbox"]:checked {
   font-weight: 500;
   vertical-align: middle;
   border-radius: 100%;
-  background: #000;
+  background: #4296cd;
   cursor: pointer;
   padding-top: 17px;
 }
 .rangeSliderThumb:hover {
-  background-color: #3399cc;
-  color: #f9f9f9;
+  background-color: #6ec6ff;
+  color: #121212;
 }
 
 input[type=range] {
@@ -2178,7 +2181,7 @@ td.right,
   position: absolute;
   top: -1px;
   left: 0;
-  background: #2f2f2f;
+  background: #191919;
   right: 0;
   bottom: 0;
   padding: 10px;
