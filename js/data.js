@@ -44,7 +44,8 @@ Data.uiVer = "1.14";
 Data.restrictionsCurrent = null;
 Data.zonesImages = null;
 Data.localSettings =  {
-	showInactiveZones: true
+	showInactiveZones: true,
+	darkTheme: false
 };
 
 
