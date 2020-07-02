@@ -2231,6 +2231,11 @@ td.right,
   border-radius: 5px;
 }
 
+.themeTemperatureTooltip {
+  font-size: 14px;
+  background-color: unset;
+}
+
 /* MEDIA QUERIES */
 /* Bigger or equal to 1240px works without modifications. Less or equal to 1239 reduce some dimensions to fit 2 column mode */
 @media screen and (max-width: 1239px) {
