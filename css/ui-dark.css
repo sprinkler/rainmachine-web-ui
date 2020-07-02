@@ -1595,7 +1595,9 @@ select, .selectSmall {
   opacity: 1;
   z-index: 9999; 
 }
-
+#waterSavedGaugeContainer .highcharts-grid-line {
+  display: none;
+}
 
 .gap {
   width: 1%;
