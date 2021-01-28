@@ -1913,6 +1913,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
+  max-width:160px;
 }
 .button.red {
   background-color: red;
@@ -1920,6 +1921,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
+  max-width:160px;
 }
 .button.green {
   background-color: #0f9d58;
@@ -1927,6 +1929,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
+  max-width:160px;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
