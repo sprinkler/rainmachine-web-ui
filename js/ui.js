@@ -488,18 +488,29 @@ window.ui = window.ui || {};
 	//
 	function uiMain()
 	{
+
+		//Load local settings
+		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
+		// Change theme
+		window.ui.system.systemSettingsChangeTheme(Data.localSettings.darkTheme);
+
+		// Build elements cache
 		buildUIElems();
 		buildMenu();
 		buildSubMenu(settingsSubmenus, "settings", $('#settingsMenu'));
 		buildNavigation(dashboardNavigation);
+
+		//Init Help system
 		Help.bindAll();
+
+		// Init Firebase
 		window.ui.firebase.init();
+
+		// Default states
 		setDefaultButtonActions();
 		setupHistoryState();
 
-		//Load local settings
-		Data.localSettings = Storage.restoreItem("localSettings") || Data.localSettings;
-
+		// Start login process
 		ui.login.login(uiStart);
 	}
 

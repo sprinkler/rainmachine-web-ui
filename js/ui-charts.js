@@ -39,6 +39,22 @@ var chartsLevel = { // available viewing levels for the charts
 var syncCharts = []; // hold the charts that will have their mouse over tooltips syncronized
 var downloadedYearlyData = false; //TODO: Temporary until we design this better. If data for 365days has been downloaded.
 
+
+var themeFixups = {
+	dark: {
+		fill: '#2f2f2f',
+		bg: '#2f2f2f',
+		bgToday: '#000000',
+		border: '#2f2f2f'
+	},
+	light: {
+		fill: '#f6f6f6',
+		bg: '#e5f4ff',
+		bgToday: 'unset',
+		border: '#e5f4ff'
+	}
+};
+
 /**
  * Holds data for a chart: data[chartsMaximumDataRange], monthsData (aggregated data from the original API data), currentSeries
  * @param startDate
@@ -827,9 +843,9 @@ function generateWaterSavedGauge() {
 			endAngle: 360,
 			background: {
 				borderWidth: 10,
-				backgroundColor: '#e5f4ff',
+				backgroundColor: getThemeFixup().bg,
 				shape: 'circle',
-				borderColor: '#e5f4ff',
+				borderColor: getThemeFixup().border,
 				outerRadius: '100%',
 				innerRadius: '80%'
 			}
@@ -925,7 +941,7 @@ function generateTemperatureChart () {
 			animation: false,
 			formatter: function() {
 				var date = Highcharts.dateFormat(chartsDateFormat, new Date(this.point.category));
-				var s = '<span style="font-size: 14px;">' + date + ':';
+				var s = '<span class="themeTemperatureTooltip">' + date + ':';
 
 				if (this.point.secondPoint) {
 					s += " Low:"+ Util.convert.uiTemp(this.point.secondPoint.y) + Util.convert.uiTempStr();
@@ -1392,7 +1408,7 @@ function highlightCurrentDayInChart(chart) {
 
 		// add properties to the highlighter
 		highlighter.attr({
-			fill: '#f6f6f6',
+			fill: getThemeFixup().fill,
 			//opacity: 0.2,
 			'rm-id': 'dayHighlight'
 		});
@@ -1502,4 +1518,20 @@ function getWateringIcon(flag) {
 	}
 
 	return { icon: icon, color: color};
+}
+
+/**
+ * Returns an object with css properties for dark/light theme
+ */
+
+function getThemeFixup() {
+	var isDark = false;
+
+	if (Data.localSettings) {
+		isDark = Data.localSettings.darkTheme;
+	}
+
+	if (isDark) return themeFixups.dark;
+
+	return themeFixups.light;
 }

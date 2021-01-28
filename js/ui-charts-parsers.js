@@ -264,7 +264,8 @@ function generateSpecificParsersChart(key, startDate, days) {
 			shared: true,
 			useHTML: true,
 			xDateFormat: '%b %d %H:%M',
-			headerFormat: '<div style="z-index: 9999; opacity: 1; background-color: white"><h1>{point.key}</h1><table>',
+			//Removed div inline style to css class highcharts-parsers-tooltip
+			headerFormat: '<div class="highcharts-parsers-tooltip"><h1>{point.key}</h1><table class="highcharts-parsers-tooltip">',
 			pointFormat: '<tr><td><nobr>{series.name}: </nobr></td>' +
 			'<td style="text-align: right"><nobr><b>{point.y}</b></nobr></td></tr>',
 			footerFormat: '</table></div>',

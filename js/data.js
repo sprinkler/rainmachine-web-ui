@@ -40,11 +40,12 @@ Data.availableWater = null;
 Data.zonesAvailableWater = null;
 Data.today = null;
 Data.rainDelay = null;
-Data.uiVer = "1.14";
+Data.uiVer = "1.15";
 Data.restrictionsCurrent = null;
 Data.zonesImages = null;
 Data.localSettings =  {
-	showInactiveZones: true
+	showInactiveZones: true,
+	darkTheme: false
 };
 
 

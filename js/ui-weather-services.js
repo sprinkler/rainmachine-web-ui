@@ -83,9 +83,28 @@ window.ui = window.ui || {};
 		pass.value = params.password;
 
 		if (params._availableModules.length > 0) {
+			var deviceName = null;
+			var deviceLoc = null;
+			var lastDeviceName = "";
+
 			for(var i = 0; i < params._availableModules.length; i++) {
 				var name = params._availableModules[i][0];
 				var id = params._availableModules[i][1];
+				// Extra parameters in newer service version
+				if (params._availableModules[i].length > 2) {
+					deviceName = params._availableModules[i][2];
+					deviceLoc = params._availableModules[i][3];
+				}
+
+				if (deviceName && lastDeviceName !== deviceName) {
+					var elDeviceName = addTag(modulesList, "div");
+					elDeviceName.textContent = deviceName;
+					elDeviceName.style.textDecoration = 'underline';
+					elDeviceName.title = deviceLoc;
+
+					lastDeviceName = deviceName;
+				}
+
 				var elName = addTag(modulesList, "div");
 				var elId = addTag(modulesList, "div");
 				elName.style.width = "250px";

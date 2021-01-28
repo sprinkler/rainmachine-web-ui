@@ -47,6 +47,9 @@ window.ui = window.ui || {};
 			UnitsMetric: $("#systemSettingsUnitsMetric"),
 			UnitsSet: $("#systemSettingsUnitsSet"),
 
+			ThemeSet: $("#systemSettingsThemeApply"),
+
+
 			PasswordOld: $("#systemSettingsPasswordOld"),
 			Password: $("#systemSettingsPassword"),
 			PasswordSet: $("#systemSettingsPasswordSet"),
@@ -231,6 +234,9 @@ window.ui = window.ui || {};
 
 		uiFeedback.sync(systemSettingsView.UnitsSet,
 			function(){ return changeSingleSystemProvisionValue("uiUnitsMetric",  systemSettingsView.UnitsMetric.checked)});
+
+		uiFeedback.sync(systemSettingsView.ThemeSet,
+			function(){ return systemSettingsChangeTheme() });
 
 		uiFeedback.sync(systemSettingsView.BetaUpdatesSet, systemSettingsSetBetaUpdates);
 	}
@@ -686,11 +692,43 @@ window.ui = window.ui || {};
 		}
 	}
 
+	function systemSettingsChangeTheme(isDark) {
+		var cssLight = $('#csslight');
+		var cssDark = $('#cssdark');
+
+		var enableDark;
+
+		if (defined(isDark)) {
+			enableDark = isDark;
+		} else {
+			enableDark = $("#systemSettingsThemeDark").checked;
+		}
+
+		if (enableDark) {
+			cssDark.rel = 'stylesheet';
+			cssLight.rel = 'stylesheet alternate';
+			$("#systemSettingsThemeDark").checked = true;
+			$("#systemSettingsThemeLight").checked = false;
+
+		} else {
+			cssDark.rel = 'stylesheet alternate';
+			cssLight.rel = 'stylesheet';
+			$("#systemSettingsThemeDark").checked = false;
+			$("#systemSettingsThemeLight").checked = true;
+		}
+
+		Data.localSettings.darkTheme = enableDark;
+		Storage.saveItem("localSettings", Data.localSettings);
+
+		return true;
+	}
+
 	//--------------------------------------------------------------------------------------------
 	//
 	//
 	_system.showSettings = showSettings;
 	_system.changeSingleSystemProvisionValue = changeSingleSystemProvisionValue;
 	_system.getDeviceDateTime = getDeviceDateTime;
+	_system.systemSettingsChangeTheme = systemSettingsChangeTheme;
 
 } (window.ui.system = window.ui.system || {}));

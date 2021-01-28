@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 
 	<!-- BUILD DEVEL -->
-	<link href="css/ui.css" rel="stylesheet" type="text/css">
+	<link href="css/ui.css" rel="stylesheet" type="text/css" id="csslight">
+	<link href="css/ui-dark.css" rel="stylesheet alternate" type="text/css" id="cssdark">
 	<script src="js/highcharts-custom.js"></script>
 	<script src="js/dom.js"></script>
     <script src="js/storage.js"></script>
@@ -212,10 +213,10 @@
 								</div>
 								<div id="homeScreenZoneList">
 									<button id="home-zones-edit" class="button label-grey center right">Edit</button>
-                                    <button id="home-zones-stopall" class="button label-red center right mr10" style="display: none">
+                                    <button id="home-zones-stopall" class="button label-red center right mr10 buttonImp" style="display: none;">
 										<span class="icon" style="width:65%;vertical-align:middle;">W</span> Stop All
 									</button>
-									<button id="home-zones-pauseall" class="button label-red center right mr10" style="display: none">
+									<button id="home-zones-pauseall" class="button label-red center right mr10 buttonImp" style="display: none;">
 										<span class="icon" style="width:65%;vertical-align:middle;">E</span>
 										<span>Pause</span>
 									</button>
@@ -226,7 +227,7 @@
 									<div id="zones">
 										<div id="zonesList" style="width:100%;display: inline"></div>
 									</div>
-							</div>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -787,7 +788,7 @@
 															<input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
 															<label for="weatherServicesTab-1">Recommended</label>
 															<div class="weatherServicesTabContent">
-																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="weatherServicesTabContentHeader">
 																	<table class="full" cellpadding="0" cellspacing="0">
 																	  <tr>
 																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
@@ -807,7 +808,7 @@
 															<input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
 															<label for="weatherServicesTab-2">Developer</label>
 															<div class="weatherServicesTabContent">
-																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="weatherServicesTabContentHeader">
 																	<table class="full" cellpadding="0" cellspacing="0">
 																	  <tr>
 																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
@@ -828,7 +829,7 @@
 															<label for="weatherServicesTab-3">User uploaded</label>
 
 															<div class="weatherServicesTabContent">
-																<div style="display:block;border-bottom:1px solid #eee;height:24px;">
+																<div class="weatherServicesTabContentHeader">
 																	<table class="full" cellpadding="0" cellspacing="0">
 																	  <tr>
 																		<th class="bold" style="width:40%;text-align:left;">Weather Service</th>
@@ -1007,6 +1008,22 @@
 										</span>
 										<span class="cardTitle">Units</span><br>
 										<!--<span class="restriction">Please reload the webpage for this setting to take effect.</span>-->
+									</td>
+								</tr>
+								<tr>
+									<td class="middle">
+										<button id="systemSettingsThemeApply" class="button label-blue center right">Apply</button>
+										<span class="right mr" style="width:40%;">
+											<span style="display:block;">
+												<span class="left">Light</span>
+												<input type="radio" id="systemSettingsThemeLight" name="theme" class="typeCheckbox" checked="checked">
+											</span><br>
+											<span style="display:block;">
+												<span class="left">Dark</span>
+												<input type="radio" id="systemSettingsThemeDark" name="theme" class="typeCheckbox">
+											</span>
+										</span>
+										<span class="cardTitle">Web app theme</span><br>
 									</td>
 								</tr>
 								<tr>
@@ -1487,9 +1504,9 @@
 								</tr>
 								<tr>
 									<td class="middle">
-										<span class="start" id="aboutDiagStatus"></span>
-										<button id="aboutDiagSend" class="button label-blue center">Send Diagnostics</button>
-										<button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button>
+										<div style="float: left;vertical-align: middle;padding-top: 0.3em;"><span class="start" id="aboutDiagStatus"></span></div>
+										<div style="float: left;"><button id="aboutDiagSend" class="button label-blue center">Send Diagnostics</button></div>
+										<div style="float: left;"><button id="aboutDiagViewLog" class="button label-grey center" style="width:160px;">View Log</button></div>
 									</td>
 								</tr>
 							</table>
@@ -1586,7 +1603,7 @@
 					<tr>
 						<td class="noborder">
 							<div class="bg-grey border-thin-grey">
-								<div rm-id="zone-available-water-top-row" style="overflow: hidden;background:#f6f6f6;"></div>
+								<div rm-id="zone-available-water-top-row" class="zoneAvailableWaterTop"></div>
 								<div rm-id="zone-available-water-chart-row" style="height: 300px;"></div>
 							</div>
 						</td>
@@ -1620,7 +1637,7 @@
 		<div id="zone-settings-template">
 			<div class="overTop">
 				<table class="programEdit" style="padding-top:1em;" cellpadding="0" cellspacing="0">
-					<tr style="background-color:#f6f6f6;">
+					<tr style="/* background-color:#f6f6f6; */">
 						<td class="center middle zoneListImageTD" rm-id="zone-settings-image-container" style="display:inline-block;">
 							<div class="helpText inlineblock zoneListImageHelp" help="zoneListImageHelp">?</div><div rm-id="zone-settings-image" class="zoneListImageEdit center">
 								<div class="zoneListImageNoneEdit">&#xe800;</div>
@@ -2026,9 +2043,12 @@
 										<td colspan="2"><input type="text" rm-id="program-name" placeholder="Program Name" class="typeText" /></td>
 									</tr>
 									<tr>
-									<td class="cardTitle">Program is Active:</td>
-									<td class="middle">
-										<input type="checkbox" rm-id="program-active" class="right typeCheckbox">
+									<td class="middle" colspan="2">
+										<label class="container">
+																<span class="cardTitle">Program is Active</span>
+																<input type="checkbox" rm-id="program-active" />
+																<span class="checkmark"></span>
+															</label>
 									</td>
 									</tr>
 									<tr>
@@ -2072,6 +2092,8 @@
 													<option value="3" selected>sunrise</option>
 													<option value="4">sunset</option>
 												</select>
+												<br>
+												<span class="subtitle">Depending on program total duration, the start time might be limited to midnight.</span>
 											</span>
 										</td>
 									</tr>
@@ -2125,49 +2147,63 @@
 													<option value="14">14 day</option>
 												</select>
 											</div><br>
-											<div style="padding-bottom: 15px;"><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
-												<div rm-id="program-frequency-weekdays-container">
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-sunday" class="right" />
-															<span class="right mr10" rm-id="weekday-7"></span>
-															<div>Sunday</div>
+											<div style="margin-bottom: 1em;"><input type="radio" name="program-frequency" rm-id="program-frequency-weekdays"/> <span>Selected days</span>
+												<div rm-id="program-frequency-weekdays-container" class="programFrequencyWeekdays">
+														<div class="space">
+															<label class="container">
+																Sunday
+																<input type="checkbox" rm-id="weekday-sunday" />
+																<span class="right mr10" rm-id="weekday-7"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-monday" class="right" checked>
-															<span class="right mr10" rm-id="weekday-1"></span>
-															<div>Monday</div>
+														<div class="space">
+															<label class="container">
+																Monday
+																<input type="checkbox" rm-id="weekday-monday" />
+																<span class="right mr10" rm-id="weekday-1"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-tuesday" class="right"/>
-															<span class="right mr10" rm-id="weekday-2"></span>
-															<div>Tuesday</div>
+														<div class="space">
+															<label class="container">
+																Tuesday
+																<input type="checkbox" rm-id="weekday-tuesday" />
+																<span class="right mr10" rm-id="weekday-2"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-wednesday" class="right"/>
-															<span class="right mr10" rm-id="weekday-3"></span>
-															<div>Wednesday</div>
+														<div class="space">
+															<label class="container">
+																Wednesday
+																<input type="checkbox" rm-id="weekday-wednesday" />
+																<span class="right mr10" rm-id="weekday-3"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-thursday" class="right"/>
-															<span class="right mr10" rm-id="weekday-4"></span>
-															<div>Thursday</div>
+														<div class="space">
+															<label class="container">
+																Thursday
+																<input type="checkbox" rm-id="weekday-thursday" />
+																<span class="right mr10" rm-id="weekday-4"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-friday" class="right"/>
-															<span class="right mr10" rm-id="weekday-5"></span>
-															<div>Friday</div>
+														<div class="space">
+															<label class="container">
+																Friday
+																<input type="checkbox" rm-id="weekday-friday" />
+																<span class="right mr10" rm-id="weekday-5"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
-														<div>
-															<span class="separator"></span>
-															<input type="checkbox" rm-id="weekday-saturday" class="right"/>
-															<span class="right mr10" rm-id="weekday-6"></span>
-															<div>Saturday</div>
+														<div class="space">
+															<label class="container">
+																Saturday
+																<input type="checkbox" rm-id="weekday-saturday" />
+																<span class="right mr10" rm-id="weekday-6"></span>
+																<span class="checkmark"></span>
+															</label>
 														</div>
 												</div>
 											</div>
@@ -2175,8 +2211,13 @@
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div><input type="checkbox" name="program-frequency-adaptive" rm-id="program-frequency-adaptive" style="margin-right:10px;" /> <span>Use Adaptive Frequency</span><br>
-											<span class="zoneTimesSubtitle">When necessary, skip watering and carry over to next cycle. This promotes deeper root penetration. </span></div>
+											<div>
+												<label class="container">Use Adaptive Frequency
+  												<input type="checkbox" rm-id="program-frequency-adaptive" style="margin-right:10px;" name="program-frequency-adaptive">
+  												<span class="checkmark"></span>
+												</label>
+												<span class="zoneTimesSubtitle">When necessary, skip watering and carry over to next cycle. This promotes deeper root penetration. </span>
+											</div>
 										</td>
 									</tr>
 									<tr>
@@ -2669,40 +2710,34 @@
 			<div>
 				<h1>Authentification</h1>
 				<span class="subtitle">
-					- Enter your NetAtmo account credentials (email and password).<br>
+					 <span class="helpText" help="weatherNetAtmoLogin">?</span> Enter your NetAtmo account credentials (email and password).<br>
 					&nbsp;&nbsp;<i>Note: This information is only stored locally on your RainMachine and only sent to NetAtmo for login.</i><br>
-					- Click "<strong>SAVE</strong>" button.<br>
-					- Click on "<strong>REFRESH NOW</strong>" button. <br>
-					- Wait for NetAtmo Weather Modules to be listed beneath so you can choose which one to use.<br>
-					
 				</span>
-				<div style="clear: both;height:0.3em;"></div>	
-					<span style="display: inline-block; width: 90px;">Email:</span>
-					<input rm-id="weather-sources-netatmo-user" type="text" class="typeText" style="width: 200px">
-				<div style="clear: both;height:0.3em;"></div>	
-					<span style="display: inline-block; width: 90px;">Password:</span>
+				<div style="clear: both;height:0.3em;"></div>
+				<div style="display: inline-block;">
+					<span style="display: inline-block;">Email:</span>
+					<input rm-id="weather-sources-netatmo-user" type="text" class="typeText" style="width: 200px; margin-right: 1em;">
+				</div>
+				<div style="display: inline-block;">
+					<span style="display: inline-block;">Password:</span>
 					<input rm-id="weather-sources-netatmo-pass" type="password" class="typeText" style="width: 200px;margin-left: 10px; height:44px;">
 					<div class="zones-showhide" rm-id="weather-sources-netatmo-showpass">'</div>
+				</div>
 				<br>
 			</div>
-
 			<div style="clear:both;"></div>
 			<span class="separator"></span>
 			<div>
 				<h1>NetAtmo Weather Modules</h1>
 				<span class="subtitle">
-					Copy the ID number of the modules you would like to use and paste it into the input field.<br>
-					If you want to use more than one module, separate the modules ID numbers by comma, check the box and then click the <strong>SAVE</strong> button.<br><br>
-					<i>Note: This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.<br>
-					If you don't specify any modules, your first NetAtmo base station module will be used.</i>
-				</span>
+					<span class="helpText" help="weatherNetAtmoModules">?</span><i>Note: This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.<br>If you don't specify any modules, your first NetAtmo base station module will be used.</i></span>
 				<div style="clear: both;height:0.3em;"></div>
-
+				<span>Your modules:</span><br>
 				<div rm-id="weather-sources-netatmo-modules">
 					<!-- Will be filled from JS -->
 				</div>
 				<div style="clear: both;height:0.3em;"></div>	
-				<input rm-id="weather-sources-netatmo-custommodules" type="text" class="typeText" style="width:450px;margin-left:0;">
+				<input rm-id="weather-sources-netatmo-custommodules" type="text" class="typeText" style="width:450px;margin-left:0;" placeholder="00:00:00:00:00:00, 00:00:00:00:00:00">
 				<div style="clear: both;height:0.3em;"></div>	
 				Please check this box to use selected modules <input rm-id="weather-sources-netatmo-usecustom" type="checkbox">
 				<br>
