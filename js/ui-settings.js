@@ -289,6 +289,10 @@ window.ui = window.ui || {};
         var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
         var paramsElem = $(template, '[rm-id="weather-source-params"]');
         var descriptionElem = $(template, '[rm-id="weather-source-description"]');
+        var authorElem = $(template, '[rm-id="weather-source-author"]');
+        var versionElem = $(template, '[rm-id="weather-source-current-version"]');
+        var instructionsElem = $(template, '[rm-id="weather-source-instructions"]');
+
 
         var updateButton = $(template, '[rm-id="weather-source-update"]');
         var installButton = $(template, '[rm-id="weather-source-install"]');
@@ -314,12 +318,34 @@ window.ui = window.ui || {};
 
         // we only allow delete on custom uploaded parsers
         if (p.custom) {
+            if (p.author) {
+                makeVisible(authorElem);
+                authorElem.textContent = "Author: " + p.author;
+            }
+
+            if (p.version) {
+                makeVisible(versionElem);
+                versionElem.textContent = "Version: " + p.version;
+            }
+
+            if (p.instructions) {
+                var linkHtml = Util.convertToHtmlLink(p.instructions);
+
+                if (linkHtml) {
+                    instructionsElem.innerHTML = linkHtml
+
+                } else {
+                    instructionsElem.textContent = p.instructions;
+                }
+                makeVisible(instructionsElem);
+            }
+
             var deleteButton = $(template, '[rm-id="weather-source-delete"]');
             deleteButton.onclick = function() { onWeatherSourceDelete(p.uid); };
             makeVisible(deleteButton);
         }
 
-        if (p.installed) {
+        if (p.installed || !p.hasOwnProperty('installed')) {
             makeHidden(installButton);
         }
 
@@ -348,6 +374,7 @@ window.ui = window.ui || {};
                 var r = API.uploadParser(filename, data);
                 if (r && r.statusCode == 0) {
                     uiFeedback.done(elem);
+                    // Automatically refresh the new parser details window
                     showParsers(false, false, function() {
                         for (var i = 0; i < Data.parsers.parsers.length; i++) {
                             if (Data.parsers.parsers[i].name == parser.name) {
@@ -358,7 +385,6 @@ window.ui = window.ui || {};
                 } else {
                     uiFeedback.error(elem);
                 }
-
             })
             .error(uiFeedback.error, elem);
     }
