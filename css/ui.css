@@ -1914,7 +1914,7 @@ td.right,
   width: 132px;
   max-width: 160px;
   text-align: center;
-  max-width:160px;
+  max-width:132px;
 }
 .button.red {
   background-color: red;
@@ -1923,16 +1923,15 @@ td.right,
   width: 132px;
   max-width: 160px;
   text-align: center;
-  max-width:160px;
+  max-width:132px;
 }
 .button.green {
   background-color: #0f9d58;
   color: #fff;
   padding: 0 10px;
   width: 132px;
-  max-width: 160px;
   text-align: center;
-  max-width:160px;
+  max-width:132px;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1944,6 +1943,10 @@ td.right,
 .button.raised:active {
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   transition-delay: 0s;
+}
+.button.parser {
+    display: block;
+    margin-bottom: 1em;
 }
 .absolute {
   position: absolute;
