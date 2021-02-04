@@ -50,8 +50,10 @@ var Help = (function(Help) {
 		"weatherNetAtmoLogin": "After you enter the NetAtmo credentials click on the 'SAVE' button." +
 					" Then click on 'REFRESH NOW' button." +
 					" Wait for NetAtmo Weather Modules to be listed beneath so you can choose which one to use.",
-		"weatherNetAtmoModules": "Copy the ID number of the modules you would like to use and paste it into the input field. If you want to use more than one module, separate the modules ID numbers by comma, check the box and then click the 'SAVE' button."
-
+		"weatherNetAtmoModules": "Copy the ID number of the modules you would like to use and paste it into the input field. If you want to use more than one module, separate the modules ID numbers by comma, check the box and then click the 'SAVE' button.",
+		"weatherSourceEssential": "Weather service recommennded and sufficient based on your location.",
+		"weatherSourceInstalled": "Weather service successfully installed.",
+		"weatherSourceUpdate": "New version available. Please update!",
 	};
 
 return Help; } ( Help || {}));
