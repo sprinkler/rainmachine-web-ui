@@ -419,6 +419,7 @@ strong { font-weight: 700; }
   line-height: 22px;
   font-size: 14px;
 }
+
 .program-line,
 .weather-program-line {
   display: inline-block;
@@ -1998,7 +1999,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
 }
 .button.red {
   background-color: #CF6679;
@@ -2006,7 +2007,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
 }
 .button.green {
   background-color: #0f9d58;
@@ -2014,7 +2015,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2026,6 +2027,10 @@ td.right,
 .button.raised:active {
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   transition-delay: 0s;
+}
+.button.parser {
+    display: block;
+    margin-bottom: 1em;
 }
 .absolute {
   position: absolute;
