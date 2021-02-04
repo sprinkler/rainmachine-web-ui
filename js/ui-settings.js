@@ -33,7 +33,6 @@ window.ui = window.ui || {};
         "WeatherDisplay Parser": 1,
         "Simulator Parser": 1,
         "Weather Rules Parser": 1,
-        "Local Weather Push Parser": 1
     };
 
     // keeps mapping of id -> name some programs might only exists on waterlog and not in programs
@@ -117,14 +116,13 @@ window.ui = window.ui || {};
         APIAsync.getParsers().then(function(o) {
             Data.parsers = o;
             APIAsync.getEx(communityUrl + "version-metadata.json").then(function(o) {
-                console.log(o);
+                // Data.parsers.parsers.sort(sortParserByEnabledAndName);
                 var installed = Data.parsers.parsers;
+
                 var tmpMap = {};
                 for (var i = 0; i < installed.length; i++) {
                     tmpMap[installed[i].name] = i;
                 }
-
-                console.log(tmpMap);
 
                 for (var file in o.files) {
                     var parserInfo = {};
@@ -149,6 +147,8 @@ window.ui = window.ui || {};
                     }
                 }
 
+                // Sort the list by enabled state and name
+                Data.parsers.parsers.sort(sortParserByEnabledAndName)
                 updateParsers(onDashboard);
 
                 if (fetchData) {
@@ -261,7 +261,8 @@ window.ui = window.ui || {};
             if (!onDashboard) {
                 template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
             }
-            container.appendChild(template);
+            //container.appendChild(template);
+            container.insertBefore(template, container.firstChild);
         }
     }
 
@@ -1342,6 +1343,14 @@ window.ui = window.ui || {};
             daysFlowVolume.push(dayUsedVolume);
         }
         return daysFlowVolume;
+    }
+
+    function sortParserByEnabledAndName(a, b) {
+        if (a.enabled > b.enabled) return 1;
+        else if (a.installed > b.installed) return 1;
+        else if ((a.enabled === b.enabled || a.installed === b.installed) && (a.name < b.name)) return 1;
+
+        return 0;
     }
 
     //--------------------------------------------------------------------------------------------
