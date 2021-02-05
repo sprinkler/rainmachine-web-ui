@@ -2231,13 +2231,10 @@ hr {
     min-height: 30px;
 }
 
-
-/*
 .weatherSource:hover {
   background-color: #ecf0f1;
   cursor: pointer;
 }
-*/
 
 .weatherSourceStatus[enabled] {
     width: 16px;
@@ -2379,6 +2376,7 @@ hr {
     text-align: center;
     margin-top: 1em;
     max-width: 100%;
+    cursor: pointer;
 }
 
 .button.red {
@@ -2405,6 +2403,7 @@ hr {
     text-align: center;
     margin-top: 1em;
     max-width: 100%;
+    cursor: pointer;
 }
 
 .button.raised {
