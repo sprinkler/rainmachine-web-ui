@@ -41,7 +41,6 @@ window.ui = window.ui || {};
     // URL to the community parsers metadata
     var communityUrl = "https://raw.githubusercontent.com/sprinkler/rainmachine-developer-resources/master/";
 
-
     function showWeather() {
         onWeatherSourceClose();
         showParsers(false, true);
@@ -163,12 +162,12 @@ window.ui = window.ui || {};
     }
 
     function updateParsers(onDashboard) {
-
         var containerNormal = $('#weatherDataSourcesList');
         var containerDeveloper = $('#weatherDataSourcesListDeveloper'); //container for separating developer parsers
         var containerCommunity = $('#weatherDataSourcesListUploaded'); //container for separating user uploaded parsers
         var containerDashboard = $('#weatherDataSourcesSimpleList'); //container for showing on dashboard
         var container = containerNormal;
+        var disabledParsers = 0;
 
         if (onDashboard) {
             container = containerDashboard
@@ -192,6 +191,12 @@ window.ui = window.ui || {};
                 continue;
             }
 
+            // Don't show optional built-in parsers but count them so we can add a "Show More" button
+            if (!(onDashboard || Data.sharedSettings.showOptionalParsers || p.enabled || p.custom)) {
+                disabledParsers++;
+                continue;
+            }
+
             //Separate the parsers list in these 2 categories
             if (!onDashboard) {
                 if (p.name in developerParsers) {
@@ -201,6 +206,7 @@ window.ui = window.ui || {};
                 }
             }
 
+            // Load proper template
             if (onDashboard) {
                 template = loadTemplate("weather-sources-simple-template");
             } else {
@@ -213,7 +219,6 @@ window.ui = window.ui || {};
                 installedElem = $(template, '[rm-id="weather-source-installed"]');
                 updateElem = $(template, '[rm-id="weather-source-installed"]');
                 descriptionElem.textContent = p.description;
-
 
                 toggleAttr(activeElem, p.enabled);
                 toggleAttr(hasForecastElem, p.hasForecast, "circle");
@@ -272,6 +277,15 @@ window.ui = window.ui || {};
                 template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
             }
             container.insertBefore(template, container.firstChild);
+        }
+
+        if (disabledParsers > 0) {
+            var showMoreElem = addTag(containerNormal, "div");
+            showMoreElem.textContent = "Show " + disabledParsers + " more optional services";
+            showMoreElem.onclick = function() {
+                Data.sharedSettings.showOptionalParsers = !Data.sharedSettings.showOptionalParsers;
+                window.ui.settings.updateParsers();
+            }
         }
     }
 
@@ -1387,6 +1401,4 @@ window.ui = window.ui || {};
     _settings.showRainDelay = showRainDelay;
     _settings.getDailyFlowVolume = getDailyFlowVolume;
     _settings.waterLogReason = waterLogReason;
-
-
 }(window.ui.settings = window.ui.settings || {}));
