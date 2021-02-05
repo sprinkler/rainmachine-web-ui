@@ -790,7 +790,7 @@
                                                 <div class="weatherServices">
                                                     <div class="weatherServicesTab">
                                                         <input type="radio" id="weatherServicesTab-1" name="weatherServicesTab-group-1" checked>
-                                                        <label for="weatherServicesTab-1">Recommended</label>
+                                                        <label for="weatherServicesTab-1">RainMachine</label>
                                                         <div class="weatherServicesTabContent">
                                                             <div class="weatherServicesTabContentHeader">
                                                                 <table class="full" cellpadding="0" cellspacing="0">
@@ -808,7 +808,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="weatherServicesTab">
+                                                    <div class="weatherServicesTab" style="display: none;">
                                                         <input type="radio" id="weatherServicesTab-2" name="weatherServicesTab-group-1">
                                                         <label for="weatherServicesTab-2">Developer</label>
                                                         <div class="weatherServicesTabContent">
@@ -2446,9 +2446,9 @@
                     <tr>
                         <td style="width:40%;text-align:left;border:0;padding:0;vertical-align:middle;">
                             <span rm-id="weather-source-name">Source Name</span>
-                                <span class="weatherSourceEssential" help="weatherSourceEssential"></span>
-                                <span class="weatherSourceInstalled" help="weatherSourceInstalled"></span>
-                                <span class="weatherSourceUpdate" help="weatherSourceUpdate"></span>
+                            <span rm-id="weather-source-essential" class="smallLabel weatherSourceEssential" help="weatherSourceEssential"></span>
+                            <span rm-id="weather-source-installed" class="smallLabel weatherSourceInstalled" help="weatherSourceInstalled"></span>
+                            <span rm-id="weather-source-update" class="smallLabel weatherSourceUpdate" help="weatherSourceUpdate"></span>
                             </span><br>
                             <span rm-id="weather-source-description" class="subtitle"></span>
                         </td>
@@ -2490,10 +2490,12 @@
             <span rm-id="weather-source-current-version" class="subtitle" style="display: none"></span>
             <span rm-id="weather-source-instructions" class="subtitle" style="display: none"></span><br>
             <br>
-            <span class="separator"></span>
-            <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-            <div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
-            <span class="separator"></span>
+            <div rm-id="weather-source-common-params">
+                <span class="separator"></span>
+                <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
+                <div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
+                <span class="separator"></span>
+            </div>
             <div rm-id="weather-source-params"></div>
         </div>
         <!-- Template for Weather Data Sources Details (End) -->
