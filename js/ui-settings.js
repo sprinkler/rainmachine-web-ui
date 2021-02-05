@@ -239,7 +239,7 @@ window.ui = window.ui || {};
             }
 
             if ((parserName === "NOAA" || parserName === "METNO") && !onDashboard) {
-                makeVisibleBlock(essentialElem);
+                makeVisibleBlock(essentialElem, true);
             }
 
             if (p.custom) {
@@ -248,9 +248,9 @@ window.ui = window.ui || {};
 
                     if (p.installed) {
                         if (p.hasUpdate) {
-                            makeVisibleBlock(updateElem);
+                            makeVisibleBlock(updateElem, true);
                         } else {
-                            makeVisibleBlock(installedElem)
+                            makeVisibleBlock(installedElem, true)
                         }
                     }
                 }
