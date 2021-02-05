@@ -209,7 +209,11 @@ window.ui = window.ui || {};
                 descriptionElem = $(template, '[rm-id="weather-source-description"]');
                 hasForecastElem = $(template, '[rm-id="weather-source-hasforecast"]');
                 hasHistoryElem = $(template, '[rm-id="weather-source-hashistory"]');
+                essentialElem = $(template, '[rm-id="weather-source-essential"]');
+                installedElem = $(template, '[rm-id="weather-source-installed"]');
+                updateElem = $(template, '[rm-id="weather-source-installed"]');
                 descriptionElem.textContent = p.description;
+
 
                 toggleAttr(activeElem, p.enabled);
                 toggleAttr(hasForecastElem, p.hasForecast, "circle");
@@ -229,17 +233,23 @@ window.ui = window.ui || {};
                 parserName = parserName.substring(0, lw); // Don't show "Parser" word in weather parsers
             }
 
+            if ((parserName === "NOAA" || parserName === "METNO") && !onDashboard) {
+                makeVisibleBlock(essentialElem);
+            }
+
             if (p.custom) {
-                //parserName = "Custom:" + parserName;
                 if (!onDashboard) {
                     container = containerCommunity;
+
+                    if (p.installed) {
+                        if (p.hasUpdate) {
+                            makeVisibleBlock(updateElem);
+                        } else {
+                            makeVisibleBlock(installedElem)
+                        }
+                    }
                 }
             }
-
-            if (p.installed) {
-                parserName += "(installed)"
-            }
-
 
             nameElem.textContent = parserName;
 
@@ -261,7 +271,6 @@ window.ui = window.ui || {};
             if (!onDashboard) {
                 template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
             }
-            //container.appendChild(template);
             container.insertBefore(template, container.firstChild);
         }
     }
@@ -288,22 +297,34 @@ window.ui = window.ui || {};
         var nameElem = $(template, '[rm-id="weather-source-name"]');
         var enabledElem = $(template, '[rm-id="weather-source-enable"]');
         var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
+        var paramsCommonElem = $(template, '[rm-id="weather-source-common-params"]');
         var paramsElem = $(template, '[rm-id="weather-source-params"]');
         var descriptionElem = $(template, '[rm-id="weather-source-description"]');
         var authorElem = $(template, '[rm-id="weather-source-author"]');
         var versionElem = $(template, '[rm-id="weather-source-current-version"]');
         var instructionsElem = $(template, '[rm-id="weather-source-instructions"]');
 
-
         var updateButton = $(template, '[rm-id="weather-source-update"]');
         var installButton = $(template, '[rm-id="weather-source-install"]');
+        var deleteButton = $(template, '[rm-id="weather-source-delete"]');
 
 
         nameElem.textContent = p.name;
+        descriptionElem.textContent = p.description;
+
         enabledElem.checked = p.enabled;
         enabledElem.id = 'weatherSourceStatus-' + p.uid;
         lastRunElem.textContent = p.lastRun ? p.lastRun : "Never";
-        descriptionElem.textContent = p.description;
+
+        if (!p.installed && p.custom) {
+            makeHidden(paramsCommonElem);
+            makeHidden(runButton);
+            makeHidden(resetButton);
+        } else {
+            makeVisible(paramsCommonElem);
+            makeVisibleBlock(runButton);
+            makeVisibleBlock(resetButton);
+        }
 
         if (p.params) {
             if (window.ui.weatherservices.custom.hasOwnProperty(p.name)) {
@@ -341,9 +362,10 @@ window.ui = window.ui || {};
                 makeVisible(instructionsElem);
             }
 
-            var deleteButton = $(template, '[rm-id="weather-source-delete"]');
-            deleteButton.onclick = function() { onWeatherSourceDelete(p.uid); };
-            makeVisible(deleteButton);
+            if (p.installed) {
+                deleteButton.onclick = function() { onWeatherSourceDelete(p.uid); };
+                makeVisible(deleteButton);
+            }
         }
 
         if (p.installed || !p.hasOwnProperty('installed')) {
@@ -1346,9 +1368,10 @@ window.ui = window.ui || {};
     }
 
     function sortParserByEnabledAndName(a, b) {
+        if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) return 1;
         if (a.enabled > b.enabled) return 1;
         else if (a.installed > b.installed) return 1;
-        else if ((a.enabled === b.enabled || a.installed === b.installed) && (a.name < b.name)) return 1;
+        else if ((a.enabled === b.enabled) && (a.name < b.name)) return 1;
 
         return 0;
     }
