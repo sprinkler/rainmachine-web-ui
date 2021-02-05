@@ -2445,7 +2445,11 @@
                 <table class="full" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="width:40%;text-align:left;border:0;padding:0;vertical-align:middle;">
-                            <span rm-id="weather-source-name">Source Name</span><br>
+                            <span rm-id="weather-source-name">Source Name</span>
+                                <span class="weatherSourceEssential" help="weatherSourceEssential"></span>
+                                <span class="weatherSourceInstalled" help="weatherSourceInstalled"></span>
+                                <span class="weatherSourceUpdate" help="weatherSourceUpdate"></span>
+                            </span><br>
                             <span rm-id="weather-source-description" class="subtitle"></span>
                         </td>
                         <td style="width:13%;border:0;padding:0;vertical-align:middle;">
@@ -2477,10 +2481,10 @@
 
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
-            <button rm-id="weather-source-delete" class="button red center right" style="display: none">Uninstal</button>
+            <button rm-id="weather-source-delete" class="button red center right" style="display: none">Uninstall</button>
             <h1 rm-id="weather-source-name"></h1>
             <button rm-id="weather-source-update" class="button blue center parser">Update</button>
-            <button rm-id="weather-source-install" class="button blue center parser">Get</button>
+            <button rm-id="weather-source-install" class="button blue center parser">Install</button>
             <span rm-id="weather-source-description" class="subtitle"></span>
             <span rm-id="weather-source-author" class="subtitle" style="display: none"></span>
             <span rm-id="weather-source-current-version" class="subtitle" style="display: none"></span>

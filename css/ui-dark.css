@@ -1939,6 +1939,27 @@ td.right,
   cursor: pointer;
 }
 */
+.weatherSourceEssential {
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8,0,8,0A9.85,9.85,0,0,1,7,.71a12.76,12.76,0,0,1-5,1.8h0V9.3h0c.14.55,1.14,3.77,6,6.7,4.81-2.93,5.81-6.15,5.95-6.7V2.51A12.3,12.3,0,0,1,8,0ZM6.83,10.67l-2.4-2.4,1.2-1.2,1.2,1.2,3.6-3.6,1.2,1.2Z' style='fill: %234bf'/%3E%3C/svg%3E");
+  display: inline-block;
+  vertical-align: text-top;
+}
+.weatherSourceUpdate {
+  width: 51px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 10'%3E%3Crect x='0.38' y='-0.02' width='33' height='10' rx='5.02' style='fill: %23ff9900'/%3E%3Cg%3E%3Cpath d='M5.57,5.46a.7.7,0,0,0,.75.79.69.69,0,0,0,.74-.79V2.85H8.14V5.58A1.61,1.61,0,0,1,6.32,7.15,1.61,1.61,0,0,1,4.5,5.58V2.85H5.57Z' style='fill: %23fff'/%3E%3Cpath d='M10.91,2.85a1.42,1.42,0,0,1,1.52,1.5,1.46,1.46,0,0,1-1.59,1.49h-.69V7.08H9.08V2.85ZM10.15,5h.47a.63.63,0,0,0,.72-.68.63.63,0,0,0-.72-.68h-.47Z' style='fill: %23fff'/%3E%3Cpath d='M14.93,2.85a1.87,1.87,0,0,1,2,2.09,1.91,1.91,0,0,1-2,2.14H13.21V2.85Zm-.65,3.36h.51c.7,0,1.07-.42,1.07-1.27s-.4-1.22-1.07-1.22h-.51Z' style='fill: %23fff'/%3E%3Cpath d='M20.08,6.15H18.7l-.27.93h-1.1l1.42-4.23h1.32l1.42,4.23H20.35Zm-1.17-.77h1L19.4,3.75h0Z' style='fill: %23fff'/%3E%3Cpath d='M22.61,7.08V3.72H21.45V2.85h3.4v.87H23.69V7.08Z' style='fill: %23fff'/%3E%3Cpath d='M28.5,7.08H25.61V2.85H28.5v.87H26.68v.84h1.71v.79H26.68v.86H28.5Z' style='fill: %23fff'/%3E%3C/g%3E%3C/svg%3E");
+  display: inline-block;
+  vertical-align: text-top;
+}
+.weatherSourceInstalled {
+  width: 70px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44.05 10'%3E%3Cpath d='M38.82,1a4,4,0,1,1,0,8H5A4,4,0,0,1,5,1h33.8m0-1H5A5,5,0,0,0,0,5H0a5,5,0,0,0,5,5h33.8a5,5,0,0,0,5-5h0a5,5,0,0,0-5-5Z' style='fill: %23cccccc'/%3E%3Cg%3E%3Cpath d='M5.19,7.11V2.89H6.26V7.11Z' style='fill: %23cccccc'/%3E%3Cpath d='M7.2,7.11V2.89h.86L9.85,5.34h0V2.89h1V7.11h-.85L8.25,4.63h0V7.11Z' style='fill: %23cccccc'/%3E%3Cpath d='M12.72,5.89c0,.29.37.48.77.48s.69-.18.69-.44-.18-.35-.66-.45L13,5.37c-.78-.15-1.18-.57-1.18-1.21,0-.82.71-1.35,1.69-1.35s1.68.52,1.69,1.31h-1c0-.31-.31-.49-.69-.49s-.63.17-.63.43.19.35.63.44l.55.1c.84.16,1.21.54,1.21,1.21,0,.84-.69,1.38-1.78,1.38s-1.75-.48-1.76-1.3Z' style='fill: %23cccccc'/%3E%3Cpath d='M17,7.11V3.75H15.86V2.89h3.4v.86H18.1V7.11Z' style='fill: %23cccccc'/%3E%3Cpath d='M22,6.19H20.59l-.27.92h-1.1l1.42-4.22H22l1.42,4.22H22.24ZM20.8,5.41h1l-.47-1.63h0Z' style='fill: %23cccccc'/%3E%3Cpath d='M26.91,7.11H24.08V2.89h1.08V6.25h1.75Z' style='fill: %23cccccc'/%3E%3Cpath d='M30.52,7.11H27.7V2.89h1.08V6.25h1.74Z' style='fill: %23cccccc'/%3E%3Cpath d='M34.21,7.11H31.32V2.89h2.89v.86H32.39v.84h1.72v.8H32.39v.86h1.82Z' style='fill: %23cccccc'/%3E%3Cpath d='M36.84,2.89a1.87,1.87,0,0,1,2,2.09,1.91,1.91,0,0,1-2,2.13H35.12V2.89ZM36.2,6.25h.5c.7,0,1.07-.43,1.07-1.27s-.39-1.23-1.07-1.23h-.5Z' style='fill: %23cccccc'/%3E%3C/g%3E%3C/svg%3E");
+  display: inline-block;
+  vertical-align: text-top;
+}
 
 .weatherSourceStatus[enabled] {
   width: 16px;
