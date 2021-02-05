@@ -282,6 +282,7 @@ window.ui = window.ui || {};
         if (disabledParsers > 0) {
             var showMoreElem = addTag(containerNormal, "div");
             showMoreElem.textContent = "Show " + disabledParsers + " more optional services";
+            showMoreElem.className = "button bluewide center";
             showMoreElem.onclick = function() {
                 Data.sharedSettings.showOptionalParsers = !Data.sharedSettings.showOptionalParsers;
                 window.ui.settings.updateParsers();
