@@ -2055,7 +2055,8 @@ hr {
 }
 
 .displayCyclesExpand,
-.displayCyclesContract {
+.displayCyclesContract,
+.displayOptionalWeatherServices {
     text-transform: uppercase;
     padding: 10px;
     display: block;
@@ -2077,6 +2078,17 @@ hr {
 .cyclesExpanded {
     background-color: #FAFAFA;
 }
+
+.displayOptionalWeatherServices:after {
+    content: "\2193";
+    margin-left: 0.5em;
+    display: inline-block;
+    padding-bottom: 6px;
+    vertical-align: middle;
+  }
+  .displayOptionalWeatherServices {
+    border-bottom: 1px solid #eee;
+  }
 
 
 /* FLOW METER SENSOR */
@@ -2269,6 +2281,11 @@ hr {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44.05 10'%3E%3Cpath d='M38.82,1a4,4,0,1,1,0,8H5A4,4,0,0,1,5,1h33.8m0-1H5A5,5,0,0,0,0,5H0a5,5,0,0,0,5,5h33.8a5,5,0,0,0,5-5h0a5,5,0,0,0-5-5Z' style='fill: %23339933'/%3E%3Cg%3E%3Cpath d='M5.19,7.11V2.89H6.26V7.11Z' style='fill: %23339933'/%3E%3Cpath d='M7.2,7.11V2.89h.86L9.85,5.34h0V2.89h1V7.11h-.85L8.25,4.63h0V7.11Z' style='fill: %23339933'/%3E%3Cpath d='M12.72,5.89c0,.29.37.48.77.48s.69-.18.69-.44-.18-.35-.66-.45L13,5.37c-.78-.15-1.18-.57-1.18-1.21,0-.82.71-1.35,1.69-1.35s1.68.52,1.69,1.31h-1c0-.31-.31-.49-.69-.49s-.63.17-.63.43.19.35.63.44l.55.1c.84.16,1.21.54,1.21,1.21,0,.84-.69,1.38-1.78,1.38s-1.75-.48-1.76-1.3Z' style='fill: %23339933'/%3E%3Cpath d='M17,7.11V3.75H15.86V2.89h3.4v.86H18.1V7.11Z' style='fill: %23339933'/%3E%3Cpath d='M22,6.19H20.59l-.27.92h-1.1l1.42-4.22H22l1.42,4.22H22.24ZM20.8,5.41h1l-.47-1.63h0Z' style='fill: %23339933'/%3E%3Cpath d='M26.91,7.11H24.08V2.89h1.08V6.25h1.75Z' style='fill: %23339933'/%3E%3Cpath d='M30.52,7.11H27.7V2.89h1.08V6.25h1.74Z' style='fill: %23339933'/%3E%3Cpath d='M34.21,7.11H31.32V2.89h2.89v.86H32.39v.84h1.72v.8H32.39v.86h1.82Z' style='fill: %23339933'/%3E%3Cpath d='M36.84,2.89a1.87,1.87,0,0,1,2,2.09,1.91,1.91,0,0,1-2,2.13H35.12V2.89ZM36.2,6.25h.5c.7,0,1.07-.43,1.07-1.27s-.39-1.23-1.07-1.23h-.5Z' style='fill: %23339933'/%3E%3C/g%3E%3C/svg%3E%0A");
     display: none;
     vertical-align: text-top;
+}
+
+.weatherSourceEssential, .weatherSourceUpdate, .weatherSourceInstalled {
+    float: left;
+    margin: 0.5em;
 }
 
 .description, .author, .version, .instructions {
