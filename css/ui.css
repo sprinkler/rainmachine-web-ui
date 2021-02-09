@@ -2244,7 +2244,7 @@ hr {
 }
 
 .weatherSource:hover {
-  background-color: #ecf0f1;
+  background-color: #FAFAFA;
   cursor: pointer;
 }
 
@@ -2647,9 +2647,10 @@ hr {
 }
 
 .weatherServicesTab label {
-    background: #f1f1f1;
+    background: transparent;
     padding: 7px;
     border: 1px solid #ccc;
+    border-bottom: 0;
     margin-left: -1px;
     position: relative;
     left: 30px;
@@ -2669,13 +2670,26 @@ hr {
     right: 0;
     bottom: 0;
     padding: 10px;
+    padding-top: 0;
     border: 1px solid #ccc;
     -webkit-transition: opacity .6s linear;
     opacity: 0;
 }
 
+.weatherServicesTabContentHeader {
+    display:block;
+    border-bottom:1px solid #ddd;
+    height:24px;
+    position: sticky;
+    top: 0;
+    background-color: #FAFAFA;
+    padding: 1em 0.3em;
+    z-index:9
+  }
+
 [type=radio]:checked~label {
-    background: white;
+    background: #39c;
+    color: #fff;
     z-index: 2;
 }
 

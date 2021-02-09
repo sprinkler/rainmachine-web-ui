@@ -1807,6 +1807,7 @@ td.right,
   vertical-align: middle;
 }
 .displayOptionalWeatherServices {
+  background-color: #131313;
   border-bottom: 1px solid #555;
 }
 
@@ -2265,7 +2266,7 @@ td.right,
 
 }
 .weatherServicesTab label {
-  background: #000000;
+  background: transparent;
   padding: 7px;
   border: 1px solid #555;
   margin-left: -1px;
@@ -2285,6 +2286,7 @@ td.right,
   right: 0;
   bottom: 0;
   padding: 10px;
+  padding-top: 0;
   border: 1px solid #555;
   -webkit-transition: opacity .6s linear;
   opacity: 0;
@@ -2293,9 +2295,13 @@ td.right,
   display:block;
   border-bottom:1px solid #555555;
   height:24px;
-  }
+  position: sticky;
+  top: 0;
+  background-color: #131313;
+  padding: 1em 0.5em;
+}
 [type=radio]:checked ~ label {
-  background: #2f2f2f;
+  background: #39c;
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
