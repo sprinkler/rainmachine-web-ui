@@ -148,7 +148,7 @@ window.ui = window.ui || {};
                 }
 
                 // Sort the list by enabled state and name
-                Data.parsers.parsers.sort(sortParserByEnabledAndName)
+                Data.parsers.parsers.sort(sortParserByEnabledAndName);
                 updateParsers(onDashboard);
 
                 if (fetchData) {
@@ -277,7 +277,7 @@ window.ui = window.ui || {};
             if (!onDashboard) {
                 template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
             }
-            container.insertBefore(template, container.firstChild);
+            container.appendChild(template);
         }
 
         if (disabledParsers > 0) {
@@ -408,7 +408,13 @@ window.ui = window.ui || {};
                 var filename = url.split("/").pop();
                 var data = new FormData();
                 data.append(filename, o);
-                var r = API.uploadParser(filename, data);
+
+                var extraInfo = {
+                    type: "community",
+                    version: parser.version
+                };
+
+                var r = API.uploadParser(filename, data, extraInfo);
                 if (r && r.statusCode == 0) {
                     uiFeedback.done(elem);
                     // Automatically refresh the new parser details window
@@ -1382,11 +1388,24 @@ window.ui = window.ui || {};
     }
 
     function sortParserByEnabledAndName(a, b) {
-        if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) return 1;
-        if (a.enabled > b.enabled) return 1;
-        else if (a.installed > b.installed) return 1;
-        else if ((a.enabled === b.enabled) && (a.name < b.name)) return 1;
 
+        if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) {
+            return -1;
+        } else {
+            if (a.enabled > b.enabled) {
+                return -1;
+            } else {
+                if (a.installed > b.installed) {
+                    return -1;
+                } else {
+                    if ((a.enabled === b.enabled) && (a.name < b.name)) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        }
         return 0;
     }
 
