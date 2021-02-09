@@ -116,11 +116,12 @@ window.ui = window.ui || {};
             Data.parsers = o;
             APIAsync.getEx(communityUrl + "version-metadata.json").then(function(o) {
                 // Data.parsers.parsers.sort(sortParserByEnabledAndName);
-                var installed = Data.parsers.parsers;
+                var builtin = Data.parsers.parsers;
 
                 var tmpMap = {};
-                for (var i = 0; i < installed.length; i++) {
-                    tmpMap[installed[i].name] = i;
+                for (var i = 0; i < builtin.length; i++) {
+                    tmpMap[builtin[i].name] = i;
+                    builtin[i].installed = true;
                 }
 
                 for (var file in o.files) {
@@ -139,8 +140,8 @@ window.ui = window.ui || {};
 
                     if (name in tmpMap) {
                         parserInfo.installed = true;
-                        Object.assign(installed[tmpMap[name]], parserInfo);
-                        console.log(installed[tmpMap[name]]);
+                        Object.assign(builtin[tmpMap[name]], parserInfo);
+                        console.log(builtin[tmpMap[name]]);
                     } else {
                         Data.parsers.parsers.push(parserInfo);
                     }
@@ -290,8 +291,6 @@ window.ui = window.ui || {};
     }
 
     function showParserDetails(p) {
-        console.log(p);
-
         if (!p) {
             console.error("No parser data");
             return;
