@@ -783,9 +783,18 @@ _API.prototype.getTimeZoneDB = function() {
     return this.get(url, null);
 }
 
-_API.prototype.uploadParser = function(fileName, formData) {
+_API.prototype.uploadParser = function(fileName, formData, extraInfo) {
     var url = this.URL.dev + "/import/parser";
     var extraHeaders = [];
+
+    if (defined(extraInfo)) {
+        if (extraInfo.type) {
+            extraHeaders.push(["x-rainmachine-parser-type", extraInfo.type]);
+        }
+        if (extraInfo.version) {
+            extraHeaders.push(["x-rainmachine-parser-version", extraInfo.version]);
+        }
+    }
 
     extraHeaders.push(["Content-Disposition", "inline; filename=" + fileName]);
 
