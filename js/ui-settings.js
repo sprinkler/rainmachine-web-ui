@@ -115,7 +115,6 @@ window.ui = window.ui || {};
         APIAsync.getParsers().then(function(o) {
             Data.parsers = o;
             APIAsync.getEx(communityUrl + "version-metadata.json").then(function(o) {
-                // Data.parsers.parsers.sort(sortParserByEnabledAndName);
                 var builtin = Data.parsers.parsers;
 
                 var tmpMap = {};
@@ -266,8 +265,12 @@ window.ui = window.ui || {};
                     else
                         lastRunElem.textContent = "Never";
                 } else {
-                    lastRunElem.textContent = p.lastKnownError;
                     lastRunElem.style.color = "red";
+                    if (!onDashboard) {
+                        lastRunElem.textContent = p.lastKnownError;
+                    } else {
+                        lastRunElem.textContent = "Issues";
+                    }
                 }
             } else {
                 lastRunElem.textContent = "	";
@@ -1391,21 +1394,18 @@ window.ui = window.ui || {};
 
         if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) {
             return -1;
+        } else if (b.name.startsWith("NOAA") || b.name.startsWith("METNO")) {
+            return 1;
+        } else if (a.enabled > b.enabled) {
+            return -1;
+        } else if (a.installed > b.installed) {
+            return -1;
+        } else if ((a.enabled === b.enabled) && (a.name < b.name)) {
+            return -1;
         } else {
-            if (a.enabled > b.enabled) {
-                return -1;
-            } else {
-                if (a.installed > b.installed) {
-                    return -1;
-                } else {
-                    if ((a.enabled === b.enabled) && (a.name < b.name)) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-            }
+            return 1;
         }
+
         return 0;
     }
 
