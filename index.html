@@ -100,8 +100,8 @@
                         <div id="homeScreenLeft">
                             <div id="homeScreenWaterSaved">
                                 <h1 id="waterSavedTitle" class="title center">Water saved past 7 days</h1>
-                                <button id="waterGaugeSaved" class="button label-gray left mr10">Saved</button>
-                                <button id="waterGaugeUsed" class="button label-gray right mr10">Used</button>
+                                <button id="waterGaugeSaved" class="button label-grey left mr10">Saved</button>
+                                <button id="waterGaugeUsed" class="button label-grey right mr10">Used</button>
                                 <div id="waterSavedGaugeContainer"></div>
                                 <div class="helpTextWaterSaved" help="waterSavedVolume">?</div>
                                 <div class="waterSavedInfo" id="waterSavedInfo">
@@ -142,23 +142,23 @@
                                 <button id="device-status-more" class="button label-grey right mr10">More</button>
                                 <h1 class="titleHome">About</h1>
                                 <div class="deviceStatusItem">
-                                    <div id="homeVersion" class="right gray"></div>
+                                    <div id="homeVersion" class="right grey"></div>
                                     <div>Firmware version</div>
                                 </div>
                                 <div class="deviceStatusItem">
-                                    <div id="homeUptime" class="right gray"></div>
+                                    <div id="homeUptime" class="right grey"></div>
                                     <div>Uptime</div>
                                 </div>
                                 <div class="deviceStatusItem">
-                                    <div id="homeCPU" class="right gray"></div>
+                                    <div id="homeCPU" class="right grey"></div>
                                     <div>CPU Usage</div>
                                 </div>
                                 <div class="deviceStatusItem">
-                                    <div id="homeIP" class="right gray"></div>
+                                    <div id="homeIP" class="right grey"></div>
                                     <div>Network Address</div>
                                 </div>
                                 <div class="deviceStatusItem">
-                                    <div id="homeCloud" class="right gray"></div>
+                                    <div id="homeCloud" class="right grey"></div>
                                     <div>Remote Access</div>
                                 </div>
                             </div>
@@ -167,9 +167,9 @@
                         <div id="homeScreenRight">
                             <div id="chartsTimeSpan" class="homeScreenProgramList">
                                 <div class="WaterSavedDialTime" style="text-align:center;margin:0 auto;margin-bottom:5px;">
-                                    <button id="chartsWeek" class="button label-gray center">Week</button>
-                                    <button id="chartsMonth" class="button label-gray center">Month</button>
-                                    <button id="chartsYear" class="button label-gray center">Year</button>
+                                    <button id="chartsWeek" class="button label-grey center">Week</button>
+                                    <button id="chartsMonth" class="button label-grey center">Month</button>
+                                    <button id="chartsYear" class="button label-grey center">Year</button>
                                 </div>
                             </div>
                             <div class="homeScreenProgramList" id="weatherChartsContainer">
@@ -758,15 +758,15 @@
                                         <div class="relative" style="width:100%;text-align:left;min-height:200px;">
                                             <!-- Weather Data Source EDIT (Begin) -->
                                             <div id="weatherSourcesEdit" class="hidden">
+                                                <button id="weatherSourcesEditClose" class="button label-grey back">&#10094; Back</button>
                                                 <div id="weatherSourcesEditContent">
                                                     <!-- template inserted by javascript -->
                                                 </div>
                                                 <div style="height:40px;">&nbsp;</div>
                                                 <div class="absolute full">
-                                                    <button id="weatherSourcesEditSave" class="button blue center right">Save</button>
-                                                    <button id="weatherSourcesEditClose" class="button grey center right">Close</button>
-                                                    <button id="weatherSourcesEditRun" class="button label-gray center left ml10 mr">Refresh Now</button>
-                                                    <button id="weatherSourcesEditDefaults" class="button label-gray center left ml10">Defaults</button>
+                                                    <button id="weatherSourcesEditSave" class="button blue center left ml10">Save</button>
+                                                    <button id="weatherSourcesEditRun" class="button label-grey center right ml10">Refresh Now</button>
+                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center right ml10 mr">Defaults</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source EDIT (End) -->
@@ -780,7 +780,7 @@
                                                 <div id="weatherSourcesUploadStatus">Please select a python source file (.py extension).</div>
                                                 <div class="absolute">
                                                     <button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
-                                                    <button id="weatherSourcesUploadClose" class="button label-gray center right">Close</button>
+                                                    <button id="weatherSourcesUploadClose" class="button label-grey center right">Close</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source UPLOAD (End) -->
@@ -1538,7 +1538,7 @@
         <!-- Template for Zone Card (Begin) -->
         <div id="zone-entry" class="zone-line">
             <div>
-                <div rm-id="zone-edit" class="zoneListEdit" id="zone-edit" style="float:right;"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
+                <div rm-id="zone-edit" class="zoneListEdit" id="zone-edit" style="float:right;"><span class="button label-grey center" style="cursor:pointer;">Edit</span></div>
             </div>
             <div rm-id="zone-image" class="zoneListImage">
                 <div class="zoneListImageNone">&#xe800;</div>
@@ -2016,7 +2016,7 @@
         <!-- Template for Program Card (Begin) -->
         <div id="program-entry" class="programActive">
             <div>
-                <div rm-id="program-edit" class="programListEdit"><span class="button label-gray center" style="cursor:pointer;">Edit</span></div>
+                <div rm-id="program-edit" class="programListEdit"><span class="button label-grey center" style="cursor:pointer;">Edit</span></div>
             </div>
             <div class="program-title-next-run">
                 <div rm-id="program-name" class="programListName"></div>
@@ -2481,8 +2481,8 @@
 
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
-            <button rm-id="weather-source-delete" class="button red center right" style="display: none">Uninstall</button>
             <h1 rm-id="weather-source-name"></h1>
+            <button rm-id="weather-source-delete" class="button red center parser" style="display: none">Uninstall</button>
             <button rm-id="weather-source-update" class="button blue center parser">Update</button>
             <button rm-id="weather-source-install" class="button blue center parser">Install</button>
             <span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
@@ -2499,6 +2499,25 @@
             <div rm-id="weather-source-params"></div>
         </div>
         <!-- Template for Weather Data Sources Details (End) -->
+
+        <!-- Template for Weather Parsers Options (Begin) -->
+        <div id="weather-parsers-options">
+            <div class="overTop">
+                <table class="programEdit" style="padding-top:1em;" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="center middle zoneListImageTD" rm-id="zone-settings-image-container" style="display:inline-block;">
+                            <div class="helpText inlineblock zoneListImageHelp" help="zoneListImageHelp">?</div>
+                            <div rm-id="zone-settings-image" class="zoneListImageEdit center">
+                                <div class="zoneListImageNoneEdit">&#xe800;</div>
+                            </div>
+                            <br />
+                            <div><input type="text" rm-id="zone-name" placeholder="Zone Name" class="center typeText" style="width:90%;" /></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- Template for Weather Parsers Options (End) -->
 
         <!-- Template for Current Restrictions (dashboard) (Start) -->
         <div id="current-restrictions-template">
@@ -2613,8 +2632,8 @@
         <!-- Template for Simple Watering History per Day (Start) -->
         <div id="watering-history-day-simple-template" class="wateringLogDayContainer">
             <div class="wateringLogDayLine">
-                <div rm-id="wateringLogDayWatered" class="right mr10 wateringLogDayWatered gray" style="width:70px;"></div>
-                <div rm-id="wateringLogDayScheduled" class="right mr10 wateringLogDayScheduled gray" style="width:70px;"></div>
+                <div rm-id="wateringLogDayWatered" class="right mr10 wateringLogDayWatered grey" style="width:70px;"></div>
+                <div rm-id="wateringLogDayScheduled" class="right mr10 wateringLogDayScheduled grey" style="width:70px;"></div>
                 <div rm-id="wateringLogDayName" class="wateringLogDayNumber"></div>
             </div>
             <div rm-id="wateringLogProgramsContainer" class="wateringLogProgramsContainer"></div>
