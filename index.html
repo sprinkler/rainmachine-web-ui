@@ -651,7 +651,7 @@
 														Enter the flow meter flow clicks per <span id="sensorsFlowSensorUnits">cubic meter</span>
                                                     </span>
                                                     <span class="subtitle">For accurate results enter the correct flow clicks per gallons (cube meters) as described in the flow sensor manufacturer datasheet.</span>
-                                                    <br><br>
+                                                    <br><br><br>
                                                     <input type="number" min="0" id="sensorsFlowSensorStartIndex" class="typeNumber center right"></span>
                                                     <span class="cardTitle">Flow meter start index:</span><br>
                                                     <span class="subtitle">Enter the flow meter start index if it was used before installation.</span>
@@ -773,14 +773,14 @@
 
                                             <!-- Weather Data Source UPLOAD (Begin) -->
                                             <div id="weatherSourcesUpload" class="hidden">
+                                                <button id="weatherSourcesUploadClose" class="button label-grey back">&#10094; Back</button>
                                                 <div class="bold">Upload weather data source</div>
                                                 <span class="separator"></span>
                                                 <input type="file" id="weatherSourcesUploadFile">
                                                 <br>
-                                                <div id="weatherSourcesUploadStatus">Please select a python source file (.py extension).</div>
-                                                <div class="absolute">
-                                                    <button id="weatherSourcesUploadUpload" class="button label-blue center right">Upload</button>
-                                                    <button id="weatherSourcesUploadClose" class="button label-grey center right">Close</button>
+                                                <div id="weatherSourcesUploadStatus" style="margin-bottom: 1em;">Please select a python source file (.py extension).</div>
+                                                <div>
+                                                    <button id="weatherSourcesUploadUpload" class="button blue center left">Upload</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source UPLOAD (End) -->
