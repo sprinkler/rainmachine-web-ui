@@ -302,6 +302,11 @@ body {
     height: 30px;
 }
 
+.back {
+    margin-top: -40px;
+    margin-left: -10px;
+}
+
 h1.title,
 h1.titleHome {
     padding-bottom: 5px;
