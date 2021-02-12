@@ -293,6 +293,9 @@ h1.titleHome {
 .mr { margin-right: 60px; }
 .mr10 { margin-right: 10px; }
 .ml10 { margin-left: 10px; }
+.orange {
+  color: #ff9900;
+}
 #success,
 #error {
   display:none;
@@ -2110,6 +2113,14 @@ td.right,
   margin-top: 1em;
   max-width: 100%;
   cursor: pointer;
+}
+.button.orange {
+  background-color: #ff9900;
+  color: #ffffff;
+  padding: 0 10px;
+  width: 132px;
+  text-align: center;
+  max-width: 132px;
 }
 .button.red {
   background-color: #CF6679;
