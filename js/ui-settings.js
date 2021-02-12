@@ -130,17 +130,23 @@ window.ui = window.ui || {};
                     parserInfo.name = name;
                     parserInfo.custom = true;
                     parserInfo.description = o.files[file].description;
-                    parserInfo.version = o.files[file].version;
+                    parserInfo.latestVersion = o.files[file].version;
                     parserInfo.author = o.files[file].author;
                     parserInfo.instructions = o.files[file].instructions;
                     parserInfo.installed = false;
                     parserInfo.hasUpdate = false;
                     parserInfo.url = file;
 
+                    // Loop over installed parsers and update properties. Also checks for version update
                     if (name in tmpMap) {
+                        var installedParser = builtin[tmpMap[name]];
                         parserInfo.installed = true;
-                        Object.assign(builtin[tmpMap[name]], parserInfo);
-                        console.log(builtin[tmpMap[name]]);
+                        if (+installedParser.version < +parserInfo.latestVersion) {
+                            parserInfo.hasUpdate = true;
+                        }
+                        Object.assign(installedParser, parserInfo);
+                        console.log("FOUND INSTALLED")
+                        console.log(installedParser);
                     } else {
                         Data.parsers.parsers.push(parserInfo);
                     }
@@ -217,7 +223,7 @@ window.ui = window.ui || {};
                 hasHistoryElem = $(template, '[rm-id="weather-source-hashistory"]');
                 essentialElem = $(template, '[rm-id="weather-source-essential"]');
                 installedElem = $(template, '[rm-id="weather-source-installed"]');
-                updateElem = $(template, '[rm-id="weather-source-installed"]');
+                updateElem = $(template, '[rm-id="weather-source-update"]');
                 descriptionElem.textContent = p.description;
 
                 toggleAttr(activeElem, p.enabled);
@@ -365,6 +371,9 @@ window.ui = window.ui || {};
             if (p.version) {
                 makeVisible(versionElem);
                 versionElem.textContent = "Version: " + p.version;
+                if (p.hasUpdate) {
+                    versionElem.textContent += " Available: " + p.latestVersion;
+                }
             }
 
             if (p.instructions) {
@@ -400,6 +409,7 @@ window.ui = window.ui || {};
         uiFeedback.sync(runButton, function() { return onWeatherSourceRun(p.uid); });
         uiFeedback.sync(resetButton, function() { return onWeatherSourceReset(p.uid); });
         installButton.onclick = function() { onDownloadAndInstallSource(p, installButton); };
+        updateButton.onclick = function() { onDownloadAndInstallSource(p, updateButton); };
     }
 
     function onDownloadAndInstallSource(parser, elem) {
@@ -414,7 +424,7 @@ window.ui = window.ui || {};
 
                 var extraInfo = {
                     type: "community",
-                    version: parser.version
+                    version: parser.latestVersion
                 };
 
                 var r = API.uploadParser(filename, data, extraInfo);

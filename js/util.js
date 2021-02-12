@@ -815,8 +815,11 @@ var Util = (function(Util) {
     	Returns a new string with html added.
     */
     Util.convertToHtmlLink = function(str) {
-        var linkStart = str.indexOf('http://') && str.indexOf('https://');
         var linkHtml = null;
+        var linkStart = str.indexOf('http://');
+        if (linkStart < 0) {
+            linkStart = str.indexOf('https://');
+        }
 
         if (linkStart > -1) {
             var linkEnd = str.indexOf(' ', linkStart);
