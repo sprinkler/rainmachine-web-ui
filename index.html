@@ -764,9 +764,9 @@
                                                 </div>
                                                 <div style="height:40px;">&nbsp;</div>
                                                 <div class="absolute full">
-                                                    <button id="weatherSourcesEditSave" class="button blue center left ml10">Save</button>
-                                                    <button id="weatherSourcesEditRun" class="button label-grey center right ml10">Refresh Now</button>
-                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center right ml10 mr">Defaults</button>
+                                                    <button id="weatherSourcesEditSave" class="button blue center right ml10">Save</button>
+                                                    <button id="weatherSourcesEditRun" class="button label-grey center left ml10 mr">Refresh Now</button>
+                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center left ml10">Defaults</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source EDIT (End) -->
@@ -1697,7 +1697,7 @@
                     </tr>
                     <tr style="width: 100%;">
                         <td colspan="2" class="noborder">
-                            <table width="100%" cellpadding="0" cellspacing="0" rm-id="zone-settings-advanced">
+                            <table width="100%" cellpadding="0" cellspacing="0" rm-id="zone-settings-advanced" class="zonesTableWide">
                                 <tr>
                                     <td colspan="2" class="noborder">
                                         <table width="100%" cellpadding="0" cellspacing="0">
@@ -2482,9 +2482,10 @@
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
             <h1 rm-id="weather-source-name"></h1>
-            <button rm-id="weather-source-delete" class="button red center parser" style="display: none">Uninstall</button>
-            <button rm-id="weather-source-update" class="button blue center parser">Update</button>
-            <button rm-id="weather-source-install" class="button blue center parser">Install</button>
+            <span rm-id="weather-source-delete" class="weatherSourceButtons red mr" style="display: none">&#65794; Uninstall</span>
+            <span rm-id="weather-source-update" class="weatherSourceButtons orange mr">&#10226; Update</span>
+            <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr">&#10515; Install</span>
+            <span class="separator"></span><br>
             <span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
             <span rm-id="weather-source-author" class="subtitle author" style="display: none"></span>
             <span rm-id="weather-source-current-version" class="subtitle version" style="display: none"></span>
@@ -2493,7 +2494,9 @@
             <div rm-id="weather-source-common-params">
                 <span class="separator"></span>
                 <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-                <div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
+                <div>
+                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span class="weatherSourceParsersButtons mr">&#10226; Refresh now</span> <span class="weatherSourceParsersButtons mr">&#8595; Set back to defaults</span>
+                </div>
                 <span class="separator"></span>
             </div>
             <div rm-id="weather-source-params"></div>
