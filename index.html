@@ -764,9 +764,9 @@
                                                 </div>
                                                 <div style="height:40px;">&nbsp;</div>
                                                 <div class="absolute full">
-                                                    <button id="weatherSourcesEditSave" class="button blue center left ml10">Save</button>
-                                                    <button id="weatherSourcesEditRun" class="button label-grey center right ml10">Refresh Now</button>
-                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center right ml10 mr">Defaults</button>
+                                                    <button id="weatherSourcesEditSave" class="button blue center right ml10">Save</button>
+                                                    <button id="weatherSourcesEditRun" class="button label-grey center left ml10 mr">Refresh Now</button>
+                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center left ml10">Defaults</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source EDIT (End) -->
@@ -1697,7 +1697,7 @@
                     </tr>
                     <tr style="width: 100%;">
                         <td colspan="2" class="noborder">
-                            <table width="100%" cellpadding="0" cellspacing="0" rm-id="zone-settings-advanced">
+                            <table width="100%" cellpadding="0" cellspacing="0" rm-id="zone-settings-advanced" class="zonesTableWide">
                                 <tr>
                                     <td colspan="2" class="noborder">
                                         <table width="100%" cellpadding="0" cellspacing="0">
@@ -2482,9 +2482,16 @@
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
             <h1 rm-id="weather-source-name"></h1>
-            <button rm-id="weather-source-delete" class="button red center parser" style="display: none">Uninstall</button>
-            <button rm-id="weather-source-update" class="button blue center parser">Update</button>
-            <button rm-id="weather-source-install" class="button blue center parser">Install</button>
+            <span rm-id="weather-source-delete" class="weatherSourceButtons red mr" style="display: none"><svg class="weatherSourceButtonsIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg> Uninstall</span>
+            <span rm-id="weather-source-update" class="weatherSourceButtons orange mr"><svg class="weatherSourceButtonsIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg> Update</span>
+            <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr"><svg  class="weatherSourceButtonsIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg> Install</span>
+            <span class="separator"></span><br>
             <span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
             <span rm-id="weather-source-author" class="subtitle author" style="display: none"></span>
             <span rm-id="weather-source-current-version" class="subtitle version" style="display: none"></span>
@@ -2493,7 +2500,13 @@
             <div rm-id="weather-source-common-params">
                 <span class="separator"></span>
                 <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
-                <div>Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span></div>
+                <div>
+                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span class="weatherSourceParsersSettings mr"><svg class="weatherSourceButtonsIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg> Refresh now</span> <span class="weatherSourceParsersSettings mr"><svg class="weatherSourceButtonsIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                      </svg> Back to defaults</span>
+                </div>
                 <span class="separator"></span>
             </div>
             <div rm-id="weather-source-params"></div>
