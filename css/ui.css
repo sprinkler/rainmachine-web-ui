@@ -2299,10 +2299,6 @@ hr {
     vertical-align: text-top;
 }
 
-.weatherSourceEssential, .weatherSourceUpdate, .weatherSourceInstalled {
-    float: left;
-    margin: 0.5em;
-}
 .weatherSourceButtons {
     display: inline;
     cursor: pointer;
@@ -2311,57 +2307,122 @@ hr {
     width: 132px;
 }
 
+.uninstall {
+    margin-top: -1.7em;
+    margin-right: 0;
+  }
+
 .weatherSourceButtonsIcon {
     width: 21px;
     vertical-align: bottom;
 }
 
 .weatherSourceParsersSettings {
-    color:#888;
+    color: #39b;
     margin-left:15px;
     cursor: pointer;
 }
 .weatherSourceParsersSettings:hover {
-    color:#39b;
+    color:#00bfff;
     margin-left:15px;
     cursor: pointer;
 }
 
-.description, .author, .version, .instructions {
+i {
+    font-family: 'RainMachine' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 21px;
+    vertical-align: bottom;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-defaults:before {
+    content: "\e904";
+  }
+  
+  .icon-refresh:before {
+    content: "\e905";
+  }
+  
+  .icon-cross:before {
+    content: "\e117";
+  }
+  
+  .icon-download:before {
+    content: "\e90c";
+  }
+  
+  .icon-description, .icon-author, .icon-version, .icon-instructions, .icon-update, .icon-verified, .icon-installed {
+    float: left;
+    color: #888888;
+    font-size: 18px;
+  }
+  
+  .icon-update, .icon-verified, .icon-installed {
+    font-family: 'RainMachine' !important;
+    margin: 0.5em;
+  }
+  
+  .icon-description:before {
+    content: "\e908";
+  }
+  
+  .icon-author:before {
+    content: "\e906";
+  }
+  
+  .icon-version:before {
+    content: "\e907";
+  }
+  
+  .icon-instructions:before {
+    content: "\e903";
+  }
+  
+  .icon-verified:before {
+    content: "\e90a";
+    color: #39b;
+  }
+  
+  .icon-update:before {
+    content: "\e90b";
+    color: orange
+  }
+  
+  .icon-installed:before {
+    content: "\e909";
+    color:#00B25C
+  }
+  
+  .description, .author, .version, .instructions {
     background-repeat: no-repeat;
     background-color: transparent;
     display: block !important;
     margin-bottom: 1em;
     zoom: 120%;
   }
-  .description {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z' /%3E%3C/svg%3E");
-    height: 16px;
-  }
   
-  .author {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z' /%3E%3C/svg%3E");
-  }
-  
-  .version {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' /%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' /%3E%3C/svg%3E");
-  }
-  
-  .instructions {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23888888'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14' /%3E%3C/svg%3E");
-  }
   
   #weatherSourcesEditContent .subtitle {
-    padding-left: 2em;
+    padding-left: 1.7em;
   }
-
-.instructions a {
-    color: #555555;
-}
-.spacebottom {
+  
+  .instructions a {
+    color: #cccccc;
+  }
+  
+  .spacebottom {
     margin-bottom: 0.8em !important;
     display: block;
-}
+  }
+  
+  
 .weatherSourceStatus[circle] {
     width: 7px;
     height: 7px;
