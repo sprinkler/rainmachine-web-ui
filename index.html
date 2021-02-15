@@ -2446,9 +2446,9 @@
                     <tr>
                         <td style="width:40%;text-align:left;border:0;padding:0;vertical-align:middle;">
                             <span rm-id="weather-source-name">Source Name</span>
-                            <i class="icon-verified"></i><span rm-id="weather-source-essential" class="weatherSourceEssential" help="weatherSourceEssential"></span>
-                            <i class="icon-installed"></i><span rm-id="weather-source-installed" class="weatherSourceInstalled" help="weatherSourceInstalled"></span>
-                            <i class="icon-update"></i><span rm-id="weather-source-update" class="weatherSourceUpdate" help="weatherSourceUpdate"></span>
+                            <span class="icon-verified" help="weatherSourceEssential">&#xe90a;</span><span rm-id="weather-source-essential" class="weatherSourceEssential"></span>
+                            <span class="icon-installed" help="weatherSourceInstalled">&#xe909;</span><span rm-id="weather-source-installed" class="weatherSourceInstalled"></span>
+                            <span class="icon-update" help="weatherSourceUpdate">&#xe90b;</span><span rm-id="weather-source-update" class="weatherSourceUpdate"></span>
                             </span><br>
                             <span rm-id="weather-source-description" class="subtitle"></span>
                         </td>
@@ -2482,20 +2482,20 @@
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
             <h1 rm-id="weather-source-name"></h1>
-            <span rm-id="weather-source-delete" class="weatherSourceButtons right red uninstall" style="display: none"><i class="icon-cross"></i> Uninstall</span>
-            <span rm-id="weather-source-update" class="weatherSourceButtons orange mr"><i class="icon-refresh"></i> Update</span>
-            <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr"><i class="icon-download"></i> Install</span>
+            <span rm-id="weather-source-delete" class="weatherSourceButtons right red uninstall" style="display: none"><span class="icon-cross"></span> Uninstall</span>
+            <span rm-id="weather-source-update" class="weatherSourceButtons orange mr"><span class="icon-refresh"></span> Update</span>
+            <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr"><span class="icon-download"></span> Install</span>
             <span class="separator"></span><br>
-            <i class="icon-description"></i><span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
-            <i class="icon-author"></i><span rm-id="weather-source-author" class="subtitle author" style="display: none"></span>
-            <i class="icon-version"></i><span rm-id="weather-source-current-version" class="subtitle version" style="display: none"></span>
-            <i class="icon-instructions"></i><span rm-id="weather-source-instructions" class="subtitle instructions" style="display: none"></span><br>
+            <span class="icon-description"></span><span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
+            <span class="icon-author"></span><span rm-id="weather-source-author" class="subtitle author" style="display: none"></span>
+            <span class="icon-version"></span><span rm-id="weather-source-current-version" class="subtitle version" style="display: none"></span>
+            <span class="icon-instructions"></span><span rm-id="weather-source-instructions" class="subtitle instructions" style="display: none"></span><br>
             <br>
             <div rm-id="weather-source-common-params">
                 <span class="separator"></span>
                 <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
                 <div>
-                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span class="weatherSourceParsersSettings mr"><i class="icon-refresh"></i> Refresh now</span> <span class="weatherSourceParsersSettings mr"><i class="icon-defaults"></i> Defaults</span>
+                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span class="weatherSourceParsersSettings mr"><span class="icon-refresh"></span> Refresh now</span> <span class="weatherSourceParsersSettings mr"><span class="icon-defaults"></span> Defaults</span>
                 </div>
                 <span class="separator"></span>
             </div>

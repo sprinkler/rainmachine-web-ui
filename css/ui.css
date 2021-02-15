@@ -2328,18 +2328,22 @@ hr {
     cursor: pointer;
 }
 
-i {
+.icon-description, .icon-author, .icon-version, .icon-instructions, .icon-update, .icon-verified, .icon-cross, .icon-defaults, .icon-refresh {
     font-family: 'RainMachine' !important;
-    speak: never;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    font-size: 21px;
-    vertical-align: bottom;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    float: left;
+    color: #888888;
+    font-size: 18px;
+  }
+  
+  .icon-cross, .icon-defaults, .icon-refresh {
+    float:none;
+    color:inherit;
+  }
+  
+  .icon-update, .icon-verified, .icon-installed {
+    font-family: 'RainMachine' !important;
+    float: left;
+    margin: 0.5em;
   }
   
   .icon-defaults:before {
@@ -2355,18 +2359,8 @@ i {
   }
   
   .icon-download:before {
-    content: "\e90c";
-  }
-  
-  .icon-description, .icon-author, .icon-version, .icon-instructions, .icon-update, .icon-verified, .icon-installed {
-    float: left;
-    color: #888888;
-    font-size: 18px;
-  }
-  
-  .icon-update, .icon-verified, .icon-installed {
     font-family: 'RainMachine' !important;
-    margin: 0.5em;
+    content: "\e90c";
   }
   
   .icon-description:before {
@@ -2385,18 +2379,18 @@ i {
     content: "\e903";
   }
   
-  .icon-verified:before {
-    content: "\e90a";
+  .icon-verified {
+    /* content: "\e90a"; */
     color: #39b;
   }
   
-  .icon-update:before {
-    content: "\e90b";
+  .icon-update {
+    /* content: "\e90b"; */
     color: orange
   }
   
-  .icon-installed:before {
-    content: "\e909";
+  .icon-installed {
+    /* content: "\e909"; */
     color:#00B25C
   }
   
@@ -2414,14 +2408,13 @@ i {
   }
   
   .instructions a {
-    color: #cccccc;
+    color: #999999;
   }
   
   .spacebottom {
     margin-bottom: 0.8em !important;
     display: block;
-  }
-  
+  }  
   
 .weatherSourceStatus[circle] {
     width: 7px;
@@ -2795,7 +2788,7 @@ i {
     top: 0;
     background-color: #FAFAFA;
     padding: 1em 0.3em;
-    z-index:9
+    z-index:8;
   }
 
 [type=radio]:checked~label {
@@ -2861,8 +2854,9 @@ i {
 /* Position tooltip above the element */
 
 [zones-tooltip]:before {
+    font-family: Arial, Helvetica, sans-serif;
     position: absolute;
-    bottom: 30%;
+    bottom: 0%;
     left: 50%;
     margin-bottom: 5px;
     margin-left: -20px;
