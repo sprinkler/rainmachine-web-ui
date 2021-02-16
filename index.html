@@ -765,9 +765,8 @@
                                                 <div style="height:40px;">&nbsp;</div>
                                                 <div class="absolute full">
                                                     <button id="weatherSourcesEditSave" class="button blue center right ml10">Save</button>
-                                                    <!-- <button id="weatherSourcesEditRun" class="button label-grey center left ml10 mr">Refresh Now</button> -->
-                                                    <!-- <button id="weatherSourcesEditDefaults" class="button label-grey center left ml10">Defaults</button> -->
-                                                    <span id="weatherSourcesEditDefaults" class="weatherSourceParsersSettings"><span class="icon-defaults"></span> Defaults</span>
+                                                    <button id="weatherSourcesEditRun" class="button label-grey center left ml10 mr">Refresh Now</button>
+                                                    <button id="weatherSourcesEditDefaults" class="button label-grey center left ml10">Defaults</button>
                                                 </div>
                                             </div>
                                             <!-- Weather Data Source EDIT (End) -->
@@ -2447,9 +2446,9 @@
                     <tr>
                         <td style="width:40%;text-align:left;border:0;padding:0;vertical-align:middle;">
                             <span rm-id="weather-source-name">Source Name</span>
-                            <span class="icon-verified" rm-id="weather-source-essential" help="weatherSourceEssential">&#xe90a;</span>
-                            <span class="icon-installed" rm-id="weather-source-installed" help="weatherSourceInstalled">&#xe909;</span>
-                            <span class="icon-update" rm-id="weather-source-update" help="weatherSourceUpdate">&#xe90b;</span>
+                            <span class="icon-verified" help="weatherSourceEssential">&#xe90a;</span><span rm-id="weather-source-essential" class="weatherSourceEssential"></span>
+                            <span class="icon-installed" help="weatherSourceInstalled">&#xe909;</span><span rm-id="weather-source-installed" class="weatherSourceInstalled"></span>
+                            <span class="icon-update" help="weatherSourceUpdate">&#xe90b;</span><span rm-id="weather-source-update" class="weatherSourceUpdate"></span>
                             </span><br>
                             <span rm-id="weather-source-description" class="subtitle"></span>
                         </td>
@@ -2487,16 +2486,16 @@
             <span rm-id="weather-source-update" class="weatherSourceButtons orange mr"><span class="icon-refresh"></span> Update</span>
             <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr"><span class="icon-download"></span> Install</span>
             <span class="separator"></span><br>
-            <span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
-            <span rm-id="weather-source-author" class="subtitle author spacebottom" style="display: none"></span>
-            <span rm-id="weather-source-current-version" class="subtitle version spacebottom" style="display: none"></span>
-            <span rm-id="weather-source-instructions" class="subtitle instructions spacebottom" style="display: none"></span><br>
+            <span class="icon-description"></span><span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
+            <span class="icon-author"></span><span rm-id="weather-source-author" class="subtitle author" style="display: none"></span>
+            <span class="icon-version"></span><span rm-id="weather-source-current-version" class="subtitle version" style="display: none"></span>
+            <span class="icon-instructions"></span><span rm-id="weather-source-instructions" class="subtitle instructions" style="display: none"></span><br>
             <br>
             <div rm-id="weather-source-common-params">
                 <span class="separator"></span>
                 <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="typeCheckbox"></div>
                 <div>
-                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span id="weatherSourcesEditRun" class="weatherSourceParsersSettings mr"><span class="icon-refresh"></span> Refresh now</span>
+                    Last successfully run: <span rm-id="weather-source-lastrun" class="bold"></span> <span class="weatherSourceParsersSettings mr"><span class="icon-refresh"></span> Refresh now</span> <span class="weatherSourceParsersSettings mr"><span class="icon-defaults"></span> Defaults</span>
                 </div>
                 <span class="separator"></span>
             </div>
@@ -2702,7 +2701,7 @@
             </div>
             <div>
                 <div class="left" style="width:250px;">
-                    <h4>Station ID</h4>
+                    <h4>Name</h4>
                 </div>
                 <div class="left">
                     <h4>Distance</h4>
@@ -2719,8 +2718,8 @@
                 <input rm-id="weather-sources-wu-customstations" type="text" class="typeText" style="width:450px;margin-left:0;">
                 <div style="clear:both;"></div>
                 <span class="subtitle">
-					Enter the Station ID you would like to use (eg: IFREM145).<br>
-					If you want to use backup stations, add them after the first one and separate their IDs with comma.<br>
+					Enter the name of the station you would like to use.<br>
+					If you want to use backup stations, add them after the first one and separate their names with comma.<br>
 					When the first one fail to send data, the next one will be used as backup.
 				</span>
             </div>
