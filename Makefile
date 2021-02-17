@@ -23,6 +23,7 @@ JS_FILES = js/dom.js \
 	js/ui-charts-parsers.js \
 	js/ui-login.js \
 	js/ui-restrictions.js \
+	js/ui-weather-settings.js \
 	js/ui-weather-services.js \
 	js/ui-settings.js \
 	js/ui-system-settings.js \
