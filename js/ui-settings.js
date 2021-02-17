@@ -308,7 +308,6 @@ window.ui = window.ui || {};
 
         var weatherDataSourcesEditContent = $('#weatherSourcesEditContent');
         var saveButton = $('#weatherSourcesEditSave');
-        var runButton = $('#weatherSourcesEditRun');
         var closeButton = $('#weatherSourcesEditClose');
         var resetButton = $('#weatherSourcesEditDefaults');
 
@@ -317,6 +316,7 @@ window.ui = window.ui || {};
         makeVisible('#weatherSourcesEdit');
 
         var template = loadTemplate("weather-sources-details-template");
+        var runButton = $(template, '[rm-id="weatherSourcesEditRun"]');
         var nameElem = $(template, '[rm-id="weather-source-name"]');
         var enabledElem = $(template, '[rm-id="weather-source-enable"]');
         var lastRunElem = $(template, '[rm-id="weather-source-lastrun"]');
@@ -463,13 +463,13 @@ window.ui = window.ui || {};
         var r = API.runParser(id, true, withMixer, false);
 
         setTimeout(function() {
-            showParsers(false, true);
-            var p = API.getParsers(id);
-
-            //Did we refresh all parsers or just a single one from its detail page
-            if (id > 0) {
-                showParserDetails(p.parser);
-            }
+            showParsers(false, true, function() {
+                for (var i = 0; i < Data.parsers.parsers.length; i++) {
+                    if (id > 0 && Data.parsers.parsers[i].uid == id) {
+                        showParserDetails(Data.parsers.parsers[i]);
+                    }
+                }
+            });
         }, 4000);
 
 
@@ -479,9 +479,14 @@ window.ui = window.ui || {};
 
     function onWeatherSourceReset(id) {
         var r = API.resetParserParams(id);
-        var p = API.getParsers(id);
-        showParserDetails(p.parser);
-        showParsers(false, false);
+        showParsers(false, true, function() {
+            for (var i = 0; i < Data.parsers.parsers.length; i++) {
+                if (Data.parsers.parsers[i].uid == id) {
+                    showParserDetails(Data.parsers.parsers[i]);
+                }
+            }
+        });
+
 
         return r;
     }
