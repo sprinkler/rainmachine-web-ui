@@ -37,7 +37,7 @@ window.ui = window.ui || {};
         { name: "Snooze", func: window.ui.settings.showRainDelay, container: '#snooze' },
         { name: "Restrictions", func: window.ui.restrictions.showRestrictions, container: '#restrictions' },
         { name: "Sensors", func: window.ui.restrictions.showSensors, container: '#sensors' },
-        { name: "Weather", func: window.ui.settings.showWeather, container: '#weather' },
+        { name: "Weather", func: window.ui.weather_settings.showWeather, container: '#weather' },
         { name: "System Settings", func: window.ui.system.showSettings, container: '#systemSettings' },
         { name: "About", func: window.ui.about.showAbout, container: '#about' }
     ];
@@ -210,7 +210,7 @@ window.ui = window.ui || {};
                 window.ui.about.getDeviceInfo();
                 window.ui.programs.showPrograms();
                 window.ui.zones.showZones();
-                window.ui.settings.showParsers(true, false);
+                window.ui.weather_settings.showParsers(true, false);
                 loadCharts(true, 30); //generate charts forcing data refresh for 30 days in the past
                 loop = setInterval(uiLoop, loopSeconds);
             });
@@ -269,7 +269,7 @@ window.ui = window.ui || {};
                     }
                 );
             //Refresh (without data download) parser box
-            window.ui.settings.updateParsers(true);
+            window.ui.weather_settings.updateParsers(true);
 
             //Refresh on medium timer
             runCall = false;
