@@ -266,6 +266,7 @@ window.ui = window.ui || {};
             if (!onDashboard) {
                 template.onclick = function() { showParserDetails(Data.parsers.parsers[this.parseridx]); }
             }
+
             container.appendChild(template);
         }
 
@@ -275,7 +276,7 @@ window.ui = window.ui || {};
             showMoreElem.className = "displayOptionalWeatherServices center";
             showMoreElem.onclick = function() {
                 Data.sharedSettings.showOptionalParsers = !Data.sharedSettings.showOptionalParsers;
-                window.ui.settings.updateParsers();
+                window.ui.weather_settings.updateParsers();
             }
         }
     }
@@ -442,13 +443,20 @@ window.ui = window.ui || {};
         //Allow some time after a parser refresh was issued so that the parser finish downloading data
         var r = API.runParser(id, true, withMixer, false);
 
+        //var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weatherSourcesEditRun"]');
+        var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weather-source-lastrun"]');
+
+        // Save the width of the element so the refresh animation won't resize it
+        var prevWidth = feedbackElem.offsetWidth + 1;
+        feedbackElem.id = "#tmp";
+        feedbackElem.style.paddingRight = prevWidth + "px";
+        feedbackElem.textContent = "";
+        uiFeedback.start(feedbackElem);
+
         setTimeout(function() {
             showParsers(false, true, function() {
-                for (var i = 0; i < Data.parsers.parsers.length; i++) {
-                    if (id > 0 && Data.parsers.parsers[i].uid == id) {
-                        showParserDetails(Data.parsers.parsers[i]);
-                    }
-                }
+                showParserDetails(getParserById(id));
+                uiFeedback.done(feedbackElem);
             });
         }, 4000);
 
@@ -460,11 +468,7 @@ window.ui = window.ui || {};
     function onWeatherSourceReset(id) {
         var r = API.resetParserParams(id);
         showParsers(false, true, function() {
-            for (var i = 0; i < Data.parsers.parsers.length; i++) {
-                if (Data.parsers.parsers[i].uid == id) {
-                    showParserDetails(Data.parsers.parsers[i]);
-                }
-            }
+            showParserDetails(getParserById(id));
         });
 
 
@@ -488,13 +492,7 @@ window.ui = window.ui || {};
         var shouldSaveParams = false;
         var r = null;
 
-        var p = null;
-        for (var i = 0; i < Data.parsers.parsers.length; i++) {
-            if (Data.parsers.parsers[i].uid == id) {
-                p = Data.parsers.parsers[i];
-                break;
-            }
-        }
+        var p = getParserById(id);
 
         if (!p) {
             console.error("Parser id not found in list !");
@@ -660,6 +658,17 @@ window.ui = window.ui || {};
         }
 
         return 0;
+    }
+
+    function onDOYET0Fetch() {
+        APIAsync.getProvisionDOY().then(function(o) {
+            Data.doyET0 = [];
+            for (var i = 0; i < o.length; i++) {
+                var date = new Date(2016, 0); // initialize a date in `year-01-01`
+                Data.doyET0[i] = [date.setDate(date.getDate() + i), Util.convert.uiQuantity(+o[i])];
+            }
+            generateDOYET0Chart();
+        });
     }
 
     function getParserById(id) {

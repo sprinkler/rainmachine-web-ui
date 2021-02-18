@@ -125,17 +125,6 @@ window.ui = window.ui || {};
         );
     }
 
-    function onDOYET0Fetch() {
-        APIAsync.getProvisionDOY().then(function(o) {
-            Data.doyET0 = [];
-            for (var i = 0; i < o.length; i++) {
-                var date = new Date(2016, 0); // initialize a date in `year-01-01`
-                Data.doyET0[i] = [date.setDate(date.getDate() + i), Util.convert.uiQuantity(+o[i])];
-            }
-            generateDOYET0Chart();
-        });
-    }
-
     function showWaterLog() {
 
         var days = 30;
