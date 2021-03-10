@@ -23,7 +23,7 @@ function _API(async) {
     var protocol = window.location.protocol;
 
     var apiUrl = protocol + "//" + host + ":" + port + "/api/4";
-    var apiUrl = "http://" + host + ":" + port + "/api/4";
+    //var apiUrl = "http://" + host + ":" + port + "/api/4";
 
 
     var token = null;

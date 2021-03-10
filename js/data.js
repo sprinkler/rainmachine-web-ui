@@ -39,7 +39,7 @@ var Data = (function(Data) {
     Data.zonesAvailableWater = null;
     Data.today = null;
     Data.rainDelay = null;
-    Data.uiVer = "1.15";
+    Data.uiVer = "1.20";
     Data.restrictionsCurrent = null;
     Data.zonesImages = null;
 
