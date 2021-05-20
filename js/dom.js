@@ -167,7 +167,7 @@ function makeVisible(tag)
 	if (typeof(tag) === 'string') { e = $(tag); }
     else { e = tag; }
 
-	e.style.display = "inline-table";
+	e.style.display = "block";
 	//correct display highchart graphs
 	e.style.width = "100%";
 	//e.focus();
