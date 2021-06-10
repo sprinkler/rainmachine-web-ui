@@ -566,6 +566,9 @@ var Util = (function(Util) {
         galToVolumeMeters: function(v) {
             return Math.round((v * 0.00378541) * 10) / 10;
         },
+        kmToMiles: function(v) {
+            return Math.round(v / 1.609);
+        },
         // functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
         uiTemp: function(temp) {
             if (!Data.provision.system.uiUnitsMetric) {
@@ -716,6 +719,20 @@ var Util = (function(Util) {
                 return " in/h";
             } else {
                 return " mm/h";
+            }
+        },
+        uiDistance: function(v) {
+            if (!Data.provision.system.uiUnitsMetric) {
+                return Util.convert.kmToMiles(v);
+            } else {
+                return Math.round(v);
+            }
+        },
+        uiDistanceStr: function() {
+            if (!Data.provision.system.uiUnitsMetric) {
+                return " miles";
+            } else {
+                return " km";
             }
         },
         withType: function(type, value) {
