@@ -433,11 +433,15 @@ strong { font-weight: 700; }
   font-size: 14px;
 }
 .weatherAlert {
-  color: #f66;
+  color: #fff;
   border: 1px solid #f66;
   padding: 1em !important;
   max-width: 65%;
 }
+.weatherAlert h1 {
+  color: #f66;
+}
+
 .weatherAlert pre {
   border-left: 2px solid #f66;
   padding-left: 1em;
