@@ -432,6 +432,22 @@ strong { font-weight: 700; }
   line-height: 22px;
   font-size: 14px;
 }
+.weatherAlert {
+  color: #fff;
+  border: 1px solid #f66;
+  padding: 1em !important;
+  max-width: 65%;
+}
+.weatherAlert h1 {
+  color: #f66;
+}
+
+.weatherAlert pre {
+  border-left: 2px solid #f66;
+  padding-left: 1em;
+  margin-top: 1em;
+  white-space: pre-wrap !important;
+}
 
 .program-line,
 .weather-program-line {
