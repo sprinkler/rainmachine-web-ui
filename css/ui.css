@@ -2374,6 +2374,7 @@ hr {
     font-size: 18px;
     margin-right: 0.5em;
     vertical-align: middle;
+    text-decoration: none;
 }
 
 .description, .author, .version, .instructions {
@@ -2396,6 +2397,17 @@ hr {
 .instructions:before {
     content: "\e903";
 }  
+.weatherStationLink:after, .weatherStationLink {
+    font-family: 'RainMachine' !important;  
+    content: "\e903";
+    margin-left: 0.8em;
+    color:#39b;
+    text-decoration: none;
+  } 
+  .weatherStationLink {
+    font-family: Arial, Helvetica, sans-serif !important;
+    margin-left: 0 !important;
+  }  
   
 /*   #weatherSourcesEditContent .subtitle {
     padding-left: 1.7em;
