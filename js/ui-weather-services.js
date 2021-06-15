@@ -6,6 +6,10 @@
 window.ui = window.ui || {};
 
 (function(_weatherservices) {
+    //---------------------------------------------------------------------------------------
+    // NOAA Parser Custom UI
+    // 
+    //
     function noaaRenderer(parent, params) {
         clearTag(parent);
         var ui = loadTemplate("weather-sources-noaa-ui");
@@ -86,6 +90,70 @@ window.ui = window.ui || {};
         return params;
     }
 
+    //---------------------------------------------------------------------------------------
+    // CWOP (Weather Stations) Parser Custom UI
+    // 
+    //	
+    function cwopRenderer(parent, params) {
+        clearTag(parent);
+        var ui = loadTemplate("weather-sources-cwop-ui");
+        var uiObserved = $(ui, '[rm-id="weather-sources-cwop-stationsui"]');
+        var stationsList = $(ui, '[rm-id="weather-sources-cwop-stationslist"]');
+
+        if (params._stations.length > 0) {
+            var markerAdded = false;
+            for (var i = 0; i < params._stations.length; i++) {
+                var s = params._stations[i];
+
+                var name = s[0];
+                var distance = +s[1];
+
+                if (!markerAdded && params._recommendedDistance < +distance) {
+                    var elMarker = addTag(stationsList, "div");
+                    elMarker.textContent = "Not recommended due to distance:";
+                    elMarker.className = "subtitle";
+                    markerAdded = true;
+                }
+
+                var elName = addTag(stationsList, "div");
+                var elLink = addTag(elName, "a");
+                var elDistance = addTag(stationsList, "div");
+                var elSelected = addTag(stationsList, "input")
+
+                elName.style.width = "150px";
+                elName.style.display = "inline-block";
+
+                elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
+                elLink.target = "_blank";
+                elLink.innerText = name;
+
+                elDistance.style.width = "100px";
+                elDistance.style.display = "inline-block";
+                elDistance.textContent = Util.convert.uiDistance(distance) + Util.convert.uiDistanceStr();
+
+                elSelected.name = "cwop_station";
+                elSelected.type = "radio";
+                elSelected.value = name;
+                elSelected.checked = i == 0;
+                addTag(stationsList, "br");
+            }
+        }
+
+        parent.appendChild(ui);
+    }
+
+    // Returns new parameters if they are different from the old ones or null otherwise
+    function cwopSave(oldparams) {
+        var params = {};
+        params.selectedStation = document.querySelector('input[name="cwop_station"]:checked').value;
+
+        return params;
+    }
+
+    //---------------------------------------------------------------------------------------
+    // WUnderground Parser Custom UI
+    // 
+    //
     function wundergroundRender(parent, params) {
         clearTag(parent);
         var ui = loadTemplate("weather-sources-wu-ui");
@@ -145,7 +213,10 @@ window.ui = window.ui || {};
     }
 
 
-    /* NetAtmo custom UI */
+    //---------------------------------------------------------------------------------------
+    // NetAtmo Parser Custom UI
+    // 
+    //
     function netatmoRender(parent, params) {
         clearTag(parent);
         var ui = loadTemplate("weather-sources-netatmo-ui");
@@ -235,6 +306,7 @@ window.ui = window.ui || {};
 
     _weatherservices.custom = {
         "NOAA Parser": { "render": noaaRenderer, "save": noaaSave },
+        "Weather Stations Parser": { "render": cwopRenderer, "save": cwopSave },
         "WUnderground Parser": { "render": wundergroundRender, "save": wundergroundSave },
         "Netatmo Parser": { "render": netatmoRender, "save": netatmoSave }
     };
