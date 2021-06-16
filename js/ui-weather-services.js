@@ -45,12 +45,17 @@ window.ui = window.ui || {};
                 }
 
                 var elName = addTag(stationsList, "div");
+                var elLink = addTag(elName, "a");
                 var elDistance = addTag(stationsList, "div");
                 var elSelected = addTag(stationsList, "input")
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-                elName.textContent = name;
+                elLink.setAttribute("href", "http://forecast.weather.gov/zipcity.php?inputstring=" + name);
+                elLink.target = "_blank";
+                elLink.innerText = name;
+                elLink.className = "weatherStationLink";
+
 
                 elDistance.style.width = "100px";
                 elDistance.style.display = "inline-block";
@@ -122,7 +127,7 @@ window.ui = window.ui || {};
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-                
+
                 elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
                 elLink.target = "_blank";
                 elLink.innerText = name;
