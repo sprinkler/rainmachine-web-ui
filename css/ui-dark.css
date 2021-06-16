@@ -2108,6 +2108,17 @@ td.right,
 
 .instructions:before {
   content: "\e903";
+} 
+.weatherStationLink:after, .weatherStationLink {
+  font-family: 'RainMachine' !important;  
+  content: "\e903";
+  margin-left: 0.8em;
+  color:#39b;
+  text-decoration: none;
+} 
+.weatherStationLink {
+  font-family: Arial, Helvetica, sans-serif !important;
+  margin-left: 0 !important;
 }  
 
 /*   #weatherSourcesEditContent .subtitle {
