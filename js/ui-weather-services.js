@@ -67,6 +67,9 @@ window.ui = window.ui || {};
                 elSelected.checked = i == 0;
                 addTag(stationsList, "br");
             }
+        } else {
+            var elNoStations = addTag(stationsList, "div");
+            elNoStations.textContent = "No nearby stations found";
         }
 
         if (params._lastAlert) {
@@ -143,6 +146,9 @@ window.ui = window.ui || {};
                 elSelected.checked = i == 0;
                 addTag(stationsList, "br");
             }
+        } else {
+            var elNoStations = addTag(stationsList, "div");
+            elNoStations.textContent = "No nearby stations found";
         }
 
         parent.appendChild(ui);
