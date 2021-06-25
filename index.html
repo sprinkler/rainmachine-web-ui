@@ -10,6 +10,8 @@
     <link href="css/ui.css" rel="stylesheet" type="text/css" id="csslight">
     <link href="css/ui-dark.css" rel="stylesheet alternate" type="text/css" id="cssdark">
     <script src="js/highcharts-custom.js"></script>
+    <script src="js/highcharts-data.js"></script>
+    <script src="js/highcharts-drilldown.js"></script>
     <script src="js/dom.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/util.js"></script>
@@ -259,6 +261,596 @@
 										<select id="waterHistoryFilterZone" class="center" style="width:200px;font-size:0.9em;border:0; border-bottom:1px solid #ccc;">
 										</select>
 									</span>
+                            </div>
+                            <div id="wateringHistory" style="width:100%;">
+                                <div class="settingsBlock center block70">
+                                    <div>
+                                        <div id="container" style="min-width: 400px; height: 400px; margin: 0px auto; overflow: hidden;">
+                                            <script>
+                                            Highcharts.chart('container', {
+                                                chart: {
+                                                    type: 'column'
+                                                },
+                                                title: {
+                                                    text: 'Water Consume'
+                                                },
+                                                subtitle: {
+                                                    text: 'Daily Total'
+                                                },
+                                                accessibility: {
+                                                    announceNewData: {
+                                                        enabled: true
+                                                    }
+                                                },
+                                                xAxis: {
+                                                    type: 'category'
+                                                },
+                                                yAxis: {
+                                                    title: {
+                                                        text: 'Gallons'
+                                                    }
+                                            
+                                                },
+                                                legend: {
+                                                    enabled: false
+                                                },
+                                                plotOptions: {
+                                                    series: {
+                                                        borderWidth: 0,
+                                                        dataLabels: {
+                                                            enabled: true,
+                                                            format: '{point.y:.0f}'
+                                                        }
+                                                    }
+                                                },
+                                            
+                                                tooltip: {
+                                                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                                                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br/>'
+                                                },
+                                            
+                                                series: [
+                                                    {
+                                                        name: "Total Consume",
+                                                        colorByPoint: false,
+                                                        data: [
+                                                            {
+                                                                name: "Fri 06/25",
+                                                                y: 789,
+                                                                drilldown: "Fri 06/25"
+                                                            },
+                                                            {
+                                                                name: "Sat 06/26",
+                                                                y: 1057,
+                                                                drilldown: "Sat 06/26"
+                                                            },
+                                                            {
+                                                                name: "Sun 06/27",
+                                                                y: 723,
+                                                                drilldown: "Sun 06/27"
+                                                            },
+                                                            {
+                                                                name: "Mon 06/28",
+                                                                y: 558,
+                                                                drilldown: "Mon 06/28"
+                                                            },
+                                                            {
+                                                                name: "Tue 06/29",
+                                                                y: 402,
+                                                                drilldown: "Tue 06/29"
+                                                            },
+                                                            {
+                                                                name: "Wed 06/30",
+                                                                y: 692,
+                                                                drilldown: "Wed 06/30"
+                                                            },
+                                                            {
+                                                                name: "Thu 07/01",
+                                                                y: 762,
+                                                                drilldown: "Thu 07/01"
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                drilldown: {
+                                                    series: [
+                                                        {
+                                                            name: "Fri 06/25",
+                                                            id: "Fri 06/25",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    122
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    53
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    14
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    88
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    56
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    45
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    49
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    32
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    79
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    18
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    13
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    13
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Sat 06/26",
+                                                            id: "Sat 06/26",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    122
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    53
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    14
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    288
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    56
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    45
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    349
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    32
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    429
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    79
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    518
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    13
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    13
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Sun 06/27",
+                                                            id: "Sun 06/27",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    122
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    53
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    214
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    88
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    56
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    245
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    49
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    32
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    479
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    518
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    313
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    13
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Mon 06/28",
+                                                            id: "Mon 06/28",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    422
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    253
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    314
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    488
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    656
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    45
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    49
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    232
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    79
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    18
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    113
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    313
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Tue 06/29",
+                                                            id: "Tue 06/29",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    222
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    253
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    314
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    188
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    456
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    345
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    549
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    132
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    279
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    218
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    113
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    313
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Wed 06/30",
+                                                            id: "Wed 06/30",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    222
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    253
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    314
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    188
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    456
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    345
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    549
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    132
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    279
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    218
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    113
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    313
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        },
+                                                        {
+                                                            name: "Thu 07/01",
+                                                            id: "Thu 07/01",
+                                                            data: [
+                                                                [
+                                                                    "Zone 1",
+                                                                    222
+                                                                ],
+                                                                [
+                                                                    "Zone 2",
+                                                                    244
+                                                                ],
+                                                                [
+                                                                    "Zone 3",
+                                                                    253
+                                                                ],
+                                                                [
+                                                                    "Zone 4",
+                                                                    314
+                                                                ],
+                                                                [
+                                                                    "Zone 5",
+                                                                    188
+                                                                ],
+                                                                [
+                                                                    "Zone 6",
+                                                                    456
+                                                                ],
+                                                                [
+                                                                    "Zone 7",
+                                                                    345
+                                                                ],
+                                                                [
+                                                                    "Zone 8",
+                                                                    549
+                                                                ],
+                                                                [
+                                                                    "Zone 9",
+                                                                    132
+                                                                ],
+                                                                [
+                                                                    "Zone 10",
+                                                                    29
+                                                                ],
+                                                                [
+                                                                    "Zone 11",
+                                                                    279
+                                                                ],
+                                                                [
+                                                                    "Zone 12",
+                                                                    218
+                                                                ],
+                                                                [
+                                                                    "Zone 13",
+                                                                    113
+                                                                ],
+                                                                [
+                                                                    "Zone 14",
+                                                                    216
+                                                                ],
+                                                                [
+                                                                    "Zone 15",
+                                                                    313
+                                                                ],
+                                                                [
+                                                                    "Zone 16",
+                                                                    11
+                                                                ]
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div id="wateringHistoryContent">
                                 <!-- Watering History generated by javascript -->
