@@ -1535,3 +1535,82 @@ function getThemeFixup() {
 
 	return themeFixups.light;
 }
+
+
+
+/**
+ * Generates a drilldown graph for water consumption in Wtaering History Panel
+ */
+function LoadWaterConsumeGraph(container, graphData, metric) {
+    Highcharts.chart(container, {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Water Consume'
+        },
+        subtitle: {
+            text: 'Daily Total'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: metric
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: false,
+                    format: '{point.y:.0f}'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> ' + metric + '<br/>'
+        },
+
+        series: [
+            {
+                name: "Total Consume",
+                colorByPoint: false,
+                data: graphData.frontGraphSeries
+				/*[{
+				 name: "Fri 06/25",
+				 y: 789,
+				 drilldown: "Fri 06/25"
+				 }[,*/
+            }
+        ],
+        drilldown: {
+            series: graphData.drillDownSeries
+			/*[
+			 {
+			 name: "Fri 06/25",
+			 id: "Fri 06/25",
+			 data: [
+			 [
+			 "Zone 1",
+			 122
+			 ]
+			 ]
+			 }
+			 ]*/
+
+        }
+    });
+}
