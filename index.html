@@ -2697,14 +2697,14 @@
                 <h1>Use Observed data from stations <input rm-id="weather-sources-noaa-usecustom" type="checkbox"></h1>
                 <div rm-id="weather-sources-noaa-stationsui">
                     <div>
-                        <div class="left" style="width:150px;">
+                        <div class="left" style="width:150px">
                             <h4>Station</h4>
                         </div>
                         <div class="left" style="width:100px">
                             <h4>Distance</h4>
                         </div>
                         <div class="left">
-                            <h4>Selected</h4>
+                            <h4>Use</h4>
                         </div>
                     </div>
                     <div style="clear:both;margin-bottom:-24px;"></div>
@@ -2733,14 +2733,14 @@
             <div>
                 <div rm-id="weather-sources-cwop-stationsui">
                     <div>
-                        <div class="left" style="width:150px;">
+                        <div class="left" style="width:150px">
                             <h4>Station</h4>
                         </div>
                         <div class="left" style="width:100px">
                             <h4>Distance</h4>
                         </div>
                         <div class="left">
-                            <h4>Selected</h4>
+                            <h4>Use</h4>
                         </div>
                     </div>
                     <div style="clear:both;margin-bottom:-24px;"></div>
@@ -2765,42 +2765,39 @@
         <!-- Template for Weather Underground (Start) -->
         <div id="weather-sources-wu-ui">
             <div>
+                <h1>API Key</h1>
+                <input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
+                <div style="clear:both;"></div>
+                <span class="subtitle">For weather station owners API key can be obtained from <a href="https://www.wunderground.com/member/api-keys">Weather Undeground</a>.</span>
+            </div>
+            <div style="clear:both;"></div>
+            <span class="separator"></span>
+            <div>
                 <h1>Nearby Weather Stations</h1>
                 <span class="subtitle" rm-id="weather-sources-wu-nostations">
 					Please enter your API key, enable this weather service and press REFRESH NOW to retrieve the weather stations list.
+                </span>
+                <span class="subtitle">
+                    If no stations are selected only forecast will be used.
+                    <br>If more than one station is selected it will be used as backup in case of failure.
 				</span>
             </div>
             <div>
-                <div class="left" style="width:250px;">
-                    <h4>Station ID</h4>
+                <div class="left" style="width:250px">
+                    <h4>Station</h4>
+                </div>
+                <div class="left" style="width:100px">
+                    <h4>Distance</h4>
+                </div>
+                <div class="left" style="width:60px">
+                    <h4>Use</h4>
                 </div>
                 <div class="left">
-                    <h4>Distance</h4>
                 </div>
             </div>
             <div style="clear:both;margin-bottom:-24px;"></div>
             <div rm-id="weather-sources-wu-stationslist">
                 <!-- Will be filled from JS -->
-            </div>
-            <div style="clear:both;"></div>
-            <span class="separator"></span>
-            <div>
-                <h1>Use Nearby Weather Stations <input rm-id="weather-sources-wu-usecustom" type="checkbox"></h1>
-                <input rm-id="weather-sources-wu-customstations" type="text" class="typeText" style="width:450px;margin-left:0;">
-                <div style="clear:both;"></div>
-                <span class="subtitle">
-					Enter the Station ID you would like to use (eg: IFREM145).<br>
-					If you want to use backup stations, add them after the first one and separate their IDs with comma.<br>
-					When the first one fail to send data, the next one will be used as backup.
-				</span>
-            </div>
-            <div style="clear:both;"></div>
-            <span class="separator"></span>
-            <div>
-                <h1>API Key</h1>
-                <input rm-id="weather-sources-wu-apikey" type="text" class="typeText" style="width:450px;margin-left:0;">
-                <div style="clear:both;"></div>
-                <span class="subtitle">For weather station owners API key can be obtained from <a href="https://www.wunderground.com/member/api-keys">Weather Undeground</a>.</span>
             </div>
             <div style="clear:both;"></div>
             <span class="separator"></span>
@@ -2832,17 +2829,13 @@
             <div>
                 <h1>NetAtmo Weather Modules</h1>
                 <span class="subtitle">
-					<span class="helpText" help="weatherNetAtmoModules">?</span><i>Note: This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.<br>If you don't specify any modules, your first NetAtmo base station module will be used.</i></span>
+					<span class="helpText" help="weatherNetAtmoModules">?</span><i>Note: This is needed if you either own multiple NetAtmo base stations or multiple modules of same type, for example 2 rain modules.
+                        <br>If you don't select any modules, your first NetAtmo base station module will be used.</i></span>
                 <div style="clear: both;height:0.3em;"></div>
                 <span>Your modules:</span><br>
                 <div rm-id="weather-sources-netatmo-modules">
                     <!-- Will be filled from JS -->
                 </div>
-                <div style="clear: both;height:0.3em;"></div>
-                <input rm-id="weather-sources-netatmo-custommodules" type="text" class="typeText" style="width:450px;margin-left:0;" placeholder="00:00:00:00:00:00, 00:00:00:00:00:00">
-                <div style="clear: both;height:0.3em;"></div>
-                Please check this box to use selected modules <input rm-id="weather-sources-netatmo-usecustom" type="checkbox">
-                <br>
             </div>
         </div>
         <!-- Template for NetAtmo (End) -->

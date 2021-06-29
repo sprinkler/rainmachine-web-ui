@@ -126,7 +126,7 @@ window.ui = window.ui || {};
                 var elName = addTag(stationsList, "div");
                 var elLink = addTag(elName, "a");
                 var elDistance = addTag(stationsList, "div");
-                var elSelected = addTag(stationsList, "input")
+                var elSelected = addTag(stationsList, "input");
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
@@ -144,6 +144,7 @@ window.ui = window.ui || {};
                 elSelected.type = "radio";
                 elSelected.value = name;
                 elSelected.checked = i == 0;
+
                 addTag(stationsList, "br");
             }
         } else {
@@ -168,52 +169,100 @@ window.ui = window.ui || {};
     //
     function wundergroundRender(parent, params) {
         clearTag(parent);
-        var ui = loadTemplate("weather-sources-wu-ui");
-        var apiKey = $(ui, '[rm-id="weather-sources-wu-apikey"]');
-        var infoNoStations = $(ui, '[rm-id="weather-sources-wu-nostations"]');
-        var stationsList = $(ui, '[rm-id="weather-sources-wu-stationslist"]');
-        var customStations = $(ui, '[rm-id="weather-sources-wu-customstations"]');
-        var useCustom = $(ui, '[rm-id="weather-sources-wu-usecustom"]');
+        var elUI = loadTemplate("weather-sources-wu-ui");
+        var elApiKey = $(elUI, '[rm-id="weather-sources-wu-apikey"]');
+        var elNoStations = $(elUI, '[rm-id="weather-sources-wu-nostations"]');
+        var elStationsList = $(elUI, '[rm-id="weather-sources-wu-stationslist"]');
 
-        apiKey.id = "weather-sources-wu-apikey";
-        apiKey.value = params.apiKey;
 
-        if (params._nearbyStationsIDList.length > 0) {
-            makeHidden(infoNoStations);
-            for (var i = 0; i < params._nearbyStationsIDList.length; i++) {
-                var tokens = params._nearbyStationsIDList[i].split("(");
-                var name = tokens[0];
-                var distance = tokens[1].split(";")[0];
-                var elName = addTag(stationsList, "div");
-                var elDistance = addTag(stationsList, "div");
-                elName.style.width = "250px";
-                elName.style.float = "left";
-                elName.textContent = name;
-                elDistance.textContent = distance;
-            }
-        } else {
-            makeVisible(infoNoStations);
+        elApiKey.id = "weather-sources-wu-apikey";
+        elApiKey.value = params.apiKey;
+
+        elStationsList.id = "weather-sources-wu-stationslist";
+
+        function refreshStationsRole() {
+            var currentSelected = Array.from(document.querySelectorAll('input[name="wu_station"]:checked'));
+            console.log(currentSelected);
         }
 
-        useCustom.id = "weather-sources-wu-usecustom";
-        useCustom.checked = params.useCustomStation;
+        if (params._nearbyStationsIDList.length > 0) {
+            makeHidden(elNoStations);
+            var selectedStations = params.customStationName.split(',');
+            wundergroundShowStations(params, elStationsList, selectedStations);
+        } else {
+            makeVisible(elNoStations);
+        }
 
-        customStations.id = "weather-sources-wu-customstations";
-        customStations.value = params.customStationName;
-        parent.appendChild(ui);
+        parent.appendChild(elUI);
     }
 
+    // Draws the station lists. This will be refreshed everytime user changes a selection
+    function wundergroundShowStations(params, container, selectedStations) {
+        clearTag($('#weather-sources-wu-stationslist'));
+
+        for (var i = 0; i < params._nearbyStationsIDList.length; i++) {
+            var tokens = params._nearbyStationsIDList[i].split("(");
+            var name = tokens[0].trim();
+            var distance = tokens[1].split(";")[0];
+
+            var elName = addTag(container, "div");
+            var elLink = addTag(elName, "a");
+            var elDistance = addTag(container, "div");
+            var elSelected = addTag(container, "input");
+            var elType = addTag(container, "div");
+
+            elName.style.width = "250px";
+            elName.style.display = "inline-block";
+
+            elLink.setAttribute("href", "https://www.wunderground.com/dashboard/pws/" + name);
+            elLink.target = "_blank";
+            elLink.innerText = name;
+            elLink.className = "weatherStationLink";
+
+            elDistance.style.width = "100px";
+            elDistance.style.display = "inline-block";
+            elDistance.textContent = Util.convert.uiDistance(distance) + Util.convert.uiDistanceStr();
+
+            elSelected.style.display = "inline-block";
+            elSelected.name = "wu_station";
+            elSelected.type = "checkbox";
+            elSelected.value = name;
+            elSelected.checked = selectedStations.indexOf(name) > -1;
+            elSelected.onclick = function() {
+                var selectedStations = Array.from(
+                    document.querySelectorAll('input[name="wu_station"]:checked')
+                ).map(x => x.value);
+                console.log(selectedStations);
+                wundergroundShowStations(params, container, selectedStations);
+            }
+
+            elType.style.display = "inline-block";
+            elType.name = "wu_type"; // For dinamically refreshing primary/backup info
+            elType.className = "subtitle";
+
+            if (elSelected.checked) {
+                if (selectedStations.length > 1) {
+                    elType.textContent = selectedStations.indexOf(name) == 0 ? "primary" : "backup"
+                } else {
+                    elType.textContent = "primary";
+                }
+
+            }
+            addTag(container, "br");
+        }
+    }
     // Returns new parameters if they are different from the old ones or null otherwise
     function wundergroundSave(oldparams) {
         var apiKey = $("#weather-sources-wu-apikey");
-        var customStations = $("#weather-sources-wu-customstations");
-        var useCustom = $("#weather-sources-wu-usecustom");
-
+        //var customStations = $("#weather-sources-wu-customstations");
+        //var useCustom = $("#weather-sources-wu-usecustom");
+        var selectedStations = Array.from(document.querySelectorAll('input[name="wu_station"]:checked'))
         var params = {};
-
         params.apiKey = apiKey.value;
-        params.useCustomStation = useCustom.checked;
-        params.customStationName = customStations.value;
+        params.customStationName = selectedStations.map(x => x.value).join(',');
+        params.useCustomStation = selectedStations.length > 0;
+        console.log(params.customStationName);
+        console.log(params.useCustomStation);
 
         if (params.apiKey == oldparams.apiKey &&
             params.useCustomStation == oldparams.useCustomStation &&
@@ -235,9 +284,9 @@ window.ui = window.ui || {};
         var user = $(ui, '[rm-id="weather-sources-netatmo-user"]');
         var pass = $(ui, '[rm-id="weather-sources-netatmo-pass"]');
         var modulesList = $(ui, '[rm-id="weather-sources-netatmo-modules"]');
-        var customModules = $(ui, '[rm-id="weather-sources-netatmo-custommodules"]');
-        var useCustom = $(ui, '[rm-id="weather-sources-netatmo-usecustom"]');
         var showPassword = $(ui, '[rm-id="weather-sources-netatmo-showpass"]');
+
+        var selectedModules = params.specificModules.split(',');
 
         user.id = "weather-sources-netatmo-user";
         user.value = params.username;
@@ -269,42 +318,43 @@ window.ui = window.ui || {};
 
                 var elName = addTag(modulesList, "div");
                 var elId = addTag(modulesList, "div");
+                var elSelected = addTag(modulesList, "input");
+
                 elName.style.width = "250px";
-                elName.style.float = "left";
+                elName.style.display = "inline-block";
                 elName.textContent = name;
+
+                elId.style.width = "250px";
+                elId.style.display = "inline-block";
                 elId.textContent = id;
+
+                elSelected.style.display = "inline-block";
+                elSelected.name = "netatmo_module";
+                elSelected.type = "checkbox";
+                elSelected.value = id;
+                elSelected.checked = selectedModules.indexOf(id) > -1;
+
+                addTag(modulesList, "br");
             }
         }
 
-        useCustom.id = "weather-sources-netatmo-usecustom";
-        useCustom.checked = params.useSpecifiedModules;
-
-        customModules.id = "weather-sources-netatmo-custommodules";
-        customModules.value = params.specificModules;
-
         showPassword.onclick = function() { togglePasswordDisplay(pass, showPassword); };
-
-
         parent.appendChild(ui);
     }
 
     // Returns new parameters if they are different from the old ones or null otherwise
     function netatmoSave(oldparams) {
-        var apiKey = $("#weather-sources-wu-apikey");
-        var customStations = $("#weather-sources-wu-customstations");
-        var useCustom = $("#weather-sources-wu-usecustom");
-
         var user = $("#weather-sources-netatmo-user");
         var pass = $("#weather-sources-netatmo-pass");
-        var useCustom = $("#weather-sources-netatmo-usecustom");
-        var customModules = $("#weather-sources-netatmo-custommodules");
+        var selectedModules = Array.from(document.querySelectorAll('input[name="netatmo_module"]:checked'))
 
         var params = {};
 
         params.username = user.value;
         params.password = pass.value;
-        params.useSpecifiedModules = useCustom.checked;
-        params.specificModules = customModules.value;
+        params.useSpecifiedModules = selectedModules.length > 0;
+        params.specificModules = selectedModules.map(x => x.value).join(',');
+        console.log(params.specificModules);
 
         if (params.username == oldparams.username &&
             params.password == oldparams.password &&
