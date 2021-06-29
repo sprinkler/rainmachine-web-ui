@@ -567,7 +567,7 @@ var Util = (function(Util) {
             return Math.round((v * 0.00378541) * 10) / 10;
         },
         kmToMiles: function(v) {
-            return Math.round(v / 1.609);
+            return Math.round((v / 1.609) * 10) / 10;
         },
         // functions to deal with UI user preferences knowing that data stored on Rainmachine is always metric
         uiTemp: function(temp) {
@@ -725,7 +725,7 @@ var Util = (function(Util) {
             if (!Data.provision.system.uiUnitsMetric) {
                 return Util.convert.kmToMiles(v);
             } else {
-                return Math.round(v);
+                return Math.round(v * 10) / 10;
             }
         },
         uiDistanceStr: function() {
