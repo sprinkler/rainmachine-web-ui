@@ -182,7 +182,7 @@ window.ui = window.ui || {};
 
         elStationsList.id = "weather-sources-wu-stationslist";
 
-        if (params._nearbyStationsIDList.length > 0) {
+        if (params._airportStationsIDList.length > 0 || params._nearbyStationsIDList.length > 0) {
             makeHidden(elNoStations);
             wuSelectedStations = params.customStationName.split(',');
             wundergroundShowStations(params, elStationsList, wuSelectedStations);
@@ -196,10 +196,27 @@ window.ui = window.ui || {};
     function wundergroundShowStations(params, container, selectedStations) {
         clearTag($('#weather-sources-wu-stationslist'));
 
-        for (var i = 0; i < params._nearbyStationsIDList.length; i++) {
-            var tokens = params._nearbyStationsIDList[i].split("(");
+        // Concatenate the 2 arrays (airport and personal stations) and add markers between them
+        var allStations = ["marker: Airports"].concat(
+            params._airportStationsIDList, ["marker: Personal Stations"],
+            params._nearbyStationsIDList);
+
+
+        for (var i = 0; i < allStations.length; i++) {
+            // Show AirPort/Personal Markers
+            if (allStations[i].startsWith("marker")) {
+                var category = allStations[i].split(":")[1];
+                var elCateg = addTag(container, "div");
+                elCateg.textContent = category;
+                elCateg.style.display = "inline-block";
+                var elHr = addTag(container, "hr");
+                elHr.style.width = "500px";
+                continue;
+            }
+
+            var tokens = allStations[i].split("(");
             var name = tokens[0].trim();
-            var distance = tokens[1].split(";")[0];
+            var distance = parseFloat(tokens[1].split(";")[0]);
 
             var elName = addTag(container, "div");
             var elLink = addTag(elName, "a");
