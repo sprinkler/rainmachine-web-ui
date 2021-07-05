@@ -1118,7 +1118,8 @@ input.typeText {
 }
 
 /* Create a custom checkbox */
-.checkmark {
+
+.checkmark, .weatherCheckmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -1127,6 +1128,12 @@ input.typeText {
   border: 1px solid #555555;
   border-radius: 50%;
   background-color: #000000;
+}
+.weatherCheckmark {
+  position: initial;
+  height: 16px;
+  width: 16px;
+  margin-right: 1em;
 }
 
 /* On mouse-over, add a grey background color */
