@@ -362,7 +362,7 @@ window.ui = window.ui || {};
         params.username = user.value;
         params.password = pass.value;
         params.useSpecifiedModules = selectedModules.length > 0;
-        params.specificModules = selectedModules.map(x => x.value).join(',');
+        params.specificModules = selectedModules.map(function(x) { return x.value; }).join(',');
         console.log(params.specificModules);
 
         if (params.username == oldparams.username &&
