@@ -575,7 +575,8 @@ window.ui = window.ui || {};
                     Util.convert.uiWaterVolumeStr() + ")";
             }
             //Water Consume Graph:  append daily consume from day routine to full structure
-            var oneDayConsumeData = {name: dayNameElem.textContent, y: Util.convert.uiWaterVolume(dayDurations.usedVolume), drilldown: dayNameElem.textContent};
+            var frontGraphLabel = d.getDate() + " " + d.toLocaleString('en-us', { month: 'short' })
+            var oneDayConsumeData = {name: frontGraphLabel, y: Util.convert.uiWaterVolume(dayDurations.usedVolume), drilldown: dayNameElem.textContent};
             waterConsumeData.frontGraphSeries.push(oneDayConsumeData);
             waterConsumeData.drillDownSeries.push(oneDayDrillDown);
 
