@@ -1558,7 +1558,8 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
             }
         },
         xAxis: {
-            type: 'category'
+            type: 'category',
+			reversed: true
         },
         yAxis: {
             title: {
@@ -1574,19 +1575,19 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: false,
-                    format: '{point.y:.0f}'
+                    format: '{point.y:.1f}'
                 }
             }
         },
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> ' + metric + '<br/>'
+            pointFormat: '<b>{point.y:.1f}</b> ' + metric + '<br/>'
         },
 
         series: [
             {
-                name: "Total Consume",
+                name: "",
                 colorByPoint: false,
                 data: graphData.frontGraphSeries
 				/*[{
