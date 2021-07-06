@@ -1542,12 +1542,31 @@ function getThemeFixup() {
  * Generates a drilldown graph for water consumption in Wtaering History Panel
  */
 function LoadWaterConsumeGraph(container, graphData, metric) {
+	Highcharts.setOptions({
+		lang: {
+		  drillUpText: '< Back'
+		}
+	  });
     Highcharts.chart(container, {
         chart: {
-            type: 'column'
+            type: 'column',
+			events: {
+				drilldown: function() {
+				  var chart = this;
+				  chart.setTitle(null, {
+					text: "Daily total per zone"
+				  });
+				},
+				drillup: function() {
+				  var chart = this;
+				  chart.setTitle(null, {
+					text: "Daily total"
+				  });
+				}
+			  }
         },
         title: {
-            text: 'Water Consume'
+            text: 'Water Used'
         },
         subtitle: {
             text: 'Daily Total'
@@ -1577,14 +1596,14 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: false,
-                    format: '{point.y:.1f}'
+                    format: '{point.y:.2f}'
                 }
             }
         },
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<b>{point.y:.1f}</b> ' + metric + '<br/>'
+            pointFormat: '<b>{point.y:.2f}</b> ' + metric + '<br/>'
         },
 
         series: [
@@ -1601,6 +1620,30 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
             }
         ],
         drilldown: {
+			drillUpButton: {
+				relativeTo: 'spacingBox',
+				position: {
+					y: 0,
+					x: 0
+				},
+				theme: {
+					fill: '#3399cc',
+					'stroke-width': 0,
+					stroke: '#3399cc',
+					r: 0,
+					states: {
+						hover: {
+							fill: '#3399cc',
+							color: '#ffffff'
+						},
+						select: {
+							stroke: '#3399cc',
+							fill: '#3399cc'
+						}
+					}
+				}
+	
+			},
             series: graphData.drillDownSeries
 			/*[
 			 {
@@ -1616,5 +1659,6 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
 			 ]*/
 
         }
+		
     });
 }
