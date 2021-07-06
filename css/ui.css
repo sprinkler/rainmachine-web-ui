@@ -514,6 +514,11 @@ strong {
     line-height: 22px;
     font-size: 14px;
 }
+.highcharts-drillup-button text{
+    color: white !important;
+    fill: white !important;
+}
+
 .weatherAlert {
     color: #000;
     border: 0px solid #a8362b;

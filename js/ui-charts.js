@@ -1535,3 +1535,130 @@ function getThemeFixup() {
 
 	return themeFixups.light;
 }
+
+
+
+/**
+ * Generates a drilldown graph for water consumption in Wtaering History Panel
+ */
+function LoadWaterConsumeGraph(container, graphData, metric) {
+	Highcharts.setOptions({
+		lang: {
+		  drillUpText: '< Back'
+		}
+	  });
+    Highcharts.chart(container, {
+        chart: {
+            type: 'column',
+			events: {
+				drilldown: function() {
+				  var chart = this;
+				  chart.setTitle(null, {
+					text: "Daily total per zone"
+				  });
+				},
+				drillup: function() {
+				  var chart = this;
+				  chart.setTitle(null, {
+					text: "Daily total"
+				  });
+				}
+			  }
+        },
+        title: {
+            text: 'Water Used'
+        },
+        subtitle: {
+            text: 'Daily Total'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: [{
+            type: 'category',
+			reversed: true
+        }, {
+            type: 'category'
+        }],
+        yAxis: {
+            title: {
+                text: metric
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: false,
+                    format: '{point.y:.2f}'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<b>{point.y:.2f}</b> ' + metric + '<br/>'
+        },
+
+        series: [
+            {
+                name: "",
+                colorByPoint: false,
+                data: graphData.frontGraphSeries,
+                xAxis: 0
+				/*[{
+				 name: "Fri 06/25",
+				 y: 789,
+				 drilldown: "Fri 06/25"
+				 }[,*/
+            }
+        ],
+        drilldown: {
+			drillUpButton: {
+				relativeTo: 'spacingBox',
+				position: {
+					y: 0,
+					x: 0
+				},
+				theme: {
+					fill: '#3399cc',
+					'stroke-width': 0,
+					stroke: '#3399cc',
+					r: 0,
+					states: {
+						hover: {
+							fill: '#3399cc',
+							color: '#ffffff'
+						},
+						select: {
+							stroke: '#3399cc',
+							fill: '#3399cc'
+						}
+					}
+				}
+	
+			},
+            series: graphData.drillDownSeries
+			/*[
+			 {
+			 name: "Fri 06/25",
+			 id: "Fri 06/25",
+			 data: [
+			 [
+			 "Zone 1",
+			 122
+			 ]
+			 ]
+			 }
+			 ]*/
+
+        }
+		
+    });
+}

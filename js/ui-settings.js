@@ -153,12 +153,15 @@ window.ui = window.ui || {};
             }
         }
 
+
         var container = $("#wateringHistoryContent");
         var startDateElem = $("#waterHistoryStartDate");
         var daysElem = $("#waterHistoryDays");
         var buttonElem = $("#waterHistoryFetch");
         var filterProgramId = getSelectValue(uiElems.waterlog.filterProgram);
         var filterZoneId = getSelectValue(uiElems.waterlog.filterZone);
+        //Water Consume Graph: get Water Consume container name
+        var waterConsume = $("#waterConsume");
 
         console.log("Filtering program id: %s zone id: %s", filterProgramId, filterZoneId);
 
@@ -188,6 +191,12 @@ window.ui = window.ui || {};
 
         var waterLog = Data.waterLogCustom;
         var pastValues = Data.programsPastValues.pastValues;
+
+        //Water Consume Graph: prepare structure to collect data for water consume graph
+        var waterConsumeData = {
+            frontGraphSeries: [],
+            drillDownSeries: []
+        };
 
         //Process past values for programs that contain used ET and QPF at the time of program run
         var pastValuesByDay = {};
@@ -281,6 +290,9 @@ window.ui = window.ui || {};
             dayTempMinElem.textContent = dayMinTempStr;
             dayQpfElem.textContent = dayQpfStr;
             dayETElem.textContent = dayETStr;
+
+            //Water Consume Graph: declare local variable in for days routine
+            var ZonesConsumedData = [];
 
             for (var j = 0; j < day.programs.length; j++) {
                 var program = day.programs[j];
@@ -460,7 +472,18 @@ window.ui = window.ui || {};
                     }
 
                     //console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
+
+                    //Water Consume Graph: add local data from programs routine to structure from day routine --> consumption per day, per zone, per program to array
+                    ZonesConsumedData.push( [zoneName, Util.convert.uiWaterVolume(zoneDurations.usedVolume)])
+
                 }
+                //Water Consume Graph: map structure with local data in day routine --> water consume per zone per day for graphing
+                var oneDayDrillDown = {
+                    name: dayNameElem.textContent,
+                    id: dayNameElem.textContent,
+                    data: ZonesConsumedData,
+                    xAxis: 1
+                };
 
                 //Create Program totals elements
                 var programTotalsTemplate = createZoneWateringHistoryElems(
@@ -552,6 +575,15 @@ window.ui = window.ui || {};
                 dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
                     Util.convert.uiWaterVolumeStr() + ")";
             }
+            //Water Consume Graph:  append daily consume from day routine to full structure
+            var frontGraphLabel = d.getDate() + " " + d.toLocaleString('en-us', { month: 'short' })
+            var oneDayConsumeData = {name: frontGraphLabel, y: Util.convert.uiWaterVolume(dayDurations.usedVolume), drilldown: dayNameElem.textContent};
+            waterConsumeData.frontGraphSeries.push(oneDayConsumeData);
+            waterConsumeData.drillDownSeries.push(oneDayDrillDown);
+
+            LoadWaterConsumeGraph(waterConsume, waterConsumeData, Util.convert.uiWaterVolumeStr());
+
+            //Append daily watering info to template
             if (dayHasPrograms)
                 container.appendChild(dayTemplate);
         }

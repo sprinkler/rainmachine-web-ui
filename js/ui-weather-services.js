@@ -130,7 +130,7 @@ window.ui = window.ui || {};
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-
+                
                 elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
                 elLink.target = "_blank";
                 elLink.innerText = name;
