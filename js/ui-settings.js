@@ -481,7 +481,8 @@ window.ui = window.ui || {};
                 var oneDayDrillDown = {
                     name: dayNameElem.textContent,
                     id: dayNameElem.textContent,
-                    data: ZonesConsumedData
+                    data: ZonesConsumedData,
+                    xAxis: 1
                 };
 
                 //Create Program totals elements

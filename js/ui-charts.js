@@ -1557,10 +1557,12 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
                 enabled: true
             }
         },
-        xAxis: {
+        xAxis: [{
             type: 'category',
 			reversed: true
-        },
+        }, {
+            type: 'category'
+        }],
         yAxis: {
             title: {
                 text: metric
@@ -1589,7 +1591,8 @@ function LoadWaterConsumeGraph(container, graphData, metric) {
             {
                 name: "",
                 colorByPoint: false,
-                data: graphData.frontGraphSeries
+                data: graphData.frontGraphSeries,
+                xAxis: 0
 				/*[{
 				 name: "Fri 06/25",
 				 y: 789,
