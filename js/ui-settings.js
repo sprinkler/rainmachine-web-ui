@@ -482,7 +482,6 @@ window.ui = window.ui || {};
                     name: dayNameElem.textContent,
                     id: dayNameElem.textContent,
                     data: ZonesConsumedData,
-                    subtitle: 1,
                     xAxis: 1
                 };
 
