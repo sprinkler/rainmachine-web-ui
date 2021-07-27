@@ -130,7 +130,7 @@ window.ui = window.ui || {};
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-                
+
                 elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
                 elLink.target = "_blank";
                 elLink.innerText = name;
@@ -158,8 +158,12 @@ window.ui = window.ui || {};
     // Returns new parameters if they are different from the old ones or null otherwise
     function cwopSave(oldparams) {
         var params = {};
-        params.selectedStation = document.querySelector('input[name="cwop_station"]:checked').value;
-        console.log(params);
+        var selectedStation = document.querySelector('input[name="cwop_station"]:checked');
+        if (selectedStation) {
+            params.selectedStation = selectedStation.value;
+        } else {
+            params.selectedStation = null;
+        }
 
         return params;
     }
