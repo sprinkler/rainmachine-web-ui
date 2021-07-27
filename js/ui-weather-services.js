@@ -64,7 +64,7 @@ window.ui = window.ui || {};
                 elSelected.name = "noaa_station";
                 elSelected.type = "radio";
                 elSelected.value = name;
-                elSelected.checked = i == 0;
+                elSelected.checked = (params.selectedStation == name);
                 addTag(stationsList, "br");
             }
         } else {
@@ -143,7 +143,7 @@ window.ui = window.ui || {};
                 elSelected.name = "cwop_station";
                 elSelected.type = "radio";
                 elSelected.value = name;
-                elSelected.checked = i == 0;
+                elSelected.checked = (params.selectedStation == name);
 
                 addTag(stationsList, "br");
             }
@@ -158,7 +158,12 @@ window.ui = window.ui || {};
     // Returns new parameters if they are different from the old ones or null otherwise
     function cwopSave(oldparams) {
         var params = {};
-        params.selectedStation = document.querySelector('input[name="cwop_station"]:checked').value;
+        var selectedStation = document.querySelector('input[name="cwop_station"]:checked');
+        if (selectedStation) {
+            params.selectedStation = selectedStation.value;
+        } else {
+            params.selectedStation = null;
+        }
 
         return params;
     }
@@ -364,7 +369,7 @@ window.ui = window.ui || {};
         params.username = user.value;
         params.password = pass.value;
         params.useSpecifiedModules = selectedModules.length > 0;
-        params.specificModules = selectedModules.map(x => x.value).join(',');
+        params.specificModules = selectedModules.map(function(x) { return x.value; }).join(',');
         console.log(params.specificModules);
 
         if (params.username == oldparams.username &&

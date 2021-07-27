@@ -1632,6 +1632,11 @@ select, .selectSmall {
   opacity: 1;
   z-index: 9999; 
 }
+.highcharts-drillup-button text{
+  color: white !important;
+  fill: white !important;
+}
+
 #waterSavedGaugeContainer .highcharts-grid-line {
   display: none;
 }
