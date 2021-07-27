@@ -514,6 +514,11 @@ strong {
     line-height: 22px;
     font-size: 14px;
 }
+.highcharts-drillup-button text{
+    color: white !important;
+    fill: white !important;
+}
+
 .weatherAlert {
     color: #000;
     border: 0px solid #a8362b;
@@ -1326,7 +1331,7 @@ input.typeText {
 
 /* Create a custom checkbox */
 
-.checkmark {
+.checkmark, .weatherCheckmark {
     position: absolute;
     top: 0;
     left: 0;
@@ -1335,6 +1340,12 @@ input.typeText {
     border: 1px solid #555555;
     border-radius: 50%;
     background-color: #ffffff;
+}
+.weatherCheckmark {
+    position: initial;
+    height: 16px;
+    width: 16px;
+    margin-right: 1em;
 }
 
 
@@ -1348,6 +1359,9 @@ input.typeText {
 /* When the checkbox is checked, add a blue background */
 
 .container input:checked~.checkmark {
+    background-color: #2196F3;
+}
+.container input:checked~.weatherCheckmark {
     background-color: #2196F3;
 }
 

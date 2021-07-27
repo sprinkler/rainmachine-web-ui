@@ -130,7 +130,7 @@ window.ui = window.ui || {};
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-
+                
                 elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
                 elLink.target = "_blank";
                 elLink.innerText = name;
@@ -240,6 +240,7 @@ window.ui = window.ui || {};
             elSelected.style.display = "inline-block";
             elSelected.name = "wu_station";
             elSelected.type = "checkbox";
+            elSelected.className = "weatherCheckmark";
             elSelected.value = name;
             elSelected.checked = selectedStations.indexOf(name) > -1;
             elSelected.onclick = function() {
@@ -341,6 +342,7 @@ window.ui = window.ui || {};
                 elSelected.style.display = "inline-block";
                 elSelected.name = "netatmo_module";
                 elSelected.type = "checkbox";
+                elSelected.className = "weatherCheckmark";
                 elSelected.value = id;
                 elSelected.checked = selectedModules.indexOf(id) > -1;
 
