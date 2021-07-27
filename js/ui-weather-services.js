@@ -64,7 +64,7 @@ window.ui = window.ui || {};
                 elSelected.name = "noaa_station";
                 elSelected.type = "radio";
                 elSelected.value = name;
-                elSelected.checked = i == 0;
+                elSelected.checked = (params.selectedStation == name);
                 addTag(stationsList, "br");
             }
         } else {
@@ -143,7 +143,7 @@ window.ui = window.ui || {};
                 elSelected.name = "cwop_station";
                 elSelected.type = "radio";
                 elSelected.value = name;
-                elSelected.checked = i == 0;
+                elSelected.checked = (params.selectedStation == name);
 
                 addTag(stationsList, "br");
             }
@@ -159,6 +159,7 @@ window.ui = window.ui || {};
     function cwopSave(oldparams) {
         var params = {};
         params.selectedStation = document.querySelector('input[name="cwop_station"]:checked').value;
+        console.log(params);
 
         return params;
     }
