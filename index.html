@@ -2452,8 +2452,7 @@
                             <span rm-id="weather-source-name">Source Name</span>
                             <span class="icon-verified" rm-id="weather-source-essential" help="weatherSourceEssential">&#xe90a;</span>
                             <span class="icon-installed" rm-id="weather-source-installed" help="weatherSourceInstalled">&#xe909;</span>
-                            <span class="icon-update" rm-id="weather-source-update" help="weatherSourceUpdate">&#xe90b;</span>
-                            </span><br>
+                            <span class="icon-update" rm-id="weather-source-update" help="weatherSourceUpdate">&#xe90b;</span><br>
                             <span rm-id="weather-source-description" class="subtitle"></span>
                         </td>
                         <td style="width:13%;border:0;padding:0;vertical-align:middle;">
@@ -2485,16 +2484,17 @@
 
         <!-- Template for Weather Data Sources Details(Start) -->
         <div id="weather-sources-details-template">
+            <span rm-id="weather-source-delete" class="weatherSourceButtons button right red" style="display: none"><span class="icon-cross"></span> Uninstall</span>
             <h1 rm-id="weather-source-name"></h1>
-            <span rm-id="weather-source-delete" class="weatherSourceButtons right red uninstall" style="display: none"><span class="icon-cross"></span> Uninstall</span>
-            <span rm-id="weather-source-update" class="weatherSourceButtons orange mr"><span class="icon-refresh"></span> Update</span>
-            <span rm-id="weather-source-install" class="weatherSourceButtons bluerm mr"><span class="icon-download"></span> Install</span>
             <!-- <span class="separator"></span> --><br>
             <span rm-id="weather-source-description" class="subtitle description spacebottom"></span>
             <span rm-id="weather-source-author" class="subtitle author spacebottom" style="display: none"></span>
             <span rm-id="weather-source-current-version" class="subtitle version spacebottom" style="display: none"></span>
-            <span rm-id="weather-source-instructions" class="subtitle instructions spacebottom" style="display: none"></span><br>
+            <span rm-id="weather-source-instructions" class="subtitle instructions spacebottom" style="display: none"></span>
             <br>
+            <span rm-id="weather-source-update" class="weatherSourceButtons button orange mr"><span class="icon-refresh"></span> Update</span>
+            <span rm-id="weather-source-install" class="weatherSourceButtons button blue"><span class="icon-download"></span> Install</span>
+            <br><br>
             <div rm-id="weather-source-common-params">
                 <span class="separator"></span>
                 <div>Enabled: <input type="checkbox" rm-id="weather-source-enable" class="weatherCheckmark"></div>
