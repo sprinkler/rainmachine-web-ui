@@ -126,7 +126,6 @@ window.ui = window.ui || {};
                         }
                         Object.assign(installedParser, parserInfo);
                         console.log("FOUND INSTALLED")
-                        console.log(installedParser);
                     } else {
                         Data.parsers.parsers.push(parserInfo);
                     }
@@ -409,7 +408,6 @@ window.ui = window.ui || {};
 
                 var r = API.uploadParser(filename, data, extraInfo);
                 if (r && r.statusCode == 0) {
-                    uiFeedback.done(elem);
                     // Automatically refresh the new parser details window
                     showParsers(false, false, function() {
                         for (var i = 0; i < Data.parsers.parsers.length; i++) {
@@ -418,6 +416,7 @@ window.ui = window.ui || {};
                             }
                         }
                     });
+                    uiFeedback.done(elem);
                 } else {
                     uiFeedback.error(elem);
                 }

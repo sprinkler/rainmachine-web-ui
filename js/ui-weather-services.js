@@ -130,7 +130,7 @@ window.ui = window.ui || {};
 
                 elName.style.width = "150px";
                 elName.style.display = "inline-block";
-                
+
                 elLink.setAttribute("href", "https://aprs.fi/#!call=a%2F" + name + "&timerange=3600&tail=3600");
                 elLink.target = "_blank";
                 elLink.innerText = name;
@@ -384,7 +384,7 @@ window.ui = window.ui || {};
 
     _weatherservices.custom = {
         "NOAA Parser": { "render": noaaRenderer, "save": noaaSave },
-        "Weather Stations Parser": { "render": cwopRenderer, "save": cwopSave },
+        "Weather Stations": { "render": cwopRenderer, "save": cwopSave },
         "WUnderground Parser": { "render": wundergroundRender, "save": wundergroundSave },
         "Netatmo Parser": { "render": netatmoRender, "save": netatmoSave }
     };
