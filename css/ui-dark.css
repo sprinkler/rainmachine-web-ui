@@ -2029,11 +2029,6 @@ td.right,
   padding: 0;
   width: 132px;
 }
-.uninstall {
-  margin-top: -1.7em;
-  margin-right: 0;
-}
-
 .weatherSourceParsersSettings {
   display: inline !important;
   color: #39b;
