@@ -133,7 +133,7 @@ window.ui = window.ui || {};
                 }
 
                 // Sort the list by enabled state and name
-                Data.parsers.parsers.sort(sortParserByEnabledAndName);
+                Data.parsers.parsers.sort(sortParserByEnabled);
                 updateParsers(onDashboard);
 
                 if (fetchData) {
@@ -349,12 +349,11 @@ window.ui = window.ui || {};
                 authorElem.textContent = "Author: " + p.author;
             }
 
-            if (p.version) {
-                makeVisible(versionElem);
-                versionElem.textContent = "Version: " + p.version;
-                if (p.hasUpdate) {
-                    versionElem.textContent += " Available: " + p.latestVersion;
-                }
+            makeVisible(versionElem);
+            versionElem.textContent = "Version: " + (p.version || p.latestVersion);
+
+            if (p.hasUpdate) {
+                versionElem.textContent += " Available: " + p.latestVersion;
             }
 
             if (p.instructions) {
@@ -641,7 +640,7 @@ window.ui = window.ui || {};
         getAllEnabledParsersData(startDateElem.value, parseInt(daysElem.value));
     }
 
-    function sortParserByEnabledAndName(a, b) {
+    function sortParserByEnabled(a, b) {
 
         if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) {
             return -1;
@@ -651,7 +650,7 @@ window.ui = window.ui || {};
             return -1;
         } else if (a.installed > b.installed) {
             return -1;
-        } else if ((a.enabled === b.enabled) && (a.name < b.name)) {
+        } else if ((a.enabled === b.enabled) /*&& (a.name < b.name)*/ ) {
             return -1;
         } else {
             return 1;
