@@ -628,7 +628,7 @@ function getParserName(id) {
 		if (Data.parsers.parsers[i].uid == id) {
 			var name = Data.parsers.parsers[i].name;
 			var lw = name.lastIndexOf(" ");
-            var newName =  name.substring(0, lw); //Don't show "Parser" word in weather parsers
+			var newName =  name.replace(/\s*Parser$/i, ""); // Don't show "Parser" at end of weather service name
 			return newName;
 		}
 	}
