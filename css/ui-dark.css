@@ -1118,7 +1118,8 @@ input.typeText {
 }
 
 /* Create a custom checkbox */
-.checkmark {
+
+.checkmark, .weatherCheckmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -1127,6 +1128,12 @@ input.typeText {
   border: 1px solid #555555;
   border-radius: 50%;
   background-color: #000000;
+}
+.weatherCheckmark {
+  position: initial;
+  height: 16px;
+  width: 16px;
+  margin-right: 1em;
 }
 
 /* On mouse-over, add a grey background color */
@@ -1625,6 +1632,11 @@ select, .selectSmall {
   opacity: 1;
   z-index: 9999; 
 }
+.highcharts-drillup-button text{
+  color: white !important;
+  fill: white !important;
+}
+
 #waterSavedGaugeContainer .highcharts-grid-line {
   display: none;
 }
@@ -2017,11 +2029,6 @@ td.right,
   padding: 0;
   width: 132px;
 }
-.uninstall {
-  margin-top: -1.7em;
-  margin-right: 0;
-}
-
 .weatherSourceParsersSettings {
   display: inline !important;
   color: #39b;
