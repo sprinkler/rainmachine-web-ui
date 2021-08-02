@@ -213,6 +213,7 @@ window.ui = window.ui || {};
             };
         }
 
+        // iterate through water log, and anaalyse data for every day
         for (i = waterLog.waterLog.days.length - 1; i >= 0; i--) {
             var day = waterLog.waterLog.days[i];
             var dayDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
@@ -292,8 +293,10 @@ window.ui = window.ui || {};
             dayETElem.textContent = dayETStr;
 
             //Water Consume Graph: declare local variable in for days routine
+            var ZonesConsumedDataMap = {};
             var ZonesConsumedData = [];
 
+            // take programs have run in the current waterlog day and find what zones has run
             for (var j = 0; j < day.programs.length; j++) {
                 var program = day.programs[j];
                 var programDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0 };
@@ -373,14 +376,14 @@ window.ui = window.ui || {};
                 var maxCycles = 0;
                 var zoneidx;
                 var zoneName;
-
+                // in every program, compare selected zone with zones has run and calculate volumes
                 for (var k = 0; k < program.zones.length; k++) {
                     var zone = program.zones[k];
                     var zoneDurations = { machine: 0, user: 0, real: 0, usedVolume: 0, volume: 0, flowclicks: 0 };
                     var nameIndex = zone.uid;
                     if (dedicatedMasterValve) nameIndex = zone.uid - 1;
 
-                    if (filterZoneId != -1 && nameIndex != filterZoneId)
+                    if (filterZoneId != -1 && zone.uid != filterZoneId)
                         continue;
 
                     programHasZones = true;
@@ -474,16 +477,13 @@ window.ui = window.ui || {};
                     //console.log("\t\tZone %d Durations: Scheduled: %f Watered: %f Saved: %d %", zone.uid, zoneDurations.user, zoneDurations.real,  100 - parseInt((zoneDurations.real/zoneDurations.user) * 100));
 
                     //Water Consume Graph: add local data from programs routine to structure from day routine --> consumption per day, per zone, per program to array
-                    ZonesConsumedData.push( [zoneName, Util.convert.uiWaterVolume(zoneDurations.usedVolume)])
+                    if (zoneName in ZonesConsumedDataMap) {
+                        ZonesConsumedDataMap[zoneName] = ZonesConsumedDataMap[zoneName] + Util.convert.uiWaterVolume(zoneDurations.usedVolume);
+                    } else {
+                        ZonesConsumedDataMap[zoneName] = Util.convert.uiWaterVolume(zoneDurations.usedVolume);
+                    }
 
                 }
-                //Water Consume Graph: map structure with local data in day routine --> water consume per zone per day for graphing
-                var oneDayDrillDown = {
-                    name: dayNameElem.textContent,
-                    id: dayNameElem.textContent,
-                    data: ZonesConsumedData,
-                    xAxis: 1
-                };
 
                 //Create Program totals elements
                 var programTotalsTemplate = createZoneWateringHistoryElems(
@@ -575,18 +575,28 @@ window.ui = window.ui || {};
                 dayWaterUsedElem.textContent = "(" + Util.convert.uiWaterVolume(dayDurations.usedVolume) +
                     Util.convert.uiWaterVolumeStr() + ")";
             }
+
+            //Water Consume Graph: map structure with local data in day routine --> water consume per zone per day for all programs for graphing
+            for (var key in ZonesConsumedDataMap) {ZonesConsumedData.push([key, ZonesConsumedDataMap[key]])};
+            var oneDayDrillDown = {
+                name: dayNameElem.textContent,
+                id: dayNameElem.textContent,
+                data: ZonesConsumedData,
+                xAxis: 1
+            };
+
             //Water Consume Graph:  append daily consume from day routine to full structure
             var frontGraphLabel = d.getDate() + " " + d.toLocaleString('en-us', { month: 'short' })
             var oneDayConsumeData = {name: frontGraphLabel, y: Util.convert.uiWaterVolume(dayDurations.usedVolume), drilldown: dayNameElem.textContent};
             waterConsumeData.frontGraphSeries.push(oneDayConsumeData);
             waterConsumeData.drillDownSeries.push(oneDayDrillDown);
 
-            LoadWaterConsumeGraph(waterConsume, waterConsumeData, Util.convert.uiWaterVolumeStr());
 
             //Append daily watering info to template
             if (dayHasPrograms)
                 container.appendChild(dayTemplate);
         }
+        LoadWaterConsumeGraph(waterConsume, waterConsumeData, Util.convert.uiWaterVolumeStr());
     }
 
     // This is rendered on Home Page
