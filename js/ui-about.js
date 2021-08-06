@@ -61,8 +61,11 @@ window.ui = window.ui || {};
 
 	function showLog(log) {
 		var logWin = window.open();
-		logWin.document.write("<h2>Retrieving log from device ...</h2>");
-		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
+		var logBody = logWin.document.body;
+		var header = addTag(logBody, 'h2');
+		var logData = addTag(logBody, 'pre');
+		header.textContent = 'Retrieving log from device ...';
+		APIAsync.getDiagLog().then(function(o) { makeHidden(header); logData.textContent = o.log; });
 	}
 
 	function showUpdateStatus(updateStatus)

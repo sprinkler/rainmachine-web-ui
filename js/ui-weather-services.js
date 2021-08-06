@@ -384,7 +384,7 @@ window.ui = window.ui || {};
 
     _weatherservices.custom = {
         "NOAA Parser": { "render": noaaRenderer, "save": noaaSave },
-        "Weather Stations Parser": { "render": cwopRenderer, "save": cwopSave },
+        "Weather Stations": { "render": cwopRenderer, "save": cwopSave },
         "WUnderground Parser": { "render": wundergroundRender, "save": wundergroundSave },
         "Netatmo Parser": { "render": netatmoRender, "save": netatmoSave }
     };
