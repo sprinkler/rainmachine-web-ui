@@ -36,11 +36,41 @@ window.ui = window.ui || {};
 		$("#aboutWebUI").textContent = Data.uiVer;
 		$("#aboutHardware").textContent = Data.provision.api.hwVer;
 		$("#aboutAPI").textContent = Data.provision.api.apiVer;
-		$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
-		$("#aboutNetmask").textContent = Data.provision.wifi.netmaskAddress;
-		$("#aboutGateway").textContent = Data.diag.gatewayAddress;
-		$("#aboutMAC").textContent = Data.provision.wifi.macAddress;
-		$("#aboutAP").textContent = Data.provision.wifi.ssid;
+
+		// Wi-Fi
+		if (Data.provision.wifi.mode === "ap") {
+			$("#aboutWiFiState").textContent = "Not configured or in Access-Point mode"
+			makeHidden($("#aboutWiFi"));
+		} else {
+			$("#aboutLink").textContent = Data.provision.wifi.hasClientLink;
+			$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
+			$("#aboutGateway").textContent = Data.diag.gatewayAddress;
+			$("#aboutMAC").textContent = Data.provision.wifi.macAddress;
+			$("#aboutAP").textContent = Data.provision.wifi.ssid;
+
+			// This info is not available for RainMachine HD
+			if (Data.provision.api.hwVer == 3) {
+				makeHidden($("#aboutLink").parentElement.parentElement);
+				makeHidden($("#aboutAP").parentElement.parentElement);
+			}
+		}
+
+		// Ethernet (SPK5 only)
+		if (Data.provision.api.hwVer == 5) {
+			if (Data.provision.ethernet.hasClientLink) {
+				$("#aboutEthLink").textContent = Data.provision.ethernet.hasClientLink;
+				$("#aboutEthIP").textContent = Data.provision.ethernet.ipAddress;
+				$("#aboutEthGateway").textContent = Data.diag.gatewayAddress;
+				$("#aboutEthMAC").textContent = Data.provision.ethernet.macAddress;
+			} else {
+				$("#aboutEthernetState").textContent = "No cable detected";
+				makeHidden($("#aboutEthernet"));
+			}
+		} else {
+			$("#aboutEthernetState").textContent = "Not available";
+			makeHidden($("#aboutEthernet"));
+		}
+
 		$("#aboutMemory").textContent = Data.diag.memUsage + " Kb";
 		$("#aboutCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
 		$("#aboutUptime").textContent = Data.diag.uptime;
@@ -143,6 +173,13 @@ window.ui = window.ui || {};
 		APIAsync.getApiVer().then(
 			function(o) {
 				Data.provision.api = o;
+				if (Data.provision.api.hwVer == 5) {
+					APIAsync.getProvisionEthernet().then(
+						function(o) {
+							Data.provision.ethernet = o;
+						}
+					);
+				}
 				showDeviceInfo();
 			});
 
