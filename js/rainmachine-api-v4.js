@@ -227,6 +227,11 @@ _API.prototype.getProvisionWifi = function() {
     return this.get(url, null);
 }
 
+_API.prototype.getProvisionEthernet = function() {
+    var url = this.URL.provision + "/ethernet";
+    return this.get(url, null);
+}
+
 _API.prototype.getProvisionCloud = function() {
     var url = this.URL.provision + "/cloud";
     return this.get(url, null);
