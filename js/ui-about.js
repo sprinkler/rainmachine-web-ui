@@ -139,8 +139,9 @@ window.ui = window.ui || {};
 	}
 
 	function showDeviceInfo() {
-		if (Data.provision.wifi === null || Data.provision.system === null ||
-			Data.provision.api === null || Data.diag === null) {
+		var p = Data.provision;
+
+		if (p.wifi === null || p.system === null ||	p.api === null || Data.diag === null) {
 			return false;
 		}
 
@@ -149,20 +150,25 @@ window.ui = window.ui || {};
 		var deviceNetDiv = $('#deviceNetwork');
 		var footerInfoDiv = $('#footerInfo');
 
-		deviceNameDiv.textContent = Data.provision.system.netName;
-		deviceNetDiv.textContent = Data.provision.location.name;
+		deviceNameDiv.textContent = p.system.netName;
+		deviceNetDiv.textContent = p.location.name;
 
-		if (Data.provision.api.hwVer == 3)
+		if (p.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
 
-		if (Data.provision.api.hwVer == 5)
+		if (p.api.hwVer == 5)
 			deviceImgDiv.className = "spk5";
 
-		$("#homeVersion").textContent = Data.provision.api.swVer;
+		$("#homeVersion").textContent = p.api.swVer;
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
-        $("#homeUptime").textContent = Data.diag.uptime;
-		$("#homeIP").textContent = Data.provision.wifi.ipAddress;
+		$("#homeUptime").textContent = Data.diag.uptime;
+
+		if (p.api.hwVer == 5 && p.ethernet && p.ethernet.hasClientLink) {
+			$("#homeIP").textContent = p.ethernet.ipAddress;
+		} else {
+			$("#homeIP").textContent = p.wifi.ipAddress;
+		}
 
 		return true;
 	}
@@ -177,10 +183,12 @@ window.ui = window.ui || {};
 					APIAsync.getProvisionEthernet().then(
 						function(o) {
 							Data.provision.ethernet = o;
+							showDeviceInfo()
 						}
 					);
+				} else {
+					showDeviceInfo();
 				}
-				showDeviceInfo();
 			});
 
     	APIAsync.getProvisionWifi().then(
