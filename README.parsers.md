@@ -30,7 +30,7 @@
                     type: "community",
                     version: parser.latestVersion
                 };```
-4. Send parser data + extraInfo data with POST parser/upload API call
+4. Send parser data + extraInfo data with POST dev/import/parser API call
 5. Refresh parsers list
 
 
