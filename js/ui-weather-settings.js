@@ -412,6 +412,14 @@ window.ui = window.ui || {};
                     showParsers(false, false, function() {
                         for (var i = 0; i < Data.parsers.parsers.length; i++) {
                             if (Data.parsers.parsers[i].name == parser.name) {
+                                // Also automatically enable parser
+                                r = API.setParserEnable(Data.parsers.parsers[i].uid, true);
+                                if (r && r.statusCode == 0) {
+                                    // If setParserEnable call succedded set enabled to true 
+                                    // so we don't need to refresh the parser data again to see this
+                                    // flag
+                                    Data.parsers.parsers[i].enabled = true
+                                }
                                 showParserDetails(Data.parsers.parsers[i]);
                             }
                         }
