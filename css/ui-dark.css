@@ -168,6 +168,16 @@ body {
     display: block;
   }
 }
+.back {
+  margin-top: -40px;
+  margin-left: -10px;
+}
+@-moz-document url-prefix() {
+.back {
+  margin-top: -4em;
+  margin-left: -0.5em;
+}
+}
 
 @media only screen and (min-width: 60em) { /* 960px */
   .container {
@@ -283,6 +293,9 @@ h1.titleHome {
 .mr { margin-right: 60px; }
 .mr10 { margin-right: 10px; }
 .ml10 { margin-left: 10px; }
+.orange {
+  color: #ff9900;
+}
 #success,
 #error {
   display:none;
@@ -419,6 +432,23 @@ strong { font-weight: 700; }
   line-height: 22px;
   font-size: 14px;
 }
+.weatherAlert {
+  color: #fff;
+  border: 0px solid #f66;
+  padding: 1em !important;
+  max-width: 65%;
+}
+.weatherAlert h1 {
+  color: #f66;
+}
+
+.weatherAlert pre {
+  border-left: 2px solid #f66;
+  padding-left: 1em;
+  margin-top: 1em;
+  white-space: pre-wrap !important;
+}
+
 .program-line,
 .weather-program-line {
   display: inline-block;
@@ -1016,7 +1046,7 @@ td.saved {
 .red {
   color: #FF0266;
 }
-.gray{
+.grey{
   color:#888;
 }
 .separator {
@@ -1088,7 +1118,8 @@ input.typeText {
 }
 
 /* Create a custom checkbox */
-.checkmark {
+
+.checkmark, .weatherCheckmark {
   position: absolute;
   top: 0;
   left: 0;
@@ -1097,6 +1128,12 @@ input.typeText {
   border: 1px solid #555555;
   border-radius: 50%;
   background-color: #000000;
+}
+.weatherCheckmark {
+  position: initial;
+  height: 16px;
+  width: 16px;
+  margin-right: 1em;
 }
 
 /* On mouse-over, add a grey background color */
@@ -1553,7 +1590,7 @@ select, .selectSmall {
   border:1px solid #333333;
  }
 
-.highcharts-background, .highcharts-pane-group {
+.highcharts-background, .highcharts-pane-group, .highcharts-plot-band {
   fill: #191919;
 }
 
@@ -1567,7 +1604,7 @@ select, .selectSmall {
 .highcharts-grid-line {
   stroke: #2f2f2f !important;
 }
-.highcharts-legend-item > text {
+.highcharts-legend-item > text, .highcharts-plot-line-label {
   fill: #f9f9f9 !important;
 }
 
@@ -1595,6 +1632,11 @@ select, .selectSmall {
   opacity: 1;
   z-index: 9999; 
 }
+.highcharts-drillup-button text{
+  color: white !important;
+  fill: white !important;
+}
+
 #waterSavedGaugeContainer .highcharts-grid-line {
   display: none;
 }
@@ -1778,7 +1820,7 @@ td.right,
   padding-top: 10px;
   margin-bottom: 0;
 }
-.displayCyclesExpand, .displayCyclesContract {
+.displayCyclesExpand, .displayCyclesContract, .displayOptionalWeatherServices {
   text-transform: uppercase;
   padding: 10px;
   display: block;
@@ -1796,6 +1838,18 @@ td.right,
 }
 .cyclesExpanded {
   background-color: #2f2f2f;
+}
+
+.displayOptionalWeatherServices:after {
+  content: "\2193";
+  margin-left: 0.5em;
+  display: inline-block;
+  padding-bottom: 6px;
+  vertical-align: middle;
+}
+.displayOptionalWeatherServices {
+  background-color: #131313;
+  border-bottom: 1px solid #555;
 }
 
 /* FLOW METER SENSOR */
@@ -1932,12 +1986,10 @@ td.right,
   min-height: 30px;
 }
 
-/*
 .weatherSource:hover {
-  background-color: #ecf0f1;
+  background-color: #131313;
   cursor: pointer;
 }
-*/
 
 .weatherSourceStatus[enabled] {
   width: 16px;
@@ -1958,17 +2010,137 @@ td.right,
   border-radius:100%;
   margin: 0 auto;
 }
-#weatherSourcesEditContent:first-child div {
+#weatherSourcesEdit:first-child div {
   vertical-align: middle;
   padding: 8px 0;
 }
-#weatherSourcesEditContent:first-child input[type="checkbox"] { margin-left: 10px }
-#weatherSourcesEditContent:first-child input[type="text"] {
-  margin-left: 10px;
+#weatherSourcesEdit:first-child input[type="checkbox"] { margin-left: 10px }
+#weatherSourcesEdit:first-child input[type="text"] {
+  display: block;
   vertical-align: middle;
-  width: 75%;
+  width: 35%;
   height: 44px;
 }
+
+.weatherSourceButtons {
+  display: inline;
+  cursor: pointer;
+  font-size: large;
+  padding: 0;
+  width: 132px;
+}
+.weatherSourceParsersSettings {
+  display: inline !important;
+  color: #39b;
+  margin-left:15px;
+  cursor: pointer;
+}
+.weatherSourceParsersSettings:hover {
+  display: inline !important;
+  color:#00bfff;
+  margin-left:15px;
+  cursor: pointer;
+}
+
+.icon-update, .icon-verified, .icon-cross, .icon-defaults, .icon-refresh {
+  font-family: 'RainMachine' !important;
+  float: left;
+  color: #888888;
+  font-size: 18px;
+}
+
+.icon-cross, .icon-defaults, .icon-refresh {
+  float:none;
+  color:inherit;
+}
+
+.icon-update, .icon-verified, .icon-installed {
+  font-family: 'RainMachine' !important;
+  float: left;
+  margin: 0.5em;
+  display: none;
+}
+.icon-verified {
+  color: #39b;
+}
+
+.icon-update {
+  color: orange;
+}
+
+.icon-installed {
+  color:#00B25C;
+}
+
+.icon-defaults:before {
+  content: "\e904";
+}
+
+.icon-refresh:before {
+  content: "\e905";
+}
+
+.icon-cross:before {
+  content: "\e117";
+}
+
+.icon-download:before {
+  font-family: 'RainMachine' !important;
+  content: "\e90c";
+}
+
+.description:before, .author:before, .version:before, .instructions:before {
+  font-family: 'RainMachine' !important;  
+  font-size: 18px;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+.description, .author, .version, .instructions {
+  margin-bottom: 1em;
+  zoom: 120%;
+}
+
+.description:before {
+  content: "\e908";
+}
+
+.author:before {
+  content: "\e906";
+}
+
+.version:before {
+  content: "\e907";
+}
+
+.instructions:before {
+  content: "\e903";
+} 
+.weatherStationLink:after, .weatherStationLink {
+  font-family: 'RainMachine' !important;  
+  content: "\e903";
+  margin-left: 0.8em;
+  color:#39b;
+  text-decoration: none;
+} 
+.weatherStationLink {
+  font-family: Arial, Helvetica, sans-serif !important;
+  margin-left: 0 !important;
+}  
+
+/*   #weatherSourcesEditContent .subtitle {
+  padding-left: 1.7em;
+} */
+
+.instructions a {
+  color: #cccccc;
+}
+
+.spacebottom {
+  margin-bottom: 0.8em !important;
+  display: block;
+}  
+
 /* Settings - Weather (END) */
 /* Material UI Button */
 .button {
@@ -1987,10 +2159,9 @@ td.right,
 .button.grey {
   background-color: #BB86FC;
   color:#191919;
-  padding: 0 10px;
-  width: 100px;
-  margin-right: 20px;
+  width: 132px;
   text-align: center;
+  margin-right: 20px;
 }
 .button.blue {
   background-color: #03DAC5;
@@ -1998,7 +2169,24 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
+}
+.button.bluewide {
+  background-color: #03DAC5;
+  color: #000000;
+  padding: 0 10px;
+  text-align: center;
+  margin-top: 1em;
+  max-width: 100%;
+  cursor: pointer;
+}
+.button.orange {
+  background-color: #ff9900;
+  color: #ffffff;
+  padding: 0 10px;
+  width: 132px;
+  text-align: center;
+  max-width: 132px;
 }
 .button.red {
   background-color: #CF6679;
@@ -2006,7 +2194,7 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
 }
 .button.green {
   background-color: #0f9d58;
@@ -2014,7 +2202,16 @@ td.right,
   padding: 0 10px;
   width: 132px;
   text-align: center;
-  max-width: 160px;
+  max-width: 132px;
+}
+.button.greenwide {
+  background-color: #0f9d58;
+  color: #fff;
+  padding: 0 10px;
+  text-align: center;
+  margin-top: 1em;
+  max-width: 100%;
+  cursor: pointer;
 }
 .button.raised {
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2026,6 +2223,10 @@ td.right,
 .button.raised:active {
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   transition-delay: 0s;
+}
+.button.parser {
+    display: block;
+    margin-bottom: 1em;
 }
 .absolute {
   position: absolute;
@@ -2170,7 +2371,7 @@ td.right,
 
 }
 .weatherServicesTab label {
-  background: #000000;
+  background: transparent;
   padding: 7px;
   border: 1px solid #555;
   margin-left: -1px;
@@ -2190,6 +2391,7 @@ td.right,
   right: 0;
   bottom: 0;
   padding: 10px;
+  padding-top: 0;
   border: 1px solid #555;
   -webkit-transition: opacity .6s linear;
   opacity: 0;
@@ -2198,9 +2400,14 @@ td.right,
   display:block;
   border-bottom:1px solid #555555;
   height:24px;
-  }
+  position: sticky;
+  top: 0;
+  background-color: #131313;
+  padding: 1em 0.5em;
+  z-index: 8;
+}
 [type=radio]:checked ~ label {
-  background: #2f2f2f;
+  background: #39c;
   z-index: 2;
 }
 [type=radio]:checked ~ label ~ .weatherServicesTabcontent {
@@ -2229,7 +2436,7 @@ td.right,
 /* Add this attribute to the element that needs a tooltip */
 [zones-tooltip] {
   position: relative;
-  z-index: 2;
+  z-index: 9;
   cursor: pointer;
 }
 
@@ -2245,13 +2452,14 @@ td.right,
 
 /* Position tooltip above the element */
 [zones-tooltip]:before {
+  font-family: Arial, Helvetica, sans-serif;
   position: absolute;
-  bottom: 110%;
+  bottom: 0%;
   left: 50%;
   margin-bottom: 5px;
   margin-left: -20px;
   padding: 10px;
-  width: 240px;
+  width: 440px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;

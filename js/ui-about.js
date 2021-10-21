@@ -36,11 +36,41 @@ window.ui = window.ui || {};
 		$("#aboutWebUI").textContent = Data.uiVer;
 		$("#aboutHardware").textContent = Data.provision.api.hwVer;
 		$("#aboutAPI").textContent = Data.provision.api.apiVer;
-		$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
-		$("#aboutNetmask").textContent = Data.provision.wifi.netmaskAddress;
-		$("#aboutGateway").textContent = Data.diag.gatewayAddress;
-		$("#aboutMAC").textContent = Data.provision.wifi.macAddress;
-		$("#aboutAP").textContent = Data.provision.wifi.ssid;
+
+		// Wi-Fi
+		if (Data.provision.wifi.mode === "ap") {
+			$("#aboutWiFiState").textContent = "Not configured or in Access-Point mode"
+			makeHidden($("#aboutWiFi"));
+		} else {
+			$("#aboutLink").textContent = Data.provision.wifi.hasClientLink;
+			$("#aboutIP").textContent = Data.provision.wifi.ipAddress;
+			$("#aboutGateway").textContent = Data.diag.gatewayAddress;
+			$("#aboutMAC").textContent = Data.provision.wifi.macAddress;
+			$("#aboutAP").textContent = Data.provision.wifi.ssid;
+
+			// This info is not available for RainMachine HD
+			if (Data.provision.api.hwVer == 3) {
+				makeHidden($("#aboutLink").parentElement.parentElement);
+				makeHidden($("#aboutAP").parentElement.parentElement);
+			}
+		}
+
+		// Ethernet (SPK5 only)
+		if (Data.provision.api.hwVer == 5) {
+			if (Data.provision.ethernet.hasClientLink) {
+				$("#aboutEthLink").textContent = Data.provision.ethernet.hasClientLink;
+				$("#aboutEthIP").textContent = Data.provision.ethernet.ipAddress;
+				$("#aboutEthGateway").textContent = Data.diag.gatewayAddress;
+				$("#aboutEthMAC").textContent = Data.provision.ethernet.macAddress;
+			} else {
+				$("#aboutEthernetState").textContent = "No cable detected";
+				makeHidden($("#aboutEthernet"));
+			}
+		} else {
+			$("#aboutEthernetState").textContent = "Not available";
+			makeHidden($("#aboutEthernet"));
+		}
+
 		$("#aboutMemory").textContent = Data.diag.memUsage + " Kb";
 		$("#aboutCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
 		$("#aboutUptime").textContent = Data.diag.uptime;
@@ -61,8 +91,11 @@ window.ui = window.ui || {};
 
 	function showLog(log) {
 		var logWin = window.open();
-		logWin.document.write("<h2>Retrieving log from device ...</h2>");
-		APIAsync.getDiagLog().then(function(o) { logWin.document.write("<pre>" + o.log + "</pre>"); })
+		var logBody = logWin.document.body;
+		var header = addTag(logBody, 'h2');
+		var logData = addTag(logBody, 'pre');
+		header.textContent = 'Retrieving log from device ...';
+		APIAsync.getDiagLog().then(function(o) { makeHidden(header); logData.textContent = o.log; });
 	}
 
 	function showUpdateStatus(updateStatus)
@@ -106,8 +139,9 @@ window.ui = window.ui || {};
 	}
 
 	function showDeviceInfo() {
-		if (Data.provision.wifi === null || Data.provision.system === null ||
-			Data.provision.api === null || Data.diag === null) {
+		var p = Data.provision;
+
+		if (p.wifi === null || p.system === null ||	p.api === null || Data.diag === null) {
 			return false;
 		}
 
@@ -116,20 +150,25 @@ window.ui = window.ui || {};
 		var deviceNetDiv = $('#deviceNetwork');
 		var footerInfoDiv = $('#footerInfo');
 
-		deviceNameDiv.textContent = Data.provision.system.netName;
-		deviceNetDiv.textContent = Data.provision.location.name;
+		deviceNameDiv.textContent = p.system.netName;
+		deviceNetDiv.textContent = p.location.name;
 
-		if (Data.provision.api.hwVer == 3)
+		if (p.api.hwVer == 3)
 			deviceImgDiv.className = "spk3";
 
-		if (Data.provision.api.hwVer == 5)
+		if (p.api.hwVer == 5)
 			deviceImgDiv.className = "spk5";
 
-		$("#homeVersion").textContent = Data.provision.api.swVer;
+		$("#homeVersion").textContent = p.api.swVer;
         $("#homeCloud").textContent = cloudStatus[Data.diag.cloudStatus];
         $("#homeCPU").textContent = Data.diag.cpuUsage.toFixed(2) + " %";
-        $("#homeUptime").textContent = Data.diag.uptime;
-		$("#homeIP").textContent = Data.provision.wifi.ipAddress;
+		$("#homeUptime").textContent = Data.diag.uptime;
+
+		if (p.api.hwVer == 5 && p.ethernet && p.ethernet.hasClientLink) {
+			$("#homeIP").textContent = p.ethernet.ipAddress;
+		} else {
+			$("#homeIP").textContent = p.wifi.ipAddress;
+		}
 
 		return true;
 	}
@@ -140,7 +179,16 @@ window.ui = window.ui || {};
 		APIAsync.getApiVer().then(
 			function(o) {
 				Data.provision.api = o;
-				showDeviceInfo();
+				if (Data.provision.api.hwVer == 5) {
+					APIAsync.getProvisionEthernet().then(
+						function(o) {
+							Data.provision.ethernet = o;
+							showDeviceInfo()
+						}
+					);
+				} else {
+					showDeviceInfo();
+				}
 			});
 
     	APIAsync.getProvisionWifi().then(
