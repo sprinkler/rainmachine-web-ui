@@ -92,8 +92,17 @@ window.ui = window.ui || {};
 
         var params = {};
 
+        var selectedStation = document.querySelector('input[name="noaa_station"]:checked')
         params.useObservations = useCustom.checked;
-        params.selectedStation = document.querySelector('input[name="noaa_station"]:checked').value;
+
+        if (params.useObservations && selectedStation) {
+            params.selectedStation = selectedStation.value;
+        }
+
+        if (params.useObservations == oldparams.useObservations 
+            && params.selectedStation == oldparams.selectedStation) {
+            return null;
+        }
 
         return params;
     }
@@ -163,6 +172,10 @@ window.ui = window.ui || {};
             params.selectedStation = selectedStation.value;
         } else {
             params.selectedStation = null;
+        }
+
+        if (params.selectedStation == oldparams.selectedStation) {
+            return null;
         }
 
         return params;

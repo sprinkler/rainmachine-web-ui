@@ -412,6 +412,14 @@ window.ui = window.ui || {};
                     showParsers(false, false, function() {
                         for (var i = 0; i < Data.parsers.parsers.length; i++) {
                             if (Data.parsers.parsers[i].name == parser.name) {
+                                // Also automatically enable parser
+                                r = API.setParserEnable(Data.parsers.parsers[i].uid, true);
+                                if (r && r.statusCode == 0) {
+                                    // If setParserEnable call succedded set enabled to true 
+                                    // so we don't need to refresh the parser data again to see this
+                                    // flag
+                                    Data.parsers.parsers[i].enabled = true
+                                }
                                 showParserDetails(Data.parsers.parsers[i]);
                             }
                         }
@@ -441,20 +449,23 @@ window.ui = window.ui || {};
         //Allow some time after a parser refresh was issued so that the parser finish downloading data
         var r = API.runParser(id, true, withMixer, false);
 
-        //var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weatherSourcesEditRun"]');
-        var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weather-source-lastrun"]');
+        // Refreshing a single service not all
+        if (id !== -1) {
+            //var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weatherSourcesEditRun"]');
+            var feedbackElem = $($('#weatherSourcesEditContent'), '[rm-id="weather-source-lastrun"]');
 
-        // Save the width of the element so the refresh animation won't resize it
-        var prevWidth = feedbackElem.offsetWidth + 1;
-        feedbackElem.id = "#tmp";
-        feedbackElem.style.paddingRight = prevWidth + "px";
-        feedbackElem.textContent = "";
-        uiFeedback.start(feedbackElem);
+            // Save the width of the element so the refresh animation won't resize it
+            var prevWidth = feedbackElem.offsetWidth + 1;
+            feedbackElem.id = "#tmp";
+            feedbackElem.style.paddingRight = prevWidth + "px";
+            feedbackElem.textContent = "";
+            uiFeedback.start(feedbackElem);
+        }
 
         setTimeout(function() {
             showParsers(false, true, function() {
                 showParserDetails(getParserById(id));
-                uiFeedback.done(feedbackElem);
+                if (id !== -1) uiFeedback.done(feedbackElem);
             });
         }, 4000);
 
@@ -651,11 +662,9 @@ window.ui = window.ui || {};
             return -1;
         } else if ((a.enabled === b.enabled) /*&& (a.name < b.name)*/ ) {
             return -1;
-        } else {
-            return 1;
-        }
+        } 
 
-        return 0;
+        return 1;
     }
 
     function onDOYET0Fetch() {
