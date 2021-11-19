@@ -970,9 +970,9 @@ h1 {
 }
 
 .zoneListImageEdit {
-    width: 90%;
-    height: 300px;
-    border-radius: 0%;
+    width: 77%;
+    height: 480px;
+    border-radius: 2%;
     background-size: cover;
     webkit-background-size: cover;
     moz-background-size: cover;
@@ -1939,7 +1939,8 @@ td {
 
 td.middle,
 .middle {
-    vertical-align: middle
+    vertical-align: middle;
+    width: auto !important;
 }
 
 td.right,
@@ -2871,8 +2872,8 @@ hr {
 [zones-tooltip]:before {
     font-family: Arial, Helvetica, sans-serif;
     position: absolute;
-    bottom: 0%;
-    left: 50%;
+    top: -5em;
+    left: 3em;
     margin-bottom: 5px;
     margin-left: -20px;
     padding: 10px;
