@@ -1977,7 +1977,11 @@ td.right,
 #weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
-
+.mark {
+  height: 16px;
+  width: 16px;
+  margin-top: 1em;
+}
 .weatherSource {
   border-top: 0 solid #555;
   border-bottom: 1px solid #555;

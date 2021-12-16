@@ -974,8 +974,8 @@ h1 {
     height: 480px;
     border-radius: 2%;
     background-size: cover;
-    webkit-background-size: cover;
-    moz-background-size: cover;
+    -webkit-background-origin: cover;
+    -moz-background-origin: cover;
     -o-background-size: cover;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1074,9 +1074,8 @@ h1 {
 /*topMenu starts*/
 
 .topButton {
-    float: right;
     min-width: 100px;
-    display: inline-block;
+    float: right;
     padding-top: 1.35em;
     padding-bottom: 12px;
     margin-right: 5px;
@@ -1956,6 +1955,11 @@ hr {
     padding-bottom: 5px;
 }
 
+.mark {
+    height: 16px;
+    width: 16px;
+    margin-top: 1em;
+}
 
 /* Watering History Custom Classes */
 
