@@ -24,7 +24,7 @@ var Help = (function(Help) {
         "zoneAvailableWater": "The current quantity of water/moisture in the soil, which is consumed by evapo-transpiration.",
         "zoneListImageHelp": "Use the RainMachine mobile app (iPhone or Android) to upload a picture of this zone. Uploading images through web app is not allowed.",
         "zoneListShowHideHelp": "Show or hide inactive zones.",
-        "zoneAllowedDepletion": "The maximum percentage of the soil moisture/water that is allowed to be consume before " +
+        "zoneAllowedDepletion": "The maximum percentage of the soil moisture/water that is allowed to be consumed before " +
             "					being replenished by irrigation.",
         "zoneWaterSurplus": "The amount of water left in soil because of the past day rain events or evapotranspiration has been low and the water from previous irrigation is still in the soil.",
         "zoneRootDepth": "The root depth of the plant from which it extracts the most of the needed water.",

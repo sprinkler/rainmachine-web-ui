@@ -531,7 +531,7 @@ strong { font-weight: 700; }
   list-style-type: none;
   line-height: 1.5em;
   font-size: 0.8em;
-  color: #555;
+  color: #666;
 }
 .zone-second-row-container li:not(:first-child){
   padding-left: 0px;
@@ -697,7 +697,7 @@ sup { font-size: 12px }
   height: 100vh;
   background-color: rgba(56, 56, 56, 0.9);
   overflow: scroll;
-  z-index: 3;
+  z-index: 100;
 }
 .overTopProgramZonesTime {
   z-index: 4;
@@ -801,16 +801,16 @@ h1 {
   vertical-align: middle;
 }
 .zoneListImageEdit {
-  width: 90%;
-  height: 300px;
-  border-radius: 0%;
+  width: 77%;
+  height: 474px;
+  border-radius: 2%;
   background-size: cover;
   webkit-background-size: cover;
   moz-background-size: cover;
   -o-background-size: cover;
   background-repeat: no-repeat;
   display: inline-block;
-  border:0;
+  border: 0;
 }
 
 .zoneListImageNone, .zoneListImageNoneEdit {
@@ -1690,7 +1690,7 @@ td {
   vertical-align: top;
 }
 td.middle,
-.middle { vertical-align: middle }
+.middle { vertical-align: middle; width: auto !important; }
 td.right,
 .right, .txtright { text-align: right }
 .listItem hr, hr {
@@ -1977,7 +1977,11 @@ td.right,
 #weatherSourcesList, #buttonsGroup {
   margin-top:50px;
 }
-
+.mark {
+  height: 16px;
+  width: 16px;
+  margin-top: 1em;
+}
 .weatherSource {
   border-top: 0 solid #555;
   border-bottom: 1px solid #555;
@@ -2454,8 +2458,8 @@ td.right,
 [zones-tooltip]:before {
   font-family: Arial, Helvetica, sans-serif;
   position: absolute;
-  bottom: 0%;
-  left: 50%;
+  top: -5em;
+  left: 3em;
   margin-bottom: 5px;
   margin-left: -20px;
   padding: 10px;
