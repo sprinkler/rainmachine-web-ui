@@ -662,11 +662,9 @@ window.ui = window.ui || {};
             return -1;
         } else if ((a.enabled === b.enabled) /*&& (a.name < b.name)*/ ) {
             return -1;
-        } else {
-            return 1;
-        }
+        } 
 
-        return 0;
+        return 1;
     }
 
     function onDOYET0Fetch() {

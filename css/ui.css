@@ -970,12 +970,12 @@ h1 {
 }
 
 .zoneListImageEdit {
-    width: 90%;
-    height: 300px;
-    border-radius: 0%;
+    width: 77%;
+    height: 480px;
+    border-radius: 2%;
     background-size: cover;
-    webkit-background-size: cover;
-    moz-background-size: cover;
+    -webkit-background-origin: cover;
+    -moz-background-origin: cover;
     -o-background-size: cover;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1074,9 +1074,8 @@ h1 {
 /*topMenu starts*/
 
 .topButton {
-    float: right;
     min-width: 100px;
-    display: inline-block;
+    float: right;
     padding-top: 1.35em;
     padding-bottom: 12px;
     margin-right: 5px;
@@ -1939,7 +1938,8 @@ td {
 
 td.middle,
 .middle {
-    vertical-align: middle
+    vertical-align: middle;
+    width: auto !important;
 }
 
 td.right,
@@ -1955,6 +1955,11 @@ hr {
     padding-bottom: 5px;
 }
 
+.mark {
+    height: 16px;
+    width: 16px;
+    margin-top: 1em;
+}
 
 /* Watering History Custom Classes */
 
@@ -2871,8 +2876,8 @@ hr {
 [zones-tooltip]:before {
     font-family: Arial, Helvetica, sans-serif;
     position: absolute;
-    bottom: 0%;
-    left: 50%;
+    top: -5em;
+    left: 3em;
     margin-bottom: 5px;
     margin-left: -20px;
     padding: 10px;
