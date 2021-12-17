@@ -780,6 +780,11 @@ _API.prototype.setShortDetection = function(enabled) {
     return this.post(url, data, null);
 }
 
+_API.prototype.getSdrData = function(enabled) {
+    var url = this.URL.machine + "/sdr";
+    return this.get(url);
+}
+
 /* ------------------------------------------ DEV API CALLS -------------------------------------------------*/
 
 _API.prototype.getTimeZoneDB = function() {

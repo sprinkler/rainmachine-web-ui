@@ -21,9 +21,28 @@ window.ui = window.ui || {};
     // URL to the community parsers metadata
     var communityUrl = "https://raw.githubusercontent.com/sprinkler/rainmachine-developer-resources/master/";
 
+    var sdrTimer = null;
+    var sdrData = {};
+    var sdrRaw = false;
+
+    function scheduleSdr(delay) {
+        sdrTimer = setTimeout(
+            function() { 
+                APIAsync.getSdrData()
+                .then(function(d) {
+                    showSdrData(d);
+                })
+                .error(function() {
+                    showSdrData();
+                });
+            }, delay);
+    }
+
     function showWeather() {
         onWeatherSourceClose();
         showParsers(false, true);
+        
+        scheduleSdr(1000);
 
         //Rain, Wind, Days sensitivity
         var rs = Data.provision.location.rainSensitivity;
@@ -86,6 +105,8 @@ window.ui = window.ui || {};
 
         var fetchWeatherServicesButton = $("#weatherServicesFetch");
         fetchWeatherServicesButton.onclick = function() { onWeatherServicesFetch() };
+
+        $('#weatherSdrRaw').onclick = function() { sdrRaw = this.checked; };
 
         setupWeatherSourceUpload();
         onDOYET0Fetch();
@@ -648,6 +669,34 @@ window.ui = window.ui || {};
 
         console.log("Getting weather services data starting from %s for %d days...", startDateElem.value, parseInt(daysElem.value));
         getAllEnabledParsersData(startDateElem.value, parseInt(daysElem.value));
+    }
+
+    function showSdrData(d) {
+        sdrTimer = null;
+        var e = $('#weatherSdr');
+
+        if (defined(d)) {
+            
+            if (!sdrRaw && d.length) {
+                for (var i = d.length - 1; i > 0; i--) {
+                    try {
+                        var sdrKey = d[i].model + '_' + d[i].id
+                        sdrData[sdrKey] = d[i];                
+                    } catch (e) { }            
+                }                        
+                e.textContent = JSON.stringify(sdrData, undefined, 2);
+            } else {
+                try {
+                    e.textContent = JSON.stringify(d, undefined, 2);
+                } catch (e) {
+                    e.textContent = d;
+                }                
+            }            
+        } else {
+            e.textContent = 'Error getting data from SDR Radio';
+        }
+
+        scheduleSdr(10000);
     }
 
     function sortParserByEnabled(a, b) {
