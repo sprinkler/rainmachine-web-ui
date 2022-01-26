@@ -426,7 +426,7 @@ window.ui = window.ui || {};
                     });
                     uiFeedback.done(elem);
                 } else {
-                    uiFeedback.error(elem);
+                    uiFeedback.error(null, elem);
                 }
             })
             .error(uiFeedback.error, elem);

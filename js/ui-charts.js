@@ -221,10 +221,10 @@ function getDailyStatsWithRetry(retryCount, retryDelay) {
 	}
 }
 
-function errorDataDownload() {
+function errorDataDownload(error, params) {
 	// hide the spinner
-	makeHidden($('#pageLoadSpinner'));
-	window.ui.main.showError("Error loading Dashboard data. Dashboard graphs not available. Please refresh page !");
+    makeHidden($('#pageLoadSpinner'));
+    window.ui.main.showError("Error loading Dashboard data. Dashboard graphs not available. Please refresh page !");
 }
 
 /**

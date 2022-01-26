@@ -49,7 +49,16 @@ window.ui = window.ui || {};
     ];
 
 
-    function showError(message) {
+    function showError(error, message) {
+        if (error) {
+            if (error.status == 429) {
+                makeVisible(uiElems.messageOverlay);
+                return;
+            } else if (!message) {
+                message = 'API Error ' + error.status + ' from: '
+                    + error.type + ' ' +  error.apiCall;
+            }
+        }
         uiElems.error.innerHTML = message;
         uiElems.error.style.display = "inline";
     }
@@ -194,7 +203,7 @@ window.ui = window.ui || {};
                 function(o) {
                     Util.parseDeviceDateTime(o);
                     uiInitialDownload();
-                });
+                })
         } else {
             uiInitialDownload();
         }
@@ -416,6 +425,7 @@ window.ui = window.ui || {};
         uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
+        uiElems.messageOverlay = $('#messageforaccount')
     }
 
     function setDefaultButtonActions() {
@@ -495,6 +505,10 @@ window.ui = window.ui || {};
 
         //Init Help system
         Help.bindAll();
+
+        // Bind error handlers for API Calls
+        APISync.setErrorHandler(showError);
+        APIAsync.setErrorHandler(showError);
 
         // Init Firebase
         window.ui.firebase.init();
