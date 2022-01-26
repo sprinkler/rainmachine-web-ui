@@ -189,7 +189,7 @@ body {
 
 .loginContainer {
   display: none;
-  z-index: 9999999;
+  z-index: 999;
   position: fixed;
   top: 0;
   left: 0;
@@ -307,7 +307,7 @@ h1.titleHome {
   padding: 30px;
   background-color: white;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-  z-index: 9999;
+  z-index: 999;
 }
 #error {
   border-top: 3px solid red;
@@ -834,7 +834,7 @@ h1 {
   background-color: #000000;
   background-position: center center;
   border-radius: 0;
-  z-index: 9999;
+  z-index: 999;
 }
 .zoneAvailableWaterTop {
   overflow: hidden;
@@ -1630,7 +1630,7 @@ select, .selectSmall {
   background-color: #000000;
   color: #f9f9f9;
   opacity: 1;
-  z-index: 9999; 
+  z-index: 999; 
 }
 .highcharts-drillup-button text{
   color: white !important;
@@ -2705,7 +2705,7 @@ td.right,
   transition: opacity 500ms;
   visibility: hidden;
   opacity: 0;
-  z-index: 9998;
+  z-index: 998;
 }
 .overlay:target {
   visibility: visible;
@@ -2719,7 +2719,8 @@ td.right,
   width: 30%;
   position: relative;
   transition: all 5s ease-in-out;
-  z-index: 9999;
+  color: #000;
+  z-index: 999;
 }
 .messageModal h2 {
   margin-top: 0;
@@ -2727,6 +2728,12 @@ td.right,
   font-family: 'Helvetica', Arial, sans-serif;
   font-size: 2.8em;
   text-align: center;
+}
+.logo {
+    display: block;
+    margin: 0.6em auto;
+    width: 8%;
+    filter: invert(100%) sepia(100%) saturate(891%) hue-rotate(156deg) brightness(100%) contrast(100%);
 }
 .messageModal .close {
   position: absolute;
@@ -2778,7 +2785,7 @@ td.right,
     width: 70%;
   }
   .overlay {
-    overflow-y: visible;
-}
+      overflow-y: visible;
+  }
 }
 /* Message popup End */

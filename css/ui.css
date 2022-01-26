@@ -174,7 +174,7 @@ body.login {
 
 .loginContainer {
     display: none;
-    z-index: 9999999;
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 0;
@@ -355,7 +355,7 @@ h1.titleHome {
     padding: 30px;
     background-color: white;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
-    z-index: 9999;
+    z-index: 999;
 }
 
 #error {
@@ -1006,7 +1006,7 @@ h1 {
     background-color: #ffffff;
     background-position: center center;
     border-radius: 0;
-    z-index: 9999;
+    z-index: 999;
 }
 
 #mainContainer {
@@ -3156,7 +3156,7 @@ hr {
     transition: opacity 500ms;
     visibility: hidden;
     opacity: 0;
-    z-index: 9998;
+    z-index: 998;
   }
   .overlay:target {
     visibility: visible;
@@ -3170,7 +3170,7 @@ hr {
     width: 30%;
     position: relative;
     transition: all 5s ease-in-out;
-    z-index: 9999;
+    z-index: 999;
   }
   .messageModal h2 {
     margin-top: 0;
