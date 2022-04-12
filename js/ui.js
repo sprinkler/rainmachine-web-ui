@@ -52,7 +52,7 @@ window.ui = window.ui || {};
     function showError(error, message) {
         if (error) {
             if (error.status == 429) {
-                makeVisible(uiElems.messageOverlay);
+                window.location.href = 'https://my.rainmachine.com/devices#getpremium'
                 return;
             } else if (!message) {
                 message = 'API Error ' + error.status + ' from: '
@@ -425,7 +425,6 @@ window.ui = window.ui || {};
         uiElems.error.onclick = function() { makeHidden(this); };
         uiElems.dashboard = $('#dashboard');
         uiElems.zones = $('#zonesList');
-        uiElems.messageOverlay = $('#messageforaccount')
     }
 
     function setDefaultButtonActions() {
