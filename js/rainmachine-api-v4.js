@@ -28,16 +28,19 @@ function _API(async) {
 
     var token = null;
     var async = async;
+    var errorHandler = genericErrorHandler
 
     function rest(type, apiCall, data, isBinary, extraHeaders, asyncObject, isAbsoluteUrl, noParse) {
         var a;
         var r = new XMLHttpRequest();
         var url = "";
 
-        if (defined(asyncObject))
+        if (defined(asyncObject)) {
             a = asyncObject;
-        else
+        } else {
             a = new Async();
+            a.genericErrorHandler = errorHandler;
+        }
 
         if (!isAbsoluteUrl) { url = apiUrl };
         url += apiCall
@@ -68,14 +71,14 @@ function _API(async) {
 
                     } else {
                         console.log("REST ASYNC: FAIL reply for %s, ready: %s, status: %s", url, r.readyState, r.status);
-                        if (!retry()) a.reject(r.status);
+                        if (!retry()) a.reject({ type: type, status: r.status, apiCall: url });
                     }
                 }
             };
 
             r.onerror = function(e) {
                 console.log("REST ASYNC: onerror(): %s", e);
-                if (!retry()) a.reject(e);
+                if (!retry()) a.reject({ type: type, status: r.status, apiCall: url });
             };
         }
 
@@ -118,11 +121,12 @@ function _API(async) {
         } catch (e) {
             console.log("REST: Exception: %s", e);
             if (async) {
-                if (!retry()) a.reject(e);
+                if (!retry()) a.reject({ type: type, status: r.status, apiCall: url });
             }
         }
 
         console.log("REST: Error !");
+        errorHandler({ type: type, status: r.status, apiCall: url });
         return null;
     }
 
@@ -167,6 +171,14 @@ function _API(async) {
         ProgramValidationFailed: '{ "statusCode":  9,  "message": "Invalid program constraints"}'
     };
 
+    /* ------------------------------------------ API GENERIC ERROR HANDLING ----------------------------------*/
+    function genericErrorHandler(error) {
+        if (error) {
+            console.log("genericErrorHandler: Unhandled Error: %o", error);
+        }
+    };
+
+    this.setErrorHandler = function(handler) { errorHandler = handler }
 };
 
 /* ------------------------------------------ VER API CALLS -----------------------------------------------*/

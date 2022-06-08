@@ -13,6 +13,7 @@ function Async() {
 	this.debug = false;
 	this.onError = null;
 	this.onErrorParams = null;
+    this.genericErrorHandler = null;
 	this.withRetry = false;
 	this.retries = 5;
 	this.retryInterval = 10 * 1000;
@@ -61,12 +62,16 @@ Async.prototype.resolve = function() {
 
 Async.prototype.reject = function(error) {
     this.debug && console.log("ASYNC: Error detected queue(%d): %o", this.queue.length, this.queue);
+    console.log("Async Error: %o", error);
 
     if (this.onError) {
-        this.onError.call(null, this.onErrorParams);
-		console.log("Async Error: %s", error);
+        this.onError.call(null, error, this.onErrorParams);
     } else {
-		console.log("No error handlers");
+        if (this.genericErrorHandler) {
+            this.genericErrorHandler.call(null, error);
+        } else {
+            console.log("No error handlers");
+        }
 	}
 
     this.ready = false;

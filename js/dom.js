@@ -458,7 +458,7 @@ uiFeedback =  {
 		delTag(e);
 	},
 
-	error: function(elem) {
+	error: function(error, elem) {
 		var e = $("#feedback-" + elem.id);
 		if (e) {
 			e.textContent = "\ue629";
