@@ -488,9 +488,17 @@ strong {
   padding-left: 10px;
   white-space: nowrap;
   display: inline-block;
-  width: 230px;
+  width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.wateringLogZoneDetails {
+  display:flex; 
+  flex-direction: row-reverse;
+  justify-content: space-between; 
+  align-items:center;
+  margin-bottom:0.5em;
 }
 
 .weatherChartDaysMonth {
@@ -1950,7 +1958,7 @@ hr {
 .historyDateContainer,
 .wateringLogDayContainer {
   width: 100%;
-  display: table;
+  /* display: table; */
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
 }
@@ -2821,7 +2829,7 @@ hr {
     font-size: 29px;
   }
   .topButton {
-    padding-bottom: 5px;
+    padding-bottom: 8px;
   }
   .playstopButton {
     font-size: 45px;
@@ -2979,9 +2987,9 @@ hr {
   }
 }
 
-/* Smaller or equal to 1177px switch to single vertical column */
+/* Smaller or equal to 1176px switch to single vertical column */
 
-@media screen and (max-width: 1177px) {
+@media screen and (max-width: 1176px) {
   .pageLeftMenu {
     float: left;
     clear: none;
@@ -3037,7 +3045,7 @@ hr {
     height: 70px;
   }
   .wateringLogZoneItem {
-    width: 196px;
+    width: 648px;
   }
 }
 
@@ -3110,6 +3118,9 @@ hr {
     display: block;
     width: 100%;
     padding-left: 0%;
+  }
+  .wateringLogZoneItem {
+    width: 575px;
   }
 }
 

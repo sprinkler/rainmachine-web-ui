@@ -1708,7 +1708,9 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="subtitle">Use <strong>Set To Maximum</strong> if you see your soil soaked wet and RainMachine shows no water surplus.<br>Use <strong>Set To Optimal</strong> if RainMachine displays more water surplus than your soil actually has.</span>
+                            <span class="subtitle">Use <strong>SET TO MAXIMUM</strong> if you see your soil soaked wet and RainMachine shows no water surplus.<br>SET TO MAXIMUM will set the available water in soil to maximum that the soil type can hold. From RainMachine point of view this might mean that several days can pass before that zone is irrigated again. RainMachine will balance daily evapo-transpiration with the available water in soil until it reaches normal level.
+                                <br><br>Use <strong>SET TO OPTIMUM</strong> if RainMachine displays more water surplus than your soil actually has.<br>SET TO OPTIMUM will set available water to normal level, not in deficit and not in surplus.
+                            </span>
                         </td>
                     </tr>
                 </table>
@@ -2722,8 +2724,8 @@
         <!-- Template for Simple Watering History per Day (End) -->
 
         <!-- Template for Simple Watering History Day per Program (Start) -->
-        <div id="watering-history-day-programs-simple-template" style="border-bottom:1px solid #ddd;margin-bottom:10px;">
-            <div style="padding-bottom:10px;padding-left:10px;">
+        <div id="watering-history-day-programs-simple-template" style="margin-bottom:10px;">
+            <div style="padding:10px;">
                 <div rm-id="wateringLogProgramName"></div>
                 <div rm-id="wateringLogProgramStart" style="color:#888;"></div>
             </div>
@@ -2732,10 +2734,10 @@
         <!-- Template for Simple Watering History Day per Program (End) -->
 
         <!-- Template for Simple Watering History Day Program per Zone (Start) -->
-        <div id="watering-history-day-programs-zone-simple-template" class="wateringLogZone">
-            <div rm-id="wateringLogZoneRealTime" class="right mr10" style="width:70px;"></div>
-            <div rm-id="wateringLogZoneSchedTime" class="right mr10" style="width:70px;"></div>
-            <div rm-id="wateringLogZoneName" class="wateringLogZoneItem" style="padding-left:10px;"></div>
+        <div id="watering-history-day-programs-zone-simple-template" class="wateringLogZoneDetails">
+            <div rm-id="wateringLogZoneRealTime" style="width:70px;"></div>
+            <div rm-id="wateringLogZoneSchedTime" style="width:70px;"></div>
+            <div rm-id="wateringLogZoneName" class="wateringLogZoneItem"></div>
         </div>
         <!-- Template for Simple Watering History Day Program per Zone (End) -->
 
