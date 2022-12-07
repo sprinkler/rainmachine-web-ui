@@ -202,7 +202,9 @@ window.ui = window.ui || {};
 
         if (params._airportStationsIDList.length > 0 || params._nearbyStationsIDList.length > 0) {
             makeHidden(elNoStations);
-            wuSelectedStations = params.customStationName.split(',');
+            if (params.customStationName) {
+                wuSelectedStations = params.customStationName.split(',');
+            }
             wundergroundShowStations(params, elStationsList, wuSelectedStations);
         } else {
             makeVisible(elNoStations);
