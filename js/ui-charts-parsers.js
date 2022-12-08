@@ -253,6 +253,7 @@ function generateSpecificParsersChart(key, startDate, days) {
 
     var chartOptions = {
         chart: {
+            type: 'column',
             renderTo: parserCharts[key].container,
             spacingTop: 20,
             zoomType: 'x'
@@ -280,8 +281,14 @@ function generateSpecificParsersChart(key, startDate, days) {
             text: subtitle
         },
         plotOptions: {
+            /*
             series: {
                 pointInterval: 1000 * 60 * 60
+            }
+            */
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
             }
         },
         xAxis: {
