@@ -652,7 +652,7 @@ window.ui = window.ui || {};
 
     function sortParserByEnabled(a, b) {
 
-        if (a.name.startsWith("NOAA") || a.name.startsWith("METNO")) {
+        if (a.name.startsWith("NOAA") || a.name.startsWith("METNO") || a.name.startsWith("[Premium]")) {
             return -1;
         } else if (b.name.startsWith("NOAA") || b.name.startsWith("METNO")) {
             return 1;
